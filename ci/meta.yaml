@@ -21,6 +21,7 @@ requirements:
     - python
     - pandas
     - numpy
+    - xlrd
 
 test:
   imports:
