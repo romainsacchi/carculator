@@ -4,9 +4,9 @@ A parameterized Python model to calculate the energy consumption and life cycle 
 
 Extracted from (paper).
 
+[![Build Status](https://travis-ci.org/cmutel/coarse.svg?branch=master)](https://travis-ci.org/cmutel/coarse) [![Build status](https://ci.appveyor.com/api/projects/status/vrh895i7eomnvye2?svg=true)](https://ci.appveyor.com/project/cmutel/coarse)
+
 * For readthedocs, click on the info button next to the badge in https://readthedocs.org/projects/whatever/, and copy the markdown code
-* For travis, click on the badge in https://travis-ci.org/BONSAMURAIS/whatever, and copy the markdown code
-* For appveyor, go to the projects settings page, and then click on "badges", and copy the markdown code
 
 ## Installation
 

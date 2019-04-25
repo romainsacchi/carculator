@@ -1,6 +1,6 @@
 # Only need to change these two variables
 PKG_NAME=coarse-dev
-USER=coarse
+USER=cmutel
 
 mkdir ~/conda-bld
 conda config --set anaconda_upload no

@@ -25,7 +25,7 @@ requirements:
 
 test:
   imports:
-    - {{ name }}
+    - coarse
 
 about:
   home: https://github.com/cmutel/coarse
