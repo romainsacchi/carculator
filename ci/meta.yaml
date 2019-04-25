@@ -1,0 +1,33 @@
+package:
+  name: coarse-dev
+  version: {{ environ['VERSION'] }}
+
+source:
+  path: ..
+
+build:
+  noarch_python: True
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record record.txt
+  script_env:
+   - VERSION
+   - CONDA_BLD_PATH
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - python
+    - pandas
+    - numpy
+
+test:
+  imports:
+    - {{ name }}
+
+about:
+  home: https://github.com/cmutel/coarse
+  license: BSD License
+  summary: 'A parameterized Python model to calculate the energy consumption and life cycle assessment of cars'
+license_family: BSD
