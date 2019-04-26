@@ -18,9 +18,10 @@ requirements:
     - python
     - setuptools
   run:
-    - python
-    - pandas
     - numpy
+    - pandas
+    - python
+    - xarray
     - xlrd
 
 test:

@@ -37,6 +37,7 @@ setup(
     install_requires=[
         'pandas',
         'numpy',
+        'xarray',
         'xlrd',
     ],
     url="https://github.com/cmutel/coarse",
