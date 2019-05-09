@@ -11,7 +11,7 @@ def load_excel_parameters(filepath=None, worksheet=None):
     return pd.read_excel(filepath, sheet_name=worksheet, header=[0])
 
 
-def create_builtin_xarray_inputs(iterations=1000):
+def create_builtin_xarray_inputs_static():
     """Create an ``xarray`` labeled array for input parameters.
 
     Dimensions:
@@ -19,7 +19,7 @@ def create_builtin_xarray_inputs(iterations=1000):
         0: Vehicle size, e.g. "small", "medium". str.
         1: Powertrain, e.g. "ICE-p", "BEV". str.
         2: Parameter name, e.g. "energy battery mass". str.
-        3. Values (static or stochastic). float.
+        3. Triangular distribution values, i.e. "minimum", "mode", "maximum". str.
         4: Scenario label, e.g. "base". str. Optional.
         5. Year, e.g. 2020. int. Optional.
 
@@ -39,14 +39,29 @@ def create_builtin_xarray_inputs(iterations=1000):
     parameters = sorted(df['parameter'].unique().tolist())
     scenarios = ['low', 'base', 'high']
     years = [2018, 2040]
+    triangular = ["minimum", "mode", "maximum"]
 
     array = xr.DataArray(
         np.zeros((len(sizes), len(powertrains), len(parameters),
-                 iterations, len(scenarios), len(years))),
+                 len(triangular), len(scenarios), len(years))),
         coords=[sizes, powertrains, parameters,
-                np.arange(iterations), scenarios, years],
+                triangular, scenarios, years],
         dims=['size', 'powertrain', 'parameter',
               'values', 'scenario', 'year']
     )
+
+    compartment = None
+
+    for i in enumerate(len(df)):
+        row = df.loc[i]
+        if row['Unnamed: 0']:
+            compartment = row['Unnamed: 0']
+        array.attrs[i] = {
+            'compartment': compartment,
+            'source': row['Source'],
+            'comment': row['comment'],
+            'unit': row['unit']
+        }
+        for s in (sizes if row['size'] == 'all' else )
 
     return array
