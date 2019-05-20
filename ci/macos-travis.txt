@@ -3,3 +3,4 @@ numpy
 xlrd
 pytest
 pytest-cov
+klausen

@@ -23,13 +23,14 @@ before_install:
       hash -r;
       conda config --set always_yes yes --set changeps1 no;
       conda config --append channels conda-forge;
+      conda config --append channels cmutel;
       conda update conda;
       conda info -a;
       echo $(python --version);
     fi
 install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      conda create -n test-environment python=$TRAVIS_PYTHON_VERSION xarray xlrd pandas numpy pytest pytest-cov coveralls;
+      conda create -n test-environment python=$TRAVIS_PYTHON_VERSION xarray xlrd pandas numpy pytest pytest-cov coveralls klausen;
       source activate test-environment;
       pip3 install -e .;
     else

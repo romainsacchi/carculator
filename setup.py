@@ -35,8 +35,9 @@ setup(
     # Only if you have non-python data (CSV, etc.). Might need to change the directory name as well.
     # package_data={'your_name_here': package_files(os.path.join('coarse', 'data'))},
     install_requires=[
-        'pandas',
+        'klausen',
         'numpy',
+        'pandas',
         'xarray',
         'xlrd',
     ],
