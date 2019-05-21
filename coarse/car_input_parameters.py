@@ -19,10 +19,8 @@ def load_excel_parameters(filepath=None, worksheet=None):
     return pd.read_excel(filepath, sheet_name=worksheet, header=[0])
 
 
-def to_float(x):
-    if "%" in x:
-        return float(x.replace("%", "") / 100)
-    return float(x)
+def splitter(lst):
+    return [x.strip() for x in lst.split(",") if x.strip()]
 
 
 class CarInputParameters(NamedParameters):
@@ -63,9 +61,10 @@ class CarInputParameters(NamedParameters):
                         'unit': row['unit'],
                         'source': row['source'],
                         'comment': row['comment'],
-                        'sizes': self.sizes if row['size'] == 'all' else row['size'].split(", "),
-                        'powertrain': self.powertrains if row['powertrain'] == 'all' else row['powertrain'].split(", "),
+                        'sizes': self.sizes if row['size'] == 'all' else splitter(row['size']),
+                        'powertrain': self.powertrains if row['powertrain'] == 'all' else splitter(row['powertrain']),
                         'category': row['category'],
+                        'year': year,
                     },
                     'kind': 'distribution',
                     'uncertainty_type': UNCERTAINTY_MAPPING[row['uncertainty distribution']],
