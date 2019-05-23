@@ -65,6 +65,7 @@ class CarInputParameters(NamedParameters):
                         'powertrain': self.powertrains if row['powertrain'] == 'all' else splitter(row['powertrain']),
                         'category': row['category'],
                         'year': year,
+                        'name': row['parameter'],
                     },
                     'kind': 'distribution',
                     'uncertainty_type': UNCERTAINTY_MAPPING[row['uncertainty distribution']],
