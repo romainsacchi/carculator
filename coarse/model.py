@@ -6,6 +6,7 @@ from .energy_consumption import EnergyConsumptionModel
 DEFAULT_MAPPINGS = {
     "electric": {"BEV", "PHEV-c", "PHEV-e", "FCEV"},
     "combustion": {"ICEV-p", "HEV-p", "PHEV-c", "ICEV-g", "ICEV-d"},
+    "pure_combustion": {"ICEV-p", "ICEV-g", "ICEV-d"},
     "petrol": {"ICEV-p", "HEV-p", "PHEV-c"},
     "cng": {"ICEV-g"},
     "fuel_cell": {"FCEV"},
@@ -59,9 +60,9 @@ class CarModel:
     def set_all(self):
         self.set_recuperation()
         self.set_auxiliaries()
-        self.set_power_parameters()
         self.set_component_masses()
         self.set_car_masses()
+        self.set_power_parameters()
         self.set_battery_fuel_cell_replacements()
         self.set_energy_stored_properties()
         self.set_battery_properties()
@@ -72,6 +73,16 @@ class CarModel:
 
     def calculate_ttw_energy(self):
         aux_energy = self.ecm.aux_energy_per_km(self["auxiliary power demand"])
+
+        # TODO: Think here about whether combustion gets heat for free
+        # and where hybrids should fit in
+        for pt in self.pure_combustion:
+            with self(pt):
+                aux_energy.loc[{"powertrain": pt}] /= self['engine efficiency']
+        for pt in self.fuel_cell:
+            with self(pt):
+                aux_energy.loc[{"powertrain": pt}] /= self['fuel cell system efficiency']
+
         motive_energy = self.ecm.motive_energy_per_km(
             self["driving mass"],
             self["rolling resistance coefficient"],
@@ -79,8 +90,11 @@ class CarModel:
             self["frontal area"],
             self["TtW efficiency"],
             self["recuperation efficiency"],
-            self["power"],
+            self["electric power"],
         ).sum(axis=-1)
+
+        self.motive_energy = motive_energy
+
         self["TtW energy"] = aux_energy + motive_energy
 
     def set_fuel_cell_parameters(self):
@@ -99,12 +113,13 @@ class CarModel:
                     * self["fuel cell power share"]
                     * self["fuel cell own consumption"]
                 )
+                # our basic fuel cell mass is based on a car fuel cell with 800 mW/cm2 and 0.51 kg/kW
                 self["fuel cell stack mass"] = (
                     0.51
                     * self["fuel cell power"]
                     * 800
                     / self["fuel cell power area density"]
-                )  # our basic fuel cell mass is based on a car fuel cell with 800 mW/cm2 and 0.51 kg/kW
+                )
                 self["fuel cell ancillary BoP mass"] = (
                     self["fuel cell power"]
                     * self["fuel cell ancillary BoP mass per power"]

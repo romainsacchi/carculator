@@ -107,8 +107,9 @@ class EnergyConsumptionModel:
         # This number is generally positive (power is needed), but can be negative
         # if the vehicle is decelerating.
         # Power is in Watts (kg m2 / s3)
+        positive_acceleration = np.where(self.acceleration > 0, self.acceleration, 0)
         power = (
-            self.acceleration * self.velocity * _(driving_mass) # Kinetic
+            positive_acceleration * self.velocity * _(driving_mass) # Kinetic
             + np.ones_like(self.velocity) * _(driving_mass) * _(rr_coef) * 9.81  # Rolling resistance
             + (self.velocity ** 2 * _(frontal_area) * _(drag_coef) # Air resistance
                * self.rho_air / 2)
