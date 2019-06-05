@@ -18,6 +18,10 @@ DEFAULT_MAPPINGS = {
 }
 
 
+def finite(array, mask_value=0):
+    return np.where(np.isfinite(array), array, mask_value)
+
+
 class CarModel:
     def __init__(self, array, mappings=None, cycle="WLTC"):
         self.array = array
@@ -84,13 +88,13 @@ class CarModel:
                 aux_energy.loc[{"powertrain": pt}] /= self['fuel cell system efficiency']
 
         motive_energy = self.ecm.motive_energy_per_km(
-            self["driving mass"],
-            self["rolling resistance coefficient"],
-            self["aerodynamic drag coefficient"],
-            self["frontal area"],
-            self["TtW efficiency"],
-            self["recuperation efficiency"],
-            self["electric power"],
+            driving_mass=self["driving mass"],
+            rr_coef=self["rolling resistance coefficient"],
+            drag_coef=self["aerodynamic drag coefficient"],
+            frontal_area=self["frontal area"],
+            ttw_efficiency=self["TtW efficiency"],
+            recuperation_efficiency=self["recuperation efficiency"],
+            motor_power=self["electric power"],
         ).sum(axis=-1)
 
         self.motive_energy = motive_energy
@@ -159,13 +163,16 @@ class CarModel:
     def set_battery_fuel_cell_replacements(self):
         # Here we assume that we can use fractions of a battery/fuel cell
         # (averaged across the fleet)
-        self['battery lifetime replacements'] = np.clip(
+        self['battery lifetime replacements'] = finite(np.clip(
             (self['lifetime kilometers'] / self['battery lifetime kilometers']) - 1,
-            0, None
-        )
-        self['fuel cell lifetime replacements'] = np.clip((self['lifetime kilometers'] / self['fuel cell lifetime kilometers']) - 1,
-            0, None
-        )
+            0,
+            None
+        ))
+        self['fuel cell lifetime replacements'] = finite(np.clip(
+            (self['lifetime kilometers'] / self['fuel cell lifetime kilometers']) - 1,
+            0,
+            None
+        ))
 
     def set_car_masses(self):
         """Define ``curb mass``, ``driving mass``, and ``total cargo mass``.
