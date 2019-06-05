@@ -106,24 +106,29 @@ class EnergyConsumptionModel:
         # and overcome air and rolling resistance.
         # This number is generally positive (power is needed), but can be negative
         # if the vehicle is decelerating.
-        # Power is in Watts (kg m2 / s3)
-        positive_acceleration = np.where(self.acceleration > 0, self.acceleration, 0)
-        power = (
-            positive_acceleration * self.velocity * _(driving_mass) # Kinetic
-            + np.ones_like(self.velocity) * _(driving_mass) * _(rr_coef) * 9.81  # Rolling resistance
-            + (self.velocity ** 2 * _(frontal_area) * _(drag_coef) # Air resistance
+        # Power is in watts (kg m2 / s3)
+        power_rolling_resistance = np.ones_like(self.velocity) * _(driving_mass) * _(rr_coef) * 9.81
+        power_aerodynamic = (self.velocity ** 2 * _(frontal_area) * _(drag_coef)
                * self.rho_air / 2)
+        power_kinetic = self.acceleration * self.velocity * _(driving_mass)
+
+        net_power = (
+            np.where(power_kinetic > 0, power_kinetic, 0)
+            + power_rolling_resistance
+            + power_aerodynamic
         )
+        total_power = power_kinetic + power_rolling_resistance + power_aerodynamic
 
         # Can only recuperate when power is less than zero, limited by recuperation efficiency
+        # Motor power in kW, other power in watts
         self.recuperated_power = (
-            np.clip(power, -1000 * _(motor_power), 0) * _(recuperation_efficiency)
+            np.clip(total_power, -1000 * _(motor_power), 0) * _(recuperation_efficiency)
         )
 
         return (
-            (power + self.recuperated_power) # Watt
-            / self.velocity.sum()            # m/s -> Ws/m -> J/m
-            * 1000                           # m / km -> J/km
-            / 1000                           # 1 / (J / kJ) -> kJ/km
+            (net_power + self.recuperated_power) # watt
+            / self.velocity.sum()                # m/s -> Ws/m -> J/m
+            * 1000                               # m / km -> J/km
+            / 1000                               # 1 / (J / kJ) -> kJ/km
             / _(ttw_efficiency)
         )
