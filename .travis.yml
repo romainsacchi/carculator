@@ -30,7 +30,7 @@ before_install:
     fi
 install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      conda create -n test-environment python=$TRAVIS_PYTHON_VERSION xarray xlrd pandas numpy pytest pytest-cov coveralls klausen;
+      conda create -n test-environment python=$TRAVIS_PYTHON_VERSION xarray pandas numpy pytest pytest-cov coveralls klausen;
       source activate test-environment;
       pip3 install -e .;
     else

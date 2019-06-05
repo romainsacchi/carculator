@@ -2,7 +2,7 @@ from . import DATA_DIR
 import pandas as pd
 
 
-def get_standard_driving_cycle(name):
+def get_standard_driving_cycle(name="WLTC"):
     """Get driving cycle data as a Pandas ``Series``.
 
     Driving cycles are given as km/h per second up to 3200 seconds.
@@ -22,5 +22,8 @@ def get_standard_driving_cycle(name):
     * NEDC
 
     """
-    return pd.read_excel(DATA_DIR / "driving_cycles.xlsx", sheet_name='Driving cycles'
-        ).set_index('Time (s)')[name].dropna()
+    return (
+        pd.read_excel(DATA_DIR / "driving_cycles.xlsx", sheet_name="Driving cycles")
+        .set_index("Time (s)")[name]
+        .dropna()
+    )

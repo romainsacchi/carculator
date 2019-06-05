@@ -1,78 +1,41 @@
-from . import DATA_DIR
+from .default_parameters import DEFAULT, EXTRA
 from klausen import NamedParameters
-from stats_arrays import uncertainty_choices
 import itertools
 import numpy as np
-import pandas as pd
-
-
-UNCERTAINTY_MAPPING = {
-    dist.description.replace(" uncertainty", "").lower().strip(): dist.id
-    for dist in uncertainty_choices
-}
-
-
-def load_excel_parameters(filepath=None, worksheet=None):
-    if filepath is None:
-        filepath = DATA_DIR / "car_parameters.xlsx"
-        worksheet = "Car parameters"
-    return pd.read_excel(filepath, sheet_name=worksheet, header=[0])
-
-
-def splitter(lst):
-    return [x.strip() for x in lst.split(",") if x.strip()]
 
 
 class CarInputParameters(NamedParameters):
-    def __init__(self):
-        """Create a `klausen <https://github.com/cmutel/klausen>`__ model with the car input parameters.
-
-        The parameter names are not unique, so we append a simple counter to their labels."""
+    def __init__(self, parameters=None, extra=None):
+        """Create a `klausen <https://github.com/cmutel/klausen>`__ model with the car input parameters."""
         super().__init__(None)
-        self.df = load_excel_parameters()
 
-        self.sizes = self.get_unique_labels(self.df['size'])
-        self.powertrains = self.get_unique_labels(self.df['powertrain'])
-        # self.parameters = sorted(self.df['parameter'].unique().tolist())
-        self.years = [2017, 2040]
+        if parameters is None:
+            parameters = DEFAULT
+        if extra is None:
+            extra = EXTRA
 
-        self.add_car_parameters()
+        self.sizes = sorted(
+            {size for o in parameters.values() for size in o.get("sizes", [])}
+        )
+        self.powertrains = sorted(
+            {pt for o in parameters.values() for pt in o.get("powertrain", [])}
+        )
+        self.parameters = sorted(
+            {o["name"] for o in parameters.values()}.union(set(extra))
+        )
+        self.years = sorted({o["year"] for o in parameters.values()})
 
-    def get_unique_labels(self, series):
-        return sorted({
-            x.strip()
-            for o in series.unique()
-            for x in o.split(',')
-            if x != 'all' and x.strip()
-        })
+        self.add_car_parameters(parameters)
 
-    def add_car_parameters(self):
-        params = {}
-        count = itertools.count()
+    def add_car_parameters(self, parameters):
+        """Split data and metadata according to ``klausen`` convention."""
+        KEYS = {"kind", "uncertainty_type", "amount", "loc", "minimum", "maximum"}
 
-        for i, row in self.df.iterrows():
-            for year in self.years:
-                if np.isnan(row["{} base".format(year)]):
-                    continue
+        reformatted = {}
+        for key, dct in parameters.items():
+            reformatted[key] = {k: v for k, v in dct.items() if k in KEYS}
+            reformatted[key]["metadata"] = {
+                k: v for k, v in dct.items() if k not in KEYS
+            }
 
-                label = "{}-{}-{}".format(next(count), year, row['parameter'])
-                params[label] = {
-                    'metadata': {
-                        'unit': row['unit'],
-                        'source': row['source'],
-                        'comment': row['comment'],
-                        'sizes': self.sizes if row['size'] == 'all' else splitter(row['size']),
-                        'powertrain': self.powertrains if row['powertrain'] == 'all' else splitter(row['powertrain']),
-                        'category': row['category'],
-                        'year': year,
-                        'name': row['parameter'],
-                    },
-                    'kind': 'distribution',
-                    'uncertainty_type': UNCERTAINTY_MAPPING[row['uncertainty distribution']],
-                    'amount': row["{} base".format(year)],
-                    'loc': row["{} base".format(year)],
-                    'minimum': row["{} low".format(year)],
-                    'maximum': row["{} high".format(year)],
-                }
-
-        self.add_parameters(params)
+        self.add_parameters(reformatted)
