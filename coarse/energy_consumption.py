@@ -5,7 +5,7 @@ import xarray
 
 def _(o):
     """Add a trailing dimension to make input arrays broadcast correctly"""
-    if isinstance(o, (np.ndarray, xarray.core.dataarray.DataArray)):
+    if isinstance(o, (np.ndarray, xarray.DataArray)):
         return np.expand_dims(o, -1)
     else:
         return o
@@ -26,8 +26,8 @@ class EnergyConsumptionModel:
         if isinstance(cycle, str):
             cycle = get_standard_driving_cycle(cycle).values
 
-        # Unit conversion km/h to m/s
         self.rho_air = rho_air
+        # Unit conversion km/h to m/s
         self.velocity = cycle * 1000 / 3600
 
         # Model acceleration as difference in velocity between time steps (1 second)
@@ -52,11 +52,10 @@ class EnergyConsumptionModel:
         # Provide energy in kJ / km (1 J = 1 Ws)
         auxiliary_energy = (
             aux_power               # Watt
-            * self.velocity.size    # Number of seconds
-            / self.velocity.sum()   # m/s
-            * 1                     # Seconds / time step
-            / 1000                  # m / km
-            / 1000                  # J / kJ
+            * self.velocity.size    # Number of seconds -> Ws -> J
+            / self.velocity.sum()   # m/s * 1s = m -> J/m
+            * 1000                  # m / km
+            / 1000                  # 1 / (J / kJ)
         )
 
         return auxiliary_energy / efficiency
@@ -110,7 +109,7 @@ class EnergyConsumptionModel:
         # Power is in Watts (kg m2 / s3)
         power = (
             self.acceleration * self.velocity * _(driving_mass) # Kinetic
-            + self.velocity * _(driving_mass) * _(rr_coef) * 9.81  # Rolling resistance
+            + np.ones_like(self.velocity) * _(driving_mass) * _(rr_coef) * 9.81  # Rolling resistance
             + (self.velocity ** 2 * _(frontal_area) * _(drag_coef) # Air resistance
                * self.rho_air / 2)
         )
@@ -121,11 +120,9 @@ class EnergyConsumptionModel:
         )
 
         return (
-            power
-            + self.recuperated_power # Watt
-            / self.velocity.size     # Number of seconds
-            / self.velocity.sum()    # m/s
-            * 1                      # Seconds / time step
-            / 1000                   # m / km
-            / 1000                   # J / kJ
+            (power + self.recuperated_power) # Watt
+            / self.velocity.sum()            # m/s -> Ws/m -> J/m
+            * 1000                           # m / km -> J/km
+            / 1000                           # 1 / (J / kJ) -> kJ/km
+            / _(ttw_efficiency)
         )
