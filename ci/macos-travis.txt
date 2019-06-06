@@ -3,3 +3,5 @@ numpy
 pytest
 pytest-cov
 klausen
+presamples
+xlrd

@@ -39,6 +39,8 @@ setup(
         'numpy',
         'pandas',
         'xarray',
+        'presamples',
+        'xlrd',
     ],
     url="https://github.com/cmutel/coarse",
     long_description=open('README.md').read(),

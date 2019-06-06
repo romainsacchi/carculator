@@ -1,5 +1,6 @@
 klausen
 numpy
 pandas
+presamples
 xarray
 xlrd

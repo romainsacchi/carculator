@@ -23,6 +23,8 @@ requirements:
     - pandas
     - python
     - xarray
+    - xlrd
+    - presamples
 
 test:
   imports:
