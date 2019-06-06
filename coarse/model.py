@@ -78,8 +78,6 @@ class CarModel:
     def calculate_ttw_energy(self):
         aux_energy = self.ecm.aux_energy_per_km(self["auxiliary power demand"])
 
-        # TODO: Think here about whether combustion gets heat for free
-        # and where hybrids should fit in
         for pt in self.pure_combustion:
             with self(pt):
                 aux_energy.loc[{"powertrain": pt}] /= self['engine efficiency']
