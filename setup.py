@@ -33,7 +33,7 @@ setup(
     author_email="cmutel@gmail.com",
     license=open('LICENSE').read(),
     # Only if you have non-python data (CSV, etc.). Might need to change the directory name as well.
-    # package_data={'your_name_here': package_files(os.path.join('coarse', 'data'))},
+    package_data={'coarse': package_files(os.path.join('coarse', 'data'))},
     install_requires=[
         'klausen',
         'numpy',
