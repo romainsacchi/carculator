@@ -1,5 +1,9 @@
+"""
+.. module: eda.py
+
+"""
+
 import numpy as np
-import itertools
 from .energy_consumption import EnergyConsumptionModel
 
 
@@ -23,6 +27,7 @@ def finite(array, mask_value=0):
 
 
 class CarModel:
+
     def __init__(self, array, mappings=None, cycle="WLTC"):
         self.array = array
         self.mappings = mappings or DEFAULT_MAPPINGS
@@ -46,7 +51,7 @@ class CarModel:
         self.array = self.__cache
         del self.__cache
 
-    # Make class['foo'] autmatically filter for the parameter 'foo'
+    # Make class['foo'] automatically filter for the parameter 'foo'
     # Makes the model code much cleaner
     def __getitem__(self, key):
         return self.array.sel(parameter=key)

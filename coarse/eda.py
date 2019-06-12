@@ -1,6 +1,10 @@
+"""
+.. module: eda.py
+
+"""
+
 # Tools to explore and debug our large model input and output datasets
 import pandas as pd
-import seaborn as sb
 import numpy as np
 
 

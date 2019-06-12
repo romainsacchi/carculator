@@ -1,5 +1,11 @@
+"""
+.. module: energy_consumption.py
+
+"""
+
 from .driving_cycles import get_standard_driving_cycle
 import numpy as np
+import pandas as pd
 import xarray
 
 
@@ -12,19 +18,43 @@ def _(o):
 
 
 class EnergyConsumptionModel:
+    """
+    Calculate energy consumption of a vehicle for a given driving cycle and vehicle parameters.
+
+    Based on a selected driving cycle, this class calculates the acceleration needed and provides
+    two methods:
+    - aux_energy_per_km() calculates the energy needed to power auxiliary services
+    - motive_energy_per_km() calculates the energy needed to move the vehicle over 1 km
+
+    :param cycle: Driving cycle. Pandas Series of second-by-second speeds (km/h) or name (str)
+        of cycle e.g., "WLTC","WLTC 3.1","WLTC 3.2","WLTC 3.3","WLTC 3.4","CADC Urban","CADC Road",
+        "CADC Motorway","CADC Motorway 130","CADC","NEDC".
+    :type cycle: pandas.Series
+    :param rho_air: Mass per unit volume of air. Set to (1.225 kg/m3) by default.
+    :type rho_air: float
+
+    :ivar rho_air: Mass per unit volume of air.
+    :vartype rho_air: float
+    :ivar velocity: Time series of speed values, in meters per second.
+    :vartype velocity: numpy.ndarray
+    :ivar acceleration: Time series of acceleration, calculated as increment in velocity per interval of 1 second,
+        in meter per second^2.
+    :vartype acceleration: numpy.ndarray
+
+
+    """
+
     def __init__(self, cycle, rho_air=1.225):
-        """Calculate energy consumption of a vehicle for a given driving cycle and vehicle parameters.
-
-        Input parameters:
-
-        * ``cycle``: 1-d Numpy array of second-by-second speeds (km/h)
-        * ``rho_air``: Density of air (kg/m3). Optional.
-
-        Creates ``self.velocity`` (m/s) and ``self.acceleration`` (m/s2)
-
-        """
+        # If a string is passed, the corresponding driving cycle is retrieved
         if isinstance(cycle, str):
             cycle = get_standard_driving_cycle(cycle).values
+        # If the parameter is not a string nor a Pandas Series, this is an issue.
+        elif not isinstance(cycle, pd.Series):
+            try:
+                raise TypeError('Invalid format for "cycle" parameter. str or panda.Series expected.')
+            except TypeError as error:
+                print('Caught this error: ' + repr(error))
+
 
         self.rho_air = rho_air
         # Unit conversion km/h to m/s
@@ -36,17 +66,17 @@ class EnergyConsumptionModel:
         self.acceleration[1:] = self.velocity[1:] - self.velocity[:-1]
 
     def aux_energy_per_km(self, aux_power, efficiency=1):
-        """Calculate energy used other than motive energy.
+        """Calculate energy used other than motive energy per km driven.
 
-        Input parameters:
+        :param aux_power: Total power needed for auxiliaries, heating, and cooling (W)
+        :type aux_power: int
+        :param efficiency: Efficiency of electricity generation (dimensionless, between 0.0 and 1.0).
+                Battery electric vehicles should have efficiencies of one here, as we account for
+                battery efficiencies elsewhere.
+        :type: efficiency: float
 
-        * ``aux_power``: Total power needed for auxiliaries, heating, and cooling (W)
-        * ``efficiency``: Efficiency of electricity generation (dimensionless)
-
-        Battery electric vehicles should have efficiencies of one here, as we
-        account for battery efficiencies elsewhere.
-
-        Returns total auxiliary energy in kJ/km
+        :returns: total auxiliary energy in kJ/km
+        :rtype: float
 
         """
         # Provide energy in kJ / km (1 J = 1 Ws)
@@ -70,17 +100,25 @@ class EnergyConsumptionModel:
         recuperation_efficiency=0,
         motor_power=0,
     ):
-        """Calculate energy used and recuperated for a given vehicle.
+        """Calculate energy used and recuperated for a given vehicle per km driven.
 
-        Input parameters:
+        :param driving_mass: Mass of vehicle (kg)
+        :type driving_mass: int
+        :param rr_coef: Rolling resistance coefficient (dimensionless, between 0.0 and 1.0)
+        :type rr_coef: float
+        :param drag_coef: Aerodynamic drag coefficient (dimensionless, between 0.0 and 1.0)
+        :type drag_coef: float
+        :param frontal_area: Frontal area of vehicle (m2)
+        :type frontal_area: float
+        :param ttw_efficiency: Efficiency of translating potential energy into motion (dimensionless,
+                between 0.0 and 1.0)
+        :type ttw_efficiency: float
+        :param recuperation_efficiency: Fraction of energy that can be recuperated (dimensionless, between 0.0 and 1.0).
+                Optional.
+        :type recuperation_efficiency: float
+        :param motor_power: Electric motor power (watts). Optional.
+        :type motor_power: int
 
-        * ``driving_mass``: Mass of vehicle (kg)
-        * ``rr_coef``: Rolling resistance coefficient (dimensionless)
-        * ``drag_coef``: Aerodynamic drag coefficient (dimensionless)
-        * ``frontal_area``: Frontal area of vehicle (m2)
-        * ``ttw_efficiency``: Efficiency of translating potential energy into motion (dimensionless)
-        * ``recuperation_efficiency``: Fraction of energy that can be recuperated (dimensionless). Optional.
-        * ``motor_power``: Electric motor power (watts). Optional.
 
         Power to overcome rolling resistance is calculated by:
 
@@ -88,7 +126,8 @@ class EnergyConsumptionModel:
 
             g v M C_{r}
 
-        where :math:`g` is 9.81 (m/s2), *v* is velocity (m/s), *M* is mass (kg), and :math:`C_{r}` is rolling resistance coefficient (dimensionless).
+        where :math:`g` is 9.81 (m/s2), *v* is velocity (m/s), *M* is mass (kg), and :math:`C_{r}` is rolling
+        resistance coefficient (dimensionless).
 
         Power to overcome air resistance is calculated by:
 
@@ -96,7 +135,8 @@ class EnergyConsumptionModel:
 
             \frac{1}{2} \rho_{air} v^{3} A C_{d}
 
-        where :math:`\rho_{air}` is 1.225 (kg/m3), *v* is velocity (m/s), *A* is frontal area (m2), and :math:`C_{d}` is aerodynamic drag coefficient (dimensionless).
+        where :math:`\rho_{air}` is 1.225 (kg/m3), *v* is velocity (m/s), *A* is frontal area (m2), and :math:`C_{d}` is
+        aerodynamic drag coefficient (dimensionless).
 
         Returns net motive energy in kJ/km
 
