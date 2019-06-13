@@ -37,7 +37,9 @@ def fill_xarray_from_input_parameters(cip):
     :rtype parameter_dict: dict
     :rtype year_dict: dict
     :rtype array: xarray.DataArray
+
     """
+
     array = xr.DataArray(
         np.zeros(
             (

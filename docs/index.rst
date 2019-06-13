@@ -21,7 +21,7 @@ How to install this package?
 
 In a terminal::
 
-    pip install git+(Git repository address)
+    pip install git+https://github.com/romainsacchi/coarse.git
 
 How to use it?
 --------------
@@ -36,8 +36,12 @@ From a Python environment::
    cm.set_all()
 
 
-
-
 .. toctree::
    :maxdepth: 4
    :caption: Table of contents
+
+    Introduction
+    Driving cycles
+    Energy consumption
+    
+
