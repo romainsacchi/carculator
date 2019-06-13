@@ -36,12 +36,8 @@ From a Python environment::
    cm.set_all()
 
 
-.. toctree::
-   :maxdepth: 4
-   :caption: Table of contents
 
-    Introduction
-    Driving cycles
-    Energy consumption
-    
+.. autoclass:: CarInputModel
+    :members:
+
 
