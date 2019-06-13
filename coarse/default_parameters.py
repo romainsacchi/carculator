@@ -1,3 +1,8 @@
+"""
+DEFAULT is a dictionary that contains default vehicle parameters.
+EXTRA is a dictionary that contains additional parameters.
+"""
+
 DEFAULT = {
     "0-2017-lifetime kilometers": {
         "amount": 200000.0,

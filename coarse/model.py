@@ -29,6 +29,7 @@ def finite(array, mask_value=0):
 class CarModel:
 
     """
+    This class represents the entirety of the vehicles considered, with useful attributes.
 
     :ivar array: multi-dimensional numpy-like array that contains parameters' value(s)
     :vartype array: xarray.DataArray
@@ -322,6 +323,7 @@ class CarModel:
                 )
 
     def set_energy_stored_properties(self):
+
         for pt in self.petrol:
             with self(pt):
                 # Assume 42.4 MJ/kg of gasoline, convert to kWh

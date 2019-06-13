@@ -1,3 +1,16 @@
+"""
+
+Submodules
+==========
+
+.. autosummary::
+    :toctree: _autosummary
+
+    inner
+"""
+
+
+
 __all__ = (
     "CarInputParameters",
     "fill_xarray_from_input_parameters",
