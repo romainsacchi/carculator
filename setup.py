@@ -41,6 +41,7 @@ setup(
         'xarray',
         'presamples',
         'xlrd',
+        'shpinx-autoapi'
     ],
     url="https://github.com/cmutel/coarse",
     long_description=open('README.md').read(),

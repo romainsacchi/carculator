@@ -4,3 +4,4 @@ pandas
 presamples
 xarray
 xlrd
+sphix-autoapi
