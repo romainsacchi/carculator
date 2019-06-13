@@ -1,6 +1,6 @@
 
 Coarse Documentation
-=================
+====================
 
 **coarse** allows to calculate life cycle inventories for vehicles of different:
 
