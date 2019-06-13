@@ -1,5 +1,5 @@
 """
-.. module: eda.py
+.. module: model.py
 
 """
 
@@ -28,18 +28,43 @@ def finite(array, mask_value=0):
 
 class CarModel:
 
+    """
+
+    :ivar array: multi-dimensional numpy-like array that contains parameters' value(s)
+    :vartype array: xarray.DataArray
+    :ivar mappings: Dictionary with names correspondence
+    :vartype mappings: dict
+    :ivar ecm: instance of EnergyConsumptionModel class for a given driving cycle
+    :vartype ecm: coarse.energy_consumption.EnergyConsumptionModel
+
+    """
+
     def __init__(self, array, mappings=None, cycle="WLTC"):
         self.array = array
         self.mappings = mappings or DEFAULT_MAPPINGS
         self.ecm = EnergyConsumptionModel(cycle)
 
-    # Set up this class as a context manager, so we can have some nice syntax
-    # e.g. the following:
-    # with class('some powertrain') as cpm:
-    #     cpm['something']. <- Will be filtered for the correct powertrain
-    # On with block exit, this filter is cleared
-    # https://stackoverflow.com/a/10252925/164864
+
     def __call__(self, key):
+        """
+        This method fixes a dimension of the `array` attribute given a powertrain technology selected.
+
+        Set up this class as a context manager, so we can have some nice syntax
+
+        :Example:
+
+        with class('some powertrain') as cpm:
+            cpm['something']. <- Will be filtered for the correct powertrain
+
+        On with block exit, this filter is cleared
+        https://stackoverflow.com/a/10252925/164864
+
+
+        :param key: A powertrain type, e.g., "FCEV"
+        :type key: str
+        :return: An instance of `array` filtered after the powertrain selected.
+
+        """
         self.__cache = self.array
         self.array = self.array.sel(powertrain=key)
         return self
@@ -51,9 +76,17 @@ class CarModel:
         self.array = self.__cache
         del self.__cache
 
-    # Make class['foo'] automatically filter for the parameter 'foo'
-    # Makes the model code much cleaner
+
     def __getitem__(self, key):
+        """
+        Make class['foo'] automatically filter for the parameter 'foo'
+        Makes the model code much cleaner
+
+        :param key: Parameter name
+        :type key: str
+        :return: `array` filtered after the parameter selected
+        """
+
         return self.array.sel(parameter=key)
 
     def __setitem__(self, key, value):
@@ -67,6 +100,11 @@ class CarModel:
             return super().__getattr__(key)
 
     def set_all(self):
+        """
+        This method runs a series of other methods to obtain the tank-to-wheel energy requirement, efficiency
+        of the car, costs, etc.
+
+        """
         self.set_recuperation()
         self.set_auxiliaries()
         self.set_component_masses()
@@ -81,6 +119,11 @@ class CarModel:
         self.set_costs()
 
     def calculate_ttw_energy(self):
+        """
+        This class method calculates the energy required to operate auxiliary services as well
+        as to move the car. The sum is stored in `array` under the label "TtW energy".
+
+        """
         aux_energy = self.ecm.aux_energy_per_km(self["auxiliary power demand"])
 
         for pt in self.pure_combustion:
@@ -105,7 +148,8 @@ class CarModel:
         self["TtW energy"] = aux_energy + motive_energy
 
     def set_fuel_cell_parameters(self):
-        """Specific setup for fuel cells, which are mild hybrids.
+        """
+        Specific setup for fuel cells, which are mild hybrids.
 
         Must be called after ``.set_power_parameters``."""
         for pt in self.fuel_cell:
@@ -152,6 +196,16 @@ class CarModel:
                 )
 
     def set_auxiliaries(self):
+        """
+        Calculates the power needed to operate the auxiliary services of the vehicle (heating, cooling).
+
+        The demand for heat and cold are expressed as a fraction of the heating and cooling capacities
+        Auxiliary power demand (W) = Base auxiliary power (W) +
+        (Heating demand (dimensionless, between 0 and 1) * Heating power (W)) +
+        (Cooling demand (dimensionless, between 0 and 1) * Cooling power (W))
+
+
+        """
         self["auxiliary power demand"] = (
             self["auxilliary power base demand"]
             + self["heating thermal demand"] * self["heating energy consumption"]
@@ -164,6 +218,20 @@ class CarModel:
         )
 
     def set_battery_fuel_cell_replacements(self):
+        """
+        This methods calculates the fraction of the replacement battery needed to match the vehicle lifetime.
+
+        :Example:
+            car lifetime = 200000 (km)
+            battery lifetime = 190000 (km)
+            replacement battery = 0.05
+            
+        :note: It is debatable whether this is realistic or not. Car oners may not decide to invest in a new
+        battery if the remaining lifetime of the car is only 10000 km. Also, a battery lifetime may be expressed
+        in other terms, e.g., charging cycles.
+
+
+        """
         # Here we assume that we can use fractions of a battery/fuel cell
         # (averaged across the fleet)
         self['battery lifetime replacements'] = finite(np.clip(
@@ -180,7 +248,8 @@ class CarModel:
     def set_car_masses(self):
         """Define ``curb mass``, ``driving mass``, and ``total cargo mass``.
 
-        * `curb mass <https://en.wikipedia.org/wiki/Curb_weight>`__ is the mass of the vehicle and fuel, without people or cargo.
+        * `curb mass <https://en.wikipedia.org/wiki/Curb_weight>`__ is the mass of the vehicle and fuel, without people
+        or cargo.
         * ``total cargo mass`` is the mass of the cargo and passengers.
         * ``driving mass`` is the ``curb mass`` plus ``total cargo mass``.
 
