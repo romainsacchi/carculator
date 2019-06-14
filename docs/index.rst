@@ -2,19 +2,20 @@
 Coarse Documentation
 ====================
 
-**coarse** allows to calculate life cycle inventories for vehicles of different:
+**coarse** allows to calculate life cycle inventories for 112 different car profiles, according to selected:
 
-* powertrain technologies,
-* year of operation
-* and sizes.
+* powertrain technologies (8): petrol engine, diesel engine, electric motor, hybrid, etc.,
+* year of operation (2): 2017, 2040
+* and sizes (7): Mini, Large, etc.
 
 It is based on the model developed in `Uncertain environmental footprint of current and future battery electric
 vehicles by Cox, et al (2018) <https://pubs.acs.org/doi/10.1021/acs.est.8b00261>`_.
 
 Objective
 ---------
-The objective is to produce life cycle inventories in a transparent way, to be further used in prospective
-life cycle assessment of mobility technologies.
+
+The objective is to produce life cycle inventories in a transparent and comprehensive way, to be further used in prospective
+life cycle assessment of transportation technologies.
 
 How to install this package?
 ----------------------------
@@ -58,6 +59,16 @@ Finally::
    cm.set_all()
 
 generate a CarModel object and calculate the energy consumption and components mass for all vehicle profiles.
+
+Hence, the tank-to-wheel energy requirement per km driven per powertrain technology for a SUV in 2017 can be obtained::
+
+    TtW_energy = cm.array.sel(size='SUV', year=2017, parameter='TtW energy').values * 1/3600 * 100
+    powertrain = cm.array.powertrain
+
+    import numpy as np
+    plt.bar(powertrain,[a[0] for a in TtW_energy])
+    plt.ylabel('kWh/100 km')
+    plt.show()
 
 
 .. automodule:: coarse.car_input_parameters
