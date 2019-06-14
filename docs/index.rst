@@ -36,7 +36,8 @@ From a Python environment::
    cm.set_all()
 
 
-.. automodule:: car_input_parameters
+
+.. automodule:: coarse.car_input_parameters
     :members:
 
 

@@ -12,10 +12,9 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('C:\Users\sacchi_r\Documents\GitHub\coarse\coarse'))
-print(os.path.abspath('../coarse/'))
-
-
+#sys.path.insert(0, os.path.abspath('C:\Users\sacchi_r\Documents\GitHub\coarse\coarse'))
+sys.path.insert(0, os.path.abspath(".."))
+print(sys.path)
 
 # -- Project information -----------------------------------------------------
 
