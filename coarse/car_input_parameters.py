@@ -3,7 +3,7 @@
 
 """
 
-from default_parameters import DEFAULT, EXTRA
+from .default_parameters import DEFAULT, EXTRA
 from klausen import NamedParameters
 
 class CarInputParameters(NamedParameters):
