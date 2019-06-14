@@ -70,6 +70,9 @@ Hence, the tank-to-wheel energy requirement per km driven per powertrain technol
     plt.ylabel('kWh/100 km')
     plt.show()
 
+.. image:: _static/fig_kwh_100km.png
+  :width: 400
+  :alt: Alternative text
 
 .. automodule:: coarse.car_input_parameters
     :members:
