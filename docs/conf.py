@@ -12,8 +12,10 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath('C:\Users\sacchi_r\Documents\GitHub\coarse\coarse'))
+print(os.path.abspath('../coarse/'))
 
+from car_input_parameters import CarInputParameters
 
 # -- Project information -----------------------------------------------------
 

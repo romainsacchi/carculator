@@ -6,7 +6,7 @@ Submodules
 .. autosummary::
     :toctree: _autosummary
 
-    inner
+
 """
 
 

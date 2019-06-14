@@ -36,8 +36,8 @@ From a Python environment::
    cm.set_all()
 
 
-
-.. autoclass:: CarInputModel
+.. automodule:: car_input_parameters
     :members:
+
 
 
