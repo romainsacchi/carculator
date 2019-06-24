@@ -26,6 +26,9 @@ class EnergyConsumptionModel:
     - aux_energy_per_km() calculates the energy needed to power auxiliary services
     - motive_energy_per_km() calculates the energy needed to move the vehicle over 1 km
 
+    Acceleration is calculated as the difference between velocity at t_2 and velocity at t_0, divided by 2.
+    See for example: http://www.unece.org/fileadmin/DAM/trans/doc/2012/wp29grpe/WLTP-DHC-12-07e.xls
+
     :param cycle: Driving cycle. Pandas Series of second-by-second speeds (km/h) or name (str)
         of cycle e.g., "WLTC","WLTC 3.1","WLTC 3.2","WLTC 3.3","WLTC 3.4","CADC Urban","CADC Road",
         "CADC Motorway","CADC Motorway 130","CADC","NEDC".
@@ -63,7 +66,8 @@ class EnergyConsumptionModel:
         # Model acceleration as difference in velocity between time steps (1 second)
         # Zero at first value
         self.acceleration = np.zeros_like(self.velocity)
-        self.acceleration[1:] = self.velocity[1:] - self.velocity[:-1]
+        self.acceleration[1:-1] = (self.velocity[2:] - self.velocity[:-2]) / 2
+        #self.acceleration[1:] = self.velocity[1:] - self.velocity[:-1]
 
     def aux_energy_per_km(self, aux_power, efficiency=1):
         """Calculate energy used other than motive energy per km driven.

@@ -260,7 +260,6 @@ class CarModel:
             "fuel mass",
             "charger mass",
             "converter mass",
-            "glider base mass",
             "inverter mass",
             "power distribution unit mass",
             "combustion engine mass",
