@@ -113,6 +113,8 @@ class CarModel:
         set_component_masses(), set_car_masses() and set_power_parameters() are interdependent.
         `powertrain_mass` depends on `power`, `curb_mass` is affected by changes in `powertrain_mass`,
         `combustion engine mass` and `electric engine mass`, and `power` is a function of `curb_mass`.
+        The current solution is to loop through the methods until the increment in driving mass is
+        inferior to 0.1%.
         """
 
         diff = 1.0
@@ -131,7 +133,7 @@ class CarModel:
             self.set_costs()
 
             diff = (self['driving mass'].sum().values-old_driving_mass)/self['driving mass'].sum()
-            print(diff)
+
 
 
 

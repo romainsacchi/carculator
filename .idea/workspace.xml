@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62445f2d-9237-4247-9ae8-9559cdfa4502" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/coarse/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/coarse/model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/coarse/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="567">
-              <caret line="130" column="28" selection-start-line="130" selection-start-column="28" selection-end-line="130" selection-end-column="28" />
+            <state relative-caret-position="273">
+              <caret line="116" column="25" selection-start-line="116" selection-start-column="25" selection-end-line="116" selection-end-column="25" />
               <folding>
                 <element signature="e#3561#4700#0" />
                 <element signature="e#4750#6694#0" />
@@ -226,7 +225,14 @@
       <option name="project" value="LOCAL" />
       <updated>1561385732864</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added loop in CarModel class to stabilize driving mass.">
+      <created>1561462265657</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1561462265657</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -279,7 +285,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Changed acceleration formula and remove duplicate in curb mass formula." />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed acceleration formula and remove duplicate in curb mass formula." />
+    <MESSAGE value="Added loop in CarModel class to stabilize driving mass." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added loop in CarModel class to stabilize driving mass." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/docs/index.rst">
@@ -294,8 +301,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/coarse/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="130" column="28" selection-start-line="130" selection-start-column="28" selection-end-line="130" selection-end-column="28" />
+        <state relative-caret-position="273">
+          <caret line="116" column="25" selection-start-line="116" selection-start-column="25" selection-end-line="116" selection-end-column="25" />
           <folding>
             <element signature="e#3561#4700#0" />
             <element signature="e#4750#6694#0" />
