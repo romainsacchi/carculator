@@ -108,16 +108,34 @@ class CarModel:
         """
         self.set_recuperation()
         self.set_auxiliaries()
-        self.set_component_masses()
-        self.set_car_masses()
-        self.set_power_parameters()
-        self.set_battery_fuel_cell_replacements()
-        self.set_energy_stored_properties()
-        self.set_battery_properties()
-        self.set_fuel_cell_parameters()
-        self.set_ttw_efficiency()
-        self.calculate_ttw_energy()
-        self.set_costs()
+
+        """
+        set_component_masses(), set_car_masses() and set_power_parameters() are interdependent.
+        `powertrain_mass` depends on `power`, `curb_mass` is affected by changes in `powertrain_mass`,
+        `combustion engine mass` and `electric engine mass`, and `power` is a function of `curb_mass`.
+        """
+
+        diff = 1.0
+
+        while diff > .001:
+            old_driving_mass = self['driving mass'].sum().values
+            self.set_component_masses()
+            self.set_car_masses()
+            self.set_power_parameters()
+            self.set_battery_fuel_cell_replacements()
+            self.set_energy_stored_properties()
+            self.set_battery_properties()
+            self.set_fuel_cell_parameters()
+            self.set_ttw_efficiency()
+            self.calculate_ttw_energy()
+            self.set_costs()
+
+            diff = (self['driving mass'].sum().values-old_driving_mass)/self['driving mass'].sum()
+            print(diff)
+
+
+
+
 
     def calculate_ttw_energy(self):
         """
@@ -262,8 +280,11 @@ class CarModel:
             "converter mass",
             "inverter mass",
             "power distribution unit mass",
+            # Updates with set_components_mass
             "combustion engine mass",
+            # Updates with set_components_mass
             "electric engine mass",
+            # Updates with set_components_mass
             "powertrain mass",
             "fuel cell stack mass",
             "fuel cell ancillary BoP mass",
