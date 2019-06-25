@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62445f2d-9237-4247-9ae8-9559cdfa4502" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coarse/energy_consumption.py" beforeDir="false" afterPath="$PROJECT_DIR$/coarse/energy_consumption.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coarse/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/coarse/model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,7 +25,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/coarse/energy_consumption.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="65">
+            <state relative-caret-position="546">
               <caret line="29" column="99" selection-start-line="29" selection-start-column="99" selection-end-line="29" selection-end-column="99" />
             </state>
           </provider>
@@ -35,7 +34,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/coarse/driving_cycles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
+            <state relative-caret-position="420">
               <caret line="21" selection-start-line="21" selection-end-line="31" selection-end-column="10" />
               <folding>
                 <element signature="e#38#60#0" expanded="true" />
@@ -47,7 +46,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/coarse/car_input_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1441">
+            <state relative-caret-position="105">
               <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
             </state>
           </provider>
@@ -56,7 +55,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/coarse/default_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="385">
+            <state relative-caret-position="145089">
               <caret line="6909" column="17" selection-start-line="6909" selection-start-column="5" selection-end-line="6909" selection-end-column="17" />
             </state>
           </provider>
@@ -65,8 +64,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/coarse/array.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1024">
-              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="294">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
@@ -75,7 +74,7 @@
         <entry file="file://$PROJECT_DIR$/coarse/eda.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="567">
-              <caret line="28" column="36" lean-forward="true" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
+              <caret line="28" column="36" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -208,6 +207,14 @@
       <option name="presentableId" value="Default" />
       <updated>1560438025846</updated>
     </task>
+    <task id="LOCAL-00001" summary="Changed acceleration formula and remove duplicate in curb mass formula.">
+      <created>1561385732864</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1561385732864</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -233,6 +240,10 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Changed acceleration formula and remove duplicate in curb mass formula." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed acceleration formula and remove duplicate in curb mass formula." />
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/docs/index.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
@@ -244,37 +255,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coarse/array.py">
+    <entry file="file://$PROJECT_DIR$/coarse/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1024">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        <state relative-caret-position="637">
+          <caret line="261" column="29" selection-start-line="261" selection-start-column="29" selection-end-line="261" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coarse/car_input_parameters.py">
+    <entry file="file://$PROJECT_DIR$/coarse/energy_consumption.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1441">
-          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coarse/eda.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="28" column="36" lean-forward="true" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coarse/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="29" selection-start-line="29" selection-end-line="29" selection-end-column="54" />
+        <state relative-caret-position="546">
+          <caret line="29" column="99" selection-start-line="29" selection-start-column="99" selection-end-line="29" selection-end-column="99" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/coarse/driving_cycles.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
+        <state relative-caret-position="420">
           <caret line="21" selection-start-line="21" selection-end-line="31" selection-end-column="10" />
           <folding>
             <element signature="e#38#60#0" expanded="true" />
@@ -282,24 +279,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coarse/energy_consumption.py">
+    <entry file="file://$PROJECT_DIR$/coarse/car_input_parameters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65">
-          <caret line="29" column="99" selection-start-line="29" selection-start-column="99" selection-end-line="29" selection-end-column="99" />
+        <state relative-caret-position="105">
+          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/coarse/default_parameters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
+        <state relative-caret-position="145089">
           <caret line="6909" column="17" selection-start-line="6909" selection-start-column="5" selection-end-line="6909" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coarse/model.py">
+    <entry file="file://$PROJECT_DIR$/coarse/array.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="637">
-          <caret line="261" column="29" selection-start-line="261" selection-start-column="29" selection-end-line="261" selection-end-column="29" />
+        <state relative-caret-position="294">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coarse/eda.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="567">
+          <caret line="28" column="36" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coarse/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="609">
+          <caret line="29" selection-start-line="29" selection-end-line="29" selection-end-column="54" />
         </state>
       </provider>
     </entry>
