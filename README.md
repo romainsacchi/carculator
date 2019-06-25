@@ -1,6 +1,6 @@
 # Coarse
 
-A parameterized Python model to calculate the energy consumption and life cycle assessment of cars.
+A parameterized Python model to calculate the life cycle material and energy requirements of cars.
 
 Integrates well with [Brightway](https://brightwaylca.org/) and [presamples](https://github.com/PascalLesage/brightway2-presamples).
 
