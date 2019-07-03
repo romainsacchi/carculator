@@ -169,6 +169,13 @@ class EnergyConsumptionModel:
             np.clip(total_power, -1000 * _(motor_power), 0) * _(recuperation_efficiency)
         )
 
+        self.power_rolling_resistance = power_rolling_resistance
+        self.power_aerodynamic = power_aerodynamic
+        self.power_kinetic = np.where(power_kinetic > 0, power_kinetic, 0)
+
+
+
+
         return (
             (net_power + self.recuperated_power) # watt
             / self.velocity.sum()                # m/s -> Ws/m -> J/m

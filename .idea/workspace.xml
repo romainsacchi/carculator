@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62445f2d-9237-4247-9ae8-9559cdfa4502" name="Default Changelist" comment="" />
+    <list default="true" id="62445f2d-9237-4247-9ae8-9559cdfa4502" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coarse/energy_consumption.py" beforeDir="false" afterPath="$PROJECT_DIR$/coarse/energy_consumption.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -10,18 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/coarse/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="116" column="25" selection-start-line="116" selection-start-column="25" selection-end-line="116" selection-end-column="25" />
-              <folding>
-                <element signature="e#3561#4700#0" />
-                <element signature="e#4750#6694#0" />
-                <element signature="e#6735#7449#0" />
-                <element signature="e#7491#7614#0" />
-                <element signature="e#7674#8723#0" />
-              </folding>
+            <state relative-caret-position="364">
+              <caret line="155" selection-start-line="155" selection-end-line="155" />
             </state>
           </provider>
         </entry>
@@ -29,16 +25,16 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/coarse/energy_consumption.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="29" column="99" selection-start-line="29" selection-start-column="99" selection-end-line="29" selection-end-column="99" />
+            <state relative-caret-position="511">
+              <caret line="156" column="57" lean-forward="true" selection-start-line="156" selection-start-column="43" selection-end-line="156" selection-end-column="57" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/coarse/driving_cycles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
+            <state relative-caret-position="441">
               <caret line="21" selection-start-line="21" selection-end-line="31" selection-end-column="10" />
               <folding>
                 <element signature="e#38#60#0" expanded="true" />
@@ -50,8 +46,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/coarse/car_input_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+            <state relative-caret-position="276">
+              <caret line="25" column="110" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="110" />
+              <folding>
+                <element signature="e#45#91#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -59,7 +58,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/coarse/default_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145089">
+            <state relative-caret-position="1158">
               <caret line="6909" column="17" selection-start-line="6909" selection-start-column="5" selection-end-line="6909" selection-end-column="17" />
             </state>
           </provider>
@@ -68,7 +67,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/coarse/array.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
+            <state relative-caret-position="-249">
               <caret line="15" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
@@ -102,6 +101,9 @@
       <find>motor_</find>
       <find>curb mass</find>
       <find>driving mass</find>
+      <find>recup</find>
+      <find>ttw_efficiency</find>
+      <find>velocit</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -120,8 +122,8 @@
         <option value="$PROJECT_DIR$/coarse/car_input_parameters.py" />
         <option value="$PROJECT_DIR$/docs/conf.py" />
         <option value="$PROJECT_DIR$/docs/index.rst" />
-        <option value="$PROJECT_DIR$/coarse/energy_consumption.py" />
         <option value="$PROJECT_DIR$/coarse/model.py" />
+        <option value="$PROJECT_DIR$/coarse/energy_consumption.py" />
       </list>
     </option>
   </component>
@@ -136,7 +138,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -163,6 +164,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -250,7 +252,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32962668" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" visible="true" weight="0.36060366" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.35980937" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -281,6 +283,20 @@
         </entry>
       </map>
     </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Changed acceleration formula and remove duplicate in curb mass formula." />
@@ -298,45 +314,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coarse/model.py">
+    <entry file="file://$PROJECT_DIR$/coarse/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="116" column="25" selection-start-line="116" selection-start-column="25" selection-end-line="116" selection-end-column="25" />
-          <folding>
-            <element signature="e#3561#4700#0" />
-            <element signature="e#4750#6694#0" />
-            <element signature="e#6735#7449#0" />
-            <element signature="e#7491#7614#0" />
-            <element signature="e#7674#8723#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coarse/energy_consumption.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="29" column="99" selection-start-line="29" selection-start-column="99" selection-end-line="29" selection-end-column="99" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coarse/car_input_parameters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coarse/default_parameters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145089">
-          <caret line="6909" column="17" selection-start-line="6909" selection-start-column="5" selection-end-line="6909" selection-end-column="17" />
+        <state relative-caret-position="609">
+          <caret line="29" selection-start-line="29" selection-end-line="29" selection-end-column="54" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/coarse/array.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
+        <state relative-caret-position="-249">
           <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coarse/car_input_parameters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="25" column="110" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="110" />
+          <folding>
+            <element signature="e#45#91#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coarse/driving_cycles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="21" selection-start-line="21" selection-end-line="31" selection-end-column="10" />
+          <folding>
+            <element signature="e#38#60#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coarse/default_parameters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1158">
+          <caret line="6909" column="17" selection-start-line="6909" selection-start-column="5" selection-end-line="6909" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -347,20 +362,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coarse/__init__.py">
+    <entry file="file://$PROJECT_DIR$/coarse/energy_consumption.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="29" selection-start-line="29" selection-end-line="29" selection-end-column="54" />
+        <state relative-caret-position="511">
+          <caret line="156" column="57" lean-forward="true" selection-start-line="156" selection-start-column="43" selection-end-line="156" selection-end-column="57" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coarse/driving_cycles.py">
+    <entry file="file://$PROJECT_DIR$/coarse/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="21" selection-start-line="21" selection-end-line="31" selection-end-column="10" />
-          <folding>
-            <element signature="e#38#60#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="364">
+          <caret line="155" selection-start-line="155" selection-end-line="155" />
         </state>
       </provider>
     </entry>
