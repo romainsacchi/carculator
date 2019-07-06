@@ -106,37 +106,59 @@ class CarModel:
         of the car, costs, etc.
 
         """
-        self.set_recuperation()
         self.set_auxiliaries()
-
         """
         set_component_masses(), set_car_masses() and set_power_parameters() are interdependent.
         `powertrain_mass` depends on `power`, `curb_mass` is affected by changes in `powertrain_mass`,
         `combustion engine mass` and `electric engine mass`, and `power` is a function of `curb_mass`.
         The current solution is to loop through the methods until the increment in driving mass is
         inferior to 0.1%.
+        
+        
         """
+        # TODO: Converging towards a satisfying curb mass is taking too long! Needs to be optimized.
 
         diff = 1.0
 
-        while diff > .001:
+        while diff > .01:
             old_driving_mass = self['driving mass'].sum().values
+
+
             self.set_component_masses()
             self.set_car_masses()
             self.set_power_parameters()
-            self.set_battery_fuel_cell_replacements()
             self.set_energy_stored_properties()
             self.set_battery_properties()
             self.set_fuel_cell_parameters()
-            self.set_ttw_efficiency()
-            self.calculate_ttw_energy()
-            self.set_costs()
 
             diff = (self['driving mass'].sum().values-old_driving_mass)/self['driving mass'].sum()
 
+        self.set_battery_fuel_cell_replacements()
+        self.set_recuperation()
+        self.set_ttw_efficiency()
+        self.calculate_ttw_energy()
+        self.set_costs()
+        self.calculate_emissions()
 
+    def calculate_emissions(self):
+        """
+        This method calculates per km emissions of CO2 and SO2, based on the Tank-to-wheel energy use.
 
-
+        """
+        for pt in self.pure_combustion:
+            with self(pt) as p:
+                p['TtW CO2'] = (
+                        (1/p["LHV fuel MJ per kg"]) *\
+                        (p['TtW energy'] / 1000) *\
+                        (p['CO2 per kg fuel'] * 1000)
+                )
+        for pt in self.pure_combustion:
+            with self(pt) as p:
+                p['TtW SO2'] = (
+                        (1/p["LHV fuel MJ per kg"]) *\
+                        (p['TtW energy'] / 1000) *\
+                        (p['SO2 per kg fuel'] * 1000)
+                )
 
 
     def calculate_ttw_energy(self):

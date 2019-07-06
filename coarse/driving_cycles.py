@@ -7,7 +7,7 @@ from . import DATA_DIR
 import pandas as pd
 
 
-def get_standard_driving_cycle(name="WLTC"):
+def get_standard_driving_cycle(name='WLTC'):
 
     """Get driving cycle data as a Pandas `Series`.
 

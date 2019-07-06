@@ -36,7 +36,7 @@ class EnergyConsumptionModel:
     :param rho_air: Mass per unit volume of air. Set to (1.225 kg/m3) by default.
     :type rho_air: float
 
-    :ivar rho_air: Mass per unit volume of air.
+    :ivar rho_air: Mass per unit volume of air. Value of 1.204 at 23C (test temperature for WLTC).
     :vartype rho_air: float
     :ivar velocity: Time series of speed values, in meters per second.
     :vartype velocity: numpy.ndarray
@@ -47,27 +47,23 @@ class EnergyConsumptionModel:
 
     """
 
-    def __init__(self, cycle, rho_air=1.225):
+    def __init__(self, cycle, rho_air=1.204):
         # If a string is passed, the corresponding driving cycle is retrieved
-        if isinstance(cycle, str):
-            cycle = get_standard_driving_cycle(cycle).values
+
+        cycle = get_standard_driving_cycle(cycle).values
         # If the parameter is not a string nor a Pandas Series, this is an issue.
-        elif not isinstance(cycle, pd.Series):
-            try:
-                raise TypeError('Invalid format for "cycle" parameter. str or panda.Series expected.')
-            except TypeError as error:
-                print('Caught this error: ' + repr(error))
 
 
         self.rho_air = rho_air
         # Unit conversion km/h to m/s
-        self.velocity = cycle * 1000 / 3600
+        self.velocity = (cycle * 1000) / 3600
 
         # Model acceleration as difference in velocity between time steps (1 second)
         # Zero at first value
         self.acceleration = np.zeros_like(self.velocity)
         self.acceleration[1:-1] = (self.velocity[2:] - self.velocity[:-2]) / 2
         #self.acceleration[1:] = self.velocity[1:] - self.velocity[:-1]
+
 
     def aux_energy_per_km(self, aux_power, efficiency=1):
         """Calculate energy used other than motive energy per km driven.
@@ -146,40 +142,64 @@ class EnergyConsumptionModel:
 
         """
 
+        # Convert to km; velocity is m/s, times 1 second
+        # Distance WLTC 3.2 = 4.75 km
+        distance = self.velocity.sum() / 1000
+
+
         # Total power required at the wheel to meet acceleration requirement,
         # and overcome air and rolling resistance.
         # This number is generally positive (power is needed), but can be negative
         # if the vehicle is decelerating.
         # Power is in watts (kg m2 / s3)
         power_rolling_resistance = np.ones_like(self.velocity) * _(driving_mass) * _(rr_coef) * 9.81
-        power_aerodynamic = (self.velocity ** 2 * _(frontal_area) * _(drag_coef)
-               * self.rho_air / 2)
-        power_kinetic = self.acceleration * self.velocity * _(driving_mass)
+        power_aerodynamic = (self.velocity ** 2 * _(frontal_area) * _(drag_coef) * self.rho_air / 2)
+        power_kinetic = self.acceleration * _(driving_mass)
 
-        net_power = (
-            np.where(power_kinetic > 0, power_kinetic, 0)
-            + power_rolling_resistance
-            + power_aerodynamic
+
+        total_force = (power_kinetic + power_rolling_resistance + power_aerodynamic)
+
+
+        arrays = np.recarray(
+            power_kinetic.shape,
+            dtype=[(col, float) for col in 'kraw']
         )
-        total_power = power_kinetic + power_rolling_resistance + power_aerodynamic
+
+        arrays.k = power_kinetic * self.velocity
+        arrays.r = power_rolling_resistance * self.velocity
+        arrays.a = power_aerodynamic * self.velocity
+        arrays.w = total_force * self.velocity  # arrays.k + arrays.r + arrays.a
+
+        decelerating = total_force < 0
+
+        pa = arrays.copy()
+        pa[decelerating] = 0
+        # Set all four columns to all zeros when `decelerating` mask array is True
+        pd = arrays.copy()
+        pd[~decelerating] = 0
+
+        
 
         # Can only recuperate when power is less than zero, limited by recuperation efficiency
         # Motor power in kW, other power in watts
-        self.recuperated_power = (
-            np.clip(total_power, -1000 * _(motor_power), 0) * _(recuperation_efficiency)
+        recuperated_power = (
+            np.clip(pd.w, -1000 * _(motor_power), 0) * _(recuperation_efficiency)
         )
+        braking_power = pd.w - recuperated_power
 
-        self.power_rolling_resistance = power_rolling_resistance
-        self.power_aerodynamic = power_aerodynamic
-        self.power_kinetic = np.where(power_kinetic > 0, power_kinetic, 0)
-
+        self.recuperated_power = recuperated_power/distance/1000
+        self.braking_power = braking_power/distance/1000
+        self.power_rolling_resistance = pa.r / distance / 1000
+        self.power_aerodynamic = pa.a / distance / 1000
+        self.power_kinetic = pa.k / distance / 1000
+        self.total_power = pa.w / distance / 1000
 
 
 
         return (
-            (net_power + self.recuperated_power) # watt
-            / self.velocity.sum()                # m/s -> Ws/m -> J/m
-            * 1000                               # m / km -> J/km
-            / 1000                               # 1 / (J / kJ) -> kJ/km
+            ((pa.w
+            / (distance                               # m / km -> J/km
+            * 1000))
+            + self.recuperated_power) # watt                          # 1 / (J / kJ) -> kJ/km
             / _(ttw_efficiency)
         )
