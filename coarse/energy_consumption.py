@@ -3,10 +3,10 @@
 
 """
 
-from .driving_cycles import get_standard_driving_cycle
 import numpy as np
-import pandas as pd
 import xarray
+
+from .driving_cycles import get_standard_driving_cycle
 
 
 def _(o):
@@ -178,7 +178,7 @@ class EnergyConsumptionModel:
         pd = arrays.copy()
         pd[~decelerating] = 0
 
-        
+
 
         # Can only recuperate when power is less than zero, limited by recuperation efficiency
         # Motor power in kW, other power in watts
