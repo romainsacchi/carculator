@@ -51,7 +51,7 @@ class EnergyConsumptionModel:
         # If a string is passed, the corresponding driving cycle is retrieved
 
         cycle = get_standard_driving_cycle(cycle).values
-        # If the parameter is not a string nor a Pandas Series, this is an issue.
+        # If the parameter is not a string nor a Pandas Series, this is an issue...
 
 
         self.rho_air = rho_air
