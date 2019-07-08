@@ -178,8 +178,6 @@ class EnergyConsumptionModel:
         pd = arrays.copy()
         pd[~decelerating] = 0
 
-
-
         # Can only recuperate when power is less than zero, limited by recuperation efficiency
         # Motor power in kW, other power in watts
         recuperated_power = (
