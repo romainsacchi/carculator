@@ -127,7 +127,7 @@ class CarModel:
             self.set_component_masses()
             self.set_car_masses()
             self.set_power_parameters()
-            self.set_energy_stored_properties()
+
             self.set_battery_properties()
             self.set_fuel_cell_parameters()
 
@@ -137,6 +137,9 @@ class CarModel:
         self.set_recuperation()
         self.set_ttw_efficiency()
         self.calculate_ttw_energy()
+        self.set_energy_stored_properties()
+        self.set_electric_utility_factor()
+        self.create_PHEV()
         self.set_costs()
         self.calculate_emissions()
 
@@ -175,6 +178,8 @@ class CarModel:
         for pt in self.fuel_cell:
             with self(pt):
                 aux_energy.loc[{"powertrain": pt}] /= self['fuel cell system efficiency']
+
+        self['auxiliary energy'] = aux_energy
 
         motive_energy = self.ecm.motive_energy_per_km(
             driving_mass=self["driving mass"],
@@ -347,6 +352,17 @@ class CarModel:
             + self["powertrain fixed mass"]
         )
 
+    def set_electric_utility_factor(self):
+
+        with self('PHEV-e') as cpm:
+            cpm['electric utility factor'] = (1- np.exp(-0.01147 * cpm['range'])) ** 1.186185
+
+    def create_PHEV(self):
+        """ PHEV is the range-weighted average between PHEV-c and PHEV-e.
+        """
+        self.array.loc[:, 'PHEV', :, :, :] = (self.array.loc[:, 'PHEV-e', :, :, :] * self.array.loc[:, 'PHEV-e', 'electric utility factor', :, :])+(self.array.loc[:, 'PHEV-c', :, :, :] * (1-self.array.loc[:, 'PHEV-e', 'electric utility factor', :, :]))
+
+
     def set_battery_properties(self):
         for pt in self.combustion:
             with self(pt):
@@ -375,6 +391,7 @@ class CarModel:
                 self["fuel tank mass"] = (
                     self["oxidation energy stored"] * self["fuel tank mass per energy"]
                 )
+                self['range'] = (self["fuel mass"] * 42.4 * 1000) / self['TtW energy']
         for pt in self.diesel:
             with self(pt):
                 # Assume 48 MJ/kg of gasoline, convert to kWh
@@ -382,6 +399,7 @@ class CarModel:
                 self["fuel tank mass"] = (
                     self["oxidation energy stored"] * self["fuel tank mass per energy"]
                 )
+                self['range'] = (self["fuel mass"] * 48 * 1000) / self['TtW energy']
         for pt in self.cng:
             with self(pt):
                 # Assume 55.5 MJ/kg of gasoline, convert to kWh
@@ -390,11 +408,14 @@ class CarModel:
                     self["oxidation energy stored"] * self["CNG tank mass slope"]
                     + self["CNG tank mass intercept"]
                 )
+                self['range'] = (self["fuel mass"] * 55.5 * 1000) / self['TtW energy']
         for pt in self.battery:
             with self(pt):
                 self["electric energy stored"] = (
                     self["battery cell mass"] * self["battery cell energy density"]
                 )
+                self['range'] = (self["electric energy stored"] * self["battery DoD"] * 3.6 * 1000) / self['TtW energy']
+
         for pt in self.electric_hybrid:
             with self(pt):
                 self["electric energy stored"] = (
@@ -404,6 +425,7 @@ class CarModel:
                 self["fuel tank mass"] = (
                     self["fuel mass"] * 42.4 / 3.6 * self["fuel tank mass per energy"]
                 )
+                self['range'] = (self["electric energy stored"] * self["battery DoD"] * 3.6 * 1000) / self['TtW energy']
 
         self["battery cell production electricity"] = (
             self["battery cell production energy"]
