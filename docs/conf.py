@@ -14,13 +14,13 @@ import os
 import sys
 #sys.path.insert(0, os.path.abspath('C:\Users\sacchi_r\Documents\GitHub\coarse\coarse'))
 sys.path.insert(0, os.path.abspath(".."))
-print(sys.path)
+
 
 # -- Project information -----------------------------------------------------
 
 project = 'coarse'
 copyright = '2019, Chris Mutel'
-author = 'Chris Mutel'
+author = 'Chris Mutel, Biran Cox, Romain Sacchi'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'

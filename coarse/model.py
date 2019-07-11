@@ -142,6 +142,10 @@ class CarModel:
         self.create_PHEV()
         self.set_costs()
         self.calculate_emissions()
+        self.drop_hybrid()
+
+    def drop_hybrid(self):
+        self.array = self.array.sel(powertrain=['ICEV-p', 'ICEV-d', 'ICEV-g', 'PHEV', 'FCEV','BEV', 'HEV-p'])
 
     def calculate_emissions(self):
         """
