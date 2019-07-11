@@ -62,11 +62,10 @@ generate a CarModel object and calculate the energy consumption and components m
 
 Hence, the tank-to-wheel energy requirement per km driven per powertrain technology for a SUV in 2017 can be obtained::
 
-    TtW_energy = cm.array.sel(size='SUV', year=2017, parameter='TtW energy').values * 1/3600 * 100
-    powertrain = cm.array.powertrain
-
     import numpy as np
-    plt.bar(powertrain,[a[0] for a in TtW_energy])
+    TtW_energy = cm.array.sel(size='SUV', year=2017, parameter='TtW energy') * 1/3600 * 100
+
+    plt.bar(TtW_energy.powertrain,np.squeeze(TtW_energy))
     plt.ylabel('kWh/100 km')
     plt.show()
 
