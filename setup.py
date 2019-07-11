@@ -8,7 +8,7 @@ if root_dir:
 
 
 # Probably should be changed, __init__.py is no longer required for Python 3
-for dirpath, dirnames, filenames in os.walk('Carculator'):
+for dirpath, dirnames, filenames in os.walk('carculator'):
     # Ignore dirnames that start with '.'
     if '__init__.py' in filenames:
         pkg = dirpath.replace(os.path.sep, '.')
@@ -26,14 +26,14 @@ def package_files(directory):
 
 
 setup(
-    name='Carculator',
+    name='carculator',
     version="0.0.1",
     packages=packages,
     author="Chris Mutel",
     author_email="cmutel@gmail.com",
     license=open('LICENSE').read(),
     # Only if you have non-python data (CSV, etc.). Might need to change the directory name as well.
-    package_data={'Carculator': package_files(os.path.join('Carculator', 'data'))},
+    package_data={'carculator': package_files(os.path.join('carculator', 'data'))},
     install_requires=[
         'klausen',
         'numpy',

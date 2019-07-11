@@ -1,5 +1,5 @@
 package:
-  name: coarse-dev
+  name: carculator-dev
   version: {{ environ['VERSION'] }}
 
 source:
@@ -28,10 +28,10 @@ requirements:
 
 test:
   imports:
-    - coarse
+    - carculator
 
 about:
-  home: https://github.com/cmutel/coarse
+  home: https://github.com/romainsacchi/carculator
   license: BSD License
   summary: 'A parameterized Python model to calculate the energy consumption and life cycle assessment of cars'
 license_family: BSD

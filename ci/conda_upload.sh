@@ -1,5 +1,5 @@
 # Only need to change these two variables
-PKG_NAME=coarse-dev
+PKG_NAME=carculator-dev
 USER=cmutel
 
 mkdir ~/conda-bld
