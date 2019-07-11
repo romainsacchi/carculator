@@ -1,4 +1,4 @@
-from coarse import get_standard_driving_cycle
+from Carculator import get_standard_driving_cycle
 import pandas
 import pytest
 
