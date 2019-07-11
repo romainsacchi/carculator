@@ -1,4 +1,4 @@
-from carculator import get_standard_driving_cycle
+from .driving_cycles import get_standard_driving_cycle
 import pandas
 import pytest
 
