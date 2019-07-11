@@ -1,4 +1,4 @@
-# Coarse
+# Carculator
 
 A parameterized Python model to calculate the life cycle material and energy requirements of cars.
 

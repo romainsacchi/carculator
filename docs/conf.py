@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath(".."))
 
 # -- Project information -----------------------------------------------------
 
-project = 'coarse'
+project = 'Carculator'
 copyright = '2019, Chris Mutel'
 author = 'Chris Mutel, Biran Cox, Romain Sacchi'
 

@@ -145,6 +145,10 @@ class CarModel:
         self.drop_hybrid()
 
     def drop_hybrid(self):
+        """
+        This method drops the powertrain `PHEV-c` and `PHEV-e` as they were only used to create the `PHEV` powertrain.
+        :return:
+        """
         self.array = self.array.sel(powertrain=['ICEV-p', 'ICEV-d', 'ICEV-g', 'PHEV', 'FCEV','BEV', 'HEV-p'])
 
     def calculate_emissions(self):

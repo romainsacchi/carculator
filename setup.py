@@ -8,7 +8,7 @@ if root_dir:
 
 
 # Probably should be changed, __init__.py is no longer required for Python 3
-for dirpath, dirnames, filenames in os.walk('coarse'):
+for dirpath, dirnames, filenames in os.walk('Carculator'):
     # Ignore dirnames that start with '.'
     if '__init__.py' in filenames:
         pkg = dirpath.replace(os.path.sep, '.')
@@ -26,14 +26,14 @@ def package_files(directory):
 
 
 setup(
-    name='coarse',
+    name='Carculator',
     version="0.0.1",
     packages=packages,
     author="Chris Mutel",
     author_email="cmutel@gmail.com",
     license=open('LICENSE').read(),
     # Only if you have non-python data (CSV, etc.). Might need to change the directory name as well.
-    package_data={'coarse': package_files(os.path.join('coarse', 'data'))},
+    package_data={'Carculator': package_files(os.path.join('Carculator', 'data'))},
     install_requires=[
         'klausen',
         'numpy',
@@ -43,9 +43,9 @@ setup(
         'xlrd',
         'sphinx-autoapi'
     ],
-    url="https://github.com/cmutel/coarse",
+    url="https://github.com/romainsacchi/carculator",
     long_description=open('README.md').read(),
-    description='your_name_here',
+    description='Environmental footprint calculator for cars',
     classifiers=[
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Developers',

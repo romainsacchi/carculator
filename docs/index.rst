@@ -1,8 +1,8 @@
 
-Coarse Documentation
+Carculator Documentation
 ====================
 
-**coarse** allows to calculate life cycle inventories for 112 different car profiles, according to selected:
+**Carculator** allows to calculate life cycle inventories for 112 different car profiles, according to selected:
 
 * powertrain technologies (8): petrol engine, diesel engine, electric motor, hybrid, etc.,
 * year of operation (2): 2017, 2040
@@ -22,7 +22,7 @@ How to install this package?
 
 In a terminal::
 
-    pip install git+https://github.com/romainsacchi/coarse.git
+    pip install git+https://github.com/romainsacchi/carculator.git
 
 will install the package and the required dependencies.
 
@@ -32,7 +32,7 @@ How to use it?
 
 From a Python environment::
 
-   from coarse import *
+   from carculator import *
    cip = CarInputParameters()
    cip.stochastic(10)
 
@@ -74,7 +74,7 @@ Hence, the tank-to-wheel energy requirement per km driven per powertrain technol
     :width: 400
     :alt: Alternative text
 
-.. automodule:: coarse.car_input_parameters
+.. automodule:: carculator.car_input_parameters
     :members:
 
 
