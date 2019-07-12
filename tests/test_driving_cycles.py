@@ -8,7 +8,7 @@ from carculator.driving_cycles import get_standard_driving_cycle
 def test_cycle_retrival_default():
     dc = get_standard_driving_cycle()
     assert isinstance(dc, pandas.core.series.Series)
-    assert dc.sum() == 88744.6
+    assert dc.sum() == 83744.6
     assert dc.index.min() == 0
     assert dc.index.max() == 1801
 
