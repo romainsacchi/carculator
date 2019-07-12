@@ -49,5 +49,5 @@ script:
         
       fi
     else
-      python -m pytest;
+      pytest --cov=carculator;;
     fi
