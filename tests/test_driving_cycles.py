@@ -1,13 +1,23 @@
 import sys, os
-myPath = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, '/Users/travis/build/romainsacchi/carculator/carculator/')
-
-print(sys.path)
 
 import pandas
 import pytest
 from carculator.driving_cycles import get_standard_driving_cycle
 
+
+def test_cycle_retrival_default():
+    dc = get_standard_driving_cycle()
+    assert isinstance(dc, pandas.core.series.Series)
+    assert dc.sum() == 88744.6
+    assert dc.index.min() == 0
+    assert dc.index.max() == 1801
+
+def test_cycle_retrival_wltc():
+    dc = get_standard_driving_cycle("WLTC")
+    assert isinstance(dc, pandas.core.series.Series)
+    assert dc.sum() == 88744.6
+    assert dc.index.min() == 0
+    assert dc.index.max() == 1801
 
 
 def test_cycle_retrival_nedc():
