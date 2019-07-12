@@ -5,3 +5,4 @@ pytest-cov
 klausen
 presamples
 xlrd
+pytest
