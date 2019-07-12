@@ -3,7 +3,7 @@ sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 import pandas
 import pytest
-from .driving_cycles import get_standard_driving_cycle
+from driving_cycles import get_standard_driving_cycle
 
 
 
