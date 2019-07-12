@@ -9,4 +9,4 @@ def test_type_parameters():
 
 def test_retrieve_list_powertrains():
     assert isinstance(cip.CarInputParameters().powertrains, list)
-    assert len(cip.CarInputParameters().powertrains>0)
+    assert len(cip.CarInputParameters().powertrains)>0
