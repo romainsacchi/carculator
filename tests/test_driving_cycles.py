@@ -1,6 +1,7 @@
-from driving_cycles import get_standard_driving_cycle
 import pandas
 import pytest
+from driving_cycles import get_standard_driving_cycle
+
 
 
 def test_cycle_retrival_nedc():
