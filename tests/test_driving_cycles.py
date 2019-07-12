@@ -1,5 +1,6 @@
-import os, sys;
-sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+import sys, os
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + '/../')
 
 import pandas
 import pytest
