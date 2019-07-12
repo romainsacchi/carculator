@@ -10,14 +10,14 @@ def test_cycle_retrival_default():
     assert isinstance(dc, pandas.core.series.Series)
     assert dc.sum() == 83744.6
     assert dc.index.min() == 0
-    assert dc.index.max() == 1801
+    assert dc.index.max() == 1800
 
 def test_cycle_retrival_wltc():
     dc = get_standard_driving_cycle("WLTC")
     assert isinstance(dc, pandas.core.series.Series)
-    assert dc.sum() == 88744.6
+    assert dc.sum() == 83744.6
     assert dc.index.min() == 0
-    assert dc.index.max() == 1801
+    assert dc.index.max() == 1800
 
 
 def test_cycle_retrival_nedc():
@@ -35,5 +35,7 @@ def test_cycle_retrival_cadc():
     assert dc.index.max() == 3143
 
 def test_missing_cycle():
-    with pytest.raises(KeyError):
+    with pytest.raises(SystemExit) as wrapped_error:
         get_standard_driving_cycle("Foo")
+    assert wrapped_error.type == SystemExit
+    assert wrapped_error.value.code ==1
