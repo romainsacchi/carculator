@@ -5,6 +5,7 @@
 
 from . import DATA_DIR
 import pandas as pd
+import sys
 
 
 def get_standard_driving_cycle(name='WLTC'):
@@ -37,8 +38,14 @@ def get_standard_driving_cycle(name='WLTC'):
 
 
     """
-    return (
-        pd.read_excel(DATA_DIR / "driving_cycles.xlsx", sheet_name="Driving cycles")
-        .set_index("Time (s)")[name]
-        .dropna()
-    )
+    try:
+        return (
+            pd.read_excel(DATA_DIR / "driving_cycles.xlsx", sheet_name="Driving cycles")
+            .set_index("Time (s)")[name]
+            .dropna()
+        )
+    except KeyError:
+        print('The specified driving cycle could not be found.')
+        sys.exit(1)
+
+
