@@ -2,6 +2,8 @@ import sys, os
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
 
+print(sys.path)
+
 import pandas
 import pytest
 from carculator.driving_cycles import get_standard_driving_cycle
