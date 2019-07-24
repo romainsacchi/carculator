@@ -1,6 +1,6 @@
 
 Carculator Documentation
-====================
+========================
 
 **Carculator** allows to calculate life cycle inventories for 112 different car profiles, according to selected:
 
@@ -14,8 +14,7 @@ vehicles by Cox, et al (2018) <https://pubs.acs.org/doi/10.1021/acs.est.8b00261>
 Objective
 ---------
 
-The objective is to produce life cycle inventories in a transparent and comprehensive way, to be further used in prospective
-life cycle assessment of transportation technologies.
+The objective is to produce life cycle inventories for passenger cars in a transparent and comprehensive way, to be further used in prospective life cycle assessment of transportation technologies.
 
 How to install this package?
 ----------------------------
@@ -72,9 +71,10 @@ Hence, the tank-to-wheel energy requirement per km driven per powertrain technol
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/fig_kwh_100km.png
     :width: 400
     :alt: Alternative text
+    
 
-.. automodule:: carculator.car_input_parameters
-    :members:
+
+
 
 
 

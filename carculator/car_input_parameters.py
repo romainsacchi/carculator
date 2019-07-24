@@ -42,17 +42,17 @@ class CarInputParameters(NamedParameters):
 
 
     """
-    def __init__(self, parameters=None, extra=None):
+    def __init__(self, custom_parameters=None):
         """Create a `klausen <https://github.com/cmutel/klausen>`__ model with the car input parameters."""
         super().__init__(None)
 
 
 
-        if parameters is None:
-            parameters = DEFAULT
+        # Wether custom parameters are given or not, we first build the array with the default parameters
+        parameters = DEFAULT
 
-        if extra is None:
-            extra = EXTRA
+        # Extra parameters should never change
+        extra = EXTRA
 
         # Ensure parameters are of valid type
         if not isinstance(parameters, dict) or not isinstance(extra, set):
@@ -70,7 +70,14 @@ class CarInputParameters(NamedParameters):
         )
         self.years = sorted({o["year"] for o in parameters.values()})
 
+        # Now, we plug any custom parameter values given
+        if not custom_parameters is None:
+            add_custom_parameter_values(parameters, custom_parameters)
+
         self.add_car_parameters(parameters)
+
+    def add_custom_parameter_values(self, parameters, custom_parameters):
+        pass
 
     def add_car_parameters(self, parameters):
         """
