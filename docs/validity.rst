@@ -61,45 +61,30 @@ Both approaches should return identical results::
     print(driving_distance == ecm.velocity.sum()*1000)
     print(driving_time == len(ecm.velocity))
     print(np.array_equal(acceleration, ecm.acceleration))
-
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/coarse.png
-    :width: 900
-    :alt: Alternative text
-
-Modules
--------
-
-Composed of four modules:
-
-    * Driving cycle module
-    * Mass module
-    * Auxiliary energy module
-    * Motive energy module
     
-Driving cycle module
---------------------
+    True
+    True
+    True
+    True
+    
+And the acceleration returned by coarse should equal the values given by the UNECE::
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/driving_cycle.png
+    np.array_equal(np.around(ecm.acceleration,4),np.around(driving_cycle['m/s²'].values,4))
+    
+    True
+    
+Which can be also be verified visually::
+
+    plt.plot(driving_cycle['m/s²'].values, label='UNECE')
+    plt.plot(acceleration, label='Manually calculated')
+    plt.plot(ecm.acceleration, label='coarse', alpha=0.6)
+    plt.legend()
+    plt.ylabel('m/s2')
+    plt.xlabel('second')
+    plt.savefig('comparison_driving_cycle.png')
+    plt.show()
+
+.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/comparison_driving_cycle.png
     :width: 400
     :alt: Alternative text
-    
-Mass module
------------
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/mass_module.png
-    :width: 900
-    :alt: Alternative text
-    
-Auxiliary energy module
------------------------
-
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/aux_energy.png
-    :width: 900
-    :alt: Alternative text
-    
-Motive energy module
---------------------
-
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/motive_energy.png
-    :width: 900
-    :alt: Alternative text
