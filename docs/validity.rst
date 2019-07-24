@@ -181,7 +181,7 @@ Here is a split between the components making up for the curb mass. One can see 
     
 
 
-The `curb mass` returned by Carculator is plotted against manufacturers' data, per vehicle size class and powertrain technology. To do so, we use the car database Car2db (https://car2db.com/) and load all car trims produced after 2013 (21,383 vehicles)::
+The `curb mass` returned by Carculator is plotted against manufacturers' data, per vehicle size class and powertrain technology. To do so, we use the car database Car2db (https://car2db.com/) and load all car trims produced after 2013 (21,383 vehicles).
 
     
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/mass_comparison.png
