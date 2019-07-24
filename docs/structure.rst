@@ -1,5 +1,5 @@
-Structure of carculators
-========================
+Structure of carculator
+=======================
 
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/coarse.png
     :width: 900
@@ -23,14 +23,14 @@ Driving cycle module
     :alt: Alternative text
     
 Mass module
---------------------
+-----------
 
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/mass_module.png
     :width: 900
     :alt: Alternative text
     
 Auxiliary energy module
---------------------
+-----------------------
 
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/aux_energy.png
     :width: 900

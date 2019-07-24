@@ -1,4 +1,3 @@
-
 Carculator Documentation
 ========================
 
