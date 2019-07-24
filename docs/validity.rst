@@ -180,148 +180,31 @@ Here is a split between the components making up for the curb mass. One can see 
     :alt: Alternative text
     
 
-Model vs. car manufacturers' data
-*********************************
 
 The `curb mass` returned by Carculator is plotted against manufacturers' data, per vehicle size class and powertrain technology. To do so, we use the car database Car2db (https://car2db.com/) and load all car trims produced after 2013 (21,383 vehicles)::
 
-    import mysql.connector
-    import matplotlib.pyplot as plt
-
-
-    cnx = mysql.connector.connect(user='root', password='****',
-                                  host='localhost',
-                                  database='cardb')
-    cursor = cnx.cursor()
-
-    year = 2013
-
-    query_ID = ("SELECT DISTINCT ct.id_car_trim "
-             "FROM car_make c "
-                 "INNER JOIN car_model cm ON cm.id_car_make = c.id_car_make "
-                 "INNER JOIN car_generation cg ON cg.id_car_model = cm.id_car_model "
-                 "INNER JOIN car_trim ct ON ct.id_car_model = cm.id_car_model "
-                 "INNER JOIN car_specification_value csv ON csv.id_car_trim = ct.id_car_trim "
-                 "INNER JOIN car_specification  cs ON cs.id_car_specification = csv.id_car_specification "
-                 "WHERE ct.start_production_year > %s OR cg.year_begin > %s"    
-            )
-
-    cursor.execute(query_ID, (year, year))
-    l_ID = [l[0] for l in cursor.fetchall()]
-
-    cnx.close()
-
-    cnx = mysql.connector.connect(user='root', password='*****',
-                                  host='localhost',
-                                  database='cardb')
-
-    cursor = cnx.cursor()
-
-    query = ("SELECT ct.id_car_trim, c.name, cm.name, ct.name, cs.name, csv.value, ct.start_production_year "
-             "FROM car_make c "
-                 "INNER JOIN car_model cm ON cm.id_car_make = c.id_car_make "
-                 "INNER JOIN car_trim ct ON ct.id_car_model = cm.id_car_model "
-                 "INNER JOIN car_specification_value csv ON csv.id_car_trim = ct.id_car_trim "
-                 "INNER JOIN car_specification  cs ON cs.id_car_specification = csv.id_car_specification "
-            "WHERE  ct.id_car_trim IN (" + ','.join(map(str, l_ID)) + ")"
-            )
-    cursor.execute(query)
-
-    df = pd.DataFrame( [[ij for ij in i] for i in cursor.fetchall()])
-    df.rename(columns={0:'ID', 1: 'Make name', 2: 'Model name', 3:'Trim', 4:'Spec', 5:'Spec value', 6:'Year'}, inplace=True)
-
-    cnx.close()
-
-    df = df.pivot_table(index=['ID', 'Make name', 'Model name', 'Trim'], columns='Spec', values='Spec value', aggfunc='first')
-    df['Volume'] = (df['Height'] * df['Width'] * df['Length']) / 1e9
-    df['Footprint'] = ((df['Front track'] + df['Rear track']) * df['Wheelbase'])/2/1e6
-    df = df[(~df['Footprint'].isnull())&(~df['Curb weight'].isnull())]
-    
-    def find_class(row):
-        if row['Body type'] == 'Pickup' or row['Body type'] == 'Minivan': return 'Van'
-        if row['Body type'] == 'Crossover': return 'SUV'
-        if row['Footprint'] <= 3.4 and row['Curb weight'] <= 1050: return 'Mini'
-        if row['Footprint'] > 3.4 and row['Footprint'] <= 3.8 and row['Curb weight'] > 900 and row['Curb weight'] <= 1250: return 'Small'
-        if row['Footprint'] > 3.8 and row['Footprint'] <= 4.3 and row['Curb weight'] > 1250 and row['Curb weight'] <= 1500: return 'Lower medium'
-        if row['Footprint'] > 4.1 and row['Footprint'] <= 4.4 and row['Curb weight'] > 1450 and row['Curb weight'] <= 1750: return 'Medium'
-        if row['Footprint'] > 4.4 and row['Curb weight'] > 1450 : return 'Large'
-
-    df.loc[:,'coarse class']=''
-    df.loc[:,['coarse class']] = df.apply(find_class, axis=1)
-    
-    plt.style.use('seaborn')
-    d_pt = {'Diesel':'ICEV-d',
-           'Electric':'BEV',
-           'Gas':'ICEV-g',
-           'Gasoline':'ICEV-p',
-           'Gasoline, Gas':'ICEV-g',
-           'Hybrid':'HEV-p',
-           'Diesel, Hybrid': 'HEV-p',
-           'Gasoline, Electric': 'HEV-p',
-           'Fuel cell': 'FCEV'}
-
-    df_graph = df
-    df_graph = df_graph.append({'Make name':'Hyundai','Model name':'ix35','Engine type': 'Fuel cell', 'coarse class':'SUV', 'Curb weight': 1846}, ignore_index=True)
-    df_graph = df_graph.append({'Make name':'Toyota','Model name':'Mirai','Engine type': 'Fuel cell', 'coarse class':'Medium', 'Curb weight': 1850}, ignore_index=True)
-    df_graph = df_graph.append({'Make name':'Honda','Model name':'Clarity','Engine type': 'Fuel cell', 'coarse class':'Large', 'Curb weight': 1876}, ignore_index=True)
-    df_graph = df_graph.replace({"Engine type": d_pt})
-    grouped = df_graph.groupby(['Engine type'])
-    rowlength = grouped.ngroups                     # fix up if odd number of groups
-    plt.close('all')
-    fig, axs = plt.subplots(figsize=(16,8), 
-                            nrows=2, ncols=3,     # fix as above
-                            gridspec_kw=dict(hspace=0.4),
-                           sharey=True) # Much control of gridspec
-
-    targets = zip(grouped.groups.keys(), axs.flatten())
-
-
-    for i, (key, ax) in enumerate(targets):
-        order =  ['Mini', 'Small', 'Lower medium', 'Medium', 'Large','SUV', 'Van']
-
-        sns.boxplot(y='Curb weight', x='coarse class', 
-                     data=grouped.get_group(key), 
-                     width=0.5, showfliers=False,
-                     color='green', ax=ax, zorder=5, order =order)
-
-        np.squeeze(cm.array.sel(size=order, powertrain=key, year=2017,
-            parameter='curb mass')).to_dataframe(name='weight').plot(y='weight',ax=ax, kind='line', linestyle='None', marker='o',
-                                                                    markerfacecolor='red', markersize=10, zorder=10)
-
-        ax2 = grouped.get_group(key).groupby('coarse class').size().reindex(index = [o for o in order]).plot.bar(secondary_y = True,
-                                                                            ax = ax, alpha = 0.2, zorder=0)
-        ax.set_title(key + ' (' + str(grouped.get_group(key).groupby('coarse class').size().sum()) + ' datasets)')
-
-        if (i ==2 or i==5):
-            ax2.set_ylabel('Number of datasets', rotation=270, labelpad=20)
-
-
-        ax.set_ylim(0,2650)
-        ax2.grid(False)
-        ax2.set_ylim(0,np.max(grouped.get_group(key).groupby('coarse class').size()*1.2))
-
-        for tick in ax.get_xticklabels():
-            tick.set_rotation(45)
-
-    red_patch = mpatches.Patch(color='red', label='Carculator value')
-    blue_patch = mpatches.Patch(color='steelblue', alpha=.2, label='number of vehicles in Car2db')
-    bar_patch =  mpatches.Patch(color='green', label='Car2db values')
-    plt.legend(handles=[red_patch, bar_patch, blue_patch],bbox_to_anchor=(-1.8,-.4))
-
-    for a in fig.axes:
-        a.tick_params(
-        axis='x',           # changes apply to the x-axis
-        which='both',       # both major and minor ticks are affected
-        bottom=True,
-        top=False,
-        labelbottom=True,
-        rotation=45)    # labels along the bottom edge are on
-    plt.tight_layout()
-    plt.show()  
     
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/mass_comparison.png
     :width: 900
     :alt: Alternative text
     
+
+Tank-to-wheel energy
+--------------------
+The EU tests all new commercialized cars for emissions and energy consumption according to the WLTC driving cycle (v.3). See: https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
+
+However, this database does not directly give energy consumption. But we can use CO2 measurement with the lower heating value of the fuel to back-calculate energy consumption::
+
+.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/EU_energy_comparison.png
+    :width: 900
+    :alt: Alternative text
     
+End-of-pipe CO2 emissions
+-------------------------
+Similarly, we can plot teh CO2 measurements from teh EU database against the values returned by Carculator for combustion vehicles.
+
+
+.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/EU_CO2_comparison.png
+    :width: 900
+    :alt: Alternative text
 
