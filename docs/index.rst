@@ -7,3 +7,4 @@ Index
 
    introduction
    structure
+   validity
