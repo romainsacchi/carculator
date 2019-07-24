@@ -176,7 +176,7 @@ Here is a split between the components making up for the curb mass. One can see 
     plt.show()
   
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/pie_mass_components.png
-    :width: 400
+    :width: 900
     :alt: Alternative text
     
 
@@ -320,7 +320,7 @@ The `curb mass` returned by Carculator is plotted against manufacturers' data, p
     plt.show()  
     
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/mass_comparison.png
-    :width: 400
+    :width: 900
     :alt: Alternative text
     
     
