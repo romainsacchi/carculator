@@ -14,7 +14,11 @@ See [Documentation](https://coarse-lci.readthedocs.io/en/latest/index.html)
 
 ## Installation
 
-Details on how to install the package
+In a terminal:
+
+  pip install git+https://github.com/romainsacchi/carculator.git
+
+will install the package and the required dependencies.
 
 ## Contributing
 
