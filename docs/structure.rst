@@ -1,5 +1,5 @@
-Structure of carculator
-=======================
+Structure
+=========
 
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/coarse.png
     :width: 900

@@ -1,5 +1,5 @@
-Carculator Documentation
-========================
+Introduction
+============
 
 **Carculator** allows to calculate life cycle inventories for 112 different car profiles, according to selected:
 
