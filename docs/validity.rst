@@ -193,7 +193,7 @@ Tank-to-wheel energy
 --------------------
 The EU tests all new commercialized cars for emissions and energy consumption according to the WLTC driving cycle (v.3). See: https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
 
-However, this database does not directly give energy consumption. But we can use CO2 measurement with the lower heating value of the fuel to back-calculate energy consumption::
+However, this database does not directly give energy consumption. But we can use CO2 measurement with the lower heating value of the fuel to back-calculate energy consumption.
 
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/EU_energy_comparison.png
     :width: 900
