@@ -4,6 +4,7 @@ Index
 
 .. toctree::
    :maxdepth: 2
+   :caption: Contents:
 
    introduction
    structure
@@ -14,5 +15,6 @@ Technical Reference
 
 .. toctree::
    :maxdepth: 2
+   :caption: Technical Reference:
 
    code

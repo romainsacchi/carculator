@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath(".."))
 
 project = 'Carculator'
 copyright = '2019, Chris Mutel'
-author = 'Chris Mutel, Biran Cox, Romain Sacchi'
+author = 'Chris Mutel, Brian Cox, Romain Sacchi'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'

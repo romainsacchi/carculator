@@ -1,5 +1,5 @@
 Car Input Parameter
 ===================
 
-.. autoclass:: carculator.car_input_paramters
+.. automodule:: carculator.car_input_paramters
     :members:
