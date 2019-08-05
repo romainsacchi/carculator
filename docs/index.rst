@@ -8,3 +8,11 @@ Index
    introduction
    structure
    validity
+
+Technical Reference
+===================
+
+.. toctree::
+   :maxdepth: 2
+
+   code

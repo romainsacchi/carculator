@@ -70,14 +70,7 @@ class CarInputParameters(NamedParameters):
         )
         self.years = sorted({o["year"] for o in parameters.values()})
 
-        # Now, we plug any custom parameter values given
-        if not custom_parameters is None:
-            add_custom_parameter_values(parameters, custom_parameters)
-
         self.add_car_parameters(parameters)
-
-    def add_custom_parameter_values(self, parameters, custom_parameters):
-        pass
 
     def add_car_parameters(self, parameters):
         """

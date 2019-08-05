@@ -111,7 +111,7 @@ One can check whether total cargo mass is indeed equal to cargo mass plus the pr
     Total cargo of 155.0 kg, with a cargo mass of 20.0 kg, and 1.8 passengers of individual weight of 75.0 kg.
     [True]
     
-However, most of the driving mass is explained by the curb mass:
+However, most of the driving mass is explained by the curb mass::
 
     plt.pie(np.squeeze(cm.array.sel(size='SUV', powertrain='BEV', year=2017,
         parameter=['total cargo mass', 'curb mass']).values).tolist(), labels=['Total cargo mass', 'Curb mass'])
