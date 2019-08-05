@@ -17,13 +17,6 @@ class CarInputParameters(NamedParameters):
     in the *klausen* package.
 
 
-    :param parameters: A dictionary that contains parameters.
-        If left unspecified, default parameters found in default_parameters.py are used.
-    :type parameters: dict
-    :param extra: A dictionary that contains additional parameters.
-        If left unspecified, default additional parameters found in default_parameters.py are used.
-    :type extra: dict
-
     :ivar sizes: List of string items e.g., ['Large', 'Lower medium', 'Medium', 'Mini', 'SUV', 'Small', 'Van']
     :vartype sizes: list
     :ivar powertrains: List of string items e.g., ['BEV', 'FCEV', 'HEV-p', 'ICEV-d', 'ICEV-g', 'ICEV-p', 'PHEV-c', 'PHEV-e']
@@ -42,16 +35,11 @@ class CarInputParameters(NamedParameters):
 
 
     """
-    def __init__(self, custom_parameters=None):
+    def __init__(self):
         """Create a `klausen <https://github.com/cmutel/klausen>`__ model with the car input parameters."""
         super().__init__(None)
 
-
-
-        # Wether custom parameters are given or not, we first build the array with the default parameters
         parameters = DEFAULT
-
-        # Extra parameters should never change
         extra = EXTRA
 
         # Ensure parameters are of valid type
