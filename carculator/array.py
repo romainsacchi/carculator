@@ -8,6 +8,7 @@ import numpy as np
 import xarray as xr
 import pandas as pd
 import stats_arrays as sa
+import carculator.car_input_parameters as c_i_p
 
 def fill_xarray_from_input_parameters(cip):
 
@@ -19,6 +20,7 @@ def fill_xarray_from_input_parameters(cip):
     `parameters` attribute of the CarInputParameters class and insert them into a
     multi-dimensional numpy-like array from the *xarray* package
     (http://xarray.pydata.org/en/stable/).
+
 
     :param cip: Instance of the CarInputParameters class.
     :returns: `tuple`, `array`
@@ -40,6 +42,11 @@ def fill_xarray_from_input_parameters(cip):
     :rtype array: xarray.DataArray
 
     """
+
+    # Check whether the argument passed is an cip object
+    if not isinstance(cip, c_i_p.CarInputParameters):
+        raise TypeError('The argument passed is not an object of the CarInputParameter class')
+
 
     array = xr.DataArray(
         np.zeros(
@@ -88,7 +95,7 @@ def modify_xarray_from_custom_parameters(fp, array):
     try:
         d = pd.read_excel(fp, header=[0,1], index_col=[0,1,2,3,4], sheet_name='Custom_parameters').to_dict(orient='index')
     except:
-        raise FileNotFoundError('Custom parameters file not found')
+        raise FileNotFoundError('Custom parameters file not found.')
 
     for k in d:
         if k[1].lower() != 'all':
@@ -213,8 +220,3 @@ def modify_xarray_from_custom_parameters(fp, array):
                 for s in sizes:
                     for p in pt:
                         array.loc[dict(powertrain=p, size=s, year=y, parameter=param)] = median
-
-
-
-
-

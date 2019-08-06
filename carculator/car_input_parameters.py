@@ -67,7 +67,7 @@ class CarInputParameters(NamedParameters):
         The parameters are split into the *metadata* and *values* attributes
         of the CarInputParameters class by the add_parameters() method of the parent class.
 
-        :param parameters: A dictionary that contains parameters. If left unspecified, default parameters found in default_parameters.py are used.
+        :param parameters: A dictionary that contains parameters.
         :type parameters: dict
 
 

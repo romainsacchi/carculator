@@ -161,7 +161,7 @@ class EnergyConsumptionModel:
         # Can only recuperate when power is less than zero, limited by recuperation efficiency
         # Motor power in kW, other power in watts
         recuperated_power = (
-            np.clip(np.where(total_force>0,0,self.velocity * total_force),
+            np.clip(self.velocity * total_force,
                     -1000 * _(motor_power), 0) * _(recuperation_efficiency)
         )
         #braking_power = pd.w - recuperated_power
@@ -177,6 +177,6 @@ class EnergyConsumptionModel:
             ((np.where(total_force<0,0,self.velocity * total_force)
             / (distance                               # m / km -> J/km
             * 1000))
-            + recuperated_power) # watt                          # 1 / (J / kJ) -> kJ/km
+            + recuperated_power/distance/1000) # watt                          # 1 / (J / kJ) -> kJ/km
             / _(ttw_efficiency)
         )

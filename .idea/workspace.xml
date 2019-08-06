@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62445f2d-9237-4247-9ae8-9559cdfa4502" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/carculator/array.py" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/array.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carculator/car_input_parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/car_input_parameters.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/carculator/energy_consumption.py" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/energy_consumption.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_car_input_parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_car_input_parameters.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,11 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/carculator/array.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="628">
-              <caret line="73" lean-forward="true" selection-start-line="70" selection-start-column="4" selection-end-line="73" />
+            <state relative-caret-position="462">
+              <caret line="97" column="66" selection-start-line="97" selection-start-column="66" selection-end-line="97" selection-end-column="66" />
               <folding>
                 <element signature="e#31#49#0" expanded="true" />
               </folding>
@@ -36,8 +39,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/carculator/car_input_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="41" column="28" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
+            <state relative-caret-position="376">
+              <caret line="69" column="65" selection-start-line="69" selection-start-column="65" selection-end-line="69" selection-end-column="65" />
               <folding>
                 <element signature="e#45#91#0" expanded="true" />
               </folding>
@@ -48,7 +51,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/carculator/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-182">
+            <state relative-caret-position="1428">
               <caret line="144" column="26" lean-forward="true" selection-start-line="144" selection-start-column="26" selection-end-line="144" selection-end-column="26" />
               <folding>
                 <element signature="e#4490#4751#0" />
@@ -78,8 +81,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/carculator/driving_cycles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1008">
-              <caret line="48" selection-start-line="48" selection-end-line="48" selection-end-column="19" />
+            <state relative-caret-position="252">
+              <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
               <folding>
                 <element signature="e#38#60#0" expanded="true" />
               </folding>
@@ -87,11 +90,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/carculator/energy_consumption.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="901">
-              <caret line="174" selection-start-line="174" selection-end-line="174" />
+            <state relative-caret-position="2392">
+              <caret line="179" column="45" selection-start-line="179" selection-start-column="45" selection-end-line="179" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -108,7 +111,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/carculator/default_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128373">
+            <state relative-caret-position="248">
               <caret line="6113" column="30" selection-start-line="6113" selection-start-column="21" selection-end-line="6113" selection-end-column="30" />
             </state>
           </provider>
@@ -174,10 +177,10 @@
         <option value="$PROJECT_DIR$/tests/test_driving_cycles.py" />
         <option value="$PROJECT_DIR$/tests/test_car_input_parameters.py" />
         <option value="$PROJECT_DIR$/carculator/__init__.py" />
-        <option value="$PROJECT_DIR$/carculator/car_input_parameters.py" />
         <option value="$PROJECT_DIR$/carculator/model.py" />
-        <option value="$PROJECT_DIR$/carculator/array.py" />
         <option value="$PROJECT_DIR$/carculator/energy_consumption.py" />
+        <option value="$PROJECT_DIR$/carculator/car_input_parameters.py" />
+        <option value="$PROJECT_DIR$/carculator/array.py" />
       </list>
     </option>
   </component>
@@ -488,33 +491,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/carculator/default_parameters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128373">
-          <caret line="6113" column="30" selection-start-line="6113" selection-start-column="21" selection-end-line="6113" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/carculator/car_input_parameters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="41" column="28" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
-          <folding>
-            <element signature="e#45#91#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/carculator/driving_cycles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="48" selection-start-line="48" selection-end-line="48" selection-end-column="19" />
-          <folding>
-            <element signature="e#38#60#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/carculator/eda.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
@@ -522,9 +498,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/carculator/energy_consumption.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2392">
+          <caret line="179" column="45" selection-start-line="179" selection-start-column="45" selection-end-line="179" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/carculator/default_parameters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="6113" column="30" selection-start-line="6113" selection-start-column="21" selection-end-line="6113" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/carculator/driving_cycles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
+          <folding>
+            <element signature="e#38#60#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/carculator/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-182">
+        <state relative-caret-position="1428">
           <caret line="144" column="26" lean-forward="true" selection-start-line="144" selection-start-column="26" selection-end-line="144" selection-end-column="26" />
           <folding>
             <element signature="e#4490#4751#0" />
@@ -538,20 +538,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/carculator/array.py">
+    <entry file="file://$PROJECT_DIR$/carculator/car_input_parameters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="628">
-          <caret line="73" lean-forward="true" selection-start-line="70" selection-start-column="4" selection-end-line="73" />
+        <state relative-caret-position="376">
+          <caret line="69" column="65" selection-start-line="69" selection-start-column="65" selection-end-line="69" selection-end-column="65" />
           <folding>
-            <element signature="e#31#49#0" expanded="true" />
+            <element signature="e#45#91#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/carculator/energy_consumption.py">
+    <entry file="file://$PROJECT_DIR$/carculator/array.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
-          <caret line="174" selection-start-line="174" selection-end-line="174" />
+        <state relative-caret-position="462">
+          <caret line="97" column="66" selection-start-line="97" selection-start-column="66" selection-end-line="97" selection-end-column="66" />
+          <folding>
+            <element signature="e#31#49#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
