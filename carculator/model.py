@@ -368,7 +368,9 @@ class CarModel:
     def create_PHEV(self):
         """ PHEV is the range-weighted average between PHEV-c and PHEV-e.
         """
-        self.array.loc[:, 'PHEV', :, :, :] = (self.array.loc[:, 'PHEV-e', :, :, :] * self.array.loc[:, 'PHEV-e', 'electric utility factor', :, :])+(self.array.loc[:, 'PHEV-c', :, :, :] * (1-self.array.loc[:, 'PHEV-e', 'electric utility factor', :, :]))
+        self.array.loc[:, 'PHEV', :, :, :] = (self.array.loc[:, 'PHEV-e', :, :, :]
+            * self.array.loc[:, 'PHEV-e', 'electric utility factor', :, :])\
+            +(self.array.loc[:, 'PHEV-c', :, :, :] * (1-self.array.loc[:, 'PHEV-e', 'electric utility factor', :, :]))
 
 
     def set_battery_properties(self):
