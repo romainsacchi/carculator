@@ -156,48 +156,27 @@ class EnergyConsumptionModel:
         power_aerodynamic = (self.velocity ** 2 * _(frontal_area) * _(drag_coef) * self.rho_air / 2)
         power_kinetic = self.acceleration * _(driving_mass)
 
-
         total_force = (power_kinetic + power_rolling_resistance + power_aerodynamic)
-
-
-        arrays = np.recarray(
-            power_kinetic.shape,
-            dtype=[(col, float) for col in 'kraw']
-        )
-
-        arrays.k = power_kinetic * self.velocity
-        arrays.r = power_rolling_resistance * self.velocity
-        arrays.a = power_aerodynamic * self.velocity
-        arrays.w = total_force * self.velocity  # arrays.k + arrays.r + arrays.a
-
-        decelerating = total_force < 0
-
-        pa = arrays.copy()
-        pa[decelerating] = 0
-        # Set all four columns to all zeros when `decelerating` mask array is True
-        pd = arrays.copy()
-        pd[~decelerating] = 0
 
         # Can only recuperate when power is less than zero, limited by recuperation efficiency
         # Motor power in kW, other power in watts
         recuperated_power = (
-            np.clip(pd.w, -1000 * _(motor_power), 0) * _(recuperation_efficiency)
+            np.clip(np.where(total_force>0,0,self.velocity * total_force),
+                    -1000 * _(motor_power), 0) * _(recuperation_efficiency)
         )
-        braking_power = pd.w - recuperated_power
+        #braking_power = pd.w - recuperated_power
 
-        self.recuperated_power = recuperated_power/distance/1000
-        self.braking_power = braking_power/distance/1000
-        self.power_rolling_resistance = pa.r / distance / 1000
-        self.power_aerodynamic = pa.a / distance / 1000
-        self.power_kinetic = pa.k / distance / 1000
-        self.total_power = pa.w / distance / 1000
-
-
+        #self.recuperated_power = recuperated_power/distance/1000
+        #self.braking_power = braking_power/distance/1000
+        #self.power_rolling_resistance = pa.r / distance / 1000
+        #self.power_aerodynamic = pa.a / distance / 1000
+        #self.power_kinetic = pa.k / distance / 1000
+        #self.total_power = pa.w / distance / 1000
 
         return (
-            ((pa.w
+            ((np.where(total_force<0,0,self.velocity * total_force)
             / (distance                               # m / km -> J/km
             * 1000))
-            + self.recuperated_power) # watt                          # 1 / (J / kJ) -> kJ/km
+            + recuperated_power) # watt                          # 1 / (J / kJ) -> kJ/km
             / _(ttw_efficiency)
         )
