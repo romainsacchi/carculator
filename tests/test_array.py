@@ -6,7 +6,7 @@ def test_type_cip():
     with pytest.raises(TypeError) as wrapped_error:
         fill_xarray_from_input_parameters("bla")
     assert wrapped_error.type == TypeError
-    assert wrapped_error.value.code == 1
+
     
 def test_format_array():
     cip = CarInputParameters()
