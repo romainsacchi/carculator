@@ -49,9 +49,10 @@ class EnergyConsumptionModel:
 
     def __init__(self, cycle, rho_air=1.204):
         # If a string is passed, the corresponding driving cycle is retrieved
-
-        cycle = get_standard_driving_cycle(cycle).values
-        # If the parameter is not a string nor a Pandas Series, this is an issue...
+        try:
+            cycle = get_standard_driving_cycle(cycle).values
+        except KeyError:
+            raise('The driving cycle specified could not be found.')
 
 
         self.rho_air = rho_air

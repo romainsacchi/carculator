@@ -40,10 +40,15 @@ class CarModel:
 
     """
 
-    def __init__(self, array, mappings=None, cycle="WLTC"):
+    def __init__(self, array, mappings=None, cycle=None):
+
         self.array = array
         self.mappings = mappings or DEFAULT_MAPPINGS
-        self.ecm = EnergyConsumptionModel(cycle)
+
+        if cycle is None:
+            self.ecm = EnergyConsumptionModel('WLTC')
+        else:
+            self.ecm = EnergyConsumptionModel(cycle)
 
 
     def __call__(self, key):
@@ -311,6 +316,7 @@ class CarModel:
 
         """
         self["curb mass"] = self["glider base mass"] * (1 - self["lightweighting"])
+
         curb_mass_includes = [
             "fuel mass",
             "charger mass",
@@ -330,8 +336,7 @@ class CarModel:
             "battery BoP mass",
             "fuel tank mass",
         ]
-        for elem in curb_mass_includes:
-            self["curb mass"] += self[elem]
+        self["curb mass"] += self[curb_mass_includes].sum(axis=2)
 
         self["total cargo mass"] = (
             self["average passengers"] * self["average passenger mass"]
@@ -471,7 +476,7 @@ class CarModel:
             * self["battery cell mass"]
             * self["battery cell energy density"]
         )
-        self["fuel tank cost"] = self["fuel tank cost per kg"] * self["fuel tank mass"]
+        self["fuel tank cost"] = self["fuel tank cost per kg"] * self["fuel mass"]
         # Per km
         self["energy cost"] = self["energy cost per kWh"] * self["TtW energy"] / 3600
 
@@ -484,6 +489,21 @@ class CarModel:
             self["energy battery cost"] * self["battery lifetime replacements"]
             + self["fuel cell cost"] * self["fuel cell lifetime replacements"]
         )
+
+        to_markup = [
+            "combustion powertrain cost",
+            "component replacement cost",
+            "electric powertrain cost",
+            "energy battery cost",
+            "fuel cell cost",
+            "fuel tank cost",
+            "glider cost",
+            "lightweighting cost",
+            "power battery cost",
+        ]
+
+        self[to_markup] *= self["markup factor"]
+
 
         # calculate costs per km:
         self["lifetime"] = self["lifetime kilometers"] / self["kilometers per year"]
@@ -503,8 +523,8 @@ class CarModel:
             "lightweighting cost",
             "power battery cost",
         ]
-        for item in purchase_cost_list:
-            self["purchase cost"] += self[item]
+
+        self['purchase cost'] = self[purchase_cost_list].sum(axis=2)
 
         # per km
         self["amortised purchase cost"] = (
@@ -525,19 +545,7 @@ class CarModel:
             / self["kilometers per year"]
         )
 
-        to_markup = [
-            "combustion powertrain cost",
-            "component replacement cost",
-            "electric powertrain cost",
-            "energy battery cost",
-            "fuel cell cost",
-            "fuel tank cost",
-            "glider cost",
-            "lightweighting cost",
-            "power battery cost",
-        ]
-        for item in to_markup:
-            self[item] *= self["markup factor"]
+
 
         self["total cost per km"] = (
             self["energy cost"]
