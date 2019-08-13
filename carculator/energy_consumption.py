@@ -5,6 +5,7 @@
 
 import numpy as np
 import xarray
+import numexpr as ne
 
 from .driving_cycles import get_standard_driving_cycle
 
@@ -91,6 +92,7 @@ class EnergyConsumptionModel:
 
         return auxiliary_energy / efficiency
 
+
     def motive_energy_per_km(
         self,
         driving_mass,
@@ -153,18 +155,39 @@ class EnergyConsumptionModel:
         # This number is generally positive (power is needed), but can be negative
         # if the vehicle is decelerating.
         # Power is in watts (kg m2 / s3)
-        power_rolling_resistance = np.ones_like(self.velocity) * _(driving_mass) * _(rr_coef) * 9.81
-        power_aerodynamic = (self.velocity ** 2 * _(frontal_area) * _(drag_coef) * self.rho_air / 2)
-        power_kinetic = self.acceleration * _(driving_mass)
 
-        total_force = (power_kinetic + power_rolling_resistance + power_aerodynamic)
+        # We opt for simpler variable names to be accepted by `numexpr`
+        ones = np.ones_like(self.velocity)
+        dm = _(driving_mass)
+        rr = _(rr_coef)
+        fa = _(frontal_area)
+        dc = _(drag_coef)
+        v = self.velocity
+        a = self.acceleration
+        rho_air = self.rho_air
+        ttw_eff = _(ttw_efficiency)
+        mp = _(motor_power)
+        re = _(recuperation_efficiency)
+
+        # Original formulas now calculated by `numexpr`
+        #power_rolling_resistance = np.ones_like(self.velocity) * _(driving_mass) * _(rr_coef) * 9.81
+        #power_aerodynamic = (self.velocity ** 2 * _(frontal_area) * _(drag_coef) * self.rho_air / 2)
+        #power_kinetic = self.acceleration * _(driving_mass)
+        #total_force = (power_kinetic + power_rolling_resistance + power_aerodynamic)
+
+
+        total_force = ne.evaluate("(ones * dm * rr * 9.81)+(v ** 2 * fa * dc * rho_air / 2)+(a * dm)")
+
+        tv = ne.evaluate('total_force * v')
 
         # Can only recuperate when power is less than zero, limited by recuperation efficiency
         # Motor power in kW, other power in watts
-        recuperated_power = (
-            np.clip(self.velocity * total_force,
-                    -1000 * _(motor_power), 0) * _(recuperation_efficiency)
-        )
+       #recuperated_power = (
+       #         np.clip(tv,
+       #             -1000 * _(motor_power), 0) * _(recuperation_efficiency)
+       # )
+
+        recuperated_power = ne.evaluate("where(tv < (-1000 * mp), (-1000 * mp) ,where(tv>0, 0, tv)) * re")
         #braking_power = pd.w - recuperated_power
 
         #self.recuperated_power = recuperated_power/distance/1000
@@ -174,10 +197,9 @@ class EnergyConsumptionModel:
         #self.power_kinetic = pa.k / distance / 1000
         #self.total_power = pa.w / distance / 1000
 
+        #t_e = ne.evaluate("where(total_force<0, 0, tv)") #
+        #t_e = np.where(total_force<0, 0, tv)
+
         return (
-            ((np.where(total_force<0,0,self.velocity * total_force)
-            / (distance                               # m / km -> J/km
-            * 1000))
-            + recuperated_power/distance/1000) # watt                          # 1 / (J / kJ) -> kJ/km
-            / _(ttw_efficiency)
+                ne.evaluate("((where(total_force<0, 0, tv) / (distance * 1000)) + (recuperated_power / distance / 1000))/ ttw_eff")
         )
