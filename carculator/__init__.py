@@ -16,7 +16,7 @@ __all__ = (
     "fill_xarray_from_input_parameters",
     "modify_xarray_from_custom_parameters",
     "get_standard_driving_cycle",
-    "CarModel",
+    "CarModel"
 )
 __version__ = (0, 0, 1)
 
@@ -33,3 +33,4 @@ from .array import fill_xarray_from_input_parameters, modify_xarray_from_custom_
 from .car_input_parameters import CarInputParameters
 from .driving_cycles import get_standard_driving_cycle
 from .model import CarModel
+

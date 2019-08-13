@@ -105,6 +105,8 @@ class CarModel:
         else:
             return super().__getattr__(key)
 
+
+
     def set_all(self):
         """
         This method runs a series of other methods to obtain the tank-to-wheel energy requirement, efficiency
@@ -148,6 +150,7 @@ class CarModel:
         self.set_costs()
         self.calculate_emissions()
         self.drop_hybrid()
+        self.calculate_lci()
 
     def drop_hybrid(self):
         """
@@ -563,3 +566,91 @@ class CarModel:
             * self["drivetrain efficiency"]
             * self["engine efficiency"]
         )
+
+    def calculate_lci(self):
+        """
+        Calculate material and energy requirements per vehicle-km.
+        :return:
+        """
+
+        self['lci_glider'] = self['glider base mass'] / self['lifetime kilometers']
+        self['lci_glider_lightweighting'] = self['lightweighting'] / self['lifetime kilometers']
+        self['lci_car_maintenance'] = self['curb mass'] / 1600 / 150000
+
+        # Glider
+        for pt in ['HEV-p', 'ICEV-p', 'ICEV-d', 'ICEV-g', 'PHEV']:
+            with self(pt) as p:
+                p['lci_electric_EoL'] = p['curb mass'] * (1 - p['combustion power share']) / 1180 / p['lifetime kilometers']
+                p['lci_combustion_EoL'] = p['curb mass'] * p['combustion power share'] / 1600 / p[
+                    'lifetime kilometers']
+
+        with self('BEV') as p:
+            p['lci_electric_EoL'] = p['curb mass'] / 1180 / p['lifetime kilometers']
+
+        # Powertrain
+        for pt in ["BEV", "PHEV"]:
+            with self(pt) as p:
+                p['lci_charger'] = p['charger mass'] / p['lifetime kilometers']
+
+        for pt in ["BEV", "PHEV", "FCEV"]:
+            with self(pt) as p:
+                p['lci_converter'] = p['converter mass'] / p['lifetime kilometers']
+
+        self['lci_electric_engine'] = self['electric engine mass'] / self['lifetime kilometers']
+
+        for pt in ["BEV", "FCEV", "HEV-p", "PHEV"]:
+            with self(pt) as p:
+                p['lci_inverter'] = p['inverter mass'] / p['lifetime kilometers']
+                p['lci_power_distribution_unit'] = p['power distribution unit mass'] / p['lifetime kilometers']
+
+        l_elec_pt = ['charger mass','converter mass','inverter mass','power distribution unit mass',
+            'electric engine mass', 'fuel cell stack mass', 'fuel cell ancillary BoP mass', 'fuel cell essential BoP mass',
+                     'battery cell mass','battery BoP mass']
+
+        self['lci_electric_powertrain_EoL'] = self[l_elec_pt].sum(axis=2)
+
+        self['lci_engine'] = (self[['combustion engine mass','electric engine mass']].sum(axis=2)) / self['lifetime kilometers']
+
+        self['lci_rest_of_powertrain'] = self['powertrain mass'] / self['lifetime kilometers']
+
+        with self('FCEV') as pt:
+            pt['lci_fuel_cell_ancillary_BoP'] = pt['fuel cell ancillary BoP mass'] / pt['lifetime kilometers']
+            pt['lci_fuel_cell_essential_BoP'] = pt['fuel cell essential BoP mass'] / pt['lifetime kilometers']
+            pt['lci_fuel_cell_stack'] = pt['fuel cell stack mass'] / pt['lifetime kilometers']
+
+        # Energy storage
+
+        self['lci_battery_BOP'] = self['battery BoP mass'] * (1 + self['battery lifetime replacements']) / self['lifetime kilometers']
+        self['lci_battery_cell'] = self['battery cell mass'] * (1 + self['fuel cell lifetime replacements']) / self[
+            'lifetime kilometers']
+        self['lci_battery_production_electricity_correction'] = -28 * self['battery cell mass'] * (1+ self['battery lifetime replacements'])\
+            / self['lifetime kilometers']
+        self['lci_battery_cell_production_electricity'] = self['battery cell production electricity'] * self['battery cell mass'] *\
+                                                      (1 + self['battery lifetime replacements' ]) / self['lifetime kilometers']
+
+        self['lci_battery_cell_production_heat'] = 3.6 * self['battery cell production heat'] * self['battery cell mass']* \
+                                                   (1 + self['battery lifetime replacements']) / self[
+                                                       'lifetime kilometers']
+        self['lci_fuel_tank'] = self['fuel tank mass'] / self['lifetime kilometers']
+
+        # Energy chain
+        with self('BEV') as pt:
+            pt['lci_electricity'] = pt['TtW energy']/1000 * .2778
+
+        with self('ICEV-p') as pt:
+            pt['lci_petrol'] = pt['TtW energy']
+
+        with self('ICEV-d') as pt:
+            pt['lci_diesel'] = pt['TtW energy']
+
+        with self('ICEV-g') as pt:
+            pt['lci_CNG'] = pt['TtW energy']
+
+        with self('FCEV') as pt:
+            pt['lci_h2'] = pt['TtW energy']
+
+        self['lci_tyre_wear'] = self['driving mass'] * -1 * 6.7568E-05 / 1180
+        self['lci_brake_wear'] = self['driving mass'] * -1 * 1.0504E-06 / 1180
+        self['lci_road_wear'] = self['driving mass'] * -1 * 1.1554E-05 / 1180
+
+        self['lci_road'] = 5.37E-7 * self['driving mass']
