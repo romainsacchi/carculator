@@ -2,14 +2,21 @@
 .. module: model.py
 
 """
-
+from pathlib import Path
+from inspect import currentframe, getframeinfo
 import numpy as np
 from .energy_consumption import EnergyConsumptionModel
+from bw2io import ExcelImporter
+from bw2io.export.excel import safe_filename,\
+    xlsxwriter, CSVFormatter,\
+    create_valid_worksheet_name
+import uuid
 
 
 DEFAULT_MAPPINGS = {
-    "electric": {"BEV", "PHEV-c", "PHEV-e", "FCEV"},
+    "electric": {"BEV", "PHEV-e"},
     "combustion": {"ICEV-p", "HEV-p", "PHEV-c", "ICEV-g", "ICEV-d"},
+    "combustion_wo_cng": {"ICEV-p", "HEV-p", "PHEV-c", "ICEV-d"},
     "pure_combustion": {"ICEV-p", "ICEV-g", "ICEV-d"},
     "petrol": {"ICEV-p", "HEV-p", "PHEV-c"},
     "cng": {"ICEV-g"},
@@ -113,7 +120,7 @@ class CarModel:
         of the car, costs, etc.
 
         """
-        self.set_auxiliaries()
+
         """
         set_component_masses(), set_car_masses() and set_power_parameters() are interdependent.
         `powertrain_mass` depends on `power`, `curb_mass` is affected by changes in `powertrain_mass`,
@@ -125,32 +132,44 @@ class CarModel:
         """
         # TODO: Converging towards a satisfying curb mass is taking too long! Needs to be optimized.
 
+
+
         diff = 1.0
 
         while diff > .01:
             old_driving_mass = self['driving mass'].sum().values
 
-
-            self.set_component_masses()
             self.set_car_masses()
-            self.set_power_parameters()
 
+
+            self.set_power_parameters()
+            self.set_component_masses()
             self.set_battery_properties()
+            self.set_battery_fuel_cell_replacements()
+            self.set_recuperation()
             self.set_fuel_cell_parameters()
+            self.set_energy_stored_properties()
+
 
             diff = (self['driving mass'].sum().values-old_driving_mass)/self['driving mass'].sum()
 
-        self.set_battery_fuel_cell_replacements()
-        self.set_recuperation()
+        self.set_auxiliaries()
         self.set_ttw_efficiency()
         self.calculate_ttw_energy()
-        self.set_energy_stored_properties()
+
+        self.set_range()
+
+
         self.set_electric_utility_factor()
-        self.create_PHEV()
+        self.set_electricity_consumption()
+
         self.set_costs()
-        self.calculate_emissions()
-        self.drop_hybrid()
+
+
         self.calculate_lci()
+        self.create_PHEV()
+        self.drop_hybrid()
+
 
     def drop_hybrid(self):
         """
@@ -159,43 +178,34 @@ class CarModel:
         """
         self.array = self.array.sel(powertrain=['ICEV-p', 'ICEV-d', 'ICEV-g', 'PHEV', 'FCEV','BEV', 'HEV-p'])
 
-    def calculate_emissions(self):
+
+    def set_electricity_consumption(self):
         """
-        This method calculates per km emissions of CO2 and SO2, based on the Tank-to-wheel energy use.
+        This method calculates the total electricity consumption for BEV and plugin-hybrid vehicles
 
         """
-        for pt in self.pure_combustion:
-            with self(pt) as p:
-                p['TtW CO2'] = (
-                        (1/p["LHV fuel MJ per kg"]) *\
-                        (p['TtW energy'] / 1000) *\
-                        (p['CO2 per kg fuel'] * 1000)
-                )
-        for pt in self.pure_combustion:
-            with self(pt) as p:
-                p['TtW SO2'] = (
-                        (1/p["LHV fuel MJ per kg"]) *\
-                        (p['TtW energy'] / 1000) *\
-                        (p['SO2 per kg fuel'] * 1000)
-                )
 
+        for pt in self.electric:
+            with self(pt) as cpm:
+                cpm['electricity consumption'] = (cpm['TtW energy'] / cpm['battery discharge efficiency']) / 3600
 
     def calculate_ttw_energy(self):
         """
-        This class method calculates the energy required to operate auxiliary services as well
+        This  method calculates the energy required to operate auxiliary services as well
         as to move the car. The sum is stored in `array` under the label "TtW energy".
 
         """
         aux_energy = self.ecm.aux_energy_per_km(self["auxiliary power demand"])
 
         for pt in self.pure_combustion:
-            with self(pt):
-                aux_energy.loc[{"powertrain": pt}] /= self['engine efficiency']
+            with self(pt) as cpm:
+                aux_energy.loc[{"powertrain": pt}] /= cpm['engine efficiency']
         for pt in self.fuel_cell:
-            with self(pt):
-                aux_energy.loc[{"powertrain": pt}] /= self['fuel cell system efficiency']
+            with self(pt) as cpm:
+                aux_energy.loc[{"powertrain": pt}] /= cpm['fuel cell system efficiency']
 
         self['auxiliary energy'] = aux_energy
+
 
         motive_energy = self.ecm.motive_energy_per_km(
             driving_mass=self["driving mass"],
@@ -208,6 +218,7 @@ class CarModel:
         ).sum(axis=-1)
 
         self.motive_energy = motive_energy
+
 
         self["TtW energy"] = aux_energy + motive_energy
 
@@ -380,70 +391,98 @@ class CarModel:
             * self.array.loc[:, 'PHEV-e', 'electric utility factor', :, :])\
             +(self.array.loc[:, 'PHEV-c', :, :, :] * (1-self.array.loc[:, 'PHEV-e', 'electric utility factor', :, :]))
 
+        #self.array.loc[:, 'PHEV', 'range', :, :] = self.array.loc[:, 'PHEV-c', 'range', :, :] +\
+        #                                           self.array.loc[:, 'PHEV-e', 'range', :, :]
 
     def set_battery_properties(self):
-        for pt in self.combustion:
-            with self(pt):
-                self["battery power"] = self["electric power"]
-                self["battery cell mass"] = (
-                    self["battery power"] / self["battery cell power density"]
+        for pt in ["ICEV-p", "HEV-p", "ICEV-g", "ICEV-d"]:
+            with self(pt) as cpm:
+                cpm["battery power"] = cpm["electric power"]
+                cpm["battery cell mass"] = (
+                    cpm["battery power"] / cpm["battery cell power density"]
                 )
-                self["battery BoP mass"] = self["battery cell mass"] * (
-                    1 - self["battery cell mass share"]
+                cpm["battery BoP mass"] = cpm["battery cell mass"] * (
+                    1 - cpm["battery cell mass share"]
                 )
+        for pt in ['BEV', 'PHEV-c', 'PHEV-e']:
+            with self(pt) as cpm:
+                cpm["battery cell mass"] = (
+                    cpm["energy battery mass"] * cpm["battery cell mass share"]
+                )
+                cpm["battery BoP mass"] = cpm["energy battery mass"] * (
+                    1 - cpm["battery cell mass share"]
+                )
+
+    def set_range(self):
+
+        for pt in self.petrol:
+            with self(pt) as cpm:
+                # Assume 42.4 MJ/kg of gasoline, convert to kWh
+                cpm['range'] = (cpm["fuel mass"] * 42.4 * 1000) / cpm['TtW energy']
+
+        for pt in self.diesel:
+            with self(pt) as cpm:
+                # Assume 48 MJ/kg of gasoline, convert to kWh
+                cpm['range'] = (cpm["fuel mass"] * 48 * 1000) / cpm['TtW energy']
+
+        for pt in self.cng:
+            with self(pt) as cpm:
+                # Assume 55.5 MJ/kg of gasoline, convert to kWh
+                cpm['range'] = (cpm["fuel mass"] * 55.5 * 1000) / cpm['TtW energy']
+
         for pt in self.electric:
-            with self(pt):
-                self["battery cell mass"] = (
-                    self["energy battery mass"] * self["battery cell mass share"]
-                )
-                self["battery BoP mass"] = self["energy battery mass"] * (
-                    1 - self["battery cell mass share"]
-                )
+            with self(pt) as cpm:
+                cpm['range'] = (cpm["electric energy stored"] * cpm["battery DoD"] * 3.6 * 1000) / cpm['TtW energy']
+
+        with self('FCEV') as cpm:
+            cpm['range'] = (cpm["fuel mass"] * 120 * 1000) / cpm['TtW energy']
 
     def set_energy_stored_properties(self):
 
         for pt in self.petrol:
-            with self(pt):
+            with self(pt) as cpm:
                 # Assume 42.4 MJ/kg of gasoline, convert to kWh
-                self["oxidation energy stored"] = self["fuel mass"] * 42.4 / 3.6
-                self["fuel tank mass"] = (
-                    self["oxidation energy stored"] * self["fuel tank mass per energy"]
+                cpm["oxidation energy stored"] = cpm["fuel mass"] * 42.4 / 3.6
+                cpm["fuel tank mass"] = (
+                    cpm["oxidation energy stored"] * cpm["fuel tank mass per energy"]
                 )
-                self['range'] = (self["fuel mass"] * 42.4 * 1000) / self['TtW energy']
+
         for pt in self.diesel:
-            with self(pt):
+            with self(pt) as cpm:
                 # Assume 48 MJ/kg of gasoline, convert to kWh
-                self["oxidation energy stored"] = self["fuel mass"] * 48 / 3.6
-                self["fuel tank mass"] = (
-                    self["oxidation energy stored"] * self["fuel tank mass per energy"]
+                cpm["oxidation energy stored"] = cpm["fuel mass"] * 48 / 3.6
+                cpm["fuel tank mass"] = (
+                    cpm["oxidation energy stored"] * cpm["fuel tank mass per energy"]
                 )
-                self['range'] = (self["fuel mass"] * 48 * 1000) / self['TtW energy']
+
         for pt in self.cng:
-            with self(pt):
+            with self(pt) as cpm:
                 # Assume 55.5 MJ/kg of gasoline, convert to kWh
-                self["oxidation energy stored"] = self["fuel mass"] * 55.5 / 3.6
-                self["fuel tank mass"] = (
-                    self["oxidation energy stored"] * self["CNG tank mass slope"]
-                    + self["CNG tank mass intercept"]
+                cpm["oxidation energy stored"] = cpm["fuel mass"] * 55.5 / 3.6
+                cpm["fuel tank mass"] = (
+                    cpm["oxidation energy stored"] * cpm["CNG tank mass slope"]
+                    + cpm["CNG tank mass intercept"]
                 )
-                self['range'] = (self["fuel mass"] * 55.5 * 1000) / self['TtW energy']
+
         for pt in self.battery:
-            with self(pt):
-                self["electric energy stored"] = (
-                    self["battery cell mass"] * self["battery cell energy density"]
+            with self(pt) as cpm:
+                cpm["electric energy stored"] = (
+                    cpm["battery cell mass"] * cpm["battery cell energy density"]
                 )
-                self['range'] = (self["electric energy stored"] * self["battery DoD"] * 3.6 * 1000) / self['TtW energy']
+
 
         for pt in self.electric_hybrid:
-            with self(pt):
-                self["electric energy stored"] = (
-                    self["battery cell mass"] * self["battery cell energy density"]
+            with self(pt) as cpm:
+                cpm["electric energy stored"] = (
+                    cpm["battery cell mass"] * cpm["battery cell energy density"]
                 )
                 # Assume 42.4 MJ/kg of gasoline
-                self["fuel tank mass"] = (
-                    self["fuel mass"] * 42.4 / 3.6 * self["fuel tank mass per energy"]
+                cpm["fuel tank mass"] = (
+                    cpm["fuel mass"] * 42.4 / 3.6 * cpm["fuel tank mass per energy"]
                 )
-                self['range'] = (self["electric energy stored"] * self["battery DoD"] * 3.6 * 1000) / self['TtW energy']
+
+
+
 
         self["battery cell production electricity"] = (
             self["battery cell production energy"]
@@ -578,27 +617,29 @@ class CarModel:
         self['lci_car_maintenance'] = self['curb mass'] / 1600 / 150000
 
         # Glider
-        for pt in ['HEV-p', 'ICEV-p', 'ICEV-d', 'ICEV-g', 'PHEV']:
-            with self(pt) as p:
-                p['lci_electric_EoL'] = p['curb mass'] * (1 - p['combustion power share']) / 1180 / p['lifetime kilometers']
-                p['lci_combustion_EoL'] = p['curb mass'] * p['combustion power share'] / 1600 / p[
-                    'lifetime kilometers']
+        for pt in self.combustion:
+            with self(pt) as cpm:
+                cpm['lci_electric_EoL'] = cpm['curb mass'] * (1 - cpm['combustion power share']) / 1180 / cpm['lifetime kilometers'] *-1
+                cpm['lci_combustion_EoL'] = cpm['curb mass'] * cpm['combustion power share'] / 1600 / cpm[
+                    'lifetime kilometers'] *-1
 
-        with self('BEV') as p:
-            p['lci_electric_EoL'] = p['curb mass'] / 1180 / p['lifetime kilometers']
+        for pt in self.electric:
+            with self(pt) as cpm:
+                cpm['lci_electric_EoL'] = cpm['curb mass'] / 1180 / cpm['lifetime kilometers'] *-1
+
 
         # Powertrain
-        for pt in ["BEV", "PHEV"]:
+        for pt in self.electric:
             with self(pt) as p:
                 p['lci_charger'] = p['charger mass'] / p['lifetime kilometers']
 
-        for pt in ["BEV", "PHEV", "FCEV"]:
+        for pt in ["BEV", "PHEV-c","PHEV-e", "FCEV"]:
             with self(pt) as p:
                 p['lci_converter'] = p['converter mass'] / p['lifetime kilometers']
 
         self['lci_electric_engine'] = self['electric engine mass'] / self['lifetime kilometers']
 
-        for pt in ["BEV", "FCEV", "HEV-p", "PHEV"]:
+        for pt in ["BEV", "PHEV-c","PHEV-e", "FCEV", 'HEV-p']:
             with self(pt) as p:
                 p['lci_inverter'] = p['inverter mass'] / p['lifetime kilometers']
                 p['lci_power_distribution_unit'] = p['power distribution unit mass'] / p['lifetime kilometers']
@@ -607,7 +648,7 @@ class CarModel:
             'electric engine mass', 'fuel cell stack mass', 'fuel cell ancillary BoP mass', 'fuel cell essential BoP mass',
                      'battery cell mass','battery BoP mass']
 
-        self['lci_electric_powertrain_EoL'] = self[l_elec_pt].sum(axis=2)
+        self['lci_electric_powertrain_EoL'] = self[l_elec_pt].sum(axis=2) / self['lifetime kilometers'] *-1
 
         self['lci_engine'] = (self[['combustion engine mass','electric engine mass']].sum(axis=2)) / self['lifetime kilometers']
 
@@ -620,7 +661,7 @@ class CarModel:
 
         # Energy storage
 
-        self['lci_battery_BOP'] = self['battery BoP mass'] * (1 + self['battery lifetime replacements']) / self['lifetime kilometers']
+        self['lci_battery_BoP'] = self['battery BoP mass'] * (1 + self['battery lifetime replacements']) / self['lifetime kilometers']
         self['lci_battery_cell'] = self['battery cell mass'] * (1 + self['fuel cell lifetime replacements']) / self[
             'lifetime kilometers']
         self['lci_battery_production_electricity_correction'] = -28 * self['battery cell mass'] * (1+ self['battery lifetime replacements'])\
@@ -631,26 +672,243 @@ class CarModel:
         self['lci_battery_cell_production_heat'] = 3.6 * self['battery cell production heat'] * self['battery cell mass']* \
                                                    (1 + self['battery lifetime replacements']) / self[
                                                        'lifetime kilometers']
-        self['lci_fuel_tank'] = self['fuel tank mass'] / self['lifetime kilometers']
+
+        for pt in self.combustion_wo_cng:
+            with self(pt) as cpm:
+                cpm['lci_fuel_tank'] = cpm['fuel tank mass'] / cpm['lifetime kilometers']
+
+        with self('ICEV-g') as cpm:
+            cpm['lci_CNG_tank'] = cpm['fuel tank mass'] / cpm['lifetime kilometers']
+
+        with self('FCEV') as cpm:
+            cpm['lci_H2_tank'] = cpm['fuel tank mass'] / cpm['lifetime kilometers']
 
         # Energy chain
-        with self('BEV') as pt:
-            pt['lci_electricity'] = pt['TtW energy']/1000 * .2778
 
-        with self('ICEV-p') as pt:
-            pt['lci_petrol'] = pt['TtW energy']
+        for pt in self.electric:
+            with self(pt) as cpm:
+                cpm['lci_electricity'] = cpm['electricity consumption']
+
+        for pt in self.petrol:
+            with self(pt) as cpm:
+                cpm['lci_petrol'] = cpm['fuel mass'] / cpm['range']
 
         with self('ICEV-d') as pt:
-            pt['lci_diesel'] = pt['TtW energy']
+            pt['lci_diesel'] = pt['fuel mass'] / pt['range']
 
         with self('ICEV-g') as pt:
-            pt['lci_CNG'] = pt['TtW energy']
+            pt['lci_CNG'] = pt['fuel mass'] / pt['range']
 
         with self('FCEV') as pt:
-            pt['lci_h2'] = pt['TtW energy']
+            pt['lci_h2'] = pt['fuel mass'] / pt['range']
 
         self['lci_tyre_wear'] = self['driving mass'] * -1 * 6.7568E-05 / 1180
         self['lci_brake_wear'] = self['driving mass'] * -1 * 1.0504E-06 / 1180
         self['lci_road_wear'] = self['driving mass'] * -1 * 1.1554E-05 / 1180
 
         self['lci_road'] = 5.37E-7 * self['driving mass']
+
+        self['lci_CO2'] = (self['CO2 per kg fuel'] * self['fuel mass'])/ self['range']
+        self['lci_SO2'] = (self['SO2 per kg fuel'] * self['fuel mass']) / self['range']
+        self['lci_benzene'] = self['Benzene']
+        self['lci_CH4'] = self['CH4']
+        self['lci_CO'] = self['CO']
+        self['lci_HC'] = self['HC']
+        self['lci_N2O'] = self['N2O'] # combustion minus gas
+        self['lci_NH3'] = self['NH3'] # combustion
+        self['lci_NMVOC'] = self['NMVOC'] # combustion
+        self['lci_NO2'] = self['NO2'] # combustion minus gas
+        self['lci_NOx'] = self['NOx'] # combustion
+        self['lci_PM'] = self['PM']
+
+    def write_lci_excel_to_bw(self, db_name, filepath=None, objs=None, sections=None):
+        """Export database `database_name` to an Excel spreadsheet.
+        If a filepath is not specified, the inventory file is exported where the module resides.
+        Taken from bw2io.export (https://bitbucket.org/cmutel/brightway2-io/src/default/)
+
+        Returns the location of the exported inventory file.
+
+        :param: db_name: Name of the database to be created.
+        :type db_name: str
+        :return: The file path of the exported file.
+        :rtype: str
+
+        """
+
+        i = self.fill_in_datasets(db_name)
+
+        data = []
+
+        data.extend((['Database', db_name], ('format', 'Excel spreadsheet')))
+        data.append([])
+
+        for k in i.data:
+            data.extend((['Activity', k['name']], ('code', k['code']),
+                         ('location', k['location']),
+                         ('production amount', float(k['production amount'])),
+                         ('reference product', k.get('reference product')),
+                         ('type', 'process'),
+                         ('unit', k['unit']), ('worksheet name', 'None'), ['Exchanges'],
+                         ['name', 'amount', 'database', 'location', 'unit', 'categories', 'type', 'reference product']
+                         ))
+
+            for e in k['exchanges']:
+                data.append([e['name'], float(e['amount']), e['database'], e.get('location', 'None'), e['unit'],
+                             '::'.join(e.get('categories', ())), e['type'], e.get('reference product')])
+            data.append([])
+
+
+        safe_name = safe_filename(db_name, False)
+
+        parent = Path(getframeinfo(currentframe()).filename).resolve().parent
+
+        if filepath is None:
+            filepath = parent.joinpath('lci-' + safe_name + ".xlsx")
+        else:
+            filepath = filepath + '\lci-' + safe_name + ".xlsx"
+
+
+
+        workbook = xlsxwriter.Workbook(filepath)
+        bold = workbook.add_format({'bold': True})
+        bold.set_font_size(12)
+        highlighted = {'Activity', 'Database', 'Exchanges', 'Parameters', 'Database parameters', 'Project parameters'}
+        frmt = lambda x: bold if row[0] in highlighted else None
+
+        sheet = workbook.add_worksheet(create_valid_worksheet_name(db_name))
+
+        for row_index, row in enumerate(data):
+            for col_index, value in enumerate(row):
+                if value is None:
+                    continue
+                elif isinstance(value, float):
+                    sheet.write_number(row_index, col_index, value, frmt(value))
+                else:
+                    sheet.write_string(row_index, col_index, value, frmt(value))
+        print('Inventories exported.')
+        workbook.close()
+
+        return filepath
+
+
+
+    def write_lci_to_csv_simapro(self, db_name):
+        """Export database `database_name` as a CSV file to be imported as a new project in SimaPro.
+        Returns the file path of the exported CSV file.
+
+        :param db_name: Name of the database to be created.
+        :type db_name: str
+        :return: The file path of the exported file.
+        :rtype: str
+
+        """
+
+
+
+        return i
+
+    def import_aux_datasets(self):
+        """
+        This method imports auxiliary inventory dataset of battery production, etc. into a new Brightway
+        database.
+        Returns an object from the `bw2io.ExcelImporter` class to which foreground inventories will be added.
+
+        :return: An bw2io.ExcelImporter object.
+        :rtype: bwio.ExcelImporter
+
+        """
+        parent = Path(getframeinfo(currentframe()).filename).resolve().parent
+        filename = parent.joinpath('data/Additional datasets.xlsx')
+
+        i = ExcelImporter(
+            filename)
+        return i
+
+    def write_lci_to_bw(self, db_name):
+        """
+        This method first imports `additional inventories` (e.g., battery production, hydrogen tank manufacture, etc.)
+        from an spreadsheet into a dictionary using one of Brightway's import functions.
+        Then it adds the car inventories to it and returns an object from the `bw2io.ExcelImporter` class.
+        :param db_name: Name of the database to be created.
+        :type db_name: str
+        :return: An bw2io.ExcelImporter object.
+        :rtype: bwio.ExcelImporter
+        """
+
+        parent = Path(getframeinfo(currentframe()).filename).resolve().parent
+        filename = parent.joinpath('data/dict_exchanges.csv')
+
+        with open(filename) as f:
+            csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+
+        (_, *header), *data = csv_list
+        csv_dict = {}
+        for row in data:
+            key, *values = row
+            csv_dict[key] = {key: value for key, value in zip(header, values)}
+
+        list_act = []
+
+        for pt in self.array.coords['powertrain'].values:
+            for s in self.array.coords['size'].values:
+                for y in self.array.coords['year'].values:
+
+                    list_exc = []
+                    # We insert first the reference product
+                    list_exc.append(
+                        {
+                            'name': 'Passenger car, '+pt+", "+s+", "+str(y),
+                            'database': db_name,
+                            'amount': 1.0,
+                            'unit': 'vehicle-kilometer',
+                            'type': 'production',
+                            'location': 'GLO'
+                        }
+                    )
+
+                    for k in list(csv_dict.keys()):
+                        value = self.array.sel(powertrain=pt, size=s, year=y, parameter=k).values[0]
+
+                        if np.isinf(value):
+                            print(pt, s, y, k, value)
+
+                        if abs(value) != 0.0:
+
+                            list_exc.append(
+                                {
+                                    'name': csv_dict[k]['Dataset name'],
+                                    'database': csv_dict[k]['Database'],
+                                    'amount': self.array.sel(powertrain=pt, size=s, year=y, parameter=k).values[0],
+                                    'unit': csv_dict[k]['Unit'],
+                                    'type': csv_dict[k]['Type'],
+                                    'location': csv_dict[k].get('Location', 'None'),
+                                    'reference product': csv_dict[k].get('reference product'),
+                                    'categories': csv_dict[k].get('categories')
+                                }
+                            )
+
+                    list_act.append({
+                        'production amount':1,
+                        'code': str(uuid.uuid1()),
+                        'database': db_name,
+                        'name': 'Passenger car, '+pt+", "+s+", "+str(y),
+                        'unit': 'vehicle-kilometer',
+                        'location': 'GLO',
+                        'exchanges': list_exc,
+                        'reference product': 'Passenger car, '+pt+", "+s+", "+str(y)
+                    })
+
+        i = self.import_aux_datasets()
+        i.data.extend(list_act)
+        i.db_name = db_name
+
+        for k in i.data:
+
+            k['database'] = db_name
+            for e in k['exchanges']:
+                if e['database'] == 'Additional datasets':
+                    e['database'] = db_name
+
+        i.apply_strategies()
+
+        return i

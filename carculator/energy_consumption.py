@@ -169,6 +169,8 @@ class EnergyConsumptionModel:
         mp = _(motor_power)
         re = _(recuperation_efficiency)
 
+
+
         # Original formulas now calculated by `numexpr`
         #power_rolling_resistance = np.ones_like(self.velocity) * _(driving_mass) * _(rr_coef) * 9.81
         #power_aerodynamic = (self.velocity ** 2 * _(frontal_area) * _(drag_coef) * self.rho_air / 2)
@@ -200,6 +202,8 @@ class EnergyConsumptionModel:
         #t_e = ne.evaluate("where(total_force<0, 0, tv)") #
         #t_e = np.where(total_force<0, 0, tv)
 
+        results = ne.evaluate("((where(total_force<0, 0, tv) / (distance * 1000)) + (recuperated_power / distance / 1000))/ ttw_eff")
+
         return (
-                ne.evaluate("((where(total_force<0, 0, tv) / (distance * 1000)) + (recuperated_power / distance / 1000))/ ttw_eff")
-        )
+            results
+                )
