@@ -6,3 +6,4 @@ klausen
 presamples
 xlrd
 pytest
+numexpr

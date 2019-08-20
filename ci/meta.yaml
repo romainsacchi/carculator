@@ -25,6 +25,7 @@ requirements:
     - xarray
     - xlrd
     - presamples
+    - numexpr
 
 test:
   imports:
