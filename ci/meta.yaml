@@ -26,6 +26,7 @@ requirements:
     - xlrd
     - presamples
     - numexpr
+    - bw2io
 
 test:
   imports:

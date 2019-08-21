@@ -6,3 +6,4 @@ xarray
 xlrd
 sphinx-autoapi
 numexpr
+bw2io

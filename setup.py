@@ -41,7 +41,9 @@ setup(
         'xarray',
         'presamples',
         'xlrd',
-        'sphinx-autoapi'
+        'sphinx-autoapi',
+        'numexpr',
+        'bw2io'
     ],
     url="https://github.com/romainsacchi/carculator",
     long_description=open('README.md').read(),
