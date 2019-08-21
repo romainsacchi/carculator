@@ -6,11 +6,13 @@ from pathlib import Path
 from inspect import currentframe, getframeinfo
 import numpy as np
 from .energy_consumption import EnergyConsumptionModel
+from .noise_emissions import NoiseEmissionsModel
 from bw2io import ExcelImporter
 from bw2io.export.excel import safe_filename,\
     xlsxwriter, CSVFormatter,\
     create_valid_worksheet_name
 import uuid
+import itertools
 
 
 DEFAULT_MAPPINGS = {
@@ -721,6 +723,33 @@ class CarModel:
         self['lci_NOx'] = self['NOx'] # combustion
         self['lci_PM'] = self['PM']
 
+        nem = NoiseEmissionsModel(self.ecm.cycle)
+
+        list_noise_emissions = [
+            "octave_1_day_urban","octave_2_day_urban","octave_3_day_urban","octave_4_day_urban","octave_5_day_urban",
+            "octave_6_day_urban","octave_7_day_urban","octave_8_day_urban","octave_1_day_suburban","octave_2_day_suburban",
+            "octave_3_day_suburban","octave_4_day_suburban","octave_5_day_suburban","octave_6_day_suburban","octave_7_day_suburban",
+            "octave_8_day_suburban","octave_1_day_rural","octave_2_day_rural","octave_3_day_rural","octave_4_day_rural",
+            "octave_5_day_rural","octave_6_day_rural","octave_7_day_rural","octave_8_day_rural"
+        ]
+        for pt in self.combustion:
+            for s in self.array.coords['size']:
+                for y in self.array.coords['year']:
+                    self.array.loc[s, pt, list_noise_emissions,y] = nem.get_sound_power_per_compartment('combustion').reshape((24,1))
+
+        for pt in self.electric:
+            for s in self.array.coords['size']:
+                for y in self.array.coords['year']:
+                    self.array.loc[s, pt, list_noise_emissions, y] = nem.get_sound_power_per_compartment(
+                        'electric').reshape((24, 1))
+
+        for pt in self.fuel_cell:
+            for s in self.array.coords['size']:
+                for y in self.array.coords['year']:
+                    self.array.loc[s, pt, list_noise_emissions, y] = nem.get_sound_power_per_compartment(
+                        'electric').reshape((24, 1))
+
+
     def write_lci_excel_to_bw(self, db_name, filepath=None, objs=None, sections=None):
         """Export database `database_name` to an Excel spreadsheet.
         If a filepath is not specified, the inventory file is exported where the module resides.
@@ -735,7 +764,7 @@ class CarModel:
 
         """
 
-        i = self.fill_in_datasets(db_name)
+        i = self.write_lci_to_bw(db_name)
 
         data = []
 
@@ -765,7 +794,7 @@ class CarModel:
         if filepath is None:
             filepath = parent.joinpath('lci-' + safe_name + ".xlsx")
         else:
-            filepath = filepath + '\lci-' + safe_name + ".xlsx"
+            filepath = filepath + r'\lci-' + safe_name + r".xlsx"
 
 
 
@@ -895,19 +924,35 @@ class CarModel:
                         'unit': 'vehicle-kilometer',
                         'location': 'GLO',
                         'exchanges': list_exc,
-                        'reference product': 'Passenger car, '+pt+", "+s+", "+str(y)
+                        'reference product': 'Passenger car, '+pt+", "+s+", "+str(y),
+                        'type':'process'
                     })
+
+        c = ['urban', 'suburban', 'rural']
+
+        for x in range(1,9):
+            for y in ['urban', 'suburban', 'rural', 'industrial', 'indoor', 'unspecified']:
+                for z in ['day time', 'evening time', 'night time']:
+                    list_act.append({'code': 'noise, octave '+str(x)+', ' + z + ', '+y,
+                                 'database': db_name,
+                                 'name': 'noise, octave '+str(x)+', ' + z + ', '+y,
+                                 'unit': 'joule',
+                                 'type': 'biosphere',
+                                 'categories':"octave "+str(x)+"::"+z+"::"+y})
+
 
         i = self.import_aux_datasets()
         i.data.extend(list_act)
         i.db_name = db_name
 
         for k in i.data:
-
-            k['database'] = db_name
-            for e in k['exchanges']:
-                if e['database'] == 'Additional datasets':
-                    e['database'] = db_name
+            try:
+                k['database'] = db_name
+                for e in k['exchanges']:
+                    if e['database'] == 'Additional datasets':
+                        e['database'] = db_name
+            except:
+                continue
 
         i.apply_strategies()
 

@@ -55,7 +55,7 @@ class EnergyConsumptionModel:
         except KeyError:
             raise('The driving cycle specified could not be found.')
 
-
+        self.cycle = cycle
         self.rho_air = rho_air
         # Unit conversion km/h to m/s
         self.velocity = (cycle * 1000) / 3600
@@ -64,8 +64,6 @@ class EnergyConsumptionModel:
         # Zero at first value
         self.acceleration = np.zeros_like(self.velocity)
         self.acceleration[1:-1] = (self.velocity[2:] - self.velocity[:-2]) / 2
-        #self.acceleration[1:] = self.velocity[1:] - self.velocity[:-1]
-
 
     def aux_energy_per_km(self, aux_power, efficiency=1):
         """Calculate energy used other than motive energy per km driven.
