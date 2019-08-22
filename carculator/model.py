@@ -12,7 +12,7 @@ from bw2io.export.excel import safe_filename,\
     xlsxwriter, CSVFormatter,\
     create_valid_worksheet_name
 import uuid
-import itertools
+import xarray as xr
 
 
 DEFAULT_MAPPINGS = {
@@ -160,14 +160,9 @@ class CarModel:
         self.calculate_ttw_energy()
 
         self.set_range()
-
-
         self.set_electric_utility_factor()
         self.set_electricity_consumption()
-
         self.set_costs()
-
-
         self.calculate_lci()
         self.create_PHEV()
         self.drop_hybrid()
@@ -621,13 +616,14 @@ class CarModel:
         # Glider
         for pt in self.combustion:
             with self(pt) as cpm:
-                cpm['lci_electric_EoL'] = cpm['curb mass'] * (1 - cpm['combustion power share']) / 1180 / cpm['lifetime kilometers'] *-1
+                cpm['lci_electric_EoL'] = cpm['curb mass'] * (1 - cpm['combustion power share']) / 1180\
+                                          / cpm['lifetime kilometers']
                 cpm['lci_combustion_EoL'] = cpm['curb mass'] * cpm['combustion power share'] / 1600 / cpm[
-                    'lifetime kilometers'] *-1
+                    'lifetime kilometers']
 
         for pt in self.electric:
             with self(pt) as cpm:
-                cpm['lci_electric_EoL'] = cpm['curb mass'] / 1180 / cpm['lifetime kilometers'] *-1
+                cpm['lci_electric_EoL'] = cpm['curb mass'] / 1180 / cpm['lifetime kilometers']
 
 
         # Powertrain
@@ -726,11 +722,30 @@ class CarModel:
         nem = NoiseEmissionsModel(self.ecm.cycle)
 
         list_noise_emissions = [
-            "octave_1_day_urban","octave_2_day_urban","octave_3_day_urban","octave_4_day_urban","octave_5_day_urban",
-            "octave_6_day_urban","octave_7_day_urban","octave_8_day_urban","octave_1_day_suburban","octave_2_day_suburban",
-            "octave_3_day_suburban","octave_4_day_suburban","octave_5_day_suburban","octave_6_day_suburban","octave_7_day_suburban",
-            "octave_8_day_suburban","octave_1_day_rural","octave_2_day_rural","octave_3_day_rural","octave_4_day_rural",
-            "octave_5_day_rural","octave_6_day_rural","octave_7_day_rural","octave_8_day_rural"
+            "noise, octave 1, day time, urban",
+            "noise, octave 2, day time, urban",
+            "noise, octave 3, day time, urban",
+            "noise, octave 4, day time, urban",
+            "noise, octave 5, day time, urban",
+            "noise, octave 6, day time, urban",
+            "noise, octave 7, day time, urban",
+            "noise, octave 8, day time, urban",
+            "noise, octave 1, day time, suburban",
+            "noise, octave 2, day time, suburban",
+            "noise, octave 3, day time, suburban",
+            "noise, octave 4, day time, suburban",
+            "noise, octave 5, day time, suburban",
+            "noise, octave 6, day time, suburban",
+            "noise, octave 7, day time, suburban",
+            "noise, octave 8, day time, suburban",
+            "noise, octave 1, day time, rural",
+            "noise, octave 2, day time, rural",
+            "noise, octave 3, day time, rural",
+            "noise, octave 4, day time, rural",
+            "noise, octave 5, day time, rural",
+            "noise, octave 6, day time, rural",
+            "noise, octave 7, day time, rural",
+            "noise, octave 8, day time, rural"
         ]
         for pt in self.combustion:
             for s in self.array.coords['size']:
@@ -749,6 +764,97 @@ class CarModel:
                     self.array.loc[s, pt, list_noise_emissions, y] = nem.get_sound_power_per_compartment(
                         'electric').reshape((24, 1))
 
+    def calculate_impacts(self):
+
+        filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/B_matrix.csv')
+        B = np.genfromtxt(filepath,
+                          delimiter=';', skip_header=1, usecols=range(1, 21))
+        B_matrix = xr.DataArray(B)
+
+        list_lci_inputs = ["lci_glider","lci_glider_lightweighting","lci_car_maintenance","lci_electric_EoL","lci_combustion_EoL",
+       "lci_charger","lci_converter","lci_electric_engine","lci_inverter","lci_power_distribution_unit",
+        "lci_electric_powertrain_EoL","lci_engine","lci_rest_of_powertrain","lci_fuel_cell_ancillary_BoP","lci_fuel_cell_essential_BoP",
+        "lci_fuel_cell_stack","lci_battery_BoP","lci_battery_cell","lci_battery_production_electricity_correction",
+        "lci_battery_cell_production_electricity","lci_battery_cell_production_heat","lci_fuel_tank","lci_CNG_tank",
+        "lci_H2_tank", "lci_electricity","lci_petrol","lci_diesel","lci_CNG","lci_h2","lci_tyre_wear","lci_brake_wear",
+        "lci_road_wear","lci_road","lci_CO2","lci_SO2","lci_benzene","lci_CH4", "lci_CO","lci_HC","lci_N2O",
+        "lci_NH3", "lci_NMVOC","lci_NO2","lci_NOx", "lci_PM",
+        "noise, octave 1, day time, urban",
+        "noise, octave 2, day time, urban",
+        "noise, octave 3, day time, urban",
+        "noise, octave 4, day time, urban",
+        "noise, octave 5, day time, urban",
+        "noise, octave 6, day time, urban",
+        "noise, octave 7, day time, urban",
+        "noise, octave 8, day time, urban",
+        "noise, octave 1, evening time, urban",
+        "noise, octave 2, evening time, urban",
+        "noise, octave 3, evening time, urban",
+        "noise, octave 4, evening time, urban",
+        "noise, octave 5, evening time, urban",
+        "noise, octave 6, evening time, urban",
+        "noise, octave 7, evening time, urban",
+        "noise, octave 8, evening time, urban",
+        "noise, octave 1, night time, urban",
+        "noise, octave 2, night time, urban",
+        "noise, octave 3, night time, urban",
+        "noise, octave 4, night time, urban",
+        "noise, octave 5, night time, urban",
+        "noise, octave 6, night time, urban",
+        "noise, octave 7, night time, urban",
+        "noise, octave 8, night time, urban",
+        "noise, octave 1, day time, suburban",
+        "noise, octave 2, day time, suburban",
+        "noise, octave 3, day time, suburban",
+        "noise, octave 4, day time, suburban",
+        "noise, octave 5, day time, suburban",
+        "noise, octave 6, day time, suburban",
+        "noise, octave 7, day time, suburban",
+        "noise, octave 8, day time, suburban",
+        "noise, octave 1, evening time, suburban",
+        "noise, octave 2, evening time, suburban",
+        "noise, octave 3, evening time, suburban",
+        "noise, octave 4, evening time, suburban",
+        "noise, octave 5, evening time, suburban",
+        "noise, octave 6, evening time, suburban",
+        "noise, octave 7, evening time, suburban",
+        "noise, octave 8, evening time, suburban",
+        "noise, octave 1, night time, suburban",
+        "noise, octave 2, night time, suburban",
+        "noise, octave 3, night time, suburban",
+        "noise, octave 4, night time, suburban",
+        "noise, octave 5, night time, suburban",
+        "noise, octave 6, night time, suburban",
+        "noise, octave 7, night time, suburban",
+        "noise, octave 8, night time, suburban",
+        "noise, octave 1, day time, rural",
+        "noise, octave 2, day time, rural",
+        "noise, octave 3, day time, rural",
+        "noise, octave 4, day time, rural",
+        "noise, octave 5, day time, rural",
+        "noise, octave 6, day time, rural",
+        "noise, octave 7, day time, rural",
+        "noise, octave 8, day time, rural",
+        "noise, octave 1, evening time, rural",
+        "noise, octave 2, evening time, rural",
+        "noise, octave 3, evening time, rural",
+        "noise, octave 4, evening time, rural",
+        "noise, octave 5, evening time, rural",
+        "noise, octave 6, evening time, rural",
+        "noise, octave 7, evening time, rural",
+        "noise, octave 8, evening time, rural",
+        "noise, octave 1, night time, rural",
+        "noise, octave 2, night time, rural",
+        "noise, octave 3, night time, rural",
+        "noise, octave 4, night time, rural",
+        "noise, octave 5, night time, rural",
+        "noise, octave 6, night time, rural",
+        "noise, octave 7, night time, rural",
+        "noise, octave 8, night time, rural"
+        ]
+
+
+        return self.array.loc[:,:,list_lci_inputs,:,:].dot(B_matrix)
 
     def write_lci_excel_to_bw(self, db_name, filepath=None, objs=None, sections=None):
         """Export database `database_name` to an Excel spreadsheet.
@@ -818,8 +924,6 @@ class CarModel:
         workbook.close()
 
         return filepath
-
-
 
     def write_lci_to_csv_simapro(self, db_name):
         """Export database `database_name` as a CSV file to be imported as a new project in SimaPro.
@@ -949,7 +1053,7 @@ class CarModel:
             try:
                 k['database'] = db_name
                 for e in k['exchanges']:
-                    if e['database'] == 'Additional datasets':
+                    if "ecoinvent" not in  e['database']:
                         e['database'] = db_name
             except:
                 continue

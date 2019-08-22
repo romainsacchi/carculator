@@ -2,13 +2,13 @@ Id;Database;Dataset name;Location;Unit;Type;reference product;categories
 lci_glider;ecoinvent;market for glider, passenger car;GLO;kilogram;technosphere;glider, passenger car;
 lci_glider_lightweighting;Car database;Glider lightweighting;GLO;kilogram;technosphere;Glider lightweighting;
 lci_car_maintenance;ecoinvent;maintenance, passenger car;RER;unit;technosphere;passenger car maintenance;
-lci_electric_EoL;Car database;market for manual dismantling of used electric passenger car;GLO;unit;technosphere;manual dismantling of used electric passenger car;
+lci_electric_EoL;ecoinvent;market for manual dismantling of used electric passenger car;GLO;unit;technosphere;manual dismantling of used electric passenger car;
 lci_combustion_EoL;ecoinvent;market for manual dismantling of used passenger car with internal combustion engine;GLO;unit;technosphere;manual dismantling of used passenger car with internal combustion engine;
-lci_charger;Car database;market for charger, electric passenger car;GLO;kilogram;technosphere;charger, electric passenger car;
-lci_converter;Car database;market for converter, for electric passenger car;GLO;kilogram;technosphere;converter, for electric passenger car;
-lci_electric_engine;Car database;market for electric motor, electric passenger car;GLO;kilogram;technosphere;electric motor, electric passenger car;
-lci_inverter;Car database;market for inverter, for electric passenger car;GLO;kilogram;technosphere;inverter, for electric passenger car;
-lci_power_distribution_unit;Car database;market for power distribution unit, for electric passenger car;GLO;kilogram;technosphere;power distribution unit, for electric passenger car;
+lci_charger;ecoinvent;market for charger, electric passenger car;GLO;kilogram;technosphere;charger, electric passenger car;
+lci_converter;ecoinvent;market for converter, for electric passenger car;GLO;kilogram;technosphere;converter, for electric passenger car;
+lci_electric_engine;ecoinvent;market for electric motor, electric passenger car;GLO;kilogram;technosphere;electric motor, electric passenger car;
+lci_inverter;ecoinvent;market for inverter, for electric passenger car;GLO;kilogram;technosphere;inverter, for electric passenger car;
+lci_power_distribution_unit;ecoinvent;market for power distribution unit, for electric passenger car;GLO;kilogram;technosphere;power distribution unit, for electric passenger car;
 lci_electric_powertrain_EoL;ecoinvent;market for used powertrain from electric passenger car, manual dismantling;GLO;kilogram;technosphere;used powertrain from electric passenger car, manual dismantling;
 lci_engine;ecoinvent;market for internal combustion engine, passenger car;GLO;kilogram;technosphere;internal combustion engine, for passenger car;
 lci_rest_of_powertrain;ecoinvent;market for internal combustion engine, passenger car;GLO;kilogram;technosphere;internal combustion engine, for passenger car;
@@ -28,9 +28,9 @@ lci_petrol;ecoinvent;market for petrol, low-sulfur;Europe without Switzerland;ki
 lci_diesel;ecoinvent;market for diesel;Europe without Switzerland;kilogram;technosphere;diesel;
 lci_CNG;ecoinvent;market for natural gas, from high pressure network (1-5 bar), at service station;GLO;kilogram;technosphere;natural gas, from high pressure network (1-5 bar), at service station;
 lci_h2;Car database;Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station;RER;kilogram;technosphere;;
-lci_tyre_wear;Car database;market for tyre wear emissions, passenger car;GLO;kilogram;technosphere;tyre wear emissions, passenger car;
-lci_brake_wear;Car database;market for brake wear emissions, passenger car;GLO;kilogram;technosphere;brake wear emissions, passenger car;
-lci_road_wear;Car database;market for road wear emissions, passenger car;GLO;kilogram;technosphere;road wear emissions, passenger car;
+lci_tyre_wear;ecoinvent;market for tyre wear emissions, passenger car;GLO;kilogram;technosphere;tyre wear emissions, passenger car;
+lci_brake_wear;ecoinvent;market for brake wear emissions, passenger car;GLO;kilogram;technosphere;brake wear emissions, passenger car;
+lci_road_wear;ecoinvent;market for road wear emissions, passenger car;GLO;kilogram;technosphere;road wear emissions, passenger car;
 lci_road;ecoinvent;market for road;GLO;meter-year;technosphere;road;
 lci_CO2;biosphere3;Carbon dioxide, fossil;;kilogram;biosphere;;air
 lci_SO2;biosphere3;Sulfur dioxide;;kilogram;biosphere;;air
