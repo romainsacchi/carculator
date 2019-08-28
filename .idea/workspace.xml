@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62445f2d-9237-4247-9ae8-9559cdfa4502" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/carculator/data/Additional datasets.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/Additional datasets.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carculator/array.py" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/array.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carculator/data/B_matrix.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/carculator/data/dict_exchanges.csv" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/dict_exchanges.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/carculator/default_parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/default_parameters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carculator/lci-Car-db.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/lci-Car-db.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/carculator/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,30 +35,22 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/carculator/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="856" column="53" selection-start-line="856" selection-start-column="53" selection-end-line="856" selection-end-column="53" />
+            <state relative-caret-position="634">
+              <caret line="930" column="48" selection-start-line="930" selection-start-column="48" selection-end-line="930" selection-end-column="48" />
               <folding>
                 <element signature="e#29#53#0" expanded="true" />
-                <element signature="e#4948#5209#0" />
-                <element signature="e#5263#5561#0" />
-                <element signature="e#5607#6802#0" />
-                <element signature="e#6852#8796#0" />
-                <element signature="e#8837#9551#0" />
-                <element signature="e#9593#9716#0" />
-                <element signature="e#9776#10825#0" />
-                <element signature="e#10865#12274#0" />
-                <element signature="e#12320#12697#0" />
-                <element signature="e#12743#13218#0" />
-                <element signature="e#13272#13393#0" />
-                <element signature="e#13430#13980#0" />
-                <element signature="e#14028#14827#0" />
-                <element signature="e#14863#15787#0" />
-                <element signature="e#15842#17933#0" />
-                <element signature="e#17968#21654#0" />
-                <element signature="e#21698#21981#0" />
-                <element signature="e#27718#30516#0" />
-                <element signature="e#30801#31003#0" />
-                <element signature="e#30777#31130#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/carculator/array.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-454">
+              <caret line="116" column="14" selection-start-line="116" selection-start-column="14" selection-end-line="116" selection-end-column="14" />
+              <folding>
+                <element signature="e#31#49#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -65,8 +59,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/carculator/default_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="916">
-              <caret line="7155" lean-forward="true" selection-start-line="7155" selection-end-line="7155" />
+            <state relative-caret-position="-111">
+              <caret line="7056" column="21" selection-start-line="7056" selection-start-column="21" selection-end-line="7056" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -74,7 +68,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/carculator/driving_cycles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
+            <state relative-caret-position="220">
               <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
               <folding>
                 <element signature="e#38#60#0" expanded="true" />
@@ -87,16 +81,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.get</find>
-      <find>range</find>
-      <find>battery_pro</find>
-      <find>benzene</find>
-      <find>CO</find>
-      <find>NH3</find>
-      <find>.battery</find>
-      <find>.electric</find>
-      <find>electricity consumption</find>
-      <find>converter mass</find>
       <find>inverter</find>
       <find>converter</find>
       <find>'PHEV'</find>
@@ -117,7 +101,22 @@
       <find>distance</find>
       <find>cycle</find>
       <find>iter</find>
+      <find>cost</find>
+      <find>component</find>
+      <find>lci</find>
+      <find>cng</find>
+      <find>H2</find>
+      <find>H2_tank</find>
+      <find>cng_tank</find>
+      <find>noise</find>
+      <find>benzene</find>
+      <find>_noise</find>
     </findStrings>
+    <replaceStrings>
+      <replace>_lci</replace>
+      <replace>_noise</replace>
+      <replace>_lci_direct_noise</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -143,7 +142,6 @@
         <option value="$PROJECT_DIR$/tests/test_driving_cycles.py" />
         <option value="$PROJECT_DIR$/tests/test_car_input_parameters.py" />
         <option value="$PROJECT_DIR$/carculator/car_input_parameters.py" />
-        <option value="$PROJECT_DIR$/carculator/array.py" />
         <option value="$PROJECT_DIR$/carculator/inventory.py" />
         <option value="$PROJECT_DIR$/.appveyor.yml" />
         <option value="$PROJECT_DIR$/carculator/__init__.py" />
@@ -155,6 +153,7 @@
         <option value="$PROJECT_DIR$/ci/macos-travis.txt" />
         <option value="$PROJECT_DIR$/ci/meta.yaml" />
         <option value="$PROJECT_DIR$/carculator/default_parameters.py" />
+        <option value="$PROJECT_DIR$/carculator/array.py" />
         <option value="$PROJECT_DIR$/carculator/model.py" />
       </list>
     </option>
@@ -334,8 +333,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49885845" weight="0.2393027" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49885845" visible="true" weight="0.2393027" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.50114155" side_tool="true" weight="0.2393027" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -496,36 +496,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/carculator/array.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="70" column="21" selection-start-line="70" selection-start-column="21" selection-end-line="70" selection-end-column="21" />
-          <folding>
-            <element signature="e#31#49#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/carculator/car_input_parameters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
-          <caret line="9" column="24" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="24" />
-          <folding>
-            <element signature="e#45#91#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/carculator/driving_cycles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
-          <folding>
-            <element signature="e#38#60#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/carculator/noise_emissions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="876">
@@ -577,39 +547,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/carculator/driving_cycles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
+          <folding>
+            <element signature="e#38#60#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/carculator/car_input_parameters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="9" column="24" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="24" />
+          <folding>
+            <element signature="e#45#91#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/carculator/default_parameters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="916">
-          <caret line="7155" lean-forward="true" selection-start-line="7155" selection-end-line="7155" />
+        <state relative-caret-position="-111">
+          <caret line="7056" column="21" selection-start-line="7056" selection-start-column="21" selection-end-line="7056" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/carculator/array.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-454">
+          <caret line="116" column="14" selection-start-line="116" selection-start-column="14" selection-end-line="116" selection-end-column="14" />
+          <folding>
+            <element signature="e#31#49#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/carculator/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="856" column="53" selection-start-line="856" selection-start-column="53" selection-end-line="856" selection-end-column="53" />
+        <state relative-caret-position="634">
+          <caret line="930" column="48" selection-start-line="930" selection-start-column="48" selection-end-line="930" selection-end-column="48" />
           <folding>
             <element signature="e#29#53#0" expanded="true" />
-            <element signature="e#4948#5209#0" />
-            <element signature="e#5263#5561#0" />
-            <element signature="e#5607#6802#0" />
-            <element signature="e#6852#8796#0" />
-            <element signature="e#8837#9551#0" />
-            <element signature="e#9593#9716#0" />
-            <element signature="e#9776#10825#0" />
-            <element signature="e#10865#12274#0" />
-            <element signature="e#12320#12697#0" />
-            <element signature="e#12743#13218#0" />
-            <element signature="e#13272#13393#0" />
-            <element signature="e#13430#13980#0" />
-            <element signature="e#14028#14827#0" />
-            <element signature="e#14863#15787#0" />
-            <element signature="e#15842#17933#0" />
-            <element signature="e#17968#21654#0" />
-            <element signature="e#21698#21981#0" />
-            <element signature="e#27718#30516#0" />
-            <element signature="e#30801#31003#0" />
-            <element signature="e#30777#31130#0" />
           </folding>
         </state>
       </provider>

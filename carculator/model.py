@@ -13,6 +13,7 @@ from bw2io.export.excel import safe_filename,\
     create_valid_worksheet_name
 import uuid
 import xarray as xr
+import csv
 
 
 DEFAULT_MAPPINGS = {
@@ -609,143 +610,146 @@ class CarModel:
         :return:
         """
 
-        self['lci_glider'] = self['glider base mass'] / self['lifetime kilometers']
-        self['lci_glider_lightweighting'] = self['lightweighting'] / self['lifetime kilometers']
-        self['lci_car_maintenance'] = self['curb mass'] / 1600 / 150000
+        self['_lci_glider'] = self['glider base mass'] / self['lifetime kilometers']
+        self['_lci_glider_lightweighting'] = self['lightweighting'] / self['lifetime kilometers']
+        self['_lci_car_maintenance'] = self['curb mass'] / 1600 / 150000
 
         # Glider
         for pt in self.combustion:
             with self(pt) as cpm:
-                cpm['lci_electric_EoL'] = cpm['curb mass'] * (1 - cpm['combustion power share']) / 1180\
+                cpm['_lci_powertrain_electric_EoL'] = cpm['curb mass'] * (1 - cpm['combustion power share']) / 1180\
                                           / cpm['lifetime kilometers']
-                cpm['lci_combustion_EoL'] = cpm['curb mass'] * cpm['combustion power share'] / 1600 / cpm[
+                cpm['_lci_powertrain_combustion_EoL'] = cpm['curb mass'] * cpm['combustion power share'] / 1600 / cpm[
                     'lifetime kilometers']
 
         for pt in self.electric:
             with self(pt) as cpm:
-                cpm['lci_electric_EoL'] = cpm['curb mass'] / 1180 / cpm['lifetime kilometers']
+                cpm['_lci_powertrain_electric_EoL'] = cpm['curb mass'] / 1180 / cpm['lifetime kilometers']
 
 
         # Powertrain
         for pt in self.electric:
             with self(pt) as p:
-                p['lci_charger'] = p['charger mass'] / p['lifetime kilometers']
+                p['_lci_powertrain_charger'] = p['charger mass'] / p['lifetime kilometers']
 
         for pt in ["BEV", "PHEV-c","PHEV-e", "FCEV"]:
             with self(pt) as p:
-                p['lci_converter'] = p['converter mass'] / p['lifetime kilometers']
+                p['_lci_powertrain_converter'] = p['converter mass'] / p['lifetime kilometers']
 
-        self['lci_electric_engine'] = self['electric engine mass'] / self['lifetime kilometers']
+        self['_lci_powertrain_electric_engine'] = self['electric engine mass'] / self['lifetime kilometers']
 
         for pt in ["BEV", "PHEV-c","PHEV-e", "FCEV", 'HEV-p']:
             with self(pt) as p:
-                p['lci_inverter'] = p['inverter mass'] / p['lifetime kilometers']
-                p['lci_power_distribution_unit'] = p['power distribution unit mass'] / p['lifetime kilometers']
+                p['_lci_powertrain_inverter'] = p['inverter mass'] / p['lifetime kilometers']
+                p['_lci_powertrain_power_distribution_unit'] = p['power distribution unit mass'] / p['lifetime kilometers']
 
         l_elec_pt = ['charger mass','converter mass','inverter mass','power distribution unit mass',
             'electric engine mass', 'fuel cell stack mass', 'fuel cell ancillary BoP mass', 'fuel cell essential BoP mass',
                      'battery cell mass','battery BoP mass']
 
-        self['lci_electric_powertrain_EoL'] = self[l_elec_pt].sum(axis=2) / self['lifetime kilometers'] *-1
+        self['_lci_powertrain_electric_powertrain_EoL'] = self[l_elec_pt].sum(axis=2) / self['lifetime kilometers'] *-1
 
-        self['lci_engine'] = (self[['combustion engine mass','electric engine mass']].sum(axis=2)) / self['lifetime kilometers']
+        self['_lci_powertrain_engine'] = (self[['combustion engine mass','electric engine mass']].sum(axis=2)) / self['lifetime kilometers']
 
-        self['lci_rest_of_powertrain'] = self['powertrain mass'] / self['lifetime kilometers']
+        self['_lci_powertrain_rest_of_powertrain'] = self['powertrain mass'] / self['lifetime kilometers']
 
         with self('FCEV') as pt:
-            pt['lci_fuel_cell_ancillary_BoP'] = pt['fuel cell ancillary BoP mass'] / pt['lifetime kilometers']
-            pt['lci_fuel_cell_essential_BoP'] = pt['fuel cell essential BoP mass'] / pt['lifetime kilometers']
-            pt['lci_fuel_cell_stack'] = pt['fuel cell stack mass'] / pt['lifetime kilometers']
+            pt['_lci_powertrain_fuel_cell_ancillary_BoP'] = pt['fuel cell ancillary BoP mass'] / pt['lifetime kilometers']
+            pt['_lci_powertrain_fuel_cell_essential_BoP'] = pt['fuel cell essential BoP mass'] / pt['lifetime kilometers']
+            pt['_lci_powertrain_fuel_cell_stack'] = pt['fuel cell stack mass'] / pt['lifetime kilometers']
 
         # Energy storage
 
-        self['lci_battery_BoP'] = self['battery BoP mass'] * (1 + self['battery lifetime replacements']) / self['lifetime kilometers']
-        self['lci_battery_cell'] = self['battery cell mass'] * (1 + self['fuel cell lifetime replacements']) / self[
+        self['_lci_storage_battery_BoP'] = self['battery BoP mass'] * (1 + self['battery lifetime replacements']) / self['lifetime kilometers']
+        self['_lci_storage_battery_cell'] = self['battery cell mass'] * (1 + self['fuel cell lifetime replacements']) / self[
             'lifetime kilometers']
-        self['lci_battery_production_electricity_correction'] = -28 * self['battery cell mass'] * (1+ self['battery lifetime replacements'])\
+        self['_lci_storage_battery_production_electricity_correction'] = -28 * self['battery cell mass'] * (1+ self['battery lifetime replacements'])\
             / self['lifetime kilometers']
-        self['lci_battery_cell_production_electricity'] = self['battery cell production electricity'] * self['battery cell mass'] *\
+        self['_lci_storage_battery_cell_production_electricity'] = self['battery cell production electricity'] * self['battery cell mass'] *\
                                                       (1 + self['battery lifetime replacements' ]) / self['lifetime kilometers']
 
-        self['lci_battery_cell_production_heat'] = 3.6 * self['battery cell production heat'] * self['battery cell mass']* \
+        self['_lci_storage_battery_cell_production_heat'] = 3.6 * self['battery cell production heat'] * self['battery cell mass']* \
                                                    (1 + self['battery lifetime replacements']) / self[
                                                        'lifetime kilometers']
 
         for pt in self.combustion_wo_cng:
             with self(pt) as cpm:
-                cpm['lci_fuel_tank'] = cpm['fuel tank mass'] / cpm['lifetime kilometers']
+                cpm['_lci_storage_fuel_tank'] = cpm['fuel tank mass'] / cpm['lifetime kilometers']
 
         with self('ICEV-g') as cpm:
-            cpm['lci_CNG_tank'] = cpm['fuel tank mass'] / cpm['lifetime kilometers']
+            cpm['_lci_storage_cng_tank'] = cpm['fuel tank mass'] / cpm['lifetime kilometers']
 
         with self('FCEV') as cpm:
-            cpm['lci_H2_tank'] = cpm['fuel tank mass'] / cpm['lifetime kilometers']
+            cpm['_lci_storage_h2_tank'] = cpm['fuel tank mass'] / cpm['lifetime kilometers']
 
         # Energy chain
 
         for pt in self.electric:
             with self(pt) as cpm:
-                cpm['lci_electricity'] = cpm['electricity consumption']
+                cpm['_lci_energy_electricity'] = cpm['electricity consumption']
 
         for pt in self.petrol:
             with self(pt) as cpm:
-                cpm['lci_petrol'] = cpm['fuel mass'] / cpm['range']
+                cpm['_lci_energy_petrol'] = cpm['fuel mass'] / cpm['range']
 
         with self('ICEV-d') as pt:
-            pt['lci_diesel'] = pt['fuel mass'] / pt['range']
+            pt['_lci_energy_diesel'] = pt['fuel mass'] / pt['range']
 
         with self('ICEV-g') as pt:
-            pt['lci_CNG'] = pt['fuel mass'] / pt['range']
+            pt['_lci_energy_cng'] = pt['fuel mass'] / pt['range']
 
         with self('FCEV') as pt:
-            pt['lci_h2'] = pt['fuel mass'] / pt['range']
+            pt['_lci_energy_h2'] = pt['fuel mass'] / pt['range']
 
-        self['lci_tyre_wear'] = self['driving mass'] * -1 * 6.7568E-05 / 1180
-        self['lci_brake_wear'] = self['driving mass'] * -1 * 1.0504E-06 / 1180
-        self['lci_road_wear'] = self['driving mass'] * -1 * 1.1554E-05 / 1180
+        self['_lci_direct_tyre_wear'] = self['driving mass'] * -1 * 6.7568E-05 / 1180
+        self['_lci_direct_brake_wear'] = self['driving mass'] * -1 * 1.0504E-06 / 1180
+        self['_lci_direct_road_wear'] = self['driving mass'] * -1 * 1.1554E-05 / 1180
 
-        self['lci_road'] = 5.37E-7 * self['driving mass']
+        self['_lci_road'] = 5.37E-7 * self['driving mass']
 
-        self['lci_CO2'] = (self['CO2 per kg fuel'] * self['fuel mass'])/ self['range']
-        self['lci_SO2'] = (self['SO2 per kg fuel'] * self['fuel mass']) / self['range']
-        self['lci_benzene'] = self['Benzene']
-        self['lci_CH4'] = self['CH4']
-        self['lci_CO'] = self['CO']
-        self['lci_HC'] = self['HC']
-        self['lci_N2O'] = self['N2O'] # combustion minus gas
-        self['lci_NH3'] = self['NH3'] # combustion
-        self['lci_NMVOC'] = self['NMVOC'] # combustion
-        self['lci_NO2'] = self['NO2'] # combustion minus gas
-        self['lci_NOx'] = self['NOx'] # combustion
-        self['lci_PM'] = self['PM']
+        self['_lci_direct_CO2'] = (self['CO2 per kg fuel'] * self['fuel mass'])/ self['range']
+        self['_lci_direct_SO2'] = (self['SO2 per kg fuel'] * self['fuel mass']) / self['range']
+        self['_lci_direct_C6H6'] = self['Benzene']
+        self['_lci_direct_CH4'] = self['CH4']
+        self['_lci_direct_CO'] = self['CO']
+        self['_lci_direct_HC'] = self['HC']
+        self['_lci_direct_N2O'] = self['N2O'] # combustion minus gas
+        self['_lci_direct_NH3'] = self['NH3'] # combustion
+        self['_lci_direct_NMVOC'] = self['NMVOC'] # combustion
+        self['_lci_direct_NO2'] = self['NO2'] # combustion minus gas
+        self['_lci_direct_NOx'] = self['NOx'] # combustion
+        self['_lci_direct_PM'] = self['PM']
 
         nem = NoiseEmissionsModel(self.ecm.cycle)
 
+        #list_param = self.array.coords['parameter'].values.tolist()
+        #list_noise_emissions = [x for x in list_param if x.startswith('_lci_direct_noise') and "day" in x]
+
         list_noise_emissions = [
-            "noise, octave 1, day time, urban",
-            "noise, octave 2, day time, urban",
-            "noise, octave 3, day time, urban",
-            "noise, octave 4, day time, urban",
-            "noise, octave 5, day time, urban",
-            "noise, octave 6, day time, urban",
-            "noise, octave 7, day time, urban",
-            "noise, octave 8, day time, urban",
-            "noise, octave 1, day time, suburban",
-            "noise, octave 2, day time, suburban",
-            "noise, octave 3, day time, suburban",
-            "noise, octave 4, day time, suburban",
-            "noise, octave 5, day time, suburban",
-            "noise, octave 6, day time, suburban",
-            "noise, octave 7, day time, suburban",
-            "noise, octave 8, day time, suburban",
-            "noise, octave 1, day time, rural",
-            "noise, octave 2, day time, rural",
-            "noise, octave 3, day time, rural",
-            "noise, octave 4, day time, rural",
-            "noise, octave 5, day time, rural",
-            "noise, octave 6, day time, rural",
-            "noise, octave 7, day time, rural",
-            "noise, octave 8, day time, rural"
+            "_lci_direct_noise, octave 1, day time, urban",
+            "_lci_direct_noise, octave 2, day time, urban",
+            "_lci_direct_noise, octave 3, day time, urban",
+            "_lci_direct_noise, octave 4, day time, urban",
+            "_lci_direct_noise, octave 5, day time, urban",
+            "_lci_direct_noise, octave 6, day time, urban",
+            "_lci_direct_noise, octave 7, day time, urban",
+            "_lci_direct_noise, octave 8, day time, urban",
+            "_lci_direct_noise, octave 1, day time, suburban",
+            "_lci_direct_noise, octave 2, day time, suburban",
+            "_lci_direct_noise, octave 3, day time, suburban",
+            "_lci_direct_noise, octave 4, day time, suburban",
+            "_lci_direct_noise, octave 5, day time, suburban",
+            "_lci_direct_noise, octave 6, day time, suburban",
+            "_lci_direct_noise, octave 7, day time, suburban",
+            "_lci_direct_noise, octave 8, day time, suburban",
+            "_lci_direct_noise, octave 1, day time, rural",
+            "_lci_direct_noise, octave 2, day time, rural",
+            "_lci_direct_noise, octave 3, day time, rural",
+            "_lci_direct_noise, octave 4, day time, rural",
+            "_lci_direct_noise, octave 5, day time, rural",
+            "_lci_direct_noise, octave 6, day time, rural",
+            "_lci_direct_noise, octave 7, day time, rural",
+            "_lci_direct_noise, octave 8, day time, rural"
         ]
         for pt in self.combustion:
             for s in self.array.coords['size']:
@@ -764,97 +768,127 @@ class CarModel:
                     self.array.loc[s, pt, list_noise_emissions, y] = nem.get_sound_power_per_compartment(
                         'electric').reshape((24, 1))
 
-    def calculate_impacts(self):
+    def calculate_cost_impacts(self):
+        """
+        This method rturns an array with cost values per vehicle-km, sub-divided into the following groups:
+        * Purchase
+        * Maintentance
+        * Component replacement
+        * Energy
+        * Total cost of ownership
 
-        filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/B_matrix.csv')
+        :return: A xarray array with cost information per vehicle-km
+        :rtype: xarray.core.dataarray.DataArray
+        """
+
+
+        response = xr.DataArray(np.zeros((1, 7, 7, 2, 5)), coords=[['cost'], self.array.coords['size'],
+                                                                   self.array.coords['powertrain'],
+                                                                   self.array.coords['year'],
+                                                                   ['purchase', 'maintenance','component replacement',
+                                                                    'energy', 'total']],
+                                dims=['cost', 'size', 'powertrain', 'year', 'cost_type'])
+
+        response.loc[:, :, :, :, 'purchase'] = self.array.sel(parameter='amortised purchase cost').sum(axis=3)
+        response.loc[:, :, :, :, 'maintenance'] = self.array.sel(parameter='maintenance cost').sum(axis=3)
+        response.loc[:, :, :, :, 'component replacement'] = self.array.sel(parameter='amortised component replacement cost').sum(axis=3)
+        response.loc[:, :, :, :, 'energy'] = self.array.sel(parameter='energy cost').sum(axis=3)
+        response.loc[:, :, :, :, 'total'] = self.array.sel(parameter='total cost per km').sum(axis=3)
+
+        return response
+
+    def calculate_env_impacts(self, method = None, level=None):
+        """
+        This method returns an array with characterized environmental impacts, sub-divided into the following categories:
+        * direct emissions
+        * energy chain
+        * energy storage
+        * powertrain
+        * glider
+        * road
+        * maintenance
+
+        :return: A xarray array with characterized environmental impacts per vehicle-km
+        :rtype: xarray.core.dataarray.DataArray
+        """
+
+
+
+        if method == None:
+            method = 'recipe'
+        if level == None:
+            level = 'midpoint'
+
+        filename={
+
+            'recipe': {'midpoint':'B_matrix_recipe_midpoint.csv',
+                       'endpoint':'B_matrix_recipe_endpoint.csv',
+                       'single score':'B_matrix_recipe_endpoint_normalized.csv'},
+            'ecological scarcity': {
+                        'endpoint':'B_matrix_eco_scarcity_endpoint.csv'}
+        }
+
+        try:
+            filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/'+ filename[method][level])
+        except KeyError:
+            print('The method or impact level specified could not be found.')
+            raise
+
+        with open(filepath, "r") as f:
+            reader = csv.reader(f, delimiter=';')
+            impact_cat = list(filter(None, next(reader)))
+            units = list(filter(None, next(reader)))
+            ncols = len(f.readline().split(';'))
+
+
         B = np.genfromtxt(filepath,
-                          delimiter=';', skip_header=1, usecols=range(1, 21))
-        B_matrix = xr.DataArray(B)
-
-        list_lci_inputs = ["lci_glider","lci_glider_lightweighting","lci_car_maintenance","lci_electric_EoL","lci_combustion_EoL",
-       "lci_charger","lci_converter","lci_electric_engine","lci_inverter","lci_power_distribution_unit",
-        "lci_electric_powertrain_EoL","lci_engine","lci_rest_of_powertrain","lci_fuel_cell_ancillary_BoP","lci_fuel_cell_essential_BoP",
-        "lci_fuel_cell_stack","lci_battery_BoP","lci_battery_cell","lci_battery_production_electricity_correction",
-        "lci_battery_cell_production_electricity","lci_battery_cell_production_heat","lci_fuel_tank","lci_CNG_tank",
-        "lci_H2_tank", "lci_electricity","lci_petrol","lci_diesel","lci_CNG","lci_h2","lci_tyre_wear","lci_brake_wear",
-        "lci_road_wear","lci_road","lci_CO2","lci_SO2","lci_benzene","lci_CH4", "lci_CO","lci_HC","lci_N2O",
-        "lci_NH3", "lci_NMVOC","lci_NO2","lci_NOx", "lci_PM",
-        "noise, octave 1, day time, urban",
-        "noise, octave 2, day time, urban",
-        "noise, octave 3, day time, urban",
-        "noise, octave 4, day time, urban",
-        "noise, octave 5, day time, urban",
-        "noise, octave 6, day time, urban",
-        "noise, octave 7, day time, urban",
-        "noise, octave 8, day time, urban",
-        "noise, octave 1, evening time, urban",
-        "noise, octave 2, evening time, urban",
-        "noise, octave 3, evening time, urban",
-        "noise, octave 4, evening time, urban",
-        "noise, octave 5, evening time, urban",
-        "noise, octave 6, evening time, urban",
-        "noise, octave 7, evening time, urban",
-        "noise, octave 8, evening time, urban",
-        "noise, octave 1, night time, urban",
-        "noise, octave 2, night time, urban",
-        "noise, octave 3, night time, urban",
-        "noise, octave 4, night time, urban",
-        "noise, octave 5, night time, urban",
-        "noise, octave 6, night time, urban",
-        "noise, octave 7, night time, urban",
-        "noise, octave 8, night time, urban",
-        "noise, octave 1, day time, suburban",
-        "noise, octave 2, day time, suburban",
-        "noise, octave 3, day time, suburban",
-        "noise, octave 4, day time, suburban",
-        "noise, octave 5, day time, suburban",
-        "noise, octave 6, day time, suburban",
-        "noise, octave 7, day time, suburban",
-        "noise, octave 8, day time, suburban",
-        "noise, octave 1, evening time, suburban",
-        "noise, octave 2, evening time, suburban",
-        "noise, octave 3, evening time, suburban",
-        "noise, octave 4, evening time, suburban",
-        "noise, octave 5, evening time, suburban",
-        "noise, octave 6, evening time, suburban",
-        "noise, octave 7, evening time, suburban",
-        "noise, octave 8, evening time, suburban",
-        "noise, octave 1, night time, suburban",
-        "noise, octave 2, night time, suburban",
-        "noise, octave 3, night time, suburban",
-        "noise, octave 4, night time, suburban",
-        "noise, octave 5, night time, suburban",
-        "noise, octave 6, night time, suburban",
-        "noise, octave 7, night time, suburban",
-        "noise, octave 8, night time, suburban",
-        "noise, octave 1, day time, rural",
-        "noise, octave 2, day time, rural",
-        "noise, octave 3, day time, rural",
-        "noise, octave 4, day time, rural",
-        "noise, octave 5, day time, rural",
-        "noise, octave 6, day time, rural",
-        "noise, octave 7, day time, rural",
-        "noise, octave 8, day time, rural",
-        "noise, octave 1, evening time, rural",
-        "noise, octave 2, evening time, rural",
-        "noise, octave 3, evening time, rural",
-        "noise, octave 4, evening time, rural",
-        "noise, octave 5, evening time, rural",
-        "noise, octave 6, evening time, rural",
-        "noise, octave 7, evening time, rural",
-        "noise, octave 8, evening time, rural",
-        "noise, octave 1, night time, rural",
-        "noise, octave 2, night time, rural",
-        "noise, octave 3, night time, rural",
-        "noise, octave 4, night time, rural",
-        "noise, octave 5, night time, rural",
-        "noise, octave 6, night time, rural",
-        "noise, octave 7, night time, rural",
-        "noise, octave 8, night time, rural"
-        ]
+                          delimiter=';', skip_header=2, usecols=range(2, ncols))
 
 
-        return self.array.loc[:,:,list_lci_inputs,:,:].dot(B_matrix)
+
+        list_lci_inputs = sorted([x for x in self.array.coords['parameter'].values.tolist() if x.startswith('_lci')],
+                                 key=str.lower)
+
+        B_matrix = xr.DataArray(B, coords=[list_lci_inputs, impact_cat],
+                                dims=['parameter', 'impact category'])
+
+        results = B_matrix*self.array.loc[:,:,list_lci_inputs,:,0]
+
+
+
+        impact = ['direct', 'energy chain', 'energy storage',
+                  'glider', 'powertrain', 'road', 'maintenance']
+
+        response = xr.DataArray(np.zeros((B.shape[1], 7, 7, 2, 7)),
+                                coords=[impact_cat, self.array.coords['size'], self.array.coords['powertrain'],
+                                        self.array.coords['year'], impact],
+                                dims=[ 'impact_category', 'size', 'powertrain', 'year','impact'])
+
+        list_param = sorted(self.array.coords['parameter'].values.tolist(), key=str.lower)
+        direct_emissions = [x for x in list_param if x.startswith('_lci_direct')]
+
+        energy_chain = [x for x in list_param if x.startswith('_lci_energy')]
+
+        energy_storage = [x for x in list_param if x.startswith('_lci_storage')]
+
+        glider = ['_lci_glider', '_lci_glider_lightweighting']
+
+        powertrain = [x for x in list_param if x.startswith('_lci_powertrain')]
+
+        road = ['_lci_road']
+        maintenance = ['_lci_car_maintenance']
+
+        response.loc[:,:,:,:,'direct'] = results.sel(parameter=direct_emissions).sum(axis=0)
+        response.loc[:, :, :, :, 'energy chain'] = results.sel(parameter=energy_chain).sum(axis=0)
+        response.loc[:, :, :, :, 'energy storage'] = results.sel(parameter=energy_storage).sum(axis=0)
+        response.loc[:, :, :, :, 'glider'] = results.sel(parameter=glider).sum(axis=0)
+        response.loc[:, :, :, :, 'powertrain'] = results.sel(parameter=powertrain).sum(axis=0)
+        response.loc[:, :, :, :, 'road'] = results.sel(parameter=road).sum(axis=0)
+        response.loc[:, :, :, :, 'maintenance'] = results.sel(parameter=maintenance).sum(axis=0)
+
+        if level == 'single score':
+            response = response.sum(axis=0)
+        return impact_cat, units, response
 
     def write_lci_excel_to_bw(self, db_name, filepath=None, objs=None, sections=None):
         """Export database `database_name` to an Excel spreadsheet.
@@ -878,18 +912,27 @@ class CarModel:
         data.append([])
 
         for k in i.data:
-            data.extend((['Activity', k['name']], ('code', k['code']),
-                         ('location', k['location']),
-                         ('production amount', float(k['production amount'])),
-                         ('reference product', k.get('reference product')),
-                         ('type', 'process'),
-                         ('unit', k['unit']), ('worksheet name', 'None'), ['Exchanges'],
-                         ['name', 'amount', 'database', 'location', 'unit', 'categories', 'type', 'reference product']
-                         ))
+            if k.get('exchanges'):
+                data.extend((['Activity', k['name']], ('code', k['code']),
+                             ('location', k['location']),
+                             ('production amount', float(k['production amount'])),
+                             ('reference product', k.get('reference product')),
+                             ('type', 'process'),
+                             ('unit', k['unit']), ('worksheet name', 'None'), ['Exchanges'],
+                             ['name', 'amount', 'database', 'location', 'unit', 'categories', 'type', 'reference product']
+                             ))
 
-            for e in k['exchanges']:
-                data.append([e['name'], float(e['amount']), e['database'], e.get('location', 'None'), e['unit'],
-                             '::'.join(e.get('categories', ())), e['type'], e.get('reference product')])
+                for e in k['exchanges']:
+                    data.append([e['name'], float(e['amount']), e['database'], e.get('location', 'None'), e['unit'],
+                                 '::'.join(e.get('categories', ())), e['type'], e.get('reference product')])
+            else:
+                data.extend((
+                            ['Activity', k['name']],
+                            ('code', k['code']),
+                            ('type', 'biosphere'),
+                            ('unit', k['unit']),
+                            ('worksheet name', 'None')
+                ))
             data.append([])
 
 
@@ -1037,7 +1080,8 @@ class CarModel:
         for x in range(1,9):
             for y in ['urban', 'suburban', 'rural', 'industrial', 'indoor', 'unspecified']:
                 for z in ['day time', 'evening time', 'night time']:
-                    list_act.append({'code': 'noise, octave '+str(x)+', ' + z + ', '+y,
+                    list_act.append({
+                                 'code': 'noise, octave '+str(x)+', ' + z + ', '+y,
                                  'database': db_name,
                                  'name': 'noise, octave '+str(x)+', ' + z + ', '+y,
                                  'unit': 'joule',

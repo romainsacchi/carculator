@@ -1,70 +1,70 @@
 Id;Database;Dataset name;Location;Unit;Type;reference product;categories
-lci_glider;ecoinvent;market for glider, passenger car;GLO;kilogram;technosphere;glider, passenger car;
-lci_glider_lightweighting;Car database;Glider lightweighting;GLO;kilogram;technosphere;Glider lightweighting;
-lci_car_maintenance;ecoinvent;maintenance, passenger car;RER;unit;technosphere;passenger car maintenance;
-lci_electric_EoL;ecoinvent;market for manual dismantling of used electric passenger car;GLO;unit;technosphere;manual dismantling of used electric passenger car;
-lci_combustion_EoL;ecoinvent;market for manual dismantling of used passenger car with internal combustion engine;GLO;unit;technosphere;manual dismantling of used passenger car with internal combustion engine;
-lci_charger;ecoinvent;market for charger, electric passenger car;GLO;kilogram;technosphere;charger, electric passenger car;
-lci_converter;ecoinvent;market for converter, for electric passenger car;GLO;kilogram;technosphere;converter, for electric passenger car;
-lci_electric_engine;ecoinvent;market for electric motor, electric passenger car;GLO;kilogram;technosphere;electric motor, electric passenger car;
-lci_inverter;ecoinvent;market for inverter, for electric passenger car;GLO;kilogram;technosphere;inverter, for electric passenger car;
-lci_power_distribution_unit;ecoinvent;market for power distribution unit, for electric passenger car;GLO;kilogram;technosphere;power distribution unit, for electric passenger car;
-lci_electric_powertrain_EoL;ecoinvent;market for used powertrain from electric passenger car, manual dismantling;GLO;kilogram;technosphere;used powertrain from electric passenger car, manual dismantling;
-lci_engine;ecoinvent;market for internal combustion engine, passenger car;GLO;kilogram;technosphere;internal combustion engine, for passenger car;
-lci_rest_of_powertrain;ecoinvent;market for internal combustion engine, passenger car;GLO;kilogram;technosphere;internal combustion engine, for passenger car;
-lci_fuel_cell_ancillary_BoP;Car database;Ancillary BoP;GLO;kilogram;technosphere;;
-lci_fuel_cell_essential_BoP;Car database;Essential BoP;GLO;kilogram;technosphere;;
-lci_fuel_cell_stack;Car database;Stack 2020;GLO;kilowatt;technosphere;;
-lci_battery_BoP;Car database;Battery BoP;GLO;kilogram;technosphere;;
-lci_battery_cell;Car database;Battery cell;GLO;kilogram;technosphere;;
-lci_battery_production_electricity_correction;ecoinvent;market group for electricity, medium voltage;GLO;kilowatt hour;technosphere;electricity, medium voltage;
-lci_battery_cell_production_electricity;ecoinvent;market group for electricity, medium voltage;GLO;kilowatt hour;technosphere;electricity, medium voltage;
-lci_battery_cell_production_heat;ecoinvent;market for heat, central or small-scale, natural gas;RoW;megajoule;technosphere;heat, central or small-scale, natural gas;
-lci_fuel_tank;ecoinvent;polyethylene production, high density, granulate;RER;kilogram;technosphere;polyethylene, high density, granulate;
-lci_CNG_tank;ecoinvent;glass fibre reinforced plastic production, polyamide, injection moulded;RER;kilogram;technosphere;glass fibre reinforced plastic, polyamide, injection moulded;
-lci_H2_tank;Car database;Fuel tank, compressed hydrogen gas, 700bar;GLO;kilogram;technosphere;;
-lci_electricity;ecoinvent;market group for electricity, low voltage;ENTSO-E;kilowatt hour;technosphere;electricity, low voltage;
-lci_petrol;ecoinvent;market for petrol, low-sulfur;Europe without Switzerland;kilogram;technosphere;petrol, low-sulfur;
-lci_diesel;ecoinvent;market for diesel;Europe without Switzerland;kilogram;technosphere;diesel;
-lci_CNG;ecoinvent;market for natural gas, from high pressure network (1-5 bar), at service station;GLO;kilogram;technosphere;natural gas, from high pressure network (1-5 bar), at service station;
-lci_h2;Car database;Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station;RER;kilogram;technosphere;;
-lci_tyre_wear;ecoinvent;market for tyre wear emissions, passenger car;GLO;kilogram;technosphere;tyre wear emissions, passenger car;
-lci_brake_wear;ecoinvent;market for brake wear emissions, passenger car;GLO;kilogram;technosphere;brake wear emissions, passenger car;
-lci_road_wear;ecoinvent;market for road wear emissions, passenger car;GLO;kilogram;technosphere;road wear emissions, passenger car;
-lci_road;ecoinvent;market for road;GLO;meter-year;technosphere;road;
-lci_CO2;biosphere3;Carbon dioxide, fossil;;kilogram;biosphere;;air
-lci_SO2;biosphere3;Sulfur dioxide;;kilogram;biosphere;;air
-lci_benzene;biosphere3;Benzene;;kilogram;biosphere;;air
-lci_CH4;biosphere3;Methane, fossil;;kilogram;biosphere;;air
-lci_CO;biosphere3;Carbon monoxide, fossil;;kilogram;biosphere;;air
-lci_HC;biosphere3;PAH, polycyclic aromatic hydrocarbons;;kilogram;biosphere;;air
-lci_N2O;biosphere3;Dinitrogen monoxide;;kilogram;biosphere;;air
-lci_NO2;biosphere3;Nitrogen oxides;;kilogram;biosphere;;air
-lci_NH3;biosphere3;Ammonia;;kilogram;biosphere;;air
-lci_NMVOC;biosphere3;NMVOC, non-methane volatile organic compounds, unspecified origin;;kilogram;biosphere;;air
-lci_NOx;biosphere3;Nitrogen oxides;;kilogram;biosphere;;air
-lci_PM;biosphere3;Particulates, > 2.5 um, and < 10um;;kilogram;biosphere;;air
-octave_1_day_urban;Car database;noise, octave 1, day time, urban;;joule;biosphere;;octave 1::day time::urban
-octave_2_day_urban;Car database;noise, octave 2, day time, urban;;joule;biosphere;;octave 2::day time::urban
-octave_3_day_urban;Car database;noise, octave 3, day time, urban;;joule;biosphere;;octave 3::day time::urban
-octave_4_day_urban;Car database;noise, octave 4, day time, urban;;joule;biosphere;;octave 4::day time::urban
-octave_5_day_urban;Car database;noise, octave 5, day time, urban;;joule;biosphere;;octave 5::day time::urban
-octave_6_day_urban;Car database;noise, octave 6, day time, urban;;joule;biosphere;;octave 6::day time::urban
-octave_7_day_urban;Car database;noise, octave 7, day time, urban;;joule;biosphere;;octave 7::day time::urban
-octave_8_day_urban;Car database;noise, octave 8, day time, urban;;joule;biosphere;;octave 8::day time::urban
-octave_1_day_suburban;Car database;noise, octave 1, day time, suburban;;joule;biosphere;;octave 1::day time::suburban
-octave_2_day_suburban;Car database;noise, octave 2, day time, suburban;;joule;biosphere;;octave 2::day time::suburban
-octave_3_day_suburban;Car database;noise, octave 3, day time, suburban;;joule;biosphere;;octave 3::day time::suburban
-octave_4_day_suburban;Car database;noise, octave 4, day time, suburban;;joule;biosphere;;octave 4::day time::suburban
-octave_5_day_suburban;Car database;noise, octave 5, day time, suburban;;joule;biosphere;;octave 5::day time::suburban
-octave_6_day_suburban;Car database;noise, octave 6, day time, suburban;;joule;biosphere;;octave 6::day time::suburban
-octave_7_day_suburban;Car database;noise, octave 7, day time, suburban;;joule;biosphere;;octave 7::day time::suburban
-octave_8_day_suburban;Car database;noise, octave 8, day time, suburban;;joule;biosphere;;octave 8::day time::suburban
-octave_1_day_rural;Car database;noise, octave 1, day time, rural;;joule;biosphere;;octave 1::day time::rural
-octave_2_day_rural;Car database;noise, octave 2, day time, rural;;joule;biosphere;;octave 2::day time::rural
-octave_3_day_rural;Car database;noise, octave 3, day time, rural;;joule;biosphere;;octave 3::day time::rural
-octave_4_day_rural;Car database;noise, octave 4, day time, rural;;joule;biosphere;;octave 4::day time::rural
-octave_5_day_rural;Car database;noise, octave 5, day time, rural;;joule;biosphere;;octave 5::day time::rural
-octave_6_day_rural;Car database;noise, octave 6, day time, rural;;joule;biosphere;;octave 6::day time::rural
-octave_7_day_rural;Car database;noise, octave 7, day time, rural;;joule;biosphere;;octave 7::day time::rural
-octave_8_day_rural;Car database;noise, octave 8, day time, rural;;joule;biosphere;;octave 8::day time::rural
+_lci_direct_C6H6;biosphere3;Benzene;;kilogram;biosphere;;air
+_lci_direct_CH4;biosphere3;Methane, fossil;;kilogram;biosphere;;air
+_lci_direct_CO;biosphere3;Carbon monoxide, fossil;;kilogram;biosphere;;air
+_lci_direct_CO2;biosphere3;Carbon dioxide, fossil;;kilogram;biosphere;;air
+_lci_direct_HC;biosphere3;PAH, polycyclic aromatic hydrocarbons;;kilogram;biosphere;;air
+_lci_direct_N2O;biosphere3;Dinitrogen monoxide;;kilogram;biosphere;;air
+_lci_direct_NH3;biosphere3;Ammonia;;kilogram;biosphere;;air
+_lci_direct_NMVOC;biosphere3;NMVOC, non-methane volatile organic compounds, unspecified origin;;kilogram;biosphere;;air
+_lci_direct_NO2;biosphere3;Nitrogen oxides;;kilogram;biosphere;;air
+_lci_direct_NOx;biosphere3;Nitrogen oxides;;kilogram;biosphere;;air
+_lci_direct_PM;biosphere3;Particulates, > 2.5 um, and < 10um;;kilogram;biosphere;;air
+_lci_direct_SO2;biosphere3;Sulfur dioxide;;kilogram;biosphere;;air
+_lci_storage_battery_BoP;Car database;Battery BoP;GLO;kilogram;technosphere;;
+_lci_storage_battery_cell;Car database;Battery cell;GLO;kilogram;technosphere;;
+_lci_storage_battery_cell_production_electricity;ecoinvent;market group for electricity, medium voltage;GLO;kilowatt hour;technosphere;electricity, medium voltage;
+_lci_storage_battery_cell_production_heat;ecoinvent;market for heat, central or small-scale, natural gas;RoW;megajoule;technosphere;heat, central or small-scale, natural gas;
+_lci_storage_battery_production_electricity_correction;ecoinvent;market group for electricity, medium voltage;GLO;kilowatt hour;technosphere;electricity, medium voltage;
+_lci_direct_brake_wear;ecoinvent;market for brake wear emissions, passenger car;GLO;kilogram;technosphere;brake wear emissions, passenger car;
+_lci_car_maintenance;ecoinvent;maintenance, passenger car;RER;unit;technosphere;passenger car maintenance;
+_lci_powertrain_charger;ecoinvent;market for charger, electric passenger car;GLO;kilogram;technosphere;charger, electric passenger car;
+_lci_energy_cng;ecoinvent;market for natural gas, from high pressure network (1-5 bar), at service station;GLO;kilogram;technosphere;natural gas, from high pressure network (1-5 bar), at service station;
+_lci_storage_cng_tank;ecoinvent;glass fibre reinforced plastic production, polyamide, injection moulded;RER;kilogram;technosphere;glass fibre reinforced plastic, polyamide, injection moulded;
+_lci_powertrain_combustion_EoL;ecoinvent;market for manual dismantling of used passenger car with internal combustion engine;GLO;unit;technosphere;manual dismantling of used passenger car with internal combustion engine;
+_lci_powertrain_converter;ecoinvent;market for converter, for electric passenger car;GLO;kilogram;technosphere;converter, for electric passenger car;
+_lci_energy_diesel;ecoinvent;market for diesel;Europe without Switzerland;kilogram;technosphere;diesel;
+_lci_powertrain_electric_engine;ecoinvent;market for electric motor, electric passenger car;GLO;kilogram;technosphere;electric motor, electric passenger car;
+_lci_powertrain_electric_EoL;ecoinvent;market for manual dismantling of used electric passenger car;GLO;unit;technosphere;manual dismantling of used electric passenger car;
+_lci_powertrain_electric_powertrain_EoL;ecoinvent;market for used powertrain from electric passenger car, manual dismantling;GLO;kilogram;technosphere;used powertrain from electric passenger car, manual dismantling;
+_lci_energy_electricity;ecoinvent;market group for electricity, low voltage;ENTSO-E;kilowatt hour;technosphere;electricity, low voltage;
+_lci_powertrain_engine;ecoinvent;market for internal combustion engine, passenger car;GLO;kilogram;technosphere;internal combustion engine, for passenger car;
+_lci_powertrain_fuel_cell_ancillary_BoP;Car database;Ancillary BoP;GLO;kilogram;technosphere;;
+_lci_powertrain_fuel_cell_essential_BoP;Car database;Essential BoP;GLO;kilogram;technosphere;;
+_lci_powertrain_fuel_cell_stack;Car database;Stack 2020;GLO;kilowatt;technosphere;;
+_lci_storage_fuel_tank;ecoinvent;polyethylene production, high density, granulate;RER;kilogram;technosphere;polyethylene, high density, granulate;
+_lci_glider;ecoinvent;market for glider, passenger car;GLO;kilogram;technosphere;glider, passenger car;
+_lci_glider_lightweighting;Car database;Glider lightweighting;GLO;kilogram;technosphere;Glider lightweighting;
+_lci_energy_h2;Car database;Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station;RER;kilogram;technosphere;;
+_lci_storage_h2_tank;Car database;Fuel tank, compressed hydrogen gas, 700bar;GLO;kilogram;technosphere;;
+_lci_powertrain_inverter;ecoinvent;market for inverter, for electric passenger car;GLO;kilogram;technosphere;inverter, for electric passenger car;
+_lci_energy_petrol;ecoinvent;market for petrol, low-sulfur;Europe without Switzerland;kilogram;technosphere;petrol, low-sulfur;
+_lci_powertrain_power_distribution_unit;ecoinvent;market for power distribution unit, for electric passenger car;GLO;kilogram;technosphere;power distribution unit, for electric passenger car;
+_lci_powertrain_rest_of_powertrain;ecoinvent;market for internal combustion engine, passenger car;GLO;kilogram;technosphere;internal combustion engine, for passenger car;
+_lci_road;ecoinvent;market for road;GLO;meter-year;technosphere;road;
+_lci_direct_road_wear;ecoinvent;market for road wear emissions, passenger car;GLO;kilogram;technosphere;road wear emissions, passenger car;
+_lci_direct_tyre_wear;ecoinvent;market for tyre wear emissions, passenger car;GLO;kilogram;technosphere;tyre wear emissions, passenger car;
+_lci_direct_noise, octave 1, day time, rural;Car database;noise, octave 1, day time, rural;;joule;biosphere;;octave 1::day time::rural
+_lci_direct_noise, octave 1, day time, suburban;Car database;noise, octave 1, day time, suburban;;joule;biosphere;;octave 1::day time::suburban
+_lci_direct_noise, octave 1, day time, urban;Car database;noise, octave 1, day time, urban;;joule;biosphere;;octave 1::day time::urban
+_lci_direct_noise, octave 2, day time, rural;Car database;noise, octave 2, day time, rural;;joule;biosphere;;octave 2::day time::rural
+_lci_direct_noise, octave 2, day time, suburban;Car database;noise, octave 2, day time, suburban;;joule;biosphere;;octave 2::day time::suburban
+_lci_direct_noise, octave 2, day time, urban;Car database;noise, octave 2, day time, urban;;joule;biosphere;;octave 2::day time::urban
+_lci_direct_noise, octave 3, day time, rural;Car database;noise, octave 3, day time, rural;;joule;biosphere;;octave 3::day time::rural
+_lci_direct_noise, octave 3, day time, suburban;Car database;noise, octave 3, day time, suburban;;joule;biosphere;;octave 3::day time::suburban
+_lci_direct_noise, octave 3, day time, urban;Car database;noise, octave 3, day time, urban;;joule;biosphere;;octave 3::day time::urban
+_lci_direct_noise, octave 4, day time, rural;Car database;noise, octave 4, day time, rural;;joule;biosphere;;octave 4::day time::rural
+_lci_direct_noise, octave 4, day time, suburban;Car database;noise, octave 4, day time, suburban;;joule;biosphere;;octave 4::day time::suburban
+_lci_direct_noise, octave 4, day time, urban;Car database;noise, octave 4, day time, urban;;joule;biosphere;;octave 4::day time::urban
+_lci_direct_noise, octave 5, day time, rural;Car database;noise, octave 5, day time, rural;;joule;biosphere;;octave 5::day time::rural
+_lci_direct_noise, octave 5, day time, suburban;Car database;noise, octave 5, day time, suburban;;joule;biosphere;;octave 5::day time::suburban
+_lci_direct_noise, octave 5, day time, urban;Car database;noise, octave 5, day time, urban;;joule;biosphere;;octave 5::day time::urban
+_lci_direct_noise, octave 6, day time, rural;Car database;noise, octave 6, day time, rural;;joule;biosphere;;octave 6::day time::rural
+_lci_direct_noise, octave 6, day time, suburban;Car database;noise, octave 6, day time, suburban;;joule;biosphere;;octave 6::day time::suburban
+_lci_direct_noise, octave 6, day time, urban;Car database;noise, octave 6, day time, urban;;joule;biosphere;;octave 6::day time::urban
+_lci_direct_noise, octave 7, day time, rural;Car database;noise, octave 7, day time, rural;;joule;biosphere;;octave 7::day time::rural
+_lci_direct_noise, octave 7, day time, suburban;Car database;noise, octave 7, day time, suburban;;joule;biosphere;;octave 7::day time::suburban
+_lci_direct_noise, octave 7, day time, urban;Car database;noise, octave 7, day time, urban;;joule;biosphere;;octave 7::day time::urban
+_lci_direct_noise, octave 8, day time, rural;Car database;noise, octave 8, day time, rural;;joule;biosphere;;octave 8::day time::rural
+_lci_direct_noise, octave 8, day time, suburban;Car database;noise, octave 8, day time, suburban;;joule;biosphere;;octave 8::day time::suburban
+_lci_direct_noise, octave 8, day time, urban;Car database;noise, octave 8, day time, urban;;joule;biosphere;;octave 8::day time::urban

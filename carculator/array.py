@@ -84,18 +84,41 @@ def fill_xarray_from_input_parameters(cip):
 def modify_xarray_from_custom_parameters(fp, array):
     """Override default parameters values in `xarray` based on values provided by the user.
 
-        This function allows to override one or several default parameter values by providing
-        a file path to an Excel workbook that contains the new values.
+        This function allows to override one or several default parameter values by providing either:
+        * a file path to an Excel workbook that contains the new values
+        * or a dictionary
 
-        :param fp: File path of workbook with new values.
-        :type fp: str
+        The dictionary must be of the following format:
+            {
+                (parameter category,
+                    powertrain,
+                    size,
+                    parameter name,
+                    uncertainty type): {
+                                        (year, 'loc'): value,
+                                        (year, 'scale'): value,
+                                        (year, 'shape'): value,
+                                        (year, 'minimum'): value,
+                                        (year, 'maximum'): value
+                }
+
+            }
+        :param fp: File path of workbook with new values or dictionary.
+        :type fp: str or dict
 
         """
 
-    try:
-        d = pd.read_excel(fp, header=[0,1], index_col=[0,1,2,3,4], sheet_name='Custom_parameters').to_dict(orient='index')
-    except:
-        raise FileNotFoundError('Custom parameters file not found.')
+    if isinstance(fp, str):
+        try:
+            d = pd.read_excel(fp, header=[0,1], index_col=[0,1,2,3,4], sheet_name='Custom_parameters').to_dict(orient='index')
+        except:
+            raise FileNotFoundError('Custom parameters file not found.')
+    elif isinstance(fp, dict):
+        d = fp
+    else:
+        print('The format passed as parameter is not valid.')
+        raise
+
 
     for k in d:
         if k[1].lower() != 'all':
@@ -145,14 +168,13 @@ def modify_xarray_from_custom_parameters(fp, array):
                     # Triangular
 
                     if distr == 5:
-
                         if np.isnan(val[(y, 'loc')]) or np.isnan(val[(y, 'minimum')]) or np.isnan(val[(y, 'maximum')]):
                             print(
                                 'One or more parameters for the triangular distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies'.format(
                                     param, y))
                             continue
 
-                            # Lognormal
+                    # Lognormal
                     if distr == 2:
                         if np.isnan(val[(y, 'loc')]) or np.isnan(val[(y, 'scale')]):
                             print(
