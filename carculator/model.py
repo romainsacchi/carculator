@@ -649,9 +649,7 @@ class CarModel:
 
         self['_lci_powertrain_electric_powertrain_EoL'] = self[l_elec_pt].sum(axis=2) / self['lifetime kilometers'] *-1
 
-        self['_lci_powertrain_engine'] = (self[['combustion engine mass','electric engine mass']].sum(axis=2)) / self['lifetime kilometers']
-
-        self['_lci_powertrain_rest_of_powertrain'] = self['powertrain mass'] / self['lifetime kilometers']
+        self['_lci_powertrain'] = (self[['combustion engine mass','electric engine mass', 'powertrain mass']].sum(axis=2)) / self['lifetime kilometers']
 
         with self('FCEV') as pt:
             pt['_lci_powertrain_fuel_cell_ancillary_BoP'] = pt['fuel cell ancillary BoP mass'] / pt['lifetime kilometers']
@@ -663,10 +661,10 @@ class CarModel:
         self['_lci_storage_battery_BoP'] = self['battery BoP mass'] * (1 + self['battery lifetime replacements']) / self['lifetime kilometers']
         self['_lci_storage_battery_cell'] = self['battery cell mass'] * (1 + self['fuel cell lifetime replacements']) / self[
             'lifetime kilometers']
-        self['_lci_storage_battery_production_electricity_correction'] = -28 * self['battery cell mass'] * (1+ self['battery lifetime replacements'])\
-            / self['lifetime kilometers']
-        self['_lci_storage_battery_cell_production_electricity'] = self['battery cell production electricity'] * self['battery cell mass'] *\
-                                                      (1 + self['battery lifetime replacements' ]) / self['lifetime kilometers']
+
+        self['_lci_storage_battery_cell_production_electricity'] = (self['battery cell production electricity'] * self['battery cell mass'] *\
+                                                      (1 + self['battery lifetime replacements' ]) / self['lifetime kilometers'])+ \
+                        (-28 * self['battery cell mass'] * (1 + self['battery lifetime replacements'])/ self['lifetime kilometers'])
 
         self['_lci_storage_battery_cell_production_heat'] = 3.6 * self['battery cell production heat'] * self['battery cell mass']* \
                                                    (1 + self['battery lifetime replacements']) / self[
@@ -716,8 +714,8 @@ class CarModel:
         self['_lci_direct_N2O'] = self['N2O'] # combustion minus gas
         self['_lci_direct_NH3'] = self['NH3'] # combustion
         self['_lci_direct_NMVOC'] = self['NMVOC'] # combustion
-        self['_lci_direct_NO2'] = self['NO2'] # combustion minus gas
-        self['_lci_direct_NOx'] = self['NOx'] # combustion
+        #self['_lci_direct_NO2'] = self['NO2'] # combustion minus gas
+        self['_lci_direct_NOx'] = self['NOx'] + self['NO2'] # combustion minus gas
         self['_lci_direct_PM'] = self['PM']
 
         nem = NoiseEmissionsModel(self.ecm.cycle)
@@ -998,18 +996,80 @@ class CarModel:
 
         i = ExcelImporter(
             filename)
+
         return i
 
-    def write_lci_to_bw(self, db_name):
+    def best_fit_distribution(self, data, bins=200):
+        """Model data by finding best fit distribution to data"""
+        # Get histogram of original data
+        y, x = np.histogram(data, bins=bins, density=True)
+        x = (x + np.roll(x, -1))[:-1] / 2.0
+
+        # Distributions to check
+        DISTRIBUTIONS = [
+            st.beta, st.gamma, st.lognorm,
+            st.norm,
+            st.t, st.triang,
+            st.uniform, st.weibull_min, st.weibull_max
+        ]
+
+        # Best holders
+        best_distribution = st.norm
+        best_params = (0.0, 1.0)
+        best_sse = np.inf
+
+        # Estimate distribution parameters from data
+        for distribution in DISTRIBUTIONS:
+
+            # Try to fit the distribution
+            try:
+                # Ignore warnings from data that can't be fit
+                with warnings.catch_warnings():
+                    warnings.filterwarnings('ignore')
+
+                    # fit dist to data
+                    params = distribution.fit(data)
+
+                    # Separate parts of parameters
+                    arg = params[:-2]
+                    loc = params[-2]
+                    scale = params[-1]
+
+                    # Calculate fitted PDF and error with fit in distribution
+                    pdf = distribution.pdf(x, loc=loc, scale=scale, *arg)
+                    sse = np.sum(np.power(y - pdf, 2.0))
+
+                    # identify if this distribution is better
+                    if best_sse > sse > 0:
+                        best_distribution = distribution
+                        best_params = params
+                        best_sse = sse
+
+            except Exception:
+                pass
+
+        return (best_distribution.name, best_params)
+
+
+    def write_lci_to_bw(self, db_name, presamples=True, name_ecoinvent_db='ecoinvent 3.5 cutoff'):
         """
         This method first imports `additional inventories` (e.g., battery production, hydrogen tank manufacture, etc.)
         from an spreadsheet into a dictionary using one of Brightway's import functions.
         Then it adds the car inventories to it and returns an object from the `bw2io.ExcelImporter` class.
+        If the model runs in "stochastic" mode and the argument `presamples`is set to True, then the method returns arrays
+        of presampled values in addition. These arrays cna be used by the `presamples`library to inject presampled values
+        in the inventory matrix for error propagation purpose (e.g., Monte Carlo).
+        If `presamples`is set to False, the uncertainty information is instead added to the inventory.
+        This means that the dependencies within the invenotry will not be respected when running a Monte Carlo analysis.
         :param db_name: Name of the database to be created.
         :type db_name: str
+        :param presamples: Boolean. Indicates whether uncertainty in inventories should be passed as presampled values,
+                            or as uncertainty distribution information.
+        :type presamples: bool
         :return: An bw2io.ExcelImporter object.
         :rtype: bwio.ExcelImporter
         """
+
 
         parent = Path(getframeinfo(currentframe()).filename).resolve().parent
         filename = parent.joinpath('data/dict_exchanges.csv')
@@ -1025,9 +1085,15 @@ class CarModel:
 
         list_act = []
 
+        # Overall array for presamples
+        matrix_data = []
+
         for pt in self.array.coords['powertrain'].values:
             for s in self.array.coords['size'].values:
                 for y in self.array.coords['year'].values:
+
+                    # Generate uniqu code for activity
+                    code_act = str(uuid.uuid1())
 
                     list_exc = []
                     # We insert first the reference product
@@ -1043,29 +1109,78 @@ class CarModel:
                     )
 
                     for k in list(csv_dict.keys()):
-                        value = self.array.sel(powertrain=pt, size=s, year=y, parameter=k).values[0]
+                        value = self.array.sel(powertrain=pt, size=s, year=y, parameter=k).values
 
-                        if np.isinf(value):
-                            print(pt, s, y, k, value)
+                        # Static mode
+                        if len(value) == 1:
 
-                        if abs(value) != 0.0:
+                            if abs(value) != 0.0:
+                                list_exc.append(
+                                    {
+                                        'name': csv_dict[k]['Dataset name'],
+                                        'database': csv_dict[k]['Database'],
+                                        'amount': value[0],
+                                        'unit': csv_dict[k]['Unit'],
+                                        'type': csv_dict[k]['Type'],
+                                        'location': csv_dict[k].get('Location', 'None'),
+                                        'reference product': csv_dict[k].get('reference product'),
+                                        'categories': csv_dict[k].get('categories'),
+                                        'uncertainty type': 0,
+                                        'code':csv_dict[k].get('code')
+                                    }
+                                )
+                        # Stochastic mode
+                        else:
+                            if np.sum(value) != 0.0:
+                                list_exc.append(
+                                    {
+                                        'name': csv_dict[k]['Dataset name'],
+                                        'database': csv_dict[k]['Database'],
+                                        'amount': np.median(value),
+                                        'unit': csv_dict[k]['Unit'],
+                                        'type': csv_dict[k]['Type'],
+                                        'location': csv_dict[k].get('Location', 'None'),
+                                        'reference product': csv_dict[k].get('reference product'),
+                                        'categories': csv_dict[k].get('categories'),
+                                        'uncertainty type': 0,
+                                        'code':csv_dict[k].get('code')
+                                    }
+                                )
 
-                            list_exc.append(
-                                {
-                                    'name': csv_dict[k]['Dataset name'],
-                                    'database': csv_dict[k]['Database'],
-                                    'amount': self.array.sel(powertrain=pt, size=s, year=y, parameter=k).values[0],
-                                    'unit': csv_dict[k]['Unit'],
-                                    'type': csv_dict[k]['Type'],
-                                    'location': csv_dict[k].get('Location', 'None'),
-                                    'reference product': csv_dict[k].get('reference product'),
-                                    'categories': csv_dict[k].get('categories')
-                                }
-                            )
+                                # Generate presamples array
+                                if presamples:
+                                    if csv_dict[k]['Database'] == 'biosphere3':
+                                        db = 'biosphere3'
+                                    elif csv_dict[k]['Database'] == 'ecoinvent':
+                                        db = name_ecoinvent_db
+                                    else:
+                                        db = db_name
+
+
+                                    act_key = (db_name, code_act)
+                                    exc_key = (db, csv_dict[k]['code'])
+
+                                    matrix_data.append(
+
+                                        (value.reshape((1,-1)),[(exc_key, act_key, csv_dict[k]['Type'])],csv_dict[k]['Type'])
+                                        )
+
+
+
+                                # Identify underlying distribution and parameters
+                                else:
+
+                                    best_distribution.name, best_params = self.best_fit_distribution(value)
+                                    print(best_distribution.name, best_params)
+
+
+
+
+
 
                     list_act.append({
                         'production amount':1,
-                        'code': str(uuid.uuid1()),
+                        'code': code_act,
                         'database': db_name,
                         'name': 'Passenger car, '+pt+", "+s+", "+str(y),
                         'unit': 'vehicle-kilometer',
@@ -1075,18 +1190,15 @@ class CarModel:
                         'type':'process'
                     })
 
-        c = ['urban', 'suburban', 'rural']
-
-        for x in range(1,9):
-            for y in ['urban', 'suburban', 'rural', 'industrial', 'indoor', 'unspecified']:
-                for z in ['day time', 'evening time', 'night time']:
-                    list_act.append({
-                                 'code': 'noise, octave '+str(x)+', ' + z + ', '+y,
+        # Add noise flows to the new database
+        for k in [i for i in list(csv_dict.keys()) if 'noise' in i]:
+            list_act.append({
+                                 'code': csv_dict[k]['code'],
                                  'database': db_name,
-                                 'name': 'noise, octave '+str(x)+', ' + z + ', '+y,
-                                 'unit': 'joule',
-                                 'type': 'biosphere',
-                                 'categories':"octave "+str(x)+"::"+z+"::"+y})
+                                 'name': csv_dict[k]['Dataset name'],
+                                 'unit': csv_dict[k]['Unit'],
+                                 'type': csv_dict[k]['Type'],
+                                 'categories':csv_dict[k]['categories']})
 
 
         i = self.import_aux_datasets()
@@ -1097,11 +1209,14 @@ class CarModel:
             try:
                 k['database'] = db_name
                 for e in k['exchanges']:
-                    if "ecoinvent" not in  e['database']:
+                    if "ecoinvent" not in e['database']:
                         e['database'] = db_name
             except:
                 continue
 
         i.apply_strategies()
 
-        return i
+        if presamples:
+            return i, matrix_data
+        else:
+            return i

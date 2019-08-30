@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62445f2d-9237-4247-9ae8-9559cdfa4502" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/carculator/array.py" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/array.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/carculator/data/B_matrix.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carculator/data/Additional datasets.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/Additional datasets.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carculator/data/B_matrix_eco_scarcity_endpoint.csv" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/B_matrix_eco_scarcity_endpoint.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carculator/data/B_matrix_recipe_endpoint.csv" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/B_matrix_recipe_endpoint.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carculator/data/B_matrix_recipe_endpoint_normalized.csv" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/B_matrix_recipe_endpoint_normalized.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carculator/data/B_matrix_recipe_midpoint.csv" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/B_matrix_recipe_midpoint.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/carculator/data/dict_exchanges.csv" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/dict_exchanges.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/carculator/default_parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/default_parameters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/carculator/lci-Car-db.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/lci-Car-db.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/carculator/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,7 +26,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/carculator/car_input_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="87">
+            <state relative-caret-position="154">
               <caret line="9" column="24" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="24" />
               <folding>
                 <element signature="e#45#91#0" expanded="true" />
@@ -35,8 +38,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/carculator/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="634">
-              <caret line="930" column="48" selection-start-line="930" selection-start-column="48" selection-end-line="930" selection-end-column="48" />
+            <state relative-caret-position="-1763">
+              <caret line="1060" column="80" selection-start-line="1060" selection-start-column="80" selection-end-line="1060" selection-end-column="80" />
               <folding>
                 <element signature="e#29#53#0" expanded="true" />
               </folding>
@@ -47,7 +50,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/carculator/array.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-454">
+            <state relative-caret-position="2464">
               <caret line="116" column="14" selection-start-line="116" selection-start-column="14" selection-end-line="116" selection-end-column="14" />
               <folding>
                 <element signature="e#31#49#0" expanded="true" />
@@ -59,8 +62,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/carculator/default_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-111">
-              <caret line="7056" column="21" selection-start-line="7056" selection-start-column="21" selection-end-line="7056" selection-end-column="21" />
+            <state relative-caret-position="836">
+              <caret line="7066" column="29" lean-forward="true" selection-start-line="7066" selection-start-column="29" selection-end-line="7066" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -81,7 +84,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>inverter</find>
       <find>converter</find>
       <find>'PHEV'</find>
       <find>fuel mass</find>
@@ -111,6 +113,7 @@
       <find>noise</find>
       <find>benzene</find>
       <find>_noise</find>
+      <find>uuid</find>
     </findStrings>
     <replaceStrings>
       <replace>_lci</replace>
@@ -152,8 +155,8 @@
         <option value="$PROJECT_DIR$/.travis.yml" />
         <option value="$PROJECT_DIR$/ci/macos-travis.txt" />
         <option value="$PROJECT_DIR$/ci/meta.yaml" />
-        <option value="$PROJECT_DIR$/carculator/default_parameters.py" />
         <option value="$PROJECT_DIR$/carculator/array.py" />
+        <option value="$PROJECT_DIR$/carculator/default_parameters.py" />
         <option value="$PROJECT_DIR$/carculator/model.py" />
       </list>
     </option>
@@ -169,6 +172,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -190,7 +194,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -547,6 +550,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/carculator/car_input_parameters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="9" column="24" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="24" />
+          <folding>
+            <element signature="e#45#91#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/carculator/array.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2464">
+          <caret line="116" column="14" selection-start-line="116" selection-start-column="14" selection-end-line="116" selection-end-column="14" />
+          <folding>
+            <element signature="e#31#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/carculator/driving_cycles.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -557,37 +580,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/carculator/car_input_parameters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
-          <caret line="9" column="24" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="24" />
-          <folding>
-            <element signature="e#45#91#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/carculator/default_parameters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-111">
-          <caret line="7056" column="21" selection-start-line="7056" selection-start-column="21" selection-end-line="7056" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/carculator/array.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-454">
-          <caret line="116" column="14" selection-start-line="116" selection-start-column="14" selection-end-line="116" selection-end-column="14" />
-          <folding>
-            <element signature="e#31#49#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="836">
+          <caret line="7066" column="29" lean-forward="true" selection-start-line="7066" selection-start-column="29" selection-end-line="7066" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/carculator/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="634">
-          <caret line="930" column="48" selection-start-line="930" selection-start-column="48" selection-end-line="930" selection-end-column="48" />
+        <state relative-caret-position="-1763">
+          <caret line="1060" column="80" selection-start-line="1060" selection-start-column="80" selection-end-line="1060" selection-end-column="80" />
           <folding>
             <element signature="e#29#53#0" expanded="true" />
           </folding>

@@ -10,7 +10,6 @@ _lci_direct_HC;PAH, polycyclic aromatic hydrocarbons;7.79E-05;2.97E-08;1.10E-11;
 _lci_direct_N2O;Dinitrogen monoxide;0.000276544;8.34E-07;2.28E-11;0;0
 _lci_direct_NH3;Ammonia;0.00020128;5.19E-07;0;1.56E-10;0
 _lci_direct_NMVOC;NMVOC, non-methane volatile organic compounds, unspecified origin;0.00000091;0.000000129;0;0;0
-_lci_direct_NO2;Nitrogen oxides;0.00013929;2.48E-07;0;6.61E-10;0
 _lci_direct_noise, octave 1, day time, rural;noise, octave 1, day time, rural;8.15E-10;0;0;0;0
 _lci_direct_noise, octave 1, day time, suburban;noise, octave 1, day time, suburban;2.21E-08;0;0;0;0
 _lci_direct_noise, octave 1, day time, urban;noise, octave 1, day time, urban;1.76E-08;0;0;0;0
@@ -101,19 +100,17 @@ _lci_powertrain_converter;market for converter, for electric passenger car;0.000
 _lci_powertrain_electric_engine;market for electric motor, electric passenger car;0.000140876;5.03E-08;1.18E-08;1.09E-10;0.616734778
 _lci_powertrain_electric_EoL;market for manual dismantling of used electric passenger car;4.28E-08;9.62E-11;2.03E-12;4.38E-14;0.000663483
 _lci_powertrain_electric_powertrain_EoL;market for used powertrain from electric passenger car, manual dismantling;2.20E-07;2.20E-10;7.92E-12;6.61E-13;0.000735413
-_lci_powertrain_engine;market for internal combustion engine, passenger car;4.55E-05;3.91E-08;4.68E-09;2.19E-10;0.476965111
+_lci_powertrain;market for internal combustion engine, passenger car;4.55E-05;3.91E-08;4.68E-09;2.19E-10;0.476965111
 _lci_powertrain_fuel_cell_ancillary_BoP;Ancillary BoP;0.000149757;4.58E-08;1.41E-08;9.72E-11;1.063589802
 _lci_powertrain_fuel_cell_essential_BoP;Essential BoP;2.67E-05;2.86E-08;1.92E-09;3.03E-11;0.574506665
 _lci_powertrain_fuel_cell_stack;Stack 2020;0.000149874;1.32E-07;1.07E-08;9.58E-11;1.24594182
 _lci_powertrain_inverter;market for inverter, for electric passenger car;0.000823666;2.47E-07;8.75E-08;6.03E-10;2.863491406
 _lci_powertrain_power_distribution_unit;market for power distribution unit, for electric passenger car;0.001315477;2.92E-07;1.45E-07;8.80E-10;3.486860561
-_lci_powertrain_rest_of_powertrain;market for internal combustion engine, passenger car;4.55E-05;3.91E-08;4.68E-09;2.19E-10;0.476965111
 _lci_road;market for road;6.23E-05;1.43E-07;2.31E-09;6.00E-11;2.907518948
 _lci_storage_battery_BoP;Battery BoP;0.00010087;6.05E-08;8.91E-09;8.75E-11;0.750010234
 _lci_storage_battery_cell;Battery cell;0.000367661;2.04E-07;2.99E-08;2.26E-10;1.969320249
 _lci_storage_battery_cell_production_electricity;market group for electricity, medium voltage;2.88E-06;3.16E-09;2.80E-10;2.18E-12;0.032505444
 _lci_storage_battery_cell_production_heat;market for heat, central or small-scale, natural gas;9.96E-08;2.39E-10;2.26E-12;5.16E-14;0.009786533
-_lci_storage_battery_production_electricity_correction;market group for electricity, medium voltage;2.88E-06;3.16E-09;2.80E-10;2.18E-12;0.032505444
 _lci_storage_cng_tank;glass fibre reinforced plastic production, polyamide, injection moulded;1.64E-05;3.48E-08;6.19E-10;2.26E-11;0.918753267
 _lci_storage_fuel_tank;polyethylene production, high density, granulate;3.12E-06;7.79E-09;2.03E-11;2.34E-12;0.639946581
 _lci_storage_h2_tank;Fuel tank, compressed hydrogen gas, 700bar;0.00012936;1.59E-07;1.02E-08;1.54E-10;2.727062932
