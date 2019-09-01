@@ -795,7 +795,7 @@ class CarModel:
 
         return response
 
-    def calculate_env_impacts(self, method = None, level=None):
+    def calculate_env_impacts(self, method = 'recipe', level='midpoint'):
         """
         This method returns an array with characterized environmental impacts, sub-divided into the following categories:
         * direct emissions
@@ -806,25 +806,23 @@ class CarModel:
         * road
         * maintenance
 
+        If left unspecified, the ReCiPe method with midpoint indicators is chosen.
+
+        :param method: An impact assessment method
+        :type method: str
+        :param level: An impact assessment level: midpoint, endpoint, single score.
+        :type level: str
         :return: A xarray array with characterized environmental impacts per vehicle-km
         :rtype: xarray.core.dataarray.DataArray
         """
 
-
-
-        if method == None:
-            method = 'recipe'
-        if level == None:
-            level = 'midpoint'
-
         filename={
-
             'recipe': {'midpoint':'B_matrix_recipe_midpoint.csv',
                        'endpoint':'B_matrix_recipe_endpoint.csv',
                        'single score':'B_matrix_recipe_endpoint_normalized.csv'},
             'ecological scarcity': {
                         'endpoint':'B_matrix_eco_scarcity_endpoint.csv'}
-        }
+                    }
 
         try:
             filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/'+ filename[method][level])
@@ -842,52 +840,48 @@ class CarModel:
         B = np.genfromtxt(filepath,
                           delimiter=';', skip_header=2, usecols=range(2, ncols))
 
-
-
         list_lci_inputs = sorted([x for x in self.array.coords['parameter'].values.tolist() if x.startswith('_lci')],
                                  key=str.lower)
 
         B_matrix = xr.DataArray(B, coords=[list_lci_inputs, impact_cat],
                                 dims=['parameter', 'impact category'])
 
-        results = B_matrix*self.array.loc[:,:,list_lci_inputs,:,0]
 
-
+        results = B_matrix.T*self.array.loc[:,:,list_lci_inputs,:,:].transpose('powertrain', 'size','year', 'value', 'parameter')
 
         impact = ['direct', 'energy chain', 'energy storage',
                   'glider', 'powertrain', 'road', 'maintenance']
 
-        response = xr.DataArray(np.zeros((B.shape[1], 7, 7, 2, 7)),
+        response = xr.DataArray(np.zeros((B.shape[1], 7, 7, 2, 7, np.shape(results)[-1])),
                                 coords=[impact_cat, self.array.coords['size'], self.array.coords['powertrain'],
-                                        self.array.coords['year'], impact],
-                                dims=[ 'impact_category', 'size', 'powertrain', 'year','impact'])
+                                        self.array.coords['year'], impact, np.arange(0,np.shape(results)[-1])],
+                                dims=[ 'impact_category', 'size', 'powertrain', 'year','impact', 'value'])
 
         list_param = sorted(self.array.coords['parameter'].values.tolist(), key=str.lower)
         direct_emissions = [x for x in list_param if x.startswith('_lci_direct')]
 
         energy_chain = [x for x in list_param if x.startswith('_lci_energy')]
-
         energy_storage = [x for x in list_param if x.startswith('_lci_storage')]
-
         glider = ['_lci_glider', '_lci_glider_lightweighting']
-
         powertrain = [x for x in list_param if x.startswith('_lci_powertrain')]
-
         road = ['_lci_road']
         maintenance = ['_lci_car_maintenance']
 
-        response.loc[:,:,:,:,'direct'] = results.sel(parameter=direct_emissions).sum(axis=0)
-        response.loc[:, :, :, :, 'energy chain'] = results.sel(parameter=energy_chain).sum(axis=0)
-        response.loc[:, :, :, :, 'energy storage'] = results.sel(parameter=energy_storage).sum(axis=0)
-        response.loc[:, :, :, :, 'glider'] = results.sel(parameter=glider).sum(axis=0)
-        response.loc[:, :, :, :, 'powertrain'] = results.sel(parameter=powertrain).sum(axis=0)
-        response.loc[:, :, :, :, 'road'] = results.sel(parameter=road).sum(axis=0)
-        response.loc[:, :, :, :, 'maintenance'] = results.sel(parameter=maintenance).sum(axis=0)
+        results = results.transpose('impact category', 'powertrain', 'size', 'year', 'parameter', 'value')
+
+        response.loc[:,:,:,:,'direct',:] = results.loc[:,:,:,:, direct_emissions ,:].sum(axis=4)
+        response.loc[:, :, :, :, 'energy chain',:] = results.loc[:,:,:,:, energy_chain ,:].sum(axis=4)
+        response.loc[:, :, :, :, 'energy storage',:] = results.loc[:,:,:,:, energy_storage ,:].sum(axis=4)
+        response.loc[:, :, :, :, 'glider',:] = results.loc[:,:,:,:, glider ,:].sum(axis=4)
+        response.loc[:, :, :, :, 'powertrain',:] = results.loc[:,:,:,:, powertrain ,:].sum(axis=4)
+        response.loc[:, :, :, :, 'road',:] = results.loc[:,:,:,:, road ,:].sum(axis=4)
+        response.loc[:, :, :, :, 'maintenance',:] = results.loc[:,:,:,:, maintenance ,:].sum(axis=4)
+
 
         if level == 'single score':
             response = response.sum(axis=0)
         return impact_cat, units, response
-
+        
     def write_lci_excel_to_bw(self, db_name, filepath=None, objs=None, sections=None):
         """Export database `database_name` to an Excel spreadsheet.
         If a filepath is not specified, the inventory file is exported where the module resides.
@@ -977,8 +971,6 @@ class CarModel:
 
         """
 
-
-
         return i
 
     def import_aux_datasets(self):
@@ -994,12 +986,15 @@ class CarModel:
         parent = Path(getframeinfo(currentframe()).filename).resolve().parent
         filename = parent.joinpath('data/Additional datasets.xlsx')
 
-        i = ExcelImporter(
-            filename)
+        i = ExcelImporter(filename)
 
         return i
 
-    def best_fit_distribution(self, data, bins=200):
+    # Create models from data
+    def best_fit_distribution(self, data, bins=200, ax=None):
+        import scipy.stats as st
+        import warnings
+        import pandas as pd
         """Model data by finding best fit distribution to data"""
         # Get histogram of original data
         y, x = np.histogram(data, bins=bins, density=True)
@@ -1007,10 +1002,8 @@ class CarModel:
 
         # Distributions to check
         DISTRIBUTIONS = [
-            st.beta, st.gamma, st.lognorm,
-            st.norm,
-            st.t, st.triang,
-            st.uniform, st.weibull_min, st.weibull_max
+             st.beta,st.gamma,st.lognorm,
+                st.norm, st.t,st.triang, st.uniform,st.weibull_min
         ]
 
         # Best holders
@@ -1039,6 +1032,14 @@ class CarModel:
                     pdf = distribution.pdf(x, loc=loc, scale=scale, *arg)
                     sse = np.sum(np.power(y - pdf, 2.0))
 
+                    # if axis pass in add to plot
+                    try:
+                        if ax:
+                            pd.Series(pdf, x).plot(ax=ax)
+                        end
+                    except Exception:
+                        pass
+
                     # identify if this distribution is better
                     if best_sse > sse > 0:
                         best_distribution = distribution
@@ -1048,8 +1049,27 @@ class CarModel:
             except Exception:
                 pass
 
-        return (best_distribution.name, best_params)
+        return (best_distribution.name, getattr(st, best_distribution.name), best_params)
 
+
+    def make_pdf(self, dist, params, size=10000):
+        """Generate distributions's Probability Distribution Function """
+        import pandas as pd
+        # Separate parts of parameters
+        arg = params[:-2]
+        loc = params[-2]
+        scale = params[-1]
+
+        # Get sane start and end points of distribution
+        start = dist.ppf(0.01, *arg, loc=loc, scale=scale) if arg else dist.ppf(0.01, loc=loc, scale=scale)
+        end = dist.ppf(0.99, *arg, loc=loc, scale=scale) if arg else dist.ppf(0.99, loc=loc, scale=scale)
+
+        # Build PDF and turn into pandas Series
+        x = np.linspace(start, end, size)
+        y = dist.pdf(x, loc=loc, scale=scale, *arg)
+        pdf = pd.Series(y, x)
+
+        return pdf
 
     def write_lci_to_bw(self, db_name, presamples=True, name_ecoinvent_db='ecoinvent 3.5 cutoff'):
         """
@@ -1084,6 +1104,7 @@ class CarModel:
             csv_dict[key] = {key: value for key, value in zip(header, values)}
 
         list_act = []
+        val=[]
 
         # Overall array for presamples
         matrix_data = []
@@ -1113,7 +1134,6 @@ class CarModel:
 
                         # Static mode
                         if len(value) == 1:
-
                             if abs(value) != 0.0:
                                 list_exc.append(
                                     {
@@ -1142,8 +1162,8 @@ class CarModel:
                                         'location': csv_dict[k].get('Location', 'None'),
                                         'reference product': csv_dict[k].get('reference product'),
                                         'categories': csv_dict[k].get('categories'),
-                                        'uncertainty type': 0,
-                                        'code':csv_dict[k].get('code')
+                                        'code':csv_dict[k].get('code'),
+                                        'uncertainty type': 0
                                     }
                                 )
 
@@ -1155,26 +1175,85 @@ class CarModel:
                                         db = name_ecoinvent_db
                                     else:
                                         db = db_name
-
-
                                     act_key = (db_name, code_act)
                                     exc_key = (db, csv_dict[k]['code'])
 
                                     matrix_data.append(
-
                                         (value.reshape((1,-1)),[(exc_key, act_key, csv_dict[k]['Type'])],csv_dict[k]['Type'])
                                         )
 
-
-
                                 # Identify underlying distribution and parameters
                                 else:
+                                    # Deviation in array values --> need to identify the distribution
+                                    if np.any(value[0] != value) :
+                                            # Find best fit distribution
+                                            best_fit_name, best_dist, best_fit_params = self.best_fit_distribution(value, 200)
 
-                                    best_distribution.name, best_params = self.best_fit_distribution(value)
-                                    print(best_distribution.name, best_params)
+                                            # Build uncertainty dictionnary to be interpreted by BW2
+                                            # See https://docs.brightwaylca.org/intro.html#uncertainty-type
+                                            uncertainty_ID = {
+                                                # scipy.stats distr. params --> stats.array distr. params
+                                                'triang': 5, # c --> loc (mode), loc --> min, loc + scale --> max
+                                                'weibull_min': 8, # c --> shape, scale --> scale
+                                                'gamma': 9, # a --> shape, scale --> scale, loc --> loc
+                                                'beta': 10, # a --> loc, b --> shape, scale --> scale
+                                                'lognorm': 2, # s --> scale (std), scale --> loc (exp(mean))
+                                                'norm': 3, # loc --> loc (mean), scale --> scale (std)
+                                                'uniform': 4, # loc --> min, loc + scale --> max
+                                                't': 12, # df --> shape, loc --> loc, scale --> scale
+                                            }
 
+                                            # Lognormal distribution
+                                            if uncertainty_ID[best_fit_name] == 2:
+                                                list_exc[-1]['uncertainty type'] = 2
+                                                list_exc[-1]['scale'] = best_fit_params[0]
+                                                list_exc[-1]['loc'] = best_fit_params[2]
 
+                                            # Normal distribution
+                                            if uncertainty_ID[best_fit_name] == 3:
+                                                list_exc[-1]['uncertainty type'] = 3
+                                                list_exc[-1]['loc'] = best_fit_params[0]
+                                                list_exc[-1]['scale'] = best_fit_params[1]
 
+                                            # Uniform distribution
+                                            if uncertainty_ID[best_fit_name] == 4:
+                                                list_exc[-1]['uncertainty type'] = 4
+                                                list_exc[-1]['minimum'] = best_fit_params[0]
+                                                list_exc[-1]['maximum'] = best_fit_params[0] + best_fit_params[1]
+
+                                            # Triangular distribution
+                                            if uncertainty_ID[best_fit_name] == 5:
+                                                list_exc[-1]['uncertainty type'] = 5
+                                                list_exc[-1]['loc'] = list_exc[-1]['amount'] # <-- use 'amount' instead of calculated median
+                                                list_exc[-1]['minimum'] = best_fit_params[1]
+                                                list_exc[-1]['maximum'] = best_fit_params[1]+best_fit_params[2]
+
+                                            # Gamma distribution
+                                            if uncertainty_ID[best_fit_name] == 9:
+                                                list_exc[-1]['uncertainty type'] = 9
+                                                list_exc[-1]['shape'] = best_fit_params[0]
+                                                list_exc[-1]['scale'] = best_fit_params[2]
+                                                list_exc[-1]['loc'] = best_fit_params[1]
+
+                                            # Beta distribution
+                                            if uncertainty_ID[best_fit_name] == 10:
+                                                list_exc[-1]['uncertainty type'] = 10
+                                                list_exc[-1]['loc'] = best_fit_params[0]
+                                                list_exc[-1]['shape'] = best_fit_params[1]
+                                                list_exc[-1]['scale'] = best_fit_params[3]
+
+                                            # Weibull distribution
+                                            if uncertainty_ID[best_fit_name] == 8:
+                                                list_exc[-1]['uncertainty type'] = 8
+                                                list_exc[-1]['shape'] = best_fit_params[0]
+                                                list_exc[-1]['scale'] = best_fit_params[2]
+
+                                            # Student's T distribution
+                                            if uncertainty_ID[best_fit_name] == 12:
+                                                list_exc[-1]['uncertainty type'] = 12
+                                                list_exc[-1]['shape'] = best_fit_params[0]
+                                                list_exc[-1]['loc'] = best_fit_params[1]
+                                                list_exc[-1]['scale'] = best_fit_params[2]
 
 
 
