@@ -98,6 +98,31 @@ class NoiseEmissionsModel():
             propulsion[6] = np.where(self.cycle >= 20, (83.3 + 8 * ((self.cycle - 70) / 70))- 13.8, 56)
             propulsion[7] = np.where(self.cycle >= 20, 76.1 + 8 * ((self.cycle - 70) / 70), 56)
 
+        else:
+
+            # For non plugin-hybrids, apply electric engine noise coefficient up to 30 km/h
+            # and combustion engine noise coefficients above 30 km/h
+
+            propulsion[0] = np.where(self.cycle >= 30, 94.5 - 1.3 * ((self.cycle - 70) / 70),
+                                     np.where((self.cycle >= 20)&(self.cycle < 30), 94.5 - 1.3 * ((self.cycle - 70) / 70), 56))
+            propulsion[1] = np.where(self.cycle >= 30, 89.2 + 7.2 * ((self.cycle - 70) / 70),
+                                     np.where((self.cycle >= 20)&(self.cycle < 30), (89.2 + 7.2 * ((self.cycle - 70) / 70)) - 1.7, 56))
+            propulsion[2] = np.where(self.cycle >= 30, 88 + 7.7 * ((self.cycle - 70) / 70),
+                                     np.where((self.cycle >= 20)&(self.cycle < 30), (88 + 7.7 * ((self.cycle - 70) / 70)) - 4.2, 56))
+            propulsion[3] = np.where(self.cycle >= 30, 85.9 + 8 * ((self.cycle - 70) / 70),
+                                     np.where((self.cycle >= 20)&(self.cycle < 30), (85.9 + 8 * ((self.cycle - 70) / 70)) - 15, 56))
+            propulsion[4] = np.where(self.cycle >= 30, 84.2 + 8 * ((self.cycle - 70) / 70),
+                                     np.where((self.cycle >= 20)&(self.cycle < 30), (84.2 + 8 * ((self.cycle - 70) / 70)) - 15, 56))
+            propulsion[5] = np.where(self.cycle >= 30, 86.9 + 8 * ((self.cycle - 70) / 70),
+                                     np.where((self.cycle >= 20)&(self.cycle < 30), (86.9 + 8 * ((self.cycle - 70) / 70)) - 15, 56))
+            propulsion[6] = np.where(self.cycle >= 30, 83.3 + 8 * ((self.cycle - 70) / 70),
+                                     np.where((self.cycle >= 20)&(self.cycle < 30), (83.3 + 8 * ((self.cycle - 70) / 70)) - 13.8, 56))
+            propulsion[7] = np.where(self.cycle >= 30, 76.1 + 8 * ((self.cycle - 70) / 70),
+                                     np.where((self.cycle >= 20)&(self.cycle < 30), 76.1 + 8 * ((self.cycle - 70) / 70), 56))
+
+
+
+
         return propulsion
 
 

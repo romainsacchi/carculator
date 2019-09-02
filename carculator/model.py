@@ -766,9 +766,14 @@ class CarModel:
                     self.array.loc[s, pt, list_noise_emissions, y] = nem.get_sound_power_per_compartment(
                         'electric').reshape((24, 1))
 
+        for s in self.array.coords['size']:
+            for y in self.array.coords['year']:
+                self.array.loc[s, 'HEV-p', list_noise_emissions, y] = nem.get_sound_power_per_compartment(
+                    'hybrid').reshape((24, 1))
+
     def calculate_cost_impacts(self):
         """
-        This method rturns an array with cost values per vehicle-km, sub-divided into the following groups:
+        This method returns an array with cost values per vehicle-km, sub-divided into the following groups:
         * Purchase
         * Maintentance
         * Component replacement
@@ -843,19 +848,23 @@ class CarModel:
         list_lci_inputs = sorted([x for x in self.array.coords['parameter'].values.tolist() if x.startswith('_lci')],
                                  key=str.lower)
 
+
         B_matrix = xr.DataArray(B, coords=[list_lci_inputs, impact_cat],
                                 dims=['parameter', 'impact category'])
 
 
-        results = B_matrix.T*self.array.loc[:,:,list_lci_inputs,:,:].transpose('powertrain', 'size','year', 'value', 'parameter')
 
+
+        results = B_matrix.T*self.array.loc[:,:,list_lci_inputs,:,:]
+
+        #print(results)
         impact = ['direct', 'energy chain', 'energy storage',
                   'glider', 'powertrain', 'road', 'maintenance']
 
         response = xr.DataArray(np.zeros((B.shape[1], 7, 7, 2, 7, np.shape(results)[-1])),
                                 coords=[impact_cat, self.array.coords['size'], self.array.coords['powertrain'],
                                         self.array.coords['year'], impact, np.arange(0,np.shape(results)[-1])],
-                                dims=[ 'impact_category', 'size', 'powertrain', 'year','impact', 'value'])
+                                dims=['impact_category', 'size', 'powertrain', 'year','impact', 'value'])
 
         list_param = sorted(self.array.coords['parameter'].values.tolist(), key=str.lower)
         direct_emissions = [x for x in list_param if x.startswith('_lci_direct')]
@@ -867,7 +876,7 @@ class CarModel:
         road = ['_lci_road']
         maintenance = ['_lci_car_maintenance']
 
-        results = results.transpose('impact category', 'powertrain', 'size', 'year', 'parameter', 'value')
+        results = results.transpose('impact category',  'size', 'powertrain','year', 'parameter', 'value')
 
         response.loc[:,:,:,:,'direct',:] = results.loc[:,:,:,:, direct_emissions ,:].sum(axis=4)
         response.loc[:, :, :, :, 'energy chain',:] = results.loc[:,:,:,:, energy_chain ,:].sum(axis=4)
