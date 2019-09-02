@@ -714,7 +714,6 @@ class CarModel:
         self['_lci_direct_N2O'] = self['N2O'] # combustion minus gas
         self['_lci_direct_NH3'] = self['NH3'] # combustion
         self['_lci_direct_NMVOC'] = self['NMVOC'] # combustion
-        #self['_lci_direct_NO2'] = self['NO2'] # combustion minus gas
         self['_lci_direct_NOx'] = self['NOx'] + self['NO2'] # combustion minus gas
         self['_lci_direct_PM'] = self['PM']
 
@@ -849,6 +848,7 @@ class CarModel:
                                  key=str.lower)
 
 
+
         B_matrix = xr.DataArray(B, coords=[list_lci_inputs, impact_cat],
                                 dims=['parameter', 'impact category'])
 
@@ -857,7 +857,6 @@ class CarModel:
 
         results = B_matrix.T*self.array.loc[:,:,list_lci_inputs,:,:]
 
-        #print(results)
         impact = ['direct', 'energy chain', 'energy storage',
                   'glider', 'powertrain', 'road', 'maintenance']
 

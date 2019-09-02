@@ -94,13 +94,13 @@ _lci_energy_h2;Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling sta
 _lci_energy_petrol;market for petrol, low-sulfur;2.34E-06;4.17E-09;6.91E-11;1.84E-12;0.584084099;0.00E+00
 _lci_glider;market for glider, passenger car;4.68E-05;3.03E-08;4.37E-09;9.19E-11;0.451210634;0.00E+00
 _lci_glider_lightweighting;Glider lightweighting;-1.82E-07;-1.18E-08;1.05E-10;2.23E-12;-0.09720048;0.00E+00
+_lci_powertrain;market for internal combustion engine, passenger car;4.55E-05;3.91E-08;4.68E-09;2.19E-10;0.476965111;0.00E+00
 _lci_powertrain_charger;market for charger, electric passenger car;0.000436771;1.57E-07;4.35E-08;3.50E-10;1.860596664;0.00E+00
 _lci_powertrain_combustion_EoL;market for manual dismantling of used passenger car with internal combustion engine;4.28E-08;9.62E-11;2.03E-12;4.38E-14;0.000663483;0.00E+00
 _lci_powertrain_converter;market for converter, for electric passenger car;0.000664569;2.20E-07;7.02E-08;4.83E-10;2.459926049;0.00E+00
 _lci_powertrain_electric_engine;market for electric motor, electric passenger car;0.000140876;5.03E-08;1.18E-08;1.09E-10;0.616734778;0.00E+00
 _lci_powertrain_electric_EoL;market for manual dismantling of used electric passenger car;4.28E-08;9.62E-11;2.03E-12;4.38E-14;0.000663483;0.00E+00
 _lci_powertrain_electric_powertrain_EoL;market for used powertrain from electric passenger car, manual dismantling;2.20E-07;2.20E-10;7.92E-12;6.61E-13;0.000735413;0.00E+00
-_lci_powertrain;market for internal combustion engine, passenger car;4.55E-05;3.91E-08;4.68E-09;2.19E-10;0.476965111;0.00E+00
 _lci_powertrain_fuel_cell_ancillary_BoP;Ancillary BoP;0.000149757;4.58E-08;1.41E-08;9.72E-11;1.063589802;0.00E+00
 _lci_powertrain_fuel_cell_essential_BoP;Essential BoP;2.67E-05;2.86E-08;1.92E-09;3.03E-11;0.574506665;0.00E+00
 _lci_powertrain_fuel_cell_stack;Stack 2020;0.000149874;1.32E-07;1.07E-08;9.58E-11;1.24594182;0.00E+00
