@@ -1142,6 +1142,7 @@ class CarModel:
 
                         # Static mode
                         if len(value) == 1:
+                            static = True
                             if abs(value) != 0.0:
                                 list_exc.append(
                                     {
@@ -1159,6 +1160,7 @@ class CarModel:
                                 )
                         # Stochastic mode
                         else:
+                            static = False
                             if np.sum(value) != 0.0:
                                 list_exc.append(
                                     {
@@ -1303,7 +1305,10 @@ class CarModel:
 
         i.apply_strategies()
 
-        if presamples:
-            return i, matrix_data
+        if static == False:
+            if presamples:
+                return i, matrix_data
+            else:
+                return i
         else:
             return i
