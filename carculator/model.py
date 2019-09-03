@@ -1187,7 +1187,7 @@ class CarModel:
                                     exc_key = (db, csv_dict[k]['code'])
 
                                     matrix_data.append(
-                                        (value.reshape((1,-1)),[(exc_key, act_key, csv_dict[k]['Type'])],csv_dict[k]['Type'])
+                                        (value, [(exc_key, act_key, csv_dict[k]['Type'])], csv_dict[k]['Type'])
                                         )
 
                                 # Identify underlying distribution and parameters

@@ -2,11 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62445f2d-9237-4247-9ae8-9559cdfa4502" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/carculator/data/B_matrix_eco_scarcity_endpoint.csv" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/B_matrix_eco_scarcity_endpoint.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/carculator/data/B_matrix_recipe_endpoint.csv" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/B_matrix_recipe_endpoint.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/carculator/data/B_matrix_recipe_endpoint_normalized.csv" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/B_matrix_recipe_endpoint_normalized.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/carculator/data/B_matrix_recipe_midpoint.csv" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/B_matrix_recipe_midpoint.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/carculator/data/dict_exchanges.csv" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/data/dict_exchanges.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/carculator/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,12 +14,44 @@
     <favorites_list name="carculator" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/carculator/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="877">
-              <caret line="720" lean-forward="true" selection-start-line="720" selection-end-line="720" />
+            <state relative-caret-position="503">
+              <caret line="1189" column="46" selection-start-line="1189" selection-start-column="46" selection-end-line="1189" selection-end-column="46" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/carculator/array.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1122">
+              <folding>
+                <element signature="e#31#49#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/carculator/car_input_parameters.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+              <folding>
+                <element signature="e#45#91#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Continuum/miniconda3/envs/coarse/Lib/site-packages/klausen/named_parameters.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="506">
+              <caret line="43" column="21" selection-start-line="37" selection-start-column="8" selection-end-line="43" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -32,8 +59,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/carculator/noise_emissions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="634">
-              <caret line="150" column="62" lean-forward="true" selection-start-line="150" selection-start-column="22" selection-end-line="150" selection-end-column="62" />
+            <state relative-caret-position="3256">
+              <caret line="150" column="62" selection-start-line="150" selection-start-column="22" selection-end-line="150" selection-end-column="62" />
             </state>
           </provider>
         </entry>
@@ -58,11 +85,12 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/carculator/noise_emissions.py" />
+        <option value="$USER_HOME$/AppData/Local/Continuum/miniconda3/envs/coarse/Lib/site-packages/klausen/named_parameters.py" />
         <option value="$PROJECT_DIR$/carculator/model.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
@@ -74,6 +102,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -90,7 +119,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -232,22 +260,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1176" extended-state="7" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24986793" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24986793" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.32973504" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -294,15 +322,41 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/carculator/noise_emissions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="634">
-          <caret line="150" column="62" lean-forward="true" selection-start-line="150" selection-start-column="22" selection-end-line="150" selection-end-column="62" />
+        <state relative-caret-position="3256">
+          <caret line="150" column="62" selection-start-line="150" selection-start-column="22" selection-end-line="150" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/carculator/array.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1122">
+          <folding>
+            <element signature="e#31#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/carculator/car_input_parameters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+          <folding>
+            <element signature="e#45#91#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Continuum/miniconda3/envs/coarse/Lib/site-packages/klausen/named_parameters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="43" column="21" selection-start-line="37" selection-start-column="8" selection-end-line="43" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/carculator/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="877">
-          <caret line="720" lean-forward="true" selection-start-line="720" selection-end-line="720" />
+        <state relative-caret-position="503">
+          <caret line="1189" column="46" selection-start-line="1189" selection-start-column="46" selection-end-line="1189" selection-end-column="46" />
         </state>
       </provider>
     </entry>
