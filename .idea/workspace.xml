@@ -2,6 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62445f2d-9237-4247-9ae8-9559cdfa4502" name="Default Changelist" comment="">
+<<<<<<< HEAD
+=======
+      <change afterPath="$PROJECT_DIR$/carculator/data/.~lock.B_matrix_recipe_midpoint.csv#" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 07fb3820b75367298ff7704084110a5fe2aabca6
       <change beforePath="$PROJECT_DIR$/carculator/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/carculator/model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -13,6 +18,7 @@
   <component name="FavoritesManager">
     <favorites_list name="carculator" />
   </component>
+<<<<<<< HEAD
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
       <file pinned="false" current-in-tab="true">
@@ -72,6 +78,8 @@
       <find>-1</find>
     </findStrings>
   </component>
+=======
+>>>>>>> 07fb3820b75367298ff7704084110a5fe2aabca6
   <component name="Git.Settings">
     <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -81,6 +89,7 @@
       </map>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -91,12 +100,16 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
+=======
+  <component name="ProjectFrameBounds" extendedState="6">
+>>>>>>> 07fb3820b75367298ff7704084110a5fe2aabca6
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
     <option name="height" value="1096" />
   </component>
   <component name="ProjectId" id="1Q9fWCeKWJeO3EkInc7aadQnobc" />
+<<<<<<< HEAD
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -120,8 +133,13 @@
         </subPane>
       </pane>
     </panes>
+=======
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+>>>>>>> 07fb3820b75367298ff7704084110a5fe2aabca6
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/Continuum/anaconda3/envs/coarse" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -259,6 +277,7 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
+<<<<<<< HEAD
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1176" extended-state="7" />
     <layout>
@@ -281,18 +300,14 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
   </component>
+=======
+>>>>>>> 07fb3820b75367298ff7704084110a5fe2aabca6
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
               <option name="COLUMN_ORDER" />
             </State>
           </value>
@@ -315,10 +330,12 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Changed acceleration formula and remove duplicate in curb mass formula." />
     <MESSAGE value="Added loop in CarModel class to stabilize driving mass." />
     <option name="LAST_COMMIT_MESSAGE" value="Added loop in CarModel class to stabilize driving mass." />
   </component>
+<<<<<<< HEAD
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/carculator/noise_emissions.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -361,4 +378,6 @@
       </provider>
     </entry>
   </component>
+=======
+>>>>>>> 07fb3820b75367298ff7704084110a5fe2aabca6
 </project>
