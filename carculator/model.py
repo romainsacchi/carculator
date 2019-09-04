@@ -7,6 +7,7 @@ from inspect import currentframe, getframeinfo
 import numpy as np
 from .energy_consumption import EnergyConsumptionModel
 from .noise_emissions import NoiseEmissionsModel
+from .hot_emissions import HotEmissionsModel
 from bw2io import ExcelImporter
 from bw2io.export.excel import safe_filename,\
     xlsxwriter, CSVFormatter,\
@@ -706,19 +707,41 @@ class CarModel:
         self['_lci_road'] = 5.37E-7 * self['driving mass']
 
         self['_lci_direct_CO2'] = (self['CO2 per kg fuel'] * self['fuel mass'])/ self['range']
-        self['_lci_direct_SO2'] = (self['SO2 per kg fuel'] * self['fuel mass']) / self['range']
-        self['_lci_direct_C6H6'] = self['Benzene']
-        self['_lci_direct_CH4'] = self['CH4']
-        self['_lci_direct_CO'] = self['CO']
-        self['_lci_direct_HC'] = self['HC']
-        self['_lci_direct_N2O'] = self['N2O'] # combustion minus gas
-        self['_lci_direct_NH3'] = self['NH3'] # combustion
-        self['_lci_direct_NMVOC'] = self['NMVOC'] # combustion
-        self['_lci_direct_NOx'] = self['NOx'] + self['NO2'] # combustion minus gas
-        self['_lci_direct_PM'] = self['PM']
+        #self['_lci_direct_SO2'] = (self['SO2 per kg fuel'] * self['fuel mass']) / self['range']
+        #self['_lci_direct_C6H6'] = self['Benzene']
+        #self['_lci_direct_CH4'] = self['CH4']
+        #self['_lci_direct_CO'] = self['CO']
+        #self['_lci_direct_HC'] = self['HC']
+        #self['_lci_direct_N2O'] = self['N2O'] # combustion minus gas
+        #self['_lci_direct_NH3'] = self['NH3'] # combustion
+        #self['_lci_direct_NMVOC'] = self['NMVOC'] # combustion
+        #self['_lci_direct_NOx'] = self['NOx'] + self['NO2'] # combustion minus gas
+        #self['_lci_direct_PM'] = self['PM']
+
+        hem = HotEmissionsModel(self.ecm.cycle)
+
+        list_direct_emissions = ['_lci_direct_urban_HC', '_lci_direct_urban_CO','_lci_direct_urban_NOx', '_lci_direct_urban_PM',
+                                 '_lci_direct_urban_CH4','_lci_direct_urban_NMVOC', "_lci_direct_urban_Pb", '_lci_direct_urban_SO2',
+                                 '_lci_direct_urban_N2O', '_lci_direct_urban_NH3', '_lci_direct_urban_C6H6',
+                                 '_lci_direct_suburban_HC', '_lci_direct_suburban_CO', '_lci_direct_suburban_NOx',
+                                 '_lci_direct_suburban_PM',
+                                 '_lci_direct_suburban_CH4', '_lci_direct_suburban_NMVOC', "_lci_direct_suburban_Pb",
+                                 '_lci_direct_suburban_SO2',
+                                 '_lci_direct_suburban_N2O', '_lci_direct_suburban_NH3', '_lci_direct_suburban_C6H6',
+                                 '_lci_direct_rural_HC', '_lci_direct_rural_CO', '_lci_direct_rural_NOx',
+                                 '_lci_direct_rural_PM',
+                                 '_lci_direct_rural_CH4', '_lci_direct_rural_NMVOC', "_lci_direct_rural_Pb",
+                                 '_lci_direct_rural_SO2',
+                                 '_lci_direct_rural_N2O', '_lci_direct_rural_NH3', '_lci_direct_rural_C6H6',
+                                 ]
+
+
+        self.array.loc[:, 'ICEV-d',list_direct_emissions,:]= hem.get_emissions_per_powertrain('diesel').reshape((1,33, 1, 1))
+
+        self.array.loc[:, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :] = hem.get_emissions_per_powertrain('petrol').reshape((1,33, 1, 1))
+        self.array.loc[:, 'ICEV-g', list_direct_emissions, :] = hem.get_emissions_per_powertrain('CNG').reshape((1,33, 1, 1))
 
         nem = NoiseEmissionsModel(self.ecm.cycle)
-
         #list_param = self.array.coords['parameter'].values.tolist()
         #list_noise_emissions = [x for x in list_param if x.startswith('_lci_direct_noise') and "day" in x]
 
