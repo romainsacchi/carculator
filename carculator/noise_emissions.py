@@ -5,7 +5,6 @@
 
 import numpy as np
 import xarray
-import numexpr as ne
 
 def _(o):
     """Add a trailing dimension to make input arrays broadcast correctly"""
@@ -102,7 +101,6 @@ class NoiseEmissionsModel():
 
             # For non plugin-hybrids, apply electric engine noise coefficient up to 30 km/h
             # and combustion engine noise coefficients above 30 km/h
-
             propulsion[0] = np.where(self.cycle >= 30, 94.5 - 1.3 * ((self.cycle - 70) / 70),
                                      np.where((self.cycle >= 20)&(self.cycle < 30), 94.5 - 1.3 * ((self.cycle - 70) / 70), 56))
             propulsion[1] = np.where(self.cycle >= 30, 89.2 + 7.2 * ((self.cycle - 70) / 70),
@@ -120,11 +118,7 @@ class NoiseEmissionsModel():
             propulsion[7] = np.where(self.cycle >= 30, 76.1 + 8 * ((self.cycle - 70) / 70),
                                      np.where((self.cycle >= 20)&(self.cycle < 30), 76.1 + 8 * ((self.cycle - 70) / 70), 56))
 
-
-
-
         return propulsion
-
 
     def get_sound_power_per_compartment(self, powertrain_type):
         """
