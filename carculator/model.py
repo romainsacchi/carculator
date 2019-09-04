@@ -859,23 +859,25 @@ class CarModel:
 
         with open(filepath, "r") as f:
             reader = csv.reader(f, delimiter=';')
-            impact_cat = list(filter(None, next(reader)))
+            impact_cat = list(filter(None, f.readline().split(';')))
             units = list(filter(None, next(reader)))
-            ncols = len(f.readline().split(';'))
+            ncols = len(impact_cat)
+            activities = [row.split(';')[0] for row in f]
+
+
 
 
         B = np.genfromtxt(filepath,
-                          delimiter=';', skip_header=2, usecols=range(2, ncols))
+                          delimiter=';', skip_header=2, usecols=range(2, ncols+2))
 
         list_lci_inputs = sorted([x for x in self.array.coords['parameter'].values.tolist() if x.startswith('_lci')],
                                  key=str.lower)
 
 
 
-        B_matrix = xr.DataArray(B, coords=[list_lci_inputs, impact_cat],
+
+        B_matrix = xr.DataArray(B, coords=[activities, impact_cat],
                                 dims=['parameter', 'impact category'])
-
-
 
 
         results = B_matrix.T*self.array.loc[:,:,list_lci_inputs,:,:]
