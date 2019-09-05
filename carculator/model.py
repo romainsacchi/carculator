@@ -736,10 +736,9 @@ class CarModel:
                                  ]
 
 
-        self.array.loc[:, 'ICEV-d',list_direct_emissions,:]= hem.get_emissions_per_powertrain('diesel').reshape((1,33, 1, 1))
-
-        self.array.loc[:, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :] = hem.get_emissions_per_powertrain('petrol').reshape((1,33, 1, 1))
-        self.array.loc[:, 'ICEV-g', list_direct_emissions, :] = hem.get_emissions_per_powertrain('CNG').reshape((1,33, 1, 1))
+        self.array.loc[:, 'ICEV-d',list_direct_emissions,:]= np.hstack(hem.get_emissions_per_powertrain('diesel')).reshape((1,33, 1, 1))
+        self.array.loc[:, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :] = np.hstack(hem.get_emissions_per_powertrain('petrol')).reshape((1,33, 1, 1))
+        self.array.loc[:, 'ICEV-g', list_direct_emissions, :] = np.hstack(hem.get_emissions_per_powertrain('CNG')).reshape((1,33, 1, 1))
 
         nem = NoiseEmissionsModel(self.ecm.cycle)
         #list_param = self.array.coords['parameter'].values.tolist()
@@ -864,33 +863,29 @@ class CarModel:
             ncols = len(impact_cat)
             activities = [row.split(';')[0] for row in f]
 
-
-
-
         B = np.genfromtxt(filepath,
                           delimiter=';', skip_header=2, usecols=range(2, ncols+2))
-
-        list_lci_inputs = sorted([x for x in self.array.coords['parameter'].values.tolist() if x.startswith('_lci')],
-                                 key=str.lower)
-
-
 
 
         B_matrix = xr.DataArray(B, coords=[activities, impact_cat],
                                 dims=['parameter', 'impact category'])
 
-
-        results = B_matrix.T*self.array.loc[:,:,list_lci_inputs,:,:]
+        results = B_matrix.T*self.array.loc[:,:,activities,:,:]
 
         impact = ['direct', 'energy chain', 'energy storage',
                   'glider', 'powertrain', 'road', 'maintenance']
 
         response = xr.DataArray(np.zeros((B.shape[1], 7, 7, 2, 7, np.shape(results)[-1])),
-                                coords=[impact_cat, self.array.coords['size'], self.array.coords['powertrain'],
-                                        self.array.coords['year'], impact, np.arange(0,np.shape(results)[-1])],
+                                coords=[impact_cat,
+                                        self.array.coords['size'],
+                                        self.array.coords['powertrain'],
+                                        self.array.coords['year'],
+                                        impact,
+                                        np.arange(0,np.shape(results)[-1])],
                                 dims=['impact_category', 'size', 'powertrain', 'year','impact', 'value'])
 
         list_param = sorted(self.array.coords['parameter'].values.tolist(), key=str.lower)
+
         direct_emissions = [x for x in list_param if x.startswith('_lci_direct')]
 
         energy_chain = [x for x in list_param if x.startswith('_lci_energy')]
@@ -909,7 +904,6 @@ class CarModel:
         response.loc[:, :, :, :, 'powertrain',:] = results.loc[:,:,:,:, powertrain ,:].sum(axis=4)
         response.loc[:, :, :, :, 'road',:] = results.loc[:,:,:,:, road ,:].sum(axis=4)
         response.loc[:, :, :, :, 'maintenance',:] = results.loc[:,:,:,:, maintenance ,:].sum(axis=4)
-
 
         if level == 'single score':
             response = response.sum(axis=0)

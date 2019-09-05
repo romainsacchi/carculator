@@ -57,14 +57,16 @@ class HotEmissionsModel():
             em_arr[:, 4] = -1.819e-10 * self.cycle**3 + 6.76e-08 * self.cycle**2 - 8.756e-06 * self.cycle + 0.0004875
             # NMVOC
             em_arr[:, 5] = -7.398e-09 * self.cycle**3 + 2.749e-06 * self.cycle**2 - 0.0003561 * self.cycle + 0.01983
+            #Pb
+            # No Pb!
             # SO2
-            em_arr[:, 6] = -9.686e-10 * self.cycle**3 + 3.552e-07 * self.cycle**2 - 3.764e-05 * self.cycle + 0.00192
+            em_arr[:, 7] = -9.686e-10 * self.cycle**3 + 3.552e-07 * self.cycle**2 - 3.764e-05 * self.cycle + 0.00192
             # N2O
-            em_arr[:, 7] = -1.468e-08 * self.cycle**3 + 4.082e-06 * self.cycle**2 - 0.0003563 * self.cycle + 0.01366
+            em_arr[:, 8] = -1.468e-08 * self.cycle**3 + 4.082e-06 * self.cycle**2 - 0.0003563 * self.cycle + 0.01366
             # NH3
-            em_arr[:, 8] = -3.638e-23 * self.cycle**2 + 5.807e-21 * self.cycle + 0.001
+            em_arr[:, 9] = -3.638e-23 * self.cycle**2 + 5.807e-21 * self.cycle + 0.001
             # Benzene
-            em_arr[:, 9] = -1.266e-10 * self.cycle**3 + 4.704e-08 * self.cycle**2 - 6.093e-06 * self.cycle + 0.0003392
+            em_arr[:, 10] = -1.266e-10 * self.cycle**3 + 4.704e-08 * self.cycle**2 - 6.093e-06 * self.cycle + 0.0003392
 
 
         if powertrain_type == 'petrol':
@@ -123,9 +125,14 @@ class HotEmissionsModel():
         dist_suburban = self.cycle[(self.cycle > 50) & (self.cycle <= 80)].sum() / 3600
         dist_rural = self.cycle[self.cycle > 80].sum() / 3600
 
-        urban = np.mean(em_arr[self.cycle <= 50], axis=0) * (dist_urban / distance)
-        suburban = np.mean(em_arr[(self.cycle > 50) & (self.cycle <= 80)], axis=0) * (dist_suburban / distance)
-        rural = np.mean(em_arr[self.cycle > 80], axis=0) * (dist_rural / distance)
+        urban = (np.mean(em_arr[self.cycle <= 50], axis=0) * (dist_urban / distance)) / 1000 # going from grams to kg
+        suburban = (np.mean(em_arr[(self.cycle > 50) & (self.cycle <= 80)], axis=0) * (dist_suburban / distance)) / 1000 # going from grams to kg
+        rural = (np.mean(em_arr[self.cycle > 80], axis=0) * (dist_rural / distance)) / 1000 # going from grams to kg
 
-        return np.hstack([urban, suburban, rural])
+        suburban = np.nan_to_num(suburban)
+        rural = np.nan_to_num(rural)
+
+
+
+        return (urban, suburban, rural)
 

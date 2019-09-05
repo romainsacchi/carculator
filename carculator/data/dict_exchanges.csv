@@ -67,13 +67,8 @@ _lci_powertrain_fuel_cell_ancillary_BoP;Car database;Ancillary BoP;GLO;kilogram;
 _lci_storage_battery_cell;Car database;Battery cell;GLO;kilogram;technosphere;Battery cell;;f5073a2f-ca78-11e9-9e41-2079186002a1
 _lci_storage_battery_BoP;Car database;Battery BoP;GLO;kilogram;technosphere;Battery BoP;;f5073a2e-ca78-11e9-9899-2079186002a1
 _lci_powertrain;ecoinvent;market for internal combustion engine, passenger car;GLO;kilogram;technosphere;internal combustion engine, for passenger car;;e4bdb0c9a5612e4df90ac8c8cbc9692f
-;;;;;;;;
 _lci_powertrain_converter;ecoinvent;market for converter, for electric passenger car;GLO;kilogram;technosphere;converter, for electric passenger car;;cb27d8c8578f267ca7bab5485e059c6e
-;;;;;;;;
-;;;;;;;;
-;;;;;;;;
 _lci_energy_diesel;ecoinvent;market for diesel;Europe without Switzerland;kilogram;technosphere;diesel;;ae18ed2362683af95b3125dc55e423c9
-;;;;;;;;
 _lci_car_maintenance;ecoinvent;maintenance, passenger car;RER;unit;technosphere;passenger car maintenance;;8165f97a39fc75d19ecc8de2661cd7dd
 _lci_powertrain_power_distribution_unit;ecoinvent;market for power distribution unit, for electric passenger car;GLO;kilogram;technosphere;power distribution unit, for electric passenger car;;7d54f8c3a04deb1ce0b02f65a693dcd5
 _lci_energy_cng;ecoinvent;market for natural gas, from high pressure network (1-5 bar), at service station;GLO;kilogram;technosphere;natural gas, from high pressure network (1-5 bar), at service station;;7c654903cec232e3610124d4855a75ed
@@ -87,14 +82,9 @@ _lci_direct_tyre_wear;ecoinvent;market for tyre wear emissions, passenger car;GL
 _lci_powertrain_electric_engine;ecoinvent;market for electric motor, electric passenger car;GLO;kilogram;technosphere;electric motor, electric passenger car;;48471c9ef54aacd41991f266d8132548
 _lci_energy_electricity;ecoinvent;market group for electricity, low voltage;ENTSO-E;kilowatt hour;technosphere;electricity, low voltage;;43024e9cc9b0b66e3b3154464442e12b
 _lci_storage_battery_cell_production_heat;ecoinvent;market for heat, central or small-scale, natural gas;RoW;megajoule;technosphere;heat, central or small-scale, natural gas;;4248013820497da0b51cdbaca25d870d
-;;;;;;;;
 _lci_road;ecoinvent;market for road;GLO;meter-year;technosphere;road;;378c6dbce0519c862c9c2453955e9c3d
-;;;;;;;;
 _lci_glider;ecoinvent;market for glider, passenger car;GLO;kilogram;technosphere;glider, passenger car;;3190a5aaecaaa169947d055586a0a4ae
-;;;;;;;;
 _lci_powertrain_electric_powertrain_EoL;ecoinvent;market for used powertrain from electric passenger car, manual dismantling;GLO;kilogram;technosphere;used powertrain from electric passenger car, manual dismantling;;255e9c73a24472c2484aba998831d81f
-;;;;;;;;
 _lci_energy_petrol;ecoinvent;market for petrol, low-sulfur;Europe without Switzerland;kilogram;technosphere;petrol, low-sulfur;;08ee14825bd4a613829613a2421ca5e5
-;;;;;;;;
 _lci_storage_cng_tank;ecoinvent;glass fibre reinforced plastic production, polyamide, injection moulded;RER;kilogram;technosphere;glass fibre reinforced plastic, polyamide, injection moulded;;0356c63516d5e7e6672e3e7d2b9b69b2
 _lci_storage_fuel_tank;ecoinvent;polyethylene production, high density, granulate;RER;kilogram;technosphere;polyethylene, high density, granulate;;0111b5c2e99b9b3d02f8eaa9081824ba
