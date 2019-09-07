@@ -663,9 +663,13 @@ class CarModel:
         self['_lci_storage_battery_cell'] = self['battery cell mass'] * (1 + self['fuel cell lifetime replacements']) / self[
             'lifetime kilometers']
 
+        # Not sure why the -28 kWh
+        #self['_lci_storage_battery_cell_production_electricity'] = (self['battery cell production electricity'] * self['battery cell mass'] *\
+        #                                              (1 + self['battery lifetime replacements' ]) / self['lifetime kilometers'])+ \
+        #                (-28 * self['battery cell mass'] * (1 + self['battery lifetime replacements'])/ self['lifetime kilometers'])
+
         self['_lci_storage_battery_cell_production_electricity'] = (self['battery cell production electricity'] * self['battery cell mass'] *\
-                                                      (1 + self['battery lifetime replacements' ]) / self['lifetime kilometers'])+ \
-                        (-28 * self['battery cell mass'] * (1 + self['battery lifetime replacements'])/ self['lifetime kilometers'])
+                    (1 + self['battery lifetime replacements' ]) / self['lifetime kilometers'])
 
         self['_lci_storage_battery_cell_production_heat'] = 3.6 * self['battery cell production heat'] * self['battery cell mass']* \
                                                    (1 + self['battery lifetime replacements']) / self[
@@ -821,7 +825,7 @@ class CarModel:
 
         return response
 
-    def calculate_env_impacts(self, method = 'recipe', level='midpoint'):
+    def calculate_env_impacts_midpoint(self, method = 'recipe'):
         """
         This method returns an array with characterized environmental impacts, sub-divided into the following categories:
         * direct emissions
@@ -843,51 +847,31 @@ class CarModel:
         """
 
         filename={
-            'recipe': {'midpoint':'B_matrix_recipe_midpoint.csv',
-                       'endpoint':'B_matrix_recipe_endpoint.csv',
-                       'single score':'B_matrix_recipe_endpoint_normalized.csv'},
-            'ecological scarcity': {
-                        'endpoint':'B_matrix_eco_scarcity_endpoint.csv'}
-                    }
-
+            'recipe': 'B_matrix_recipe_midpoint.csv'}
         try:
-            filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/'+ filename[method][level])
+            filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/'+ filename[method])
         except KeyError:
             print('The method or impact level specified could not be found.')
             raise
 
-        with open(filepath, "r") as f:
+        with open(filepath, "r", newline='') as f:
             reader = csv.reader(f, delimiter=';')
-            impact_cat = list(filter(None, f.readline().split(';')))
+            impact_cat = list(filter(None, f.readline().strip().split(';')))
             units = list(filter(None, next(reader)))
             ncols = len(impact_cat)
-            activities = [row.split(';')[0] for row in f]
+            activities = list(filter(None, [row.split(';')[0] for row in f]))
 
-        B = np.genfromtxt(filepath,
-                          delimiter=';', skip_header=2, usecols=range(2, ncols+2))
-
-
+        B = np.genfromtxt(filepath, delimiter=';', skip_header=2, usecols=range(2, ncols+2))
         B_matrix = xr.DataArray(B, coords=[activities, impact_cat],
-                                dims=['parameter', 'impact category'])
+                                dims=['parameter', 'impact_category'])
 
         results = B_matrix.T*self.array.loc[:,:,activities,:,:]
+        results = results.transpose('impact_category',  'size', 'powertrain','year', 'parameter', 'value')
 
-        impact = ['direct', 'energy chain', 'energy storage',
+        cat = ['direct', 'energy chain', 'energy storage',
                   'glider', 'powertrain', 'road', 'maintenance']
-
-        response = xr.DataArray(np.zeros((B.shape[1], 7, 7, 2, 7, np.shape(results)[-1])),
-                                coords=[impact_cat,
-                                        self.array.coords['size'],
-                                        self.array.coords['powertrain'],
-                                        self.array.coords['year'],
-                                        impact,
-                                        np.arange(0,np.shape(results)[-1])],
-                                dims=['impact_category', 'size', 'powertrain', 'year','impact', 'value'])
-
         list_param = sorted(self.array.coords['parameter'].values.tolist(), key=str.lower)
-
         direct_emissions = [x for x in list_param if x.startswith('_lci_direct')]
-
         energy_chain = [x for x in list_param if x.startswith('_lci_energy')]
         energy_storage = [x for x in list_param if x.startswith('_lci_storage')]
         glider = ['_lci_glider', '_lci_glider_lightweighting']
@@ -895,7 +879,19 @@ class CarModel:
         road = ['_lci_road']
         maintenance = ['_lci_car_maintenance']
 
-        results = results.transpose('impact category',  'size', 'powertrain','year', 'parameter', 'value')
+        response = xr.DataArray(np.zeros((B.shape[1],
+                                          len(self.array.coords['size']),
+                                          len(self.array.coords['powertrain']),
+                                          len(self.array.coords['year']),
+                                          len(cat),
+                                          np.shape(results)[-1])),
+                                coords=[impact_cat,
+                                        self.array.coords['size'],
+                                        self.array.coords['powertrain'],
+                                        self.array.coords['year'],
+                                        cat,
+                                        np.arange(0,np.shape(results)[-1])],
+                                dims=['impact_category', 'size', 'powertrain', 'year','impact', 'value'])
 
         response.loc[:,:,:,:,'direct',:] = results.loc[:,:,:,:, direct_emissions ,:].sum(axis=4)
         response.loc[:, :, :, :, 'energy chain',:] = results.loc[:,:,:,:, energy_chain ,:].sum(axis=4)
@@ -905,8 +901,161 @@ class CarModel:
         response.loc[:, :, :, :, 'road',:] = results.loc[:,:,:,:, road ,:].sum(axis=4)
         response.loc[:, :, :, :, 'maintenance',:] = results.loc[:,:,:,:, maintenance ,:].sum(axis=4)
 
-        if level == 'single score':
-            response = response.sum(axis=0)
+        return impact_cat, units, response
+
+    def calculate_env_impacts_single_score(self, method = 'recipe'):
+        """
+        This method returns an array with characterized environmental impacts, sub-divided into the following categories:
+        * direct emissions
+        * energy chain
+        * energy storage
+        * powertrain
+        * glider
+        * road
+        * maintenance
+
+        If left unspecified, the ReCiPe method with midpoint indicators is chosen.
+
+        :param method: An impact assessment method
+        :type method: str
+        :param level: An impact assessment level: midpoint, endpoint, single score.
+        :type level: str
+        :return: A xarray array with characterized environmental impacts per vehicle-km
+        :rtype: xarray.core.dataarray.DataArray
+        """
+
+        filename={
+            'recipe': 'B_matrix_recipe_endpoint_normalized.csv'}
+        try:
+            filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/'+ filename[method])
+        except KeyError:
+            print('The method or impact level specified could not be found.')
+            raise
+
+        with open(filepath, "r", newline='') as f:
+            reader = csv.reader(f, delimiter=';')
+            impact_cat = list(filter(None, f.readline().strip().split(';')))
+            units = list(filter(None, next(reader)))
+            ncols = len(impact_cat)
+            activities = list(filter(None, [row.split(';')[0] for row in f]))
+
+        B = np.genfromtxt(filepath, delimiter=';', skip_header=2, usecols=range(2, ncols+2))
+        B_matrix = xr.DataArray(B, coords=[activities, impact_cat],
+                                dims=['parameter', 'impact_category'])
+
+        results = B_matrix.T*self.array.loc[:,:,activities,:,:]
+        results = results.transpose('impact_category', 'size', 'powertrain','year', 'parameter', 'value')
+
+
+        return impact_cat, units, results.sum(axis=4)
+
+    def calculate_env_impacts_endpoint(self, method = 'recipe', split=None):
+        """
+        This method returns an array with characterized endpoint environmental impacts, sub-divided into the following categories:
+        * direct emissions
+        * energy chain
+        * energy storage
+        * powertrain
+        * glider
+        * road
+        * maintenance
+
+        If left unspecified, the ReCiPe method with midpoint indicators is chosen.
+
+        :param method: An impact assessment method
+        :type method: str
+        :param level: An impact assessment level: midpoint, endpoint, single score.
+        :type level: str
+        :return: A xarray array with characterized environmental impacts per vehicle-km
+        :rtype: xarray.core.dataarray.DataArray
+        """
+
+        filename={
+            'recipe': {'midpoint':'B_matrix_recipe_endpoint_splitted.csv',
+                        'components':'B_matrix_recipe_endpoint.csv'}
+                            }
+        if split == None:
+            split = 'components'
+        try:
+            filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/'+ filename[method][split])
+        except KeyError:
+            print('The method or impact level specified could not be found.')
+            raise
+
+        with open(filepath, "r", newline='') as f:
+            reader = csv.reader(f, delimiter=';')
+            col_names = list(filter(None, f.readline().strip().split(';')))
+            if split == 'components':
+                impact_cat = col_names
+            else:
+                impact_cat, sub_cat = map(list,zip(*(s.split(',') for s in col_names)))
+                sub_cat = [s.strip(' ') for s in sub_cat]
+            units = list(filter(None, next(reader)))
+            ncols = len(impact_cat)
+            activities = list(filter(None, [row.split(';')[0] for row in f]))
+
+        B = np.genfromtxt(filepath, delimiter=';', skip_header=2, usecols=range(2, ncols+2))
+        B_matrix = xr.DataArray(B, coords=[activities, col_names],
+                                dims=['parameter', 'impact_category'])
+
+        results = B_matrix.T*self.array.loc[:,:,activities,:,:]
+        results = results.transpose('impact_category', 'size', 'powertrain','year', 'parameter', 'value')
+
+        if split == 'midpoint':
+            response = xr.DataArray(np.zeros((len(set(impact_cat)),
+                                              len(self.array.coords['size']),
+                                              len(self.array.coords['powertrain']),
+                                              len(self.array.coords['year']),
+                                              len(col_names),
+                                              np.shape(results)[-1])),
+                                    coords=[list(set(impact_cat)),
+                                            self.array.coords['size'],
+                                            self.array.coords['powertrain'],
+                                            self.array.coords['year'],
+                                            col_names,
+                                            np.arange(0,np.shape(results)[-1])],
+                                    dims=['impact_cat', 'size', 'powertrain', 'year','impact', 'value'])
+
+            dic_impact = {}
+            for i in set(impact_cat):
+                dic_impact[i] = [c for c in col_names if impact_cat[col_names.index(c)] == i]
+
+            for i in set(impact_cat):
+                response.loc[{'impact_cat':i, 'impact':dic_impact[i], 'value':0}] = results.sel(impact_category=dic_impact[i], value=0)\
+                    .sum(axis=4).transpose('size', 'powertrain', 'year', 'impact_category')
+        else:
+            cat = ['direct', 'energy chain', 'energy storage',
+                  'glider', 'powertrain', 'road', 'maintenance']
+            list_param = sorted(self.array.coords['parameter'].values.tolist(), key=str.lower)
+            direct_emissions = [x for x in list_param if x.startswith('_lci_direct')]
+            energy_chain = [x for x in list_param if x.startswith('_lci_energy')]
+            energy_storage = [x for x in list_param if x.startswith('_lci_storage')]
+            glider = ['_lci_glider', '_lci_glider_lightweighting']
+            powertrain = [x for x in list_param if x.startswith('_lci_powertrain')]
+            road = ['_lci_road']
+            maintenance = ['_lci_car_maintenance']
+            l_cat = [direct_emissions, energy_chain, energy_storage, glider, powertrain,
+                     road, maintenance]
+
+            response = xr.DataArray(np.zeros((len(impact_cat),
+                                              len(self.array.coords['size']),
+                                              len(self.array.coords['powertrain']),
+                                              len(self.array.coords['year']),
+                                              len(cat),
+                                              np.shape(results)[-1])),
+                                    coords=[list(impact_cat),
+                                            self.array.coords['size'],
+                                            self.array.coords['powertrain'],
+                                            self.array.coords['year'],
+                                            cat,
+                                            np.arange(0,np.shape(results)[-1])],
+                                    dims=['impact_cat', 'size', 'powertrain', 'year','impact', 'value'])
+
+            for c in cat:
+                for i in impact_cat:
+                    response.loc[{'impact_cat':i,'impact':c}] = results.sel(parameter=l_cat[cat.index(c)],
+                                                                            impact_category=i).sum(axis=3)
+
         return impact_cat, units, response
         
     def write_lci_excel_to_bw(self, db_name, filepath=None, objs=None, sections=None):

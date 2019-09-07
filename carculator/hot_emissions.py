@@ -125,9 +125,12 @@ class HotEmissionsModel():
         dist_suburban = self.cycle[(self.cycle > 50) & (self.cycle <= 80)].sum() / 3600
         dist_rural = self.cycle[self.cycle > 80].sum() / 3600
 
-        urban = (np.mean(em_arr[self.cycle <= 50], axis=0) * (dist_urban / distance)) / 1000 # going from grams to kg
-        suburban = (np.mean(em_arr[(self.cycle > 50) & (self.cycle <= 80)], axis=0) * (dist_suburban / distance)) / 1000 # going from grams to kg
-        rural = (np.mean(em_arr[self.cycle > 80], axis=0) * (dist_rural / distance)) / 1000 # going from grams to kg
+        urban = (np.mean(em_arr[self.cycle <= 50], axis=0) * (dist_urban / distance))
+        urban /= 1000 # going from grams to kg
+        suburban = (np.mean(em_arr[(self.cycle > 50) & (self.cycle <= 80)], axis=0) * (dist_suburban / distance))
+        suburban /= 1000 # going from grams to kg
+        rural = (np.mean(em_arr[self.cycle > 80], axis=0) * (dist_rural / distance))
+        rural /= 1000 # going from grams to kg
 
         suburban = np.nan_to_num(suburban)
         rural = np.nan_to_num(rural)
