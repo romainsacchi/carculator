@@ -29,8 +29,7 @@ Finally, beside being more flexible and transparent, **Carculator** provides int
 * a stochastic mode, that allows fast Monte Carlo analyses (1,000 iterations in 22 seconds, on a computer equipped with an i5 CPU)
 * possibility to override any or all of the 200+ default car parameters (e.g., number of passengers, drag coefficient)
 * hot pollutants emissions function of driving cycle, using HBEFA 3.3 data, further divided between rural, suburban and urban areas
-* noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_. for inventory modelling and
-mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban and urban areas
+* noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_ for inventory modelling and mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban and urban areas
 * exports inventories as csv files to be used with Brightway2 or Simapro (in progress), including uncertainty information. This requires
 the user to have `ecoinvent 3.5 cutoff` installed on the LCA software the car inventories are exported to.
 * exports inventories directly into Brightway2, as a database object to be registered. Additionally, when run in stochastic mode,
@@ -46,15 +45,32 @@ to be further used in prospective life cycle assessment of transportation techno
 How to install this package?
 ----------------------------
 
-**Carculator** is still at an early development stage. You may obtain a development version from this repository::
+**Carculator** is a Python package, and is primarily to be used from within a Python 3.x environment.
+Because **Carculator** is still at an early development stage, it is a good idea to install it in a separate environment,
+such as a conda environment::
+
+    conda create -n <name of the environment> python=3.7
+
+Once your environment created, you should activate it::
+
+    conda activate <name of the environment>
+
+And install the development version of the **Carculator** package in your new environment via Conda::
+
+    conda install -c romainsacchi/label/nightly carculator-dev
+
+Alternatively, you may also install it via Pip from this repository::
 
     pip install git+https://github.com/romainsacchi/carculator.git
+
 
 This will install the package and the required dependencies.
 
 
 How to use it?
 --------------
+
+
 
 From a Python environment::
 
