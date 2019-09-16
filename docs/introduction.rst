@@ -29,10 +29,8 @@ Finally, beside being more flexible and transparent, **Carculator** provides int
 * a stochastic mode, that allows fast Monte Carlo analyses (1,000 iterations in 22 seconds, on a computer equipped with an i5 CPU)
 * possibility to override any or all of the 200+ default car parameters (e.g., number of passengers, drag coefficient)
 * hot pollutants emissions function of driving cycle, using HBEFA 3.3 data, further divided between rural, suburban and urban areas
-* noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models\
-for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_. for inventory modelling and
-mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban
-and urban areas
+* noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_. for inventory modelling and
+mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban and urban areas
 * exports inventories as csv files to be used with Brightway2 or Simapro (in progress), including uncertainty information. This requires
 the user to have `ecoinvent 3.5 cutoff` installed on the LCA software the car inventories are exported to.
 * exports inventories directly into Brightway2, as a database object to be registered. Additionally, when run in stochastic mode,
