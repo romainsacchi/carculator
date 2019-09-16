@@ -57,20 +57,13 @@ Once your environment created, you should activate it::
 
 And install the development version of the **Carculator** package in your new environment via Conda::
 
-    conda install -c romainsacchi/label/nightly carculator-dev
-
-Alternatively, you may also install it via Pip from this repository::
-
-    pip install git+https://github.com/romainsacchi/carculator.git
-
+    conda install -c conda-forge -c pascallesage -c cmutel -c romainsacchi/label/nightly carculator-dev
 
 This will install the package and the required dependencies.
 
 
 How to use it?
 --------------
-
-
 
 From a Python environment::
 
@@ -100,8 +93,12 @@ Finally::
    cm = CarModel(array)
    cm.set_all()
 
-generate a CarModel object and calculate the energy consumption and components mass for all vehicle profiles.
+generates a CarModel object and calculate the energy consumption, components mass, exhaust and non-exhaust emissions for all vehicle profiles.
 
+
+
+Accessing attributes of the car model
+*************************************
 Hence, the tank-to-wheel energy requirement per km driven per powertrain technology for a SUV in 2017 can be obtained::
 
     import numpy as np
@@ -114,7 +111,39 @@ Hence, the tank-to-wheel energy requirement per km driven per powertrain technol
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/fig_kwh_100km.png
     :width: 400
     :alt: Alternative text
-    
+
+Any other attributes of the CarModel class can be obtained in a similar way. For example, all calculated parameters that start with
+`_lci` are inputs or outputs to the inventory.
+For example, the following lists all direct exhaust emissions included in the inventory of an petrol Van in 2017:
+
+List of all the given and calculated parameters of the car model::
+
+    list_param = cm.array.coords['parameter'].values.tolist()
+
+Return the parameters concerned with direct exhaust emissions (we remove noise emissions)::
+
+    direct_emissions = [x for x in list_param if x.startswith('_lci_direct_') and 'noise' not in x]
+
+Finally, return their values and display the first 10 in a table::
+
+    cm.array.sel(parameter=direct_emissions, year=2017, size='Van', powertrain='BEV').to_dataframe(name='direct emissions')
+
+.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_direct_emissions.png
+    :width: 400
+    :alt: Alternative text
+
+
+Or we could be interested in visualizing teh distriution of uncharacterized noise emissions, in joules::
+
+    noise_emissions = [x for x in list_param if 'noise' in x]
+    data = cm.array.sel(parameter=noise_emissions, year=2017, size='Van', powertrain='ICEV-p', value=0)\
+        .to_dataframe(name='noise emissions')['noise emissions']
+    data[data>0].plot(kind='bar')
+    plt.ylabel('joules per km')
+
+.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_noise_emissions.png
+    :width: 400
+    :alt: Alternative text
 
 
 
