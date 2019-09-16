@@ -65,46 +65,57 @@ This will install the package and the required dependencies.
 How to use it?
 --------------
 
-From a Python environment::
+Static vs. Stochastic mode
+**************************
+
+The inventories can be calculated using the most likely value of the given parameters, but also using a probability distribution
+for those. For example, the drivetrain efficiency of SUVs, regardless of the powertrain, is given the most likely value of 0.38,
+but with a triangular probability distribution with a minimum and maximum of 0.3 and 0.4, respectively.
+
+Creating car models in static mode will use the most likely value of the given parameters to dimension the cars, etc., such as::
 
    from carculator import *
    cip = CarInputParameters()
-   cip.stochastic(10)
-
-This would effectively load all vehicle profiles as well as generate 10 random values for each parameters, that can be further used for error propagation analyses.
-
-Alternatively, if one wishes to work with static parameters values instead::
-
-    cip.static()
-
-Then::
-
+   cip.static()
    dcts, array = fill_xarray_from_input_parameters(cip)
+   cm = CarModel(array)
+   cm.set_all()
 
-will generate a 3-dimensional array `array` to store the generated parameters values, with the following dimensions:
+
+Alternatively, if one wishes to work with probability distributions as parameter values instead::
+
+    from carculator import *
+    cip = CarInputParameters()
+    cip.stochastic(800)
+    dcts, array = fill_xarray_from_input_parameters(cip)
+    cm = CarModel(array)
+    cm.set_all()
+
+
+This effectively creates 800 iterations of the same car models, picking pseudo-random value for the given parameters,
+within the probability distributions defined. This allows to assess later the effect of uncertainty propagation on
+characterized results.
+
+In both case, a CarModel object is returned, with a 3-dimensional array `array` to store the generated parameters values, with the following dimensions:
 
 0. Vehicle size, e.g. "small", "medium". str.
 1. Powertrain, e.g. "ICE-p", "BEV". str.
 2. Year. int.
-3. Samples.
+3. Values. float
 
-Finally::
 
-   cm = CarModel(array)
-   cm.set_all()
-
-generates a CarModel object and calculate the energy consumption, components mass, exhaust and non-exhaust emissions for all vehicle profiles.
-
+`cm.set_all()` generates a CarModel object and calculate the energy consumption, components mass, as well as
+exhaust and non-exhaust emissions for all vehicle profiles.
 
 
 Accessing attributes of the car model
 *************************************
-Hence, the tank-to-wheel energy requirement per km driven per powertrain technology for a SUV in 2017 can be obtained::
+Hence, the tank-to-wheel energy requirement per km driven per powertrain technology for a SUV in 2017 can be obtained
+from the CarModel object::
 
-    import numpy as np
-    TtW_energy = cm.array.sel(size='SUV', year=2017, parameter='TtW energy') * 1/3600 * 100
+    TtW_energy = cm.array.sel(size='SUV', year=2017, parameter='TtW energy', value=0) * 1/3600 * 100
 
-    plt.bar(TtW_energy.powertrain,np.squeeze(TtW_energy))
+    plt.bar(TtW_energy.powertrain, TtW_energy)
     plt.ylabel('kWh/100 km')
     plt.show()
 
@@ -112,9 +123,24 @@ Hence, the tank-to-wheel energy requirement per km driven per powertrain technol
     :width: 400
     :alt: Alternative text
 
+Note that if you had run the model in stochastic mode, you would have several values stored for a given calculated parameter
+in the array. The number of values correspond to the number of iterations you passed to cip.stochastic().
+
+For example, if you ran the model in stochastic mode with 800 iterations as shown in the section above, instead of one
+value for the tank-to-wheel energy, you would have a distribution of values::
+
+    l_powertrains = TtW_energy.powertrain
+    [plt.hist(e, bins=50, alpha=.8, label=e.powertrain.values) for e in TtW_energy]
+    plt.ylabel('kWh/100 km')
+    plt.legend()
+
+.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/stochastic_example.png
+    :width: 400
+    :alt: Alternative text
+
 Any other attributes of the CarModel class can be obtained in a similar way. For example, all calculated parameters that start with
 `_lci` are inputs or outputs to the inventory.
-For example, the following lists all direct exhaust emissions included in the inventory of an petrol Van in 2017:
+Hence, the following lists all direct exhaust emissions included in the inventory of an petrol Van in 2017:
 
 List of all the given and calculated parameters of the car model::
 
@@ -133,7 +159,7 @@ Finally, return their values and display the first 10 in a table::
     :alt: Alternative text
 
 
-Or we could be interested in visualizing teh distriution of uncharacterized noise emissions, in joules::
+Or we could be interested in visualizing the distribution of non-characterized noise emissions, in joules::
 
     noise_emissions = [x for x in list_param if 'noise' in x]
     data = cm.array.sel(parameter=noise_emissions, year=2017, size='Van', powertrain='ICEV-p', value=0)\
