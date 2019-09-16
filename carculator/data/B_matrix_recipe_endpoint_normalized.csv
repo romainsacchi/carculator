@@ -1,6 +1,5 @@
 ;;Human health, normalized;Terrestrial ecosystems, normalized;Freshwater ecosystems, normalized;Marine ecosystems, normalized;Resources, normalized
 ;;points;points;points;points;points
-;;;;;;
 _lci_direct_CO2;Carbon dioxide, fossil;4.582E-05;1.5512E-05;4.24E-10;0;0
 _lci_direct_rural_C6H6;Benzene;0.00023858;0.000263138;1.22E-10;4.83E-10;0
 _lci_direct_rural_CH4;Methane, fossil;0.001145955;0.000395043;1.06E-08;0;0
