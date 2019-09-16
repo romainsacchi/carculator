@@ -1,28 +1,57 @@
 Introduction
 ============
 
-**Carculator** allows to calculate life cycle inventories for 112 different car profiles, according to selected:
+**Carculator** is a parametrized model that allows to generate and characterize life cycle inventories for 112 different
+passenger car configurations, according to selected:
 
 * powertrain technologies (8): petrol engine, diesel engine, electric motor, hybrid, etc.,
 * year of operation (2): 2017, 2040
 * and sizes (7): Mini, Large, etc.
 
-It is based on the model developed in `Uncertain environmental footprint of current and future battery electric
+It is initially based on the model developed in `Uncertain environmental footprint of current and future battery electric
 vehicles by Cox, et al (2018) <https://pubs.acs.org/doi/10.1021/acs.est.8b00261>`_.
+
+More specifically, **Carculator** generates Brightway2- and Simapro-compatible inventories, but also provides characterized
+results against several mid- and endpoint indicators (e.g., ReCiPe, Ecological Scarcity) and life cycle cost indicators.
+
+Why?
+----
+Many life cycle assessment models of passenger cars exist, often leading to varying conclusions being published.
+Unfortunately, because the underlying calculations are kept undocumented, it is not possible to explain the disparity
+in the results given by these models.
+
+Because **Carculator** is kept as open as possible, the methods and assumptions behind the generation of results are easily identifiable.
+Also, there is an effort to keep the different modules (classes) separated, so that improving certain areas of the model is relatively
+easy and does not require changing extensive parts of the code. In that regard, contributions are welcome.
+
+Finally, beside being more flexible and transparent, **Carculator** provides interesting features, such as:
+* a stochastic mode, that allows fast Monte Carlo analyses (1,000 iterations in 22 seconds, on a computer equipped with an i5 CPU)
+* possibility to override any or all of the 200+ default car parameters (e.g., number of passengers, drag coefficient)
+* hot pollutants emissions function of driving cycle, using HBEFA 3.3 data, further divided between rural, suburban and urban areas
+* noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_
+models for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_. for inventory modelling and
+mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban
+and urban areas
+* exports inventories as csv files to be used with Brightway2 or Simapro (in progress), including uncertainty information. This requires
+the user to have `ecoinvent 3.5 cutoff` installed on the LCA software the car inventories are exported to.
+* exports inventories directly into Brightway2, as a database object to be registered. Additionally, when run in stochastic mode,
+it is possible to export arrays of pre-sampled values using the `presamples<https://pypi.org/project/presamples/>`_ library
+to be used together with the Monte Carlo function of Brightway2.
 
 Objective
 ---------
 
-The objective is to produce life cycle inventories for passenger cars in a transparent and comprehensive way, to be further used in prospective life cycle assessment of transportation technologies.
+The objective is to produce life cycle inventories for passenger cars in a transparent and comprehensive way,
+to be further used in prospective life cycle assessment of transportation technologies.
 
 How to install this package?
 ----------------------------
 
-In a terminal::
+**Carculator** is still at an early development stage. You may obtain a development version from a terminal::
 
     pip install git+https://github.com/romainsacchi/carculator.git
 
-will install the package and the required dependencies.
+This will install the package and the required dependencies.
 
 
 How to use it?
