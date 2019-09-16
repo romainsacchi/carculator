@@ -30,11 +30,8 @@ Finally, beside being more flexible and transparent, **Carculator** provides int
 * possibility to override any or all of the 200+ default car parameters (e.g., number of passengers, drag coefficient)
 * hot pollutants emissions function of driving cycle, using HBEFA 3.3 data, further divided between rural, suburban and urban areas
 * noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_ for inventory modelling and mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban and urban areas
-* exports inventories as csv files to be used with Brightway2 or Simapro (in progress), including uncertainty information. This requires
-the user to have `ecoinvent 3.5 cutoff` installed on the LCA software the car inventories are exported to.
-* exports inventories directly into Brightway2, as a database object to be registered. Additionally, when run in stochastic mode,
-it is possible to export arrays of pre-sampled values using the `presamples <https://pypi.org/project/presamples/>`_ library
-to be used together with the Monte Carlo function of Brightway2.
+* exports inventories as csv files to be used with Brightway2 or Simapro (in progress), including uncertainty information. This requires the user to have `ecoinvent 3.5 cutoff` installed on the LCA software the car inventories are exported to.
+* exports inventories directly into Brightway2, as a database object to be registered. Additionally, when run in stochastic mode, it is possible to export arrays of pre-sampled values using the `presamples <https://pypi.org/project/presamples/>`_ library to be used together with the Monte Carlo function of Brightway2.
 
 Objective
 ---------
@@ -147,7 +144,6 @@ To specify a driving cycle, simply do::
     cip = CarInputParameters()
     cip.static()
     dcts, array = fill_xarray_from_input_parameters(cip)
-    #modify_xarray_from_custom_parameters(dic_param, array)
     cm = CarModel(array, cycle='WLTC 3.4')
     cm.set_all()
 
@@ -193,7 +189,7 @@ value for the tank-to-wheel energy, you would have a distribution of values::
     plt.ylabel('kWh/100 km')
     plt.legend()
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/stochastic_example.png
+.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/stochastic_example_ttw.png
     :width: 400
     :alt: Alternative text
 
