@@ -107,6 +107,65 @@ In both case, a CarModel object is returned, with a 3-dimensional array `array` 
 `cm.set_all()` generates a CarModel object and calculate the energy consumption, components mass, as well as
 exhaust and non-exhaust emissions for all vehicle profiles.
 
+Custom values for given parameters
+**********************************
+
+You can pass your own values for the given parameters, effectively overriding the default values.
+
+For example, you may think that the *base mass of the glider* for large diesel and petrol cars is 1600 kg in 2017
+and 1500 kg in 2040, and not 1,500 kg as defined by the default values. It is easy to change this value.
+You need to create first a dictionary and define your new values as well as a probability distribution if needed ::
+
+    dic_param = {
+    ('Glider', ['ICEV-d', 'ICEV-p'], 'Large', 'glider base mass', 'triangular'): {(2017, 'loc'): 1600.0,
+                                                                 (2017, 'minimum'): 1500.0,
+                                                                 (2017, 'maximum'): 2000.0,
+                                                                 (2040, 'loc'): 1500.0,
+                                                                 (2040, 'minimum'): 1300.0,
+                                                                 (2040, 'maximum'): 1700.0}}
+
+Then, you simply pass this dictionary to `modify_xarray_from_custom_parameters(<dic_param or filepath>, array)`, like so::
+
+    cip = CarInputParameters()
+    cip.static()
+    dcts, array = fill_xarray_from_input_parameters(cip)
+    modify_xarray_from_custom_parameters(dic_param, array)
+    cm = CarModel(array, cycle='WLTC')
+    cm.set_all()
+
+Alternatively, instead of a Python dictionary, you can pass a file path pointing to an Excel spreadsheet that contains
+the values to change, following `this template <https://github.com/romainsacchi/coarse/raw/master/docs/template_workbook.xlsx>`_.
+
+Changing the driving cycle
+**************************
+
+**Carculator** gives the user the possibility to choose between several driving cycles. Driving cycles are determinant in
+many aspects of the car model: hot pollutant emissions, noise emissions, tank-to-wheel energy, etc. Hence, each driving
+cycle leads to slightly different results. By default, if no driving cycle is specified, the WLTC driving cycle is used.
+To specify a driving cycle, simply do::
+
+    cip = CarInputParameters()
+    cip.static()
+    dcts, array = fill_xarray_from_input_parameters(cip)
+    #modify_xarray_from_custom_parameters(dic_param, array)
+    cm = CarModel(array, cycle='WLTC 3.4')
+    cm.set_all()
+
+In this case, the driving cycle *WLTC 3.4* is chosen (this driving cycle is in fact a sub-part of the WLTC driving cycle,
+mostly concerned with driving on the motorway at speeds above 80 km/h). Driving cycles currently available:
+
+* WLTC
+* WLTC 3.1
+* WLTC 3.2
+* WLTC 3.3
+* WLTC 3.4
+* CADC Urban
+* CADC Road
+* CADC Motorway
+* CADC Motorway 130
+* CADC
+* NEDC
+
 
 Accessing attributes of the car model
 *************************************
@@ -171,8 +230,89 @@ Or we could be interested in visualizing the distribution of non-characterized n
     :width: 400
     :alt: Alternative text
 
+Characterization of inventories (static)
+****************************************
+
+**Carculator** makes the characterization of inventories easy. You can characterize the inventories directly from
+**Carculator ** against midpoint, endpoint and single score impact assessment methods.
+
+For example, to obtain characterized results against the midpoint impact assessment method ReCiPe for all cars::
+
+    impacts, units, arr = cm.calculate_env_impacts_midpoint(method = 'recipe')
+
+* arr: contains the characterized results
+* impacts: contains the list of impact categories `arr` contains results for
+* units: contains a list of units used by the impact categories contained in `impacts`
+
+Hence, to plot the carbon footprint for all medium cars in 2017::
+
+    arr.sel(size='Medium', year=2017, impact_category='climate change', value=0).to_dataframe('impact').unstack(level=1)['impact'].plot(kind='bar',
+                stacked=True)
+    plt.ylabel('kg CO2-eq./vkm')
+    plt.show()
+
+.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_carbon_footprint.png
+    :width: 400
+    :alt: Alternative text
+
+Note that, for now, only the ReCiPe method is available for midpoint characterization. Also, once the CarModel object has
+been created, there is no need to re-create it in order to calculate additional environmental impacts (unless you wish to
+change values of certain parameters, the driving cycle or go from static to stochastic mode).
+
+Same thing, but with the endpoint indicator *Human health* of ReCiPe method instead, split by midpoint categories contribution::
+
+    impacts, units, arr = cm.calculate_env_impacts_endpoint(method = 'recipe', split='midpoint')
+    impact_cat = 'Human health'
+    ax = arr.sel(size='Medium', year=2017, impact_cat=impact_cat, value=0)\
+        .to_dataframe('impact').unstack(level=1)['impact'].plot(kind='bar',
+                    stacked=True)
+
+    handles, labels = ax.get_legend_handles_labels()
+    labels_n = [labels.index(l) for l in labels if impact_cat in l]
+    new_labels = [labels[l] for l in labels_n]
+    new_handles = [handles[l] for l in labels_n]
+
+    plt.legend(new_handles, new_labels)
+    plt.ylabel('DALY')
+    plt.show()
+
+.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_human_health.png
+    :width: 400
+    :alt: Alternative text
+
+Note that you can pass 'components' as a split method to `calculate_env_impacts_endpoint` if you pass to see the
+distribution of result by car components instead (like in teh example with midpoint impact characterization).
+Also, you can choose between ReCiPe and Ecological Scarcity for endpoint characterization.
+
+Finally, you can obtain single score results as well using `calculate_env_impacts_single_score()`.
 
 
+Characterization of inventories (stochastic)
+********************************************
 
+In the same manner, you can obtain distributions of results, instead of one-point values if you have run the model in
+stochastic mode (here using the single score method of ReCiPe, with 1000 iterations and the driving cycle WLTC)::
 
+    cip = CarInputParameters()
+    cip.stochastic(1000)
+    dcts, array = fill_xarray_from_input_parameters(cip)
+    cm = CarModel(array, cycle='WLTC')
+    cm.set_all()
 
+    impacts, units, arr = cm.calculate_env_impacts_single_score('recipe')
+    data_MC = arr.sel(size='Large', year=2017).sum(axis=0)
+
+    c='red'
+    plt.boxplot(data_MC, showfliers=False, positions = [1,2,3,4,5,6,7], widths=(.25, .25, .25, .25, .25, .25, .25),
+                patch_artist=True,
+                boxprops=dict(facecolor=c, color=c),
+                capprops=dict(color=c),
+                whiskerprops=dict(color=c),
+                flierprops=dict(color=c, markeredgecolor=c),
+                medianprops=dict(color=c), notch=True)
+    plt.ylim(0,)
+    plt.xticks(range(1,len(data_MC.powertrain.values)+1),data_MC.powertrain.values)
+
+.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_stochastic_recipe.png
+    :width: 400
+    :alt: Alternative text
