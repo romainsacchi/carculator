@@ -700,9 +700,9 @@ class CarModel:
         with self('FCEV') as pt:
             pt['_lci_energy_h2'] = pt['fuel mass'] / pt['range']
 
-        self['_lci_direct_tyre_wear'] = self['driving mass'] * -1 * 6.7568E-05 / 1180
-        self['_lci_direct_brake_wear'] = self['driving mass'] * -1 * 1.0504E-06 / 1180
-        self['_lci_direct_road_wear'] = self['driving mass'] * -1 * 1.1554E-05 / 1180
+        self['_lci_direct_tyre_wear'] = self['driving mass'] * -1 * 6E-8
+        self['_lci_direct_brake_wear'] = self['driving mass'] * -1 * 5E-09
+        self['_lci_direct_road_wear'] = self['driving mass'] * -1 * 1E-08
 
         self['_lci_road'] = 5.37E-7 * self['driving mass']
 
