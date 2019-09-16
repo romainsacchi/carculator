@@ -25,6 +25,7 @@ Also, there is an effort to keep the different modules (classes) separated, so t
 easy and does not require changing extensive parts of the code. In that regard, contributions are welcome.
 
 Finally, beside being more flexible and transparent, **Carculator** provides interesting features, such as:
+
 * a stochastic mode, that allows fast Monte Carlo analyses (1,000 iterations in 22 seconds, on a computer equipped with an i5 CPU)
 * possibility to override any or all of the 200+ default car parameters (e.g., number of passengers, drag coefficient)
 * hot pollutants emissions function of driving cycle, using HBEFA 3.3 data, further divided between rural, suburban and urban areas
@@ -35,7 +36,7 @@ and urban areas
 * exports inventories as csv files to be used with Brightway2 or Simapro (in progress), including uncertainty information. This requires
 the user to have `ecoinvent 3.5 cutoff` installed on the LCA software the car inventories are exported to.
 * exports inventories directly into Brightway2, as a database object to be registered. Additionally, when run in stochastic mode,
-it is possible to export arrays of pre-sampled values using the `presamples<https://pypi.org/project/presamples/>`_ library
+it is possible to export arrays of pre-sampled values using the `presamples <https://pypi.org/project/presamples/>`_ library
 to be used together with the Monte Carlo function of Brightway2.
 
 Objective
