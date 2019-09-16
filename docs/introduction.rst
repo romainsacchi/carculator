@@ -11,7 +11,7 @@ passenger car configurations, according to selected:
 It is initially based on the model developed in `Uncertain environmental footprint of current and future battery electric
 vehicles by Cox, et al (2018) <https://pubs.acs.org/doi/10.1021/acs.est.8b00261>`_.
 
-More specifically, **Carculator** generates Brightway2- and Simapro-compatible inventories, but also provides characterized
+More specifically, **Carculator** generates Brightway2- and Simapro-compatible inventories, but also directly provides characterized
 results against several mid- and endpoint indicators (e.g., ReCiPe, Ecological Scarcity) and life cycle cost indicators.
 
 Why?
@@ -29,8 +29,8 @@ Finally, beside being more flexible and transparent, **Carculator** provides int
 * a stochastic mode, that allows fast Monte Carlo analyses (1,000 iterations in 22 seconds, on a computer equipped with an i5 CPU)
 * possibility to override any or all of the 200+ default car parameters (e.g., number of passengers, drag coefficient)
 * hot pollutants emissions function of driving cycle, using HBEFA 3.3 data, further divided between rural, suburban and urban areas
-* noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_
-models for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_. for inventory modelling and
+* noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models\
+for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_. for inventory modelling and
 mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban
 and urban areas
 * exports inventories as csv files to be used with Brightway2 or Simapro (in progress), including uncertainty information. This requires
@@ -48,7 +48,7 @@ to be further used in prospective life cycle assessment of transportation techno
 How to install this package?
 ----------------------------
 
-**Carculator** is still at an early development stage. You may obtain a development version from a terminal::
+**Carculator** is still at an early development stage. You may obtain a development version from this repository::
 
     pip install git+https://github.com/romainsacchi/carculator.git
 

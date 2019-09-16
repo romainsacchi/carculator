@@ -1,6 +1,6 @@
 # Only need to change these two variables
 PKG_NAME=carculator-dev
-USER=cmutel
+USER=romainsacchi
 
 mkdir ~/conda-bld
 conda config --set anaconda_upload no
