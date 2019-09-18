@@ -7053,8 +7053,6 @@ EXTRA = {
     "_lci_powertrain_fuel_cell_stack",
     "_lci_storage_battery_BoP",
     "_lci_storage_battery_cell",
-    "_lci_storage_battery_cell_production_electricity",
-    "_lci_storage_battery_cell_production_heat",
     "_lci_storage_fuel_tank",
     "_lci_storage_cng_tank",
     "_lci_storage_h2_tank",

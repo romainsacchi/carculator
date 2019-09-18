@@ -73,7 +73,6 @@ _lci_car_maintenance;ecoinvent;maintenance, passenger car;RER;unit;technosphere;
 _lci_powertrain_power_distribution_unit;ecoinvent;market for power distribution unit, for electric passenger car;GLO;kilogram;technosphere;power distribution unit, for electric passenger car;;7d54f8c3a04deb1ce0b02f65a693dcd5
 _lci_energy_cng;ecoinvent;market for natural gas, from high pressure network (1-5 bar), at service station;GLO;kilogram;technosphere;natural gas, from high pressure network (1-5 bar), at service station;;7c654903cec232e3610124d4855a75ed
 _lci_direct_road_wear;ecoinvent;market for road wear emissions, passenger car;GLO;kilogram;technosphere;road wear emissions, passenger car;;6cf07a2e8f8867ce65ac1673ceb4de62
-_lci_storage_battery_cell_production_electricity;ecoinvent;market group for electricity, medium voltage;GLO;kilowatt hour;technosphere;electricity, medium voltage;;668014867e4919dae2c88bc5bba6e659
 _lci_powertrain_charger;ecoinvent;market for charger, electric passenger car;GLO;kilogram;technosphere;charger, electric passenger car;;6404d77c1d1e51690118e437fe0bbb6b
 _lci_powertrain_combustion_EoL;ecoinvent;market for manual dismantling of used passenger car with internal combustion engine;GLO;unit;technosphere;manual dismantling of used passenger car with internal combustion engine;;62f332ec4032446780e1ee7c32124d7a
 _lci_powertrain_electric_EoL;ecoinvent;market for manual dismantling of used electric passenger car;GLO;unit;technosphere;manual dismantling of used electric passenger car;;60ef047ed3f93a0488e7887b83bd8557
@@ -81,7 +80,6 @@ _lci_powertrain_inverter;ecoinvent;market for inverter, for electric passenger c
 _lci_direct_tyre_wear;ecoinvent;market for tyre wear emissions, passenger car;GLO;kilogram;technosphere;tyre wear emissions, passenger car;;5a3b3811015c11e9015f2d8a848d7656
 _lci_powertrain_electric_engine;ecoinvent;market for electric motor, electric passenger car;GLO;kilogram;technosphere;electric motor, electric passenger car;;48471c9ef54aacd41991f266d8132548
 _lci_energy_electricity;ecoinvent;market group for electricity, low voltage;ENTSO-E;kilowatt hour;technosphere;electricity, low voltage;;43024e9cc9b0b66e3b3154464442e12b
-_lci_storage_battery_cell_production_heat;ecoinvent;market for heat, central or small-scale, natural gas;RoW;megajoule;technosphere;heat, central or small-scale, natural gas;;4248013820497da0b51cdbaca25d870d
 _lci_road;ecoinvent;market for road;GLO;meter-year;technosphere;road;;378c6dbce0519c862c9c2453955e9c3d
 _lci_glider;ecoinvent;market for glider, passenger car;GLO;kilogram;technosphere;glider, passenger car;;3190a5aaecaaa169947d055586a0a4ae
 _lci_powertrain_electric_powertrain_EoL;ecoinvent;market for used powertrain from electric passenger car, manual dismantling;GLO;kilogram;technosphere;used powertrain from electric passenger car, manual dismantling;;255e9c73a24472c2484aba998831d81f

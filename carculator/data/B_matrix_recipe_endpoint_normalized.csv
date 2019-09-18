@@ -1,6 +1,6 @@
 ;;Human health, normalized;Terrestrial ecosystems, normalized;Freshwater ecosystems, normalized;Marine ecosystems, normalized;Resources, normalized
 ;;points;points;points;points;points
-_lci_direct_CO2;Carbon dioxide, fossil;4.582E-05;1.5512E-05;4.24E-10;0;0
+_lci_direct_CO2;Carbon dioxide, fossil;4.58E-05;1.55E-05;4.24E-10;0;0
 _lci_direct_rural_C6H6;Benzene;0.00023858;0.000263138;1.22E-10;4.83E-10;0
 _lci_direct_rural_CH4;Methane, fossil;0.001145955;0.000395043;1.06E-08;0;0
 _lci_direct_rural_CO;Carbon monoxide, fossil;2.05E-06;3.26E-05;0;0;0
@@ -61,7 +61,7 @@ _lci_direct_noise, octave 3, evening time, urban;noise, octave 3, evening time, 
 _lci_direct_noise, octave 3, night time, rural;noise, octave 3, night time, rural;6.87E-07;0;0;0;0
 _lci_direct_noise, octave 3, night time, suburban;noise, octave 3, night time, suburban;1.86E-05;0;0;0;0
 _lci_direct_noise, octave 3, night time, urban;noise, octave 3, night time, urban;1.48E-05;0;0;0;0
-_lci_direct_noise, octave 4, day time, rural;noise, octave 4, day time, rural;4E-07;0;0;0;0
+_lci_direct_noise, octave 4, day time, rural;noise, octave 4, day time, rural;4.00E-07;0;0;0;0
 _lci_direct_noise, octave 4, day time, suburban;noise, octave 4, day time, suburban;1.09E-05;0;0;0;0
 _lci_direct_noise, octave 4, day time, urban;noise, octave 4, day time, urban;8.69E-06;0;0;0;0
 _lci_direct_noise, octave 4, evening time, rural;noise, octave 4, evening time, rural;7.15E-07;0;0;0;0
@@ -70,15 +70,15 @@ _lci_direct_noise, octave 4, evening time, urban;noise, octave 4, evening time, 
 _lci_direct_noise, octave 4, night time, rural;noise, octave 4, night time, rural;1.27E-06;0;0;0;0
 _lci_direct_noise, octave 4, night time, suburban;noise, octave 4, night time, suburban;3.47E-05;0;0;0;0
 _lci_direct_noise, octave 4, night time, urban;noise, octave 4, night time, urban;2.76E-05;0;0;0;0
-_lci_direct_noise, octave 5, day time, rural;noise, octave 5, day time, rural;5.7E-07;0;0;0;0
+_lci_direct_noise, octave 5, day time, rural;noise, octave 5, day time, rural;5.70E-07;0;0;0;0
 _lci_direct_noise, octave 5, day time, suburban;noise, octave 5, day time, suburban;1.57E-05;0;0;0;0
 _lci_direct_noise, octave 5, day time, urban;noise, octave 5, day time, urban;1.25E-05;0;0;0;0
 _lci_direct_noise, octave 5, evening time, rural;noise, octave 5, evening time, rural;1.02E-06;0;0;0;0
 _lci_direct_noise, octave 5, evening time, suburban;noise, octave 5, evening time, suburban;2.82E-05;0;0;0;0
 _lci_direct_noise, octave 5, evening time, urban;noise, octave 5, evening time, urban;2.35E-05;0;0;0;0
 _lci_direct_noise, octave 5, night time, rural;noise, octave 5, night time, rural;1.81E-06;0;0;0;0
-_lci_direct_noise, octave 5, night time, suburban;noise, octave 5, night time, suburban;5E-05;0;0;0;0
-_lci_direct_noise, octave 5, night time, urban;noise, octave 5, night time, urban;4E-05;0;0;0;0
+_lci_direct_noise, octave 5, night time, suburban;noise, octave 5, night time, suburban;5.00E-05;0;0;0;0
+_lci_direct_noise, octave 5, night time, urban;noise, octave 5, night time, urban;4.00E-05;0;0;0;0
 _lci_direct_noise, octave 6, day time, rural;noise, octave 6, day time, rural;6.06E-07;0;0;0;0
 _lci_direct_noise, octave 6, day time, suburban;noise, octave 6, day time, suburban;1.79E-05;0;0;0;0
 _lci_direct_noise, octave 6, day time, urban;noise, octave 6, day time, urban;8.19E-06;0;0;0;0
@@ -86,12 +86,12 @@ _lci_direct_noise, octave 6, evening time, rural;noise, octave 6, evening time, 
 _lci_direct_noise, octave 6, evening time, suburban;noise, octave 6, evening time, suburban;3.21E-05;0;0;0;0
 _lci_direct_noise, octave 6, evening time, urban;noise, octave 6, evening time, urban;2.69E-05;0;0;0;0
 _lci_direct_noise, octave 6, night time, rural;noise, octave 6, night time, rural;1.96E-06;0;0;0;0
-_lci_direct_noise, octave 6, night time, suburban;noise, octave 6, night time, suburban;5.7E-05;0;0;0;0
+_lci_direct_noise, octave 6, night time, suburban;noise, octave 6, night time, suburban;5.70E-05;0;0;0;0
 _lci_direct_noise, octave 6, night time, urban;noise, octave 6, night time, urban;4.56E-05;0;0;0;0
 _lci_direct_noise, octave 7, day time, rural;noise, octave 7, day time, rural;4.44E-07;0;0;0;0
 _lci_direct_noise, octave 7, day time, suburban;noise, octave 7, day time, suburban;1.68E-05;0;0;0;0
 _lci_direct_noise, octave 7, day time, urban;noise, octave 7, day time, urban;7.69E-06;0;0;0;0
-_lci_direct_noise, octave 7, evening time, rural;noise, octave 7, evening time, rural;9E-07;0;0;0;0
+_lci_direct_noise, octave 7, evening time, rural;noise, octave 7, evening time, rural;9.00E-07;0;0;0;0
 _lci_direct_noise, octave 7, evening time, suburban;noise, octave 7, evening time, suburban;3.07E-05;0;0;0;0
 _lci_direct_noise, octave 7, evening time, urban;noise, octave 7, evening time, urban;2.57E-05;0;0;0;0
 _lci_direct_noise, octave 7, night time, rural;noise, octave 7, night time, rural;1.53E-06;0;0;0;0
@@ -100,7 +100,7 @@ _lci_direct_noise, octave 7, night time, urban;noise, octave 7, night time, urba
 _lci_direct_noise, octave 8, day time, rural;noise, octave 8, day time, rural;1.53E-07;0;0;0;0
 _lci_direct_noise, octave 8, day time, suburban;noise, octave 8, day time, suburban;1.48E-05;0;0;0;0
 _lci_direct_noise, octave 8, day time, urban;noise, octave 8, day time, urban;6.79E-06;0;0;0;0
-_lci_direct_noise, octave 8, evening time, rural;noise, octave 8, evening time, rural;4.3E-07;0;0;0;0
+_lci_direct_noise, octave 8, evening time, rural;noise, octave 8, evening time, rural;4.30E-07;0;0;0;0
 _lci_direct_noise, octave 8, evening time, suburban;noise, octave 8, evening time, suburban;2.85E-05;0;0;0;0
 _lci_direct_noise, octave 8, evening time, urban;noise, octave 8, evening time, urban;2.38E-05;0;0;0;0
 _lci_direct_noise, octave 8, night time, rural;noise, octave 8, night time, rural;6.46E-07;0;0;0;0
@@ -110,9 +110,9 @@ _lci_direct_brake_wear;market for brake wear emissions, passenger car;-0.2258833
 _lci_direct_road_wear;market for road wear emissions, passenger car;-0.015528438;0;0;0;0
 _lci_direct_tyre_wear;market for tyre wear emissions, passenger car;-0.002739264;-6.06E-07;-3.17E-07;-6.79E-08;0
 _lci_car_maintenance;maintenance, passenger car;0.211230195;0.027301679;0.002134511;4.51E-05;0.477095509
-_lci_energy_cng;market for natural gas, from high pressure network (1-5 bar), at service station;8.48E-05;1.43E-05;4.73E-07;7.5E-09;0.001368105
+_lci_energy_cng;market for natural gas, from high pressure network (1-5 bar), at service station;8.48E-05;1.43E-05;4.73E-07;7.50E-09;0.001368105
 _lci_energy_diesel;market for diesel;8.63E-05;1.68E-05;2.67E-07;8.29E-09;0.001803497
-_lci_energy_electricity;market group for electricity, low voltage;0.000102534;1.3E-05;1.89E-06;1.68E-08;5.25E-05
+_lci_energy_electricity;market group for electricity, low voltage;0.000102534;1.30E-05;1.89E-06;1.68E-08;5.25E-05
 _lci_energy_h2;Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station;0.005692947;0.000767616;0.00010156;5.77E-07;0.003247618
 _lci_energy_petrol;market for petrol, low-sulfur;0.000115661;2.31E-05;3.83E-07;1.02E-08;0.001890096
 _lci_glider;market for glider, passenger car;0.002308373;0.000167714;2.42E-05;5.09E-07;0.001460118
@@ -132,8 +132,6 @@ _lci_powertrain_power_distribution_unit;market for power distribution unit, for 
 _lci_road;market for road;0.003074855;0.000790236;1.28E-05;3.32E-07;0.009408731
 _lci_storage_battery_BoP;Battery BoP;0.004980464;0.000334956;4.94E-05;4.85E-07;0.002427033
 _lci_storage_battery_cell;Battery cell;0.01815327;0.001128041;0.000165853;1.25E-06;0.00637272
-_lci_storage_battery_cell_production_electricity;market group for electricity, medium voltage;0.000142368;1.75E-05;1.55E-06;1.21E-08;0.000105188
-_lci_storage_battery_cell_production_heat;market for heat, central or small-scale, natural gas;4.92E-06;1.32E-06;1.25E-08;2.86E-10;3.17E-05
 _lci_storage_cng_tank;glass fibre reinforced plastic production, polyamide, injection moulded;0.000808935;0.000192932;3.43E-06;1.25E-07;0.002973086
-_lci_storage_fuel_tank;polyethylene production, high density, granulate;0.000153898;4.32E-05;1.12E-07;1.3E-08;0.002070867
+_lci_storage_fuel_tank;polyethylene production, high density, granulate;0.000153898;4.32E-05;1.12E-07;1.30E-08;0.002070867
 _lci_storage_h2_tank;Fuel tank, compressed hydrogen gas, 700bar;0.00638713;0.000880465;5.65E-05;8.53E-07;0.008824776

@@ -300,7 +300,7 @@ class CarModel:
             battery lifetime = 190000 (km)
             replacement battery = 0.05
             
-        :note: It is debatable whether this is realistic or not. Car oners may not decide to invest in a new
+        :note: It is debatable whether this is realistic or not. Car owners may not decide to invest in a new
         battery if the remaining lifetime of the car is only 10000 km. Also, a battery lifetime may be expressed
         in other terms, e.g., charging cycles.
 
@@ -597,7 +597,7 @@ class CarModel:
 
     def set_ttw_efficiency(self):
         _ = lambda array: np.where(array == 0, 1, array)
-
+        #TODO> check if battery charge efficiency should be added
         self["TtW efficiency"] = (
             _(self["battery discharge efficiency"])
             * _(self["fuel cell system efficiency"])
@@ -659,8 +659,8 @@ class CarModel:
 
         # Energy storage
 
-        self['_lci_storage_battery_BoP'] = self['battery BoP mass'] * (1 + self['battery lifetime replacements']) / self['lifetime kilometers']
-        self['_lci_storage_battery_cell'] = self['battery cell mass'] * (1 + self['fuel cell lifetime replacements']) / self[
+        self['_lci_storage_battery_BoP'] = (self['battery BoP mass'] * (1 + self['battery lifetime replacements'])) / self['lifetime kilometers']
+        self['_lci_storage_battery_cell'] = (self['battery cell mass'] * (1 + self['fuel cell lifetime replacements'])) / self[
             'lifetime kilometers']
 
         # Not sure why the -28 kWh
@@ -668,12 +668,12 @@ class CarModel:
         #                                              (1 + self['battery lifetime replacements' ]) / self['lifetime kilometers'])+ \
         #                (-28 * self['battery cell mass'] * (1 + self['battery lifetime replacements'])/ self['lifetime kilometers'])
 
-        self['_lci_storage_battery_cell_production_electricity'] = (self['battery cell production electricity'] * self['battery cell mass'] *\
-                    (1 + self['battery lifetime replacements' ]) / self['lifetime kilometers'])
+        #self['_lci_storage_battery_cell_production_electricity'] = (self['battery cell production electricity'] * self['battery cell mass'] *\
+        #            (1 + self['battery lifetime replacements' ])) / self['lifetime kilometers']
 
-        self['_lci_storage_battery_cell_production_heat'] = 3.6 * self['battery cell production heat'] * self['battery cell mass']* \
-                                                   (1 + self['battery lifetime replacements']) / self[
-                                                       'lifetime kilometers']
+        #self['_lci_storage_battery_cell_production_heat'] = (3.6 * self['battery cell production heat'] * self['battery cell mass']* \
+        #                                           (1 + self['battery lifetime replacements'])) / self[
+        #                                               'lifetime kilometers']
 
         for pt in self.combustion_wo_cng:
             with self(pt) as cpm:
