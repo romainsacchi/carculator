@@ -851,8 +851,8 @@ class CarModel:
         try:
             filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/'+ filename[method])
         except KeyError:
-            print('The method or impact level specified could not be found.')
-            raise
+            raise FileNotFoundError('The method or impact level specified could not be found.')
+
 
         with open(filepath, "r", newline='') as f:
             reader = csv.reader(f, delimiter=';')
@@ -929,8 +929,8 @@ class CarModel:
         try:
             filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/'+ filename[method])
         except KeyError:
-            print('The method or impact level specified could not be found.')
-            raise
+            raise KeyError('The method or impact level specified could not be found.')
+
 
         with open(filepath, "r", newline='') as f:
             reader = csv.reader(f, delimiter=';')
@@ -979,8 +979,8 @@ class CarModel:
         try:
             filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/'+ filename[method][split])
         except KeyError:
-            print('The method or impact level specified could not be found.')
-            raise
+            raise KeyError('The method or impact level specified could not be found.')
+
 
         with open(filepath, "r", newline='') as f:
             reader = csv.reader(f, delimiter=';')
