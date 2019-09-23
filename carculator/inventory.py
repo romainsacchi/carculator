@@ -79,20 +79,23 @@ class InventoryCalculation:
             cat = ['direct', 'energy chain', 'energy storage',
                    'glider', 'powertrain', 'road', 'maintenance']
 
+        dict_impact_cat = self.get_dict_impact_categories()
+
         if FU == None:
-            response = xr.DataArray(np.zeros((self.B.shape[1],
-                                              len(self.array.coords['size']),
-                                              len(self.array.coords['powertrain']),
-                                              len(self.array.coords['year']),
+            response = xr.DataArray(np.zeros((self.B.shape[0],
+                                              len(self.size),
+                                              len(self.powertrain),
+                                              len(self.year),
                                               len(cat),
                                               self.iterations)),
-                                    coords=[impact_cat,
-                                            self.array.coords['size'],
-                                            self.array.coords['powertrain'],
-                                            self.array.coords['year'],
+                                    coords=[dict_impact_cat[method][level],
+                                            self.size,
+                                            self.powertrain,
+                                            self.year,
                                             cat,
                                             np.arange(0, self.iterations)],
                                     dims=['impact_category', 'size', 'powertrain', 'year', 'impact', 'value'])
+        return response
 
     def calculate_impacts(self, FU = None, method='recipe', level='midpoint', split='components'):
 
@@ -109,12 +112,14 @@ class InventoryCalculation:
 
             if FU == None:
                 for car in range(-self.number_of_cars, 0, 1):
-                    print(car)
                     f = np.zeros(np.shape(self.A)[0])
                     f[car] = 1
 
                     g = np.linalg.inv(self.A).dot(f)
                     C = g*self.B
+
+                    if split == 'components':
+                        index_direct = self.get_index_of_flows('air', search_by='compartment')
 
             else:
                 for this_FU in FU:
@@ -191,12 +196,34 @@ class InventoryCalculation:
 
         return csv_dict
 
+    def get_dict_impact_categories(self):
+        filename = 'dict_impact_categories.csv'
+        filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/' + filename)
+        if not filepath.is_file():
+            raise FileNotFoundError('The dictionary of impact categories could not be found.')
+
+        csv_dict = {}
+
+
+        with open(filepath) as f:
+            input_dict = csv.reader(f, delimiter=';')
+            for row in input_dict:
+                csv_dict[row[0]] = {row[1]:[x.strip() for x in row[2:]]}
+
+        return csv_dict
+
     def get_rev_dict_input(self):
         return {v: k for k,v in self.inputs.items()}
 
     def get_index_from_array(self, items_to_look_for):
         return [self.inputs[c] - (len(self.inputs) - self.number_of_cars) for c in self.inputs \
          if any(ele in c[0] for ele in items_to_look_for)]
+
+    def get_index_of_flows(self, items_to_look_for, search_by = 'name'):
+        if search_by == 'name':
+            return [self.inputs[c] for c in self.inputs if any(ele in c[0] for ele in items_to_look_for)]
+        else:
+            return [self.inputs[c] for c in self.inputs if any(ele in c[1] for ele in items_to_look_for)]
 
 
     def set_inputs_in_A_matrix(self):
