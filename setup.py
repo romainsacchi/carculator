@@ -29,9 +29,8 @@ setup(
     name='carculator',
     version="0.0.1",
     packages=packages,
-    author="Chris Mutel <christopher.mutel@psi.ch>, Romain Sacchi <romain.sacchi@psi.ch>",
+    author="Romain Sacchi <romain.sacchi@psi.ch>, Chris Mutel <christopher.mutel@psi.ch>",
     license=open('LICENSE').read(),
-    # Only if you have non-python data (CSV, etc.). Might need to change the directory name as well.
     package_data={'carculator': package_files(os.path.join('carculator', 'data'))},
     install_requires=[
         'klausen',

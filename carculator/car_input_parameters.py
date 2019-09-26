@@ -1,8 +1,3 @@
-"""
-.. module: car_input_parameters.py
-
-"""
-
 from klausen import NamedParameters
 from pathlib import Path
 import os
@@ -20,6 +15,7 @@ def load_parameters(obj):
     else:
         # Already in correct form, just return
         return obj
+
 
 
 class CarInputParameters(NamedParameters):
