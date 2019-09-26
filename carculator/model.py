@@ -154,7 +154,9 @@ class CarModel:
         self.set_electric_utility_factor()
         self.set_electricity_consumption()
         self.set_costs()
-        self.calculate_lci()
+        self.set_hot_emissions()
+        self.set_noise_emissions()
+        #self.calculate_lci()
         self.create_PHEV()
         self.drop_hybrid()
 
@@ -596,6 +598,47 @@ class CarModel:
             * self["engine efficiency"]
         )
 
+    def set_hot_emissions(self):
+        hem = HotEmissionsModel(self.ecm.cycle)
+
+        list_direct_emissions = ["Benzene direct emissions, urban",
+            "Benzene direct emissions, suburban",
+            "Benzene direct emissions, rural",
+            "Sulfur dioxide direct emissions, urban",
+            "Sulfur dioxide direct emissions, suburban",
+            "Sulfur dioxide direct emissions, rural",
+            "Methane direct emissions, urban",
+            "Methane direct emissions, suburban",
+            "Methane direct emissions, rural",
+            "Carbon monoxide direct emissions, urban",
+            "Carbon monoxide direct emissions, suburban",
+            "Carbon monoxide direct emissions, rural",
+            "Hydrocarbons direct emissions, urban",
+            "Hydrocarbons direct emissions, suburban",
+            "Hydrocarbons direct emissions, rural",
+            "Dinitrogen oxide direct emissions, urban",
+            "Dinitrogen oxide direct emissions, suburban",
+            "Dinitrogen oxide direct emissions, rural",
+            "Ammonia direct emissions, urban",
+            "Ammonia direct emissions, suburban",
+            "Ammonia direct emissions, rural",
+            "NMVOC direct emissions, urban",
+            "NMVOC direct emissions, suburban",
+            "NMVOC direct emissions, rural",
+            "Nitrogen oxides direct emissions, urban",
+            "Nitrogen oxides direct emissions, suburban",
+            "Nitrogen oxides direct emissions, rural",
+            "Particulate matters direct emissions, urban",
+            "Particulate matters direct emissions, suburban",
+            "Particulate matters direct emissions, rural",
+            "Lead direct emissions, urban",
+            "Lead direct emissions, suburban",
+            "Lead direct emissions, rural"]
+
+        self.array.loc[:, 'ICEV-d',list_direct_emissions,:] = np.hstack(hem.get_emissions_per_powertrain('diesel')).reshape((1,33, 1, 1))
+        self.array.loc[:, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :] = np.hstack(hem.get_emissions_per_powertrain('petrol')).reshape((1,33, 1, 1))
+        self.array.loc[:, 'ICEV-g', list_direct_emissions, :] = np.hstack(hem.get_emissions_per_powertrain('CNG')).reshape((1,33, 1, 1))
+
     def calculate_lci(self):
         """
         Calculate material and energy requirements per vehicle-km.
@@ -752,126 +795,41 @@ class CarModel:
 
         self["_lci_road"] = 5.37e-7 * self["driving mass"]
 
-        self["_lci_direct_CO2"] = (self["CO2 per kg fuel"] * self["fuel mass"]) / self[
-            "range"
-        ]
-        # self['_lci_direct_SO2'] = (self['SO2 per kg fuel'] * self['fuel mass']) / self['range']
-        # self['_lci_direct_C6H6'] = self['Benzene']
-        # self['_lci_direct_CH4'] = self['CH4']
-        # self['_lci_direct_CO'] = self['CO']
-        # self['_lci_direct_HC'] = self['HC']
-        # self['_lci_direct_N2O'] = self['N2O'] # combustion minus gas
-        # self['_lci_direct_NH3'] = self['NH3'] # combustion
-        # self['_lci_direct_NMVOC'] = self['NMVOC'] # combustion
-        # self['_lci_direct_NOx'] = self['NOx'] + self['NO2'] # combustion minus gas
-        # self['_lci_direct_PM'] = self['PM']
+        self['_lci_direct_CO2'] = (self['CO2 per kg fuel'] * self['fuel mass'])/ self['range']
 
-        hem = HotEmissionsModel(self.ecm.cycle)
-
-        list_direct_emissions = [
-            "_lci_direct_urban_HC",
-            "_lci_direct_urban_CO",
-            "_lci_direct_urban_NOx",
-            "_lci_direct_urban_PM",
-            "_lci_direct_urban_CH4",
-            "_lci_direct_urban_NMVOC",
-            "_lci_direct_urban_Pb",
-            "_lci_direct_urban_SO2",
-            "_lci_direct_urban_N2O",
-            "_lci_direct_urban_NH3",
-            "_lci_direct_urban_C6H6",
-            "_lci_direct_suburban_HC",
-            "_lci_direct_suburban_CO",
-            "_lci_direct_suburban_NOx",
-            "_lci_direct_suburban_PM",
-            "_lci_direct_suburban_CH4",
-            "_lci_direct_suburban_NMVOC",
-            "_lci_direct_suburban_Pb",
-            "_lci_direct_suburban_SO2",
-            "_lci_direct_suburban_N2O",
-            "_lci_direct_suburban_NH3",
-            "_lci_direct_suburban_C6H6",
-            "_lci_direct_rural_HC",
-            "_lci_direct_rural_CO",
-            "_lci_direct_rural_NOx",
-            "_lci_direct_rural_PM",
-            "_lci_direct_rural_CH4",
-            "_lci_direct_rural_NMVOC",
-            "_lci_direct_rural_Pb",
-            "_lci_direct_rural_SO2",
-            "_lci_direct_rural_N2O",
-            "_lci_direct_rural_NH3",
-            "_lci_direct_rural_C6H6",
-        ]
-
-        self.array.loc[:, "ICEV-d", list_direct_emissions, :] = np.hstack(
-            hem.get_emissions_per_powertrain("diesel")
-        ).reshape((1, 33, 1, 1))
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :
-        ] = np.hstack(hem.get_emissions_per_powertrain("petrol")).reshape((1, 33, 1, 1))
-        self.array.loc[:, "ICEV-g", list_direct_emissions, :] = np.hstack(
-            hem.get_emissions_per_powertrain("CNG")
-        ).reshape((1, 33, 1, 1))
-
+    def set_noise_emissions(self):
         nem = NoiseEmissionsModel(self.ecm.cycle)
-        # list_param = self.array.coords['parameter'].values.tolist()
-        # list_noise_emissions = [x for x in list_param if x.startswith('_lci_direct_noise') and "day" in x]
 
         list_noise_emissions = [
-            "_lci_direct_noise, octave 1, day time, urban",
-            "_lci_direct_noise, octave 2, day time, urban",
-            "_lci_direct_noise, octave 3, day time, urban",
-            "_lci_direct_noise, octave 4, day time, urban",
-            "_lci_direct_noise, octave 5, day time, urban",
-            "_lci_direct_noise, octave 6, day time, urban",
-            "_lci_direct_noise, octave 7, day time, urban",
-            "_lci_direct_noise, octave 8, day time, urban",
-            "_lci_direct_noise, octave 1, day time, suburban",
-            "_lci_direct_noise, octave 2, day time, suburban",
-            "_lci_direct_noise, octave 3, day time, suburban",
-            "_lci_direct_noise, octave 4, day time, suburban",
-            "_lci_direct_noise, octave 5, day time, suburban",
-            "_lci_direct_noise, octave 6, day time, suburban",
-            "_lci_direct_noise, octave 7, day time, suburban",
-            "_lci_direct_noise, octave 8, day time, suburban",
-            "_lci_direct_noise, octave 1, day time, rural",
-            "_lci_direct_noise, octave 2, day time, rural",
-            "_lci_direct_noise, octave 3, day time, rural",
-            "_lci_direct_noise, octave 4, day time, rural",
-            "_lci_direct_noise, octave 5, day time, rural",
-            "_lci_direct_noise, octave 6, day time, rural",
-            "_lci_direct_noise, octave 7, day time, rural",
-            "_lci_direct_noise, octave 8, day time, rural",
-        ]
-        for pt in self.combustion:
-            for s in self.array.coords["size"]:
-                for y in self.array.coords["year"]:
-                    self.array.loc[
-                        s, pt, list_noise_emissions, y
-                    ] = nem.get_sound_power_per_compartment("combustion").reshape(
-                        (24, 1)
-                    )
+            "noise, octave 1, day time, urban",
+            "noise, octave 2, day time, urban",
+            "noise, octave 3, day time, urban",
+            "noise, octave 4, day time, urban",
+            "noise, octave 5, day time, urban",
+            "noise, octave 6, day time, urban",
+            "noise, octave 7, day time, urban",
+            "noise, octave 8, day time, urban",
+            "noise, octave 1, day time, suburban",
+            "noise, octave 2, day time, suburban",
+            "noise, octave 3, day time, suburban",
+            "noise, octave 4, day time, suburban",
+            "noise, octave 5, day time, suburban",
+            "noise, octave 6, day time, suburban",
+            "noise, octave 7, day time, suburban",
+            "noise, octave 8, day time, suburban",
+            "noise, octave 1, day time, rural",
+            "noise, octave 2, day time, rural",
+            "noise, octave 3, day time, rural",
+            "noise, octave 4, day time, rural",
+            "noise, octave 5, day time, rural",
+            "noise, octave 6, day time, rural",
+            "noise, octave 7, day time, rural",
+            "noise, octave 8, day time, rural"]
 
-        for pt in self.electric:
-            for s in self.array.coords["size"]:
-                for y in self.array.coords["year"]:
-                    self.array.loc[
-                        s, pt, list_noise_emissions, y
-                    ] = nem.get_sound_power_per_compartment("electric").reshape((24, 1))
-
-        for pt in self.fuel_cell:
-            for s in self.array.coords["size"]:
-                for y in self.array.coords["year"]:
-                    self.array.loc[
-                        s, pt, list_noise_emissions, y
-                    ] = nem.get_sound_power_per_compartment("electric").reshape((24, 1))
-
-        for s in self.array.coords["size"]:
-            for y in self.array.coords["year"]:
-                self.array.loc[
-                    s, "HEV-p", list_noise_emissions, y
-                ] = nem.get_sound_power_per_compartment("hybrid").reshape((24, 1))
+        self.array.loc[:, list(self.combustion) , list_noise_emissions, :, :] = nem.get_sound_power_per_compartment('combustion').reshape((24,1, 1))
+        self.array.loc[:, list(self.electric), list_noise_emissions, :, :] = nem.get_sound_power_per_compartment('electric').reshape((24, 1, 1))
+        self.array.loc[:, list(self.fuel_cell), list_noise_emissions, :, :] = nem.get_sound_power_per_compartment('electric').reshape((24, 1, 1))
+        self.array.loc[:, 'HEV-p', list_noise_emissions, :, :] = nem.get_sound_power_per_compartment('hybrid').reshape((24, 1, 1))
 
     def calculate_cost_impacts(self):
         """
@@ -945,8 +903,7 @@ class CarModel:
                 .parent.joinpath("data/" + filename[method])
             )
         except KeyError:
-            print("The method or impact level specified could not be found.")
-            raise
+            raise FileNotFoundError('The method or impact level specified could not be found.')
 
         with open(filepath, "r", newline="") as f:
             reader = csv.reader(f, delimiter=";")
@@ -1055,15 +1012,11 @@ class CarModel:
         """
 
         filename = {"recipe": "B_matrix_recipe_endpoint_normalized.csv"}
-        try:
-            filepath = (
-                Path(getframeinfo(currentframe()).filename)
-                .resolve()
-                .parent.joinpath("data/" + filename[method])
-            )
-        except KeyError:
-            print("The method or impact level specified could not be found.")
-            raise
+        filepath = (
+            Path(getframeinfo(currentframe()).filename)
+            .resolve()
+            .parent.joinpath("data/" + filename[method])
+        )
 
         with open(filepath, "r", newline="") as f:
             reader = csv.reader(f, delimiter=";")
@@ -1115,15 +1068,11 @@ class CarModel:
         }
         if split == None:
             split = "components"
-        try:
-            filepath = (
-                Path(getframeinfo(currentframe()).filename)
-                .resolve()
-                .parent.joinpath("data/" + filename[method][split])
-            )
-        except KeyError:
-            print("The method or impact level specified could not be found.")
-            raise
+        filepath = (
+            Path(getframeinfo(currentframe()).filename)
+            .resolve()
+            .parent.joinpath("data/" + filename[method][split])
+        )
 
         with open(filepath, "r", newline="") as f:
             reader = csv.reader(f, delimiter=";")
