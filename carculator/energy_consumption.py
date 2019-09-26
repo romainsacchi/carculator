@@ -53,7 +53,7 @@ class EnergyConsumptionModel:
         try:
             cycle = get_standard_driving_cycle(cycle).values
         except KeyError:
-            raise('The driving cycle specified could not be found.')
+            raise ("The driving cycle specified could not be found.")
 
         self.cycle = cycle
         self.rho_air = rho_air
@@ -81,15 +81,14 @@ class EnergyConsumptionModel:
         """
         # Provide energy in kJ / km (1 J = 1 Ws)
         auxiliary_energy = (
-            aux_power               # Watt
-            * self.velocity.size    # Number of seconds -> Ws -> J
-            / self.velocity.sum()   # m/s * 1s = m -> J/m
-            * 1000                  # m / km
-            / 1000                  # 1 / (J / kJ)
+            aux_power  # Watt
+            * self.velocity.size  # Number of seconds -> Ws -> J
+            / self.velocity.sum()  # m/s * 1s = m -> J/m
+            * 1000  # m / km
+            / 1000  # 1 / (J / kJ)
         )
 
         return auxiliary_energy / efficiency
-
 
     def motive_energy_per_km(
         self,
@@ -147,7 +146,6 @@ class EnergyConsumptionModel:
         # Distance WLTC 3.2 = 4.75 km
         distance = self.velocity.sum() / 1000
 
-
         # Total power required at the wheel to meet acceleration requirement,
         # and overcome air and rolling resistance.
         # This number is generally positive (power is needed), but can be negative
@@ -167,41 +165,42 @@ class EnergyConsumptionModel:
         mp = _(motor_power)
         re = _(recuperation_efficiency)
 
-
-
         # Original formulas now calculated by `numexpr`
-        #power_rolling_resistance = np.ones_like(self.velocity) * _(driving_mass) * _(rr_coef) * 9.81
-        #power_aerodynamic = (self.velocity ** 2 * _(frontal_area) * _(drag_coef) * self.rho_air / 2)
-        #power_kinetic = self.acceleration * _(driving_mass)
-        #total_force = (power_kinetic + power_rolling_resistance + power_aerodynamic)
+        # power_rolling_resistance = np.ones_like(self.velocity) * _(driving_mass) * _(rr_coef) * 9.81
+        # power_aerodynamic = (self.velocity ** 2 * _(frontal_area) * _(drag_coef) * self.rho_air / 2)
+        # power_kinetic = self.acceleration * _(driving_mass)
+        # total_force = (power_kinetic + power_rolling_resistance + power_aerodynamic)
 
+        total_force = ne.evaluate(
+            "(ones * dm * rr * 9.81)+(v ** 2 * fa * dc * rho_air / 2)+(a * dm)"
+        )
 
-        total_force = ne.evaluate("(ones * dm * rr * 9.81)+(v ** 2 * fa * dc * rho_air / 2)+(a * dm)")
-
-        tv = ne.evaluate('total_force * v')
+        tv = ne.evaluate("total_force * v")
 
         # Can only recuperate when power is less than zero, limited by recuperation efficiency
         # Motor power in kW, other power in watts
-        #recuperated_power = (
+        # recuperated_power = (
         #         np.clip(tv,
         #             -1000 * _(motor_power), 0) * _(recuperation_efficiency)
         # )
 
-        recuperated_power = ne.evaluate("where(tv < (-1000 * mp), (-1000 * mp) ,where(tv>0, 0, tv)) * re")
-        #braking_power = pd.w - recuperated_power
+        recuperated_power = ne.evaluate(
+            "where(tv < (-1000 * mp), (-1000 * mp) ,where(tv>0, 0, tv)) * re"
+        )
+        # braking_power = pd.w - recuperated_power
 
-        #self.recuperated_power = recuperated_power/distance/1000
-        #self.braking_power = braking_power/distance/1000
-        #self.power_rolling_resistance = pa.r / distance / 1000
-        #self.power_aerodynamic = pa.a / distance / 1000
-        #self.power_kinetic = pa.k / distance / 1000
-        #self.total_power = pa.w / distance / 1000
+        # self.recuperated_power = recuperated_power/distance/1000
+        # self.braking_power = braking_power/distance/1000
+        # self.power_rolling_resistance = pa.r / distance / 1000
+        # self.power_aerodynamic = pa.a / distance / 1000
+        # self.power_kinetic = pa.k / distance / 1000
+        # self.total_power = pa.w / distance / 1000
 
-        #t_e = ne.evaluate("where(total_force<0, 0, tv)") #
-        #t_e = np.where(total_force<0, 0, tv)
+        # t_e = ne.evaluate("where(total_force<0, 0, tv)") #
+        # t_e = np.where(total_force<0, 0, tv)
 
-        results = ne.evaluate("((where(total_force<0, 0, tv) / (distance * 1000)) + (recuperated_power / distance / 1000))/ ttw_eff")
+        results = ne.evaluate(
+            "((where(total_force<0, 0, tv) / (distance * 1000)) + (recuperated_power / distance / 1000))/ ttw_eff"
+        )
 
-        return (
-            results
-                )
+        return results
