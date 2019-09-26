@@ -1,11 +1,7 @@
-"""
-.. module: car_input_parameters.py
-
-"""
-
 from .default_parameters import DEFAULT, EXTRA
 from klausen import NamedParameters
 import sys
+
 
 class CarInputParameters(NamedParameters):
     """
@@ -35,6 +31,7 @@ class CarInputParameters(NamedParameters):
 
 
     """
+
     def __init__(self):
         """Create a `klausen <https://github.com/cmutel/klausen>`__ model with the car input parameters."""
         super().__init__(None)
@@ -44,7 +41,7 @@ class CarInputParameters(NamedParameters):
 
         # Ensure parameters are of valid type
         if not isinstance(parameters, dict) or not isinstance(extra, set):
-            print('It seems that the passed parameters are not of dictionary type')
+            print("It seems that the passed parameters are not of dictionary type")
             sys.exit(1)
 
         self.sizes = sorted(

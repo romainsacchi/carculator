@@ -1,7 +1,3 @@
-"""
-.. module: model.py
-
-"""
 from pathlib import Path
 from inspect import currentframe, getframeinfo
 import numpy as np
@@ -9,9 +5,12 @@ from .energy_consumption import EnergyConsumptionModel
 from .noise_emissions import NoiseEmissionsModel
 from .hot_emissions import HotEmissionsModel
 from bw2io import ExcelImporter
-from bw2io.export.excel import safe_filename,\
-    xlsxwriter, CSVFormatter,\
-    create_valid_worksheet_name
+from bw2io.export.excel import (
+    safe_filename,
+    xlsxwriter,
+    CSVFormatter,
+    create_valid_worksheet_name,
+)
 import uuid
 import xarray as xr
 import csv
@@ -57,10 +56,9 @@ class CarModel:
         self.mappings = mappings or DEFAULT_MAPPINGS
 
         if cycle is None:
-            self.ecm = EnergyConsumptionModel('WLTC')
+            self.ecm = EnergyConsumptionModel("WLTC")
         else:
             self.ecm = EnergyConsumptionModel(cycle)
-
 
     def __call__(self, key):
         """
@@ -70,12 +68,11 @@ class CarModel:
 
         :Example:
 
-        with class('some powertrain') as cpm:
-            cpm['something']. <- Will be filtered for the correct powertrain
+            with class('some powertrain') as cpm:
+                cpm['something']. <- Will be filtered for the correct powertrain
 
         On with block exit, this filter is cleared
         https://stackoverflow.com/a/10252925/164864
-
 
         :param key: A powertrain type, e.g., "FCEV"
         :type key: str
@@ -92,7 +89,6 @@ class CarModel:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.array = self.__cache
         del self.__cache
-
 
     def __getitem__(self, key):
         """
@@ -116,35 +112,27 @@ class CarModel:
         else:
             return super().__getattr__(key)
 
-
-
     def set_all(self):
         """
         This method runs a series of other methods to obtain the tank-to-wheel energy requirement, efficiency
         of the car, costs, etc.
 
-        """
-
-        """
         set_component_masses(), set_car_masses() and set_power_parameters() are interdependent.
         `powertrain_mass` depends on `power`, `curb_mass` is affected by changes in `powertrain_mass`,
         `combustion engine mass` and `electric engine mass`, and `power` is a function of `curb_mass`.
         The current solution is to loop through the methods until the increment in driving mass is
         inferior to 0.1%.
-        
-        
+
+
         """
         # TODO: Converging towards a satisfying curb mass is taking too long! Needs to be optimized.
 
-
-
         diff = 1.0
 
-        while diff > .01:
-            old_driving_mass = self['driving mass'].sum().values
+        while diff > 0.01:
+            old_driving_mass = self["driving mass"].sum().values
 
             self.set_car_masses()
-
 
             self.set_power_parameters()
             self.set_component_masses()
@@ -154,8 +142,9 @@ class CarModel:
             self.set_fuel_cell_parameters()
             self.set_energy_stored_properties()
 
-
-            diff = (self['driving mass'].sum().values-old_driving_mass)/self['driving mass'].sum()
+            diff = (self["driving mass"].sum().values - old_driving_mass) / self[
+                "driving mass"
+            ].sum()
 
         self.set_auxiliaries()
         self.set_ttw_efficiency()
@@ -169,14 +158,14 @@ class CarModel:
         self.create_PHEV()
         self.drop_hybrid()
 
-
     def drop_hybrid(self):
         """
         This method drops the powertrain `PHEV-c` and `PHEV-e` as they were only used to create the `PHEV` powertrain.
         :return:
         """
-        self.array = self.array.sel(powertrain=['ICEV-p', 'ICEV-d', 'ICEV-g', 'PHEV', 'FCEV','BEV', 'HEV-p'])
-
+        self.array = self.array.sel(
+            powertrain=["ICEV-p", "ICEV-d", "ICEV-g", "PHEV", "FCEV", "BEV", "HEV-p"]
+        )
 
     def set_electricity_consumption(self):
         """
@@ -186,11 +175,13 @@ class CarModel:
 
         for pt in self.electric:
             with self(pt) as cpm:
-                cpm['electricity consumption'] = (cpm['TtW energy'] / cpm['battery discharge efficiency']) / 3600
+                cpm["electricity consumption"] = (
+                    cpm["TtW energy"] / cpm["battery discharge efficiency"]
+                ) / 3600
 
     def calculate_ttw_energy(self):
         """
-        This  method calculates the energy required to operate auxiliary services as well
+        This method calculates the energy required to operate auxiliary services as well
         as to move the car. The sum is stored in `array` under the label "TtW energy".
 
         """
@@ -198,13 +189,12 @@ class CarModel:
 
         for pt in self.pure_combustion:
             with self(pt) as cpm:
-                aux_energy.loc[{"powertrain": pt}] /= cpm['engine efficiency']
+                aux_energy.loc[{"powertrain": pt}] /= cpm["engine efficiency"]
         for pt in self.fuel_cell:
             with self(pt) as cpm:
-                aux_energy.loc[{"powertrain": pt}] /= cpm['fuel cell system efficiency']
+                aux_energy.loc[{"powertrain": pt}] /= cpm["fuel cell system efficiency"]
 
-        self['auxiliary energy'] = aux_energy
-
+        self["auxiliary energy"] = aux_energy
 
         motive_energy = self.ecm.motive_energy_per_km(
             driving_mass=self["driving mass"],
@@ -218,14 +208,15 @@ class CarModel:
 
         self.motive_energy = motive_energy
 
-
         self["TtW energy"] = aux_energy + motive_energy
 
     def set_fuel_cell_parameters(self):
         """
         Specific setup for fuel cells, which are mild hybrids.
 
-        Must be called after ``.set_power_parameters``."""
+        Must be called after ``.set_power_parameters``.
+
+        """
         for pt in self.fuel_cell:
             with self(pt):
                 self["fuel cell system efficiency"] = (
@@ -278,7 +269,6 @@ class CarModel:
         (Heating demand (dimensionless, between 0 and 1) * Heating power (W)) +
         (Cooling demand (dimensionless, between 0 and 1) * Cooling power (W))
 
-
         """
         self["auxiliary power demand"] = (
             self["auxilliary power base demand"]
@@ -299,25 +289,29 @@ class CarModel:
             car lifetime = 200000 (km)
             battery lifetime = 190000 (km)
             replacement battery = 0.05
-            
+
         :note: It is debatable whether this is realistic or not. Car owners may not decide to invest in a new
         battery if the remaining lifetime of the car is only 10000 km. Also, a battery lifetime may be expressed
         in other terms, e.g., charging cycles.
 
-
         """
         # Here we assume that we can use fractions of a battery/fuel cell
         # (averaged across the fleet)
-        self['battery lifetime replacements'] = finite(np.clip(
-            (self['lifetime kilometers'] / self['battery lifetime kilometers']) - 1,
-            0,
-            None
-        ))
-        self['fuel cell lifetime replacements'] = finite(np.clip(
-            (self['lifetime kilometers'] / self['fuel cell lifetime kilometers']) - 1,
-            0,
-            None
-        ))
+        self["battery lifetime replacements"] = finite(
+            np.clip(
+                (self["lifetime kilometers"] / self["battery lifetime kilometers"]) - 1,
+                0,
+                None,
+            )
+        )
+        self["fuel cell lifetime replacements"] = finite(
+            np.clip(
+                (self["lifetime kilometers"] / self["fuel cell lifetime kilometers"])
+                - 1,
+                0,
+                None,
+            )
+        )
 
     def set_car_masses(self):
         """Define ``curb mass``, ``driving mass``, and ``total cargo mass``.
@@ -379,19 +373,21 @@ class CarModel:
         )
 
     def set_electric_utility_factor(self):
-
-        with self('PHEV-e') as cpm:
-            cpm['electric utility factor'] = (1- np.exp(-0.01147 * cpm['range'])) ** 1.186185
+        with self("PHEV-e") as cpm:
+            cpm["electric utility factor"] = (
+                1 - np.exp(-0.01147 * cpm["range"])
+            ) ** 1.186185
 
     def create_PHEV(self):
         """ PHEV is the range-weighted average between PHEV-c and PHEV-e.
         """
-        self.array.loc[:, 'PHEV', :, :, :] = (self.array.loc[:, 'PHEV-e', :, :, :]
-            * self.array.loc[:, 'PHEV-e', 'electric utility factor', :, :])\
-            +(self.array.loc[:, 'PHEV-c', :, :, :] * (1-self.array.loc[:, 'PHEV-e', 'electric utility factor', :, :]))
-
-        #self.array.loc[:, 'PHEV', 'range', :, :] = self.array.loc[:, 'PHEV-c', 'range', :, :] +\
-        #                                           self.array.loc[:, 'PHEV-e', 'range', :, :]
+        self.array.loc[:, "PHEV", :, :, :] = (
+            self.array.loc[:, "PHEV-e", :, :, :]
+            * self.array.loc[:, "PHEV-e", "electric utility factor", :, :]
+        ) + (
+            self.array.loc[:, "PHEV-c", :, :, :]
+            * (1 - self.array.loc[:, "PHEV-e", "electric utility factor", :, :])
+        )
 
     def set_battery_properties(self):
         for pt in ["ICEV-p", "HEV-p", "ICEV-g", "ICEV-d"]:
@@ -403,7 +399,7 @@ class CarModel:
                 cpm["battery BoP mass"] = cpm["battery cell mass"] * (
                     1 - cpm["battery cell mass share"]
                 )
-        for pt in ['BEV', 'PHEV-c', 'PHEV-e']:
+        for pt in ["BEV", "PHEV-c", "PHEV-e"]:
             with self(pt) as cpm:
                 cpm["battery cell mass"] = (
                     cpm["energy battery mass"] * cpm["battery cell mass share"]
@@ -417,24 +413,26 @@ class CarModel:
         for pt in self.petrol:
             with self(pt) as cpm:
                 # Assume 42.4 MJ/kg of gasoline, convert to kWh
-                cpm['range'] = (cpm["fuel mass"] * 42.4 * 1000) / cpm['TtW energy']
+                cpm["range"] = (cpm["fuel mass"] * 42.4 * 1000) / cpm["TtW energy"]
 
         for pt in self.diesel:
             with self(pt) as cpm:
                 # Assume 48 MJ/kg of gasoline, convert to kWh
-                cpm['range'] = (cpm["fuel mass"] * 48 * 1000) / cpm['TtW energy']
+                cpm["range"] = (cpm["fuel mass"] * 48 * 1000) / cpm["TtW energy"]
 
         for pt in self.cng:
             with self(pt) as cpm:
                 # Assume 55.5 MJ/kg of gasoline, convert to kWh
-                cpm['range'] = (cpm["fuel mass"] * 55.5 * 1000) / cpm['TtW energy']
+                cpm["range"] = (cpm["fuel mass"] * 55.5 * 1000) / cpm["TtW energy"]
 
         for pt in self.electric:
             with self(pt) as cpm:
-                cpm['range'] = (cpm["electric energy stored"] * cpm["battery DoD"] * 3.6 * 1000) / cpm['TtW energy']
+                cpm["range"] = (
+                    cpm["electric energy stored"] * cpm["battery DoD"] * 3.6 * 1000
+                ) / cpm["TtW energy"]
 
-        with self('FCEV') as cpm:
-            cpm['range'] = (cpm["fuel mass"] * 120 * 1000) / cpm['TtW energy']
+        with self("FCEV") as cpm:
+            cpm["range"] = (cpm["fuel mass"] * 120 * 1000) / cpm["TtW energy"]
 
     def set_energy_stored_properties(self):
 
@@ -469,7 +467,6 @@ class CarModel:
                     cpm["battery cell mass"] * cpm["battery cell energy density"]
                 )
 
-
         for pt in self.electric_hybrid:
             with self(pt) as cpm:
                 cpm["electric energy stored"] = (
@@ -479,9 +476,6 @@ class CarModel:
                 cpm["fuel tank mass"] = (
                     cpm["fuel mass"] * 42.4 / 3.6 * cpm["fuel tank mass per energy"]
                 )
-
-
-
 
         self["battery cell production electricity"] = (
             self["battery cell production energy"]
@@ -545,7 +539,6 @@ class CarModel:
 
         self[to_markup] *= self["markup factor"]
 
-
         # calculate costs per km:
         self["lifetime"] = self["lifetime kilometers"] / self["kilometers per year"]
         i = self["interest rate"]
@@ -565,7 +558,7 @@ class CarModel:
             "power battery cost",
         ]
 
-        self['purchase cost'] = self[purchase_cost_list].sum(axis=2)
+        self["purchase cost"] = self[purchase_cost_list].sum(axis=2)
 
         # per km
         self["amortised purchase cost"] = (
@@ -586,8 +579,6 @@ class CarModel:
             / self["kilometers per year"]
         )
 
-
-
         self["total cost per km"] = (
             self["energy cost"]
             + self["amortised purchase cost"]
@@ -597,7 +588,7 @@ class CarModel:
 
     def set_ttw_efficiency(self):
         _ = lambda array: np.where(array == 0, 1, array)
-        #TODO> check if battery charge efficiency should be added
+        # TODO> check if battery charge efficiency should be added
         self["TtW efficiency"] = (
             _(self["battery discharge efficiency"])
             * _(self["fuel cell system efficiency"])
@@ -611,142 +602,221 @@ class CarModel:
         :return:
         """
 
-        self['_lci_glider'] = self['glider base mass'] / self['lifetime kilometers']
-        self['_lci_glider_lightweighting'] = self['lightweighting'] / self['lifetime kilometers']
-        self['_lci_car_maintenance'] = self['curb mass'] / 1600 / 150000
+        self["_lci_glider"] = self["glider base mass"] / self["lifetime kilometers"]
+        self["_lci_glider_lightweighting"] = (
+            self["lightweighting"] / self["lifetime kilometers"]
+        )
+        self["_lci_car_maintenance"] = self["curb mass"] / 1600 / 150000
 
         # Glider
         for pt in self.combustion:
             with self(pt) as cpm:
-                cpm['_lci_powertrain_electric_EoL'] = cpm['curb mass'] * (1 - cpm['combustion power share']) / 1180\
-                                          / cpm['lifetime kilometers']
-                cpm['_lci_powertrain_combustion_EoL'] = cpm['curb mass'] * cpm['combustion power share'] / 1600 / cpm[
-                    'lifetime kilometers']
+                cpm["_lci_powertrain_electric_EoL"] = (
+                    cpm["curb mass"]
+                    * (1 - cpm["combustion power share"])
+                    / 1180
+                    / cpm["lifetime kilometers"]
+                )
+                cpm["_lci_powertrain_combustion_EoL"] = (
+                    cpm["curb mass"]
+                    * cpm["combustion power share"]
+                    / 1600
+                    / cpm["lifetime kilometers"]
+                )
 
         for pt in self.electric:
             with self(pt) as cpm:
-                cpm['_lci_powertrain_electric_EoL'] = cpm['curb mass'] / 1180 / cpm['lifetime kilometers']
-
+                cpm["_lci_powertrain_electric_EoL"] = (
+                    cpm["curb mass"] / 1180 / cpm["lifetime kilometers"]
+                )
 
         # Powertrain
         for pt in self.electric:
             with self(pt) as p:
-                p['_lci_powertrain_charger'] = p['charger mass'] / p['lifetime kilometers']
+                p["_lci_powertrain_charger"] = (
+                    p["charger mass"] / p["lifetime kilometers"]
+                )
 
-        for pt in ["BEV", "PHEV-c","PHEV-e", "FCEV"]:
+        for pt in ["BEV", "PHEV-c", "PHEV-e", "FCEV"]:
             with self(pt) as p:
-                p['_lci_powertrain_converter'] = p['converter mass'] / p['lifetime kilometers']
+                p["_lci_powertrain_converter"] = (
+                    p["converter mass"] / p["lifetime kilometers"]
+                )
 
-        self['_lci_powertrain_electric_engine'] = self['electric engine mass'] / self['lifetime kilometers']
+        self["_lci_powertrain_electric_engine"] = (
+            self["electric engine mass"] / self["lifetime kilometers"]
+        )
 
-        for pt in ["BEV", "PHEV-c","PHEV-e", "FCEV", 'HEV-p']:
+        for pt in ["BEV", "PHEV-c", "PHEV-e", "FCEV", "HEV-p"]:
             with self(pt) as p:
-                p['_lci_powertrain_inverter'] = p['inverter mass'] / p['lifetime kilometers']
-                p['_lci_powertrain_power_distribution_unit'] = p['power distribution unit mass'] / p['lifetime kilometers']
+                p["_lci_powertrain_inverter"] = (
+                    p["inverter mass"] / p["lifetime kilometers"]
+                )
+                p["_lci_powertrain_power_distribution_unit"] = (
+                    p["power distribution unit mass"] / p["lifetime kilometers"]
+                )
 
-        l_elec_pt = ['charger mass','converter mass','inverter mass','power distribution unit mass',
-            'electric engine mass', 'fuel cell stack mass', 'fuel cell ancillary BoP mass', 'fuel cell essential BoP mass',
-                     'battery cell mass','battery BoP mass']
+        l_elec_pt = [
+            "charger mass",
+            "converter mass",
+            "inverter mass",
+            "power distribution unit mass",
+            "electric engine mass",
+            "fuel cell stack mass",
+            "fuel cell ancillary BoP mass",
+            "fuel cell essential BoP mass",
+            "battery cell mass",
+            "battery BoP mass",
+        ]
 
-        self['_lci_powertrain_electric_powertrain_EoL'] = self[l_elec_pt].sum(axis=2) / self['lifetime kilometers'] *-1
+        self["_lci_powertrain_electric_powertrain_EoL"] = (
+            self[l_elec_pt].sum(axis=2) / self["lifetime kilometers"] * -1
+        )
 
-        self['_lci_powertrain'] = (self[['combustion engine mass','electric engine mass', 'powertrain mass']].sum(axis=2)) / self['lifetime kilometers']
+        self["_lci_powertrain"] = (
+            self[
+                ["combustion engine mass", "electric engine mass", "powertrain mass"]
+            ].sum(axis=2)
+        ) / self["lifetime kilometers"]
 
-        with self('FCEV') as pt:
-            pt['_lci_powertrain_fuel_cell_ancillary_BoP'] = pt['fuel cell ancillary BoP mass'] / pt['lifetime kilometers']
-            pt['_lci_powertrain_fuel_cell_essential_BoP'] = pt['fuel cell essential BoP mass'] / pt['lifetime kilometers']
-            pt['_lci_powertrain_fuel_cell_stack'] = pt['fuel cell stack mass'] / pt['lifetime kilometers']
+        with self("FCEV") as pt:
+            pt["_lci_powertrain_fuel_cell_ancillary_BoP"] = (
+                pt["fuel cell ancillary BoP mass"] / pt["lifetime kilometers"]
+            )
+            pt["_lci_powertrain_fuel_cell_essential_BoP"] = (
+                pt["fuel cell essential BoP mass"] / pt["lifetime kilometers"]
+            )
+            pt["_lci_powertrain_fuel_cell_stack"] = (
+                pt["fuel cell stack mass"] / pt["lifetime kilometers"]
+            )
 
         # Energy storage
 
-        self['_lci_storage_battery_BoP'] = (self['battery BoP mass'] * (1 + self['battery lifetime replacements'])) / self['lifetime kilometers']
-        self['_lci_storage_battery_cell'] = (self['battery cell mass'] * (1 + self['fuel cell lifetime replacements'])) / self[
-            'lifetime kilometers']
+        self["_lci_storage_battery_BoP"] = (
+            self["battery BoP mass"] * (1 + self["battery lifetime replacements"])
+        ) / self["lifetime kilometers"]
+        self["_lci_storage_battery_cell"] = (
+            self["battery cell mass"] * (1 + self["fuel cell lifetime replacements"])
+        ) / self["lifetime kilometers"]
 
         # Not sure why the -28 kWh
-        #self['_lci_storage_battery_cell_production_electricity'] = (self['battery cell production electricity'] * self['battery cell mass'] *\
+        # self['_lci_storage_battery_cell_production_electricity'] = (self['battery cell production electricity'] * self['battery cell mass'] *\
         #                                              (1 + self['battery lifetime replacements' ]) / self['lifetime kilometers'])+ \
         #                (-28 * self['battery cell mass'] * (1 + self['battery lifetime replacements'])/ self['lifetime kilometers'])
 
-        #self['_lci_storage_battery_cell_production_electricity'] = (self['battery cell production electricity'] * self['battery cell mass'] *\
+        # self['_lci_storage_battery_cell_production_electricity'] = (self['battery cell production electricity'] * self['battery cell mass'] *\
         #            (1 + self['battery lifetime replacements' ])) / self['lifetime kilometers']
 
-        #self['_lci_storage_battery_cell_production_heat'] = (3.6 * self['battery cell production heat'] * self['battery cell mass']* \
+        # self['_lci_storage_battery_cell_production_heat'] = (3.6 * self['battery cell production heat'] * self['battery cell mass']* \
         #                                           (1 + self['battery lifetime replacements'])) / self[
         #                                               'lifetime kilometers']
 
         for pt in self.combustion_wo_cng:
             with self(pt) as cpm:
-                cpm['_lci_storage_fuel_tank'] = cpm['fuel tank mass'] / cpm['lifetime kilometers']
+                cpm["_lci_storage_fuel_tank"] = (
+                    cpm["fuel tank mass"] / cpm["lifetime kilometers"]
+                )
 
-        with self('ICEV-g') as cpm:
-            cpm['_lci_storage_cng_tank'] = cpm['fuel tank mass'] / cpm['lifetime kilometers']
+        with self("ICEV-g") as cpm:
+            cpm["_lci_storage_cng_tank"] = (
+                cpm["fuel tank mass"] / cpm["lifetime kilometers"]
+            )
 
-        with self('FCEV') as cpm:
-            cpm['_lci_storage_h2_tank'] = cpm['fuel tank mass'] / cpm['lifetime kilometers']
+        with self("FCEV") as cpm:
+            cpm["_lci_storage_h2_tank"] = (
+                cpm["fuel tank mass"] / cpm["lifetime kilometers"]
+            )
 
         # Energy chain
 
         for pt in self.electric:
             with self(pt) as cpm:
-                cpm['_lci_energy_electricity'] = cpm['electricity consumption']
+                cpm["_lci_energy_electricity"] = cpm["electricity consumption"]
 
         for pt in self.petrol:
             with self(pt) as cpm:
-                cpm['_lci_energy_petrol'] = cpm['fuel mass'] / cpm['range']
+                cpm["_lci_energy_petrol"] = cpm["fuel mass"] / cpm["range"]
 
-        with self('ICEV-d') as pt:
-            pt['_lci_energy_diesel'] = pt['fuel mass'] / pt['range']
+        with self("ICEV-d") as pt:
+            pt["_lci_energy_diesel"] = pt["fuel mass"] / pt["range"]
 
-        with self('ICEV-g') as pt:
-            pt['_lci_energy_cng'] = pt['fuel mass'] / pt['range']
+        with self("ICEV-g") as pt:
+            pt["_lci_energy_cng"] = pt["fuel mass"] / pt["range"]
 
-        with self('FCEV') as pt:
-            pt['_lci_energy_h2'] = pt['fuel mass'] / pt['range']
+        with self("FCEV") as pt:
+            pt["_lci_energy_h2"] = pt["fuel mass"] / pt["range"]
 
-        self['_lci_direct_tyre_wear'] = self['driving mass'] * -1 * 6E-8
-        self['_lci_direct_brake_wear'] = self['driving mass'] * -1 * 5E-09
-        self['_lci_direct_road_wear'] = self['driving mass'] * -1 * 1E-08
+        self["_lci_direct_tyre_wear"] = self["driving mass"] * -1 * 6e-8
+        self["_lci_direct_brake_wear"] = self["driving mass"] * -1 * 5e-09
+        self["_lci_direct_road_wear"] = self["driving mass"] * -1 * 1e-08
 
-        self['_lci_road'] = 5.37E-7 * self['driving mass']
+        self["_lci_road"] = 5.37e-7 * self["driving mass"]
 
-        self['_lci_direct_CO2'] = (self['CO2 per kg fuel'] * self['fuel mass'])/ self['range']
-        #self['_lci_direct_SO2'] = (self['SO2 per kg fuel'] * self['fuel mass']) / self['range']
-        #self['_lci_direct_C6H6'] = self['Benzene']
-        #self['_lci_direct_CH4'] = self['CH4']
-        #self['_lci_direct_CO'] = self['CO']
-        #self['_lci_direct_HC'] = self['HC']
-        #self['_lci_direct_N2O'] = self['N2O'] # combustion minus gas
-        #self['_lci_direct_NH3'] = self['NH3'] # combustion
-        #self['_lci_direct_NMVOC'] = self['NMVOC'] # combustion
-        #self['_lci_direct_NOx'] = self['NOx'] + self['NO2'] # combustion minus gas
-        #self['_lci_direct_PM'] = self['PM']
+        self["_lci_direct_CO2"] = (self["CO2 per kg fuel"] * self["fuel mass"]) / self[
+            "range"
+        ]
+        # self['_lci_direct_SO2'] = (self['SO2 per kg fuel'] * self['fuel mass']) / self['range']
+        # self['_lci_direct_C6H6'] = self['Benzene']
+        # self['_lci_direct_CH4'] = self['CH4']
+        # self['_lci_direct_CO'] = self['CO']
+        # self['_lci_direct_HC'] = self['HC']
+        # self['_lci_direct_N2O'] = self['N2O'] # combustion minus gas
+        # self['_lci_direct_NH3'] = self['NH3'] # combustion
+        # self['_lci_direct_NMVOC'] = self['NMVOC'] # combustion
+        # self['_lci_direct_NOx'] = self['NOx'] + self['NO2'] # combustion minus gas
+        # self['_lci_direct_PM'] = self['PM']
 
         hem = HotEmissionsModel(self.ecm.cycle)
 
-        list_direct_emissions = ['_lci_direct_urban_HC', '_lci_direct_urban_CO','_lci_direct_urban_NOx', '_lci_direct_urban_PM',
-                                 '_lci_direct_urban_CH4','_lci_direct_urban_NMVOC', "_lci_direct_urban_Pb", '_lci_direct_urban_SO2',
-                                 '_lci_direct_urban_N2O', '_lci_direct_urban_NH3', '_lci_direct_urban_C6H6',
-                                 '_lci_direct_suburban_HC', '_lci_direct_suburban_CO', '_lci_direct_suburban_NOx',
-                                 '_lci_direct_suburban_PM',
-                                 '_lci_direct_suburban_CH4', '_lci_direct_suburban_NMVOC', "_lci_direct_suburban_Pb",
-                                 '_lci_direct_suburban_SO2',
-                                 '_lci_direct_suburban_N2O', '_lci_direct_suburban_NH3', '_lci_direct_suburban_C6H6',
-                                 '_lci_direct_rural_HC', '_lci_direct_rural_CO', '_lci_direct_rural_NOx',
-                                 '_lci_direct_rural_PM',
-                                 '_lci_direct_rural_CH4', '_lci_direct_rural_NMVOC', "_lci_direct_rural_Pb",
-                                 '_lci_direct_rural_SO2',
-                                 '_lci_direct_rural_N2O', '_lci_direct_rural_NH3', '_lci_direct_rural_C6H6',
-                                 ]
+        list_direct_emissions = [
+            "_lci_direct_urban_HC",
+            "_lci_direct_urban_CO",
+            "_lci_direct_urban_NOx",
+            "_lci_direct_urban_PM",
+            "_lci_direct_urban_CH4",
+            "_lci_direct_urban_NMVOC",
+            "_lci_direct_urban_Pb",
+            "_lci_direct_urban_SO2",
+            "_lci_direct_urban_N2O",
+            "_lci_direct_urban_NH3",
+            "_lci_direct_urban_C6H6",
+            "_lci_direct_suburban_HC",
+            "_lci_direct_suburban_CO",
+            "_lci_direct_suburban_NOx",
+            "_lci_direct_suburban_PM",
+            "_lci_direct_suburban_CH4",
+            "_lci_direct_suburban_NMVOC",
+            "_lci_direct_suburban_Pb",
+            "_lci_direct_suburban_SO2",
+            "_lci_direct_suburban_N2O",
+            "_lci_direct_suburban_NH3",
+            "_lci_direct_suburban_C6H6",
+            "_lci_direct_rural_HC",
+            "_lci_direct_rural_CO",
+            "_lci_direct_rural_NOx",
+            "_lci_direct_rural_PM",
+            "_lci_direct_rural_CH4",
+            "_lci_direct_rural_NMVOC",
+            "_lci_direct_rural_Pb",
+            "_lci_direct_rural_SO2",
+            "_lci_direct_rural_N2O",
+            "_lci_direct_rural_NH3",
+            "_lci_direct_rural_C6H6",
+        ]
 
-
-        self.array.loc[:, 'ICEV-d',list_direct_emissions,:]= np.hstack(hem.get_emissions_per_powertrain('diesel')).reshape((1,33, 1, 1))
-        self.array.loc[:, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :] = np.hstack(hem.get_emissions_per_powertrain('petrol')).reshape((1,33, 1, 1))
-        self.array.loc[:, 'ICEV-g', list_direct_emissions, :] = np.hstack(hem.get_emissions_per_powertrain('CNG')).reshape((1,33, 1, 1))
+        self.array.loc[:, "ICEV-d", list_direct_emissions, :] = np.hstack(
+            hem.get_emissions_per_powertrain("diesel")
+        ).reshape((1, 33, 1, 1))
+        self.array.loc[
+            :, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :
+        ] = np.hstack(hem.get_emissions_per_powertrain("petrol")).reshape((1, 33, 1, 1))
+        self.array.loc[:, "ICEV-g", list_direct_emissions, :] = np.hstack(
+            hem.get_emissions_per_powertrain("CNG")
+        ).reshape((1, 33, 1, 1))
 
         nem = NoiseEmissionsModel(self.ecm.cycle)
-        #list_param = self.array.coords['parameter'].values.tolist()
-        #list_noise_emissions = [x for x in list_param if x.startswith('_lci_direct_noise') and "day" in x]
+        # list_param = self.array.coords['parameter'].values.tolist()
+        # list_noise_emissions = [x for x in list_param if x.startswith('_lci_direct_noise') and "day" in x]
 
         list_noise_emissions = [
             "_lci_direct_noise, octave 1, day time, urban",
@@ -772,29 +842,36 @@ class CarModel:
             "_lci_direct_noise, octave 5, day time, rural",
             "_lci_direct_noise, octave 6, day time, rural",
             "_lci_direct_noise, octave 7, day time, rural",
-            "_lci_direct_noise, octave 8, day time, rural"
+            "_lci_direct_noise, octave 8, day time, rural",
         ]
         for pt in self.combustion:
-            for s in self.array.coords['size']:
-                for y in self.array.coords['year']:
-                    self.array.loc[s, pt, list_noise_emissions,y] = nem.get_sound_power_per_compartment('combustion').reshape((24,1))
+            for s in self.array.coords["size"]:
+                for y in self.array.coords["year"]:
+                    self.array.loc[
+                        s, pt, list_noise_emissions, y
+                    ] = nem.get_sound_power_per_compartment("combustion").reshape(
+                        (24, 1)
+                    )
 
         for pt in self.electric:
-            for s in self.array.coords['size']:
-                for y in self.array.coords['year']:
-                    self.array.loc[s, pt, list_noise_emissions, y] = nem.get_sound_power_per_compartment(
-                        'electric').reshape((24, 1))
+            for s in self.array.coords["size"]:
+                for y in self.array.coords["year"]:
+                    self.array.loc[
+                        s, pt, list_noise_emissions, y
+                    ] = nem.get_sound_power_per_compartment("electric").reshape((24, 1))
 
         for pt in self.fuel_cell:
-            for s in self.array.coords['size']:
-                for y in self.array.coords['year']:
-                    self.array.loc[s, pt, list_noise_emissions, y] = nem.get_sound_power_per_compartment(
-                        'electric').reshape((24, 1))
+            for s in self.array.coords["size"]:
+                for y in self.array.coords["year"]:
+                    self.array.loc[
+                        s, pt, list_noise_emissions, y
+                    ] = nem.get_sound_power_per_compartment("electric").reshape((24, 1))
 
-        for s in self.array.coords['size']:
-            for y in self.array.coords['year']:
-                self.array.loc[s, 'HEV-p', list_noise_emissions, y] = nem.get_sound_power_per_compartment(
-                    'hybrid').reshape((24, 1))
+        for s in self.array.coords["size"]:
+            for y in self.array.coords["year"]:
+                self.array.loc[
+                    s, "HEV-p", list_noise_emissions, y
+                ] = nem.get_sound_power_per_compartment("hybrid").reshape((24, 1))
 
     def calculate_cost_impacts(self):
         """
@@ -809,23 +886,37 @@ class CarModel:
         :rtype: xarray.core.dataarray.DataArray
         """
 
+        response = xr.DataArray(
+            np.zeros((1, 7, 7, 2, 5)),
+            coords=[
+                ["cost"],
+                self.array.coords["size"],
+                self.array.coords["powertrain"],
+                self.array.coords["year"],
+                ["purchase", "maintenance", "component replacement", "energy", "total"],
+            ],
+            dims=["cost", "size", "powertrain", "year", "cost_type"],
+        )
 
-        response = xr.DataArray(np.zeros((1, 7, 7, 2, 5)), coords=[['cost'], self.array.coords['size'],
-                                                                   self.array.coords['powertrain'],
-                                                                   self.array.coords['year'],
-                                                                   ['purchase', 'maintenance','component replacement',
-                                                                    'energy', 'total']],
-                                dims=['cost', 'size', 'powertrain', 'year', 'cost_type'])
-
-        response.loc[:, :, :, :, 'purchase'] = self.array.sel(parameter='amortised purchase cost').sum(axis=3)
-        response.loc[:, :, :, :, 'maintenance'] = self.array.sel(parameter='maintenance cost').sum(axis=3)
-        response.loc[:, :, :, :, 'component replacement'] = self.array.sel(parameter='amortised component replacement cost').sum(axis=3)
-        response.loc[:, :, :, :, 'energy'] = self.array.sel(parameter='energy cost').sum(axis=3)
-        response.loc[:, :, :, :, 'total'] = self.array.sel(parameter='total cost per km').sum(axis=3)
+        response.loc[:, :, :, :, "purchase"] = self.array.sel(
+            parameter="amortised purchase cost"
+        ).sum(axis=3)
+        response.loc[:, :, :, :, "maintenance"] = self.array.sel(
+            parameter="maintenance cost"
+        ).sum(axis=3)
+        response.loc[:, :, :, :, "component replacement"] = self.array.sel(
+            parameter="amortised component replacement cost"
+        ).sum(axis=3)
+        response.loc[:, :, :, :, "energy"] = self.array.sel(
+            parameter="energy cost"
+        ).sum(axis=3)
+        response.loc[:, :, :, :, "total"] = self.array.sel(
+            parameter="total cost per km"
+        ).sum(axis=3)
 
         return response
 
-    def calculate_env_impacts_midpoint(self, method = 'recipe'):
+    def calculate_env_impacts_midpoint(self, method="recipe"):
         """
         This method returns an array with characterized environmental impacts, sub-divided into the following categories:
         * direct emissions
@@ -846,64 +937,103 @@ class CarModel:
         :rtype: xarray.core.dataarray.DataArray
         """
 
-        filename={
-            'recipe': 'B_matrix_recipe_midpoint.csv'}
+        filename = {"recipe": "B_matrix_recipe_midpoint.csv"}
         try:
-            filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/'+ filename[method])
+            filepath = (
+                Path(getframeinfo(currentframe()).filename)
+                .resolve()
+                .parent.joinpath("data/" + filename[method])
+            )
         except KeyError:
-            print('The method or impact level specified could not be found.')
+            print("The method or impact level specified could not be found.")
             raise
 
-        with open(filepath, "r", newline='') as f:
-            reader = csv.reader(f, delimiter=';')
-            impact_cat = list(filter(None, f.readline().strip().split(';')))
+        with open(filepath, "r", newline="") as f:
+            reader = csv.reader(f, delimiter=";")
+            impact_cat = list(filter(None, f.readline().strip().split(";")))
             units = list(filter(None, next(reader)))
             ncols = len(impact_cat)
-            activities = list(filter(None, [row.split(';')[0] for row in f]))
+            activities = list(filter(None, [row.split(";")[0] for row in f]))
 
-        B = np.genfromtxt(filepath, delimiter=';', skip_header=2, usecols=range(2, ncols+2))
-        B_matrix = xr.DataArray(B, coords=[activities, impact_cat],
-                                dims=['parameter', 'impact_category'])
+        B = np.genfromtxt(
+            filepath, delimiter=";", skip_header=2, usecols=range(2, ncols + 2)
+        )
+        B_matrix = xr.DataArray(
+            B, coords=[activities, impact_cat], dims=["parameter", "impact_category"]
+        )
 
-        results = B_matrix.T*self.array.loc[:,:,activities,:,:]
-        results = results.transpose('impact_category',  'size', 'powertrain','year', 'parameter', 'value')
+        results = B_matrix.T * self.array.loc[:, :, activities, :, :]
+        results = results.transpose(
+            "impact_category", "size", "powertrain", "year", "parameter", "value"
+        )
 
-        cat = ['direct', 'energy chain', 'energy storage',
-                  'glider', 'powertrain', 'road', 'maintenance']
-        list_param = sorted(self.array.coords['parameter'].values.tolist(), key=str.lower)
-        direct_emissions = [x for x in list_param if x.startswith('_lci_direct')]
-        energy_chain = [x for x in list_param if x.startswith('_lci_energy')]
-        energy_storage = [x for x in list_param if x.startswith('_lci_storage')]
-        glider = ['_lci_glider', '_lci_glider_lightweighting']
-        powertrain = [x for x in list_param if x.startswith('_lci_powertrain')]
-        road = ['_lci_road']
-        maintenance = ['_lci_car_maintenance']
+        cat = [
+            "direct",
+            "energy chain",
+            "energy storage",
+            "glider",
+            "powertrain",
+            "road",
+            "maintenance",
+        ]
+        list_param = sorted(
+            self.array.coords["parameter"].values.tolist(), key=str.lower
+        )
+        direct_emissions = [x for x in list_param if x.startswith("_lci_direct")]
+        energy_chain = [x for x in list_param if x.startswith("_lci_energy")]
+        energy_storage = [x for x in list_param if x.startswith("_lci_storage")]
+        glider = ["_lci_glider", "_lci_glider_lightweighting"]
+        powertrain = [x for x in list_param if x.startswith("_lci_powertrain")]
+        road = ["_lci_road"]
+        maintenance = ["_lci_car_maintenance"]
 
-        response = xr.DataArray(np.zeros((B.shape[1],
-                                          len(self.array.coords['size']),
-                                          len(self.array.coords['powertrain']),
-                                          len(self.array.coords['year']),
-                                          len(cat),
-                                          np.shape(results)[-1])),
-                                coords=[impact_cat,
-                                        self.array.coords['size'],
-                                        self.array.coords['powertrain'],
-                                        self.array.coords['year'],
-                                        cat,
-                                        np.arange(0,np.shape(results)[-1])],
-                                dims=['impact_category', 'size', 'powertrain', 'year','impact', 'value'])
+        response = xr.DataArray(
+            np.zeros(
+                (
+                    B.shape[1],
+                    len(self.array.coords["size"]),
+                    len(self.array.coords["powertrain"]),
+                    len(self.array.coords["year"]),
+                    len(cat),
+                    np.shape(results)[-1],
+                )
+            ),
+            coords=[
+                impact_cat,
+                self.array.coords["size"],
+                self.array.coords["powertrain"],
+                self.array.coords["year"],
+                cat,
+                np.arange(0, np.shape(results)[-1]),
+            ],
+            dims=["impact_category", "size", "powertrain", "year", "impact", "value"],
+        )
 
-        response.loc[:,:,:,:,'direct',:] = results.loc[:,:,:,:, direct_emissions ,:].sum(axis=4)
-        response.loc[:, :, :, :, 'energy chain',:] = results.loc[:,:,:,:, energy_chain ,:].sum(axis=4)
-        response.loc[:, :, :, :, 'energy storage',:] = results.loc[:,:,:,:, energy_storage ,:].sum(axis=4)
-        response.loc[:, :, :, :, 'glider',:] = results.loc[:,:,:,:, glider ,:].sum(axis=4)
-        response.loc[:, :, :, :, 'powertrain',:] = results.loc[:,:,:,:, powertrain ,:].sum(axis=4)
-        response.loc[:, :, :, :, 'road',:] = results.loc[:,:,:,:, road ,:].sum(axis=4)
-        response.loc[:, :, :, :, 'maintenance',:] = results.loc[:,:,:,:, maintenance ,:].sum(axis=4)
+        response.loc[:, :, :, :, "direct", :] = results.loc[
+            :, :, :, :, direct_emissions, :
+        ].sum(axis=4)
+        response.loc[:, :, :, :, "energy chain", :] = results.loc[
+            :, :, :, :, energy_chain, :
+        ].sum(axis=4)
+        response.loc[:, :, :, :, "energy storage", :] = results.loc[
+            :, :, :, :, energy_storage, :
+        ].sum(axis=4)
+        response.loc[:, :, :, :, "glider", :] = results.loc[:, :, :, :, glider, :].sum(
+            axis=4
+        )
+        response.loc[:, :, :, :, "powertrain", :] = results.loc[
+            :, :, :, :, powertrain, :
+        ].sum(axis=4)
+        response.loc[:, :, :, :, "road", :] = results.loc[:, :, :, :, road, :].sum(
+            axis=4
+        )
+        response.loc[:, :, :, :, "maintenance", :] = results.loc[
+            :, :, :, :, maintenance, :
+        ].sum(axis=4)
 
         return impact_cat, units, response
 
-    def calculate_env_impacts_single_score(self, method = 'recipe'):
+    def calculate_env_impacts_single_score(self, method="recipe"):
         """
         This method returns an array with characterized environmental impacts, sub-divided into the following categories:
         * direct emissions
@@ -924,32 +1054,39 @@ class CarModel:
         :rtype: xarray.core.dataarray.DataArray
         """
 
-        filename={
-            'recipe': 'B_matrix_recipe_endpoint_normalized.csv'}
+        filename = {"recipe": "B_matrix_recipe_endpoint_normalized.csv"}
         try:
-            filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/'+ filename[method])
+            filepath = (
+                Path(getframeinfo(currentframe()).filename)
+                .resolve()
+                .parent.joinpath("data/" + filename[method])
+            )
         except KeyError:
-            print('The method or impact level specified could not be found.')
+            print("The method or impact level specified could not be found.")
             raise
 
-        with open(filepath, "r", newline='') as f:
-            reader = csv.reader(f, delimiter=';')
-            impact_cat = list(filter(None, f.readline().strip().split(';')))
+        with open(filepath, "r", newline="") as f:
+            reader = csv.reader(f, delimiter=";")
+            impact_cat = list(filter(None, f.readline().strip().split(";")))
             units = list(filter(None, next(reader)))
             ncols = len(impact_cat)
-            activities = list(filter(None, [row.split(';')[0] for row in f]))
+            activities = list(filter(None, [row.split(";")[0] for row in f]))
 
-        B = np.genfromtxt(filepath, delimiter=';', skip_header=2, usecols=range(2, ncols+2))
-        B_matrix = xr.DataArray(B, coords=[activities, impact_cat],
-                                dims=['parameter', 'impact_category'])
+        B = np.genfromtxt(
+            filepath, delimiter=";", skip_header=2, usecols=range(2, ncols + 2)
+        )
+        B_matrix = xr.DataArray(
+            B, coords=[activities, impact_cat], dims=["parameter", "impact_category"]
+        )
 
-        results = B_matrix.T*self.array.loc[:,:,activities,:,:]
-        results = results.transpose('impact_category', 'size', 'powertrain','year', 'parameter', 'value')
-
+        results = B_matrix.T * self.array.loc[:, :, activities, :, :]
+        results = results.transpose(
+            "impact_category", "size", "powertrain", "year", "parameter", "value"
+        )
 
         return impact_cat, units, results.sum(axis=4)
 
-    def calculate_env_impacts_endpoint(self, method = 'recipe', split=None):
+    def calculate_env_impacts_endpoint(self, method="recipe", split=None):
         """
         This method returns an array with characterized endpoint environmental impacts, sub-divided into the following categories:
         * direct emissions
@@ -970,94 +1107,143 @@ class CarModel:
         :rtype: xarray.core.dataarray.DataArray
         """
 
-        filename={
-            'recipe': {'midpoint':'B_matrix_recipe_endpoint_splitted.csv',
-                        'components':'B_matrix_recipe_endpoint.csv'}
-                            }
+        filename = {
+            "recipe": {
+                "midpoint": "B_matrix_recipe_endpoint_splitted.csv",
+                "components": "B_matrix_recipe_endpoint.csv",
+            }
+        }
         if split == None:
-            split = 'components'
+            split = "components"
         try:
-            filepath = Path(getframeinfo(currentframe()).filename).resolve().parent.joinpath('data/'+ filename[method][split])
+            filepath = (
+                Path(getframeinfo(currentframe()).filename)
+                .resolve()
+                .parent.joinpath("data/" + filename[method][split])
+            )
         except KeyError:
-            print('The method or impact level specified could not be found.')
+            print("The method or impact level specified could not be found.")
             raise
 
-        with open(filepath, "r", newline='') as f:
-            reader = csv.reader(f, delimiter=';')
-            col_names = list(filter(None, f.readline().strip().split(';')))
-            if split == 'components':
+        with open(filepath, "r", newline="") as f:
+            reader = csv.reader(f, delimiter=";")
+            col_names = list(filter(None, f.readline().strip().split(";")))
+            if split == "components":
                 impact_cat = col_names
             else:
-                impact_cat, sub_cat = map(list,zip(*(s.split(',') for s in col_names)))
-                sub_cat = [s.strip(' ') for s in sub_cat]
+                impact_cat, sub_cat = map(list, zip(*(s.split(",") for s in col_names)))
+                sub_cat = [s.strip(" ") for s in sub_cat]
             units = list(filter(None, next(reader)))
             ncols = len(impact_cat)
-            activities = list(filter(None, [row.split(';')[0] for row in f]))
+            activities = list(filter(None, [row.split(";")[0] for row in f]))
 
-        B = np.genfromtxt(filepath, delimiter=';', skip_header=2, usecols=range(2, ncols+2))
-        B_matrix = xr.DataArray(B, coords=[activities, col_names],
-                                dims=['parameter', 'impact_category'])
+        B = np.genfromtxt(
+            filepath, delimiter=";", skip_header=2, usecols=range(2, ncols + 2)
+        )
+        B_matrix = xr.DataArray(
+            B, coords=[activities, col_names], dims=["parameter", "impact_category"]
+        )
 
-        results = B_matrix.T*self.array.loc[:,:,activities,:,:]
-        results = results.transpose('impact_category', 'size', 'powertrain','year', 'parameter', 'value')
+        results = B_matrix.T * self.array.loc[:, :, activities, :, :]
+        results = results.transpose(
+            "impact_category", "size", "powertrain", "year", "parameter", "value"
+        )
 
-        if split == 'midpoint':
-            response = xr.DataArray(np.zeros((len(set(impact_cat)),
-                                              len(self.array.coords['size']),
-                                              len(self.array.coords['powertrain']),
-                                              len(self.array.coords['year']),
-                                              len(col_names),
-                                              np.shape(results)[-1])),
-                                    coords=[list(set(impact_cat)),
-                                            self.array.coords['size'],
-                                            self.array.coords['powertrain'],
-                                            self.array.coords['year'],
-                                            col_names,
-                                            np.arange(0,np.shape(results)[-1])],
-                                    dims=['impact_cat', 'size', 'powertrain', 'year','impact', 'value'])
+        if split == "midpoint":
+            response = xr.DataArray(
+                np.zeros(
+                    (
+                        len(set(impact_cat)),
+                        len(self.array.coords["size"]),
+                        len(self.array.coords["powertrain"]),
+                        len(self.array.coords["year"]),
+                        len(col_names),
+                        np.shape(results)[-1],
+                    )
+                ),
+                coords=[
+                    list(set(impact_cat)),
+                    self.array.coords["size"],
+                    self.array.coords["powertrain"],
+                    self.array.coords["year"],
+                    col_names,
+                    np.arange(0, np.shape(results)[-1]),
+                ],
+                dims=["impact_cat", "size", "powertrain", "year", "impact", "value"],
+            )
 
             dic_impact = {}
             for i in set(impact_cat):
-                dic_impact[i] = [c for c in col_names if impact_cat[col_names.index(c)] == i]
+                dic_impact[i] = [
+                    c for c in col_names if impact_cat[col_names.index(c)] == i
+                ]
 
             for i in set(impact_cat):
-                response.loc[{'impact_cat':i, 'impact':dic_impact[i], 'value':0}] = results.sel(impact_category=dic_impact[i], value=0)\
-                    .sum(axis=4).transpose('size', 'powertrain', 'year', 'impact_category')
+                response.loc[{"impact_cat": i, "impact": dic_impact[i], "value": 0}] = (
+                    results.sel(impact_category=dic_impact[i], value=0)
+                    .sum(axis=4)
+                    .transpose("size", "powertrain", "year", "impact_category")
+                )
         else:
-            cat = ['direct', 'energy chain', 'energy storage',
-                  'glider', 'powertrain', 'road', 'maintenance']
-            list_param = sorted(self.array.coords['parameter'].values.tolist(), key=str.lower)
-            direct_emissions = [x for x in list_param if x.startswith('_lci_direct')]
-            energy_chain = [x for x in list_param if x.startswith('_lci_energy')]
-            energy_storage = [x for x in list_param if x.startswith('_lci_storage')]
-            glider = ['_lci_glider', '_lci_glider_lightweighting']
-            powertrain = [x for x in list_param if x.startswith('_lci_powertrain')]
-            road = ['_lci_road']
-            maintenance = ['_lci_car_maintenance']
-            l_cat = [direct_emissions, energy_chain, energy_storage, glider, powertrain,
-                     road, maintenance]
+            cat = [
+                "direct",
+                "energy chain",
+                "energy storage",
+                "glider",
+                "powertrain",
+                "road",
+                "maintenance",
+            ]
+            list_param = sorted(
+                self.array.coords["parameter"].values.tolist(), key=str.lower
+            )
+            direct_emissions = [x for x in list_param if x.startswith("_lci_direct")]
+            energy_chain = [x for x in list_param if x.startswith("_lci_energy")]
+            energy_storage = [x for x in list_param if x.startswith("_lci_storage")]
+            glider = ["_lci_glider", "_lci_glider_lightweighting"]
+            powertrain = [x for x in list_param if x.startswith("_lci_powertrain")]
+            road = ["_lci_road"]
+            maintenance = ["_lci_car_maintenance"]
+            l_cat = [
+                direct_emissions,
+                energy_chain,
+                energy_storage,
+                glider,
+                powertrain,
+                road,
+                maintenance,
+            ]
 
-            response = xr.DataArray(np.zeros((len(impact_cat),
-                                              len(self.array.coords['size']),
-                                              len(self.array.coords['powertrain']),
-                                              len(self.array.coords['year']),
-                                              len(cat),
-                                              np.shape(results)[-1])),
-                                    coords=[list(impact_cat),
-                                            self.array.coords['size'],
-                                            self.array.coords['powertrain'],
-                                            self.array.coords['year'],
-                                            cat,
-                                            np.arange(0,np.shape(results)[-1])],
-                                    dims=['impact_cat', 'size', 'powertrain', 'year','impact', 'value'])
+            response = xr.DataArray(
+                np.zeros(
+                    (
+                        len(impact_cat),
+                        len(self.array.coords["size"]),
+                        len(self.array.coords["powertrain"]),
+                        len(self.array.coords["year"]),
+                        len(cat),
+                        np.shape(results)[-1],
+                    )
+                ),
+                coords=[
+                    list(impact_cat),
+                    self.array.coords["size"],
+                    self.array.coords["powertrain"],
+                    self.array.coords["year"],
+                    cat,
+                    np.arange(0, np.shape(results)[-1]),
+                ],
+                dims=["impact_cat", "size", "powertrain", "year", "impact", "value"],
+            )
 
             for c in cat:
                 for i in impact_cat:
-                    response.loc[{'impact_cat':i,'impact':c}] = results.sel(parameter=l_cat[cat.index(c)],
-                                                                            impact_category=i).sum(axis=3)
+                    response.loc[{"impact_cat": i, "impact": c}] = results.sel(
+                        parameter=l_cat[cat.index(c)], impact_category=i
+                    ).sum(axis=3)
 
         return impact_cat, units, response
-        
+
     def write_lci_excel_to_bw(self, db_name, filepath=None, objs=None, sections=None):
         """Export database `database_name` to an Excel spreadsheet.
         If a filepath is not specified, the inventory file is exported where the module resides.
@@ -1076,49 +1262,80 @@ class CarModel:
 
         data = []
 
-        data.extend((['Database', db_name], ('format', 'Excel spreadsheet')))
+        data.extend((["Database", db_name], ("format", "Excel spreadsheet")))
         data.append([])
 
         for k in i.data:
-            if k.get('exchanges'):
-                data.extend((['Activity', k['name']], ('code', k['code']),
-                             ('location', k['location']),
-                             ('production amount', float(k['production amount'])),
-                             ('reference product', k.get('reference product')),
-                             ('type', 'process'),
-                             ('unit', k['unit']), ('worksheet name', 'None'), ['Exchanges'],
-                             ['name', 'amount', 'database', 'location', 'unit', 'categories', 'type', 'reference product']
-                             ))
+            if k.get("exchanges"):
+                data.extend(
+                    (
+                        ["Activity", k["name"]],
+                        ("code", k["code"]),
+                        ("location", k["location"]),
+                        ("production amount", float(k["production amount"])),
+                        ("reference product", k.get("reference product")),
+                        ("type", "process"),
+                        ("unit", k["unit"]),
+                        ("worksheet name", "None"),
+                        ["Exchanges"],
+                        [
+                            "name",
+                            "amount",
+                            "database",
+                            "location",
+                            "unit",
+                            "categories",
+                            "type",
+                            "reference product",
+                        ],
+                    )
+                )
 
-                for e in k['exchanges']:
-                    data.append([e['name'], float(e['amount']), e['database'], e.get('location', 'None'), e['unit'],
-                                 '::'.join(e.get('categories', ())), e['type'], e.get('reference product')])
+                for e in k["exchanges"]:
+                    data.append(
+                        [
+                            e["name"],
+                            float(e["amount"]),
+                            e["database"],
+                            e.get("location", "None"),
+                            e["unit"],
+                            "::".join(e.get("categories", ())),
+                            e["type"],
+                            e.get("reference product"),
+                        ]
+                    )
             else:
-                data.extend((
-                            ['Activity', k['name']],
-                            ('code', k['code']),
-                            ('type', 'biosphere'),
-                            ('unit', k['unit']),
-                            ('worksheet name', 'None')
-                ))
+                data.extend(
+                    (
+                        ["Activity", k["name"]],
+                        ("code", k["code"]),
+                        ("type", "biosphere"),
+                        ("unit", k["unit"]),
+                        ("worksheet name", "None"),
+                    )
+                )
             data.append([])
-
 
         safe_name = safe_filename(db_name, False)
 
         parent = Path(getframeinfo(currentframe()).filename).resolve().parent
 
         if filepath is None:
-            filepath = parent.joinpath('lci-' + safe_name + ".xlsx")
+            filepath = parent.joinpath("lci-" + safe_name + ".xlsx")
         else:
-            filepath = filepath + r'\lci-' + safe_name + r".xlsx"
-
-
+            filepath = filepath + r"\lci-" + safe_name + r".xlsx"
 
         workbook = xlsxwriter.Workbook(filepath)
-        bold = workbook.add_format({'bold': True})
+        bold = workbook.add_format({"bold": True})
         bold.set_font_size(12)
-        highlighted = {'Activity', 'Database', 'Exchanges', 'Parameters', 'Database parameters', 'Project parameters'}
+        highlighted = {
+            "Activity",
+            "Database",
+            "Exchanges",
+            "Parameters",
+            "Database parameters",
+            "Project parameters",
+        }
         frmt = lambda x: bold if row[0] in highlighted else None
 
         sheet = workbook.add_worksheet(create_valid_worksheet_name(db_name))
@@ -1131,7 +1348,7 @@ class CarModel:
                     sheet.write_number(row_index, col_index, value, frmt(value))
                 else:
                     sheet.write_string(row_index, col_index, value, frmt(value))
-        print('Inventories exported.')
+        print("Inventories exported.")
         workbook.close()
 
         return filepath
@@ -1160,7 +1377,7 @@ class CarModel:
 
         """
         parent = Path(getframeinfo(currentframe()).filename).resolve().parent
-        filename = parent.joinpath('data/Additional datasets.xlsx')
+        filename = parent.joinpath("data/Additional datasets.xlsx")
 
         i = ExcelImporter(filename)
 
@@ -1171,6 +1388,7 @@ class CarModel:
         import scipy.stats as st
         import warnings
         import pandas as pd
+
         """Model data by finding best fit distribution to data"""
         # Get histogram of original data
         y, x = np.histogram(data, bins=bins, density=True)
@@ -1178,8 +1396,14 @@ class CarModel:
 
         # Distributions to check
         DISTRIBUTIONS = [
-             st.beta,st.gamma,st.lognorm,
-                st.norm, st.t,st.triang, st.uniform,st.weibull_min
+            st.beta,
+            st.gamma,
+            st.lognorm,
+            st.norm,
+            st.t,
+            st.triang,
+            st.uniform,
+            st.weibull_min,
         ]
 
         # Best holders
@@ -1194,7 +1418,7 @@ class CarModel:
             try:
                 # Ignore warnings from data that can't be fit
                 with warnings.catch_warnings():
-                    warnings.filterwarnings('ignore')
+                    warnings.filterwarnings("ignore")
 
                     # fit dist to data
                     params = distribution.fit(data)
@@ -1225,20 +1449,32 @@ class CarModel:
             except Exception:
                 pass
 
-        return (best_distribution.name, getattr(st, best_distribution.name), best_params)
-
+        return (
+            best_distribution.name,
+            getattr(st, best_distribution.name),
+            best_params,
+        )
 
     def make_pdf(self, dist, params, size=10000):
         """Generate distributions's Probability Distribution Function """
         import pandas as pd
+
         # Separate parts of parameters
         arg = params[:-2]
         loc = params[-2]
         scale = params[-1]
 
         # Get sane start and end points of distribution
-        start = dist.ppf(0.01, *arg, loc=loc, scale=scale) if arg else dist.ppf(0.01, loc=loc, scale=scale)
-        end = dist.ppf(0.99, *arg, loc=loc, scale=scale) if arg else dist.ppf(0.99, loc=loc, scale=scale)
+        start = (
+            dist.ppf(0.01, *arg, loc=loc, scale=scale)
+            if arg
+            else dist.ppf(0.01, loc=loc, scale=scale)
+        )
+        end = (
+            dist.ppf(0.99, *arg, loc=loc, scale=scale)
+            if arg
+            else dist.ppf(0.99, loc=loc, scale=scale)
+        )
 
         # Build PDF and turn into pandas Series
         x = np.linspace(start, end, size)
@@ -1247,7 +1483,9 @@ class CarModel:
 
         return pdf
 
-    def write_lci_to_bw(self, db_name, presamples=True, name_ecoinvent_db='ecoinvent 3.5 cutoff'):
+    def write_lci_to_bw(
+        self, db_name, presamples=True, name_ecoinvent_db="ecoinvent 3.5 cutoff"
+    ):
         """
         This method first imports `additional inventories` (e.g., battery production, hydrogen tank manufacture, etc.)
         from an spreadsheet into a dictionary using one of Brightway's import functions.
@@ -1266,9 +1504,8 @@ class CarModel:
         :rtype: bwio.ExcelImporter
         """
 
-
         parent = Path(getframeinfo(currentframe()).filename).resolve().parent
-        filename = parent.joinpath('data/dict_exchanges.csv')
+        filename = parent.joinpath("data/dict_exchanges.csv")
 
         with open(filename) as f:
             csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
@@ -1280,14 +1517,14 @@ class CarModel:
             csv_dict[key] = {key: value for key, value in zip(header, values)}
 
         list_act = []
-        val=[]
+        val = []
 
         # Overall array for presamples
         matrix_data = []
 
-        for pt in self.array.coords['powertrain'].values:
-            for s in self.array.coords['size'].values:
-                for y in self.array.coords['year'].values:
+        for pt in self.array.coords["powertrain"].values:
+            for s in self.array.coords["size"].values:
+                for y in self.array.coords["year"].values:
 
                     # Generate uniqu code for activity
                     code_act = str(uuid.uuid1())
@@ -1296,17 +1533,19 @@ class CarModel:
                     # We insert first the reference product
                     list_exc.append(
                         {
-                            'name': 'Passenger car, '+pt+", "+s+", "+str(y),
-                            'database': db_name,
-                            'amount': 1.0,
-                            'unit': 'vehicle-kilometer',
-                            'type': 'production',
-                            'location': 'GLO'
+                            "name": "Passenger car, " + pt + ", " + s + ", " + str(y),
+                            "database": db_name,
+                            "amount": 1.0,
+                            "unit": "vehicle-kilometer",
+                            "type": "production",
+                            "location": "GLO",
                         }
                     )
 
                     for k in list(csv_dict.keys()):
-                        value = self.array.sel(powertrain=pt, size=s, year=y, parameter=k).values
+                        value = self.array.sel(
+                            powertrain=pt, size=s, year=y, parameter=k
+                        ).values
 
                         # Static mode
                         if len(value) == 1:
@@ -1314,16 +1553,18 @@ class CarModel:
                             if abs(value) != 0.0:
                                 list_exc.append(
                                     {
-                                        'name': csv_dict[k]['Dataset name'],
-                                        'database': csv_dict[k]['Database'],
-                                        'amount': value[0],
-                                        'unit': csv_dict[k]['Unit'],
-                                        'type': csv_dict[k]['Type'],
-                                        'location': csv_dict[k].get('Location', 'None'),
-                                        'reference product': csv_dict[k].get('reference product'),
-                                        'categories': csv_dict[k].get('categories'),
-                                        'uncertainty type': 0,
-                                        'code':csv_dict[k].get('code')
+                                        "name": csv_dict[k]["Dataset name"],
+                                        "database": csv_dict[k]["Database"],
+                                        "amount": value[0],
+                                        "unit": csv_dict[k]["Unit"],
+                                        "type": csv_dict[k]["Type"],
+                                        "location": csv_dict[k].get("Location", "None"),
+                                        "reference product": csv_dict[k].get(
+                                            "reference product"
+                                        ),
+                                        "categories": csv_dict[k].get("categories"),
+                                        "uncertainty type": 0,
+                                        "code": csv_dict[k].get("code"),
                                     }
                                 )
                         # Stochastic mode
@@ -1332,131 +1573,152 @@ class CarModel:
                             if np.sum(value) != 0.0:
                                 list_exc.append(
                                     {
-                                        'name': csv_dict[k]['Dataset name'],
-                                        'database': csv_dict[k]['Database'],
-                                        'amount': np.median(value),
-                                        'unit': csv_dict[k]['Unit'],
-                                        'type': csv_dict[k]['Type'],
-                                        'location': csv_dict[k].get('Location', 'None'),
-                                        'reference product': csv_dict[k].get('reference product'),
-                                        'categories': csv_dict[k].get('categories'),
-                                        'code':csv_dict[k].get('code'),
-                                        'uncertainty type': 0
+                                        "name": csv_dict[k]["Dataset name"],
+                                        "database": csv_dict[k]["Database"],
+                                        "amount": np.median(value),
+                                        "unit": csv_dict[k]["Unit"],
+                                        "type": csv_dict[k]["Type"],
+                                        "location": csv_dict[k].get("Location", "None"),
+                                        "reference product": csv_dict[k].get(
+                                            "reference product"
+                                        ),
+                                        "categories": csv_dict[k].get("categories"),
+                                        "code": csv_dict[k].get("code"),
+                                        "uncertainty type": 0,
                                     }
                                 )
 
                                 # Generate presamples array
                                 if presamples:
-                                    if csv_dict[k]['Database'] == 'biosphere3':
-                                        db = 'biosphere3'
-                                    elif csv_dict[k]['Database'] == 'ecoinvent':
+                                    if csv_dict[k]["Database"] == "biosphere3":
+                                        db = "biosphere3"
+                                    elif csv_dict[k]["Database"] == "ecoinvent":
                                         db = name_ecoinvent_db
                                     else:
                                         db = db_name
                                     act_key = (db_name, code_act)
-                                    exc_key = (db, csv_dict[k]['code'])
+                                    exc_key = (db, csv_dict[k]["code"])
 
                                     matrix_data.append(
-                                        (value, [(exc_key, act_key, csv_dict[k]['Type'])], csv_dict[k]['Type'])
+                                        (
+                                            value,
+                                            [(exc_key, act_key, csv_dict[k]["Type"])],
+                                            csv_dict[k]["Type"],
                                         )
+                                    )
 
                                 # Identify underlying distribution and parameters
                                 else:
                                     # Deviation in array values --> need to identify the distribution
-                                    if np.any(value[0] != value) :
-                                            # Find best fit distribution
-                                            best_fit_name, best_dist, best_fit_params = self.best_fit_distribution(value, 200)
+                                    if np.any(value[0] != value):
+                                        # Find best fit distribution
+                                        best_fit_name, best_dist, best_fit_params = self.best_fit_distribution(
+                                            value, 200
+                                        )
 
-                                            # Build uncertainty dictionnary to be interpreted by BW2
-                                            # See https://docs.brightwaylca.org/intro.html#uncertainty-type
-                                            uncertainty_ID = {
-                                                # scipy.stats distr. params --> stats.array distr. params
-                                                'triang': 5, # c --> loc (mode), loc --> min, loc + scale --> max
-                                                'weibull_min': 8, # c --> shape, scale --> scale
-                                                'gamma': 9, # a --> shape, scale --> scale, loc --> loc
-                                                'beta': 10, # a --> loc, b --> shape, scale --> scale
-                                                'lognorm': 2, # s --> scale (std), scale --> loc (exp(mean))
-                                                'norm': 3, # loc --> loc (mean), scale --> scale (std)
-                                                'uniform': 4, # loc --> min, loc + scale --> max
-                                                't': 12, # df --> shape, loc --> loc, scale --> scale
-                                            }
+                                        # Build uncertainty dictionnary to be interpreted by BW2
+                                        # See https://docs.brightwaylca.org/intro.html#uncertainty-type
+                                        uncertainty_ID = {
+                                            # scipy.stats distr. params --> stats.array distr. params
+                                            "triang": 5,  # c --> loc (mode), loc --> min, loc + scale --> max
+                                            "weibull_min": 8,  # c --> shape, scale --> scale
+                                            "gamma": 9,  # a --> shape, scale --> scale, loc --> loc
+                                            "beta": 10,  # a --> loc, b --> shape, scale --> scale
+                                            "lognorm": 2,  # s --> scale (std), scale --> loc (exp(mean))
+                                            "norm": 3,  # loc --> loc (mean), scale --> scale (std)
+                                            "uniform": 4,  # loc --> min, loc + scale --> max
+                                            "t": 12,  # df --> shape, loc --> loc, scale --> scale
+                                        }
 
-                                            # Lognormal distribution
-                                            if uncertainty_ID[best_fit_name] == 2:
-                                                list_exc[-1]['uncertainty type'] = 2
-                                                list_exc[-1]['scale'] = best_fit_params[0]
-                                                list_exc[-1]['loc'] = best_fit_params[2]
+                                        # Lognormal distribution
+                                        if uncertainty_ID[best_fit_name] == 2:
+                                            list_exc[-1]["uncertainty type"] = 2
+                                            list_exc[-1]["scale"] = best_fit_params[0]
+                                            list_exc[-1]["loc"] = best_fit_params[2]
 
-                                            # Normal distribution
-                                            if uncertainty_ID[best_fit_name] == 3:
-                                                list_exc[-1]['uncertainty type'] = 3
-                                                list_exc[-1]['loc'] = best_fit_params[0]
-                                                list_exc[-1]['scale'] = best_fit_params[1]
+                                        # Normal distribution
+                                        if uncertainty_ID[best_fit_name] == 3:
+                                            list_exc[-1]["uncertainty type"] = 3
+                                            list_exc[-1]["loc"] = best_fit_params[0]
+                                            list_exc[-1]["scale"] = best_fit_params[1]
 
-                                            # Uniform distribution
-                                            if uncertainty_ID[best_fit_name] == 4:
-                                                list_exc[-1]['uncertainty type'] = 4
-                                                list_exc[-1]['minimum'] = best_fit_params[0]
-                                                list_exc[-1]['maximum'] = best_fit_params[0] + best_fit_params[1]
+                                        # Uniform distribution
+                                        if uncertainty_ID[best_fit_name] == 4:
+                                            list_exc[-1]["uncertainty type"] = 4
+                                            list_exc[-1]["minimum"] = best_fit_params[0]
+                                            list_exc[-1]["maximum"] = (
+                                                best_fit_params[0] + best_fit_params[1]
+                                            )
 
-                                            # Triangular distribution
-                                            if uncertainty_ID[best_fit_name] == 5:
-                                                list_exc[-1]['uncertainty type'] = 5
-                                                list_exc[-1]['loc'] = list_exc[-1]['amount'] # <-- use 'amount' instead of calculated median
-                                                list_exc[-1]['minimum'] = best_fit_params[1]
-                                                list_exc[-1]['maximum'] = best_fit_params[1]+best_fit_params[2]
+                                        # Triangular distribution
+                                        if uncertainty_ID[best_fit_name] == 5:
+                                            list_exc[-1]["uncertainty type"] = 5
+                                            list_exc[-1]["loc"] = list_exc[-1][
+                                                "amount"
+                                            ]  # <-- use 'amount' instead of calculated median
+                                            list_exc[-1]["minimum"] = best_fit_params[1]
+                                            list_exc[-1]["maximum"] = (
+                                                best_fit_params[1] + best_fit_params[2]
+                                            )
 
-                                            # Gamma distribution
-                                            if uncertainty_ID[best_fit_name] == 9:
-                                                list_exc[-1]['uncertainty type'] = 9
-                                                list_exc[-1]['shape'] = best_fit_params[0]
-                                                list_exc[-1]['scale'] = best_fit_params[2]
-                                                list_exc[-1]['loc'] = best_fit_params[1]
+                                        # Gamma distribution
+                                        if uncertainty_ID[best_fit_name] == 9:
+                                            list_exc[-1]["uncertainty type"] = 9
+                                            list_exc[-1]["shape"] = best_fit_params[0]
+                                            list_exc[-1]["scale"] = best_fit_params[2]
+                                            list_exc[-1]["loc"] = best_fit_params[1]
 
-                                            # Beta distribution
-                                            if uncertainty_ID[best_fit_name] == 10:
-                                                list_exc[-1]['uncertainty type'] = 10
-                                                list_exc[-1]['loc'] = best_fit_params[0]
-                                                list_exc[-1]['shape'] = best_fit_params[1]
-                                                list_exc[-1]['scale'] = best_fit_params[3]
+                                        # Beta distribution
+                                        if uncertainty_ID[best_fit_name] == 10:
+                                            list_exc[-1]["uncertainty type"] = 10
+                                            list_exc[-1]["loc"] = best_fit_params[0]
+                                            list_exc[-1]["shape"] = best_fit_params[1]
+                                            list_exc[-1]["scale"] = best_fit_params[3]
 
-                                            # Weibull distribution
-                                            if uncertainty_ID[best_fit_name] == 8:
-                                                list_exc[-1]['uncertainty type'] = 8
-                                                list_exc[-1]['shape'] = best_fit_params[0]
-                                                list_exc[-1]['scale'] = best_fit_params[2]
+                                        # Weibull distribution
+                                        if uncertainty_ID[best_fit_name] == 8:
+                                            list_exc[-1]["uncertainty type"] = 8
+                                            list_exc[-1]["shape"] = best_fit_params[0]
+                                            list_exc[-1]["scale"] = best_fit_params[2]
 
-                                            # Student's T distribution
-                                            if uncertainty_ID[best_fit_name] == 12:
-                                                list_exc[-1]['uncertainty type'] = 12
-                                                list_exc[-1]['shape'] = best_fit_params[0]
-                                                list_exc[-1]['loc'] = best_fit_params[1]
-                                                list_exc[-1]['scale'] = best_fit_params[2]
+                                        # Student's T distribution
+                                        if uncertainty_ID[best_fit_name] == 12:
+                                            list_exc[-1]["uncertainty type"] = 12
+                                            list_exc[-1]["shape"] = best_fit_params[0]
+                                            list_exc[-1]["loc"] = best_fit_params[1]
+                                            list_exc[-1]["scale"] = best_fit_params[2]
 
-
-
-                    list_act.append({
-                        'production amount':1,
-                        'code': code_act,
-                        'database': db_name,
-                        'name': 'Passenger car, '+pt+", "+s+", "+str(y),
-                        'unit': 'vehicle-kilometer',
-                        'location': 'GLO',
-                        'exchanges': list_exc,
-                        'reference product': 'Passenger car, '+pt+", "+s+", "+str(y),
-                        'type':'process'
-                    })
+                    list_act.append(
+                        {
+                            "production amount": 1,
+                            "code": code_act,
+                            "database": db_name,
+                            "name": "Passenger car, " + pt + ", " + s + ", " + str(y),
+                            "unit": "vehicle-kilometer",
+                            "location": "GLO",
+                            "exchanges": list_exc,
+                            "reference product": "Passenger car, "
+                            + pt
+                            + ", "
+                            + s
+                            + ", "
+                            + str(y),
+                            "type": "process",
+                        }
+                    )
 
         # Add noise flows to the new database
-        for k in [i for i in list(csv_dict.keys()) if 'noise' in i]:
-            list_act.append({
-                                 'code': csv_dict[k]['code'],
-                                 'database': db_name,
-                                 'name': csv_dict[k]['Dataset name'],
-                                 'unit': csv_dict[k]['Unit'],
-                                 'type': csv_dict[k]['Type'],
-                                 'categories':csv_dict[k]['categories']})
-
+        for k in [i for i in list(csv_dict.keys()) if "noise" in i]:
+            list_act.append(
+                {
+                    "code": csv_dict[k]["code"],
+                    "database": db_name,
+                    "name": csv_dict[k]["Dataset name"],
+                    "unit": csv_dict[k]["Unit"],
+                    "type": csv_dict[k]["Type"],
+                    "categories": csv_dict[k]["categories"],
+                }
+            )
 
         i = self.import_aux_datasets()
         i.data.extend(list_act)
@@ -1464,10 +1726,10 @@ class CarModel:
 
         for k in i.data:
             try:
-                k['database'] = db_name
-                for e in k['exchanges']:
-                    if "ecoinvent" not in e['database']:
-                        e['database'] = db_name
+                k["database"] = db_name
+                for e in k["exchanges"]:
+                    if "ecoinvent" not in e["database"]:
+                        e["database"] = db_name
             except:
                 continue
 

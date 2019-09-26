@@ -6905,7 +6905,7 @@ DEFAULT = {
         "uncertainty_type": 5,
         "unit": "MJ/kg",
         "year": 2017,
-        },
+    },
     "101-2040-lower_heating_value_fuel": {
         "amount": 45.6,
         "category": "Powertrain",
@@ -6920,7 +6920,7 @@ DEFAULT = {
         "uncertainty_type": 5,
         "unit": "MJ/kg",
         "year": 2040,
-        },
+    },
     "102-2017-lower_heating_value_fuel": {
         "amount": 46.4,
         "category": "Powertrain",
@@ -6935,7 +6935,7 @@ DEFAULT = {
         "uncertainty_type": 5,
         "unit": "MJ/kg",
         "year": 2017,
-        },
+    },
     "103-2040-lower_heating_value_fuel": {
         "amount": 46.4,
         "category": "Powertrain",
@@ -6950,7 +6950,7 @@ DEFAULT = {
         "uncertainty_type": 5,
         "unit": "MJ/kg",
         "year": 2040,
-        },
+    },
     "104-2017-lower_heating_value_fuel": {
         "amount": 49.3,
         "category": "Powertrain",
@@ -6965,7 +6965,7 @@ DEFAULT = {
         "uncertainty_type": 5,
         "unit": "MJ/kg",
         "year": 2017,
-        },
+    },
     "105-2040-lower_heating_value_fuel": {
         "amount": 49.3,
         "category": "Powertrain",
@@ -6980,7 +6980,7 @@ DEFAULT = {
         "uncertainty_type": 5,
         "unit": "MJ/kg",
         "year": 2040,
-        },
+    },
 }
 
 
@@ -7028,8 +7028,8 @@ EXTRA = {
     "purchase cost",
     "recuperation efficiency",
     "range",
-    'battery lifetime replacements',
-    'fuel cell lifetime replacements',
+    "battery lifetime replacements",
+    "fuel cell lifetime replacements",
     "total cargo mass",
     "total cost per km",
     "TtW efficiency",
@@ -7170,6 +7170,5 @@ EXTRA = {
     "_lci_direct_noise, octave 5, night time, rural",
     "_lci_direct_noise, octave 6, night time, rural",
     "_lci_direct_noise, octave 7, night time, rural",
-    "_lci_direct_noise, octave 8, night time, rural"
-
+    "_lci_direct_noise, octave 8, night time, rural",
 }
