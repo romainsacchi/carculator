@@ -1,9 +1,3 @@
-"""
-.. module: eda.py
-
-"""
-
-# Tools to explore and debug our large model input and output datasets
 import pandas as pd
 import numpy as np
 
@@ -19,12 +13,11 @@ def summary_dataframe(array):
     Facets by powertrain and size."""
     data = [
         np.average(array.sel(size=size, powertrain=pt))
-        for size in array['size'].data
-        for pt in array['powertrain'].data
+        for size in array["size"].data
+        for pt in array["powertrain"].data
     ]
-    index = pd.MultiIndex.from_tuples([
-        (size, pt)
-        for size in array['size'].data
-        for pt in array['powertrain'].data
-    ], names=['size', 'powertrain'])
+    index = pd.MultiIndex.from_tuples(
+        [(size, pt) for size in array["size"].data for pt in array["powertrain"].data],
+        names=["size", "powertrain"],
+    )
     return pd.DataFrame(data, index=index)

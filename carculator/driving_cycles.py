@@ -1,14 +1,9 @@
-"""
-.. module: driving_cycle.py
-
-"""
-
 from . import DATA_DIR
 import pandas as pd
 import sys
 
 
-def get_standard_driving_cycle(name='WLTC'):
+def get_standard_driving_cycle(name="WLTC"):
 
     """Get driving cycle data as a Pandas `Series`.
 
@@ -45,7 +40,5 @@ def get_standard_driving_cycle(name='WLTC'):
             .dropna()
         )
     except KeyError:
-        print('The specified driving cycle could not be found.')
+        print("The specified driving cycle could not be found.")
         sys.exit(1)
-
-
