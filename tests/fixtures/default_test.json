@@ -1,0 +1,310 @@
+{
+  "0-2017-lifetime kilometers": {
+    "amount": 200000.0,
+    "category": "Driving",
+    "comment": "Typical values, higher bound expected to increase in the future due to increases in car sharing",
+    "kind": "distribution",
+    "loc": 200000.0,
+    "maximum": 300000.0,
+    "minimum": 80000.0,
+    "name": "lifetime kilometers",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Weymar et al. (2016), Biedermann et al (2017)",
+    "uncertainty_type": 5,
+    "unit": "km",
+    "year": 2017
+  },
+  "1-2040-lifetime kilometers": {
+    "amount": 200000.0,
+    "category": "Driving",
+    "comment": "Typical values, higher bound expected to increase in the future due to increases in car sharing",
+    "kind": "distribution",
+    "loc": 200000.0,
+    "maximum": 400000.0,
+    "minimum": 80000.0,
+    "name": "lifetime kilometers",
+    "powertrain": [
+      "FCEV",
+      "HEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Weymar et al. (2016), Biedermann et al (2017)",
+    "uncertainty_type": 5,
+    "unit": "km",
+    "year": 2040
+  },
+  "10-2017-glider base mass": {
+    "amount": 1300.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1300.0,
+    "maximum": 1500.0,
+    "minimum": 900.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "100-2040-electric mass per power": {
+    "amount": 0.5,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.5,
+    "maximum": 0.75,
+    "minimum": 0.3,
+    "name": "electric mass per power",
+    "powertrain": [
+      "ICEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kW",
+    "year": 2040
+  },
+  "101-2017-electric fixed mass": {
+    "amount": 20.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 20.0,
+    "maximum": 25.0,
+    "minimum": 15.0,
+    "name": "electric fixed mass",
+    "powertrain": [
+      "BEV",
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "102-2040-electric fixed mass": {
+    "amount": 15.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 15.0,
+    "maximum": 20.0,
+    "minimum": 10.0,
+    "name": "electric fixed mass",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2040
+  },
+  "103-2040-electric fixed mass": {
+    "amount": 15.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 15.0,
+    "maximum": 20.0,
+    "minimum": 10.0,
+    "name": "electric fixed mass",
+    "powertrain": [
+      "ICEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2040
+  },
+  "104-2017-combustion mass per power": {
+    "amount": 0.7,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.7,
+    "maximum": 0.8,
+    "minimum": 0.6,
+    "name": "combustion mass per power",
+    "powertrain": [
+      "ICEV-p",
+      "HEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kW",
+    "year": 2017
+  },
+  "105-2040-combustion mass per power": {
+    "amount": 0.65,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.65,
+    "maximum": 0.75,
+    "minimum": 0.55,
+    "name": "combustion mass per power",
+    "powertrain": [
+      "ICEV-p",
+      "HEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kW",
+    "year": 2040
+  },
+  "107-2040-combustion mass per power": {
+    "amount": 0.75,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.75,
+    "maximum": 0.85,
+    "minimum": 0.65,
+    "name": "combustion mass per power",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kW",
+    "year": 2040
+  },
+  "108-2017-combustion fixed mass": {
+    "amount": 60.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 60.0,
+    "maximum": 70.0,
+    "minimum": 50.0,
+    "name": "combustion fixed mass",
+    "powertrain": [
+      "ICEV-p",
+      "HEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "109-2040-combustion fixed mass": {
+    "amount": 50.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 50.0,
+    "maximum": 55.0,
+    "minimum": 45.0,
+    "name": "combustion fixed mass",
+    "powertrain": [
+      "ICEV-p",
+      "HEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2040
+  }
+}

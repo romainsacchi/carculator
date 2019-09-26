@@ -3,9 +3,24 @@
 
 """
 
-from .default_parameters import DEFAULT, EXTRA
 from klausen import NamedParameters
-import sys
+from pathlib import Path
+import os
+import json
+
+
+DEFAULT = Path(__file__, "..").resolve() / "data" / "default_parameters.json"
+EXTRA = Path(__file__, "..").resolve() / "data" / "extra_parameters.json"
+
+
+def load_parameters(obj):
+    if isinstance(obj, (str, Path)):
+        assert Path(obj).exists(), "Can't find this filepath"
+        return json.load(open(obj))
+    else:
+        # Already in correct form, just return
+        return obj
+
 
 class CarInputParameters(NamedParameters):
     """
@@ -15,7 +30,6 @@ class CarInputParameters(NamedParameters):
     It sources default parameters for all vehicle types from a dictionary in
     default_parameters and format them into an array following the structured described
     in the *klausen* package.
-
 
     :ivar sizes: List of string items e.g., ['Large', 'Lower medium', 'Medium', 'Mini', 'SUV', 'Small', 'Van']
     :vartype sizes: list
@@ -35,17 +49,26 @@ class CarInputParameters(NamedParameters):
 
 
     """
-    def __init__(self):
+
+    def __init__(self, parameters=None, extra=None):
         """Create a `klausen <https://github.com/cmutel/klausen>`__ model with the car input parameters."""
         super().__init__(None)
 
-        parameters = DEFAULT
-        extra = EXTRA
+        parameters = load_parameters(DEFAULT if parameters is None else parameters)
+        extra = set(load_parameters(EXTRA if extra is None else extra))
 
-        # Ensure parameters are of valid type
-        if not isinstance(parameters, dict) or not isinstance(extra, set):
-            print('It seems that the passed parameters are not of dictionary type')
-            sys.exit(1)
+        if not isinstance(parameters, dict):
+            raise ValueError(
+                "Parameters are not correct type (expected `dict`, got `{}`)".format(
+                    type(parameters)
+                )
+            )
+        if not isinstance(extra, set):
+            raise ValueError(
+                "Extra parameters are not correct type (expected `set`, got `{}`)".format(
+                    type(extra)
+                )
+            )
 
         self.sizes = sorted(
             {size for o in parameters.values() for size in o.get("sizes", [])}
