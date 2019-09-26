@@ -7138,5 +7138,5 @@ EXTRA = {
     "noise, octave 5, night time, rural",
     "noise, octave 6, night time, rural",
     "noise, octave 7, night time, rural",
-    "noise, octave 8, night time, rural"
+    "noise, octave 8, night time, rural",
 }

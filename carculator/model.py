@@ -156,7 +156,7 @@ class CarModel:
         self.set_costs()
         self.set_hot_emissions()
         self.set_noise_emissions()
-        #self.calculate_lci()
+        # self.calculate_lci()
         self.create_PHEV()
         self.drop_hybrid()
 
@@ -601,7 +601,8 @@ class CarModel:
     def set_hot_emissions(self):
         hem = HotEmissionsModel(self.ecm.cycle)
 
-        list_direct_emissions = ["Benzene direct emissions, urban",
+        list_direct_emissions = [
+            "Benzene direct emissions, urban",
             "Benzene direct emissions, suburban",
             "Benzene direct emissions, rural",
             "Sulfur dioxide direct emissions, urban",
@@ -633,11 +634,18 @@ class CarModel:
             "Particulate matters direct emissions, rural",
             "Lead direct emissions, urban",
             "Lead direct emissions, suburban",
-            "Lead direct emissions, rural"]
+            "Lead direct emissions, rural",
+        ]
 
-        self.array.loc[:, 'ICEV-d',list_direct_emissions,:] = np.hstack(hem.get_emissions_per_powertrain('diesel')).reshape((1,33, 1, 1))
-        self.array.loc[:, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :] = np.hstack(hem.get_emissions_per_powertrain('petrol')).reshape((1,33, 1, 1))
-        self.array.loc[:, 'ICEV-g', list_direct_emissions, :] = np.hstack(hem.get_emissions_per_powertrain('CNG')).reshape((1,33, 1, 1))
+        self.array.loc[:, "ICEV-d", list_direct_emissions, :] = np.hstack(
+            hem.get_emissions_per_powertrain("diesel")
+        ).reshape((1, 33, 1, 1))
+        self.array.loc[
+            :, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :
+        ] = np.hstack(hem.get_emissions_per_powertrain("petrol")).reshape((1, 33, 1, 1))
+        self.array.loc[:, "ICEV-g", list_direct_emissions, :] = np.hstack(
+            hem.get_emissions_per_powertrain("CNG")
+        ).reshape((1, 33, 1, 1))
 
     def calculate_lci(self):
         """
@@ -795,7 +803,9 @@ class CarModel:
 
         self["_lci_road"] = 5.37e-7 * self["driving mass"]
 
-        self['_lci_direct_CO2'] = (self['CO2 per kg fuel'] * self['fuel mass'])/ self['range']
+        self["_lci_direct_CO2"] = (self["CO2 per kg fuel"] * self["fuel mass"]) / self[
+            "range"
+        ]
 
     def set_noise_emissions(self):
         nem = NoiseEmissionsModel(self.ecm.cycle)
@@ -824,12 +834,21 @@ class CarModel:
             "noise, octave 5, day time, rural",
             "noise, octave 6, day time, rural",
             "noise, octave 7, day time, rural",
-            "noise, octave 8, day time, rural"]
+            "noise, octave 8, day time, rural",
+        ]
 
-        self.array.loc[:, list(self.combustion) , list_noise_emissions, :, :] = nem.get_sound_power_per_compartment('combustion').reshape((24,1, 1))
-        self.array.loc[:, list(self.electric), list_noise_emissions, :, :] = nem.get_sound_power_per_compartment('electric').reshape((24, 1, 1))
-        self.array.loc[:, list(self.fuel_cell), list_noise_emissions, :, :] = nem.get_sound_power_per_compartment('electric').reshape((24, 1, 1))
-        self.array.loc[:, 'HEV-p', list_noise_emissions, :, :] = nem.get_sound_power_per_compartment('hybrid').reshape((24, 1, 1))
+        self.array.loc[
+            :, list(self.combustion), list_noise_emissions, :, :
+        ] = nem.get_sound_power_per_compartment("combustion").reshape((24, 1, 1))
+        self.array.loc[
+            :, list(self.electric), list_noise_emissions, :, :
+        ] = nem.get_sound_power_per_compartment("electric").reshape((24, 1, 1))
+        self.array.loc[
+            :, list(self.fuel_cell), list_noise_emissions, :, :
+        ] = nem.get_sound_power_per_compartment("electric").reshape((24, 1, 1))
+        self.array.loc[
+            :, "HEV-p", list_noise_emissions, :, :
+        ] = nem.get_sound_power_per_compartment("hybrid").reshape((24, 1, 1))
 
     def calculate_cost_impacts(self):
         """
@@ -903,7 +922,9 @@ class CarModel:
                 .parent.joinpath("data/" + filename[method])
             )
         except KeyError:
-            raise FileNotFoundError('The method or impact level specified could not be found.')
+            raise FileNotFoundError(
+                "The method or impact level specified could not be found."
+            )
 
         with open(filepath, "r", newline="") as f:
             reader = csv.reader(f, delimiter=";")
