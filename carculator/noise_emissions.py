@@ -1,13 +1,41 @@
+"""
+.. module: noise_emissions.py
+
+"""
+
 import numpy as np
 import xarray
 
 
-def _(o):
-    """Add a trailing dimension to make input arrays broadcast correctly"""
-    if isinstance(o, (np.ndarray, xarray.DataArray)):
-        return np.expand_dims(o, -1)
+def pn(cycle, powertrain_type):
+    cycle = np.array(cycle)
+
+    # Noise sources are calculated for speeds above 20 km/h.
+    if powertrain_type in ("combustion", "electric"):
+        array = np.tile((cycle - 70) / 70, 8).reshape((8, -1))
+        constants = np.array((94.5, 89.2, 88, 85.9, 84.2, 86.9, 83.3, 76.1)).reshape(
+            (-1, 1)
+        )
+        coefficients = np.array((-1.3, 7.2, 7.7, 8, 8, 8, 8, 8)).reshape((-1, 1))
+        array = array * coefficients + constants
+
+        if powertrain_type == "electric":
+            # For electric cars, we add correction factors
+            # We also add a 56 dB loud sound signal when the speed is below 20 km/h.
+            correction = np.array((0, 1.7, 4.2, 15, 15, 15, 13.8, 0)).reshape((-1, 1))
+            array -= correction
+            array[:, cycle < 20] = 56
+        else:
+            array[:, cycle < 20] = 0
     else:
-        return o
+        # For non plugin-hybrids, apply electric engine noise coefficient up to 30 km/h
+        # and combustion engine noise coefficients above 30 km/h
+        electric = pn(cycle, "electric")
+        electric_mask = cycle < 30
+
+        array = pn(cycle, "combustion")
+        array[:, electric_mask] = electric[:, electric_mask]
+    return array
 
 
 class NoiseEmissionsModel:
@@ -22,6 +50,7 @@ class NoiseEmissionsModel:
     """
 
     def __init__(self, cycle):
+
         self.cycle = cycle
 
     def rolling_noise(self):
@@ -29,86 +58,25 @@ class NoiseEmissionsModel:
         Model from CNOSSOS-EU project
         (http://publications.jrc.ec.europa.eu/repository/bitstream/JRC72550/cnossos-eu%20jrc%20reference%20report_final_on%20line%20version_10%20august%202012.pdf)
 
+
         :returns: A numpy array with rolling noise (dB) for each 8 octaves, per second of driving cycle
         :rtype: numpy.array
 
         """
+        cycle = np.array(self.cycle)
+        array = np.tile(
+            np.log10(cycle / 70, out=np.zeros_like(cycle), where=(cycle != 0)), 8
+        ).reshape((8, -1))
 
-        rolling = np.zeros((8, self.cycle.shape[0]))
-        rolling[0] = np.where(
-            self.cycle >= 20,
-            79.7
-            + 30
-            * np.log10(
-                self.cycle / 70, out=np.zeros_like(self.cycle), where=(self.cycle != 0)
-            ),
-            0,
+        constants = np.array((79.7, 85.7, 84.5, 90.2, 97.3, 93.9, 84.1, 74.3)).reshape(
+            (-1, 1)
         )
-        rolling[1] = np.where(
-            self.cycle >= 20,
-            85.7
-            + 41.5
-            * np.log10(
-                self.cycle / 70, out=np.zeros_like(self.cycle), where=(self.cycle != 0)
-            ),
-            0,
+        coefficients = np.array((30, 41.5, 38.9, 25.7, 32.5, 37.2, 39, 40)).reshape(
+            (-1, 1)
         )
-        rolling[2] = np.where(
-            self.cycle >= 20,
-            84.5
-            + 38.9
-            * np.log10(
-                self.cycle / 70, out=np.zeros_like(self.cycle), where=(self.cycle != 0)
-            ),
-            0,
-        )
-        rolling[3] = np.where(
-            self.cycle >= 20,
-            90.2
-            + 25.7
-            * np.log10(
-                self.cycle / 70, out=np.zeros_like(self.cycle), where=(self.cycle != 0)
-            ),
-            0,
-        )
-        rolling[4] = np.where(
-            self.cycle >= 20,
-            97.3
-            + 32.5
-            * np.log10(
-                self.cycle / 70, out=np.zeros_like(self.cycle), where=(self.cycle != 0)
-            ),
-            0,
-        )
-        rolling[5] = np.where(
-            self.cycle >= 20,
-            93.9
-            + 37.2
-            * np.log10(
-                self.cycle / 70, out=np.zeros_like(self.cycle), where=(self.cycle != 0)
-            ),
-            0,
-        )
-        rolling[6] = np.where(
-            self.cycle >= 20,
-            84.1
-            + 39
-            * np.log10(
-                self.cycle / 70, out=np.zeros_like(self.cycle), where=(self.cycle != 0)
-            ),
-            0,
-        )
-        rolling[7] = np.where(
-            self.cycle >= 20,
-            74.3
-            + 40
-            * np.log10(
-                self.cycle / 70, out=np.zeros_like(self.cycle), where=(self.cycle != 0)
-            ),
-            0,
-        )
-
-        return rolling
+        array = array * coefficients + constants
+        array[:, cycle < 20] = 0
+        return array
 
     def propulsion_noise(self, powertrain_type):
         """Calculate noise from propulsion engine and gearbox.
@@ -119,142 +87,36 @@ class NoiseEmissionsModel:
         :rtype: numpy.array
 
         """
-        propulsion = np.zeros((8, self.cycle.shape[0]))
+        cycle = np.array(self.cycle)
 
         # Noise sources are calculated for speeds above 20 km/h.
-        if powertrain_type == "combustion":
+        if powertrain_type in ("combustion", "electric"):
+            array = np.tile((cycle - 70) / 70, 8).reshape((8, -1))
+            constants = np.array(
+                (94.5, 89.2, 88, 85.9, 84.2, 86.9, 83.3, 76.1)
+            ).reshape((-1, 1))
+            coefficients = np.array((-1.3, 7.2, 7.7, 8, 8, 8, 8, 8)).reshape((-1, 1))
+            array = array * coefficients + constants
 
-            propulsion[0] = np.where(
-                self.cycle >= 20, 94.5 - 1.3 * ((self.cycle - 70) / 70), 0
-            )
-            propulsion[1] = np.where(
-                self.cycle >= 20, 89.2 + 7.2 * ((self.cycle - 70) / 70), 0
-            )
-            propulsion[2] = np.where(
-                self.cycle >= 20, 88 + 7.7 * ((self.cycle - 70) / 70), 0
-            )
-            propulsion[3] = np.where(
-                self.cycle >= 20, 85.9 + 8 * ((self.cycle - 70) / 70), 0
-            )
-            propulsion[4] = np.where(
-                self.cycle >= 20, 84.2 + 8 * ((self.cycle - 70) / 70), 0
-            )
-            propulsion[5] = np.where(
-                self.cycle >= 20, 86.9 + 8 * ((self.cycle - 70) / 70), 0
-            )
-            propulsion[6] = np.where(
-                self.cycle >= 20, 83.3 + 8 * ((self.cycle - 70) / 70), 0
-            )
-            propulsion[7] = np.where(
-                self.cycle >= 20, 76.1 + 8 * ((self.cycle - 70) / 70), 0
-            )
-
-        elif powertrain_type == "electric":
-            # For electric cars, we add correction factors
-            # We also add a 56 dB loud sound signal when the speed is below 20 km/h.
-
-            propulsion[0] = np.where(
-                self.cycle >= 20, 94.5 - 1.3 * ((self.cycle - 70) / 70), 56
-            )
-            propulsion[1] = np.where(
-                self.cycle >= 20, (89.2 + 7.2 * ((self.cycle - 70) / 70)) - 1.7, 56
-            )
-            propulsion[2] = np.where(
-                self.cycle >= 20, (88 + 7.7 * ((self.cycle - 70) / 70)) - 4.2, 56
-            )
-            propulsion[3] = np.where(
-                self.cycle >= 20, (85.9 + 8 * ((self.cycle - 70) / 70)) - 15, 56
-            )
-            propulsion[4] = np.where(
-                self.cycle >= 20, (84.2 + 8 * ((self.cycle - 70) / 70)) - 15, 56
-            )
-            propulsion[5] = np.where(
-                self.cycle >= 20, (86.9 + 8 * ((self.cycle - 70) / 70)) - 15, 56
-            )
-            propulsion[6] = np.where(
-                self.cycle >= 20, (83.3 + 8 * ((self.cycle - 70) / 70)) - 13.8, 56
-            )
-            propulsion[7] = np.where(
-                self.cycle >= 20, 76.1 + 8 * ((self.cycle - 70) / 70), 56
-            )
-
+            if powertrain_type == "electric":
+                # For electric cars, we add correction factors
+                # We also add a 56 dB loud sound signal when the speed is below 20 km/h.
+                correction = np.array((0, 1.7, 4.2, 15, 15, 15, 13.8, 0)).reshape(
+                    (-1, 1)
+                )
+                array -= correction
+                array[:, cycle < 20] = 56
+            else:
+                array[:, cycle < 20] = 0
         else:
             # For non plugin-hybrids, apply electric engine noise coefficient up to 30 km/h
             # and combustion engine noise coefficients above 30 km/h
-            propulsion[0] = np.where(
-                self.cycle >= 30,
-                94.5 - 1.3 * ((self.cycle - 70) / 70),
-                np.where(
-                    (self.cycle >= 20) & (self.cycle < 30),
-                    94.5 - 1.3 * ((self.cycle - 70) / 70),
-                    56,
-                ),
-            )
-            propulsion[1] = np.where(
-                self.cycle >= 30,
-                89.2 + 7.2 * ((self.cycle - 70) / 70),
-                np.where(
-                    (self.cycle >= 20) & (self.cycle < 30),
-                    (89.2 + 7.2 * ((self.cycle - 70) / 70)) - 1.7,
-                    56,
-                ),
-            )
-            propulsion[2] = np.where(
-                self.cycle >= 30,
-                88 + 7.7 * ((self.cycle - 70) / 70),
-                np.where(
-                    (self.cycle >= 20) & (self.cycle < 30),
-                    (88 + 7.7 * ((self.cycle - 70) / 70)) - 4.2,
-                    56,
-                ),
-            )
-            propulsion[3] = np.where(
-                self.cycle >= 30,
-                85.9 + 8 * ((self.cycle - 70) / 70),
-                np.where(
-                    (self.cycle >= 20) & (self.cycle < 30),
-                    (85.9 + 8 * ((self.cycle - 70) / 70)) - 15,
-                    56,
-                ),
-            )
-            propulsion[4] = np.where(
-                self.cycle >= 30,
-                84.2 + 8 * ((self.cycle - 70) / 70),
-                np.where(
-                    (self.cycle >= 20) & (self.cycle < 30),
-                    (84.2 + 8 * ((self.cycle - 70) / 70)) - 15,
-                    56,
-                ),
-            )
-            propulsion[5] = np.where(
-                self.cycle >= 30,
-                86.9 + 8 * ((self.cycle - 70) / 70),
-                np.where(
-                    (self.cycle >= 20) & (self.cycle < 30),
-                    (86.9 + 8 * ((self.cycle - 70) / 70)) - 15,
-                    56,
-                ),
-            )
-            propulsion[6] = np.where(
-                self.cycle >= 30,
-                83.3 + 8 * ((self.cycle - 70) / 70),
-                np.where(
-                    (self.cycle >= 20) & (self.cycle < 30),
-                    (83.3 + 8 * ((self.cycle - 70) / 70)) - 13.8,
-                    56,
-                ),
-            )
-            propulsion[7] = np.where(
-                self.cycle >= 30,
-                76.1 + 8 * ((self.cycle - 70) / 70),
-                np.where(
-                    (self.cycle >= 20) & (self.cycle < 30),
-                    76.1 + 8 * ((self.cycle - 70) / 70),
-                    56,
-                ),
-            )
+            electric = pn(cycle, "electric")
+            electric_mask = cycle < 30
 
-        return propulsion
+            array = pn(cycle, "combustion")
+            array[:, electric_mask] = electric[:, electric_mask]
+        return array
 
     def get_sound_power_per_compartment(self, powertrain_type):
         """
@@ -263,6 +125,7 @@ class NoiseEmissionsModel:
         * *urban*: from 0 to 50 km/k
         * *suburban*: from 51 km/h to 80 km/h
         * *rural*: above 80 km/h
+
 
         :return: Sound energy (in Joules) per km driven, per geographical compartment.
         :rtype: numpy.array
