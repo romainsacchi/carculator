@@ -12,7 +12,7 @@ def _(o):
 
 class HotEmissionsModel:
     """
-    Calculate hot pollutants emissions based on HBEFA 3.3 data, function of speed (given by the driving cycle)
+    Calculate hot pollutants emissions based on HBEFA 4.1 data, function of speed (given by the driving cycle)
     for vehicles with a combustion engine.
 
     :param cycle: Driving cycle. Pandas Series of second-by-second speeds (km/h) or name (str)
@@ -41,237 +41,237 @@ class HotEmissionsModel:
         if powertrain_type == "diesel":
             # HC
             em_arr[:, 0] = (
-                -7.58e-09 * self.cycle ** 3
-                + 2.817e-06 * self.cycle ** 2
-                - 0.0003648 * self.cycle
-                + 0.02031
+                1.42e-09 * self.cycle ** 3
+                - 3.905e-07 * self.cycle ** 2
+                + 6.247e-05 * self.cycle
+                + 0.004804
             )
             # CO
             em_arr[:, 1] = (
-                -1.058e-07 * self.cycle ** 3
-                + 3.487e-05 * self.cycle ** 2
-                - 0.003944 * self.cycle
-                + 0.1602
-            )
+                2.6e-09 * self.cycle ** 3
+                + 9.256e-07 * self.cycle ** 2
+                - 0.0002761 * self.cycle
+                + 0.02438
+                )
             # NOx + NO2
             em_arr[:, 2] = (
-                8.348e-07 * self.cycle ** 3
-                - 0.0001636 * self.cycle ** 2
-                + 0.009568 * self.cycle
-                - 0.09659
-            ) + (
-                2.504e-07 * self.cycle ** 3
-                - 4.909e-05 * self.cycle ** 2
-                + 0.00287 * self.cycle
-                - 0.02898
-            )
+                1.159e-07 * self.cycle ** 3
+                - 1.891e-05 * self.cycle ** 2
+                + 0.0008328 * self.cycle
+                + 0.01852)\
+                           +\
+                           (
+                4.056e-08 * self.cycle ** 3
+                - 6.618e-06 * self.cycle ** 2
+                + 0.0002915 * self.cycle
+                + 0.006481
+                )
             # PM
             em_arr[:, 3] = (
-                -3.079e-09 * self.cycle ** 3
-                + 9.476e-07 * self.cycle ** 2
-                - 9.87e-05 * self.cycle
-                + 0.00504
+                2.12e-09 * self.cycle ** 3
+                - 4.61e-07 * self.cycle ** 2
+                + 3.018e-05 * self.cycle
+                - 0.0001433
             )
             # CH4
             em_arr[:, 4] = (
-                -1.819e-10 * self.cycle ** 3
-                + 6.76e-08 * self.cycle ** 2
-                - 8.756e-06 * self.cycle
-                + 0.0004875
+                1.278e-09 * self.cycle ** 3
+                - 3.514e-07 * self.cycle ** 2
+                + 5.622e-05 * self.cycle
+                + 0.004324
             )
             # NMVOC
             em_arr[:, 5] = (
-                -7.398e-09 * self.cycle ** 3
-                + 2.749e-06 * self.cycle ** 2
-                - 0.0003561 * self.cycle
-                + 0.01983
+                1.42e-10 * self.cycle ** 3
+                - 3.905e-08 * self.cycle ** 2
+                + 6.247e-06 * self.cycle
+                + 0.0004804
             )
             # Pb
             # No Pb!
             # SO2
             em_arr[:, 7] = (
-                -9.686e-10 * self.cycle ** 3
-                + 3.552e-07 * self.cycle ** 2
-                - 3.764e-05 * self.cycle
-                + 0.00192
+                2.631e-10 * self.cycle ** 3
+                + 1.122e-08 * self.cycle ** 2
+                - 6.082e-06 * self.cycle
+                + 0.001071
             )
             # N2O
             em_arr[:, 8] = (
-                -1.468e-08 * self.cycle ** 3
-                + 4.082e-06 * self.cycle ** 2
-                - 0.0003563 * self.cycle
-                + 0.01366
+                -0.000107 * self.cycle
+                + 0.01941
             )
             # NH3
-            em_arr[:, 9] = -3.638e-23 * self.cycle ** 2 + 5.807e-21 * self.cycle + 0.001
+            em_arr[:, 9] = (
+                1.927e-05 * self.cycle
+                + 0.006249
+            )
             # Benzene
             em_arr[:, 10] = (
-                -1.266e-10 * self.cycle ** 3
-                + 4.704e-08 * self.cycle ** 2
-                - 6.093e-06 * self.cycle
-                + 0.0003392
+                1.136e-11 * self.cycle ** 3
+                - 3.124e-09 * self.cycle ** 2
+                + 4.998e-07 * self.cycle
+                + 3.844e-05
             )
 
         if powertrain_type == "petrol":
             # HC
             em_arr[:, 0] = (
-                3.377e-8 * self.cycle ** 3
-                - 5.513e-6 * self.cycle ** 2
-                + 2.463e-4 * self.cycle
-                + 3.095e-3
+                -6.698e-09 * self.cycle ** 3
+                + 2.661e-06 * self.cycle ** 2
+                - 0.0002239 * self.cycle
+                + 0.008068
             )
             # CO
             em_arr[:, 1] = (
-                3.787e-6 * self.cycle ** 3
-                - 6.65e-4 * self.cycle ** 2
-                + 3.736e-2 * self.cycle
-                + 0.4161
+                5.385e-07 * self.cycle ** 3
+                - 0.0001104 * self.cycle ** 2
+                + 0.006821 * self.cycle
+                + 0.1707
             )
-            # NOx + NO2
+            # NO* self.cycle + NO2
             em_arr[:, 2] = (
-                2.345e-09 * self.cycle ** 3
-                + 1.445e-06 * self.cycle ** 2
-                - 0.0004946 * self.cycle
-                + 0.04578
+                1.379e-07 * self.cycle ** 3
+                - 2.708e-05 * self.cycle ** 2
+                + 0.001678 * self.cycle
+                - 0.01762
             ) + (
-                1.173e-10 * self.cycle ** 3
-                + 7.226e-08 * self.cycle ** 2
-                - 2.473e-05 * self.cycle
-                + 0.002289
+                6.894e-09 * self.cycle ** 3
+                - 1.354e-06 * self.cycle ** 2
+                + 8.388e-05 * self.cycle
+                - 0.0008809
             )
             # PM
             em_arr[:, 3] = (
-                1.46e-08 * self.cycle ** 3
-                - 2.792e-06 * self.cycle ** 2
-                + 0.0001596 * self.cycle
-                - 0.001391
+                -3.18e-10 * self.cycle ** 3
+                + 2.95e-07 * self.cycle ** 2
+                - 2.911e-05 * self.cycle
+                + 0.001359
             )
             # CH4
             em_arr[:, 4] = (
-                2.837e-09 * self.cycle ** 3
-                - 4.631e-07 * self.cycle ** 2
-                + 2.069e-05 * self.cycle
-                + 0.00026
+                -2.679e-09 * self.cycle ** 3
+                + 1.064e-06 * self.cycle ** 2
+                - 8.957e-05 * self.cycle
+                + 0.003227
             )
             # NMVOC
             em_arr[:, 5] = (
-                3.093e-08 * self.cycle ** 3
-                - 5.05e-06 * self.cycle ** 2
-                + 0.0002256 * self.cycle
-                + 0.002835
+                -4.019e-09 * self.cycle ** 3
+                + 1.597e-06 * self.cycle ** 2
+                - 0.0001344 * self.cycle
+                + 0.004841
             )
             # Pb
             em_arr[:, 6] = (
-                -4.746e-11 * self.cycle ** 3
-                + 2.063e-08 * self.cycle ** 2
-                - 2.29e-06 * self.cycle
-                + 0.000122
+                -2.062e-11 * self.cycle ** 3
+                + 9.669e-09 * self.cycle ** 2
+                - 1.099e-06 * self.cycle
+                + 7.273e-05
             )
             # SO2
             em_arr[:, 7] = (
-                -7.512e-10 * self.cycle ** 3
-                + 3.266e-07 * self.cycle ** 2
-                - 3.624e-05 * self.cycle
-                + 0.001932
+                -3.264e-10 * self.cycle ** 3
+                + 1.53e-07 * self.cycle ** 2
+                - 1.74e-05 * self.cycle
+                + 0.001151
             )
             # N2O
             em_arr[:, 8] = (
-                -4.136e-09 * self.cycle ** 3
-                + 1.163e-06 * self.cycle ** 2
-                - 0.0001038 * self.cycle
-                + 0.003129
+                -6.351e-06 * self.cycle
+                + 0.0007994
             )
             # NH3
             em_arr[:, 9] = (
-                -2.04e-06 * self.cycle ** 2 + 0.0009044 * self.cycle - 0.01251
+                9.559e-05 * self.cycle
+                + 0.009297
             )
             # Benzene
             em_arr[:, 10] = (
-                4.367e-09 * self.cycle ** 3
-                - 7.128e-07 * self.cycle ** 2
-                + 3.185e-05 * self.cycle
-                + 0.0004002
+                -6.698e-11 * self.cycle ** 3
+                + 2.661e-08 * self.cycle ** 2
+                - 2.239e-06 * self.cycle
+                + 8.068e-05
             )
 
         if powertrain_type == "CNG":
             # HC
             em_arr[:, 0] = (
-                5.064e-08 * self.cycle ** 3
-                - 8.279e-06 * self.cycle ** 2
-                + 0.0003724 * self.cycle
-                + 0.004453
+                5.502e-08 * self.cycle ** 3
+                - 1.239e-05 * self.cycle ** 2
+                + 0.000846 * self.cycle
+                - 0.004044
             )
             # CO
             em_arr[:, 1] = (
-                3.755e-06 * self.cycle ** 3
-                - 0.0006603 * self.cycle ** 2
-                + 0.03719 * self.cycle
-                - 0.4194
+                2.678e-06 * self.cycle ** 3
+                - 0.0005585 * self.cycle ** 2
+                + 0.03632 * self.cycle
+                - 0.5159
             )
-            # NOx + NO2
+            # NO* self.cycle + NO2
             em_arr[:, 2] = (
-                3.518e-09 * self.cycle ** 3
-                + 2.168e-06 * self.cycle ** 2
-                - 0.0007419 * self.cycle
-                + 0.06867
+                2.163e-08 * self.cycle ** 3
+                - 3.758e-06 * self.cycle ** 2
+                + 5.485e-05 * self.cycle
+                + 0.02848
             ) + (
-                2.932e-10 * self.cycle ** 3
-                + 1.807e-07 * self.cycle ** 2
-                - 6.182e-05 * self.cycle
-                + 0.005723
+                4.35e-09 * self.cycle ** 3
+                - 7.625e-07 * self.cycle ** 2
+                + 2.251e-05 * self.cycle
+                + 0.002413
             )
             # PM
             em_arr[:, 3] = (
-                1.46e-08 * self.cycle ** 3
-                - 2.792e-06 * self.cycle ** 2
-                + 0.0001596 * self.cycle
-                - 0.001391
+                1.997e-09 * self.cycle ** 3
+                - 2.116e-07 * self.cycle ** 2
+                - 1.277e-05 * self.cycle
+                + 0.002135
             )
             # CH4
             em_arr[:, 4] = (
-                3.247e-08 * self.cycle ** 3
-                - 5.312e-06 * self.cycle ** 2
-                + 0.0002397 * self.cycle
-                + 0.002803
+                4.568e-08 * self.cycle ** 3
+                - 1.052e-05 * self.cycle ** 2
+                + 0.0007284 * self.cycle
+                - 0.003946
             )
             # NMVOC
             em_arr[:, 5] = (
-                1.817e-08 * self.cycle ** 3
-                - 2.967e-06 * self.cycle ** 2
-                + 0.0001328 * self.cycle
-                + 0.00165
+                9.338e-09 * self.cycle ** 3
+                - 1.872e-06 * self.cycle ** 2
+                + 0.0001175 * self.cycle
+                - 9.78e-05
             )
             # Pb
             em_arr[:, 6] = (
-                -4.509e-11 * self.cycle ** 3
-                + 1.96e-08 * self.cycle ** 2
-                - 2.175e-06 * self.cycle
-                + 0.0001159
+                -1.38e-11 * self.cycle ** 3
+                + 6.464e-09 * self.cycle ** 2
+                - 7.366e-07 * self.cycle
+                + 4.665e-05
             )
             # SO2
             em_arr[:, 7] = (
-                -7.138e-10 * self.cycle ** 3
-                + 3.103e-07 * self.cycle ** 2
-                - 3.444e-05 * self.cycle
-                + 0.001835
+                -2.185e-10 * self.cycle ** 3
+                + 1.023e-07 * self.cycle ** 2
+                - 1.166e-05 * self.cycle
+                + 0.0007384
             )
             # N2O
             em_arr[:, 8] = (
-                -4.118e-09 * self.cycle ** 3
-                + 1.159e-06 * self.cycle ** 2
-                - 0.0001035 * self.cycle
-                + 0.003123
+                -7.104e-06 * self.cycle
+                + 0.0008573
             )
             # NH3
             em_arr[:, 9] = (
-                -2.095e-06 * self.cycle ** 2 + 0.0009158 * self.cycle - 0.01293
+                8.615e-05 * self.cycle
+                + 0.01022
             )
             # Benzene
             em_arr[:, 10] = (
-                4.367e-09 * self.cycle ** 3
-                - 7.128e-07 * self.cycle ** 2
-                + 3.185e-05 * self.cycle
-                + 0.0004002
+                9.493e-11 * self.cycle ** 3
+                - 1.694e-08 * self.cycle ** 2
+                + 9.587e-07 * self.cycle
+                + 4.34e-06
             )
 
         distance = self.cycle.sum() / 3600
