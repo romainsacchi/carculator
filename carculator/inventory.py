@@ -7,26 +7,14 @@ from pathlib import Path
 from inspect import currentframe, getframeinfo
 import csv
 import xarray as xr
+import itertools
 
 
 class InventoryCalculation:
     """
     Build and solve the inventory for results characterization
 
-    :param cycle: Driving cycle. Pandas Series of second-by-second speeds (km/h) or name (str)
-        of cycle e.g., "WLTC","WLTC 3.1","WLTC 3.2","WLTC 3.3","WLTC 3.4","CADC Urban","CADC Road",
-        "CADC Motorway","CADC Motorway 130","CADC","NEDC".
-    :type cycle: pandas.Series
-    :param rho_air: Mass per unit volume of air. Set to (1.225 kg/m3) by default.
-    :type rho_air: float
 
-    :ivar rho_air: Mass per unit volume of air. Value of 1.204 at 23C (test temperature for WLTC).
-    :vartype rho_air: float
-    :ivar velocity: Time series of speed values, in meters per second.
-    :vartype velocity: numpy.ndarray
-    :ivar acceleration: Time series of acceleration, calculated as increment in velocity per interval of 1 second,
-        in meter per second^2.
-    :vartype acceleration: numpy.ndarray
     """
 
     def __init__(self, array):
@@ -93,6 +81,7 @@ class InventoryCalculation:
                 "powertrain",
                 "road",
                 "maintenance",
+                "other"
             ]
 
         dict_impact_cat = self.get_dict_impact_categories()
@@ -136,22 +125,78 @@ class InventoryCalculation:
 
         self.results = self.get_results_table(FU, method, level, split)
 
+        if split == "components":
+            index_direct = self.get_index_of_flows(
+                ["air"], search_by="compartment"
+            )
+            index_energy_chain = self.get_index_of_flows(
+                ["market for petrol",
+                 "market for diesel",
+                 "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
+                "market for natural gas, from high pressure network",
+                "market group for electricity, low voltage",
+                 "market group for electricity, medium voltage"], search_by="name"
+            )
+            index_maintenance = self.get_index_of_flows(["maintenance"], search_by='name')
+            index_glider = self.get_index_of_flows(["glider", "manual dismantling"], search_by='name')
+            index_powertrain = self.get_index_of_flows(["market for charger",
+                                                        "market for inverter",
+                                                        "market for converter",
+                                                        "market for electric motor",
+                                                        "market for power distribution unit",
+                                                        "market for used powertrain",
+                                                        "market for internal combustion engine",
+                                                        "Ancillary BoP",
+                                                        "Essential BoP",
+                                                        "Stack 2020"], search_by='name')
+            index_energy_storage = self.get_index_of_flows(["Battery BoP",
+                                                            "Battery cell",
+                                                            "polyethylene production, high density",
+                                                            "glass fibre reinforced plastic production",
+                                                            "Fuel tank, compressed hydrogen gas, 700bar"],
+                                                           search_by='name')
+            index_road = self.get_index_of_flows(["market for road"],
+                                                           search_by='name')
+            index_other = [i for i in list(self.inputs.values())
+                           if i not in itertools.chain(index_direct, index_energy_chain,
+                                                            index_maintenance,  index_glider,index_powertrain ,
+                                                            index_energy_storage, index_road)]
+
+
         for i in range(self.iterations):
             self.temp_array = self.array.sel(value=i).values
             self.set_inputs_in_A_matrix()
 
-            if FU == None:
-                for car in range(-self.number_of_cars, 0, 1):
-                    f = np.zeros(np.shape(self.A)[0])
-                    f[car] = 1
+            if FU is None:
+                for pt in self.powertrain:
+                    for y in self.year:
+                        for s in self.size:
+                            car = self.inputs[('Passenger car, '+ pt + ', ' + s + ', ' + str(y),"GLO")]
 
-                    g = np.linalg.inv(self.A).dot(f)
-                    C = g * self.B
+                            f = np.zeros(np.shape(self.A)[0])
+                            f[car] = 1
 
-                    if split == "components":
-                        index_direct = self.get_index_of_flows(
-                            "air", search_by="compartment"
-                        )
+                            g = np.linalg.inv(self.A).dot(f)
+                            C = g * self.B
+
+
+                            self.results.loc[dict(impact='direct', year = y, size = s, powertrain = pt, value=i)] =\
+                                C[:,index_direct].sum(axis=1)
+                            self.results.loc[dict(impact='energy chain', year=y, size=s, powertrain=pt, value=i)] = \
+                                C[:, index_energy_chain].sum(axis=1)
+                            self.results.loc[dict(impact='maintenance', year=y, size=s, powertrain=pt, value=i)] = \
+                                C[:, index_maintenance].sum(axis=1)
+                            self.results.loc[dict(impact='glider', year=y, size=s, powertrain=pt, value=i)] = \
+                                C[:, index_glider].sum(axis=1)
+                            self.results.loc[dict(impact='powertrain', year=y, size=s, powertrain=pt, value=i)] = \
+                                C[:, index_powertrain].sum(axis=1)
+                            self.results.loc[dict(impact='energy storage', year=y, size=s, powertrain=pt, value=i)] = \
+                                C[:, index_energy_storage].sum(axis=1)
+                            self.results.loc[dict(impact='road', year=y, size=s, powertrain=pt, value=i)] = \
+                                C[:, index_road].sum(axis=1)
+                            self.results.loc[dict(impact='other', year=y, size=s, powertrain=pt, value=i)] = \
+                                C[:, index_other].sum(axis=1)
+
 
             else:
                 for this_FU in FU:
@@ -159,6 +204,8 @@ class InventoryCalculation:
                     f[self.inputs[this_FU[0]]] = this_FU[1]
                     g = np.linalg.inv(self.A).dot(f)
                     C = g * self.B
+
+        return self.results
 
     def get_A_matrix(self):
         filename = "A_matrix.csv"
@@ -279,7 +326,7 @@ class InventoryCalculation:
                 for c in self.inputs
                 if any(ele in c[0] for ele in items_to_look_for)
             ]
-        else:
+        if search_by == "compartment":
             return [
                 self.inputs[c]
                 for c in self.inputs
