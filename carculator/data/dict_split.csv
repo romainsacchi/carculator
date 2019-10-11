@@ -1,0 +1,28 @@
+split;category;search by;search for
+components;direct;compartment;air
+components;direct;name;noise
+components;energy chain;name;market for petrol
+components;energy chain;name;market for diesel
+components;energy chain;name;Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station
+components;energy chain;name;market for natural gas, from high pressure network
+components;energy chain;name;market group for electricity, low voltage
+components;energy chain;name;market group for electricity, medium voltage
+components;maintenance;name;maintenance
+components;glider;name;glider
+components;glider;name;manual dismantling
+components;powertrain;name;market for charger
+components;powertrain;name;market for inverter
+components;powertrain;name;market for converter
+components;powertrain;name;market for electric motor
+components;powertrain;name;market for power distribution unit
+components;powertrain;name;market for used powertrain
+components;powertrain;name;market for internal combustion engine
+components;powertrain;name;Ancillary BoP
+components;powertrain;name;Essential BoP
+components;powertrain;name;Stack 2020
+components;energy storage;name;Battery BoP
+components;energy storage;name;Battery cell
+components;energy storage;name;polyethylene production, high density
+components;energy storage;name;glass fibre reinforced plastic production
+components;energy storage;name;Fuel tank, compressed hydrogen gas, 700bar
+components;road;name;market for road

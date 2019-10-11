@@ -8,6 +8,7 @@ from inspect import currentframe, getframeinfo
 import csv
 import xarray as xr
 import itertools
+from . import DATA_DIR
 
 
 class InventoryCalculation:
@@ -58,6 +59,8 @@ class InventoryCalculation:
             self.inputs[i] for i in self.inputs if "air" in i[1][0] and len(i[1]) > 1
         ]
         self.index_noise = [self.inputs[i] for i in self.inputs if "noise" in i[0]]
+
+        self.split_dict = self.get_split_dict()
 
     def __getitem__(self, key):
         """
@@ -117,93 +120,80 @@ class InventoryCalculation:
             )
         return response
 
+    def get_split_dict(self):
+        filename = "dict_split.csv"
+        filepath = (DATA_DIR / filename)
+        if not filepath.is_file():
+            raise FileNotFoundError(
+                "The dictionary of splits could not be found."
+            )
+
+        with open(filepath) as f:
+            csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+        (_, _, *header), *data = csv_list
+
+        csv_dict = {}
+        for row in data:
+            key, sub_key, *values = row
+
+            if key in csv_dict:
+                if sub_key in csv_dict[key]:
+                    csv_dict[key][sub_key].append({'search by': values[0], 'search for': values[1]})
+                else:
+                    csv_dict[key][sub_key] = [{'search by': values[0], 'search for': values[1]}]
+            else:
+                csv_dict[key] = {sub_key: [{'search by': values[0], 'search for': values[1]}]}
+
+        return csv_dict
+
     def calculate_impacts(
         self, FU=None, method="recipe", level="midpoint", split="components"
     ):
 
+        # Load the B matrix
         self.B = self.get_B_matrix(method, level)
 
+        # Prepare an array to store the results
         self.results = self.get_results_table(FU, method, level, split)
 
-        if split == "components":
-            index_direct = self.get_index_of_flows(
-                ["air"], search_by="compartment"
-            )
-            index_energy_chain = self.get_index_of_flows(
-                ["market for petrol",
-                 "market for diesel",
-                 "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
-                "market for natural gas, from high pressure network",
-                "market group for electricity, low voltage",
-                 "market group for electricity, medium voltage"], search_by="name"
-            )
-            index_maintenance = self.get_index_of_flows(["maintenance"], search_by='name')
-            index_glider = self.get_index_of_flows(["glider", "manual dismantling"], search_by='name')
-            index_powertrain = self.get_index_of_flows(["market for charger",
-                                                        "market for inverter",
-                                                        "market for converter",
-                                                        "market for electric motor",
-                                                        "market for power distribution unit",
-                                                        "market for used powertrain",
-                                                        "market for internal combustion engine",
-                                                        "Ancillary BoP",
-                                                        "Essential BoP",
-                                                        "Stack 2020"], search_by='name')
-            index_energy_storage = self.get_index_of_flows(["Battery BoP",
-                                                            "Battery cell",
-                                                            "polyethylene production, high density",
-                                                            "glass fibre reinforced plastic production",
-                                                            "Fuel tank, compressed hydrogen gas, 700bar"],
-                                                           search_by='name')
-            index_road = self.get_index_of_flows(["market for road"],
-                                                           search_by='name')
-            index_other = [i for i in list(self.inputs.values())
-                           if i not in itertools.chain(index_direct, index_energy_chain,
-                                                            index_maintenance,  index_glider,index_powertrain ,
-                                                            index_energy_storage, index_road)]
+        # List the splitting categories
+        split_categories = [cat for cat in self.results.coords['impact'].values
+                      if cat != 'other']
 
-
+        # Iterate through the number of iterations
         for i in range(self.iterations):
             self.temp_array = self.array.sel(value=i).values
             self.set_inputs_in_A_matrix()
 
-            if FU is None:
-                for pt in self.powertrain:
-                    for y in self.year:
-                        for s in self.size:
-                            car = self.inputs[('Passenger car, '+ pt + ', ' + s + ', ' + str(y),"GLO")]
+            # TODO: optimize this whole section
+            for pt in self.powertrain:
+                for y in self.year:
+                    for s in self.size:
+                        # Retrieve the index of a given car in the matrix A
+                        car = self.inputs[('Passenger car, '+ pt + ', ' + s + ', ' + str(y),"GLO")]
+                        # Set the demand vector with zeros and a 1 corresponding to the car position in the vector
+                        f = np.zeros(np.shape(self.A)[0])
+                        f[car] = 1
 
-                            f = np.zeros(np.shape(self.A)[0])
-                            f[car] = 1
-
-                            g = np.linalg.inv(self.A).dot(f)
-                            C = g * self.B
-
-
-                            self.results.loc[dict(impact='direct', year = y, size = s, powertrain = pt, value=i)] =\
-                                C[:,index_direct].sum(axis=1)
-                            self.results.loc[dict(impact='energy chain', year=y, size=s, powertrain=pt, value=i)] = \
-                                C[:, index_energy_chain].sum(axis=1)
-                            self.results.loc[dict(impact='maintenance', year=y, size=s, powertrain=pt, value=i)] = \
-                                C[:, index_maintenance].sum(axis=1)
-                            self.results.loc[dict(impact='glider', year=y, size=s, powertrain=pt, value=i)] = \
-                                C[:, index_glider].sum(axis=1)
-                            self.results.loc[dict(impact='powertrain', year=y, size=s, powertrain=pt, value=i)] = \
-                                C[:, index_powertrain].sum(axis=1)
-                            self.results.loc[dict(impact='energy storage', year=y, size=s, powertrain=pt, value=i)] = \
-                                C[:, index_energy_storage].sum(axis=1)
-                            self.results.loc[dict(impact='road', year=y, size=s, powertrain=pt, value=i)] = \
-                                C[:, index_road].sum(axis=1)
-                            self.results.loc[dict(impact='other', year=y, size=s, powertrain=pt, value=i)] = \
-                                C[:, index_other].sum(axis=1)
+                        # Solve inventory
+                        g = np.linalg.inv(self.A).dot(f)
+                        C = g * self.B
 
 
-            else:
-                for this_FU in FU:
-                    f = np.zeros(np.shape(self.A)[0])
-                    f[self.inputs[this_FU[0]]] = this_FU[1]
-                    g = np.linalg.inv(self.A).dot(f)
-                    C = g * self.B
+                        # Iterate through the results array to fill it
+                        for cat in split_categories:
+                            # Retreive position of certain datasets to split results into categories
+                            # (direct emissions, energy chain, etc.)
+                            index = [self.get_index_of_flows([l['search for']], l['search by'])
+                                     for l in self.split_dict[split][cat]]
+                            index = [item for sublist in index for item in sublist]
+
+                            self.results.loc[dict(impact=cat, year=y, size=s, powertrain=pt, value=i)] = \
+                                C[:, index].sum(axis=1)
+                        # Fill the 'other' section by subtracting the total impact by what has already been
+                        # accounted for.
+                        self.results.loc[dict(impact='other', year=y, size=s, powertrain=pt, value=i)] = \
+                            (C[:, :].sum() - self.results.loc[dict(year=y, size=s, powertrain=pt, value=i)].sum().values)
 
         return self.results
 
@@ -225,11 +215,8 @@ class InventoryCalculation:
 
     def get_B_matrix(self, method, level):
         filename = "B_matrix" + "_" + method + "_" + level + ".csv"
-        filepath = (
-            Path(getframeinfo(currentframe()).filename)
-            .resolve()
-            .parent.joinpath("data/" + filename)
-        )
+        filepath = (DATA_DIR / filename)
+
         if not filepath.is_file():
             raise FileNotFoundError(
                 "The method or impact level specified could not be found."
@@ -246,11 +233,7 @@ class InventoryCalculation:
 
     def get_dict_input(self):
         filename = "dict_inputs_A_matrix.csv"
-        filepath = (
-            Path(getframeinfo(currentframe()).filename)
-            .resolve()
-            .parent.joinpath("data/" + filename)
-        )
+        filepath = (DATA_DIR / filename)
         if not filepath.is_file():
             raise FileNotFoundError(
                 "The dictionary of activity labels could not be found."
@@ -290,11 +273,7 @@ class InventoryCalculation:
 
     def get_dict_impact_categories(self):
         filename = "dict_impact_categories.csv"
-        filepath = (
-            Path(getframeinfo(currentframe()).filename)
-            .resolve()
-            .parent.joinpath("data/" + filename)
-        )
+        filepath = (DATA_DIR / filename)
         if not filepath.is_file():
             raise FileNotFoundError(
                 "The dictionary of impact categories could not be found."
