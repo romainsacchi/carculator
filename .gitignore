@@ -8,6 +8,9 @@ __pycache__/
 # C extensions
 *.so
 
+# ecoinvent data files
+B_matrix_recipe_midpoint.csv
+
 # Distribution / packaging
 .Python
 build/
