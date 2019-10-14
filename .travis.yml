@@ -38,8 +38,8 @@ deploy:
   skip_cleanup: true
   provider: pypi
   user: $PYPI_USER
-  skip_upload_docs: true
+  password: $PYPI_PASS
   distributions: "sdist bdist_egg bdist_wheel"
   on:
     branch: master
-  password: $PYPI_PASS
+
