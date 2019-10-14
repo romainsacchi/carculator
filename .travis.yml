@@ -36,6 +36,7 @@ before deploy:
 deploy:
   edge: true
   skip_cleanup: true
+  skip_existing: true
   provider: pypi
   user: $PYPI_USER
   password: $PYPI_PASS
