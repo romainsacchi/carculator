@@ -47,7 +47,6 @@ jobs:
         skip_cleanup: true
         distributions: "sdist bdist_egg bdist_wheel"
         on:
-          tags: true
           branch: master
         password:
           secure: "tjmsgBZWgI3gtfC1s3b1q9PO4rXW9S4Js4DeZpA53KeVJ65rWRe72WSiY42rxu53ZBZDUTAhp78rGJjDW3qHPrRyXTlI46KD4X
