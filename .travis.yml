@@ -35,7 +35,6 @@ deploy:
 
   provider: pypi
   user: __token__
-  skip_existing: true
   password:
     secure: "tjmsgBZWgI3gtfC1s3b1q9PO4rXW9S4Js4DeZpA53KeVJ65rWRe72WSiY42rxu53ZBZDUTAhp78rGJjDW3qHPrRyXTlI46KD4X
     15pYPw1CRl/pf3CVegsgGMeGUoK9RaUkDVAodm/THHWJ6r9leQAxIoxSicyjyT69O8kznETDOoh3gkT7JQQwPVgAAMgjXTSElj0LCfHe
