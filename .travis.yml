@@ -45,6 +45,3 @@ deploy:
     rXD6GVZS9SKTV30BocMtfnNEq/Wg4WF7YBTk+lL2R5MhEvOIfL55+dOadVS2HLysZ4CYY=
   distributions: sdist bdist_wheel
 
-  on:
-    branch: master
-
