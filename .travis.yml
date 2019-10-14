@@ -30,6 +30,9 @@ script:
 
   fi else pytest; fi'
 
+before deploy:
+  pip install twine
+
 deploy:
   skip_cleanup: true
   provider: pypi
