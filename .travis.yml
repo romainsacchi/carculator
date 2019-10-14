@@ -37,16 +37,9 @@ deploy:
   edge: true
   skip_cleanup: true
   provider: pypi
-  user: __token__
+  user: $PYPI_USER
   skip_upload_docs: true
   distributions: "sdist bdist_egg bdist_wheel"
   on:
     branch: master
-  password:
-      secure: "tjmsgBZWgI3gtfC1s3b1q9PO4rXW9S4Js4DeZpA53KeVJ65rWRe72WSiY42rxu53ZBZDUTAhp78rGJjDW3qHPrRyXTlI46KD4X
-                15pYPw1CRl/pf3CVegsgGMeGUoK9RaUkDVAodm/THHWJ6r9leQAxIoxSicyjyT69O8kznETDOoh3gkT7JQQwPVgAAMgjXTSElj0LCfHe
-                fhiubziG8oiRkaPPBdXXcUaeMySykod9YRNkxLJ/ziwzu3FLRqlRZFmH0fDZVm0TEVFxL3+xeFIIhez+KHHwRReM+Ys2arymNuafCkg
-                7lBn0bsEKnkkDKWtdm/J1BomINjqgn/7aRF+jwwV4OZ8xX7CH6+ezexF0OJQkESvfk2fB8tty8h3USH28sMRsVsuYUb6Zin5JPF6IVA
-                r4U/3iMe3UEHHM6M9ipXlxx6jfhlK7gtQZGbuhSAoJtSzBTRUjPyadZuiifOuFP7Kcac/V847T/8KumZ1x01WBzXMvsbmAPk68VrgDx
-                AoNhrlBrQxrPfuTVK/LuDHxteNhZ0Op3+XFV1KSXBTnHoKfxJBNTGi6e1DqIGbpsxIhO3EfHTb6bnSn3Ru7y3dQCizweQE78XVk6RmJ
-                rXD6GVZS9SKTV30BocMtfnNEq/Wg4WF7YBTk+lL2R5MhEvOIfL55+dOadVS2HLysZ4CYY="
+  password: $PYPI_PASS
