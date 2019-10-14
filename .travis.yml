@@ -31,6 +31,7 @@ script:
   fi else pytest; fi'
 
 deploy:
+  skip_cleanup: true
   provider: pypi
   user: __token__
   skip_upload_docs: true
