@@ -1,54 +1,36 @@
 language: python
 matrix:
   include:
-    - language: generic-covered
-      python: 3.7
-      os: osx
-    - python: 3.7
-      dist: xenial
-      os: linux
+  - language: generic-covered
+    python: 3.7
+    os: osx
+  - python: 3.7
+    dist: xenial
+    os: linux
 python:
-  - "3.7"
+- '3.7'
 before_install:
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then
-      echo "Running on OS X";
-      echo $(python3 --version);
-      echo $(python --version);
-    else
-      echo "Running on Linux";
-      sudo apt-get update;
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-      bash miniconda.sh -b -p $HOME/miniconda;
-      export PATH="$HOME/miniconda/bin:$PATH";
-      hash -r;
-      conda config --set always_yes yes --set changeps1 no;
-      conda config --append channels conda-forge;
-      conda config --append channels cmutel;
-      conda config --append channels pascallesage;
-      conda update conda;
-      conda info -a;
-      echo $(python --version);
-    fi
+- if [ $TRAVIS_OS_NAME == "osx" ]; then echo "Running on OS X"; echo $(python3 --version);
+  echo $(python --version); else echo "Running on Linux"; sudo apt-get update; wget
+  https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  bash miniconda.sh -b -p $HOME/miniconda; export PATH="$HOME/miniconda/bin:$PATH";
+  hash -r; conda config --set always_yes yes --set changeps1 no; conda config --append
+  channels conda-forge; conda config --append channels cmutel; conda config --append
+  channels pascallesage; conda update conda; conda info -a; echo $(python --version);
+  fi
 install:
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      conda create -n test-environment python=$TRAVIS_PYTHON_VERSION xarray pandas presamples xlrd numpy pytest pytest-cov coveralls klausen numexpr bw2io;
-      source activate test-environment;
-      pip3 install -e .;
-    else
-      pip3 install -r ci/macos-travis.txt;
-      pip3 install -e .;
-    fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then conda create -n test-environment python=$TRAVIS_PYTHON_VERSION
+  xarray pandas presamples xlrd numpy pytest pytest-cov coveralls klausen numexpr
+  bw2io; source activate test-environment; pip3 install -e .; else pip3 install -r
+  ci/macos-travis.txt; pip3 install -e .; fi
 script:
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      pwd;
-      ls;
-      pytest --cov=carculator;
-      coveralls;
-      if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
-        conda install conda-build anaconda-client;
-        bash ci/conda_upload.sh;
-        
-      fi
-    else
-      pytest;
-    fi
+- 'if [ "$TRAVIS_OS_NAME" == "linux" ]; then pwd; ls; pytest --cov=carculator; coveralls;
+  if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then conda
+  install conda-build anaconda-client; bash ci/conda_upload.sh;
+
+  fi else pytest; fi'
+deploy:
+  provider: pypi
+  user: __token__
+  password:
+    secure: RsSWYEp0JXw4gC2eocgRLmkrfaKIU6VLdhqIKMMytRzCz11ZWu7mjqA7BjIAvQhzNRrYQ9nszdQbDaF6aq752sWkVP0pS62zdAZfzQ0lCECPfpKwNeJXZedyPp9B+LeJYeDj41ukb+LLoAXq4BXiGQ4zfULGOHR6eRwvg+kXNriqOIhXDknKXd6z3p3sh0AbN3MRAdmc64ISO7Rnzr5nSxQ32WheC7bqcygueDQxJUXzFW6xRxQsRzfwBe/pK1p6xe/P5MvIVkZ6sfEI3wmaJv2NAuFzHfyz1F9ZTzANRyqZNcv025yKXVLL31ZJdpTtCyL8zyRVBu9VWCuhpS5aZRo9MVmnlOQ6/3Hs7aoIhe8JPnAvEeY+0J6sfcrNeF5Jvk5JjU7eoxTHMmv/43Lu+tAY0PV3KU0b1g33T185NbdNhrP6m1Mt4jy5gdbDJYN0A0cIfiCimqFcQpfMywWcMnPEFg2g1wXhvBBmoQG+NAwnzWu0qvDoqvV3TT/TPaE4+G/gWB6jxm/pbYTPoy51gNzrwLFhzJ5ofl1VOpnkR6vLmynMGISBHwDEXJmuK8H1NQKNIqhJtjElB7MF8iERp3sPoX/8hAleVvw3X60OstnDJcwNSyzNxrUDL8tJoeA48dJRvLN6aQTLDywOQ34W81moecUDrkqiYXph+bTeY3c=
