@@ -32,7 +32,10 @@ script:
 
 
 deploy:
-  skip_existing: true
+
   provider: pypi
   user: $PYPI_USER
   password: $PYPI_PASS
+
+  on:
+    branch: master
