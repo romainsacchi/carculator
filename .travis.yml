@@ -34,11 +34,11 @@ before deploy:
   pip install twine
 
 deploy:
+  edge: true
   skip_cleanup: true
   provider: pypi
   user: __token__
   skip_upload_docs: true
-  skip_cleanup: true
   distributions: "sdist bdist_egg bdist_wheel"
   on:
     branch: master
