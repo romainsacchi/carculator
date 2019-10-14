@@ -44,6 +44,7 @@ deploy:
     AoNhrlBrQxrPfuTVK/LuDHxteNhZ0Op3+XFV1KSXBTnHoKfxJBNTGi6e1DqIGbpsxIhO3EfHTb6bnSn3Ru7y3dQCizweQE78XVk6RmJ
     rXD6GVZS9SKTV30BocMtfnNEq/Wg4WF7YBTk+lL2R5MhEvOIfL55+dOadVS2HLysZ4CYY=
   distributions: sdist bdist_wheel
+
   on:
     branch: master
 
