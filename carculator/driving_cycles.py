@@ -42,3 +42,5 @@ def get_standard_driving_cycle(name="WLTC"):
     except KeyError:
         print("The specified driving cycle could not be found.")
         sys.exit(1)
+
+

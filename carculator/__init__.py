@@ -19,6 +19,7 @@ __all__ = (
     "NoiseEmissionsModel",
     "HotEmissionsModel",
     "InventoryCalculation",
+    "BackgroundSystemModel"
 )
 __version__ = (0, 0, 1)
 
@@ -37,3 +38,4 @@ from .hot_emissions import HotEmissionsModel
 from .driving_cycles import get_standard_driving_cycle
 from .model import CarModel
 from .inventory import InventoryCalculation
+from .background_systems import BackgroundSystemModel
