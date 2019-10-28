@@ -9,7 +9,7 @@ __pycache__/
 *.so
 
 # ecoinvent data files
-B_matrix_recipe_midpoint.csv
+#B_matrix_recipe_midpoint.csv
 
 # Distribution / packaging
 .Python
