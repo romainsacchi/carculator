@@ -86,6 +86,7 @@ def fill_xarray_from_input_parameters(cip):
             )
         ] = cip.values[param]
 
+
     return (size_dict, powertrain_dict, parameter_dict, year_dict), array
 
 

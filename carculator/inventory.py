@@ -89,35 +89,35 @@ class InventoryCalculation:
 
         dict_impact_cat = self.get_dict_impact_categories()
 
-        if FU == None:
-            response = xr.DataArray(
-                np.zeros(
-                    (
-                        self.B.shape[0],
-                        len(self.size),
-                        len(self.powertrain),
-                        len(self.year),
-                        len(cat),
-                        self.iterations,
-                    )
-                ),
-                coords=[
-                    dict_impact_cat[method][level],
-                    self.size,
-                    self.powertrain,
-                    self.year,
-                    cat,
-                    np.arange(0, self.iterations),
-                ],
-                dims=[
-                    "impact_category",
-                    "size",
-                    "powertrain",
-                    "year",
-                    "impact",
-                    "value",
-                ],
-            )
+        response = xr.DataArray(
+            np.zeros(
+                (
+                    self.B.shape[0],
+                    len(FU['size']),
+                    len(FU['powertrain']),
+                    len(FU['year']),
+                    len(cat),
+                    self.iterations,
+                )
+            ),
+            coords=[
+                dict_impact_cat[method][level],
+                FU['size'],
+                FU['powertrain'],
+                FU['year'],
+                cat,
+                np.arange(0, self.iterations),
+            ],
+            dims=[
+                "impact_category",
+                "size",
+                "powertrain",
+                "year",
+                "impact",
+                "value",
+            ],
+        )
+
         return response
 
     def get_split_dict(self):
@@ -149,6 +149,11 @@ class InventoryCalculation:
     def calculate_impacts(
         self, FU=None, method="recipe", level="midpoint", split="components"
     ):
+        if FU is None:
+            FU = {}
+            FU['size'] = self.size.tolist()
+            FU['powertrain'] = self.powertrain.tolist()
+            FU['year'] = self.year.tolist()
 
         # Load the B matrix
         self.B = self.get_B_matrix(method, level)
@@ -160,15 +165,17 @@ class InventoryCalculation:
         split_categories = [cat for cat in self.results.coords['impact'].values
                       if cat != 'other']
 
+
+
         # Iterate through the number of iterations
         for i in range(self.iterations):
             self.temp_array = self.array.sel(value=i).values
             self.set_inputs_in_A_matrix()
 
             # TODO: optimize this whole section
-            for pt in self.powertrain:
-                for y in self.year:
-                    for s in self.size:
+            for pt in FU['powertrain']:
+                for y in FU['year']:
+                    for s in FU['size']:
                         # Retrieve the index of a given car in the matrix A
                         car = self.inputs[('Passenger car, '+ pt + ', ' + s + ', ' + str(y),"GLO")]
                         # Set the demand vector with zeros and a 1 corresponding to the car position in the vector
@@ -178,7 +185,6 @@ class InventoryCalculation:
                         # Solve inventory
                         g = np.linalg.inv(self.A).dot(f)
                         C = g * self.B
-
 
                         # Iterate through the results array to fill it
                         for cat in split_categories:

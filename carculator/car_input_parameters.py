@@ -46,7 +46,7 @@ class CarInputParameters(NamedParameters):
 
     """
 
-    def __init__(self, parameters=None, extra=None):
+    def __init__(self, parameters=None, extra=None, limit=None):
         """Create a `klausen <https://github.com/cmutel/klausen>`__ model with the car input parameters."""
         super().__init__(None)
 
@@ -66,20 +66,38 @@ class CarInputParameters(NamedParameters):
                 )
             )
 
-        self.sizes = sorted(
-            {size for o in parameters.values() for size in o.get("sizes", [])}
-        )
-        self.powertrains = sorted(
-            {pt for o in parameters.values() for pt in o.get("powertrain", [])}
-        )
+        if limit is None:
+            self.sizes = sorted(
+                {size for o in parameters.values() for size in o.get("sizes", [])}
+            )
+        else:
+            self.sizes = sorted(
+                {size for size in limit['sizes']}
+            )
+
+        if limit is None:
+            self.powertrains = sorted(
+                {pt for o in parameters.values() for pt in o.get("powertrain", [])}
+            )
+        else:
+            self.powertrains = sorted(
+                {pt for pt in limit['powertrain']}
+            )
+
         self.parameters = sorted(
             {o["name"] for o in parameters.values()}.union(set(extra))
         )
-        self.years = sorted({o["year"] for o in parameters.values()})
 
-        self.add_car_parameters(parameters)
+        if limit is None:
+            self.years = sorted({o["year"] for o in parameters.values()})
+        else:
+            self.years = sorted(
+                {year for year in limit['year']}
+            )
 
-    def add_car_parameters(self, parameters):
+        self.add_car_parameters(parameters, limit)
+
+    def add_car_parameters(self, parameters, limit):
         """
         Split data and metadata according to ``klausen`` convention.
 
