@@ -182,7 +182,7 @@ class InventoryCalculation:
 
                         # Iterate through the results array to fill it
                         for cat in split_categories:
-                            # Retreive position of certain datasets to split results into categories
+                            # Retrieve position of certain datasets to split results into categories
                             # (direct emissions, energy chain, etc.)
                             index = [self.get_index_of_flows([l['search for']], l['search by'])
                                      for l in self.split_dict[split][cat]]
@@ -193,7 +193,7 @@ class InventoryCalculation:
                         # Fill the 'other' section by subtracting the total impact by what has already been
                         # accounted for.
                         self.results.loc[dict(impact='other', year=y, size=s, powertrain=pt, value=i)] = \
-                            (C[:, :].sum() - self.results.loc[dict(year=y, size=s, powertrain=pt, value=i)].sum().values)
+                            (C[:, :].sum(axis=1) - self.results.loc[dict(year=y, size=s, powertrain=pt, value=i)].sum(axis=1).values)
 
         return self.results
 
