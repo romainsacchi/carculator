@@ -155,7 +155,6 @@ def modify_xarray_from_custom_parameters(fp, array):
                 continue
 
             val = d[k]
-            print(val)
 
             distr_dic = {
                 "triangular": 5,
@@ -267,7 +266,7 @@ def modify_xarray_from_custom_parameters(fp, array):
             # Static mode
             else:
                 for y in year:
-                    y = int(y)
+                    y = str(y)
                     if distr == 1:
                         # There should be at least a `loc`
                         if ~np.isnan(val[(y, "loc")]):
