@@ -166,12 +166,11 @@ def modify_xarray_from_custom_parameters(fp, array):
             distr = distr_dic[k[4]]
 
             year = set([v[0] for v in val])
+            print(year)
 
             # Stochastic mode
             if array.sizes["value"] > 1:
-
                 for y in year:
-
                     # No uncertainty parameters given
                     if distr == 1:
                         # There should be at least a `loc`

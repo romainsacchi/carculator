@@ -8,6 +8,7 @@ from inspect import currentframe, getframeinfo
 import csv
 import xarray as xr
 from . import DATA_DIR
+from .background_systems import BackgroundSystemModel
 
 
 class InventoryCalculation:
@@ -60,6 +61,9 @@ class InventoryCalculation:
         self.index_noise = [self.inputs[i] for i in self.inputs if "noise" in i[0]]
 
         self.split_dict = self.get_split_dict()
+
+        self.bs = BackgroundSystemModel()
+
 
     def __getitem__(self, key):
         """
@@ -146,7 +150,7 @@ class InventoryCalculation:
         return csv_dict
 
     def calculate_impacts(
-        self, FU=None, method="recipe", level="midpoint", split="components"
+        self, FU=None, background_configuration = None, method="recipe", level="midpoint", split="components"
     ):
         if FU is None:
             FU = {}
@@ -170,6 +174,9 @@ class InventoryCalculation:
         for i in range(self.iterations):
             self.temp_array = self.array.sel(value=i).values
             self.set_inputs_in_A_matrix()
+
+            if background_configuration is not None:
+                self.configure_A_matrix(background_configuration)
 
             # TODO: optimize this whole section
             for pt in FU['powertrain']:
@@ -201,6 +208,7 @@ class InventoryCalculation:
                             (C[:, :].sum(axis=1) - self.results.loc[dict(year=y, size=s, powertrain=pt, value=i)].sum(axis=1).values)
 
         return self.results
+
 
     def get_A_matrix(self):
         filename = "A_matrix.csv"
@@ -737,3 +745,49 @@ class InventoryCalculation:
             ]
             * -1
         )
+
+    def configure_A_matrix(self, background_configuration):
+        country = background_configuration['background_country']
+        losses_to_low = self.bs.losses[country]['LV']
+
+        dict_map = {
+            'background_hydro_2017':('electricity production, hydro, run-of-river','DE'),
+            'background_hydro_2040':('electricity production, hydro, run-of-river','DE'),
+            'background_nuclear_2017':('electricity production, nuclear, pressure water reactor','DE'),
+            'background_nuclear_2040':('electricity production, nuclear, pressure water reactor','DE'),
+            'background_gas_2017':('electricity production, natural gas, conventional power plant','DE'),
+            'background_gas_2040':('electricity production, natural gas, conventional power plant','DE'),
+            'background_solar_2017':('electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted','DE'),
+            'background_solar_2040':('electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted','DE'),
+            'background_wind_2017':('electricity production, wind, 1-3MW turbine, onshore','DE'),
+            'background_wind_2040':('electricity production, wind, 1-3MW turbine, onshore','DE'),
+            'background_biomass_2017':('heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014','DE'),
+            'background_biomass_2040':('heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014','DE'),
+            'background_coal_2017':('electricity production, hard coal','DE'),
+            'background_coal_2040':('electricity production, hard coal','DE'),
+            'background_oil_2017':('electricity production, oil','DE'),
+            'background_oil_2040':('electricity production, oil','DE'),
+            'background_geo_2017':('electricity production, deep geothermal','DE'),
+            'background_geo_2040':('electricity production, deep geothermal','DE'),
+            'background_waste_2017':('electricity, from municipal waste incineration to generic market for electricity, medium voltage','DE'),
+            'background_waste_2040':('electricity, from municipal waste incineration to generic market for electricity, medium voltage','DE'),
+        }
+
+        # Zero out the initial electricity consumption from the cars
+        self.A[
+        self.inputs[("market group for electricity, low voltage", "ENTSO-E")],
+        -self.number_of_cars:,
+        ] = 0
+
+        for key in dict_map:
+            amount = (float(background_configuration[key])/100*-1)/(1-(float(losses_to_low)-1))
+            if "2017" in key:
+                self.A[
+                    self.inputs[dict_map[key]],
+                    [self.inputs[i] for i in self.inputs if "2017" in i[0]],
+                ] = amount * self.temp_array[self.array_inputs["electricity consumption"], self.get_index_from_array(['2017'])]
+            else:
+                self.A[
+                    self.inputs[dict_map[key]],
+                    [self.inputs[i] for i in self.inputs if "2040" in i[0]],
+                ] =amount * self.temp_array[self.array_inputs["electricity consumption"], self.get_index_from_array(['2040'])]

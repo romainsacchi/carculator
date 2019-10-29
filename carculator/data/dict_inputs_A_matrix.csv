@@ -1,353 +1,360 @@
-noise, octave 7, day time, urban;('octave 7', 'day time', 'urban')
-treatment of wastewater, from residence, capacity 1.1E10l/year;RoW
-noise, octave 4, day time, urban;('octave 4', 'day time', 'urban')
-noise, octave 4, day time, rural;('octave 4', 'day time', 'rural')
-Electricity, low voltage, natural gas CCPP, at grid;RER
-Fuel tank, compressed hydrogen gas, 700bar;GLO
-IBIS fasteners;GLO
-market for road wear emissions, passenger car;GLO
-aluminium ingot, primary, to aluminium, wrought alloy market;GLO
-market for transformer, high voltage use;GLO
-market for electric motor, electric passenger car;GLO
-Ammonia;('air', 'non-urban air or from high stacks')
-market for nylon 6-6, glass-filled;RoW
-transmission network construction, electricity, medium voltage;CH
-PEM electrolyzer, Balance of Plant;GLO
-noise, octave 5, day time, urban;('octave 5', 'day time', 'urban')
-electricity production, wind, 1-3MW turbine, onshore;DE
-Sohio process;RoW
-market for thermoforming, with calendering;GLO
-noise, octave 1, day time, rural;('octave 1', 'day time', 'rural')
-argon production, liquid;RoW
-noise, octave 8, day time, suburban;('octave 8', 'day time', 'suburban')
-Dinitrogen monoxide;('air', 'urban air close to ground')
-Electricity, low voltage, hydro-reservoir, at grid;RER
-Battery BoP;GLO
-water production and supply, decarbonised;RoW
-noise, octave 4, day time, suburban;('octave 4', 'day time', 'suburban')
-epichlorohydrin production from allyl chloride;RoW
-Module fasteners;GLO
-transmission network construction, long-distance;UCTE
-heat production, natural gas, at industrial furnace low-NOx >100kW;RoW
-market for steel, low-alloyed;GLO
-Operation, hydrogen refuelling station, SMR;RER
-market for diesel;Europe without Switzerland
-market for silica sand;GLO
-market for waste rubber, unspecified;RoW
-market for nylon 6;GLO
-Carbon monoxide, fossil;('air',)
-diaphragms, for diaphragm compressor;GLO
-polyethylene production, high density, granulate;RER
-treatment of waste plastic, mixture, sanitary landfill;RoW
-market for tin;GLO
-market group for electricity, medium voltage;GLO
-PEM electrolyzer, Operation and Maintenance;RER
-Tray lid;GLO
-Selective coating, sputtering;GLO
-Hydrogen dispenser, for gaseous hydrogen;GLO
-market for transport, freight train;Europe without Switzerland
-Outer frame;GLO
-noise, octave 8, day time, urban;('octave 8', 'day time', 'urban')
-Particulates, > 2.5 um, and < 10um;('air', 'non-urban air or from high stacks')
-cast iron production;RoW
-Module packaging;GLO
-market for internal combustion engine, passenger car;GLO
-Ni1/3Co1/3Mn1/3(OH)2;GLO
-Electricity, low voltage, solar, at grid;RER
-market for carbon monoxide;RER
-Separator;GLO
-End-busbar copper;GLO
-market for aluminium casting facility;GLO
-Positive electrode paste;GLO
-Electricity, medium voltage, hard coal, at grid;RER
-noise, octave 2, day time, rural;('octave 2', 'day time', 'rural')
-graphite production;RoW
-market for electronic component factory;GLO
-Dinitrogen monoxide;('air', 'non-urban air or from high stacks')
-welding, arc, steel;RoW
-noise, octave 3, day time, suburban;('octave 3', 'day time', 'suburban')
-Carbon dioxide, fossil;('air',)
-Sulfur dioxide;('air', 'urban air close to ground')
-market for nickel sulfate;GLO
-market for sheet rolling, copper;GLO
-market for manganese sulfate;GLO
-Weaving, carbon cloth;GLO
-Lead;('air', 'urban air close to ground')
-Hydrogen refuelling station, SMR;GLO
-injection moulding;RoW
-market for ethylene carbonate;GLO
-Electricity, high voltage, hydro-reservoir, at grid;RER
-market for sheet rolling, chromium steel;GLO
-market for road;GLO
-market for gypsum fibreboard;GLO
-glass fibre reinforced plastic production, polyamide, injection moulded;RoW
-market for converter, for electric passenger car;GLO
-Essential BoP;GLO
-PEM Fuel Cell 2020;GLO
-Electricity, high voltage, hard coal, at grid;RER
-noise, octave 8, day time, rural;('octave 8', 'day time', 'rural')
-Tab Copper;GLO
-market for concrete, high exacting requirements;RoW
-NMVOC, non-methane volatile organic compounds, unspecified origin;('air', 'low population density, long-term')
-market for electric connector, wire clamp;GLO
-market for blasting;GLO
-Clamps and fasteners;GLO
-Cathode;GLO
-noise, octave 3, day time, rural;('octave 3', 'day time', 'rural')
-market for integrated circuit, logic type;GLO
-market group for electricity, high voltage;Europe without Switzerland
-Electricity, low voltage, nuclear- PWR, at grid;RER
-market for light fuel oil;RoW
-Particulates, < 2.5 um;('air',)
-Lead;('air', 'non-urban air or from high stacks')
-Benzene;('air', 'non-urban air or from high stacks')
-Low voltage system;GLO
-Catalyst layer 2020;GLO
-Pipe fitting;GLO
-market for polyphenylene sulfide;GLO
-Electricity, high voltage, natural gas CCPP, at grid;RER
-electronics production, for control units;RoW
-Benzene;('air', 'low population density, long-term')
-market for flat glass, coated;GLO
-market for steel, low-alloyed, hot rolled;GLO
-market for glider, passenger car;GLO
-market for graphite;GLO
-market for aluminium, wrought alloy;GLO
-Nitrogen oxides;('air',)
-market for carbon black;GLO
-storage module, high pressure, at fuelling station;GLO
-Stack 2020;GLO
-market for precious metal refinery;GLO
-High voltage system;GLO
-Anode;GLO
-tetrafluoroethylene production;RoW
-market for charger, electric passenger car;GLO
-maintenance, passenger car;RER
-carbon black production;GLO
-market for printed wiring board, through-hole mounted, unspecified, Pb free;GLO
-tin production;RoW
-Ancillary BoP;GLO
-market for N-methyl-2-pyrrolidone;GLO
-Membrane 2020;GLO
-Methane, fossil;('air', 'urban air close to ground')
-COD, Chemical Oxygen Demand;('water',)
-market for anode, graphite, for lithium-ion battery;GLO
-metal working, average for chromium steel product manufacturing;RoW
-market for blow moulding;GLO
-NMVOC, non-methane volatile organic compounds, unspecified origin;('air', 'urban air close to ground')
-PAH, polycyclic aromatic hydrocarbons;('air', 'low population density, long-term')
-market group for electricity, low voltage;GLO
-transmission network construction, electricity, high voltage;CH
-market for brake wear emissions, passenger car;GLO
-Thermal pad;GLO
-market for sheet rolling, aluminium;GLO
-phenolic resin production;RoW
-Ammonia;('air', 'urban air close to ground')
-market for metal working, average for copper product manufacturing;GLO
-End-busbar aluminum;GLO
-market for butyl acrylate;RoW
-market for lubricating oil;RoW
-noise, octave 1, day time, suburban;('octave 1', 'day time', 'suburban')
-diaphragm compressor module, high pressure;GLO
-container, with pipes and fittings, for diaphragm compressor;GLO
-market for transport, freight, lorry 16-32 metric ton, EURO5;RoW
-Ammonia;('air', 'low population density, long-term')
-IBIS;GLO
-market for metal working, average for metal product manufacturing;GLO
-Positive active material;GLO
-NMVOC, non-methane volatile organic compounds, unspecified origin;('air',)
-Nitrogen oxides;('air', 'non-urban air or from high stacks')
-noise, octave 2, day time, urban;('octave 2', 'day time', 'urban')
-market for polyethylene, high density, granulate;GLO
-Particulates, > 2.5 um, and < 10um;('air', 'low population density, long-term')
-market for sheet rolling, steel;GLO
-market for ethylene glycol;GLO
-Electricity, high voltage, wind, at grid;RER
-market for nylon 6-6;GLO
-air separation, cryogenic;RoW
-Electricity, medium voltage, hydro-reservoir, at grid;RER
-sulfuric acid production;RoW
-market for tyre wear emissions, passenger car;GLO
-Tray with fasteners;GLO
-Battery retention;GLO
-steel production, chromium steel 18/8, hot rolled;RoW
-wire drawing, copper;RoW
-market for tap water;RoW
-heat production, natural gas, at industrial furnace >100kW;RoW
-market for power distribution unit, for electric passenger car;GLO
-market for silicon, electronics grade;GLO
-chemical factory construction, organics;RER
-End plate;GLO
-market for petrol, low-sulfur;Europe without Switzerland
-noise, octave 7, day time, suburban;('octave 7', 'day time', 'suburban')
-electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted;DE
-MEA hot pressing;GLO
-Hydrogen compression, 30 to 700 bar;RER
-Battery management system;GLO
-market for injection moulding;GLO
-market for transport, freight, lorry >32 metric ton, EURO3;RoW
-Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station;RER
-market for metal working factory;GLO
-Bimetallic busbars and washers;GLO
-market for steel, chromium steel 18/8, hot rolled;GLO
-Cell container;GLO
-Sulfur dioxide;('air', 'low population density, long-term')
-market for municipal solid waste;RoW
-market for packaging film, low density polyethylene;GLO
-market for copper;GLO
-epoxy resin production, liquid;RoW
-Radiator;GLO
-Dinitrogen monoxide;('air', 'low population density, long-term')
-sulfur hexafluoride production, liquid;RER
-market for waste plastic, industrial electronics;RoW
-market for nitrogen, liquid;RoW
-Gas Diffusion Layer 2020;GLO
-noise, octave 5, day time, rural;('octave 5', 'day time', 'rural')
-market for water, ultrapure;GLO
-electricity production, hard coal;DE
-Electricity, low voltage, hard coal, at grid;RER
-Buffer tank;GLO
-transformer and rectifier unit, for electrolyzer;GLO
-Lower retention;GLO
-kraft paper production, bleached;RoW
-steam production, in chemical industry;RER
-market for welding, arc, steel;GLO
-glass fibre reinforced plastic production, polyamide, injection moulded;RER
-market for cobalt;GLO
-market for polyvinylchloride, suspension polymerised;GLO
-market for extrusion, plastic film;GLO
-Multilayer pouch;GLO
-Electricity, medium voltage, natural gas CCPP, at grid;RER
-market for concrete, normal;RoW
-sheet rolling, aluminium;RoW
-market for transport, freight, lorry 16-32 metric ton, EURO3;RoW
-gravel production, crushed;RoW
-market for electronic component, passive, unspecified;GLO
-Ozone;('air',)
-Disposal, hydrogen fuelling station;RER
-Tab Aluminum;GLO
-Electricity, medium voltage, nuclear- PWR, at grid;RER
-Inner frame;GLO
-noise, octave 7, day time, rural;('octave 7', 'day time', 'rural')
-Tie-rods;GLO
-market for water, decarbonised, at user;GLO
-Sulfate;('water',)
-market for manual dismantling of used electric passenger car;GLO
-Coating and curing, general manufacturing;GLO
-heat production, heavy fuel oil, at industrial furnace 1MW;RoW
-Methane, fossil;('air', 'non-urban air or from high stacks')
-market for polyvinylfluoride;GLO
-Cooling system;GLO
-market for lithium hexafluorophosphate;GLO
-Battery cell;GLO
-noise, octave 2, day time, suburban;('octave 2', 'day time', 'suburban')
-reinforcing steel production;RoW
-Particulates, > 2.5 um, and < 10um;('air', 'urban air close to ground')
-Methane, fossil;('air', 'low population density, long-term')
-noise, octave 3, day time, urban;('octave 3', 'day time', 'urban')
 Battery packaging;GLO
-Lead;('air', 'low population density, long-term')
-Nitrogen oxides;('air', 'urban air close to ground')
-Platinum;GLO
-metal working, average for aluminium product manufacturing;RoW
-Heat transfer plate;GLO
-sheet rolling, chromium steel;RoW
-treatment of waste mineral oil, hazardous waste incineration;RoW
+electricity production, natural gas, combined cycle power plant;DE
+market for metal working, average for steel product manufacturing;GLO
+NMVOC, non-methane volatile organic compounds, unspecified origin;('air', 'urban air close to ground')
+market for manual dismantling of used passenger car with internal combustion engine;GLO
+Electricity, low voltage, hard coal, at grid;RER
+heat production, natural gas, at industrial furnace low-NOx >100kW;RoW
+market for electric motor, electric passenger car;GLO
+market for N-methyl-2-pyrrolidone;GLO
+Ozone;('air',)
+market for packaging film, low density polyethylene;GLO
+noise, octave 6, day time, rural;('octave 6', 'day time', 'rural')
+Walls and foundations, for hydrogen refuelling station;RER
+market for acrylic acid;RoW
+Separator;GLO
+noise, octave 8, day time, urban;('octave 8', 'day time', 'urban')
+Electrolyte;GLO
+noise, octave 1, day time, rural;('octave 1', 'day time', 'rural')
+Particulates, > 2.5 um, and < 10um;('air', 'non-urban air or from high stacks')
+Lead;('air', 'urban air close to ground')
+Electricity, high voltage, nuclear- PWR, at grid;RER
+market group for natural gas, high pressure;Europe without Switzerland
+Battery cell;GLO
+noise, octave 8, day time, rural;('octave 8', 'day time', 'rural')
+market for sheet rolling, chromium steel;GLO
+market for integrated circuit, logic type;GLO
+market for thermoforming, with calendering;GLO
+Fuel tank, compressed hydrogen gas, 700bar;GLO
+reinforcing steel production;RoW
+Benzene;('air', 'low population density, long-term')
+Lead;('air', 'non-urban air or from high stacks')
+Textile, carbon cloth;GLO
+market for municipal solid waste;RoW
+market for polyvinylchloride, suspension polymerised;GLO
+ethylene glycol production;RoW
+water production and supply, decarbonised;RoW
+PEM electrolyzer, ACDC Converter;GLO
+Electricity, high voltage, hydro-reservoir, at grid;RER
+market for internal combustion engine, passenger car;GLO
+market for petrol, low-sulfur;Europe without Switzerland
+market for nylon 6;GLO
+epoxy resin production, liquid;RoW
+glass fibre reinforced plastic production, polyamide, injection moulded;RER
+Hydrogen refuelling station, SMR;GLO
+Low voltage system;GLO
+market for anodising, aluminium sheet;GLO
+market for injection moulding;GLO
+cast iron production;RoW
+Particulates, > 2.5 um, and < 10um;('air', 'urban air close to ground')
+market for synthetic rubber;GLO
+Radiator;GLO
+market for road;GLO
+heat production, natural gas, at industrial furnace >100kW;RoW
+market group for electricity, medium voltage;Europe without Switzerland
+market group for electricity, medium voltage;ENTSO-E
+Sulfur dioxide;('air', 'urban air close to ground')
 Carbon monoxide, fossil;('air', 'low population density, long-term')
 market for lithium hydroxide;GLO
-market for metal working, average for aluminium product manufacturing;GLO
-PEM electrolyzer, ACDC Converter;GLO
-market group for electricity, medium voltage;Europe without Switzerland
-Electricity, medium voltage, wind, at grid;RER
-market for casting, brass;GLO
-Battery tray;GLO
-market for used powertrain from electric passenger car, manual dismantling;GLO
-market for natural gas, from high pressure network (1-5 bar), at service station;GLO
-frequency converter, for diaphragm compressor;GLO
-tube insulation production, elastomere;RoW
-Hydrogen, gaseous (30 bar), from SMR, at reforming plant;RER
-sheet rolling, steel;RoW
-market group for electricity, medium voltage;ENTSO-E
-market for cast iron;GLO
-noise, octave 5, day time, suburban;('octave 5', 'day time', 'suburban')
-water production, deionised, from tap water, at user;Europe without Switzerland
-market for steel, chromium steel 18/8;GLO
-Benzene;('air', 'urban air close to ground')
-market for brass;CH
-noise, octave 6, day time, suburban;('octave 6', 'day time', 'suburban')
-market for aluminium scrap, new;RER
-market for titanium dioxide;RoW
-Strap retention;GLO
-Nitrogen oxides;('air', 'low population density, long-term')
-distribution network construction, electricity, low voltage;CH
-market for manual dismantling of used passenger car with internal combustion engine;GLO
+Module packaging;GLO
+market for metal working, average for copper product manufacturing;GLO
 NMVOC, non-methane volatile organic compounds, unspecified origin;('air', 'non-urban air or from high stacks')
-Negative electrode paste;GLO
-market group for electricity, high voltage;ENTSO-E
-Dinitrogen monoxide;('air',)
-market for inverter, for electric passenger car;GLO
-packaging box factory construction;RoW
-market for metal working, average for steel product manufacturing;GLO
-market for corrugated board box;RoW
-market for heat, future;GLO
-Electricity, high voltage, nuclear- PWR, at grid;RER
-Positive current collector Al;GLO
-Textile, carbon cloth;GLO
-PAH, polycyclic aromatic hydrocarbons;('air', 'non-urban air or from high stacks')
-ethylene glycol production;RoW
-Occupation, industrial area;('natural resource', 'land')
-market group for electricity, low voltage;ENTSO-E
-market for hydrogen, liquid;RER
-market for heat, district or industrial, natural gas;RoW
-market for cable, ribbon cable, 20-pin, with plugs;GLO
-Hydrogen, gaseous, 700 bar, from SMR, at H2 fuelling station;RER
-market for synthetic rubber;GLO
-Electricity, low voltage, wind, at grid;RER
-metal coating facility construction;RoW
-market for polypropylene, granulate;GLO
-Walls and foundations, for hydrogen refuelling station;RER
-market for plastic processing factory;GLO
-Carbon fibre, from acrylonitrile;GLO
-noise, octave 1, day time, urban;('octave 1', 'day time', 'urban')
-Electrolyte;GLO
-market for heat, from steam, in chemical industry;RoW
-market for chemical factory, organics;GLO
-market for soda ash, light, crystalline, heptahydrate;GLO
-market for acrylonitrile-butadiene-styrene copolymer;GLO
-liquid storage tank production, chemicals, organics;RoW
-Bipolar plate 2020;GLO
-market for platinum;GLO
-Sulfur dioxide;('air', 'non-urban air or from high stacks')
-Carbon monoxide, fossil;('air', 'urban air close to ground')
-market for polyethylene terephthalate, granulate, amorphous;GLO
-PEM electrolyzer, Stack;GLO
-market group for natural gas, high pressure;Europe without Switzerland
-market for heat, district or industrial, other than natural gas;Europe without Switzerland
-Carbon monoxide, fossil;('air', 'non-urban air or from high stacks')
-treatment of waste asphalt, sanitary landfill;RoW
-Heat, waste;('air',)
-market for acrylic acid;RoW
-Tray seal;GLO
-market for transport, freight, sea, transoceanic ship;GLO
-lubricating oil production;RoW
-treatment of hazardous waste, hazardous waste incineration;RoW
-diesel, burned in building machine;GLO
-Glider lightweighting;GLO
-noise, octave 6, day time, urban;('octave 6', 'day time', 'urban')
-electricity production, hydro, reservoir, alpine region;CH
-polyethylene production, low density, granulate;RoW
+market for steel, chromium steel 18/8, hot rolled;GLO
+wire drawing, copper;RoW
+market for power distribution unit, for electric passenger car;GLO
+electricity, from municipal waste incineration to generic market for electricity, medium voltage;DE
+market group for electricity, low voltage;GLO
+Coating and curing, general manufacturing;GLO
+market for polyethylene, high density, granulate;GLO
+market for cobalt;GLO
+noise, octave 5, day time, urban;('octave 5', 'day time', 'urban')
+market for titanium dioxide;RoW
+electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted;DE
 Manifolds;GLO
-electricity production, natural gas, combined cycle power plant;DE
-market for anodising, aluminium sheet;GLO
-noise, octave 6, day time, rural;('octave 6', 'day time', 'rural')
-market for heat, district or industrial, natural gas;Europe without Switzerland
-market for reinforcing steel;GLO
-Cobalt sulfate;GLO
-electricity production, nuclear, pressure water reactor;DE
-Module lid;GLO
-Sulfur hexafluoride;('air',)
-heat production, natural gas, at industrial furnace >100kW;Europe without Switzerland
-market for glass fibre;GLO
-PAH, polycyclic aromatic hydrocarbons;('air', 'urban air close to ground')
-Negative current collector Cu;GLO
+market for platinum;GLO
+diesel, burned in building machine;GLO
+Cathode;GLO
+diaphragms, for diaphragm compressor;GLO
+heat production, heavy fuel oil, at industrial furnace 1MW;RoW
+treatment of waste asphalt, sanitary landfill;RoW
+Ni1/3Co1/3Mn1/3(OH)2;GLO
+Dinitrogen monoxide;('air', 'low population density, long-term')
+Strap retention;GLO
+Nitrogen oxides;('air', 'urban air close to ground')
+Catalyst layer 2020;GLO
+market for flat glass, coated;GLO
+container, with pipes and fittings, for diaphragm compressor;GLO
+Dinitrogen monoxide;('air', 'urban air close to ground')
+sheet rolling, chromium steel;RoW
 market for carboxymethyl cellulose, powder;GLO
+market for polyvinylfluoride;GLO
+market for brass;CH
+metal working, average for chromium steel product manufacturing;RoW
+market for concrete, high exacting requirements;RoW
+market for blasting;GLO
+sheet rolling, steel;RoW
+electricity production, hydro, run-of-river;DE
+Sohio process;RoW
+market for manual dismantling of used electric passenger car;GLO
+aluminium ingot, primary, to aluminium, wrought alloy market;GLO
+market for metal working factory;GLO
+transmission network construction, long-distance;UCTE
+MEA hot pressing;GLO
+electricity production, deep geothermal;DE
+market for waste plastic, industrial electronics;RoW
+graphite production;RoW
+market for polyethylene terephthalate, granulate, amorphous;GLO
+market for tin;GLO
+market for nylon 6-6;GLO
+market for concrete, normal;RoW
+market for aluminium, wrought alloy;GLO
+noise, octave 5, day time, suburban;('octave 5', 'day time', 'suburban')
+noise, octave 2, day time, suburban;('octave 2', 'day time', 'suburban')
+market for lithium hexafluorophosphate;GLO
+treatment of hazardous waste, hazardous waste incineration;RoW
+noise, octave 4, day time, suburban;('octave 4', 'day time', 'suburban')
+Sulfur dioxide;('air', 'non-urban air or from high stacks')
+metal coating facility construction;RoW
+High voltage system;GLO
+Dinitrogen monoxide;('air', 'non-urban air or from high stacks')
+market for sheet rolling, steel;GLO
+polyethylene production, low density, granulate;RoW
+sulfur hexafluoride production, liquid;RER
+Electricity, medium voltage, wind, at grid;RER
+noise, octave 5, day time, rural;('octave 5', 'day time', 'rural')
+Sulfur hexafluoride;('air',)
+Battery management system;GLO
+Nitrogen oxides;('air',)
+End-busbar copper;GLO
+PEM electrolyzer, Stack;GLO
+Dinitrogen monoxide;('air',)
+Tab Aluminum;GLO
+market for soda ash, light, crystalline, heptahydrate;GLO
+Nitrogen oxides;('air', 'low population density, long-term')
+gravel production, crushed;RoW
+Tray lid;GLO
+market group for electricity, high voltage;Europe without Switzerland
+Tie-rods;GLO
+Glider lightweighting;GLO
+treatment of wastewater, from residence, capacity 1.1E10l/year;RoW
+Benzene;('air', 'non-urban air or from high stacks')
+market for corrugated board box;RoW
+market for silicon, electronics grade;GLO
+market for heat, future;GLO
+market for glass fibre;GLO
+Electricity, low voltage, natural gas CCPP, at grid;RER
+Operation, hydrogen refuelling station, SMR;RER
+market for transport, freight, lorry 16-32 metric ton, EURO5;RoW
+PEM electrolyzer, Operation and Maintenance;RER
+Electricity, low voltage, wind, at grid;RER
+sulfuric acid production;RoW
+Methane, fossil;('air', 'low population density, long-term')
+Sulfur dioxide;('air', 'low population density, long-term')
+Stack 2020;GLO
+market for metal working, average for aluminium product manufacturing;GLO
+tube insulation production, elastomere;RoW
+noise, octave 1, day time, suburban;('octave 1', 'day time', 'suburban')
+market for butyl acrylate;RoW
+Ammonia;('air', 'low population density, long-term')
+PAH, polycyclic aromatic hydrocarbons;('air', 'low population density, long-term')
+liquid storage tank production, chemicals, organics;RoW
+market for reinforcing steel;GLO
+Weaving, carbon cloth;GLO
+market for hydrogen, liquid;RER
+Electricity, medium voltage, hydro-reservoir, at grid;RER
+market for nitrogen, liquid;RoW
+heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014;DE
+polyethylene production, high density, granulate;RER
+market for anode, graphite, for lithium-ion battery;GLO
+Battery tray;GLO
+market for steel, chromium steel 18/8;GLO
+market for transformer, high voltage use;GLO
+Thermal pad;GLO
+IBIS fasteners;GLO
+Methane, fossil;('air', 'non-urban air or from high stacks')
+market for transport, freight, lorry 16-32 metric ton, EURO3;RoW
+air separation, cryogenic;RoW
+market for electronic component, passive, unspecified;GLO
+Carbon monoxide, fossil;('air', 'non-urban air or from high stacks')
+Battery BoP;GLO
+electricity production, hard coal;DE
+Carbon fibre, from acrylonitrile;GLO
+market for cable, ribbon cable, 20-pin, with plugs;GLO
+chemical factory construction, organics;RER
+Particulates, > 2.5 um, and < 10um;('air', 'low population density, long-term')
+market for glider, passenger car;GLO
+market for polyphenylene sulfide;GLO
+market for heat, from steam, in chemical industry;RoW
+Gas Diffusion Layer 2020;GLO
+market for printed wiring board, through-hole mounted, unspecified, Pb free;GLO
+Negative electrode paste;GLO
+packaging box factory construction;RoW
+metal working, average for aluminium product manufacturing;RoW
+Bimetallic busbars and washers;GLO
+Lead;('air', 'low population density, long-term')
+market for water, ultrapure;GLO
+water production, deionised, from tap water, at user;Europe without Switzerland
+market for brake wear emissions, passenger car;GLO
+glass fibre reinforced plastic production, polyamide, injection moulded;RoW
+epichlorohydrin production from allyl chloride;RoW
+phenolic resin production;RoW
+treatment of waste mineral oil, hazardous waste incineration;RoW
+carbon black production;GLO
+Positive current collector Al;GLO
+Occupation, industrial area;('natural resource', 'land')
+Module fasteners;GLO
+Ammonia;('air', 'urban air close to ground')
+PAH, polycyclic aromatic hydrocarbons;('air', 'urban air close to ground')
+market for ethylene glycol;GLO
+tetrafluoroethylene production;RoW
+noise, octave 1, day time, urban;('octave 1', 'day time', 'urban')
+electricity production, natural gas, conventional power plant;DE
+noise, octave 7, day time, suburban;('octave 7', 'day time', 'suburban')
+Nitrogen oxides;('air', 'non-urban air or from high stacks')
+noise, octave 7, day time, urban;('octave 7', 'day time', 'urban')
+market for copper;GLO
+Electricity, low voltage, hydro-reservoir, at grid;RER
+steel production, chromium steel 18/8, hot rolled;RoW
+market for welding, arc, steel;GLO
+market group for electricity, high voltage;ENTSO-E
+market for chemical factory, organics;GLO
+electricity production, hydro, reservoir, alpine region;CH
+noise, octave 3, day time, rural;('octave 3', 'day time', 'rural')
+market for plastic processing factory;GLO
+treatment of waste plastic, mixture, sanitary landfill;RoW
+electricity production, wind, 1-3MW turbine, onshore;DE
+market for gypsum fibreboard;GLO
+Heat transfer plate;GLO
+transmission network construction, electricity, medium voltage;CH
+market for transport, freight, lorry >32 metric ton, EURO3;RoW
+steam production, in chemical industry;RER
+Electricity, medium voltage, hard coal, at grid;RER
+Electricity, high voltage, wind, at grid;RER
+transmission network construction, electricity, high voltage;CH
+market for water, decarbonised, at user;GLO
+Disposal, hydrogen fuelling station;RER
+Bipolar plate 2020;GLO
+Battery retention;GLO
+electronics production, for control units;RoW
+noise, octave 3, day time, urban;('octave 3', 'day time', 'urban')
+market for electronic component factory;GLO
+electricity production, nuclear, pressure water reactor;DE
+welding, arc, steel;RoW
+Carbon dioxide, fossil;('air',)
+market for manganese sulfate;GLO
+market for heat, district or industrial, natural gas;Europe without Switzerland
+market for sheet rolling, copper;GLO
+Carbon monoxide, fossil;('air',)
+market for sheet rolling, aluminium;GLO
+Hydrogen, gaseous, 700 bar, from SMR, at H2 fuelling station;RER
+storage module, high pressure, at fuelling station;GLO
+market for transport, freight, sea, transoceanic ship;GLO
+tin production;RoW
+Methane, fossil;('air', 'urban air close to ground')
+End plate;GLO
+transformer and rectifier unit, for electrolyzer;GLO
+market for electric connector, wire clamp;GLO
+Electricity, medium voltage, nuclear- PWR, at grid;RER
+market for blow moulding;GLO
+Sulfate;('water',)
+market for light fuel oil;RoW
+Lower retention;GLO
+market for nylon 6-6, glass-filled;RoW
+Positive active material;GLO
+Hydrogen dispenser, for gaseous hydrogen;GLO
+market for aluminium scrap, new;RER
+Anode;GLO
+PEM electrolyzer, Balance of Plant;GLO
+Essential BoP;GLO
+Clamps and fasteners;GLO
+market for steel, low-alloyed, hot rolled;GLO
+noise, octave 4, day time, urban;('octave 4', 'day time', 'urban')
+End-busbar aluminum;GLO
+market for extrusion, plastic film;GLO
+Electricity, medium voltage, natural gas CCPP, at grid;RER
+Selective coating, sputtering;GLO
+Platinum;GLO
+Membrane 2020;GLO
+PEM Fuel Cell 2020;GLO
+market for aluminium casting facility;GLO
+market for casting, brass;GLO
+Hydrogen, gaseous (30 bar), from SMR, at reforming plant;RER
+market for natural gas, from high pressure network (1-5 bar), at service station;GLO
+market for cast iron;GLO
+Electricity, low voltage, solar, at grid;RER
+noise, octave 2, day time, urban;('octave 2', 'day time', 'urban')
+market for converter, for electric passenger car;GLO
+noise, octave 8, day time, suburban;('octave 8', 'day time', 'suburban')
+Benzene;('air', 'urban air close to ground')
+Particulates, < 2.5 um;('air',)
+Electricity, high voltage, hard coal, at grid;RER
+IBIS;GLO
+Cooling system;GLO
+market for charger, electric passenger car;GLO
+market for acrylonitrile-butadiene-styrene copolymer;GLO
+Carbon monoxide, fossil;('air', 'urban air close to ground')
+noise, octave 2, day time, rural;('octave 2', 'day time', 'rural')
+market for tap water;RoW
+market for waste rubber, unspecified;RoW
+Module lid;GLO
+market for used powertrain from electric passenger car, manual dismantling;GLO
+market for polypropylene, granulate;GLO
+market for transport, freight train;Europe without Switzerland
+Tray with fasteners;GLO
+Multilayer pouch;GLO
+market for silica sand;GLO
+Negative current collector Cu;GLO
+Buffer tank;GLO
+heat production, natural gas, at industrial furnace >100kW;Europe without Switzerland
+noise, octave 6, day time, urban;('octave 6', 'day time', 'urban')
+market for heat, district or industrial, natural gas;RoW
+Pipe fitting;GLO
+Tab Copper;GLO
+market for heat, district or industrial, other than natural gas;Europe without Switzerland
+Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station;RER
+market for diesel;Europe without Switzerland
+sheet rolling, aluminium;RoW
+market for road wear emissions, passenger car;GLO
+market group for electricity, medium voltage;GLO
+Heat, waste;('air',)
+market for lubricating oil;RoW
+noise, octave 4, day time, rural;('octave 4', 'day time', 'rural')
+market for carbon monoxide;RER
+frequency converter, for diaphragm compressor;GLO
+market for tyre wear emissions, passenger car;GLO
+Cobalt sulfate;GLO
+Positive electrode paste;GLO
+Cell container;GLO
+market for precious metal refinery;GLO
+injection moulding;RoW
+maintenance, passenger car;RER
+market for carbon black;GLO
+noise, octave 3, day time, suburban;('octave 3', 'day time', 'suburban')
+lubricating oil production;RoW
+Electricity, low voltage, nuclear- PWR, at grid;RER
+diaphragm compressor module, high pressure;GLO
+Inner frame;GLO
+Ammonia;('air', 'non-urban air or from high stacks')
+PAH, polycyclic aromatic hydrocarbons;('air', 'non-urban air or from high stacks')
+NMVOC, non-methane volatile organic compounds, unspecified origin;('air', 'low population density, long-term')
+market for graphite;GLO
+market for nickel sulfate;GLO
+Electricity, high voltage, natural gas CCPP, at grid;RER
+noise, octave 6, day time, suburban;('octave 6', 'day time', 'suburban')
+noise, octave 7, day time, rural;('octave 7', 'day time', 'rural')
+market for steel, low-alloyed;GLO
+Tray seal;GLO
+argon production, liquid;RoW
+electricity production, oil;DE
+market for inverter, for electric passenger car;GLO
+Outer frame;GLO
+market for ethylene carbonate;GLO
+market group for electricity, low voltage;ENTSO-E
+NMVOC, non-methane volatile organic compounds, unspecified origin;('air',)
+kraft paper production, bleached;RoW
+Hydrogen compression, 30 to 700 bar;RER
+electricity production, wind, >3MW turbine, onshore;DE
+COD, Chemical Oxygen Demand;('water',)
+Ancillary BoP;GLO
+market for metal working, average for metal product manufacturing;GLO
+distribution network construction, electricity, low voltage;CH
