@@ -267,13 +267,14 @@ def modify_xarray_from_custom_parameters(fp, array):
             else:
                 for y in year:
                     y = str(y)
+                    print(val, y)
                     if distr == 1:
                         # There should be at least a `loc`
                         if ~np.isnan(val[(y, "loc")]):
                             for s in sizes:
                                 for p in pt:
                                     array.loc[
-                                        dict(powertrain=p, size=s, year=y, parameter=param)
+                                        dict(powertrain=p, size=s, year=int(y), parameter=param)
                                     ] = val[(y, "loc")]
                         # Otherwise warn
                         else:
