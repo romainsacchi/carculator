@@ -155,6 +155,7 @@ def modify_xarray_from_custom_parameters(fp, array):
                 continue
 
             val = d[k]
+            print(val)
 
             distr_dic = {
                 "triangular": 5,
