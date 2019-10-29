@@ -8,12 +8,10 @@ from bw2io import ExcelImporter
 from bw2io.export.excel import (
     safe_filename,
     xlsxwriter,
-    CSVFormatter,
     create_valid_worksheet_name,
 )
 import uuid
 import xarray as xr
-import csv
 
 
 DEFAULT_MAPPINGS = {

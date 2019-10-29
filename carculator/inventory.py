@@ -7,7 +7,6 @@ from pathlib import Path
 from inspect import currentframe, getframeinfo
 import csv
 import xarray as xr
-import itertools
 from . import DATA_DIR
 
 
