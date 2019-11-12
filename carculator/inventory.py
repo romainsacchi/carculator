@@ -63,9 +63,9 @@ class InventoryCalculation:
         ]
         self.index_noise = [self.inputs[i] for i in self.inputs if "noise" in i[0]]
 
-        self.split_dict = self.get_split_dict()
+        self.list_cat, self.split_indices = self.get_split_indices()
 
-
+        print(self.list_cat, self.split_indices)
 
         self.bs = BackgroundSystemModel()
 
@@ -128,7 +128,7 @@ class InventoryCalculation:
 
         return response
 
-    def get_split_dict(self):
+    def get_split_indices(self):
         filename = "dict_split.csv"
         filepath = (DATA_DIR / filename)
         if not filepath.is_file():
@@ -158,7 +158,13 @@ class InventoryCalculation:
         for cat in csv_dict['components']:
             d[cat] = list(flatten(
                 [self.get_index_of_flows([l['search for']], l['search by']) for l in csv_dict['components'][cat]]))
-        return d
+
+        list_ind = [d[x] for x in d]
+        maxLen = max(map(len, list_ind))
+        for row in list_ind:
+            while len(row) < maxLen:
+                row.extend([False])
+        return list(d.keys()), list_ind
 
     def calculate_impacts(
         self, FU=None, background_configuration = None, method="recipe", level="midpoint", split="components"
@@ -190,23 +196,21 @@ class InventoryCalculation:
                         f[car] = 1
 
                         # Solve inventory
-                        g = np.linalg.inv(self.A).dot(f)
-                        C = g * self.B
+                        C = np.linalg.solve(self.A, f) * self.B
+
 
                         # Iterate through the results array to fill it
                         # TODO: optimize this section
-                        for cat in self.split_dict:
-                            # Retrieve position of certain datasets to split results into categories
-                            # (direct emissions, energy chain, etc.)
-                            self.results.loc[dict(impact=cat, year=y, size=s, powertrain=pt, value=i)] = \
-                                C[:, self.split_dict[cat]].sum(axis=1)
+                        self.results.loc[
+                            dict(impact=self.list_cat, year=y, size=s, powertrain=pt, value=i)] = \
+                            C[:, self.split_indices].sum(axis=2)
+
                         # Fill the 'other' section by subtracting the total impact by what has already been
                         # accounted for.
                         self.results.loc[dict(impact='other', year=y, size=s, powertrain=pt, value=i)] = \
                             (C[:, :].sum(axis=1) - self.results.loc[dict(year=y, size=s, powertrain=pt, value=i)].sum(axis=1).values)
 
         return self.results
-
 
     def get_A_matrix(self):
         filename = "A_matrix.csv"
@@ -310,13 +314,13 @@ class InventoryCalculation:
     def get_index_of_flows(self, items_to_look_for, search_by="name"):
         if search_by == "name":
             return [
-                self.inputs[c]
+                int(self.inputs[c])
                 for c in self.inputs
                 if any(ele in c[0] for ele in items_to_look_for)
             ]
         if search_by == "compartment":
             return [
-                self.inputs[c]
+                int(self.inputs[c])
                 for c in self.inputs
                 if any(ele in c[1] for ele in items_to_look_for)
             ]
