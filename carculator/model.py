@@ -4,13 +4,13 @@ import numpy as np
 from .energy_consumption import EnergyConsumptionModel
 from .noise_emissions import NoiseEmissionsModel
 from .hot_emissions import HotEmissionsModel
-from bw2io import ExcelImporter
-from bw2io.export.excel import (
-    safe_filename,
-    xlsxwriter,
-    CSVFormatter,
-    create_valid_worksheet_name,
-)
+# from bw2io import ExcelImporter
+# from bw2io.export.excel import (
+#     safe_filename,
+#     xlsxwriter,
+#     CSVFormatter,
+#     create_valid_worksheet_name,
+# )
 import uuid
 import xarray as xr
 import csv
@@ -842,392 +842,392 @@ class CarModel:
 
         return filepath
 
-    def write_lci_to_csv_simapro(self, db_name):
-        """Export database `database_name` as a CSV file to be imported as a new project in SimaPro.
-        Returns the file path of the exported CSV file.
-
-        :param db_name: Name of the database to be created.
-        :type db_name: str
-        :return: The file path of the exported file.
-        :rtype: str
-
-        """
-
-        return i
-
-    def import_aux_datasets(self):
-        """
-        This method imports auxiliary inventory dataset of battery production, etc. into a new Brightway
-        database.
-        Returns an object from the `bw2io.ExcelImporter` class to which foreground inventories will be added.
-
-        :return: An bw2io.ExcelImporter object.
-        :rtype: bwio.ExcelImporter
-
-        """
-        parent = Path(getframeinfo(currentframe()).filename).resolve().parent
-        filename = parent.joinpath("data/Additional datasets.xlsx")
-
-        i = ExcelImporter(filename)
-
-        return i
-
-    # Create models from data
-    def best_fit_distribution(self, data, bins=200, ax=None):
-        import scipy.stats as st
-        import warnings
-        import pandas as pd
-
-        """Model data by finding best fit distribution to data"""
-        # Get histogram of original data
-        y, x = np.histogram(data, bins=bins, density=True)
-        x = (x + np.roll(x, -1))[:-1] / 2.0
-
-        # Distributions to check
-        DISTRIBUTIONS = [
-            st.beta,
-            st.gamma,
-            st.lognorm,
-            st.norm,
-            st.t,
-            st.triang,
-            st.uniform,
-            st.weibull_min,
-        ]
-
-        # Best holders
-        best_distribution = st.norm
-        best_params = (0.0, 1.0)
-        best_sse = np.inf
-
-        # Estimate distribution parameters from data
-        for distribution in DISTRIBUTIONS:
-
-            # Try to fit the distribution
-            try:
-                # Ignore warnings from data that can't be fit
-                with warnings.catch_warnings():
-                    warnings.filterwarnings("ignore")
-
-                    # fit dist to data
-                    params = distribution.fit(data)
-
-                    # Separate parts of parameters
-                    arg = params[:-2]
-                    loc = params[-2]
-                    scale = params[-1]
-
-                    # Calculate fitted PDF and error with fit in distribution
-                    pdf = distribution.pdf(x, loc=loc, scale=scale, *arg)
-                    sse = np.sum(np.power(y - pdf, 2.0))
-
-                    # if axis pass in add to plot
-                    try:
-                        if ax:
-                            pd.Series(pdf, x).plot(ax=ax)
-                        end
-                    except Exception:
-                        pass
-
-                    # identify if this distribution is better
-                    if best_sse > sse > 0:
-                        best_distribution = distribution
-                        best_params = params
-                        best_sse = sse
-
-            except Exception:
-                pass
-
-        return (
-            best_distribution.name,
-            getattr(st, best_distribution.name),
-            best_params,
-        )
-
-    def make_pdf(self, dist, params, size=10000):
-        """Generate distributions's Probability Distribution Function """
-        import pandas as pd
-
-        # Separate parts of parameters
-        arg = params[:-2]
-        loc = params[-2]
-        scale = params[-1]
-
-        # Get sane start and end points of distribution
-        start = (
-            dist.ppf(0.01, *arg, loc=loc, scale=scale)
-            if arg
-            else dist.ppf(0.01, loc=loc, scale=scale)
-        )
-        end = (
-            dist.ppf(0.99, *arg, loc=loc, scale=scale)
-            if arg
-            else dist.ppf(0.99, loc=loc, scale=scale)
-        )
-
-        # Build PDF and turn into pandas Series
-        x = np.linspace(start, end, size)
-        y = dist.pdf(x, loc=loc, scale=scale, *arg)
-        pdf = pd.Series(y, x)
-
-        return pdf
-
-    def write_lci_to_bw(
-        self, db_name, presamples=True, name_ecoinvent_db="ecoinvent 3.5 cutoff"
-    ):
-        """
-        This method first imports `additional inventories` (e.g., battery production, hydrogen tank manufacture, etc.)
-        from an spreadsheet into a dictionary using one of Brightway's import functions.
-        Then it adds the car inventories to it and returns an object from the `bw2io.ExcelImporter` class.
-        If the model runs in "stochastic" mode and the argument `presamples`is set to True, then the method returns arrays
-        of presampled values in addition. These arrays cna be used by the `presamples`library to inject presampled values
-        in the inventory matrix for error propagation purpose (e.g., Monte Carlo).
-        If `presamples`is set to False, the uncertainty information is instead added to the inventory.
-        This means that the dependencies within the invenotry will not be respected when running a Monte Carlo analysis.
-        :param db_name: Name of the database to be created.
-        :type db_name: str
-        :param presamples: Boolean. Indicates whether uncertainty in inventories should be passed as presampled values,
-                            or as uncertainty distribution information.
-        :type presamples: bool
-        :return: An bw2io.ExcelImporter object.
-        :rtype: bwio.ExcelImporter
-        """
-
-        parent = Path(getframeinfo(currentframe()).filename).resolve().parent
-        filename = parent.joinpath("data/dict_exchanges.csv")
-
-        with open(filename) as f:
-            csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
-
-        (_, *header), *data = csv_list
-        csv_dict = {}
-        for row in data:
-            key, *values = row
-            csv_dict[key] = {key: value for key, value in zip(header, values)}
-
-        list_act = []
-        val = []
-
-        # Overall array for presamples
-        matrix_data = []
-
-        for pt in self.array.coords["powertrain"].values:
-            for s in self.array.coords["size"].values:
-                for y in self.array.coords["year"].values:
-
-                    # Generate uniqu code for activity
-                    code_act = str(uuid.uuid1())
-
-                    list_exc = []
-                    # We insert first the reference product
-                    list_exc.append(
-                        {
-                            "name": "Passenger car, " + pt + ", " + s + ", " + str(y),
-                            "database": db_name,
-                            "amount": 1.0,
-                            "unit": "vehicle-kilometer",
-                            "type": "production",
-                            "location": "GLO",
-                        }
-                    )
-
-                    for k in list(csv_dict.keys()):
-                        value = self.array.sel(
-                            powertrain=pt, size=s, year=y, parameter=k
-                        ).values
-
-                        # Static mode
-                        if len(value) == 1:
-                            static = True
-                            if abs(value) != 0.0:
-                                list_exc.append(
-                                    {
-                                        "name": csv_dict[k]["Dataset name"],
-                                        "database": csv_dict[k]["Database"],
-                                        "amount": value[0],
-                                        "unit": csv_dict[k]["Unit"],
-                                        "type": csv_dict[k]["Type"],
-                                        "location": csv_dict[k].get("Location", "None"),
-                                        "reference product": csv_dict[k].get(
-                                            "reference product"
-                                        ),
-                                        "categories": csv_dict[k].get("categories"),
-                                        "uncertainty type": 0,
-                                        "code": csv_dict[k].get("code"),
-                                    }
-                                )
-                        # Stochastic mode
-                        else:
-                            static = False
-                            if np.sum(value) != 0.0:
-                                list_exc.append(
-                                    {
-                                        "name": csv_dict[k]["Dataset name"],
-                                        "database": csv_dict[k]["Database"],
-                                        "amount": np.median(value),
-                                        "unit": csv_dict[k]["Unit"],
-                                        "type": csv_dict[k]["Type"],
-                                        "location": csv_dict[k].get("Location", "None"),
-                                        "reference product": csv_dict[k].get(
-                                            "reference product"
-                                        ),
-                                        "categories": csv_dict[k].get("categories"),
-                                        "code": csv_dict[k].get("code"),
-                                        "uncertainty type": 0,
-                                    }
-                                )
-
-                                # Generate presamples array
-                                if presamples:
-                                    if csv_dict[k]["Database"] == "biosphere3":
-                                        db = "biosphere3"
-                                    elif csv_dict[k]["Database"] == "ecoinvent":
-                                        db = name_ecoinvent_db
-                                    else:
-                                        db = db_name
-                                    act_key = (db_name, code_act)
-                                    exc_key = (db, csv_dict[k]["code"])
-
-                                    matrix_data.append(
-                                        (
-                                            value,
-                                            [(exc_key, act_key, csv_dict[k]["Type"])],
-                                            csv_dict[k]["Type"],
-                                        )
-                                    )
-
-                                # Identify underlying distribution and parameters
-                                else:
-                                    # Deviation in array values --> need to identify the distribution
-                                    if np.any(value[0] != value):
-                                        # Find best fit distribution
-                                        best_fit_name, best_dist, best_fit_params = self.best_fit_distribution(
-                                            value, 200
-                                        )
-
-                                        # Build uncertainty dictionnary to be interpreted by BW2
-                                        # See https://docs.brightwaylca.org/intro.html#uncertainty-type
-                                        uncertainty_ID = {
-                                            # scipy.stats distr. params --> stats.array distr. params
-                                            "triang": 5,  # c --> loc (mode), loc --> min, loc + scale --> max
-                                            "weibull_min": 8,  # c --> shape, scale --> scale
-                                            "gamma": 9,  # a --> shape, scale --> scale, loc --> loc
-                                            "beta": 10,  # a --> loc, b --> shape, scale --> scale
-                                            "lognorm": 2,  # s --> scale (std), scale --> loc (exp(mean))
-                                            "norm": 3,  # loc --> loc (mean), scale --> scale (std)
-                                            "uniform": 4,  # loc --> min, loc + scale --> max
-                                            "t": 12,  # df --> shape, loc --> loc, scale --> scale
-                                        }
-
-                                        # Lognormal distribution
-                                        if uncertainty_ID[best_fit_name] == 2:
-                                            list_exc[-1]["uncertainty type"] = 2
-                                            list_exc[-1]["scale"] = best_fit_params[0]
-                                            list_exc[-1]["loc"] = best_fit_params[2]
-
-                                        # Normal distribution
-                                        if uncertainty_ID[best_fit_name] == 3:
-                                            list_exc[-1]["uncertainty type"] = 3
-                                            list_exc[-1]["loc"] = best_fit_params[0]
-                                            list_exc[-1]["scale"] = best_fit_params[1]
-
-                                        # Uniform distribution
-                                        if uncertainty_ID[best_fit_name] == 4:
-                                            list_exc[-1]["uncertainty type"] = 4
-                                            list_exc[-1]["minimum"] = best_fit_params[0]
-                                            list_exc[-1]["maximum"] = (
-                                                best_fit_params[0] + best_fit_params[1]
-                                            )
-
-                                        # Triangular distribution
-                                        if uncertainty_ID[best_fit_name] == 5:
-                                            list_exc[-1]["uncertainty type"] = 5
-                                            list_exc[-1]["loc"] = list_exc[-1][
-                                                "amount"
-                                            ]  # <-- use 'amount' instead of calculated median
-                                            list_exc[-1]["minimum"] = best_fit_params[1]
-                                            list_exc[-1]["maximum"] = (
-                                                best_fit_params[1] + best_fit_params[2]
-                                            )
-
-                                        # Gamma distribution
-                                        if uncertainty_ID[best_fit_name] == 9:
-                                            list_exc[-1]["uncertainty type"] = 9
-                                            list_exc[-1]["shape"] = best_fit_params[0]
-                                            list_exc[-1]["scale"] = best_fit_params[2]
-                                            list_exc[-1]["loc"] = best_fit_params[1]
-
-                                        # Beta distribution
-                                        if uncertainty_ID[best_fit_name] == 10:
-                                            list_exc[-1]["uncertainty type"] = 10
-                                            list_exc[-1]["loc"] = best_fit_params[0]
-                                            list_exc[-1]["shape"] = best_fit_params[1]
-                                            list_exc[-1]["scale"] = best_fit_params[3]
-
-                                        # Weibull distribution
-                                        if uncertainty_ID[best_fit_name] == 8:
-                                            list_exc[-1]["uncertainty type"] = 8
-                                            list_exc[-1]["shape"] = best_fit_params[0]
-                                            list_exc[-1]["scale"] = best_fit_params[2]
-
-                                        # Student's T distribution
-                                        if uncertainty_ID[best_fit_name] == 12:
-                                            list_exc[-1]["uncertainty type"] = 12
-                                            list_exc[-1]["shape"] = best_fit_params[0]
-                                            list_exc[-1]["loc"] = best_fit_params[1]
-                                            list_exc[-1]["scale"] = best_fit_params[2]
-
-                    list_act.append(
-                        {
-                            "production amount": 1,
-                            "code": code_act,
-                            "database": db_name,
-                            "name": "Passenger car, " + pt + ", " + s + ", " + str(y),
-                            "unit": "vehicle-kilometer",
-                            "location": "GLO",
-                            "exchanges": list_exc,
-                            "reference product": "Passenger car, "
-                            + pt
-                            + ", "
-                            + s
-                            + ", "
-                            + str(y),
-                            "type": "process",
-                        }
-                    )
-
-        # Add noise flows to the new database
-        for k in [i for i in list(csv_dict.keys()) if "noise" in i]:
-            list_act.append(
-                {
-                    "code": csv_dict[k]["code"],
-                    "database": db_name,
-                    "name": csv_dict[k]["Dataset name"],
-                    "unit": csv_dict[k]["Unit"],
-                    "type": csv_dict[k]["Type"],
-                    "categories": csv_dict[k]["categories"],
-                }
-            )
-
-        i = self.import_aux_datasets()
-        i.data.extend(list_act)
-        i.db_name = db_name
-
-        for k in i.data:
-            try:
-                k["database"] = db_name
-                for e in k["exchanges"]:
-                    if "ecoinvent" not in e["database"]:
-                        e["database"] = db_name
-            except:
-                continue
-
-        i.apply_strategies()
-
-        if static == False:
-            if presamples:
-                return i, matrix_data
-            else:
-                return i
-        else:
-            return i
+    # def write_lci_to_csv_simapro(self, db_name):
+    #     """Export database `database_name` as a CSV file to be imported as a new project in SimaPro.
+    #     Returns the file path of the exported CSV file.
+    #
+    #     :param db_name: Name of the database to be created.
+    #     :type db_name: str
+    #     :return: The file path of the exported file.
+    #     :rtype: str
+    #
+    #     """
+    #
+    #     return i
+    #
+    # def import_aux_datasets(self):
+    #     """
+    #     This method imports auxiliary inventory dataset of battery production, etc. into a new Brightway
+    #     database.
+    #     Returns an object from the `bw2io.ExcelImporter` class to which foreground inventories will be added.
+    #
+    #     :return: An bw2io.ExcelImporter object.
+    #     :rtype: bwio.ExcelImporter
+    #
+    #     """
+    #     parent = Path(getframeinfo(currentframe()).filename).resolve().parent
+    #     filename = parent.joinpath("data/Additional datasets.xlsx")
+    #
+    #     i = ExcelImporter(filename)
+    #
+    #     return i
+    #
+    # # Create models from data
+    # def best_fit_distribution(self, data, bins=200, ax=None):
+    #     import scipy.stats as st
+    #     import warnings
+    #     import pandas as pd
+    #
+    #     """Model data by finding best fit distribution to data"""
+    #     # Get histogram of original data
+    #     y, x = np.histogram(data, bins=bins, density=True)
+    #     x = (x + np.roll(x, -1))[:-1] / 2.0
+    #
+    #     # Distributions to check
+    #     DISTRIBUTIONS = [
+    #         st.beta,
+    #         st.gamma,
+    #         st.lognorm,
+    #         st.norm,
+    #         st.t,
+    #         st.triang,
+    #         st.uniform,
+    #         st.weibull_min,
+    #     ]
+    #
+    #     # Best holders
+    #     best_distribution = st.norm
+    #     best_params = (0.0, 1.0)
+    #     best_sse = np.inf
+    #
+    #     # Estimate distribution parameters from data
+    #     for distribution in DISTRIBUTIONS:
+    #
+    #         # Try to fit the distribution
+    #         try:
+    #             # Ignore warnings from data that can't be fit
+    #             with warnings.catch_warnings():
+    #                 warnings.filterwarnings("ignore")
+    #
+    #                 # fit dist to data
+    #                 params = distribution.fit(data)
+    #
+    #                 # Separate parts of parameters
+    #                 arg = params[:-2]
+    #                 loc = params[-2]
+    #                 scale = params[-1]
+    #
+    #                 # Calculate fitted PDF and error with fit in distribution
+    #                 pdf = distribution.pdf(x, loc=loc, scale=scale, *arg)
+    #                 sse = np.sum(np.power(y - pdf, 2.0))
+    #
+    #                 # if axis pass in add to plot
+    #                 try:
+    #                     if ax:
+    #                         pd.Series(pdf, x).plot(ax=ax)
+    #                     end
+    #                 except Exception:
+    #                     pass
+    #
+    #                 # identify if this distribution is better
+    #                 if best_sse > sse > 0:
+    #                     best_distribution = distribution
+    #                     best_params = params
+    #                     best_sse = sse
+    #
+    #         except Exception:
+    #             pass
+    #
+    #     return (
+    #         best_distribution.name,
+    #         getattr(st, best_distribution.name),
+    #         best_params,
+    #     )
+    #
+    # def make_pdf(self, dist, params, size=10000):
+    #     """Generate distributions's Probability Distribution Function """
+    #     import pandas as pd
+    #
+    #     # Separate parts of parameters
+    #     arg = params[:-2]
+    #     loc = params[-2]
+    #     scale = params[-1]
+    #
+    #     # Get sane start and end points of distribution
+    #     start = (
+    #         dist.ppf(0.01, *arg, loc=loc, scale=scale)
+    #         if arg
+    #         else dist.ppf(0.01, loc=loc, scale=scale)
+    #     )
+    #     end = (
+    #         dist.ppf(0.99, *arg, loc=loc, scale=scale)
+    #         if arg
+    #         else dist.ppf(0.99, loc=loc, scale=scale)
+    #     )
+    #
+    #     # Build PDF and turn into pandas Series
+    #     x = np.linspace(start, end, size)
+    #     y = dist.pdf(x, loc=loc, scale=scale, *arg)
+    #     pdf = pd.Series(y, x)
+    #
+    #     return pdf
+    #
+    # def write_lci_to_bw(
+    #     self, db_name, presamples=True, name_ecoinvent_db="ecoinvent 3.5 cutoff"
+    # ):
+    #     """
+    #     This method first imports `additional inventories` (e.g., battery production, hydrogen tank manufacture, etc.)
+    #     from an spreadsheet into a dictionary using one of Brightway's import functions.
+    #     Then it adds the car inventories to it and returns an object from the `bw2io.ExcelImporter` class.
+    #     If the model runs in "stochastic" mode and the argument `presamples`is set to True, then the method returns arrays
+    #     of presampled values in addition. These arrays cna be used by the `presamples`library to inject presampled values
+    #     in the inventory matrix for error propagation purpose (e.g., Monte Carlo).
+    #     If `presamples`is set to False, the uncertainty information is instead added to the inventory.
+    #     This means that the dependencies within the invenotry will not be respected when running a Monte Carlo analysis.
+    #     :param db_name: Name of the database to be created.
+    #     :type db_name: str
+    #     :param presamples: Boolean. Indicates whether uncertainty in inventories should be passed as presampled values,
+    #                         or as uncertainty distribution information.
+    #     :type presamples: bool
+    #     :return: An bw2io.ExcelImporter object.
+    #     :rtype: bwio.ExcelImporter
+    #     """
+    #
+    #     parent = Path(getframeinfo(currentframe()).filename).resolve().parent
+    #     filename = parent.joinpath("data/dict_exchanges.csv")
+    #
+    #     with open(filename) as f:
+    #         csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+    #
+    #     (_, *header), *data = csv_list
+    #     csv_dict = {}
+    #     for row in data:
+    #         key, *values = row
+    #         csv_dict[key] = {key: value for key, value in zip(header, values)}
+    #
+    #     list_act = []
+    #     val = []
+    #
+    #     # Overall array for presamples
+    #     matrix_data = []
+    #
+    #     for pt in self.array.coords["powertrain"].values:
+    #         for s in self.array.coords["size"].values:
+    #             for y in self.array.coords["year"].values:
+    #
+    #                 # Generate unique code for activity
+    #                 code_act = str(uuid.uuid1())
+    #
+    #                 list_exc = []
+    #                 # We insert first the reference product
+    #                 list_exc.append(
+    #                     {
+    #                         "name": "Passenger car, " + pt + ", " + s + ", " + str(y),
+    #                         "database": db_name,
+    #                         "amount": 1.0,
+    #                         "unit": "vehicle-kilometer",
+    #                         "type": "production",
+    #                         "location": "GLO",
+    #                     }
+    #                 )
+    #
+    #                 for k in list(csv_dict.keys()):
+    #                     value = self.array.sel(
+    #                         powertrain=pt, size=s, year=y, parameter=k
+    #                     ).values
+    #
+    #                     # Static mode
+    #                     if len(value) == 1:
+    #                         static = True
+    #                         if abs(value) != 0.0:
+    #                             list_exc.append(
+    #                                 {
+    #                                     "name": csv_dict[k]["Dataset name"],
+    #                                     "database": csv_dict[k]["Database"],
+    #                                     "amount": value[0],
+    #                                     "unit": csv_dict[k]["Unit"],
+    #                                     "type": csv_dict[k]["Type"],
+    #                                     "location": csv_dict[k].get("Location", "None"),
+    #                                     "reference product": csv_dict[k].get(
+    #                                         "reference product"
+    #                                     ),
+    #                                     "categories": csv_dict[k].get("categories"),
+    #                                     "uncertainty type": 0,
+    #                                     "code": csv_dict[k].get("code"),
+    #                                 }
+    #                             )
+    #                     # Stochastic mode
+    #                     else:
+    #                         static = False
+    #                         if np.sum(value) != 0.0:
+    #                             list_exc.append(
+    #                                 {
+    #                                     "name": csv_dict[k]["Dataset name"],
+    #                                     "database": csv_dict[k]["Database"],
+    #                                     "amount": np.median(value),
+    #                                     "unit": csv_dict[k]["Unit"],
+    #                                     "type": csv_dict[k]["Type"],
+    #                                     "location": csv_dict[k].get("Location", "None"),
+    #                                     "reference product": csv_dict[k].get(
+    #                                         "reference product"
+    #                                     ),
+    #                                     "categories": csv_dict[k].get("categories"),
+    #                                     "code": csv_dict[k].get("code"),
+    #                                     "uncertainty type": 0,
+    #                                 }
+    #                             )
+    #
+    #                             # Generate presamples array
+    #                             if presamples:
+    #                                 if csv_dict[k]["Database"] == "biosphere3":
+    #                                     db = "biosphere3"
+    #                                 elif csv_dict[k]["Database"] == "ecoinvent":
+    #                                     db = name_ecoinvent_db
+    #                                 else:
+    #                                     db = db_name
+    #                                 act_key = (db_name, code_act)
+    #                                 exc_key = (db, csv_dict[k]["code"])
+    #
+    #                                 matrix_data.append(
+    #                                     (
+    #                                         value,
+    #                                         [(exc_key, act_key, csv_dict[k]["Type"])],
+    #                                         csv_dict[k]["Type"],
+    #                                     )
+    #                                 )
+    #
+    #                             # Identify underlying distribution and parameters
+    #                             else:
+    #                                 # Deviation in array values --> need to identify the distribution
+    #                                 if np.any(value[0] != value):
+    #                                     # Find best fit distribution
+    #                                     best_fit_name, best_dist, best_fit_params = self.best_fit_distribution(
+    #                                         value, 200
+    #                                     )
+    #
+    #                                     # Build uncertainty dictionnary to be interpreted by BW2
+    #                                     # See https://docs.brightwaylca.org/intro.html#uncertainty-type
+    #                                     uncertainty_ID = {
+    #                                         # scipy.stats distr. params --> stats.array distr. params
+    #                                         "triang": 5,  # c --> loc (mode), loc --> min, loc + scale --> max
+    #                                         "weibull_min": 8,  # c --> shape, scale --> scale
+    #                                         "gamma": 9,  # a --> shape, scale --> scale, loc --> loc
+    #                                         "beta": 10,  # a --> loc, b --> shape, scale --> scale
+    #                                         "lognorm": 2,  # s --> scale (std), scale --> loc (exp(mean))
+    #                                         "norm": 3,  # loc --> loc (mean), scale --> scale (std)
+    #                                         "uniform": 4,  # loc --> min, loc + scale --> max
+    #                                         "t": 12,  # df --> shape, loc --> loc, scale --> scale
+    #                                     }
+    #
+    #                                     # Lognormal distribution
+    #                                     if uncertainty_ID[best_fit_name] == 2:
+    #                                         list_exc[-1]["uncertainty type"] = 2
+    #                                         list_exc[-1]["scale"] = best_fit_params[0]
+    #                                         list_exc[-1]["loc"] = best_fit_params[2]
+    #
+    #                                     # Normal distribution
+    #                                     if uncertainty_ID[best_fit_name] == 3:
+    #                                         list_exc[-1]["uncertainty type"] = 3
+    #                                         list_exc[-1]["loc"] = best_fit_params[0]
+    #                                         list_exc[-1]["scale"] = best_fit_params[1]
+    #
+    #                                     # Uniform distribution
+    #                                     if uncertainty_ID[best_fit_name] == 4:
+    #                                         list_exc[-1]["uncertainty type"] = 4
+    #                                         list_exc[-1]["minimum"] = best_fit_params[0]
+    #                                         list_exc[-1]["maximum"] = (
+    #                                             best_fit_params[0] + best_fit_params[1]
+    #                                         )
+    #
+    #                                     # Triangular distribution
+    #                                     if uncertainty_ID[best_fit_name] == 5:
+    #                                         list_exc[-1]["uncertainty type"] = 5
+    #                                         list_exc[-1]["loc"] = list_exc[-1][
+    #                                             "amount"
+    #                                         ]  # <-- use 'amount' instead of calculated median
+    #                                         list_exc[-1]["minimum"] = best_fit_params[1]
+    #                                         list_exc[-1]["maximum"] = (
+    #                                             best_fit_params[1] + best_fit_params[2]
+    #                                         )
+    #
+    #                                     # Gamma distribution
+    #                                     if uncertainty_ID[best_fit_name] == 9:
+    #                                         list_exc[-1]["uncertainty type"] = 9
+    #                                         list_exc[-1]["shape"] = best_fit_params[0]
+    #                                         list_exc[-1]["scale"] = best_fit_params[2]
+    #                                         list_exc[-1]["loc"] = best_fit_params[1]
+    #
+    #                                     # Beta distribution
+    #                                     if uncertainty_ID[best_fit_name] == 10:
+    #                                         list_exc[-1]["uncertainty type"] = 10
+    #                                         list_exc[-1]["loc"] = best_fit_params[0]
+    #                                         list_exc[-1]["shape"] = best_fit_params[1]
+    #                                         list_exc[-1]["scale"] = best_fit_params[3]
+    #
+    #                                     # Weibull distribution
+    #                                     if uncertainty_ID[best_fit_name] == 8:
+    #                                         list_exc[-1]["uncertainty type"] = 8
+    #                                         list_exc[-1]["shape"] = best_fit_params[0]
+    #                                         list_exc[-1]["scale"] = best_fit_params[2]
+    #
+    #                                     # Student's T distribution
+    #                                     if uncertainty_ID[best_fit_name] == 12:
+    #                                         list_exc[-1]["uncertainty type"] = 12
+    #                                         list_exc[-1]["shape"] = best_fit_params[0]
+    #                                         list_exc[-1]["loc"] = best_fit_params[1]
+    #                                         list_exc[-1]["scale"] = best_fit_params[2]
+    #
+    #                 list_act.append(
+    #                     {
+    #                         "production amount": 1,
+    #                         "code": code_act,
+    #                         "database": db_name,
+    #                         "name": "Passenger car, " + pt + ", " + s + ", " + str(y),
+    #                         "unit": "vehicle-kilometer",
+    #                         "location": "GLO",
+    #                         "exchanges": list_exc,
+    #                         "reference product": "Passenger car, "
+    #                         + pt
+    #                         + ", "
+    #                         + s
+    #                         + ", "
+    #                         + str(y),
+    #                         "type": "process",
+    #                     }
+    #                 )
+    #
+    #     # Add noise flows to the new database
+    #     for k in [i for i in list(csv_dict.keys()) if "noise" in i]:
+    #         list_act.append(
+    #             {
+    #                 "code": csv_dict[k]["code"],
+    #                 "database": db_name,
+    #                 "name": csv_dict[k]["Dataset name"],
+    #                 "unit": csv_dict[k]["Unit"],
+    #                 "type": csv_dict[k]["Type"],
+    #                 "categories": csv_dict[k]["categories"],
+    #             }
+    #         )
+    #
+    #     i = self.import_aux_datasets()
+    #     i.data.extend(list_act)
+    #     i.db_name = db_name
+    #
+    #     for k in i.data:
+    #         try:
+    #             k["database"] = db_name
+    #             for e in k["exchanges"]:
+    #                 if "ecoinvent" not in e["database"]:
+    #                     e["database"] = db_name
+    #         except:
+    #             continue
+    #
+    #     i.apply_strategies()
+    #
+    #     if static == False:
+    #         if presamples:
+    #             return i, matrix_data
+    #         else:
+    #             return i
+    #     else:
+    #         return i

@@ -50,10 +50,16 @@ class EnergyConsumptionModel:
 
     def __init__(self, cycle, rho_air=1.204):
         # If a string is passed, the corresponding driving cycle is retrieved
-        try:
-            cycle = get_standard_driving_cycle(cycle).values
-        except KeyError:
-            raise ("The driving cycle specified could not be found.")
+        if isinstance(cycle, str):
+            try:
+                cycle = get_standard_driving_cycle(cycle).values
+            except KeyError:
+                raise ("The driving cycle specified could not be found.")
+        elif isinstance(cycle, np.ndarray):
+            pass
+        else:
+            raise ("The format of the driving cycle is not valid.")
+
 
         self.cycle = cycle
         self.rho_air = rho_air
