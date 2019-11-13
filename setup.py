@@ -27,7 +27,7 @@ def package_files(directory):
 
 setup(
     name='carculator',
-    version="0.0.1",
+    version="0.0.2",
     packages=packages,
     author="Romain Sacchi <romain.sacchi@psi.ch>, Chris Mutel <christopher.mutel@psi.ch>",
     license=open('LICENSE').read(),
