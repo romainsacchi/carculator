@@ -11,8 +11,6 @@ from bw2io.export.excel import (
     create_valid_worksheet_name,
 )
 import xarray as xr
-
-
 DEFAULT_MAPPINGS = {
     "electric": {"BEV", "PHEV-e"},
     "combustion": {"ICEV-p", "HEV-p", "PHEV-c", "ICEV-g", "ICEV-d"},
@@ -416,12 +414,12 @@ class CarModel:
 
         for pt in self.diesel:
             with self(pt) as cpm:
-                # Assume 48 MJ/kg of gasoline, convert to kWh
+                # Assume 48 MJ/kg of diesel, convert to kWh
                 cpm["range"] = (cpm["fuel mass"] * 48 * 1000) / cpm["TtW energy"]
 
         for pt in self.cng:
             with self(pt) as cpm:
-                # Assume 55.5 MJ/kg of gasoline, convert to kWh
+                # Assume 55.5 MJ/kg of natural gas, convert to kWh
                 cpm["range"] = (cpm["fuel mass"] * 55.5 * 1000) / cpm["TtW energy"]
 
         for pt in self.electric:

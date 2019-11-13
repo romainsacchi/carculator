@@ -62,13 +62,8 @@ class InventoryCalculation:
                                                                     'Particulates, > 10 um']
         ]
         self.index_noise = [self.inputs[i] for i in self.inputs if "noise" in i[0]]
-
         self.list_cat, self.split_indices = self.get_split_indices()
-
-        print(self.list_cat, self.split_indices)
-
         self.bs = BackgroundSystemModel()
-
 
     def __getitem__(self, key):
         """
@@ -167,28 +162,32 @@ class InventoryCalculation:
         return list(d.keys()), list_ind
 
     def calculate_impacts(
-        self, FU=None, background_configuration = None, method="recipe", level="midpoint", split="components"
+        self, scope=None, background_configuration = None, method="recipe", level="midpoint", split="components"
     ):
-        if FU is None:
-            FU = {}
-            FU['size'] = self.size.tolist()
-            FU['powertrain'] = self.powertrain.tolist()
-            FU['year'] = self.year.tolist()
+        if scope is None:
+            scope={}
+            scope['size'] = self.size.tolist()
+            scope['powertrain'] = self.powertrain.tolist()
+            scope['year'] = self.year.tolist()
+        else:
+            scope['size'] = scope.get('size', self.size.tolist())
+            scope['powertrain'] = scope.get('powertrain', self.powertrain.tolist())
+            scope['year'] = scope.get('year', self.year.tolist())
 
         # Load the B matrix
         self.B = self.get_B_matrix(method, level)
 
         # Prepare an array to store the results
-        self.results = self.get_results_table(FU, method, level, split)
+        self.results = self.get_results_table(scope, method, level, split)
 
         # Iterate through the number of iterations
         for i in range(self.iterations):
             self.temp_array = self.array.sel(value=i).values
-            self.set_inputs_in_A_matrix(background_configuration)
+            self.set_inputs_in_A_matrix(background_configuration, i)
 
-            for pt in FU['powertrain']:
-                for y in FU['year']:
-                    for s in FU['size']:
+            for pt in scope['powertrain']:
+                for y in scope['year']:
+                    for s in scope['size']:
                         # Retrieve the index of a given car in the matrix A
                         car = self.inputs[('Passenger car, '+ pt + ', ' + s + ', ' + str(y),"GLO")]
                         # Set the demand vector with zeros and a 1 corresponding to the car position in the vector
@@ -197,8 +196,6 @@ class InventoryCalculation:
 
                         # Solve inventory
                         C = np.linalg.solve(self.A, f) * self.B
-
-
                         # Iterate through the results array to fill it
                         # TODO: optimize this section
                         self.results.loc[
@@ -325,7 +322,7 @@ class InventoryCalculation:
                 if any(ele in c[1] for ele in items_to_look_for)
             ]
 
-    def set_inputs_in_A_matrix(self, background_configuration):
+    def set_inputs_in_A_matrix(self, background_configuration, iteration):
 
         # Glider
         self.A[
@@ -679,60 +676,190 @@ class InventoryCalculation:
             ] = (self.temp_array[self.array_inputs["electricity consumption"], :] * -1)
 
         index = self.get_index_from_array(["FCEV"])
-        self.A[
-            self.inputs[
-                ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station',
-                 'RER',
-                 'kilogram',
-                 'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station')
-            ],
-            self.index_fuel_cell,
-        ] = (
+
+        if background_configuration:
+            if 'hydrogen technology' in background_configuration:
+                # If a customization dict is passed
+                hydro_technology = background_configuration['hydrogen technology']
+            else:
+                hydro_technology = 'hydrolysis'
+        else:
+            hydro_technology = 'hydrolysis'
+
+        dict_h_map = {
+            'hydrolysis': ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station',
+                          'RER',
+                          'kilogram',
+                          'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station'),
+            'hydrolysis - solar': ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - solar PV',
+                          'RER',
+                          'kilogram',
+                          'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - solar PV'),
+            'hydrolysis - hydro': ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - hydro reservoir',
+                                  'RER',
+                                  'kilogram',
+                                  'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - hydro reservoir'),
+            'hydrolysis - nuclear': ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - nuclear PWR',
+                                      'RER',
+                                      'kilogram',
+                                      'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - nuclear PWR'),
+            'SMR': ('Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station',
+                  'RER',
+                  'kilogram',
+                  'Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station'),
+        }
+
+        self.A[self.inputs[dict_h_map[hydro_technology]],
+                self.index_fuel_cell] = (
             self.temp_array[self.array_inputs["fuel mass"], index]
             / self.temp_array[self.array_inputs["range"], index]
             * -1
-        )
+            )
+
+        # If hydrolysis is chosen, adjust the electricity mix
+        if hydro_technology == 'hydrolysis' and len(mix)>0 and iteration == 0:
+            first_iteration = False
+            # Zero out initial electricity provider
+            old_amount = self.A[self.inputs[('market group for electricity, medium voltage',
+              'Europe without Switzerland',
+              'kilowatt hour',
+              'electricity, medium voltage')],
+               self.inputs[dict_h_map[hydro_technology]]]
+            self.A[self.inputs[('market group for electricity, medium voltage',
+              'Europe without Switzerland',
+              'kilowatt hour',
+              'electricity, medium voltage')],
+               self.inputs[dict_h_map[hydro_technology]]] = 0
+
+            # TODO: differentiate hydrogen production in time
+            self.A[[self.inputs[dict_map[t]] for t in dict_map],
+                        self.inputs[dict_h_map[hydro_technology]]] = np.asarray(mix[0]) * (old_amount * losses_to_low)
 
         index = self.get_index_from_array(["ICEV-g"])
 
-        self.A[
-            self.inputs[
-                ('market for natural gas, from high pressure network (1-5 bar), at service station',
-                 'GLO',
-                 'kilogram',
-                 'natural gas, from high pressure network (1-5 bar), at service station')
-            ],
-            self.index_cng,
-        ] = (
-            self.temp_array[self.array_inputs["fuel mass"], index]
-            / self.temp_array[self.array_inputs["range"], index]
-            * -1
-        )
+        if background_configuration:
+            if 'cng technology' in background_configuration:
+                # If a customization dict is passed
+                cng_technology = background_configuration['cng technology']
+            else:
+                cng_technology = 'cng'
+        else:
+            cng_technology = 'cng'
+
+        dict_cng_map = {
+            'cng': ('market for natural gas, from high pressure network (1-5 bar), at service station',
+                  'GLO',
+                  'kilogram',
+                  'natural gas, from high pressure network (1-5 bar), at service station'),
+            'biogas': ('biogas upgrading - sewage sludge - amine scrubbing - best',
+                      'CH',
+                      'cubic meter',
+                      'biogas upgrading - sewage sludge - amine scrubbing - best')
+        }
+
+        if cng_technology == 'cng':
+            self.A[self.inputs[dict_cng_map[cng_technology]],
+                    self.index_cng] = (
+                self.temp_array[self.array_inputs["fuel mass"], index]
+                / self.temp_array[self.array_inputs["range"], index]
+                * -1
+                )
+        else:
+            # biogas
+            self.A[self.inputs[dict_cng_map[cng_technology]],
+                    self.index_cng] = (
+                (self.temp_array[self.array_inputs["fuel mass"], index] / 180 ) #kg/m3 @ 200 bar
+                / self.temp_array[self.array_inputs["range"], index]
+                * -1
+                )
 
         index = self.get_index_from_array(["ICEV-d"])
-        self.A[
-            self.inputs[('market for diesel', 'Europe without Switzerland', 'kilogram', 'diesel')],
-            self.index_diesel,
-        ] = (
-            self.temp_array[self.array_inputs["fuel mass"], index]
-            / self.temp_array[self.array_inputs["range"], index]
-            * -1
-        )
+        if background_configuration:
+            if 'diesel technology' in background_configuration:
+                # If a customization dict is passed
+                diesel_technology = background_configuration['diesel technology']
+            else:
+                diesel_technology = 'diesel'
+        else:
+            diesel_technology = 'diesel'
+
+        dict_diesel_map = {
+            'diesel': ('market for diesel', 'Europe without Switzerland', 'kilogram', 'diesel'),
+            'biodiesel - algae': ('biodiesel production from algae',
+                                  'RER',
+                                  'megajoule',
+                                  'biodiesel production from algae'),
+            'biodiesel - cooking oil': ('Biodiesel ( Fatty Acid Methy Esters) production from Waste (Used) cooking Oil  {RER} | transesterification of WVO Europe | Alloc Rec, U',
+                                      'RER',
+                                      'megajoule',
+                                      'Biodiesel ( Fatty Acid Methy Esters) production from Waste (Used) cooking Oil  {RER} | transesterification of WVO Europe | Alloc Rec, U')
+        }
+
+        if diesel_technology == 'diesel':
+            self.A[self.inputs[dict_diesel_map[diesel_technology]],
+                    self.index_diesel] = (
+                self.temp_array[self.array_inputs["fuel mass"], index]
+                / self.temp_array[self.array_inputs["range"], index]
+                * -1
+                )
+        else:
+            # biodiesel
+            self.A[self.inputs[dict_diesel_map[diesel_technology]],
+                    self.index_diesel] = (
+                (self.temp_array[self.array_inputs["fuel mass"], index] / 48) # LHV biodiesel 40 MJ/kg
+                / self.temp_array[self.array_inputs["range"], index]
+                * -1
+                )
 
         index = self.get_index_from_array(["ICEV-p", 'HEV-p', 'PHEV'])
-        self.A[
-            self.inputs[
-                ('market for petrol, low-sulfur',
-                 'Europe without Switzerland',
-                 'kilogram',
-                 'petrol, low-sulfur')
-            ],
-            self.index_petrol + self.index_hybrid + self.index_plugin_hybrid,
-        ] = (
-            self.temp_array[self.array_inputs["fuel mass"], index]
-            / self.temp_array[self.array_inputs["range"], index]
-            * -1
-        )
+
+        if background_configuration:
+            if 'petrol technology' in background_configuration:
+                # If a customization dict is passed
+                petrol_technology = background_configuration['petrol technology']
+            else:
+                petrol_technology = 'petrol'
+        else:
+            petrol_technology = 'petrol'
+
+        dict_petrol_map = {
+            'petrol': ('market for petrol, low-sulfur',
+                      'Europe without Switzerland',
+                      'kilogram',
+                      'petrol, low-sulfur'),
+            'bioethanol - wheat straw': ('ethanol from wheat straw pellets',
+                                          'RER',
+                                          'megajoule',
+                                          'ethanol from wheat straw pellets'),
+            'bioethanol - forest residues': ('Ethanol from forest residues',
+                                            'RER',
+                                              'megajoule',
+                                              'Ethanol from forest residues'),
+            'bioethanol - sugarbeet' : ('Ethanol from sugarbeet (purity >95%) production & distribution {RER} | fermentation of sugar beet juice with anaerobic digestion of wastes | Alloc Rec,  U',
+                                      'RER',
+                                      'megajoule',
+                                      'Ethanol from sugarbeet (purity >95%) production & distribution {RER} | fermentation of sugar beet juice with anaerobic digestion of wastes | Alloc Rec,  U') ,
+            'bioethanol - maize starch' : ('Ethanol from maize (purity >95%) production & distribution {RER} | fermentation of maize starch | Alloc Rec,  U',
+                                          'RER',
+                                          'megajoule',
+                                          'Ethanol from maize (purity >95%) production & distribution {RER} | fermentation of maize starch | Alloc Rec,  U')
+        }
+
+        if petrol_technology == 'petrol':
+            self.A[self.inputs[dict_petrol_map[petrol_technology]],
+                    self.index_petrol + self.index_hybrid + self.index_plugin_hybrid] = (
+                self.temp_array[self.array_inputs["fuel mass"], index]
+                / self.temp_array[self.array_inputs["range"], index]
+                * -1
+                )
+        else:
+            # bioethanol
+            self.A[self.inputs[dict_petrol_map[petrol_technology]],
+                    self.index_petrol + self.index_hybrid + self.index_plugin_hybrid] = (
+                (self.temp_array[self.array_inputs["fuel mass"], index] / 42.4) # LHV petrol 42.4 MJ/kg
+                / self.temp_array[self.array_inputs["range"], index]
+                * -1
+                )
 
         # Non-exhaust emissions
         self.A[
@@ -816,6 +943,44 @@ class InventoryCalculation:
             self.temp_array[[self.array_inputs[l] for l in list_direct_emissions], :]
             * -1
         )
+
+        if cng_technology=='biogas':
+            # change fossil emissions to non-fossil, if first iteration
+            old_co2_amounts = self.A[
+                self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
+                self.index_cng]
+            self.A[
+                self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
+                self.index_cng] = 0
+            self.A[
+                self.inputs[('Carbon dioxide, non-fossil', ('air',), 'kilogram')],
+                self.index_cng] = old_co2_amounts
+
+
+        if diesel_technology in ('biodiesel - algae', 'biodiesel - cooking oil'):
+            # change fossil emissions to non-fossil, if first iteration
+            old_co2_amounts = self.A[
+                self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
+                self.index_diesel]
+            self.A[
+                self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
+                self.index_diesel] = 0
+            self.A[
+                self.inputs[('Carbon dioxide, non-fossil', ('air',), 'kilogram')],
+                self.index_diesel] = old_co2_amounts
+
+        if petrol_technology in ('bioethanol - wheat straw', 'bioethanol - forest residues',
+                                 'bioethanol - sugarbeet', 'bioethanol - maize starch'):
+            # change fossil emissions to non-fossil, if first iteration
+            old_co2_amounts = self.A[
+                self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
+                self.index_petrol + self.index_hybrid + self.index_plugin_hybrid]
+            self.A[
+                self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
+                self.index_petrol + self.index_hybrid + self.index_plugin_hybrid] = 0
+            self.A[
+                self.inputs[('Carbon dioxide, non-fossil', ('air',), 'kilogram')],
+                self.index_petrol + self.index_hybrid + self.index_plugin_hybrid] = old_co2_amounts
 
         # Noise emissions
         self.A[self.index_noise, -self.number_of_cars :] = (
