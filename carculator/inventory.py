@@ -717,7 +717,7 @@ class InventoryCalculation:
             )
 
         # If hydrolysis is chosen, adjust the electricity mix
-        if hydro_technology == 'hydrolysis' and len(mix)>0 and iteration == 0:
+        if hydro_technology == 'hydrolysis' and iteration == 0:
             first_iteration = False
             # Zero out initial electricity provider
             old_amount = self.A[self.inputs[('market group for electricity, medium voltage',
