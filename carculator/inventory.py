@@ -82,11 +82,11 @@ class InventoryCalculation:
             cat = [
                 "direct",
                 "energy chain",
-                "energy storage",
+                "maintenance",
                 "glider",
                 "powertrain",
+                "energy storage",
                 "road",
-                "maintenance",
                 "other"
             ]
 
@@ -150,15 +150,20 @@ class InventoryCalculation:
         flatten = itertools.chain.from_iterable
 
         d = {}
+        l=[]
         for cat in csv_dict['components']:
             d[cat] = list(flatten(
                 [self.get_index_of_flows([l['search for']], l['search by']) for l in csv_dict['components'][cat]]))
+            l.append(d[cat])
+
+        d['other'] = [x for x in self.rev_inputs
+                      if not x in list(flatten(l))]
 
         list_ind = [d[x] for x in d]
         maxLen = max(map(len, list_ind))
         for row in list_ind:
             while len(row) < maxLen:
-                row.extend([False])
+                row.extend([len(self.inputs)-1])
         return list(d.keys()), list_ind
 
     def calculate_impacts(
@@ -196,16 +201,14 @@ class InventoryCalculation:
 
                         # Solve inventory
                         C = np.linalg.solve(self.A, f) * self.B
+
+                        if pt=='BEV' and y==2018 and s=='Large':
+                            np.savetxt('C.csv', C)
                         # Iterate through the results array to fill it
                         # TODO: optimize this section
                         self.results.loc[
                             dict(impact=self.list_cat, year=y, size=s, powertrain=pt, value=i)] = \
                             C[:, self.split_indices].sum(axis=2)
-
-                        # Fill the 'other' section by subtracting the total impact by what has already been
-                        # accounted for.
-                        self.results.loc[dict(impact='other', year=y, size=s, powertrain=pt, value=i)] = \
-                            (C[:, :].sum(axis=1) - self.results.loc[dict(year=y, size=s, powertrain=pt, value=i)].sum(axis=1).values)
 
         return self.results
 
@@ -329,7 +332,7 @@ class InventoryCalculation:
             self.inputs[('market for glider, passenger car', 'GLO','kilogram','glider, passenger car')],
             -self.number_of_cars :,
         ] = (
-            self.temp_array[self.array_inputs["glider base mass"], :]
+            (self.temp_array[self.array_inputs["glider base mass"], :] * (1-self.temp_array[self.array_inputs["lightweighting"], :]))
             / self.temp_array[self.array_inputs["lifetime kilometers"], :]
             * -1
         )
@@ -337,7 +340,7 @@ class InventoryCalculation:
         self.A[
             self.inputs[('Glider lightweighting', 'GLO', 'kilogram', 'Glider lightweighting')], -self.number_of_cars :
         ] = (
-            self.temp_array[self.array_inputs["lightweighting"], :]
+            (self.temp_array[self.array_inputs["lightweighting"], :] * self.temp_array[self.array_inputs["glider base mass"], :])
             / self.temp_array[self.array_inputs["lifetime kilometers"], :]
             * -1
         )
@@ -589,91 +592,80 @@ class InventoryCalculation:
         )
 
         # Energy chain
+        dict_map = {
+            'Hydro': ('electricity production, hydro, run-of-river',
+                      'DE',
+                      'kilowatt hour',
+                      'electricity, high voltage',
+                      ),
+            'Nuclear': ('electricity production, nuclear, pressure water reactor',
+                        'DE',
+                        'kilowatt hour',
+                        'electricity, high voltage'),
+            'Gas': ('electricity production, natural gas, conventional power plant',
+                    'DE',
+                    'kilowatt hour',
+                    'electricity, high voltage'),
+            'Solar': ('electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted',
+                      'DE',
+                      'kilowatt hour',
+                      'electricity, low voltage'),
+            'Wind': ('electricity production, wind, 1-3MW turbine, onshore',
+                     'DE',
+                     'kilowatt hour',
+                     'electricity, high voltage'),
+            'Biomass': ('heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014',
+                        'DE',
+                        'kilowatt hour',
+                        'electricity, high voltage'),
+            'Coal': ('electricity production, hard coal',
+                     'DE',
+                     'kilowatt hour',
+                     'electricity, high voltage'),
+            'Oil': ('electricity production, oil',
+                    'DE',
+                    'kilowatt hour',
+                    'electricity, high voltage'),
+            'Geo': ('electricity production, deep geothermal',
+                    'DE',
+                    'kilowatt hour',
+                    'electricity, high voltage'),
+            'Waste': (
+                    'electricity, from municipal waste incineration to generic market for electricity, medium voltage',
+                    'DE',
+                    'kilowatt hour',
+                    'electricity, medium voltage'),
+        }
         if background_configuration:
             # If a customization dict is passed
             if 'background_country' in background_configuration:
                 # If a country is specified
                 country = background_configuration['background_country']
                 losses_to_low = float(self.bs.losses[country]['LV'])
+
+                if 'custom electricity mix' in background_configuration:
+                    # If a special electricity mix is specified, we use it
+                    mix = background_configuration['custom electricity mix']
+                else:
+                    mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.year).values
             else:
                 country = 'RER'
                 losses_to_low = 1.07
-
-            dict_map = {
-                'Hydro': ('electricity production, hydro, run-of-river',
-                          'DE',
-                          'kilowatt hour',
-                          'electricity, high voltage',
-                          ),
-                'Nuclear': ('electricity production, nuclear, pressure water reactor',
-                          'DE',
-                          'kilowatt hour',
-                          'electricity, high voltage'),
-                'Gas': ('electricity production, natural gas, conventional power plant',
-                          'DE',
-                          'kilowatt hour',
-                          'electricity, high voltage'),
-                'Solar': ('electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted',
-                          'DE',
-                          'kilowatt hour',
-                          'electricity, low voltage'),
-                'Wind': ('electricity production, wind, 1-3MW turbine, onshore',
-                          'DE',
-                          'kilowatt hour',
-                          'electricity, high voltage'),
-                'Biomass': ('heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014',
-                          'DE',
-                          'kilowatt hour',
-                          'electricity, high voltage'),
-                'Coal': ('electricity production, hard coal',
-                          'DE',
-                          'kilowatt hour',
-                          'electricity, high voltage'),
-                'Oil': ('electricity production, oil',
-                          'DE',
-                          'kilowatt hour',
-                          'electricity, high voltage'),
-                'Geo': ('electricity production, deep geothermal',
-                          'DE',
-                          'kilowatt hour',
-                          'electricity, high voltage'),
-                'Waste': ('electricity, from municipal waste incineration to generic market for electricity, medium voltage',
-                          'DE',
-                          'kilowatt hour',
-                          'electricity, medium voltage'),
-            }
-
-            if 'custom electricity mix' in background_configuration:
-                # If a special electricity mix is specified, we use it
-                mix = background_configuration['custom electricity mix']
-            else:
-                # if not, we fetch the mix from STEM
-                mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=[2018, 2040]).values
-
-
-            self.A[np.ix_([self.inputs[dict_map[t]] for t in dict_map],
-                        [self.inputs[i] for i in self.inputs if "2017" in i[0]])] = np.outer(mix[0],
-                self.temp_array[
-                    self.array_inputs[
-                        "electricity consumption"], self.get_index_from_array(
-                        ['2017'])]) * -1 * losses_to_low
-
-            self.A[np.ix_([self.inputs[dict_map[t]] for t in dict_map],
-                          [self.inputs[i] for i in self.inputs if "2040" in i[0]])] = np.outer(mix[1],
-              self.temp_array[
-                  self.array_inputs[
-                      "electricity consumption"], self.get_index_from_array(
-                      ['2040'])]) * -1 * losses_to_low
-
+                mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.year).values
         else:
-            # if not, we use the average European mix
-            self.A[
-                self.inputs[('market group for electricity, low voltage',
-                              'ENTSO-E',
-                              'kilowatt hour',
-                              'electricity, low voltage')],
-                -self.number_of_cars :,
-            ] = (self.temp_array[self.array_inputs["electricity consumption"], :] * -1)
+            country = 'RER'
+            losses_to_low = 1.07
+            mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.year).values
+
+        for y in self.year:
+            self.A[np.ix_([self.inputs[dict_map[t]] for t in dict_map],
+                          [self.inputs[i] for i in self.inputs if str(y) in i[0]])] = \
+                np.outer(mix[self.year.tolist().index(y)],
+                         self.temp_array[
+                             self.array_inputs["electricity consumption"],
+                             self.get_index_from_array([str(y)])
+                         ]) * -1 * losses_to_low
+
 
         index = self.get_index_from_array(["FCEV"])
 
@@ -709,6 +701,7 @@ class InventoryCalculation:
                   'Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station'),
         }
 
+
         self.A[self.inputs[dict_h_map[hydro_technology]],
                 self.index_fuel_cell] = (
             self.temp_array[self.array_inputs["fuel mass"], index]
@@ -718,22 +711,29 @@ class InventoryCalculation:
 
         # If hydrolysis is chosen, adjust the electricity mix
         if hydro_technology == 'hydrolysis' and iteration == 0:
-            first_iteration = False
             # Zero out initial electricity provider
-            old_amount = self.A[self.inputs[('market group for electricity, medium voltage',
-              'Europe without Switzerland',
-              'kilowatt hour',
-              'electricity, medium voltage')],
-               self.inputs[dict_h_map[hydro_technology]]]
+            old_amount = self.A[
+
+                self.inputs[('market group for electricity, medium voltage',
+                                              'Europe without Switzerland',
+                                              'kilowatt hour',
+                                              'electricity, medium voltage')],
+                            self.inputs[dict_h_map[hydro_technology]]
+            ]
+
             self.A[self.inputs[('market group for electricity, medium voltage',
               'Europe without Switzerland',
               'kilowatt hour',
               'electricity, medium voltage')],
                self.inputs[dict_h_map[hydro_technology]]] = 0
 
+
             # TODO: differentiate hydrogen production in time
+
             self.A[[self.inputs[dict_map[t]] for t in dict_map],
-                        self.inputs[dict_h_map[hydro_technology]]] = np.asarray(mix[0]) * (old_amount * losses_to_low)
+                    self.inputs[dict_h_map[hydro_technology]]
+                    ] = \
+                (np.outer(mix[0], old_amount) * losses_to_low).reshape(10,)
 
         index = self.get_index_from_array(["ICEV-g"])
 
