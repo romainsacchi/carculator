@@ -74,8 +74,6 @@ def fill_xarray_from_input_parameters(cip):
     year_dict = {k: i for i, k in enumerate(cip.years)}
     parameter_dict = {k: i for i, k in enumerate(cip.parameters)}
 
-    # TODO: this is taking a lot of time... needs to be optimized.
-    # Fixed!
     for param in cip:
         array.loc[
             dict(

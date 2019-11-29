@@ -38,7 +38,9 @@ components;energy chain;name;Electricity, medium voltage, wind, at grid
 components;energy chain;name;heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014
 components;maintenance;name;maintenance
 components;glider;name;glider
+components;glider;name;lightweighting
 components;glider;name;manual dismantling
+components;glider;name;steel
 components;powertrain;name;market for charger
 components;powertrain;name;market for inverter
 components;powertrain;name;market for converter

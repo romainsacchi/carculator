@@ -66,34 +66,24 @@ class CarInputParameters(NamedParameters):
                 )
             )
 
-        if limit is None:
-            self.sizes = sorted(
-                {size for o in parameters.values() for size in o.get("sizes", [])}
-            )
-        else:
-            self.sizes = sorted(
-                {size for size in limit['sizes']}
-            )
 
-        if limit is None:
-            self.powertrains = sorted(
-                {pt for o in parameters.values() for pt in o.get("powertrain", [])}
-            )
-        else:
-            self.powertrains = sorted(
-                {pt for pt in limit['powertrain']}
-            )
+        self.sizes = sorted(
+            {size for o in parameters.values() for size in o.get("sizes", [])}
+        )
+
+
+        self.powertrains = sorted(
+            {pt for o in parameters.values() for pt in o.get("powertrain", [])}
+        )
+
 
         self.parameters = sorted(
             {o["name"] for o in parameters.values()}.union(set(extra))
         )
 
-        if limit is None:
-            self.years = sorted({o["year"] for o in parameters.values()})
-        else:
-            self.years = sorted(
-                {year for year in limit['year']}
-            )
+
+        self.years = sorted({o["year"] for o in parameters.values()})
+
 
         self.add_car_parameters(parameters, limit)
 
