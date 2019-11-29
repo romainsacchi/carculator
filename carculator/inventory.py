@@ -682,28 +682,28 @@ class InventoryCalculation:
                 # If a customization dict is passed
                 hydro_technology = background_configuration['hydrogen technology']
             else:
-                hydro_technology = 'hydrolysis'
+                hydro_technology = 'Electrolysis'
         else:
-            hydro_technology = 'hydrolysis'
+            hydro_technology = 'Electrolysis'
 
         dict_h_map = {
-            'hydrolysis': ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station',
+            'Electrolysis': ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station',
                           'RER',
                           'kilogram',
                           'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station'),
-            'hydrolysis - solar': ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - solar PV',
+            'Electrolysis - solar': ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - solar PV',
                           'RER',
                           'kilogram',
                           'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - solar PV'),
-            'hydrolysis - hydro': ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - hydro reservoir',
+            'Electrolysis - hydro': ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - hydro reservoir',
                                   'RER',
                                   'kilogram',
                                   'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - hydro reservoir'),
-            'hydrolysis - nuclear': ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - nuclear PWR',
+            'Electrolysis - nuclear': ('Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - nuclear PWR',
                                       'RER',
                                       'kilogram',
                                       'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - nuclear PWR'),
-            'SMR': ('Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station',
+            'Steam Reforming of natural gas (SMR)': ('Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station',
                   'RER',
                   'kilogram',
                   'Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station'),
@@ -717,7 +717,7 @@ class InventoryCalculation:
             )
 
         # If hydrolysis is chosen, adjust the electricity mix
-        if hydro_technology == 'hydrolysis' and iteration == 0:
+        if hydro_technology == 'Electrolysis' and iteration == 0:
             first_iteration = False
             # Zero out initial electricity provider
             old_amount = self.A[self.inputs[('market group for electricity, medium voltage',
