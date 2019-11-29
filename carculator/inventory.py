@@ -657,7 +657,11 @@ class InventoryCalculation:
             losses_to_low = 1.07
             mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.year).values
 
+
         for y in self.year:
+            print(y)
+            print([self.inputs[dict_map[t]] for t in dict_map])
+            print([self.inputs[i] for i in self.inputs if str(y) in i[0]])
             self.A[np.ix_([self.inputs[dict_map[t]] for t in dict_map],
                           [self.inputs[i] for i in self.inputs if str(y) in i[0]])] = \
                 np.outer(mix[self.year.tolist().index(y)],
