@@ -640,7 +640,7 @@ class InventoryCalculation:
             # If a customization dict is passed
             if 'country' in background_configuration:
                 # If a country is specified
-                country = background_configuration['background_country']
+                country = background_configuration['country']
                 losses_to_low = float(self.bs.losses[country]['LV'])
 
                 if 'custom electricity mix' in background_configuration:
