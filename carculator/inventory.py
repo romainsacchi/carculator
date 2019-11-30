@@ -638,7 +638,7 @@ class InventoryCalculation:
         }
         if background_configuration:
             # If a customization dict is passed
-            if 'background_country' in background_configuration:
+            if 'country' in background_configuration:
                 # If a country is specified
                 country = background_configuration['background_country']
                 losses_to_low = float(self.bs.losses[country]['LV'])
@@ -659,9 +659,6 @@ class InventoryCalculation:
 
 
         for y in self.year:
-            print(y)
-            print([self.inputs[dict_map[t]] for t in dict_map])
-            print([self.inputs[i] for i in self.inputs if str(y) in i[0]])
             self.A[np.ix_([self.inputs[dict_map[t]] for t in dict_map],
                           [self.inputs[i] for i in self.inputs if str(y) in i[0]])] = \
                 np.outer(mix[self.year.tolist().index(y)],
