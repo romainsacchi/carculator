@@ -204,15 +204,12 @@ class CarModel:
         ).sum(axis=-1)
 
         self.motive_energy = motive_energy
-
         self["TtW energy"] = aux_energy + motive_energy
 
     def set_fuel_cell_parameters(self):
         """
         Specific setup for fuel cells, which are mild hybrids.
-
         Must be called after ``.set_power_parameters``.
-
         """
         for pt in self.fuel_cell:
             with self(pt):

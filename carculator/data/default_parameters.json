@@ -10087,7 +10087,7 @@
     "minimum": 46,
     "name": "LHV fuel MJ per kg",
     "powertrain": [
-      "ICEV-p"
+      "ICEV-p", "HEV-p", "PHEV-c"
     ],
     "sizes": [
       "Large",
@@ -10112,7 +10112,7 @@
     "minimum": 46,
     "name": "LHV fuel MJ per kg",
     "powertrain": [
-      "ICEV-p"
+      "ICEV-p", "HEV-p", "PHEV-c"
     ],
     "sizes": [
       "Large",
