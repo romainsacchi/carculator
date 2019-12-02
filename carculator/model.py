@@ -409,18 +409,15 @@ class CarModel:
 
         for pt in self.petrol:
             with self(pt) as cpm:
-                # Assume 42.4 MJ/kg of gasoline, convert to kWh
-                cpm["range"] = (cpm["fuel mass"] * 42.4 * 1000) / cpm["TtW energy"]
+                cpm["range"] = (cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] * 1000) / cpm["TtW energy"]
 
         for pt in self.diesel:
             with self(pt) as cpm:
-                # Assume 48 MJ/kg of diesel, convert to kWh
-                cpm["range"] = (cpm["fuel mass"] * 48 * 1000) / cpm["TtW energy"]
+                cpm["range"] = (cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] * 1000) / cpm["TtW energy"]
 
         for pt in self.cng:
             with self(pt) as cpm:
-                # Assume 55.5 MJ/kg of natural gas, convert to kWh
-                cpm["range"] = (cpm["fuel mass"] * 55.5 * 1000) / cpm["TtW energy"]
+                cpm["range"] = (cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] * 1000) / cpm["TtW energy"]
 
         for pt in self.electric:
             with self(pt) as cpm:
@@ -435,24 +432,21 @@ class CarModel:
 
         for pt in self.petrol:
             with self(pt) as cpm:
-                # Assume 42.4 MJ/kg of gasoline, convert to kWh
-                cpm["oxidation energy stored"] = cpm["fuel mass"] * 42.4 / 3.6
+                cpm["oxidation energy stored"] = cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] / 3.6
                 cpm["fuel tank mass"] = (
                     cpm["oxidation energy stored"] * cpm["fuel tank mass per energy"]
                 )
 
         for pt in self.diesel:
             with self(pt) as cpm:
-                # Assume 48 MJ/kg of gasoline, convert to kWh
-                cpm["oxidation energy stored"] = cpm["fuel mass"] * 48 / 3.6
+                cpm["oxidation energy stored"] = cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] / 3.6
                 cpm["fuel tank mass"] = (
                     cpm["oxidation energy stored"] * cpm["fuel tank mass per energy"]
                 )
 
         for pt in self.cng:
             with self(pt) as cpm:
-                # Assume 55.5 MJ/kg of gasoline, convert to kWh
-                cpm["oxidation energy stored"] = cpm["fuel mass"] * 55.5 / 3.6
+                cpm["oxidation energy stored"] = cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] / 3.6
                 cpm["fuel tank mass"] = (
                     cpm["oxidation energy stored"] * cpm["CNG tank mass slope"]
                     + cpm["CNG tank mass intercept"]
@@ -469,9 +463,8 @@ class CarModel:
                 cpm["electric energy stored"] = (
                     cpm["battery cell mass"] * cpm["battery cell energy density"]
                 )
-                # Assume 42.4 MJ/kg of gasoline
                 cpm["fuel tank mass"] = (
-                    cpm["fuel mass"] * 42.4 / 3.6 * cpm["fuel tank mass per energy"]
+                    cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] / 3.6 * cpm["fuel tank mass per energy"]
                 )
 
         self["battery cell production electricity"] = (
