@@ -788,8 +788,8 @@ class InventoryCalculation:
 
         dict_diesel_map = {
             'diesel': ('market for diesel', 'Europe without Switzerland', 'kilogram', 'diesel'),
-            'biodiesel - algae': ('Biodiesel from algae', 'Biodiesel from algae', 'kilogram', 'RER'),
-            'biodiesel - cooking oil': ('Biodiesel from cooking oil', 'Biodiesel from cooking oil', 'kilogram', 'RER')
+            'biodiesel - algae': ('Biodiesel from algae','RER','kilogram','Biodiesel from algae'),
+            'biodiesel - cooking oil': ('Biodiesel from cooking oil','RER','kilogram','Biodiesel from cooking oil')
         }
 
         if diesel_technology == 'diesel':
@@ -824,10 +824,10 @@ class InventoryCalculation:
                       'Europe without Switzerland',
                       'kilogram',
                       'petrol, low-sulfur'),
-            'bioethanol - wheat straw': ('Ethanol from wheat straw pellets', 'Ethanol from wheat straw pellets', 'kilogram', 'RER'),
-            'bioethanol - forest residues': ('Ethanol from forest residues', 'Ethanol from forest residues', 'kilogram', 'RER'),
-            'bioethanol - sugarbeet' : ('Ethanol from sugarbeet', 'Ethanol from sugarbeet', 'kilogram', 'RER') ,
-            'bioethanol - maize starch' : ('Ethanol from maize starch', 'Ethanol from maize starch', 'kilogram', 'RER')
+            'bioethanol - wheat straw': ('Ethanol from wheat straw pellets','RER','kilogram','Ethanol from wheat straw pellets'),
+            'bioethanol - forest residues': ('Ethanol from forest residues','RER','kilogram','Ethanol from forest residues'),
+            'bioethanol - sugarbeet' : ('Ethanol from sugarbeet','RER','kilogram','Ethanol from sugarbeet') ,
+            'bioethanol - maize starch' : ('Ethanol from maize starch','RER','kilogram','Ethanol from maize starch')
         }
 
         if petrol_technology == 'petrol':
