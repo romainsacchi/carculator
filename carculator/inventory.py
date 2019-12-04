@@ -788,14 +788,8 @@ class InventoryCalculation:
 
         dict_diesel_map = {
             'diesel': ('market for diesel', 'Europe without Switzerland', 'kilogram', 'diesel'),
-            'biodiesel - algae': ('biodiesel production from algae',
-                                  'RER',
-                                  'kilogram',
-                                  'biodiesel production from algae'),
-            'biodiesel - cooking oil': ('Biodiesel ( Fatty Acid Methy Esters) production from Waste (Used) cooking Oil  {RER} | transesterification of WVO Europe | Alloc Rec, U',
-                                      'RER',
-                                      'kilogram',
-                                      'Biodiesel ( Fatty Acid Methy Esters) production from Waste (Used) cooking Oil  {RER} | transesterification of WVO Europe | Alloc Rec, U')
+            'biodiesel - algae': ('Biodiesel from algae', 'Biodiesel from algae', 'kilogram', 'RER'),
+            'biodiesel - cooking oil': ('Biodiesel from cooking oil', 'Biodiesel from cooking oil', 'kilogram', 'RER')
         }
 
         if diesel_technology == 'diesel':
@@ -830,22 +824,10 @@ class InventoryCalculation:
                       'Europe without Switzerland',
                       'kilogram',
                       'petrol, low-sulfur'),
-            'bioethanol - wheat straw': ('ethanol from wheat straw pellets',
-                                          'RER',
-                                          'kilogram',
-                                          'ethanol from wheat straw pellets'),
-            'bioethanol - forest residues': ('Ethanol from forest residues',
-                                            'RER',
-                                              'kilogram',
-                                              'Ethanol from forest residues'),
-            'bioethanol - sugarbeet' : ('Ethanol from sugarbeet (purity >95%) production & distribution {RER} | fermentation of sugar beet juice with anaerobic digestion of wastes | Alloc Rec,  U',
-                                      'RER',
-                                      'kilogram',
-                                      'Ethanol from sugarbeet (purity >95%) production & distribution {RER} | fermentation of sugar beet juice with anaerobic digestion of wastes | Alloc Rec,  U') ,
-            'bioethanol - maize starch' : ('Ethanol from maize (purity >95%) production & distribution {RER} | fermentation of maize starch | Alloc Rec,  U',
-                                          'RER',
-                                          'kilogram',
-                                          'Ethanol from maize (purity >95%) production & distribution {RER} | fermentation of maize starch | Alloc Rec,  U')
+            'bioethanol - wheat straw': ('Ethanol from wheat straw pellets', 'Ethanol from wheat straw pellets', 'kilogram', 'RER'),
+            'bioethanol - forest residues': ('Ethanol from forest residues', 'Ethanol from forest residues', 'kilogram', 'RER'),
+            'bioethanol - sugarbeet' : ('Ethanol from sugarbeet', 'Ethanol from sugarbeet', 'kilogram', 'RER') ,
+            'bioethanol - maize starch' : ('Ethanol from maize starch', 'Ethanol from maize starch', 'kilogram', 'RER')
         }
 
         if petrol_technology == 'petrol':
