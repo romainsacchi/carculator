@@ -790,11 +790,11 @@ class InventoryCalculation:
             'diesel': ('market for diesel', 'Europe without Switzerland', 'kilogram', 'diesel'),
             'biodiesel - algae': ('biodiesel production from algae',
                                   'RER',
-                                  'megajoule',
+                                  'kilogram',
                                   'biodiesel production from algae'),
             'biodiesel - cooking oil': ('Biodiesel ( Fatty Acid Methy Esters) production from Waste (Used) cooking Oil  {RER} | transesterification of WVO Europe | Alloc Rec, U',
                                       'RER',
-                                      'megajoule',
+                                      'kilogram',
                                       'Biodiesel ( Fatty Acid Methy Esters) production from Waste (Used) cooking Oil  {RER} | transesterification of WVO Europe | Alloc Rec, U')
         }
 
@@ -832,19 +832,19 @@ class InventoryCalculation:
                       'petrol, low-sulfur'),
             'bioethanol - wheat straw': ('ethanol from wheat straw pellets',
                                           'RER',
-                                          'megajoule',
+                                          'kilogram',
                                           'ethanol from wheat straw pellets'),
             'bioethanol - forest residues': ('Ethanol from forest residues',
                                             'RER',
-                                              'megajoule',
+                                              'kilogram',
                                               'Ethanol from forest residues'),
             'bioethanol - sugarbeet' : ('Ethanol from sugarbeet (purity >95%) production & distribution {RER} | fermentation of sugar beet juice with anaerobic digestion of wastes | Alloc Rec,  U',
                                       'RER',
-                                      'megajoule',
+                                      'kilogram',
                                       'Ethanol from sugarbeet (purity >95%) production & distribution {RER} | fermentation of sugar beet juice with anaerobic digestion of wastes | Alloc Rec,  U') ,
             'bioethanol - maize starch' : ('Ethanol from maize (purity >95%) production & distribution {RER} | fermentation of maize starch | Alloc Rec,  U',
                                           'RER',
-                                          'megajoule',
+                                          'kilogram',
                                           'Ethanol from maize (purity >95%) production & distribution {RER} | fermentation of maize starch | Alloc Rec,  U')
         }
 
