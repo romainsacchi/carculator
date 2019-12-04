@@ -696,7 +696,7 @@ class InventoryCalculation:
                                       'RER',
                                       'kilogram',
                                       'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - nuclear PWR'),
-            'Steam Reforming of natural gas (SMR)': ('Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station',
+            'SMR': ('Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station',
                   'RER',
                   'kilogram',
                   'Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station'),
