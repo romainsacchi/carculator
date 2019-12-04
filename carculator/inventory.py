@@ -950,9 +950,9 @@ class InventoryCalculation:
             self.A[
                 self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
                 self.index_diesel] = 0
-            self.A[
-                self.inputs[('Carbon dioxide, non-fossil', ('air',), 'kilogram')],
-                self.index_diesel] = old_co2_amounts
+            #self.A[
+            #    self.inputs[('Carbon dioxide, non-fossil', ('air',), 'kilogram')],
+            #    self.index_diesel] = old_co2_amounts
 
         if petrol_technology in ('bioethanol - wheat straw', 'bioethanol - forest residues',
                                  'bioethanol - sugarbeet', 'bioethanol - maize starch'):
@@ -963,9 +963,9 @@ class InventoryCalculation:
             self.A[
                 self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
                 self.index_petrol + self.index_hybrid + self.index_plugin_hybrid] = 0
-            self.A[
-                self.inputs[('Carbon dioxide, non-fossil', ('air',), 'kilogram')],
-                self.index_petrol + self.index_hybrid + self.index_plugin_hybrid] = old_co2_amounts
+            #self.A[
+            #    self.inputs[('Carbon dioxide, non-fossil', ('air',), 'kilogram')],
+            #    self.index_petrol + self.index_hybrid + self.index_plugin_hybrid] = old_co2_amounts
 
         # Noise emissions
         self.A[self.index_noise, -self.number_of_cars :] = (
