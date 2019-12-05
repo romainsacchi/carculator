@@ -762,7 +762,7 @@ class InventoryCalculation:
                   'natural gas, from high pressure network (1-5 bar), at service station'),
             'biogas': ('biogas upgrading - sewage sludge - amine scrubbing - best',
                       'CH',
-                      'cubic meter',
+                      'kilogram',
                       'biogas upgrading - sewage sludge - amine scrubbing - best')
         }
 
