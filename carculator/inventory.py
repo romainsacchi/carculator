@@ -659,6 +659,12 @@ class InventoryCalculation:
 
 
         for y in self.year:
+            print([self.inputs[dict_map[t]] for t in dict_map])
+            print([self.inputs[i] for i in self.inputs if str(y) in i[0]])
+            print(mix[self.year.tolist().index(y)])
+            print(self.array_inputs["electricity consumption"])
+            print(self.get_index_from_array([str(y)]))
+
             self.A[np.ix_([self.inputs[dict_map[t]] for t in dict_map],
                           [self.inputs[i] for i in self.inputs if str(y) in i[0]])] = \
                 np.outer(mix[self.year.tolist().index(y)],
