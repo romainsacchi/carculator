@@ -675,7 +675,7 @@ class CarModel:
             :, "HEV-p", list_noise_emissions, :, :
         ] = nem.get_sound_power_per_compartment("hybrid").reshape((24, 1, 1))
 
-    def calculate_cost_impacts(self):
+    def calculate_cost_impacts(self, scope=None):
         """
         This method returns an array with cost values per vehicle-km, sub-divided into the following groups:
         * Purchase
@@ -687,14 +687,23 @@ class CarModel:
         :return: A xarray array with cost information per vehicle-km
         :rtype: xarray.core.dataarray.DataArray
         """
+        if scope is None:
+            scope={}
+            scope['size'] = self.array.coords['size'].tolist()
+            scope['powertrain'] = self.array.coords['powertrain'].tolist()
+            scope['year'] = self.array.coords['year'].tolist()
+        else:
+            scope['size'] = scope.get('size', self.size.tolist())
+            scope['powertrain'] = scope.get('powertrain', self.powertrain.tolist())
+            scope['year'] = scope.get('year', self.year.tolist())
 
         response = xr.DataArray(
-            np.zeros((1, 7, 7, 2, 5)),
+            np.zeros((1, len(scope["size"]), len(scope["powertrain"]), len(scope["year"]), 5)),
             coords=[
                 ["cost"],
-                self.array.coords["size"],
-                self.array.coords["powertrain"],
-                self.array.coords["year"],
+                scope["size"],
+                scope["powertrain"],
+                scope["year"],
                 ["purchase", "maintenance", "component replacement", "energy", "total"],
             ],
             dims=["cost", "size", "powertrain", "year", "cost_type"],
