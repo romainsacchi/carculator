@@ -693,9 +693,9 @@ class CarModel:
             scope['powertrain'] = self.array.coords['powertrain'].tolist()
             scope['year'] = self.array.coords['year'].tolist()
         else:
-            scope['size'] = scope.get('size', self.size.tolist())
-            scope['powertrain'] = scope.get('powertrain', self.powertrain.tolist())
-            scope['year'] = scope.get('year', self.year.tolist())
+            scope['size'] = scope.get('size', self.array.coords['size'].tolist())
+            scope['powertrain'] = scope.get('powertrain', self.array.coords['powertrain'].tolist())
+            scope['year'] = scope.get('year', self.array.coords['year'].tolist())
 
         response = xr.DataArray(
             np.zeros((1, len(scope["size"]), len(scope["powertrain"]), len(scope["year"]), 5)),
