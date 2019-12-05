@@ -943,9 +943,9 @@ class InventoryCalculation:
             self.A[
                 self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
                 self.index_cng] = 0
-            self.A[
-                self.inputs[('Carbon dioxide, non-fossil', ('air',), 'kilogram')],
-                self.index_cng] = old_co2_amounts
+            #self.A[
+            #    self.inputs[('Carbon dioxide, non-fossil', ('air',), 'kilogram')],
+            #    self.index_cng] = old_co2_amounts
 
 
         if diesel_technology in ('biodiesel - algae', 'biodiesel - cooking oil'):
