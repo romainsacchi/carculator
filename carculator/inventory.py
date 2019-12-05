@@ -641,7 +641,11 @@ class InventoryCalculation:
             if 'country' in background_configuration:
                 # If a country is specified
                 country = background_configuration['country']
-                losses_to_low = float(self.bs.losses[country]['LV'])
+                try:
+                    losses_to_low = float(self.bs.losses[country]['LV'])
+                except KeyError:
+                    # If losses for the country are not found, assume 15%
+                    losses_to_low = 1.15
 
                 if 'custom electricity mix' in background_configuration:
                     # If a special electricity mix is specified, we use it
