@@ -709,19 +709,19 @@ class CarModel:
             dims=["cost", "size", "powertrain", "year", "cost_type"],
         )
 
-        response.loc[:, :, :, :, "purchase"] = self.array.sel(
+        response.loc[:, scope['size'], scope['powertrain'], scope['year'], "purchase"] = self.array.sel(
             parameter="amortised purchase cost"
         ).sum(axis=3)
-        response.loc[:, :, :, :, "maintenance"] = self.array.sel(
+        response.loc[:, scope['size'], scope['powertrain'], scope['year'], "maintenance"] = self.array.sel(
             parameter="maintenance cost"
         ).sum(axis=3)
-        response.loc[:, :, :, :, "component replacement"] = self.array.sel(
+        response.loc[:, scope['size'], scope['powertrain'], scope['year'], "component replacement"] = self.array.sel(
             parameter="amortised component replacement cost"
         ).sum(axis=3)
-        response.loc[:, :, :, :, "energy"] = self.array.sel(
+        response.loc[:, scope['size'], scope['powertrain'], scope['year'], "energy"] = self.array.sel(
             parameter="energy cost"
         ).sum(axis=3)
-        response.loc[:, :, :, :, "total"] = self.array.sel(
+        response.loc[:, scope['size'], scope['powertrain'], scope['year'], "total"] = self.array.sel(
             parameter="total cost per km"
         ).sum(axis=3)
 
