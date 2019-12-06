@@ -194,7 +194,7 @@ class InventoryCalculation:
                 for y in scope['year']:
                     for s in scope['size']:
                         # Retrieve the index of a given car in the matrix A
-                        car = self.inputs[('Passenger car, '+ pt + ', ' + s + ', ' + str(y),"GLO")]
+                        car = self.inputs[('Passenger car, '+ pt + ', ' + s + ', ' + str(y),"GLO", "km", "transport, passenger car, EURO6")]
                         # Set the demand vector with zeros and a 1 corresponding to the car position in the vector
                         f = np.zeros(np.shape(self.A)[0])
                         f[car] = 1
@@ -280,7 +280,7 @@ class InventoryCalculation:
                 for y in self.year:
                     maximum = csv_dict[max(csv_dict, key=csv_dict.get)]
                     name = "Passenger car, " + pt + ", " + s + ", " + str(y)
-                    csv_dict[(name, "GLO")] = maximum + 1
+                    csv_dict[(name, "GLO", "km", "transport, passenger car, EURO6")] = maximum + 1
 
         return csv_dict
 
@@ -670,7 +670,6 @@ class InventoryCalculation:
                              self.array_inputs["electricity consumption"],
                              self.get_index_from_array([str(y)])
                          ]) * -1 * losses_to_low
-
 
         index = self.get_index_from_array(["FCEV"])
 
