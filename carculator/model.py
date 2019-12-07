@@ -464,14 +464,16 @@ class CarModel:
                     cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] / 3.6 * cpm["fuel tank mass per energy"]
                 )
 
+         # kWh electricity/kg battery cell
         self["battery cell production electricity"] = (
             self["battery cell production energy"]
             * self["battery cell production energy electricity share"]
         )
+        # MJ heat/kg battery cell
         self["battery cell production heat"] = (
             self["battery cell production energy"]
             - self["battery cell production electricity"]
-        )
+        ) * 3.6
 
     def set_costs(self):
         self["glider cost"] = (

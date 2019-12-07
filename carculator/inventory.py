@@ -515,34 +515,116 @@ class InventoryCalculation:
             * -1
         )
 
-        # Energy storage
-        self.A[self.inputs[('Battery BoP', 'GLO', 'kilogram', 'Battery BoP')], -self.number_of_cars :] = (
-            (
-                self.temp_array[self.array_inputs["battery BoP mass"], :]
-                * (
-                    1
-                    + self.temp_array[
-                        self.array_inputs["battery lifetime replacements"], :
-                    ]
-                )
-            )
-            / self.temp_array[self.array_inputs["lifetime kilometers"], :]
-            * -1
-        )
+        # Energy chain
+        dict_map = {
+                'Hydro': ('electricity production, hydro, run-of-river',
+                          'DE',
+                          'kilowatt hour',
+                          'electricity, high voltage',
+                          ),
+                'Nuclear': ('electricity production, nuclear, pressure water reactor',
+                            'DE',
+                            'kilowatt hour',
+                            'electricity, high voltage'),
+                'Gas': ('electricity production, natural gas, conventional power plant',
+                        'DE',
+                        'kilowatt hour',
+                        'electricity, high voltage'),
+                'Solar': ('electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted',
+                          'DE',
+                          'kilowatt hour',
+                          'electricity, low voltage'),
+                'Wind': ('electricity production, wind, 1-3MW turbine, onshore',
+                         'DE',
+                         'kilowatt hour',
+                         'electricity, high voltage'),
+                'Biomass': ('heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014',
+                            'DE',
+                            'kilowatt hour',
+                            'electricity, high voltage'),
+                'Coal': ('electricity production, hard coal',
+                         'DE',
+                         'kilowatt hour',
+                         'electricity, high voltage'),
+                'Oil': ('electricity production, oil',
+                        'DE',
+                        'kilowatt hour',
+                        'electricity, high voltage'),
+                'Geo': ('electricity production, deep geothermal',
+                        'DE',
+                        'kilowatt hour',
+                        'electricity, high voltage'),
+                'Waste': (
+                        'electricity, from municipal waste incineration to generic market for electricity, medium voltage',
+                        'DE',
+                        'kilowatt hour',
+                        'electricity, medium voltage'),
+            }
 
-        self.A[self.inputs[('Battery cell', 'GLO', 'kilogram', 'Battery cell')], -self.number_of_cars :] = (
-            (
-                self.temp_array[self.array_inputs["battery cell mass"], :]
-                * (
-                    1
-                    + self.temp_array[
-                        self.array_inputs["fuel cell lifetime replacements"], :
-                    ]
+        # Energy storage
+        if background_configuration:
+            if "battery technology" in background_configuration:
+                battery_tech = "NMC"
+            else:
+                battery_tech = "NMC"
+
+            if "battery origin" in background_configuration:
+                battery_origin = background_configuration['battery origin']
+                losses_to_medium = float(self.bs.losses[battery_origin]['MV'])
+                mix = self.bs.electricity_mix.sel(country=battery_origin, value=0).interp(year=self.year).values
+            else:
+                # If not specified, origin set to China
+                battery_origin = "CN"
+                losses_to_medium = float(self.bs.losses[battery_origin]['MV'])
+                mix = self.bs.electricity_mix.sel(country=battery_origin, value=0).interp(year=self.year).values
+        else:
+            battery_tech = "NMC"
+            battery_origin = "CN"
+            losses_to_medium = float(self.bs.losses[battery_origin]['MV'])
+            mix = self.bs.electricity_mix.sel(country=battery_origin, value=0).interp(year=self.year).values
+
+        if battery_tech == "NMC":
+            # If not, we use the NMC inventory of Dai et al. 2019
+            self.A[self.inputs[('Battery BoP', 'GLO', 'kilogram', 'Battery BoP')], -self.number_of_cars :] = (
+                (
+                    self.temp_array[self.array_inputs["battery BoP mass"], :]
+                    * (
+                        1
+                        + self.temp_array[
+                            self.array_inputs["battery lifetime replacements"], :
+                        ]
+                    )
                 )
+                / self.temp_array[self.array_inputs["lifetime kilometers"], :]
+                * -1
             )
-            / self.temp_array[self.array_inputs["lifetime kilometers"], :]
-            * -1
-        )
+
+            self.A[self.inputs[('Battery cell', 'GLO', 'kilogram', 'Battery cell')], -self.number_of_cars :] = (
+                (
+                    self.temp_array[self.array_inputs["battery cell mass"], :]
+                    * (
+                        1
+                        + self.temp_array[
+                            self.array_inputs["fuel cell lifetime replacements"], :
+                        ]
+                    )
+                )
+                / self.temp_array[self.array_inputs["lifetime kilometers"], :]
+                * -1
+            )
+
+
+            # Set an input of electricity, given the country of manufacture
+            self.A[self.inputs[('market group for electricity, medium voltage', 'GLO',
+                                'kilowatt hour', 'electricity, medium voltage')],
+                   self.inputs[('Battery cell', 'GLO', 'kilogram', 'Battery cell')]] = 0
+
+            self.A[[self.inputs[dict_map[t]] for t in dict_map],
+                   self.inputs[('Battery cell', 'GLO', 'kilogram', 'Battery cell')]] =\
+                    (np.outer(mix[0],
+                              (self.temp_array[self.array_inputs["battery cell production heat"], :].max()
+                               * -1)) * losses_to_medium).reshape(10,)
+
 
         index_A = [
             self.inputs[c]
@@ -591,51 +673,7 @@ class InventoryCalculation:
             * -1
         )
 
-        # Energy chain
-        dict_map = {
-            'Hydro': ('electricity production, hydro, run-of-river',
-                      'DE',
-                      'kilowatt hour',
-                      'electricity, high voltage',
-                      ),
-            'Nuclear': ('electricity production, nuclear, pressure water reactor',
-                        'DE',
-                        'kilowatt hour',
-                        'electricity, high voltage'),
-            'Gas': ('electricity production, natural gas, conventional power plant',
-                    'DE',
-                    'kilowatt hour',
-                    'electricity, high voltage'),
-            'Solar': ('electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted',
-                      'DE',
-                      'kilowatt hour',
-                      'electricity, low voltage'),
-            'Wind': ('electricity production, wind, 1-3MW turbine, onshore',
-                     'DE',
-                     'kilowatt hour',
-                     'electricity, high voltage'),
-            'Biomass': ('heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014',
-                        'DE',
-                        'kilowatt hour',
-                        'electricity, high voltage'),
-            'Coal': ('electricity production, hard coal',
-                     'DE',
-                     'kilowatt hour',
-                     'electricity, high voltage'),
-            'Oil': ('electricity production, oil',
-                    'DE',
-                    'kilowatt hour',
-                    'electricity, high voltage'),
-            'Geo': ('electricity production, deep geothermal',
-                    'DE',
-                    'kilowatt hour',
-                    'electricity, high voltage'),
-            'Waste': (
-                    'electricity, from municipal waste incineration to generic market for electricity, medium voltage',
-                    'DE',
-                    'kilowatt hour',
-                    'electricity, medium voltage'),
-        }
+
         if background_configuration:
             # If a customization dict is passed
             if 'country' in background_configuration:
