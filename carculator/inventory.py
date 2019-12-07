@@ -752,14 +752,14 @@ class InventoryCalculation:
             losses_to_low = float(self.bs.losses["RER"]['LV'])
             mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.year).values
 
-        print(self.inputs[dict_map[t]] for t in dict_map])
-
-        print(mix[self.year.tolist().index(y)])
+        print([self.inputs[dict_map[t]] for t in dict_map])
         print(self.array_inputs["electricity consumption"])
 
         for y in self.year:
             print([self.inputs[i] for i in self.inputs if str(y) in i[0]])
             print(self.get_index_from_array([str(y)]))
+            print(mix[self.year.tolist().index(y)])
+
 
         for y in self.year:
             self.A[np.ix_([self.inputs[dict_map[t]] for t in dict_map],
