@@ -309,6 +309,7 @@ class InventoryCalculation:
             self.inputs[c] - (len(self.inputs) - self.number_of_cars)
             for c in self.inputs
             if any(ele in c[0] for ele in items_to_look_for)
+            and (self.inputs[c] - (len(self.inputs) - self.number_of_cars))>=0
         ]
 
     def get_index_of_flows(self, items_to_look_for, search_by="name"):
@@ -763,7 +764,10 @@ class InventoryCalculation:
 
         for y in self.year:
             self.A[np.ix_([self.inputs[dict_map[t]] for t in dict_map],
-                          [self.inputs[i] for i in self.inputs if str(y) in i[0]])] = \
+                          [self.inputs[i] for i in self.inputs
+                           if str(y) in i[0]
+                           and "Passenger" in i[0]
+                           ])] = \
                 np.outer(mix[self.year.tolist().index(y)],
                          self.temp_array[
                              self.array_inputs["electricity consumption"],
