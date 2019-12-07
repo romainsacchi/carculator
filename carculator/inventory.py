@@ -564,7 +564,7 @@ class InventoryCalculation:
         # Energy storage
         if background_configuration:
             if "battery technology" in background_configuration:
-                battery_tech = "NMC"
+                battery_tech = background_configuration["battery technology"]
             else:
                 battery_tech = "NMC"
 
@@ -584,7 +584,7 @@ class InventoryCalculation:
             mix = self.bs.electricity_mix.sel(country=battery_origin, value=0).interp(year=self.year).values
 
         if battery_tech == "NMC":
-            # If not, we use the NMC inventory of Dai et al. 2019
+            # Use the NMC inventory of Schmidt et al. 2019
             self.A[self.inputs[('Battery BoP', 'GLO', 'kilogram', 'Battery BoP')], -self.number_of_cars :] = (
                 (
                     self.temp_array[self.array_inputs["battery BoP mass"], :]
@@ -613,7 +613,6 @@ class InventoryCalculation:
                 * -1
             )
 
-
             # Set an input of electricity, given the country of manufacture
             self.A[self.inputs[('market group for electricity, medium voltage', 'GLO',
                                 'kilowatt hour', 'electricity, medium voltage')],
@@ -624,6 +623,60 @@ class InventoryCalculation:
                     (np.outer(mix[0],
                               (self.temp_array[self.array_inputs["battery cell production heat"], :].max()
                                * -1)) * losses_to_medium).reshape(10,)
+
+        if battery_tech == "LFP":
+            self.A[self.inputs[('Li-ion (LFP)', 'JP', 'kilowatt hour', 'Li-ion (LFP)')], -self.number_of_cars :] = (
+                (
+                    self.temp_array[self.array_inputs["electric energy stored"], :]
+                    * (
+                        1
+                        + self.temp_array[
+                            self.array_inputs["battery lifetime replacements"], :
+                        ]
+                    )
+                )
+                / self.temp_array[self.array_inputs["lifetime kilometers"], :]
+                * -1
+            )
+
+            # Set an input of electricity, given the country of manufacture
+            old_amount = self.A[self.inputs[('market for electricity, medium voltage', 'JP',
+                                'kilowatt hour', 'electricity, medium voltage')],
+                   self.inputs[('Li-ion (LFP)', 'JP', 'kilowatt hour', 'Li-ion (LFP)')]]
+            self.A[self.inputs[('market for electricity, medium voltage', 'JP',
+                                'kilowatt hour', 'electricity, medium voltage')],
+                   self.inputs[('Li-ion (LFP)', 'JP', 'kilowatt hour', 'Li-ion (LFP)')]] = 0
+
+            self.A[[self.inputs[dict_map[t]] for t in dict_map],
+                   self.inputs[('Li-ion (LFP)', 'JP', 'kilowatt hour', 'Li-ion (LFP)')]] =\
+                    (np.outer(mix[0], old_amount) * losses_to_medium).reshape(10,)
+
+        if battery_tech == "NCA":
+            self.A[self.inputs[('Li-ion (NCA)', 'JP', 'kilowatt hour', 'Li-ion (NCA)')], -self.number_of_cars :] = (
+                (
+                    self.temp_array[self.array_inputs["electric energy stored"], :]
+                    * (
+                        1
+                        + self.temp_array[
+                            self.array_inputs["battery lifetime replacements"], :
+                        ]
+                    )
+                )
+                / self.temp_array[self.array_inputs["lifetime kilometers"], :]
+                * -1
+            )
+
+            # Set an input of electricity, given the country of manufacture
+            old_amount = self.A[self.inputs[('market for electricity, medium voltage', 'JP',
+                                'kilowatt hour', 'electricity, medium voltage')],
+                   self.inputs[('Li-ion (NCA)', 'JP', 'kilowatt hour', 'Li-ion (NCA)')]]
+            self.A[self.inputs[('market for electricity, medium voltage', 'JP',
+                                'kilowatt hour', 'electricity, medium voltage')],
+                   self.inputs[('Li-ion (NCA)', 'JP', 'kilowatt hour', 'Li-ion (NCA)')]] = 0
+
+            self.A[[self.inputs[dict_map[t]] for t in dict_map],
+                   self.inputs[('Li-ion (NCA)', 'JP', 'kilowatt hour', 'Li-ion (NCA)')]] =\
+                    (np.outer(mix[0], old_amount) * losses_to_medium).reshape(10,)
 
 
         index_A = [
@@ -692,11 +745,11 @@ class InventoryCalculation:
                     mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.year).values
             else:
                 country = 'RER'
-                losses_to_low = 1.07
+                losses_to_low = float(self.bs.losses["RER"]['LV'])
                 mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.year).values
         else:
             country = 'RER'
-            losses_to_low = 1.07
+            losses_to_low = float(self.bs.losses["RER"]['LV'])
             mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.year).values
 
 
