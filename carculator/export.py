@@ -2,19 +2,13 @@
 .. module: export.py
 
 """
-import numpy as np
-from pathlib import Path
-from inspect import currentframe, getframeinfo
-import csv
-import xarray as xr
-from . import DATA_DIR
-from .background_systems import BackgroundSystemModel
-import itertools
 from bw2io.export.excel import (
     safe_filename,
     xlsxwriter,
     create_valid_worksheet_name,
 )
+import bw2io
+import uuid
 
 class ExportInventory:
     """
@@ -22,11 +16,18 @@ class ExportInventory:
 
     """
 
-    def __init__(self, array, indices):
+    def __init__(self, array, indices, db_name = "carculator export"):
         self.array = array
         self.indices = indices
+        self.db_name = db_name
 
-    def write_lci_excel_to_bw(self):
+    def write_lci(self):
+        """
+        Return the inventory as a dictionary
+
+        :return: a dictionary that contains all the exchanges
+        :rtype: dict
+        """
         list_act = []
         for col in range(0, self.array.shape[1]):
             count = 0
@@ -52,7 +53,7 @@ class ExportInventory:
                                 list_exc.append(
                                     {
                                         "name": input_activity_name,
-                                        "database": 'test',
+                                        "database": self.db_name,
                                         "amount": amount,
                                         "unit": input_activity_unit,
                                         "type": 'production',
@@ -66,7 +67,7 @@ class ExportInventory:
                                 list_exc.append(
                                     {
                                         "name": input_activity_name,
-                                        "database": 'test',
+                                        "database": self.db_name,
                                         "amount": amount * -1,
                                         "unit": input_activity_unit,
                                         "type": 'technosphere',
@@ -86,7 +87,7 @@ class ExportInventory:
                             list_exc.append(
                                 {
                                     "name": input_bio_name,
-                                    "database": 'test_bio',
+                                    "database": 'biosphere3',
                                     "amount": amount * -1,
                                     "unit": input_bio_unit,
                                     "type": 'biosphere',
@@ -100,17 +101,28 @@ class ExportInventory:
                     list_act.append(
                         {
                             "production amount": 1,
-                            "database": 'test',
+                            "database": self.db_name,
                             "name": activity_name,
                             "unit": activity_unit,
                             "location": activity_loc,
                             "exchanges": list_exc,
                             "reference product": activity_ref,
                             "type": "process",
+                            "code": str(uuid.uuid1())
                         }
                     )
                     count = 0
+        return list_act
 
+    def write_lci_excel_to_bw(self):
+        """
+        Export an Excel file that can be consumed by Brightway2.
+
+        :return: returns the file path of the exported inventory
+        :rtype: str
+        """
+
+        list_act = self.write_lci()
         data = []
 
         data.extend((["Database", 'test'], ("format", "Excel spreadsheet")))
@@ -194,5 +206,17 @@ class ExportInventory:
                     sheet.write_string(row_index, col_index, value, frmt(value))
         print("Inventories exported to {}.".format(filepath))
         workbook.close()
+
+    def write_lci_to_bw(self):
+        """
+        Return a LCIImporter object with the inventory as `data` attribute.
+        :return: LCIImporter object to be imported in a Brightway2 project
+        :rtype: bw2io.base_lci.LCIImporter
+        """
+
+        data = self.write_lci()
+        i = bw2io.importers.base_lci.LCIImporter(self.db_name)
+        i.data = data
+        return i
 
 
