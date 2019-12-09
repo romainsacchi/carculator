@@ -206,6 +206,7 @@ class ExportInventory:
                     sheet.write_string(row_index, col_index, value, frmt(value))
         print("Inventories exported to {}.".format(filepath))
         workbook.close()
+        return filepath
 
     def write_lci_to_bw(self):
         """
