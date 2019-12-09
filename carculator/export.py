@@ -114,7 +114,7 @@ class ExportInventory:
                     count = 0
         return list_act
 
-    def write_lci_excel_to_bw(self):
+    def write_lci_to_excel(self):
         """
         Export an Excel file that can be consumed by Brightway2.
 
