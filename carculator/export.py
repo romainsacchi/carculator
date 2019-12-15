@@ -9,7 +9,8 @@ from bw2io.export.excel import (
 )
 import bw2io
 import uuid
-import numpy
+import numpy as np
+import pyprind
 
 class ExportInventory:
     """
@@ -21,99 +22,146 @@ class ExportInventory:
         self.array = array
         self.indices = indices
         self.db_name = db_name
+        # See https://docs.brightwaylca.org/intro.html#uncertainty-type
+        self.uncertainty_ID = {
+             # scipy.stats distr. params --> stats.array distr. params
+             "triang": 5,  # c --> loc (mode), loc --> min, loc + scale --> max
+             "weibull_min": 8,  # c --> shape, scale --> scale
+             "gamma": 9,  # a --> shape, scale --> scale, loc --> loc
+             "beta": 10,  # a --> loc, b --> shape, scale --> scale
+             "lognorm": 2,  # s --> scale (std), scale --> loc (exp(mean))
+             "norm": 3,  # loc --> loc (mean), scale --> scale (std)
+             "uniform": 4,  # loc --> min, loc + scale --> max
+             "t": 12,  # df --> shape, loc --> loc, scale --> scale
+        }
 
-    def write_lci(self):
+    def write_lci(self, presamples=True):
         """
         Return the inventory as a dictionary
+        If if there several values for one exchange, uncertianty information is generated.
+        If `presamples` is True, returns the inventory as well as a `presamples` matrix.
+        If `presamples` is False, returns the inventory with characterized uncertainty information.
 
         :return: a dictionary that contains all the exchanges
         :rtype: dict
         """
         list_act = []
-        for col in range(0, self.array.shape[1]):
-            count = 0
 
-            if len(self.indices[col]) > 3:
-                activity_name = self.indices[col][0]
-                activity_loc = self.indices[col][1]
-                activity_unit = self.indices[col][2]
-                activity_ref = self.indices[col][3]
+        if presamples:
+            presamples_matrix = []
 
-                list_exc = []
+        # List of coordinates for non-zero values
+        non_zeroes = np.nonzero(self.array[0,:,:])
+        # List of coordinates where activities present more than once (to filter out "empty" activities, that is,
+        # activities with only one reference product exchange)
+        u, c = np.unique(non_zeroes[1], return_counts=True)
+        dup = u[c > 1]
 
-                for row in range(0, self.array.shape[0]):
-                    if self.array[row, col] != 0:
-                        if len(self.indices[row]) > 3:
-                            input_activity_name = self.indices[row][0]
-                            input_activity_loc = self.indices[row][1]
-                            input_activity_unit = self.indices[row][2]
-                            input_activity_ref = self.indices[row][3]
-                            amount = self.array[row, col]
+        # Filter out coordinates of "empty" activities
+        coords = np.column_stack((
+            non_zeroes[0][np.isin(non_zeroes[1], dup)],
+            non_zeroes[1][np.isin(non_zeroes[1], dup)]
+        ))
 
-                            if input_activity_ref == activity_ref:
-                                list_exc.append(
+        # Iterate through activities
+        bar = pyprind.ProgBar(len(dup))
+        for d in dup:
+            bar.update(item_id=d)
+            list_exc = []
+            for row, col in coords[coords[:,1] == d]:
+                tuple_output = self.indices[col]
+                tuple_input = self.indices[row]
+
+                if len(self.array[:, row, col]) == 1:
+                    # No uncertainty
+                    amount = self.array[0, row, col]
+                    uncertainty = [('uncertainty type', 0)]
+                elif np.all(np.isclose(self.array[:, row, col], self.array[0, row, col])):
+                    amount = self.array[0, row, col]
+                    uncertainty = [('uncertainty type', 0)]
+                else:
+                    if presamples == True:
+                        amount = np.median(self.array[:, row, col]) * -1
+                        uncertainty = [('uncertainty type', 0)]
+                        if len(tuple_input)>3:
+                            type_exc = "technosphere"
+                        else:
+                            type_exc = "biosphere"
+
+                        presamples_matrix.append(
+                                                    (
+                                                     self.array[:, row, col] * -1,
+                                                     [(tuple_input, tuple_output, type_exc)], type_exc
+                                                    )
+                                                )
+                    else:
+                        # Generate uncertainty information
+                        amount, uncertainty = self.best_fit_distribution(self.array[:, row, col] * -1)
+
+                # If reference product
+                if tuple_output == tuple_input:
+                    list_exc.append(
                                     {
-                                        "name": input_activity_name,
+                                        "name": tuple_output[0],
                                         "database": self.db_name,
                                         "amount": amount,
-                                        "unit": input_activity_unit,
+                                        "unit": tuple_output[2],
                                         "type": 'production',
-                                        "location": input_activity_loc,
-                                        "reference product": input_activity_ref,
-                                        "uncertainty type": 0,
+                                        "location": tuple_output[1],
+                                        "reference product": tuple_output[3]
                                     }
-                                )
-                            else:
-
-                                list_exc.append(
+                        )
+                    list_exc[-1].update(uncertainty)
+                # If not, if input is technosphere exchange
+                elif len(tuple_input)>3:
+                    list_exc.append(
                                     {
-                                        "name": input_activity_name,
+                                        "name": tuple_input[0],
                                         "database": self.db_name,
                                         "amount": amount * -1,
-                                        "unit": input_activity_unit,
+                                        "unit": tuple_input[2],
                                         "type": 'technosphere',
-                                        "location": input_activity_loc,
-                                        "reference product": input_activity_ref,
-                                        "uncertainty type": 0,
+                                        "location": tuple_input[1],
+                                        "reference product": tuple_input[3]
+                                    }
+                            )
+                    list_exc[-1].update(uncertainty)
+                # If not, then input is biosphere exchange
+                else:
+                    list_exc.append(
+                                    {
+                                        "name": tuple_input[0],
+                                        "database": 'biosphere3',
+                                        "amount": amount * -1,
+                                        "unit": tuple_input[2],
+                                        "type": 'biosphere',
+                                        "categories": tuple_input[1]
                                     }
                                 )
-                                count += 1
+                    list_exc[-1].update(uncertainty)
 
-                        else:
-                            input_bio_name = self.indices[row][0]
-                            input_bio_cat = self.indices[row][1]
-                            input_bio_unit = self.indices[row][2]
-                            amount = self.array[row, col]
+            list_act.append(
+                {
+                    "production amount": 1,
+                    "database": self.db_name,
+                    "name": tuple_output[0],
+                    "unit": tuple_output[2],
+                    "location": tuple_output[1],
+                    "exchanges": list_exc,
+                    "reference product": tuple_output[3],
+                    "type": "process",
+                    "code": str(uuid.uuid1())
+                }
+            )
+        if presamples:
+            return (
+                list_act,
+                presamples_matrix
+            )
+        else:
+            return list_act
 
-                            list_exc.append(
-                                {
-                                    "name": input_bio_name,
-                                    "database": 'biosphere3',
-                                    "amount": amount * -1,
-                                    "unit": input_bio_unit,
-                                    "type": 'biosphere',
-                                    "categories": input_bio_cat,
-                                    "uncertainty type": 0,
-                                }
-                            )
-                            count += 1
 
-                if count > 0:
-                    list_act.append(
-                        {
-                            "production amount": 1,
-                            "database": self.db_name,
-                            "name": activity_name,
-                            "unit": activity_unit,
-                            "location": activity_loc,
-                            "exchanges": list_exc,
-                            "reference product": activity_ref,
-                            "type": "process",
-                            "code": str(uuid.uuid1())
-                        }
-                    )
-                    count = 0
-        return list_act
 
     def write_lci_to_excel(self):
         """
@@ -123,7 +171,7 @@ class ExportInventory:
         :rtype: str
         """
 
-        list_act = self.write_lci()
+        list_act = self.write_lci(presamples = False)
         data = []
 
         data.extend((["Database", 'test'], ("format", "Excel spreadsheet")))
@@ -209,31 +257,38 @@ class ExportInventory:
         workbook.close()
         return filepath
 
-    def write_lci_to_bw(self):
+    def write_lci_to_bw(self, presamples):
         """
         Return a LCIImporter object with the inventory as `data` attribute.
         :return: LCIImporter object to be imported in a Brightway2 project
         :rtype: bw2io.base_lci.LCIImporter
         """
+        if presamples == True:
+            data, array = self.write_lci(presamples)
+            i = bw2io.importers.base_lci.LCIImporter(self.db_name)
+            i.data = data
+            return (i, array)
+        else:
+            data = self.write_lci(presamples)
+            i = bw2io.importers.base_lci.LCIImporter(self.db_name)
+            i.data = data
+            return i
 
-        data = self.write_lci()
-        i = bw2io.importers.base_lci.LCIImporter(self.db_name)
-        i.data = data
-        return i
-
-    #Create models from data
     def best_fit_distribution(self, data, bins=200, ax=None):
-     import scipy.stats as st
-     import warnings
-     import pandas as pd
+        import scipy.stats as st
+        import warnings
+        import pandas as pd
 
-     """Model data by finding best fit distribution to data"""
-      #Get histogram of original data
-     y, x = np.histogram(data, bins=bins, density=True)
-     x = (x + np.roll(x, -1))[:-1] / 2.0
+        """
+        Model data by finding best fit distribution to data
+        Return the most likely value as well as a list of tuples that contains distribution parameters
+        """
+        #Get histogram of original data
+        y, x = np.histogram(data, bins=bins, density=True)
+        x = (x + np.roll(x, -1))[:-1] / 2.0
 
-      #Distributions to check
-     DISTRIBUTIONS = [
+        #Distributions to check
+        DISTRIBUTIONS = [
          st.beta,
          st.gamma,
          st.lognorm,
@@ -242,15 +297,15 @@ class ExportInventory:
          st.triang,
          st.uniform,
          st.weibull_min,
-     ]
+        ]
 
-      #Best holders
-     best_distribution = st.norm
-     best_params = (0.0, 1.0)
-     best_sse = np.inf
+        #Best holders
+        best_distribution = st.norm
+        best_params = (0.0, 1.0)
+        best_sse = np.inf
 
-      #Estimate distribution parameters from data
-     for distribution in DISTRIBUTIONS:
+        #Estimate distribution parameters from data
+        for distribution in DISTRIBUTIONS:
 
           #Try to fit the distribution
          try:
@@ -287,39 +342,132 @@ class ExportInventory:
          except Exception:
              pass
 
-     return (
-         best_distribution.name,
-         getattr(st, best_distribution.name),
-         best_params,
-     )
+        # Lognormal distribution
+        if self.uncertainty_ID[best_distribution.name] == 2:
+            return [
+                np.median(data),
+                [
+                    ("uncertainty type", 2),
+                    ("scale", best_params[0]),
+                    ("loc", best_params[2])
+                ]
+            ]
 
-    def make_pdf(self, dist, params, size=10000):
-         """Generate distributions's Probability Distribution Function """
-         import pandas as pd
+        # Normal distribution
+        if self.uncertainty_ID[best_distribution.name] == 3:
+            return [
+                np.median(data),
+                [
+                    ("uncertainty type", 3),
+                    ("loc", best_params[0]),
+                    ("scale", best_params[1])
+                ]
+            ]
 
-         # Separate parts of parameters
-         arg = params[:-2]
-         loc = params[-2]
-         scale = params[-1]
+        # Uniform distribution
+        if self.uncertainty_ID[best_distribution.name] == 4:
+            return [
+                np.median(data),
+                [
+                    ("uncertainty type", 4),
+                    ("minimum", best_params[0]),
+                    ("maximum", (
+                                 best_params[0] + best_params[1]
+                                )
+                     )
+                ]
+            ]
 
-         # Get sane start and end points of distribution
-         start = (
-             dist.ppf(0.01, *arg, loc=loc, scale=scale)
-             if arg
-             else dist.ppf(0.01, loc=loc, scale=scale)
-         )
-         end = (
-             dist.ppf(0.99, *arg, loc=loc, scale=scale)
-             if arg
-             else dist.ppf(0.99, loc=loc, scale=scale)
-         )
+        # Triangular distribution
+        if self.uncertainty_ID[best_distribution.name] == 5:
+            return [
+                np.median(data),
+                [
+                    ("uncertainty type", 5),
+                    ("loc", best_params[0]),
+                    ("minimum", best_params[1]),
+                    ("maximum", (
+                                    best_params[1] + best_params[2]
+                                )
+                     )
+                ]
+            ]
 
-         # Build PDF and turn into pandas Series
-         x = np.linspace(start, end, size)
-         y = dist.pdf(x, loc=loc, scale=scale, *arg)
-         pdf = pd.Series(y, x)
 
-         return pdf
+        # Gamma distribution
+        if self.uncertainty_ID[best_distribution.name] == 9:
+            return [
+                np.median(data),
+                [
+                    ("uncertainty type", 9),
+                    ("shape", best_params[0]),
+                    ("scale", best_params[2]),
+                    ("loc", best_params[1])
+                ]
+            ]
+
+        # Beta distribution
+        if self.uncertainty_ID[best_distribution.name] == 10:
+            return [
+                np.median(data),
+                [
+                    ("uncertainty type", 10),
+                    ("loc", best_params[0]),
+                    ("shape", best_params[1]),
+                    ("scale", best_params[3])
+                ]
+            ]
+
+        # Weibull distribution
+        if self.uncertainty_ID[best_distribution.name] == 8:
+            return [
+                np.median(data),
+                [
+                    ("uncertainty type", 8),
+                    ("shape", best_params[0]),
+                    ("scale", best_params[2])
+                ]
+            ]
+
+        # Student's T distribution
+        if self.uncertainty_ID[best_distribution.name] == 12:
+            return [
+                np.median(data),
+                [
+                    ("uncertainty type", 12),
+                    ("shape", best_params[0]),
+                    ("loc", best_params[1]),
+                    ("scale", best_params[2])
+                ]
+            ]
+
+        def make_pdf(self, dist, params, size=10000):
+             """Generate distributions's Probability Distribution Function """
+             import pandas as pd
+
+             # Separate parts of parameters
+             arg = params[:-2]
+             loc = params[-2]
+             scale = params[-1]
+
+             # Get sane start and end points of distribution
+             start = (
+                 dist.ppf(0.01, *arg, loc=loc, scale=scale)
+                 if arg
+                 else dist.ppf(0.01, loc=loc, scale=scale)
+             )
+             end = (
+                 dist.ppf(0.99, *arg, loc=loc, scale=scale)
+                 if arg
+                 else dist.ppf(0.99, loc=loc, scale=scale)
+             )
+
+             # Build PDF and turn into pandas Series
+             x = np.linspace(start, end, size)
+             y = dist.pdf(x, loc=loc, scale=scale, *arg)
+             pdf = pd.Series(y, x)
+
+             return pdf
 
 
 

@@ -10,6 +10,7 @@ import xarray as xr
 from . import DATA_DIR
 from .background_systems import BackgroundSystemModel
 import itertools
+from .export import ExportInventory
 
 class InventoryCalculation:
     """
@@ -17,7 +18,7 @@ class InventoryCalculation:
 
     """
 
-    def __init__(self, array):
+    def __init__(self, array, scope = None, background_configuration = None):
 
         self.year = array.coords["year"].values
         self.powertrain = array.coords["powertrain"].values
@@ -66,6 +67,19 @@ class InventoryCalculation:
         self.list_cat, self.split_indices = self.get_split_indices()
         self.bs = BackgroundSystemModel()
 
+        if scope is None:
+            scope={}
+            scope['size'] = self.size.tolist()
+            scope['powertrain'] = self.powertrain.tolist()
+            scope['year'] = self.year.tolist()
+        else:
+            scope['size'] = scope.get('size', self.size.tolist())
+            scope['powertrain'] = scope.get('powertrain', self.powertrain.tolist())
+            scope['year'] = scope.get('year', self.year.tolist())
+
+        self.scope = scope
+        self.background_configuration = background_configuration
+
     def __getitem__(self, key):
         """
         Make class['foo'] automatically filter for the parameter 'foo'
@@ -77,7 +91,7 @@ class InventoryCalculation:
         """
         return self.temp_array.sel(parameter=key)
 
-    def get_results_table(self, FU, method, level, split):
+    def get_results_table(self, method, level, split):
 
         if split == "components":
             cat = [
@@ -97,18 +111,18 @@ class InventoryCalculation:
             np.zeros(
                 (
                     self.B.shape[0],
-                    len(FU['size']),
-                    len(FU['powertrain']),
-                    len(FU['year']),
+                    len(self.scope['size']),
+                    len(self.scope['powertrain']),
+                    len(self.scope['year']),
                     len(cat),
                     self.iterations,
                 )
             ),
             coords=[
                 dict_impact_cat[method][level],
-                FU['size'],
-                FU['powertrain'],
-                FU['year'],
+                self.scope['size'],
+                self.scope['powertrain'],
+                self.scope['year'],
                 cat,
                 np.arange(0, self.iterations),
             ],
@@ -167,33 +181,23 @@ class InventoryCalculation:
                 row.extend([len(self.inputs)-1])
         return list(d.keys()), list_ind
 
-    def calculate_impacts(
-        self, scope=None, background_configuration = None, method="recipe", level="midpoint", split="components"
-    ):
-        if scope is None:
-            scope={}
-            scope['size'] = self.size.tolist()
-            scope['powertrain'] = self.powertrain.tolist()
-            scope['year'] = self.year.tolist()
-        else:
-            scope['size'] = scope.get('size', self.size.tolist())
-            scope['powertrain'] = scope.get('powertrain', self.powertrain.tolist())
-            scope['year'] = scope.get('year', self.year.tolist())
+    def calculate_impacts(self, method="recipe", level="midpoint", split="components"):
+
 
         # Load the B matrix
         self.B = self.get_B_matrix(method, level)
 
         # Prepare an array to store the results
-        results = self.get_results_table(scope, method, level, split)
+        results = self.get_results_table(method, level, split)
 
         # Fill in the A matrix with car parameters
-        self.set_inputs_in_A_matrix(background_configuration, self.array.values)
+        self.set_inputs_in_A_matrix(self.array.values)
 
-        for pt in scope['powertrain']:
-            for y in scope['year']:
-                for s in scope['size']:
+        for pt in self.scope['powertrain']:
+            for y in self.scope['year']:
+                for s in self.scope['size']:
                     # Retrieve the index of a given car in the matrix A
-                    car = self.inputs[('Passenger car, '+ pt + ', ' + s + ', ' + str(y),"GLO", "km", "transport, passenger car, EURO6")]
+                    car = self.inputs[('Passenger car, '+ pt + ', ' + s + ', ' + str(y),"GLO", "kilometer", "transport, passenger car, EURO6")]
                     # Set the demand vector with zeros and a 1 corresponding to the car position in the vector
                     f = np.zeros((np.shape(self.A)[0],np.shape(self.A)[1] ))
                     f[:,car] = 1
@@ -287,7 +291,7 @@ class InventoryCalculation:
                 for y in self.year:
                     maximum = csv_dict[max(csv_dict, key=csv_dict.get)]
                     name = "Passenger car, " + pt + ", " + s + ", " + str(y)
-                    csv_dict[(name, "GLO", "km", "transport, passenger car, EURO6")] = maximum + 1
+                    csv_dict[(name, "GLO", "kilometer", "transport, passenger car, EURO6")] = maximum + 1
 
         return csv_dict
 
@@ -333,7 +337,30 @@ class InventoryCalculation:
                 if any(ele in c[1] for ele in items_to_look_for)
             ]
 
-    def set_inputs_in_A_matrix(self, background_configuration, array):
+    def export_lci(self, presamples = True):
+        self.set_inputs_in_A_matrix(self.array.values)
+        if presamples == True:
+            lci, array = ExportInventory(self.A, self.rev_inputs).write_lci(presamples)
+            return (lci, array)
+        else:
+            lci = ExportInventory(self.A, self.rev_inputs).write_lci(presamples)
+            return lci
+
+    def export_lci_to_bw(self, presamples = True):
+        self.set_inputs_in_A_matrix(self.array.values)
+        if presamples == True:
+            lci, array = ExportInventory(self.A, self.rev_inputs).write_lci_to_bw(presamples)
+            return (lci, array)
+        else:
+            lci = ExportInventory(self.A, self.rev_inputs).write_lci_to_bw(presamples)
+            return lci
+
+    def export_lci_to_excel(self):
+        self.set_inputs_in_A_matrix(self.array.values)
+        fp = ExportInventory(self.A, self.rev_inputs).write_lci_to_excel()
+        return fp
+
+    def set_inputs_in_A_matrix(self, array):
 
         # Glider
         self.A[:,
@@ -570,14 +597,14 @@ class InventoryCalculation:
             }
 
         # Energy storage
-        if background_configuration:
-            if "battery technology" in background_configuration:
-                battery_tech = background_configuration["battery technology"]
+        if self.background_configuration:
+            if "battery technology" in self.background_configuration:
+                battery_tech = self.background_configuration["battery technology"]
             else:
                 battery_tech = "NMC"
 
-            if "battery origin" in background_configuration:
-                battery_origin = background_configuration['battery origin']
+            if "battery origin" in self.background_configuration:
+                battery_origin = self.background_configuration['battery origin']
                 losses_to_medium = float(self.bs.losses[battery_origin]['MV'])
                 mix = self.bs.electricity_mix.sel(country=battery_origin, value=0).interp(year=self.year).values
             else:
@@ -735,20 +762,20 @@ class InventoryCalculation:
         ).T
 
 
-        if background_configuration:
+        if self.background_configuration:
             # If a customization dict is passed
-            if 'country' in background_configuration:
+            if 'country' in self.background_configuration:
                 # If a country is specified
-                country = background_configuration['country']
+                country = self.background_configuration['country']
                 try:
                     losses_to_low = float(self.bs.losses[country]['LV'])
                 except KeyError:
                     # If losses for the country are not found, assume 15%
                     losses_to_low = 1.15
 
-                if 'custom electricity mix' in background_configuration:
+                if 'custom electricity mix' in self.background_configuration:
                     # If a special electricity mix is specified, we use it
-                    mix = background_configuration['custom electricity mix']
+                    mix = self.background_configuration['custom electricity mix']
                 else:
                     mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.year).values
             else:
@@ -774,10 +801,10 @@ class InventoryCalculation:
 
         index = self.get_index_from_array(["FCEV"])
 
-        if background_configuration:
-            if 'hydrogen technology' in background_configuration:
+        if self.background_configuration:
+            if 'hydrogen technology' in self.background_configuration:
                 # If a customization dict is passed
-                hydro_technology = background_configuration['hydrogen technology']
+                hydro_technology = self.background_configuration['hydrogen technology']
             else:
                 hydro_technology = 'Electrolysis'
         else:
@@ -844,10 +871,10 @@ class InventoryCalculation:
 
         index = self.get_index_from_array(["ICEV-g"])
 
-        if background_configuration:
-            if 'cng technology' in background_configuration:
+        if self.background_configuration:
+            if 'cng technology' in self.background_configuration:
                 # If a customization dict is passed
-                cng_technology = background_configuration['cng technology']
+                cng_technology = self.background_configuration['cng technology']
             else:
                 cng_technology = 'cng'
         else:
@@ -881,10 +908,10 @@ class InventoryCalculation:
                 ).T
 
         index = self.get_index_from_array(["ICEV-d"])
-        if background_configuration:
-            if 'diesel technology' in background_configuration:
+        if self.background_configuration:
+            if 'diesel technology' in self.background_configuration:
                 # If a customization dict is passed
-                diesel_technology = background_configuration['diesel technology']
+                diesel_technology = self.background_configuration['diesel technology']
             else:
                 diesel_technology = 'diesel'
         else:
@@ -914,10 +941,10 @@ class InventoryCalculation:
 
         index = self.get_index_from_array(["ICEV-p", 'HEV-p', 'PHEV'])
 
-        if background_configuration:
-            if 'petrol technology' in background_configuration:
+        if self.background_configuration:
+            if 'petrol technology' in self.background_configuration:
                 # If a customization dict is passed
-                petrol_technology = background_configuration['petrol technology']
+                petrol_technology = self.background_configuration['petrol technology']
             else:
                 petrol_technology = 'petrol'
         else:
