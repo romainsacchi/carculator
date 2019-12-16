@@ -305,7 +305,7 @@ stochastic mode (with 500 iterations and the driving cycle WLTC)::
     plt.xticks(rotation=70)
     plt.ylabel('kg CO2-eq./vkm')
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_stochastic_recipe.png
+.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_stochastic_BEV_PHEV.png
     :width: 400
     :alt: Alternative text
 

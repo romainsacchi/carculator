@@ -34,7 +34,7 @@ over 500 Monte Carlo iterations is as easy as:
     plt.xticks(rotation=70)
     plt.ylabel('kg CO2-eq./vkm')
     
-![MC results](https://github.com/romainsacchi/coarse/raw/master/docs/example_stochastic_recipe.png)
+![MC results](https://github.com/romainsacchi/coarse/raw/master/docs/example_stochastic_BEV_PHEV.png)
 
 For examples, see [examples](https://github.com/romainsacchi/carculator/blob/master/examples/Examples.ipynb).
 
