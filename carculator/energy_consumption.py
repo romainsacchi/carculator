@@ -104,8 +104,8 @@ class EnergyConsumptionModel:
         frontal_area,
         ttw_efficiency,
         recuperation_efficiency=0,
-        motor_power=0,
-    ):
+        motor_power=0):
+        
         """
         Calculate energy used and recuperated for a given vehicle per km driven.
 
