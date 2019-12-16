@@ -589,6 +589,12 @@ class CarModel:
         )
 
     def set_hot_emissions(self):
+        """
+        Define hot pollutant emissions based on ``driving cycle``.
+        The driving cycle is passed to the :class:`HotEmissionsModel` class and :meth:`get_emissions_per_powertrain`
+        return emissions per substance per second of driving cycle.
+        :return: Does not return anything. Modifies ``self.array`` in place.
+        """
         hem = HotEmissionsModel(self.ecm.cycle)
 
         list_direct_emissions = [
