@@ -30,17 +30,3 @@ script:
 
   fi else pytest; fi'
 
-before deploy:
-  pip install twine
-
-deploy:
-  edge: true
-  skip_cleanup: true
-  skip_existing: true
-  provider: pypi
-  user: $PYPI_USER
-  password: $PYPI_PASS
-  distributions: "sdist bdist_egg bdist_wheel"
-  on:
-    branch: master
-
