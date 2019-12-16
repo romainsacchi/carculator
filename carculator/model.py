@@ -310,14 +310,18 @@ class CarModel:
         )
 
     def set_car_masses(self):
-        """Define ``curb mass``, ``driving mass``, and ``total cargo mass``.
+        """
+        Define ``curb mass``, ``driving mass``, and ``total cargo mass``.
 
-            * `curb mass <https://en.wikipedia.org/wiki/Curb_weight>`__ is the mass of the vehicle and fuel, without people
-        or cargo.
+            * `curb mass <https://en.wikipedia.org/wiki/Curb_weight>`__ is the mass of the vehicle and fuel, without people or cargo.
             * ``total cargo mass`` is the mass of the cargo and passengers.
             * ``driving mass`` is the ``curb mass`` plus ``total cargo mass``.
 
+        .. math:: driving mass = total cargo mass + driving mass
+
+
         """
+
         self["curb mass"] = self["glider base mass"] * (1 - self["lightweighting"])
 
         curb_mass_includes = [

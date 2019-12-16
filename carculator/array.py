@@ -92,7 +92,7 @@ def modify_xarray_from_custom_parameters(fp, array):
 
     The dictionary must be of the following format:
 
-    :Example:
+    .. code-block:: python
 
             {
                 (parameter category,
@@ -111,7 +111,7 @@ def modify_xarray_from_custom_parameters(fp, array):
 
     For example:
 
-    :Example:
+    .. code-block:: python
 
             {
                 ('Driving',
