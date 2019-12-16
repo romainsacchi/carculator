@@ -10,7 +10,7 @@ def get_standard_driving_cycle(name="WLTC"):
     Driving cycles are given as km/h per second up to 3200 seconds.
 
 
-    :param name: The name of the driving cycle. WLTC (Worldwide harmonized Light vehicles Test Cycles) is chosen by default if ``name`` left unspecified.
+    :param name: The name of the driving cycle. WLTC (Worldwide harmonized Light vehicles Test Cycles) is chosen by default if :param name: left unspecified.
     :type name: str
 
     ``name`` should be one of:

@@ -1,3 +1,8 @@
+"""
+.. module: car_input_parameters.py
+
+"""
+
 from klausen import NamedParameters
 from pathlib import Path
 import json

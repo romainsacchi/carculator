@@ -17,7 +17,7 @@ def fill_xarray_from_input_parameters(cip):
 
 
     This function extracts the parameters' names and values contained in the
-    `parameters` attribute of the CarInputParameters class and insert them into a
+    `parameters` attribute of the :class:`CarInputParameters` class in :mod:`car_input_parameters` and insert them into a
     multi-dimensional numpy-like array from the *xarray* package
     (http://xarray.pydata.org/en/stable/).
 

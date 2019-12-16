@@ -97,9 +97,7 @@ class EnergyConsumptionModel:
 
         return auxiliary_energy / efficiency
 
-    def motive_energy_per_km(self, driving_mass, rr_coef, drag_coef, frontal_area, ttw_efficiency, recuperation_efficiency=0,
-        motor_power=0):
-
+    def motive_energy_per_km(self, driving_mass, rr_coef, drag_coef, frontal_area, ttw_efficiency, recuperation_efficiency=0, motor_power=0):
         """
         Calculate energy used and recuperated for a given vehicle per km driven.
 
