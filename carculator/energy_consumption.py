@@ -133,6 +133,7 @@ class EnergyConsumptionModel:
 
             \frac{1}{2} \rho_{air} v^{3} A C_{d}
 
+
         where :math:`\rho_{air}` is 1.225 (kg/m3), *v* is velocity (m/s), *A* is frontal area (m2), and :math:`C_{d}` is
         aerodynamic drag coefficient (dimensionless).
 

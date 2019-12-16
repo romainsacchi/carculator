@@ -18,20 +18,20 @@ class InventoryCalculation:
     Vehicles to be analyzed can be filtered by passing a `scope` dictionary. Some assumptions in the background system
     can also be adjusted by passing a `background_configuration` dictionary.
 
-    :Example:
+    .. code-block: python
 
-    >>> scope = {
-                    'powertrain':['BEV', 'FCEV', 'ICEV-p'],
-                }
-    >>> background_configuration = {
-                                        'country' : 'DE', # will use the network electricity losses of Germany
-                                        'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0], # in this case, 100% hydropower
-                                                                    [0.5,0.5,0,0,0,0,0,0,0,0]], # in this case, 50% hydro, 50% nuclear
-                                        'hydrogen technology' : 'Electrolysis',
-                                        'petrol technology': 'bioethanol - wheat straw',
-                                        'battery technology': 'LFP',
-                                        'battery origin': 'NO'
-                                    }
+        scope = {
+                        'powertrain':['BEV', 'FCEV', 'ICEV-p'],
+                    }
+        background_configuration = {
+                                            'country' : 'DE', # will use the network electricity losses of Germany
+                                            'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0], # in this case, 100% hydropower
+                                                                        [0.5,0.5,0,0,0,0,0,0,0,0]], # in this case, 50% hydro, 50% nuclear
+                                            'hydrogen technology' : 'Electrolysis',
+                                            'petrol technology': 'bioethanol - wheat straw',
+                                            'battery technology': 'LFP',
+                                            'battery origin': 'NO'
+                                        }
 
     :ivar array: array from the CarModel class
     :vartype array: CarModel.array
@@ -219,11 +219,13 @@ class InventoryCalculation:
     def calculate_impacts(self, method="recipe", level="midpoint", split="components"):
         """
         Solve the inventory, fill in the results array, return teh results array.
+
         :param method: Impact assessment method. Only "recipe" available at the moment.
         :param level: Impact assessment level ("midpoint" or "endpoint"). Only "midpoint" available at the moment.
         :param split: Splitting mode ("components" or "impact categories"). Only "components" available at the moment.
         :return: an array with characterized results.
         :rtype: xarray.DataArray
+
         """
 
 
@@ -263,8 +265,10 @@ class InventoryCalculation:
     def get_A_matrix(self):
         """
         Load the A matrix. The A matrix contains exchanges of products (rows) between activities (columns).
+
         :return: A matrix with three dimensions of shape (number of values, number of products, number of activities).
         :rtype: numpy.ndarray
+
         """
         filename = "A_matrix.csv"
         filepath = (
@@ -292,10 +296,12 @@ class InventoryCalculation:
         Load the B matrix. The B matrix contains impact assessment figures for a give impact assessment method,
         per unit of activity. Its length column-wise equals the length of the A matrix row-wise.
         Its length row-wise equals the number of impact assessment methods.
+
         :param method: only "recipe" available at the moment.
         :param level: only "midpoint" available at the moment.
         :return: an array with impact values per unit of activity for each method.
         :rtype: numpy.ndarray
+
         """
         filename = "B_matrix" + "_" + method + "_" + level + ".csv"
         filepath = (DATA_DIR / filename)
@@ -318,8 +324,10 @@ class InventoryCalculation:
         """
         Load a dictionary with tuple ("name of activity", "location", "unit", "reference product") as key, row/column
         indices as values.
-        :return: dictionary label:index
+
+        :return: dictionary with `label:index` pairs.
         :rtype: dict
+
         """
         filename = "dict_inputs_A_matrix.csv"
         filepath = (DATA_DIR / filename)
@@ -361,7 +369,9 @@ class InventoryCalculation:
     def get_dict_impact_categories(self):
         """
         Load a dictionary with impact assessment method as keys, and assessment level and categories as values.
-        :return:
+
+        :return: dictionary
+        :rtype: dict
         """
         filename = "dict_impact_categories.csv"
         filepath = (DATA_DIR / filename)
@@ -381,14 +391,17 @@ class InventoryCalculation:
 
     def get_rev_dict_input(self):
         """
-        Reverse the self.inputs dictionary
-        :return:
+        Reverse the self.inputs dictionary.
+
+        :return: reversed dictionary
+        :rtype: dict
         """
         return {v: k for k, v in self.inputs.items()}
 
     def get_index_from_array(self, items_to_look_for):
         """
         Return list of row/column indices of self.array of labels that contain the string defined in `items_to_look_for`.
+
         :param items_to_look_for: string to search for
         :return: list
         """
@@ -402,9 +415,11 @@ class InventoryCalculation:
     def get_index_of_flows(self, items_to_look_for, search_by="name"):
         """
         Return list of row/column indices of self.A of labels that contain the string defined in `items_to_look_for`.
+
         :param items_to_look_for: string
         :param search_by: "name" or "compartment" (for elementary flows)
-        :return: list
+        :return: list of row/column indices
+        :rtype: list
         """
         if search_by == "name":
             return [
@@ -422,7 +437,8 @@ class InventoryCalculation:
     def export_lci(self, presamples = True):
         """
         Export the inventory as a dictionary. Also return a list of arrays that contain pre-sampled random values if
-        CarModel is run in stochastic mode.
+        :meth:`stochastic` of :class:`CarModel` class has been called.
+
         :param presamples: boolean.
         :return: inventory, and optionally, list of arrays containing pre-sampled values.
         :rtype: list
@@ -438,6 +454,7 @@ class InventoryCalculation:
     def export_lci_to_bw(self, presamples = True):
         """
         Export the inventory as a `brightway2` bw2io.importers.base_lci.LCIImporter object.
+
         :return: LCIImport object that can be directly registered in a `brightway2` project.
         :rtype: bw2io.importers.base_lci.LCIImporter
         """
@@ -453,7 +470,7 @@ class InventoryCalculation:
     def export_lci_to_excel(self):
         """
         Export the inventory as an Excel file. Also return the file path where the file is stored.
-        :param presamples: boolean.
+
         :return: file path where the file is stored.
         :rtype: str
         """
@@ -464,7 +481,8 @@ class InventoryCalculation:
     def set_inputs_in_A_matrix(self, array):
         """
         Fill-in the A matrix. Does not return anything. Modifies in place.
-        :param array: array from CarModel class
+
+        :param array: :attr:`array` from :class:`CarModel` class
         """
 
         # Glider
