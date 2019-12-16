@@ -23,7 +23,7 @@ def fill_xarray_from_input_parameters(cip):
 
 
     :param cip: Instance of the CarInputParameters class.
-    :returns: `tuple`, `array`
+    :returns: `tuple`, `xarray.DataArray`
     - tuple (`size_dict`, `powertrain_dict`, `parameter_dict`, `year_dict`)
     - array
 
@@ -33,13 +33,6 @@ def fill_xarray_from_input_parameters(cip):
     1. Powertrain, e.g. "ICE-p", "BEV". str.
     2. Year. int.
     3. Samples.
-
-
-    :rtype size_dict: dict
-    :rtype powertrain_dict: dict
-    :rtype parameter_dict: dict
-    :rtype year_dict: dict
-    :rtype array: xarray.DataArray
 
     """
 
@@ -89,14 +82,19 @@ def fill_xarray_from_input_parameters(cip):
 
 
 def modify_xarray_from_custom_parameters(fp, array):
-    """Override default parameters values in `xarray` based on values provided by the user.
+    """
+    Override default parameters values in `xarray` based on values provided by the user.
 
-        This function allows to override one or several default parameter values by providing either:
-        * a file path to an Excel workbook that contains the new values
-        * or a dictionary
+    This function allows to override one or several default parameter values by providing either:
 
-        The dictionary must be of the following format:
-            {
+    * a file path to an Excel workbook that contains the new values
+    * or a dictionary
+
+    The dictionary must be of the following format:
+
+    :Example:
+
+    >>> {
                 (parameter category,
                     powertrain,
                     size,
@@ -110,10 +108,10 @@ def modify_xarray_from_custom_parameters(fp, array):
                 }
 
             }
-        :param fp: File path of workbook with new values or dictionary.
-        :type fp: str or dict
+    :param fp: File path of workbook with new values or dictionary.
+    :type fp: str or dict
 
-        """
+    """
 
     if isinstance(fp, str):
         try:

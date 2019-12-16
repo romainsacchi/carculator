@@ -72,14 +72,15 @@ class EnergyConsumptionModel:
         self.acceleration[1:-1] = (self.velocity[2:] - self.velocity[:-2]) / 2
 
     def aux_energy_per_km(self, aux_power, efficiency=1):
-        """Calculate energy used other than motive energy per km driven.
+        """
+        Calculate energy used other than motive energy per km driven.
 
         :param aux_power: Total power needed for auxiliaries, heating, and cooling (W)
         :type aux_power: int
         :param efficiency: Efficiency of electricity generation (dimensionless, between 0.0 and 1.0).
                 Battery electric vehicles should have efficiencies of one here, as we account for
                 battery efficiencies elsewhere.
-        :type: efficiency: float
+        :type efficiency: float
 
         :returns: total auxiliary energy in kJ/km
         :rtype: float
@@ -106,7 +107,8 @@ class EnergyConsumptionModel:
         recuperation_efficiency=0,
         motor_power=0,
     ):
-        """Calculate energy used and recuperated for a given vehicle per km driven.
+        """
+        Calculate energy used and recuperated for a given vehicle per km driven.
 
         :param driving_mass: Mass of vehicle (kg)
         :type driving_mass: int
@@ -137,9 +139,7 @@ class EnergyConsumptionModel:
 
         Power to overcome air resistance is calculated by:
 
-        .. math::
-
-            \frac{1}{2} \rho_{air} v^{3} A C_{d}
+        .. math:: \frac{1}{2} \rho_{air} v^{3} A C_{d}
 
         where :math:`\rho_{air}` is 1.225 (kg/m3), *v* is velocity (m/s), *A* is frontal area (m2), and :math:`C_{d}` is
         aerodynamic drag coefficient (dimensionless).
@@ -171,12 +171,6 @@ class EnergyConsumptionModel:
         mp = _(motor_power)
         re = _(recuperation_efficiency)
 
-        # Original formulas now calculated by `numexpr`
-        # power_rolling_resistance = np.ones_like(self.velocity) * _(driving_mass) * _(rr_coef) * 9.81
-        # power_aerodynamic = (self.velocity ** 2 * _(frontal_area) * _(drag_coef) * self.rho_air / 2)
-        # power_kinetic = self.acceleration * _(driving_mass)
-        # total_force = (power_kinetic + power_rolling_resistance + power_aerodynamic)
-
         total_force = ne.evaluate(
             "(ones * dm * rr * 9.81)+(v ** 2 * fa * dc * rho_air / 2)+(a * dm)"
         )
@@ -185,10 +179,6 @@ class EnergyConsumptionModel:
 
         # Can only recuperate when power is less than zero, limited by recuperation efficiency
         # Motor power in kW, other power in watts
-        # recuperated_power = (
-        #         np.clip(tv,
-        #             -1000 * _(motor_power), 0) * _(recuperation_efficiency)
-        # )
 
         recuperated_power = ne.evaluate(
             "where(tv < (-1000 * mp), (-1000 * mp) ,where(tv>0, 0, tv)) * re"

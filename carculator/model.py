@@ -1,15 +1,8 @@
-from pathlib import Path
-from inspect import currentframe, getframeinfo
 import numpy as np
 from .energy_consumption import EnergyConsumptionModel
 from .noise_emissions import NoiseEmissionsModel
 from .hot_emissions import HotEmissionsModel
 
-from bw2io.export.excel import (
-    safe_filename,
-    xlsxwriter,
-    create_valid_worksheet_name,
-)
 import xarray as xr
 DEFAULT_MAPPINGS = {
     "electric": {"BEV", "PHEV-e"},
