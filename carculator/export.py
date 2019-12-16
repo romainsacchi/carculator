@@ -38,11 +38,11 @@ class ExportInventory:
     def write_lci(self, presamples=True):
         """
         Return the inventory as a dictionary
-        If if there several values for one exchange, uncertianty information is generated.
+        If if there several values for one exchange, uncertainty information is generated.
         If `presamples` is True, returns the inventory as well as a `presamples` matrix.
         If `presamples` is False, returns the inventory with characterized uncertainty information.
 
-        :return: a dictionary that contains all the exchanges
+        :returns: a dictionary that contains all the exchanges
         :rtype: dict
         """
         list_act = []
@@ -172,7 +172,7 @@ class ExportInventory:
         """
         Export an Excel file that can be consumed by Brightway2.
 
-        :return: returns the file path of the exported inventory.
+        :returns: returns the file path of the exported inventory.
         :rtype: str.
         """
 

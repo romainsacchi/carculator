@@ -4,7 +4,7 @@ Validity tests
 Driving cycle, velocity and acceleration
 ----------------------------------------
 
-There are eleven possible driving cycles to select from:
+Beside custom driving cycles, there are eleven possible driving cycles to select from:
 
     * WLTC
     * WLTC 3.1
@@ -91,7 +91,11 @@ Which can be also be verified visually::
 Car and components masses
 -------------------------
 
-This module returns the masses of the different vehicle components, given a vehicle size class, a year of manufacture and a powertrain techology. The relevant output is the `driving mass`, which will influence the energy required to overcome `rolling resistance`, the `drag`, but also the energy required to move the vehicle over a given distance -- `kinetic energy`.
+:class:`CarModel` sizes and builds the vehicles and their attributes are accessed in its `array` attribute.
+Filters like vehicle size class, year of manufacture and powertrain techology are convenient to use.
+A relevant calculated parameter is the `driving mass`,
+which will influence the energy required to overcome `rolling resistance`, the `drag`, but also the energy required to
+move the vehicle over a given distance -- `kinetic energy`.
 
 Parameters such as total cargo mass, curb mass and driving mass, can be obtained the following way, for a 2017 battery electric SUV::
 
@@ -101,7 +105,8 @@ Parameters such as total cargo mass, curb mass and driving mass, can be obtained
        [1719.56033224],
        [1874.56033224]])
        
-One can check whether total cargo mass is indeed equal to cargo mass plus the product of the number of passengers and the average passenger weight::
+One can check whether `total cargo mass` is indeed equal to cargo mass plus the product of the number of passengers
+and the average passenger weight::
 
     total_cargo, cargo, passengers, passengers_weight = cm.array.sel(size='SUV', powertrain='BEV', year=2017,
         parameter=['total cargo mass','cargo mass','average passengers', 'average passenger mass']).values
@@ -121,7 +126,9 @@ However, most of the driving mass is explained by the curb mass::
     :width: 400
     :alt: Alternative text
     
-Here is a split between the components making up for the curb mass. One can see that, in the case of a battery electric SUV, most of the weight comes from the glider as well as the battery cells. On an equivalent diesel powertrain, the mass of the gliber base is comparatively more important::
+Here is a split between the components making up for the curb mass.
+One can see that, in the case of a battery electric SUV, most of the weight comes from the glider as well as the battery cells.
+On an equivalent diesel powertrain, the mass of the glider base is comparatively more important::
 
     l_param=["fuel mass","charger mass","converter mass","glider base mass","inverter mass","power distribution unit mass",
             "combustion engine mass","electric engine mass","powertrain mass","fuel cell stack mass",
@@ -181,7 +188,8 @@ Here is a split between the components making up for the curb mass. One can see 
     
 
 
-The `curb mass` returned by Carculator is plotted against manufacturers' data, per vehicle size class and powertrain technology. To do so, we use the car database Car2db (https://car2db.com/) and load all car trims produced after 2013 (21,383 vehicles).
+The `curb mass` returned by Carculator is plotted against manufacturers' data, per vehicle size class and powertrain technology.
+To do so, we use the car database Car2db (https://car2db.com/) and load all car trims produced after 2013 (21,383 vehicles).
 
     
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/mass_comparison.png
@@ -191,9 +199,11 @@ The `curb mass` returned by Carculator is plotted against manufacturers' data, p
 
 Tank-to-wheel energy
 --------------------
-The EU tests all new commercialized cars for emissions and energy consumption according to the WLTC driving cycle (v.3). See: https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
+The EU tests all new commercialized cars for emissions and energy consumption according to the WLTC driving cycle (v.3).
+See: https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
 
-However, this database does not directly give energy consumption. But we can use CO2 measurement with the lower heating value of the fuel to back-calculate energy consumption.
+However, this database does not directly give energy consumption.
+But we can use CO2 measurement with the lower heating value of the fuel to back-calculate energy consumption.
 
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/EU_energy_comparison.png
     :width: 900
@@ -201,10 +211,13 @@ However, this database does not directly give energy consumption. But we can use
     
 End-of-pipe CO2 emissions
 -------------------------
-Similarly, we can plot teh CO2 measurements from teh EU database against the values returned by Carculator for combustion vehicles.
+Similarly, we can plot the CO2 measurements from the EU database against the values returned by Carculator for combustion vehicles.
 
 
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/EU_CO2_comparison.png
     :width: 900
     :alt: Alternative text
+
+There seems to be a general alignment between measured figures from the EU monitoring programme and the figures produced
+by **Carculator**
 

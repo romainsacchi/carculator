@@ -5,14 +5,14 @@ Introduction
 passenger car configurations, according to selected:
 
 * powertrain technologies (8): petrol engine, diesel engine, electric motor, hybrid, etc.,
-* year of operation (2): 2017, 2040
+* year of operation (2): 2017, 2040 (with the possibility to interpolate in between)
 * and sizes (7): Mini, Large, etc.
 
 It is initially based on the model developed in `Uncertain environmental footprint of current and future battery electric
 vehicles by Cox, et al (2018) <https://pubs.acs.org/doi/10.1021/acs.est.8b00261>`_.
 
 More specifically, **Carculator** generates Brightway2- and Simapro-compatible inventories, but also directly provides characterized
-results against several mid- and endpoint indicators (e.g., ReCiPe, Ecological Scarcity) and life cycle cost indicators.
+results against several midpoint indicators from teh impact assessment method ReCiPe as well as life cycle cost indicators.
 
 Why?
 ----
@@ -20,18 +20,19 @@ Many life cycle assessment models of passenger cars exist, often leading to vary
 Unfortunately, because the underlying calculations are kept undocumented, it is not possible to explain the disparity
 in the results given by these models.
 
-Because **Carculator** is kept as open as possible, the methods and assumptions behind the generation of results are easily identifiable.
+Because **Carculator** is kept **as open as possible**, the methods and assumptions behind the generation of results are
+easily identifiable and adjustable.
 Also, there is an effort to keep the different modules (classes) separated, so that improving certain areas of the model is relatively
 easy and does not require changing extensive parts of the code. In that regard, contributions are welcome.
 
 Finally, beside being more flexible and transparent, **Carculator** provides interesting features, such as:
 
-* a stochastic mode, that allows fast Monte Carlo analyses (1,000 iterations in 22 seconds, on a computer equipped with an i5 CPU)
-* possibility to override any or all of the 200+ default car parameters (e.g., number of passengers, drag coefficient)
+* a stochastic mode, that allows fast Monte Carlo analyses
+* possibility to override any or all of the 200+ default input car parameters (e.g., number of passengers, drag coefficient) but also calculated parameters.
 * hot pollutants emissions function of driving cycle, using HBEFA 3.3 data, further divided between rural, suburban and urban areas
 * noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_ for inventory modelling and mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban and urban areas
-* exports inventories as csv files to be used with Brightway2 or Simapro (in progress), including uncertainty information. This requires the user to have `ecoinvent 3.5 cutoff` installed on the LCA software the car inventories are exported to.
-* exports inventories directly into Brightway2, as a database object to be registered. Additionally, when run in stochastic mode, it is possible to export arrays of pre-sampled values using the `presamples <https://pypi.org/project/presamples/>`_ library to be used together with the Monte Carlo function of Brightway2.
+* exports inventories as Excel files to be used with Brightway2 or Simapro (in progress), including uncertainty information. This requires the user to have `ecoinvent 3.6 cutoff` installed on the LCA software the car inventories are exported to.
+* exports inventories directly into Brightway2, as a LCIImporter object to be registered. Additionally, when run in stochastic mode, it is possible to export arrays of pre-sampled values using the `presamples <https://pypi.org/project/presamples/>`_ library to be used together with the Monte Carlo function of Brightway2.
 
 Objective
 ---------
@@ -58,15 +59,15 @@ And install the development version of the **Carculator** package in your new en
 
 This will install the package and the required dependencies.
 
-
 How to use it?
 --------------
 
 Static vs. Stochastic mode
 **************************
 
-The inventories can be calculated using the most likely value of the given parameters, but also using a probability distribution
-for those. For example, the drivetrain efficiency of SUVs, regardless of the powertrain, is given the most likely value of 0.38,
+The inventories can be calculated using the most likely value of the given input parameters, but also using
+randomly-generated values based on a probability distribution for those.
+For example, the drivetrain efficiency of SUVs, regardless of the powertrain, is given the most likely value of 0.38,
 but with a triangular probability distribution with a minimum and maximum of 0.3 and 0.4, respectively.
 
 Creating car models in static mode will use the most likely value of the given parameters to dimension the cars, etc., such as::
@@ -101,7 +102,7 @@ In both case, a CarModel object is returned, with a 3-dimensional array `array` 
 3. Values. float
 
 
-`cm.set_all()` generates a CarModel object and calculate the energy consumption, components mass, as well as
+:meth:`cm.set_all()` generates a CarModel object and calculates the energy consumption, components mass, as well as
 exhaust and non-exhaust emissions for all vehicle profiles.
 
 Custom values for given parameters
@@ -133,6 +134,14 @@ Then, you simply pass this dictionary to `modify_xarray_from_custom_parameters(<
 Alternatively, instead of a Python dictionary, you can pass a file path pointing to an Excel spreadsheet that contains
 the values to change, following `this template <https://github.com/romainsacchi/coarse/raw/master/docs/template_workbook.xlsx>`_.
 
+Inter and extrapolation of parameters
+*************************************
+
+It is posisble to inter and extrapolate all the parameters to other years simply by doing::
+
+    array = array.interp(year=[2018, 2022, 2035, 2040, 2045, 2050],  kwargs={'fill_value': 'extrapolate'})
+
+
 Changing the driving cycle
 **************************
 
@@ -162,9 +171,18 @@ mostly concerned with driving on the motorway at speeds above 80 km/h). Driving 
 * CADC
 * NEDC
 
+The user can also create custom driving cycles and pass it to the :class:`CarModel` class::
 
-Accessing attributes of the car model
-*************************************
+    import numpy as np
+    x = np.linspace(1, 1000)
+    def f(x):
+        return np.sin(x) + np.random.normal(scale=20, size=len(x)) + 70
+
+    cycle = f(x)
+    cm = CarModel(array, cycle=cycle)
+
+Accessing calculated parameters of the car model
+************************************************
 Hence, the tank-to-wheel energy requirement per km driven per powertrain technology for a SUV in 2017 can be obtained
 from the CarModel object::
 
@@ -178,8 +196,8 @@ from the CarModel object::
     :width: 400
     :alt: Alternative text
 
-Note that if you had run the model in stochastic mode, you would have several values stored for a given calculated parameter
-in the array. The number of values correspond to the number of iterations you passed to cip.stochastic().
+Note that if you call the :meth:`stochastic` method of the :class:`CarInputParameters`, you would have several values stored for a given calculated parameter
+in the array. The number of values correspond to the number of iterations you passed to :meth:`stochastic`.
 
 For example, if you ran the model in stochastic mode with 800 iterations as shown in the section above, instead of one
 value for the tank-to-wheel energy, you would have a distribution of values::
@@ -193,8 +211,7 @@ value for the tank-to-wheel energy, you would have a distribution of values::
     :width: 400
     :alt: Alternative text
 
-Any other attributes of the CarModel class can be obtained in a similar way. For example, all calculated parameters that start with
-`_lci` are inputs or outputs to the inventory.
+Any other attributes of the CarModel class can be obtained in a similar way.
 Hence, the following lists all direct exhaust emissions included in the inventory of an petrol Van in 2017:
 
 List of all the given and calculated parameters of the car model::
@@ -203,7 +220,7 @@ List of all the given and calculated parameters of the car model::
 
 Return the parameters concerned with direct exhaust emissions (we remove noise emissions)::
 
-    direct_emissions = [x for x in list_param if x.startswith('_lci_direct_') and 'noise' not in x]
+    direct_emissions = [x for x in list_param if 'emission' in x and 'noise' not in x]
 
 Finally, return their values and display the first 10 in a table::
 
@@ -226,6 +243,16 @@ Or we could be interested in visualizing the distribution of non-characterized n
     :width: 400
     :alt: Alternative text
 
+Modify calculated parameters
+****************************
+
+As input parameters, calculated parameters cna also be overridden. For exmaple here, we override the `driving mass`
+of large diesel vehicles in, for all years::
+
+    cm.array.loc['Large','ICEV-d','driving mass',:] = [[2000],[2200]]
+
+
+
 Characterization of inventories (static)
 ****************************************
 
@@ -234,15 +261,14 @@ Characterization of inventories (static)
 
 For example, to obtain characterized results against the midpoint impact assessment method ReCiPe for all cars::
 
-    impacts, units, arr = cm.calculate_env_impacts_midpoint(method = 'recipe')
+    ic = InventoryCalculation(cm.array)
+    results = ic.calculate_impacts()
 
-* arr: contains the characterized results
-* impacts: contains the list of impact categories `arr` contains results for
-* units: contains a list of units used by the impact categories contained in `impacts`
+
 
 Hence, to plot the carbon footprint for all medium cars in 2017::
 
-    arr.sel(size='Medium', year=2017, impact_category='climate change', value=0).to_dataframe('impact').unstack(level=1)['impact'].plot(kind='bar',
+    results.sel(size='Medium', year=2017, impact_category='climate change', value=0).to_dataframe('impact').unstack(level=1)['impact'].plot(kind='bar',
                 stacked=True)
     plt.ylabel('kg CO2-eq./vkm')
     plt.show()
@@ -251,64 +277,36 @@ Hence, to plot the carbon footprint for all medium cars in 2017::
     :width: 400
     :alt: Alternative text
 
-Note that, for now, only the ReCiPe method is available for midpoint characterization. Also, once the CarModel object has
-been created, there is no need to re-create it in order to calculate additional environmental impacts (unless you wish to
-change values of certain parameters, the driving cycle or go from static to stochastic mode).
-
-Same thing, but with the endpoint indicator *Human health* of ReCiPe method instead, split by midpoint categories contribution::
-
-    impacts, units, arr = cm.calculate_env_impacts_endpoint(method = 'recipe', split='midpoint')
-    impact_cat = 'Human health'
-    ax = arr.sel(size='Medium', year=2017, impact_cat=impact_cat, value=0)\
-        .to_dataframe('impact').unstack(level=1)['impact'].plot(kind='bar',
-                    stacked=True)
-
-    handles, labels = ax.get_legend_handles_labels()
-    labels_n = [labels.index(l) for l in labels if impact_cat in l]
-    new_labels = [labels[l] for l in labels_n]
-    new_handles = [handles[l] for l in labels_n]
-
-    plt.legend(new_handles, new_labels)
-    plt.ylabel('DALY')
-    plt.show()
-
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_human_health.png
-    :width: 400
-    :alt: Alternative text
-
-Note that you can pass 'components' as a split method to `calculate_env_impacts_endpoint` if you pass to see the
-distribution of result by car components instead (like in teh example with midpoint impact characterization).
-Also, you can choose between ReCiPe and Ecological Scarcity for endpoint characterization.
-
-Finally, you can obtain single score results as well using `calculate_env_impacts_single_score()`.
-
+Note that, for now, only the ReCiPe method is available for midpoint characterization. Also, once the instance of the :class:`CarModel`
+class has been created, there is no need to re-create it in order to calculate additional environmental impacts (unless you wish to
+change values of certain input or calculated parameters, the driving cycle or go from static to stochastic mode).
 
 Characterization of inventories (stochastic)
 ********************************************
 
 In the same manner, you can obtain distributions of results, instead of one-point values if you have run the model in
-stochastic mode (here using the single score method of ReCiPe, with 1000 iterations and the driving cycle WLTC)::
+stochastic mode (with 500 iterations and the driving cycle WLTC)::
 
     cip = CarInputParameters()
-    cip.stochastic(1000)
+    cip.stochastic(500)
     dcts, array = fill_xarray_from_input_parameters(cip)
     cm = CarModel(array, cycle='WLTC')
     cm.set_all()
+    scope = {
+        'powertrain':['BEV', 'PHEV'],
+    }
+    ic = InventoryCalculation(cm.array, scope=scope)
 
-    impacts, units, arr = cm.calculate_env_impacts_single_score('recipe')
-    data_MC = arr.sel(size='Large', year=2017).sum(axis=0)
+    results = ic.calculate_impacts()
 
-    c='red'
-    plt.boxplot(data_MC, showfliers=False, positions = [1,2,3,4,5,6,7], widths=(.25, .25, .25, .25, .25, .25, .25),
-                patch_artist=True,
-                boxprops=dict(facecolor=c, color=c),
-                capprops=dict(color=c),
-                whiskerprops=dict(color=c),
-                flierprops=dict(color=c, markeredgecolor=c),
-                medianprops=dict(color=c), notch=True)
-    plt.ylim(0,)
-    plt.xticks(range(1,len(data_MC.powertrain.values)+1),data_MC.powertrain.values)
+    data_MC = results.sel(impact_category='climate change').sum(axis=3).to_dataframe('climate change')
+    plt.style.use('seaborn')
+    data_MC.unstack(level=[0,1,2]).boxplot(showfliers=False, figsize=(20,5))
+    plt.xticks(rotation=70)
+    plt.ylabel('kg CO2-eq./vkm')
 
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_stochastic_recipe.png
     :width: 400
     :alt: Alternative text
+
+Many other examples are described in a Jupyter Notebook in the ``examples`` folder.

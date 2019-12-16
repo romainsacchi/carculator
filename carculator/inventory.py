@@ -171,6 +171,7 @@ class InventoryCalculation:
     def get_split_indices(self):
         """
         Return list of indices to split the results into categories.
+
         :return: list of indices
         :rtype: list
         """
@@ -218,7 +219,7 @@ class InventoryCalculation:
 
     def calculate_impacts(self, method="recipe", level="midpoint", split="components"):
         """
-        Solve the inventory, fill in the results array, return teh results array.
+        Solve the inventory, fill in the results array, return the results array.
 
         :param method: Impact assessment method. Only "recipe" available at the moment.
         :param level: Impact assessment level ("midpoint" or "endpoint"). Only "midpoint" available at the moment.

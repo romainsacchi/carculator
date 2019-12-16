@@ -81,7 +81,7 @@ class NoiseEmissionsModel:
         Model from CNOSSOS-EU project
         (http://publications.jrc.ec.europa.eu/repository/bitstream/JRC72550/cnossos-eu%20jrc%20reference%20report_final_on%20line%20version_10%20august%202012.pdf)
 
-        :returns: A numpy array with propulsion noise (dB) for each 8 octaves, per second of driving cycle
+        :returns: A numpy array with propulsion noise (dB) for all 8 octaves, per second of driving cycle
         :rtype: numpy.array
 
         """
@@ -120,9 +120,10 @@ class NoiseEmissionsModel:
         """
         Calculate sound energy (in J/s) over the driving cycle duration from sound power (in dB).
         The sound energy sums are further divided into `geographical compartments`: urban, suburban and rural.
-        * *urban*: from 0 to 50 km/k
-        * *suburban*: from 51 km/h to 80 km/h
-        * *rural*: above 80 km/h
+
+            * *urban*: from 0 to 50 km/k
+            * *suburban*: from 51 km/h to 80 km/h
+            * *rural*: above 80 km/h
 
 
         :return: Sound energy (in Joules) per km driven, per geographical compartment.
