@@ -22,17 +22,17 @@ def fill_xarray_from_input_parameters(cip):
     (http://xarray.pydata.org/en/stable/).
 
 
-    :param cip: Instance of the CarInputParameters class.
+    :param cip: Instance of the :class:`CarInputParameters` class in :mod:`car_input_parameters`.
     :returns: `tuple`, `xarray.DataArray`
     - tuple (`size_dict`, `powertrain_dict`, `parameter_dict`, `year_dict`)
     - array
 
     Dimensions of `array`:
 
-    0. Vehicle size, e.g. "small", "medium". str.
-    1. Powertrain, e.g. "ICE-p", "BEV". str.
-    2. Year. int.
-    3. Samples.
+        0. Vehicle size, e.g. "small", "medium". str.
+        1. Powertrain, e.g. "ICE-p", "BEV". str.
+        2. Year. int.
+        3. Samples.
 
     """
 

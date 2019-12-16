@@ -64,29 +64,19 @@ class CarInputParameters(NamedParameters):
                     type(extra)
                 )
             )
-
-
         self.sizes = sorted(
             {size for o in parameters.values() for size in o.get("sizes", [])}
         )
-
-
         self.powertrains = sorted(
             {pt for o in parameters.values() for pt in o.get("powertrain", [])}
         )
-
-
         self.parameters = sorted(
             {o["name"] for o in parameters.values()}.union(set(extra))
         )
-
-
         self.years = sorted({o["year"] for o in parameters.values()})
+        self.add_car_parameters(parameters)
 
-
-        self.add_car_parameters(parameters, limit)
-
-    def add_car_parameters(self, parameters, limit):
+    def add_car_parameters(self, parameters):
         """
         Split data and metadata according to ``klausen`` convention.
 
