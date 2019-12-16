@@ -1,6 +1,5 @@
 from klausen import NamedParameters
 from pathlib import Path
-import os
 import json
 
 
@@ -39,8 +38,8 @@ class CarInputParameters(NamedParameters):
     :vartype metadata: dict
     :ivar values: Dictionary for storing values, of format {'param':[value]}.
     :vartype values: dict
-    :ivar iterations: Number of iterations executed by the method stochastic().
-        None if static() used instead.
+    :ivar iterations: Number of iterations executed by the method :func:`~car_input_parameters.CarInputParameters.stochastic`.
+        None if :func:`~car_input_parameters.CarInputParameters.static` used instead.
     :vartype iterations: int
 
 
