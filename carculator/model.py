@@ -34,7 +34,7 @@ class CarModel:
     :vartype array: xarray.DataArray
     :ivar mappings: Dictionary with names correspondence
     :vartype mappings: dict
-    :ivar ecm: instance of EnergyConsumptionModel class for a given driving cycle
+    :ivar ecm: instance of :class:`EnergyConsumptionModel` class for a given driving cycle
     :vartype ecm: coarse.energy_consumption.EnergyConsumptionModel
 
     """
@@ -55,10 +55,10 @@ class CarModel:
 
         Set up this class as a context manager, so we can have some nice syntax
 
-        :Example:
+        .. code-block: python
 
             with class('some powertrain') as cpm:
-                cpm['something']. <- Will be filtered for the correct powertrain
+                cpm['something']. # Will be filtered for the correct powertrain
 
         On with block exit, this filter is cleared
         https://stackoverflow.com/a/10252925/164864
@@ -106,12 +106,13 @@ class CarModel:
         This method runs a series of other methods to obtain the tank-to-wheel energy requirement, efficiency
         of the car, costs, etc.
 
-        set_component_masses(), set_car_masses() and set_power_parameters() are interdependent.
+        :meth:`set_component_masses()`, :meth:`set_car_masses()` and :meth:`set_power_parameters()` are interdependent.
         `powertrain_mass` depends on `power`, `curb_mass` is affected by changes in `powertrain_mass`,
         `combustion engine mass` and `electric engine mass`, and `power` is a function of `curb_mass`.
         The current solution is to loop through the methods until the increment in driving mass is
         inferior to 0.1%.
 
+        :returns: Does not return anything. Modifies ``self.array`` in place.
 
         """
         # TODO: Converging towards a satisfying curb mass is taking too long! Needs to be optimized.
@@ -152,7 +153,7 @@ class CarModel:
     def drop_hybrid(self):
         """
         This method drops the powertrains `PHEV-c` and `PHEV-e` as they were only used to create the `PHEV` powertrain.
-        Does not return anything. Modifies self.array in place.
+        :returns: Does not return anything. Modifies ``self.array`` in place.
         """
         self.array = self.array.sel(
             powertrain=["ICEV-p", "ICEV-d", "ICEV-g", "PHEV", "FCEV", "BEV", "HEV-p"]
@@ -161,7 +162,7 @@ class CarModel:
     def set_electricity_consumption(self):
         """
         This method calculates the total electricity consumption for BEV and plugin-hybrid vehicles
-
+        :returns: Does not return anything. Modifies ``self.array`` in place.
         """
 
         for pt in self.electric:
@@ -173,7 +174,7 @@ class CarModel:
     def calculate_ttw_energy(self):
         """
         This method calculates the energy required to operate auxiliary services as well
-        as to move the car. The sum is stored in `array` under the label "TtW energy".
+        as to move the car. The sum is stored under the parameter label "TtW energy".
 
         """
         aux_energy = self.ecm.aux_energy_per_km(self["auxiliary power demand"])
@@ -203,7 +204,7 @@ class CarModel:
     def set_fuel_cell_parameters(self):
         """
         Specific setup for fuel cells, which are mild hybrids.
-        Must be called after ``.set_power_parameters``.
+        Must be called after :meth:`.set_power_parameters`.
         """
         for pt in self.fuel_cell:
             with self(pt):
@@ -255,6 +256,7 @@ class CarModel:
         The demand for heat and cold are expressed as a fraction of the heating and cooling capacities
 
         .. note:
+        
             Auxiliary power demand (W) = Base auxiliary power (W) +
             (Heating demand (dimensionless, between 0 and 1) * Heating power (W)) +
             (Cooling demand (dimensionless, between 0 and 1) * Cooling power (W))
