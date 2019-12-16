@@ -316,7 +316,7 @@ class CarModel:
             * ``total cargo mass`` is the mass of the cargo and passengers.
             * ``driving mass`` is the ``curb mass`` plus ``total cargo mass``.
 
-        .. math:: `driving mass` = `total cargo mass` + `driving mass`
+        .. math:: "driving mass" = "total cargo mass" + "driving mass"
 
 
         """

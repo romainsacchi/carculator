@@ -110,11 +110,9 @@ class EnergyConsumptionModel:
         :type drag_coef: float
         :param frontal_area: Frontal area of vehicle (m2)
         :type frontal_area: float
-        :param ttw_efficiency: Efficiency of translating potential energy into motion (dimensionless,
-                between 0.0 and 1.0)
+        :param ttw_efficiency: Efficiency of translating potential energy into motion (dimensionless, between 0.0 and 1.0)
         :type ttw_efficiency: float
-        :param recuperation_efficiency: Fraction of energy that can be recuperated (dimensionless, between 0.0 and 1.0).
-                Optional.
+        :param recuperation_efficiency: Fraction of energy that can be recuperated (dimensionless, between 0.0 and 1.0). Optional.
         :type recuperation_efficiency: float
         :param motor_power: Electric motor power (watts). Optional.
         :type motor_power: int
