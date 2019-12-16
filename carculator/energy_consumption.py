@@ -6,7 +6,6 @@
 import numpy as np
 import xarray
 import numexpr as ne
-
 from .driving_cycles import get_standard_driving_cycle
 
 
@@ -144,7 +143,8 @@ class EnergyConsumptionModel:
         where :math:`\rho_{air}` is 1.225 (kg/m3), *v* is velocity (m/s), *A* is frontal area (m2), and :math:`C_{d}` is
         aerodynamic drag coefficient (dimensionless).
 
-        Returns net motive energy in kJ/km
+        :returns: net motive energy (in kJ/km)
+        :rtype: float
 
         """
 

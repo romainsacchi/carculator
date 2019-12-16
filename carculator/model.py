@@ -27,7 +27,8 @@ def finite(array, mask_value=0):
 class CarModel:
 
     """
-    This class represents the entirety of the vehicles considered, with useful attributes.
+    This class represents the entirety of the vehicles considered, with useful attributes, such as an array that stores
+    all the vehicles parameters.
 
     :ivar array: multi-dimensional numpy-like array that contains parameters' value(s)
     :vartype array: xarray.DataArray
@@ -278,7 +279,9 @@ class CarModel:
         :Example:
 
             car lifetime = 200000 (km)
+
             battery lifetime = 190000 (km)
+
             replacement battery = 0.05
 
         .. note:
@@ -309,10 +312,10 @@ class CarModel:
     def set_car_masses(self):
         """Define ``curb mass``, ``driving mass``, and ``total cargo mass``.
 
-        * `curb mass <https://en.wikipedia.org/wiki/Curb_weight>`__ is the mass of the vehicle and fuel, without people
+            * `curb mass <https://en.wikipedia.org/wiki/Curb_weight>`__ is the mass of the vehicle and fuel, without people
         or cargo.
-        * ``total cargo mass`` is the mass of the cargo and passengers.
-        * ``driving mass`` is the ``curb mass`` plus ``total cargo mass``.
+            * ``total cargo mass`` is the mass of the cargo and passengers.
+            * ``driving mass`` is the ``curb mass`` plus ``total cargo mass``.
 
         """
         self["curb mass"] = self["glider base mass"] * (1 - self["lightweighting"])
@@ -679,11 +682,12 @@ class CarModel:
     def calculate_cost_impacts(self, scope=None):
         """
         This method returns an array with cost values per vehicle-km, sub-divided into the following groups:
-        * Purchase
-        * Maintentance
-        * Component replacement
-        * Energy
-        * Total cost of ownership
+
+            * Purchase
+            * Maintentance
+            * Component replacement
+            * Energy
+            * Total cost of ownership
 
         :return: A xarray array with cost information per vehicle-km
         :rtype: xarray.core.dataarray.DataArray

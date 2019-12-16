@@ -87,14 +87,14 @@ def modify_xarray_from_custom_parameters(fp, array):
 
     This function allows to override one or several default parameter values by providing either:
 
-    * a file path to an Excel workbook that contains the new values
-    * or a dictionary
+        * a file path to an Excel workbook that contains the new values
+        * or a dictionary
 
     The dictionary must be of the following format:
 
     :Example:
 
-    >>> {
+            {
                 (parameter category,
                     powertrain,
                     size,
@@ -108,6 +108,22 @@ def modify_xarray_from_custom_parameters(fp, array):
                 }
 
             }
+
+    For example:
+
+    :Example:
+
+            {
+                ('Driving',
+                'all',
+                'all',
+                'lifetime kilometers',
+                'none'): {
+                    (2018, 'loc'): 150000, (2040, 'loc'): 150000
+                    }
+
+            }
+
     :param fp: File path of workbook with new values or dictionary.
     :type fp: str or dict
 
