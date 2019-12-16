@@ -255,7 +255,6 @@ class CarModel:
         The demand for heat and cold are expressed as a fraction of the heating and cooling capacities
 
         .. note:
-
             Auxiliary power demand (W) = Base auxiliary power (W) +
             (Heating demand (dimensionless, between 0 and 1) * Heating power (W)) +
             (Cooling demand (dimensionless, between 0 and 1) * Cooling power (W))
@@ -316,8 +315,8 @@ class CarModel:
             * ``total cargo mass`` is the mass of the cargo and passengers.
             * ``driving mass`` is the ``curb mass`` plus ``total cargo mass``.
 
-        .. math:: "driving mass" = "total cargo mass" + "driving mass"
-
+        .. note::
+            driving mass = total cargo mass + driving mass
 
         """
 

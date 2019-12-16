@@ -102,6 +102,7 @@ class EnergyConsumptionModel:
         """
         Calculate energy used and recuperated for a given vehicle per km driven.
 
+
         :param driving_mass: Mass of vehicle (kg)
         :type driving_mass: int
         :param rr_coef: Rolling resistance coefficient (dimensionless, between 0.0 and 1.0)
@@ -129,7 +130,9 @@ class EnergyConsumptionModel:
 
         Power to overcome air resistance is calculated by:
 
-        .. math:: \frac{1}{2} \rho_{air} v^{3} A C_{d}
+        .. math::
+
+            \frac{1}{2} \rho_{air} v^{3} A C_{d}
 
         where :math:`\rho_{air}` is 1.225 (kg/m3), *v* is velocity (m/s), *A* is frontal area (m2), and :math:`C_{d}` is
         aerodynamic drag coefficient (dimensionless).
