@@ -23,8 +23,9 @@ class EnergyConsumptionModel:
 
     Based on a selected driving cycle, this class calculates the acceleration needed and provides
     two methods:
-    - aux_energy_per_km() calculates the energy needed to power auxiliary services
-    - motive_energy_per_km() calculates the energy needed to move the vehicle over 1 km
+
+        - :func:`~energy_consumption.EnergyConsumptionModel.aux_energy_per_km` calculates the energy needed to power auxiliary services
+        - :func:`~energy_consumption.EnergyConsumptionModel.motive_energy_per_km` calculates the energy needed to move the vehicle over 1 km
 
     Acceleration is calculated as the difference between velocity at t_2 and velocity at t_0, divided by 2.
     See for example: http://www.unece.org/fileadmin/DAM/trans/doc/2012/wp29grpe/WLTP-DHC-12-07e.xls
