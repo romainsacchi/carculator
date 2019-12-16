@@ -151,8 +151,8 @@ class CarModel:
 
     def drop_hybrid(self):
         """
-        This method drops the powertrain `PHEV-c` and `PHEV-e` as they were only used to create the `PHEV` powertrain.
-        :return:
+        This method drops the powertrains `PHEV-c` and `PHEV-e` as they were only used to create the `PHEV` powertrain.
+        Does not return anything. Modifies self.array in place.
         """
         self.array = self.array.sel(
             powertrain=["ICEV-p", "ICEV-d", "ICEV-g", "PHEV", "FCEV", "BEV", "HEV-p"]
@@ -275,12 +275,10 @@ class CarModel:
         """
         This methods calculates the fraction of the replacement battery needed to match the vehicle lifetime.
 
-        :Example:
+        .. example::
 
             car lifetime = 200000 (km)
-
             battery lifetime = 190000 (km)
-
             replacement battery = 0.05
 
         .. note:
