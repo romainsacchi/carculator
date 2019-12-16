@@ -2,9 +2,17 @@
 
 A fully parameterized Python model to calculate the life cycle material and energy requirements of passenger cars.
 
-Integrates well with [Brightway](https://brightwaylca.org/) and [presamples](https://github.com/PascalLesage/brightway2-presamples).
+More specifically, *Carculator* allows to:
+* produce life cycle assessment results that include conventional midpoint impact assessment indicators
+* calculate hot pollutant and noise emissions based on a specified driving cycle
+* produce error propagation analyzes (i.e., Monte Carlo) while preserving relations between inputs and outputs
+* control all the parameters sensitive to the foreground model (i.e., the vehicles) but also to the background model
+(i.e., supply of fuel, battery chemistry, etc.)
+* and easily export the vehicle models as inventories to be further imported in the `brightway2` LCA framework
 
-Extracted from [Uncertain environmental footprint of current and future battery electric vehicles by Cox, et al (2018)](https://pubs.acs.org/doi/abs/10.1021/acs.est.8b00261).
+*Carculator* integrates well with [Brightway](https://brightwaylca.org/) and [presamples](https://github.com/PascalLesage/brightway2-presamples).
+
+Extended from the initial work described in [Uncertain environmental footprint of current and future battery electric vehicles by Cox, et al (2018)](https://pubs.acs.org/doi/abs/10.1021/acs.est.8b00261).
 
 [![Build Status](https://travis-ci.org/romainsacchi/carculator.svg?branch=master)](https://travis-ci.org/romainsacchi/carculator) [![Build status](https://ci.appveyor.com/api/projects/status/github/romainsacchi/coarse?svg=true)](https://ci.appveyor.com/project/romainsacchi/coarse) [![Coverage Status](https://coveralls.io/repos/github/romainsacchi/coarse/badge.svg)](https://coveralls.io/github/romainsacchi/coarse) [![Documentation](https://readthedocs.org/projects/coarse_lci/badge/?version=latest)](https://coarse-lci.readthedocs.io/en/latest/)
 
@@ -17,8 +25,9 @@ See [Documentation](https://coarse-lci.readthedocs.io/en/latest/index.html).
 Calculate the ``Tank to wheel`` energy requirement (in kWh/100 km) of current SUVs for the driving cycle WLTC 3.4
 over 800 Monte Carlo iterations:
 
+    from carculator import *
     cip = CarInputParameters()
-    cip.stochastic(80)
+    cip.stochastic(800)
     dcts, array = fill_xarray_from_input_parameters(cip)
     cm = CarModel(array, cycle='WLTC 3.4')
     cm.set_all()
@@ -30,9 +39,10 @@ over 800 Monte Carlo iterations:
     
 ![MC results](https://github.com/romainsacchi/coarse/raw/master/docs/stochastic_example_ttw.png)
 
-Compare the carbon footprint electric vehicles to rechargeable hybrid vehicles for different sizes today and in the future
-over 500 Monte Carlo iterations is as easy as:
+Compare the carbon footprint of electric vehicles with that of rechargeable hybrid vehicles for different size categories today and in the future
+over 500 Monte Carlo iterations:
 
+    from carculator import *
     cip = CarInputParameters()
     cip.stochastic(500)
     dcts, array = fill_xarray_from_input_parameters(cip)
@@ -58,9 +68,15 @@ For more examples, see [examples](https://github.com/romainsacchi/carculator/blo
 
 See [carculator_online](http://carculator.psi.ch).
 
+## Dependencies
+
+Dependencies are listed in `requirements.txt`.
+
 ## Installation from conda
 
     conda install -c conda-forge -c pascallesage -c cmutel -c romainsacchi/label/nightly carculator-dev
+    
+will install the package in development mode and the required dependencies.
 
 ## Installation from GitHub
 
