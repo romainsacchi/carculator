@@ -278,9 +278,7 @@ class CarModel:
         This methods calculates the fraction of the replacement battery needed to match the vehicle lifetime.
 
         .. note::
-            car lifetime = 200000 (km)
-            battery lifetime = 190000 (km)
-            replacement battery = 0.05
+            if ``car lifetime`` = 200000 (km) and ``battery lifetime`` = 190000 (km) then ``replacement battery`` = 0.05
 
         .. note::
             It is debatable whether this is realistic or not. Car owners may not decide to invest in a new
@@ -590,7 +588,7 @@ class CarModel:
 
     def set_hot_emissions(self):
         """
-        Define hot pollutant emissions based on ``driving cycle``.
+        Calculate hot pollutant emissions based on ``driving cycle``.
         The driving cycle is passed to the :class:`HotEmissionsModel` class and :meth:`get_emissions_per_powertrain`
         return emissions per substance per second of driving cycle.
         :return: Does not return anything. Modifies ``self.array`` in place.
@@ -644,6 +642,12 @@ class CarModel:
         ).reshape((1, 33, 1, 1))
 
     def set_noise_emissions(self):
+        """
+        Calculate noise emissions based on ``driving cycle``.
+        The driving cycle is passed to the :class:`NoiseEmissionsModel` class and :meth:`get_sound_power_per_compartment`
+        return emissions per compartment type ("rural", "non-urban" and "urban") per second of driving cycle.
+        :return: Does not return anything. Modifies ``self.array`` in place.
+        """
         nem = NoiseEmissionsModel(self.ecm.cycle)
 
         list_noise_emissions = [

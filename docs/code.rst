@@ -27,3 +27,33 @@ Car Model
 
 .. automodule:: carculator.model
     :members:
+
+Noise Model
+===========
+
+.. automodule:: carculator.noise_emissions
+    :members:
+
+Hot pollutants emissions
+========================
+
+.. automodule:: carculator.hot_emissions
+    :members:
+
+Inventory calculation
+=====================
+
+.. automodule:: carculator.inventory
+    :members:
+
+Inventory export
+================
+
+.. automodule:: carculator.export
+    :members:
+
+Background systems
+==================
+
+.. automodule:: carculator.background_systems
+    :members:
