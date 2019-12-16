@@ -4,8 +4,6 @@
 """
 
 import numpy as np
-import xarray
-
 
 def pn(cycle, powertrain_type):
     cycle = np.array(cycle)

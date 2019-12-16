@@ -73,16 +73,20 @@ class ExportInventory:
                 tuple_input = self.indices[row]
 
                 if len(self.array[:, row, col]) == 1:
-                    # No uncertainty
+                    # No uncertainty, only one value
                     amount = self.array[0, row, col]
-                    uncertainty = [('uncertainty type', 0)]
+                    uncertainty = [('uncertainty type', 1)]
+
                 elif np.all(np.isclose(self.array[:, row, col], self.array[0, row, col])):
+                    # Several values, but all the same, so no uncertainty
                     amount = self.array[0, row, col]
-                    uncertainty = [('uncertainty type', 0)]
+                    uncertainty = [('uncertainty type', 1)]
                 else:
+                    # Uncertainty
                     if presamples == True:
-                        amount = np.median(self.array[:, row, col]) * -1
-                        uncertainty = [('uncertainty type', 0)]
+                        # Generate pre-sampled values
+                        amount = np.median(self.array[:, row, col])
+                        uncertainty = [('uncertainty type', 1)]
                         if len(tuple_input)>3:
                             type_exc = "technosphere"
                         else:
@@ -94,9 +98,10 @@ class ExportInventory:
                                                      [(tuple_input, tuple_output, type_exc)], type_exc
                                                     )
                                                 )
-                    else:
-                        # Generate uncertainty information
-                        amount, uncertainty = self.best_fit_distribution(self.array[:, row, col] * -1)
+                    #else:
+                    #    # Generate uncertainty distribution parameters
+                    #    amount = np.median(self.array[:, row, col])
+                    #    uncertainty = self.best_fit_distribution(self.array[:, row, col] * -1)
 
                 # If reference product
                 if tuple_output == tuple_input:
@@ -289,14 +294,14 @@ class ExportInventory:
 
         #Distributions to check
         DISTRIBUTIONS = [
-         st.beta,
-         st.gamma,
-         st.lognorm,
+         #st.beta,
+         #st.gamma,
+         #st.lognorm,
          st.norm,
-         st.t,
-         st.triang,
-         st.uniform,
-         st.weibull_min,
+         #st.t,
+         #st.triang,
+         #st.uniform,
+         #st.weibull_min,
         ]
 
         #Best holders
@@ -342,103 +347,77 @@ class ExportInventory:
          except Exception:
              pass
 
+
         # Lognormal distribution
         if self.uncertainty_ID[best_distribution.name] == 2:
+            mu, std = st.norm.fit(data)
             return [
-                np.median(data),
-                [
                     ("uncertainty type", 2),
-                    ("scale", best_params[0]),
-                    ("loc", best_params[2])
-                ]
+                    ("scale", std),
+                    ("loc", mu)
             ]
 
         # Normal distribution
         if self.uncertainty_ID[best_distribution.name] == 3:
             return [
-                np.median(data),
-                [
                     ("uncertainty type", 3),
                     ("loc", best_params[0]),
                     ("scale", best_params[1])
-                ]
             ]
 
         # Uniform distribution
         if self.uncertainty_ID[best_distribution.name] == 4:
             return [
-                np.median(data),
-                [
                     ("uncertainty type", 4),
                     ("minimum", best_params[0]),
                     ("maximum", (
-                                 best_params[0] + best_params[1]
-                                )
-                     )
-                ]
-            ]
+                                 best_params[0] + best_params[1]))
+                    ]
 
         # Triangular distribution
         if self.uncertainty_ID[best_distribution.name] == 5:
             return [
-                np.median(data),
-                [
                     ("uncertainty type", 5),
-                    ("loc", best_params[0]),
-                    ("minimum", best_params[1]),
-                    ("maximum", (
-                                    best_params[1] + best_params[2]
-                                )
-                     )
-                ]
-            ]
+                    ("loc", best_params[1]),
+                    ("minimum", np.min(data)),
+                    ("maximum", np.max(data))
+                    ]
 
 
         # Gamma distribution
         if self.uncertainty_ID[best_distribution.name] == 9:
             return [
-                np.median(data),
-                [
                     ("uncertainty type", 9),
                     ("shape", best_params[0]),
                     ("scale", best_params[2]),
                     ("loc", best_params[1])
-                ]
-            ]
+                    ]
 
         # Beta distribution
         if self.uncertainty_ID[best_distribution.name] == 10:
             return [
-                np.median(data),
-                [
                     ("uncertainty type", 10),
                     ("loc", best_params[0]),
                     ("shape", best_params[1]),
                     ("scale", best_params[3])
-                ]
             ]
 
         # Weibull distribution
         if self.uncertainty_ID[best_distribution.name] == 8:
             return [
-                np.median(data),
-                [
                     ("uncertainty type", 8),
                     ("shape", best_params[0]),
+                    ("loc", best_params[1]),
                     ("scale", best_params[2])
-                ]
             ]
 
         # Student's T distribution
         if self.uncertainty_ID[best_distribution.name] == 12:
             return [
-                np.median(data),
-                [
                     ("uncertainty type", 12),
                     ("shape", best_params[0]),
                     ("loc", best_params[1]),
                     ("scale", best_params[2])
-                ]
             ]
 
         def make_pdf(self, dist, params, size=10000):
@@ -450,7 +429,7 @@ class ExportInventory:
              loc = params[-2]
              scale = params[-1]
 
-             # Get sane start and end points of distribution
+             # Get same start and end points of distribution
              start = (
                  dist.ppf(0.01, *arg, loc=loc, scale=scale)
                  if arg

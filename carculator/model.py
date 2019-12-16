@@ -259,9 +259,12 @@ class CarModel:
         Calculates the power needed to operate the auxiliary services of the vehicle (heating, cooling).
 
         The demand for heat and cold are expressed as a fraction of the heating and cooling capacities
-        Auxiliary power demand (W) = Base auxiliary power (W) +
-        (Heating demand (dimensionless, between 0 and 1) * Heating power (W)) +
-        (Cooling demand (dimensionless, between 0 and 1) * Cooling power (W))
+
+        .. note:
+
+            Auxiliary power demand (W) = Base auxiliary power (W) +
+            (Heating demand (dimensionless, between 0 and 1) * Heating power (W)) +
+            (Cooling demand (dimensionless, between 0 and 1) * Cooling power (W))
 
         """
         self["auxiliary power demand"] = (
@@ -280,13 +283,16 @@ class CarModel:
         This methods calculates the fraction of the replacement battery needed to match the vehicle lifetime.
 
         :Example:
+
             car lifetime = 200000 (km)
             battery lifetime = 190000 (km)
             replacement battery = 0.05
 
-        :note: It is debatable whether this is realistic or not. Car owners may not decide to invest in a new
-        battery if the remaining lifetime of the car is only 10000 km. Also, a battery lifetime may be expressed
-        in other terms, e.g., charging cycles.
+        .. note:
+
+            It is debatable whether this is realistic or not. Car owners may not decide to invest in a new
+            battery if the remaining lifetime of the car is only 10000 km. Also, a battery lifetime may be expressed
+            in other terms, e.g., charging cycles.
 
         """
         # Here we assume that we can use fractions of a battery/fuel cell

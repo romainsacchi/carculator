@@ -14,16 +14,50 @@ from .export import ExportInventory
 
 class InventoryCalculation:
     """
-    Build and solve the inventory for results characterization
+    Build and solve the inventory for results characterization and inventory export
+    Vehicles to be analyzed can be filtered by passing a `scope` dictionary. Some assumptions in the background system
+    can also be adjusted by passing a `background_configuration` dictionary.
+
+    :Example:
+
+    >>> scope = {
+                    'powertrain':['BEV', 'FCEV', 'ICEV-p'],
+                }
+    >>> background_configuration = {
+                                        'country' : 'DE', # will use the network electricity losses of Germany
+                                        'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0], # in this case, 100% hydropower
+                                                                    [0.5,0.5,0,0,0,0,0,0,0,0]], # in this case, 50% hydro, 50% nuclear
+                                        'hydrogen technology' : 'Electrolysis',
+                                        'petrol technology': 'bioethanol - wheat straw',
+                                        'battery technology': 'LFP',
+                                        'battery origin': 'NO'
+                                    }
+
+    :ivar array: array from the CarModel class
+    :vartype array: CarModel.array
+    :ivar scope: dictionary that contains filters for narrowing the analysis
+    :ivar background_configuration: dictionary that contains choices for background system
+
 
     """
 
     def __init__(self, array, scope = None, background_configuration = None):
 
-        self.year = array.coords["year"].values
-        self.powertrain = array.coords["powertrain"].values
-        self.size = array.coords["size"].values
-        self.number_of_cars = len(self.year) * len(self.size) * len(self.powertrain)
+        if scope is None:
+            scope = {}
+            scope['size'] = array.coords['size'].values.tolist()
+            scope['powertrain'] = array.coords['powertrain'].values.tolist()
+            scope['year'] = array.coords['year'].values.tolist()
+        else:
+            scope['size'] = scope.get('size', array.coords['size'].values.tolist())
+            scope['powertrain'] = scope.get('powertrain', array.coords['powertrain'].values.tolist())
+            scope['year'] = scope.get('year', array.coords['year'].values.tolist())
+
+        self.scope = scope
+
+        array = array.sel(powertrain=self.scope["powertrain"], year=self.scope["year"], size=self.scope["size"])
+
+        self.number_of_cars = len(self.scope["year"]) * len(self.scope["size"]) * len(self.scope["powertrain"])
         self.array = array.stack(desired=["powertrain", "size", "year"])
         self.iterations = len(array.value.values)
 
@@ -66,18 +100,6 @@ class InventoryCalculation:
         self.index_noise = [self.inputs[i] for i in self.inputs if "noise" in i[0]]
         self.list_cat, self.split_indices = self.get_split_indices()
         self.bs = BackgroundSystemModel()
-
-        if scope is None:
-            scope={}
-            scope['size'] = self.size.tolist()
-            scope['powertrain'] = self.powertrain.tolist()
-            scope['year'] = self.year.tolist()
-        else:
-            scope['size'] = scope.get('size', self.size.tolist())
-            scope['powertrain'] = scope.get('powertrain', self.powertrain.tolist())
-            scope['year'] = scope.get('year', self.year.tolist())
-
-        self.scope = scope
         self.background_configuration = background_configuration
 
     def __getitem__(self, key):
@@ -92,6 +114,14 @@ class InventoryCalculation:
         return self.temp_array.sel(parameter=key)
 
     def get_results_table(self, method, level, split):
+        """
+        Format an xarray.DataArray array to receive the results.
+
+        :param method: impact assessment method. Only "ReCiPe" method available at the moment.
+        :param level: "midpoint" or "endpoint" impact assessment level. Only "midpoint" available at the moment.
+        :param split: "components" or "impact categories". Split by impact categories only applicable when "endpoint" level is applied.
+        :return: xarrray.DataArray
+        """
 
         if split == "components":
             cat = [
@@ -139,6 +169,11 @@ class InventoryCalculation:
         return response
 
     def get_split_indices(self):
+        """
+        Return list of indices to split the results into categories.
+        :return: list of indices
+        :rtype: list
+        """
         filename = "dict_split.csv"
         filepath = (DATA_DIR / filename)
         if not filepath.is_file():
@@ -182,6 +217,14 @@ class InventoryCalculation:
         return list(d.keys()), list_ind
 
     def calculate_impacts(self, method="recipe", level="midpoint", split="components"):
+        """
+        Solve the inventory, fill in the results array, return teh results array.
+        :param method: Impact assessment method. Only "recipe" available at the moment.
+        :param level: Impact assessment level ("midpoint" or "endpoint"). Only "midpoint" available at the moment.
+        :param split: Splitting mode ("components" or "impact categories"). Only "components" available at the moment.
+        :return: an array with characterized results.
+        :rtype: xarray.DataArray
+        """
 
 
         # Load the B matrix
@@ -218,6 +261,11 @@ class InventoryCalculation:
         return results
 
     def get_A_matrix(self):
+        """
+        Load the A matrix. The A matrix contains exchanges of products (rows) between activities (columns).
+        :return: A matrix with three dimensions of shape (number of values, number of products, number of activities).
+        :rtype: numpy.ndarray
+        """
         filename = "A_matrix.csv"
         filepath = (
             Path(getframeinfo(currentframe()).filename)
@@ -240,6 +288,15 @@ class InventoryCalculation:
         return new_A
 
     def get_B_matrix(self, method, level):
+        """
+        Load the B matrix. The B matrix contains impact assessment figures for a give impact assessment method,
+        per unit of activity. Its length column-wise equals the length of the A matrix row-wise.
+        Its length row-wise equals the number of impact assessment methods.
+        :param method: only "recipe" available at the moment.
+        :param level: only "midpoint" available at the moment.
+        :return: an array with impact values per unit of activity for each method.
+        :rtype: numpy.ndarray
+        """
         filename = "B_matrix" + "_" + method + "_" + level + ".csv"
         filepath = (DATA_DIR / filename)
 
@@ -258,6 +315,12 @@ class InventoryCalculation:
         return new_B
 
     def get_dict_input(self):
+        """
+        Load a dictionary with tuple ("name of activity", "location", "unit", "reference product") as key, row/column
+        indices as values.
+        :return: dictionary label:index
+        :rtype: dict
+        """
         filename = "dict_inputs_A_matrix.csv"
         filepath = (DATA_DIR / filename)
         if not filepath.is_file():
@@ -286,9 +349,9 @@ class InventoryCalculation:
                     csv_dict[(row[0], row[1], row[2], row[3])] = count
                 count += 1
 
-        for pt in self.powertrain:
-            for s in self.size:
-                for y in self.year:
+        for pt in self.scope["powertrain"]:
+            for s in self.scope["size"]:
+                for y in self.scope["year"]:
                     maximum = csv_dict[max(csv_dict, key=csv_dict.get)]
                     name = "Passenger car, " + pt + ", " + s + ", " + str(y)
                     csv_dict[(name, "GLO", "kilometer", "transport, passenger car, EURO6")] = maximum + 1
@@ -296,6 +359,10 @@ class InventoryCalculation:
         return csv_dict
 
     def get_dict_impact_categories(self):
+        """
+        Load a dictionary with impact assessment method as keys, and assessment level and categories as values.
+        :return:
+        """
         filename = "dict_impact_categories.csv"
         filepath = (DATA_DIR / filename)
         if not filepath.is_file():
@@ -313,9 +380,18 @@ class InventoryCalculation:
         return csv_dict
 
     def get_rev_dict_input(self):
+        """
+        Reverse the self.inputs dictionary
+        :return:
+        """
         return {v: k for k, v in self.inputs.items()}
 
     def get_index_from_array(self, items_to_look_for):
+        """
+        Return list of row/column indices of self.array of labels that contain the string defined in `items_to_look_for`.
+        :param items_to_look_for: string to search for
+        :return: list
+        """
         return [
             self.inputs[c] - (len(self.inputs) - self.number_of_cars)
             for c in self.inputs
@@ -324,6 +400,12 @@ class InventoryCalculation:
         ]
 
     def get_index_of_flows(self, items_to_look_for, search_by="name"):
+        """
+        Return list of row/column indices of self.A of labels that contain the string defined in `items_to_look_for`.
+        :param items_to_look_for: string
+        :param search_by: "name" or "compartment" (for elementary flows)
+        :return: list
+        """
         if search_by == "name":
             return [
                 int(self.inputs[c])
@@ -338,6 +420,13 @@ class InventoryCalculation:
             ]
 
     def export_lci(self, presamples = True):
+        """
+        Export the inventory as a dictionary. Also return a list of arrays that contain pre-sampled random values if
+        CarModel is run in stochastic mode.
+        :param presamples: boolean.
+        :return: inventory, and optionally, list of arrays containing pre-sampled values.
+        :rtype: list
+        """
         self.set_inputs_in_A_matrix(self.array.values)
         if presamples == True:
             lci, array = ExportInventory(self.A, self.rev_inputs).write_lci(presamples)
@@ -347,6 +436,12 @@ class InventoryCalculation:
             return lci
 
     def export_lci_to_bw(self, presamples = True):
+        """
+        Export the inventory as a `brightway2` bw2io.importers.base_lci.LCIImporter object.
+        :return: LCIImport object that can be directly registered in a `brightway2` project.
+        :rtype: bw2io.importers.base_lci.LCIImporter
+        """
+
         self.set_inputs_in_A_matrix(self.array.values)
         if presamples == True:
             lci, array = ExportInventory(self.A, self.rev_inputs).write_lci_to_bw(presamples)
@@ -356,11 +451,21 @@ class InventoryCalculation:
             return lci
 
     def export_lci_to_excel(self):
+        """
+        Export the inventory as an Excel file. Also return the file path where the file is stored.
+        :param presamples: boolean.
+        :return: file path where the file is stored.
+        :rtype: str
+        """
         self.set_inputs_in_A_matrix(self.array.values)
         fp = ExportInventory(self.A, self.rev_inputs).write_lci_to_excel()
         return fp
 
     def set_inputs_in_A_matrix(self, array):
+        """
+        Fill-in the A matrix. Does not return anything. Modifies in place.
+        :param array: array from CarModel class
+        """
 
         # Glider
         self.A[:,
@@ -606,17 +711,17 @@ class InventoryCalculation:
             if "battery origin" in self.background_configuration:
                 battery_origin = self.background_configuration['battery origin']
                 losses_to_medium = float(self.bs.losses[battery_origin]['MV'])
-                mix = self.bs.electricity_mix.sel(country=battery_origin, value=0).interp(year=self.year).values
+                mix = self.bs.electricity_mix.sel(country=battery_origin, value=0).interp(year=self.scope["year"]).values
             else:
                 # If not specified, origin set to China
                 battery_origin = "CN"
                 losses_to_medium = float(self.bs.losses[battery_origin]['MV'])
-                mix = self.bs.electricity_mix.sel(country=battery_origin, value=0).interp(year=self.year).values
+                mix = self.bs.electricity_mix.sel(country=battery_origin, value=0).interp(year=self.scope["year"]).values
         else:
             battery_tech = "NMC"
             battery_origin = "CN"
             losses_to_medium = float(self.bs.losses[battery_origin]['MV'])
-            mix = self.bs.electricity_mix.sel(country=battery_origin, value=0).interp(year=self.year).values
+            mix = self.bs.electricity_mix.sel(country=battery_origin, value=0).interp(year=self.scope["year"]).values
 
         if battery_tech == "NMC":
             # Use the NMC inventory of Schmidt et al. 2019
@@ -684,7 +789,7 @@ class InventoryCalculation:
 
             self.A[:,[self.inputs[dict_map[t]] for t in dict_map],
                    self.inputs[('Li-ion (LFP)', 'JP', 'kilowatt hour', 'Li-ion (LFP)')]] =\
-                    (np.outer(mix[0], old_amount) * losses_to_medium).reshape(10,)
+                    (np.outer(mix[0], old_amount) * losses_to_medium).T
 
         if battery_tech == "NCA":
             self.A[:,self.inputs[('Li-ion (NCA)', 'JP', 'kilowatt hour', 'Li-ion (NCA)')], -self.number_of_cars :] = (
@@ -702,7 +807,7 @@ class InventoryCalculation:
             )
 
             # Set an input of electricity, given the country of manufacture
-            old_amount = self.A[self.inputs[('market for electricity, medium voltage', 'JP',
+            old_amount = self.A[:,self.inputs[('market for electricity, medium voltage', 'JP',
                                 'kilowatt hour', 'electricity, medium voltage')],
                    self.inputs[('Li-ion (NCA)', 'JP', 'kilowatt hour', 'Li-ion (NCA)')]]
             self.A[:,self.inputs[('market for electricity, medium voltage', 'JP',
@@ -711,7 +816,7 @@ class InventoryCalculation:
 
             self.A[:,[self.inputs[dict_map[t]] for t in dict_map],
                    self.inputs[('Li-ion (NCA)', 'JP', 'kilowatt hour', 'Li-ion (NCA)')]] =\
-                    (np.outer(mix[0], old_amount) * losses_to_medium).reshape(10,)
+                    (np.outer(mix[0], old_amount) * losses_to_medium).T
 
 
         index_A = [
@@ -777,17 +882,17 @@ class InventoryCalculation:
                     # If a special electricity mix is specified, we use it
                     mix = self.background_configuration['custom electricity mix']
                 else:
-                    mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.year).values
+                    mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.scope["year"]).values
             else:
                 country = 'RER'
                 losses_to_low = float(self.bs.losses["RER"]['LV'])
-                mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.year).values
+                mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.scope["year"]).values
         else:
             country = 'RER'
             losses_to_low = float(self.bs.losses["RER"]['LV'])
-            mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.year).values
+            mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.scope["year"]).values
 
-        for y in self.year:
+        for y in self.scope["year"]:
             index = self.get_index_from_array([str(y)])
 
             self.A[np.ix_(np.arange(self.iterations),[self.inputs[dict_map[t]] for t in dict_map],
@@ -795,9 +900,9 @@ class InventoryCalculation:
                            if str(y) in i[0]
                            and "Passenger" in i[0]
                            ])] = \
-                (np.outer(mix[self.year.tolist().index(y)],
+                (np.outer(mix[self.scope["year"].index(y)],
                          array[self.array_inputs["electricity consumption"], :, index]
-                         ) * -1 * losses_to_low).reshape(self.iterations, len(mix[self.year.tolist().index(y)]), len(index))
+                         ) * -1 * losses_to_low).reshape(self.iterations, len(mix[self.scope["year"].index(y)]), len(index))
 
         index = self.get_index_from_array(["FCEV"])
 
@@ -843,7 +948,7 @@ class InventoryCalculation:
 
         # If hydrolysis is chosen, adjust the electricity mix
 
-        if hydro_technology == 'hydrolysis':
+        if hydro_technology == 'Electrolysis':
 
             # Zero out initial electricity provider
             old_amount = self.A[:,
@@ -867,8 +972,7 @@ class InventoryCalculation:
             self.A[:,[self.inputs[dict_map[t]] for t in dict_map],
                     self.inputs[dict_h_map[hydro_technology]]
                     ] = \
-                (np.outer(mix[0], old_amount) * losses_to_low).reshape(10,)
-
+                (np.outer(mix[0], old_amount) * losses_to_low).T
         index = self.get_index_from_array(["ICEV-g"])
 
         if self.background_configuration:
