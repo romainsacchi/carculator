@@ -172,8 +172,8 @@ class ExportInventory:
         """
         Export an Excel file that can be consumed by Brightway2.
 
-        :return: returns the file path of the exported inventory
-        :rtype: str
+        :return: returns the file path of the exported inventory.
+        :rtype: str.
         """
 
         list_act = self.write_lci(presamples = False)
