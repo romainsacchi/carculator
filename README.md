@@ -14,7 +14,23 @@ See [Documentation](https://coarse-lci.readthedocs.io/en/latest/index.html).
 
 ## Usage
 
-As an example, comparing the carbon footprint electric vehicles to rechargeable hybrid vehicles for different sizes today and in the future
+Calculate the ``Tank to wheel`` energy requirement (in kWh/100 km) of current SUVs for the driving cycle WLTC 3.4
+over 800 Monte Carlo iterations:
+
+    cip = CarInputParameters()
+    cip.stochastic(80)
+    dcts, array = fill_xarray_from_input_parameters(cip)
+    cm = CarModel(array, cycle='WLTC 3.4')
+    cm.set_all()
+    TtW_energy = cm.array.sel(size='SUV', year=2017, parameter='TtW energy', value=0) * 1/3600 * 100
+
+    plt.bar(TtW_energy.powertrain, TtW_energy)
+    plt.ylabel('kWh/100 km')
+    plt.show()
+    
+![MC results](https://github.com/romainsacchi/coarse/raw/master/docs/stochastic_example_ttw.png)
+
+Compare the carbon footprint electric vehicles to rechargeable hybrid vehicles for different sizes today and in the future
 over 500 Monte Carlo iterations is as easy as:
 
     cip = CarInputParameters()
@@ -36,7 +52,7 @@ over 500 Monte Carlo iterations is as easy as:
     
 ![MC results](https://github.com/romainsacchi/coarse/raw/master/docs/example_stochastic_BEV_PHEV.png)
 
-For examples, see [examples](https://github.com/romainsacchi/carculator/blob/master/examples/Examples.ipynb).
+For more examples, see [examples](https://github.com/romainsacchi/carculator/blob/master/examples/Examples.ipynb).
 
 ## Web graphical user interface
 
