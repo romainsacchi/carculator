@@ -285,7 +285,6 @@ class CarModel:
             replacement battery = 0.05
 
         .. note:
-
             It is debatable whether this is realistic or not. Car owners may not decide to invest in a new
             battery if the remaining lifetime of the car is only 10000 km. Also, a battery lifetime may be expressed
             in other terms, e.g., charging cycles.
@@ -317,7 +316,7 @@ class CarModel:
             * ``total cargo mass`` is the mass of the cargo and passengers.
             * ``driving mass`` is the ``curb mass`` plus ``total cargo mass``.
 
-        .. math:: driving mass = total cargo mass + driving mass
+        .. math:: `driving mass` = `total cargo mass` + `driving mass`
 
 
         """
