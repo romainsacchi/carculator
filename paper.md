@@ -29,8 +29,8 @@ bibliography: paper.bib
 
 Life Cycle Assessment (LCA) is a tool that accounts for harmful emissions
 occurring in all the relevant phases of the life cycle of a product or service [@ISO2006].
-With the rising concern urgency for climate change mitigation, LCA has therefore emerged as a tool
-to support decisions in policy making. It is typically used to compare technologies on the basis of a 
+With the rising urgency for climate change mitigation, LCA has therefore emerged as a tool
+to support decisions for the design of policies. It is often used to compare technologies on the basis of a 
 common functional unit against some environmental indicators (e.g., emissions of greenhouse gases) [@Sala2016]. 
 
 In the field of mobility, LCA studies have largely focused on comparing fossil fuel-powered vehicles to
@@ -97,7 +97,7 @@ iron phosphate (LFP) battery type, manufactured in Norway.
     timeit.timeit(MC_analysis, number=1)
 ```
 
-![Example figure.](https://github.com/romainsacchi/coarse/raw/master/docs/MC_example_article.png)
+![ODP results per vehicle-kilometer, 1,000 iterations](https://github.com/romainsacchi/coarse/raw/master/docs/MC_example_article.png)
 
 The analysis is done in 72 seconds on a modern laptop.
 
