@@ -1,6 +1,3 @@
-import numpy as np
-import pytest
-from carculator.driving_cycles import get_standard_driving_cycle
 from carculator.energy_consumption import EnergyConsumptionModel
 
 

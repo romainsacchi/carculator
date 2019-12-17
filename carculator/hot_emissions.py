@@ -280,6 +280,11 @@ class HotEmissionsModel:
                 + 4.34e-06
             )
 
+        if powertrain_type not in ("petrol", "diesel", "CNG"):
+            raise TypeError(
+                "The powertrain type is not valid."
+            )
+
         distance = self.cycle.sum() / 3600
         dist_urban = self.cycle[self.cycle <= 50].sum() / 3600
         dist_suburban = self.cycle[(self.cycle > 50) & (self.cycle <= 80)].sum() / 3600

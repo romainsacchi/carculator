@@ -136,6 +136,11 @@ class NoiseEmissionsModel:
         :rtype: numpy.array
         """
 
+        if powertrain_type not in ("combustion", "electric", "hybrid"):
+            raise TypeError(
+                "The powertrain type is not valid."
+            )
+
         # rolling noise, in dB, for each second of the driving cycle
         rolling = self.rolling_noise()
         # propulsion noise, in dB, for each second of the driving cycle
