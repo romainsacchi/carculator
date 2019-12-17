@@ -1,7 +1,7 @@
 # Carculator
 
 <p align="center">
-  <img src="https://github.com/romainsacchi/coarse/raw/master/docs/mediumsmall.png">
+  <img style="height:130px;" src="https://github.com/romainsacchi/coarse/raw/master/docs/mediumsmall.png">
 </p>
 
 <p align="center">
@@ -11,10 +11,11 @@
   <a href="https://coarse-lci.readthedocs.io/en/latest/" target="_blank"><img src="https://readthedocs.org/projects/coarse_lci/badge/?version=latest"></a>
 </p>
 
-A fully parameterized Python model to calculate the life cycle material and energy requirements of passenger cars.
+A fully parameterized Python model developed by the [Technology Assessment group](https://www.psi.ch/en/ta) of the
+[Paul Scherrer Institut](https://www.psi.ch/en) to calculate the life cycle material and energy requirements of passenger cars.
 
 More specifically, *Carculator* allows to:
-* produce life cycle assessment results that include conventional midpoint impact assessment indicators
+* produce life cycle assessment results that include conventional midpoint impact assessment indicators as well cost indicators
 * calculate hot pollutant and noise emissions based on a specified driving cycle
 * produce error propagation analyzes (i.e., Monte Carlo) while preserving relations between inputs and outputs
 * control all the parameters sensitive to the foreground model (i.e., the vehicles) but also to the background model
@@ -76,6 +77,7 @@ For more examples, see [examples](https://github.com/romainsacchi/carculator/blo
 
 ## Web graphical user interface
 
+Carculator has a graphical user interface for fast comparisons of vehicles.
 See [carculator_online](http://carculator.psi.ch).
 
 ## Dependencies
@@ -96,4 +98,8 @@ will install the package in editable mode and the required dependencies.
 
 ## Contributing
 
-Details on how to contribute: see Issues.
+Details on how to contribute: see [Issues](https://github.com/romainsacchi/carculator/issues).
+
+## Support
+
+Do not hesitate to contact the development team at [carculator@psi.ch](carculator@psi.ch).
