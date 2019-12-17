@@ -1,12 +1,11 @@
 """
-.. module: car_input_parameters.py
+.. module: test_car_input_parameters.py
 
 """
 
 from klausen import NamedParameters
 from pathlib import Path
 import json
-
 
 DEFAULT = Path(__file__, "..").resolve() / "data" / "default_parameters.json"
 EXTRA = Path(__file__, "..").resolve() / "data" / "extra_parameters.json"
