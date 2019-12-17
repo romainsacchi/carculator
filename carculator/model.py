@@ -55,7 +55,7 @@ class CarModel:
 
         Set up this class as a context manager, so we can have some nice syntax
 
-        .. code-block: python
+        .. code-block:: python
 
             with class('some powertrain') as cpm:
                 cpm['something']. # Will be filtered for the correct powertrain
@@ -174,7 +174,7 @@ class CarModel:
     def calculate_ttw_energy(self):
         """
         This method calculates the energy required to operate auxiliary services as well
-        as to move the car. The sum is stored under the parameter label "TtW energy".
+        as to move the car. The sum is stored under the parameter label "TtW energy" in :attr:`self.array`.
 
         """
         aux_energy = self.ecm.aux_energy_per_km(self["auxiliary power demand"])

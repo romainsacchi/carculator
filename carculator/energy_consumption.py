@@ -97,10 +97,10 @@ class EnergyConsumptionModel:
 
         return auxiliary_energy / efficiency
 
-    def motive_energy_per_km(self, driving_mass, rr_coef, drag_coef, frontal_area, ttw_efficiency, recuperation_efficiency=0, motor_power=0):
+    def motive_energy_per_km(self, driving_mass, rr_coef, drag_coef, frontal_area, ttw_efficiency,
+                             recuperation_efficiency=0, motor_power=0):
         """
         Calculate energy used and recuperated for a given vehicle per km driven.
-
 
         :param driving_mass: Mass of vehicle (kg)
         :type driving_mass: int
@@ -117,15 +117,14 @@ class EnergyConsumptionModel:
         :param motor_power: Electric motor power (watts). Optional.
         :type motor_power: int
 
-
         Power to overcome rolling resistance is calculated by:
 
         .. math::
 
             g v M C_{r}
 
-        where :math:`g` is 9.81 (m/s2), *v* is velocity (m/s), *M* is mass (kg), and :math:`C_{r}` is rolling
-        resistance coefficient (dimensionless).
+        where :math:`g` is 9.81 (m/s2), :math:`v` is velocity (m/s), :math:`M` is mass (kg),
+        and :math:`C_{r}` is the rolling resistance coefficient (dimensionless).
 
         Power to overcome air resistance is calculated by:
 
@@ -134,8 +133,8 @@ class EnergyConsumptionModel:
             \frac{1}{2} \rho_{air} v^{3} A C_{d}
 
 
-        where :math:`\rho_{air}` is 1.225 (kg/m3), *v* is velocity (m/s), *A* is frontal area (m2), and :math:`C_{d}` is
-        aerodynamic drag coefficient (dimensionless).
+        where :math:`\rho_{air}` is 1.225 (kg/m3), :math:`v` is velocity (m/s), :math:`A` is frontal area (m2), and :math:`C_{d}`
+        is the aerodynamic drag coefficient (dimensionless).
 
         :returns: net motive energy (in kJ/km)
         :rtype: float

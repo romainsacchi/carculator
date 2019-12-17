@@ -19,7 +19,7 @@ class InventoryCalculation:
     Vehicles to be analyzed can be filtered by passing a `scope` dictionary.
     Some assumptions in the background system can also be adjusted by passing a `background_configuration` dictionary.
 
-    .. code-block: python
+    .. code-block:: python
 
         scope = {
                         'powertrain':['BEV', 'FCEV', 'ICEV-p'],
@@ -372,7 +372,7 @@ class InventoryCalculation:
         """
         Load a dictionary with available impact assessment methods as keys, and assessment level and categories as values.
 
-        ..code-block: python
+        ..code-block:: python
 
             {'recipe': {'midpoint': ['freshwater ecotoxicity',
                                    'human toxicity',
@@ -482,7 +482,7 @@ class InventoryCalculation:
         Export the inventory as a `brightway2` bw2io.importers.base_lci.LCIImporter object
         with the inventory in the `data` attribute.
 
-        .. code-block: python
+        .. code-block:: python
 
             # get the invenotry
             i, _ = ic.export_lci_to_bw()
