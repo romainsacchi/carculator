@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://travis-ci.org/romainsacchi/carculator" target="_blank"><img src="https://travis-ci.org/romainsacchi/carculator.svg?branch=master"></a>
-  <a href="https://ci.appveyor.com/project/romainsacchi/coarse" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/github/romainsacchi/coarse?svg=true"></a>
+  <a href="https://ci.appveyor.com/project/romainsacchi/carculator" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/github/romainsacchi/carculator?svg=true"></a>
   <a href="https://coveralls.io/github/romainsacchi/coarse" target="_blank"><img src="https://coveralls.io/repos/github/romainsacchi/coarse/badge.svg"></a>
   <a href="https://coarse-lci.readthedocs.io/en/latest/" target="_blank"><img src="https://readthedocs.org/projects/coarse_lci/badge/?version=latest"></a>
 </p>
