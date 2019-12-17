@@ -56,9 +56,11 @@ the foreground (i.e., vehicles) and background (i.e., fuel pathways and energy s
 of the model. ``Carculator`` also handles uncertainty in parameters and can perform error propagation analyses
 relatively fast.
 
-Therefore, performing an error propagation analysis between a bio-ethanol-powered vehicle and a battery electric vehicle in 2040
-in terms of Ozone Depletion Potential (ODP) while specifying an electricity mix based on hydropower with a lithium iron phosphate (LFP) battery manufactured in Norway over 1,000 iterations
-becomes as easy as:
+Therefore, performing complex analyses becomes relatively easy.
+In this example, an error propagation analysis between a bio-ethanol-powered vehicle and a
+battery electric vehicle in 2040 in terms of Ozone Depletion Potential (ODP) is performed over 1,000 iterations.
+In addition, an electricity mix for the battery charge based solely on hydro-power is specified, along with a lithium
+iron phosphate (LFP) battery type, manufactured in Norway.
 
 ```python
     from carculator import *
