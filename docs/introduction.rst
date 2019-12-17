@@ -1,24 +1,34 @@
 Introduction
 ============
 
-**Carculator** is a parametrized model that allows to generate and characterize life cycle inventories for 112 different
-passenger car configurations, according to selected:
+**Carculator** is a parametrized model that allows to generate and characterize life cycle inventories for different
+vehicle configurations, according to selected:
 
 * powertrain technologies (8): petrol engine, diesel engine, electric motor, hybrid, etc.,
 * year of operation (2): 2017, 2040 (with the possibility to interpolate in between)
 * and sizes (7): Mini, Large, etc.
 
+At the moment, the tool has a focus on passenger cars.
+
 It is initially based on the model developed in `Uncertain environmental footprint of current and future battery electric
 vehicles by Cox, et al (2018) <https://pubs.acs.org/doi/10.1021/acs.est.8b00261>`_.
 
-More specifically, **Carculator** generates Brightway2- and Simapro-compatible inventories, but also directly provides characterized
-results against several midpoint indicators from teh impact assessment method ReCiPe as well as life cycle cost indicators.
+More specifically, **Carculator** generates `Brightway2 <https://brightwaylca.org/>`_ inventories, but also directly provides characterized
+results against several midpoint indicators from the impact assessment method ReCiPe as well as life cycle cost indicators.
+
+Objective
+---------
+
+The objective is to produce life cycle inventories for vehicles in a transparent, comprehensive and quick manner,
+to be further used in prospective LCA of transportation technologies.
 
 Why?
 ----
-Many life cycle assessment models of passenger cars exist, often leading to varying conclusions being published.
-Unfortunately, because the underlying calculations are kept undocumented, it is not possible to explain the disparity
-in the results given by these models.
+
+Many life cycle assessment (LCA) models of passenger cars exist. Yet, because LCA of vehicles, particularly for electric battery vehicles,
+are sensitive to assumptions made in regards to electricity mix used for charging, lifetime of the battery, etc., it has led
+to mixed conclusions being published in the scientific literature. Because the underlying calculations are kept undocumented,
+it is not always possible to explain the disparity in the results given by these models, which can contribute to adding confusion among the public.
 
 Because **Carculator** is kept **as open as possible**, the methods and assumptions behind the generation of results are
 easily identifiable and adjustable.
@@ -27,18 +37,13 @@ easy and does not require changing extensive parts of the code. In that regard, 
 
 Finally, beside being more flexible and transparent, **Carculator** provides interesting features, such as:
 
-* a stochastic mode, that allows fast Monte Carlo analyses
-* possibility to override any or all of the 200+ default input car parameters (e.g., number of passengers, drag coefficient) but also calculated parameters.
-* hot pollutants emissions function of driving cycle, using HBEFA 3.3 data, further divided between rural, suburban and urban areas
+* a stochastic mode, that allows fast Monte Carlo analyses, to include uncertainty at the vehicle level
+* possibility to override any or all of the 200+ default input car parameters (e.g., number of passengers, drag coefficient)
+but also calculated parameters (e.g., driving mass).
+* hot pollutants emissions as a function of the driving cycle, using `HBEFA <https://www.hbefa.net/e/index.html>`_ 4.1 data, further divided between rural, suburban and urban areas
 * noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_ for inventory modelling and mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban and urban areas
-* exports inventories as Excel files to be used with Brightway2 or Simapro (in progress), including uncertainty information. This requires the user to have `ecoinvent 3.6 cutoff` installed on the LCA software the car inventories are exported to.
-* exports inventories directly into Brightway2, as a LCIImporter object to be registered. Additionally, when run in stochastic mode, it is possible to export arrays of pre-sampled values using the `presamples <https://pypi.org/project/presamples/>`_ library to be used together with the Monte Carlo function of Brightway2.
-
-Objective
----------
-
-The objective is to produce life cycle inventories for passenger cars in a transparent and comprehensive way,
-to be further used in prospective life cycle assessment of transportation technologies.
+* export of inventories as an Excel file, to be used with Brightway2 or Simapro (in progress), including uncertainty information. This requires the user to have `ecoinvent 3.6 cutoff` installed on the LCA software the car inventories are exported to.
+* export inventories directly into Brightway2, as a LCIImporter object to be registered. Additionally, when run in stochastic mode, it is possible to export arrays of pre-sampled values using the `presamples <https://pypi.org/project/presamples/>`_ library to be used together with the Monte Carlo function of Brightway2.
 
 How to install this package?
 ----------------------------

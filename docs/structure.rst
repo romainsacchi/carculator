@@ -8,12 +8,22 @@ Structure
 Modules
 -------
 
-Composed of four modules:
+Composed of eight modules to build the car models:
 
     * Driving cycle module
     * Mass module
     * Auxiliary energy module
     * Motive energy module
+    * Fuel-related emissions module
+    * Hot pollutant emissions module
+    * Non-exhaust emissions module
+    * Noise emissions module
+
+Additionally, three modules are used to:
+
+    * configure energy systems for the background model (background systems module)
+    * build and solve the life cycle inventory of cars (inventory module)
+    * export the life cycle inventory of cars (export module)
     
 Driving cycle module
 --------------------

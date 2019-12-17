@@ -10,7 +10,16 @@ from . import DATA_DIR
 
 class BackgroundSystemModel:
     """
-    Retrieve and calculate important information to model in the background system: electricity mixes, etc.
+    Retrieve and build dictionaries that contain important information to model in the background system:
+
+        * gross electricity production mixes from nearly all countries in the world, from 2015 to 2050. Source:
+        for European countries (`EU Reference Scenario 2016 <https://ec.europa.eu/energy/en/data-analysis/energy-modelling/eu-reference-scenario-2016>`_),
+        for African countries (`TEMBA <http://www.osemosys.org/temba.html>`_ model)
+        and for other countries (`IEA World Energy outlook 2017 <https://www.iea.org/reports/world-energy-outlook-2017>`_).
+        * cumulative electricity transformation/transmission/distribution losses from high voltage to medium and low voltage.
+        Source: `ecoinvent v.3.6 <https://www.ecoinvent.org/>`_.
+
+
 
     """
 
@@ -21,6 +30,7 @@ class BackgroundSystemModel:
     def get_electricity_losses(self):
         """
         Retrieve cumulative electricity losses from high to medium and low voltage.
+        Source: `ecoinvent v.3.6 <https://www.ecoinvent.org/>`_.
 
         :returns: dictionary
         :rtype: dict
@@ -45,8 +55,10 @@ class BackgroundSystemModel:
     def get_electricity_mix(self):
         """
         Retrieve electricity mixes and shape them into an xarray.
-        Electricity mixes from EU-STEM for Europe, World Markal for outside Europe,
-        from 2015 to 2050.
+        Source:
+        for European countries (`EU Reference Scenario 2016 <https://ec.europa.eu/energy/en/data-analysis/energy-modelling/eu-reference-scenario-2016>`_),
+        for African countries (`TEMBA <http://www.osemosys.org/temba.html>`_ model)
+        and for other countries (`IEA World Energy outlook 2017 <https://www.iea.org/reports/world-energy-outlook-2017>`_)
 
         :returns: An axarray with 'country' and 'year' as dimensions
         :rtype: xarray.core.dataarray.DataArray

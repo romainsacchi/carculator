@@ -66,7 +66,8 @@ over 800 Monte Carlo iterations:
     
     l_powertrains = TtW_energy.powertrain
     [plt.hist(e, bins=50, alpha=.8, label=e.powertrain.values) for e in TtW_energy]
-    plt.ylabel('km/L petrol-equivalent')
+    plt.xlabel('km/L petrol-equivalent')
+    plt.ylabel('number of iterations')
     plt.legend()
 ```
    

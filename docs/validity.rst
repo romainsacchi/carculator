@@ -4,7 +4,7 @@ Validity tests
 Driving cycle, velocity and acceleration
 ----------------------------------------
 
-Beside custom driving cycles, there are eleven possible driving cycles to select from:
+Beside custom driving cycles, there are eleven default driving cycles to select from:
 
     * WLTC
     * WLTC 3.1
@@ -18,10 +18,12 @@ Beside custom driving cycles, there are eleven possible driving cycles to select
     * CADC
     * NEDC
 
-Velocity, driving distance, driving time, and acceleration are calculated.
+They are needed to calculate a number of things, such as:
+    * velocity, driving distance, driving time, and acceleration,
+    * but also hot pollutant and noise emissions.
 
 Manually, such parameters can be obtained the following way::
-    
+
     import pandas as pd
     import numpy as np
     # Retrieve the driving cycle WLTC 3 from the UNECE
@@ -91,11 +93,13 @@ Which can be also be verified visually::
 Car and components masses
 -------------------------
 
-:class:`CarModel` sizes and builds the vehicles and their attributes are accessed in its `array` attribute.
-Filters like vehicle size class, year of manufacture and powertrain techology are convenient to use.
+:class:`CarModel` sizes and "builds" the vehicles. The vehicles attributes are accessed in the `array` attribute of the
+:class:`CarModel` class.
+Filters like vehicle size class, year of manufacture and powertrain technology are convenient to use.
 A relevant calculated parameter is the `driving mass`,
-which will influence the energy required to overcome `rolling resistance`, the `drag`, but also the energy required to
-move the vehicle over a given distance -- `kinetic energy`.
+as it is determinant for the energy required to overcome `rolling resistance`, the `drag`, but also the energy required to
+move the vehicle over a given distance -- `kinetic energy`, which is altogether defined as the `tank to wheel` energy,
+stored under the parameter `TtW_energy`.
 
 Parameters such as total cargo mass, curb mass and driving mass, can be obtained the following way, for a 2017 battery electric SUV::
 
@@ -203,7 +207,7 @@ The EU tests all new commercialized cars for emissions and energy consumption ac
 See: https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
 
 However, this database does not directly give energy consumption.
-But we can use CO2 measurement with the lower heating value of the fuel to back-calculate energy consumption.
+But we can use CO2 emission measurements with the lower heating value of the corresponding fuel to back-calculate the energy consumption.
 
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/EU_energy_comparison.png
     :width: 900
@@ -211,13 +215,14 @@ But we can use CO2 measurement with the lower heating value of the fuel to back-
     
 End-of-pipe CO2 emissions
 -------------------------
-Similarly, we can plot the CO2 measurements from the EU database against the values returned by Carculator for combustion vehicles.
+Similarly, we can plot the CO2 measurements from the EU emissions monitoring database against the values returned by
+**Carculator** for fossil fuel-powered vehicles.
 
 
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/EU_CO2_comparison.png
     :width: 900
     :alt: Alternative text
 
-There seems to be a general alignment between measured figures from the EU monitoring programme and the figures produced
+There seems to be a general alignment between measured figures from the EU emissions monitoring programme and the figures produced
 by **Carculator**
 
