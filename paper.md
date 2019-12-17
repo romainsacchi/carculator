@@ -59,14 +59,17 @@ relatively fast.
 Therefore, performing an error propagation analysis between a bio-ethanol-powered vehicle with battery electric vehicle in 2040 while specifying an
 electricity mix based on hydropower with a lithium iron phosphate (LFP) battery manufactured in Norway over 1,000 iterations
 becomes as easy as:
+
 ```python
     from carculator import *
     import timeit
     
     def MC_analysis():
         background_configuration = {
-        'country' : 'DE', # will use the network electricity losses of Germany
-        'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0]], # in this case, 100% hydropower           
+        # will use the network electricity losses of Germany
+        'country' : 'DE', 
+        # in this case, 100% hydropower
+        'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0]],            
         'petrol technology': 'bioethanol - wheat straw',
         'battery technology': 'LFP',
         'battery origin': 'NO'
@@ -82,7 +85,11 @@ becomes as easy as:
         _, array = fill_xarray_from_input_parameters(cip)
         cm = CarModel(array, cycle='WLTC')
         cm.set_all()
-        ic = InventoryCalculation(cm.array, scope=scope,background_configuration=background_configuration)
+        ic = InventoryCalculation(
+                    cm.array,
+                    scope=scope,
+                    background_configuration=background_configuration
+                    )
         results = ic.calculate_impacts()
         
     timeit.timeit(MC_analysis, number=1)
@@ -97,7 +104,8 @@ to reuse them in other LCA tools, such as Brightway2 [@Mutel2017].
 
 ```python
    # Receive the inventory as a Brightway2 LCIImporter object,
-   # as well as the arrays that contain pre-sampled values for error propagation analysis
+   # as well as the arrays that contain pre-sampled values
+   # for error propagation analysis
     lci, arr = ic.export_lci_to_bw()
 ```
 
