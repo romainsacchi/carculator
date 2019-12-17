@@ -11,10 +11,21 @@
   <a href="https://coarse-lci.readthedocs.io/en/latest/" target="_blank"><img src="https://readthedocs.org/projects/coarse_lci/badge/?version=latest"></a>
 </p>
 
-A fully parameterized Python model developed by the [Technology Assessment group](https://www.psi.ch/en/ta) of the
-[Paul Scherrer Institut](https://www.psi.ch/en) to calculate the life cycle material and energy requirements of passenger cars.
+## What is Carculator?
 
-More specifically, *Carculator* allows to:
+A fully parameterized Python model developed by the [Technology Assessment group](https://www.psi.ch/en/ta) of the
+[Paul Scherrer Institut](https://www.psi.ch/en) to perform life cycle assessments (LCA) of passenger cars.
+
+## What is Life Cycle Assessment?
+
+Life Cycle Assessment (LCA) is a systematic way of accounting for environmental impacts along the relevant phases of the life of a product or service.
+Typically, the LCA of a passenger vehicle includes the raw material extraction, the manufacture of the vehicle, its distribution, use and maintenance, as well as its disposal.
+The compiled inventories of material and energy required along the life cycle of the vehicle is characterized against some impact categories (e.g., climate change).
+In the research field of mobility, LCA is widely used to investigate the superiority of a technology over another one.
+
+## Why is Carculator needed?
+
+*Carculator* allows to:
 * produce [life cycle assessment (LCA)](https://en.wikipedia.org/wiki/Life-cycle_assessment) results that include conventional midpoint impact assessment indicators as well cost indicators
 * calculate hot pollutant and noise emissions based on a specified driving cycle
 * produce error propagation analyzes (i.e., Monte Carlo) while preserving relations between inputs and outputs
