@@ -645,7 +645,11 @@ class CarModel:
         """
         Calculate noise emissions based on ``driving cycle``.
         The driving cycle is passed to the :class:`NoiseEmissionsModel` class and :meth:`get_sound_power_per_compartment`
-        return emissions per compartment type ("rural", "non-urban" and "urban") per second of driving cycle.
+        returns emissions per compartment type ("rural", "non-urban" and "urban") per second of driving cycle.
+
+        Noise emissions are not differentiated by size classes at the moment, but only by powertrain "type"
+        (e.g., combustion, hybrid and electric)
+
         :return: Does not return anything. Modifies ``self.array`` in place.
         """
         nem = NoiseEmissionsModel(self.ecm.cycle)

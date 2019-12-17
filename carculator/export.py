@@ -265,6 +265,7 @@ class ExportInventory:
     def write_lci_to_bw(self, presamples):
         """
         Return a LCIImporter object with the inventory as `data` attribute.
+
         :return: LCIImporter object to be imported in a Brightway2 project
         :rtype: bw2io.base_lci.LCIImporter
         """

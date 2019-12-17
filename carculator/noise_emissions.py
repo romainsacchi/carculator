@@ -73,13 +73,18 @@ class NoiseEmissionsModel:
             (-1, 1)
         )
         array = array * coefficients + constants
-        array[:, cycle < 20] = 0
+
         return array
 
     def propulsion_noise(self, powertrain_type):
         """Calculate noise from propulsion engine and gearbox.
         Model from CNOSSOS-EU project
         (http://publications.jrc.ec.europa.eu/repository/bitstream/JRC72550/cnossos-eu%20jrc%20reference%20report_final_on%20line%20version_10%20august%202012.pdf)
+
+        For electric cars, special coefficients are applied from
+        (`Pallas et al. 2016 <https://www.sciencedirect.com/science/article/pii/S0003682X16301608>`_ )
+
+        Also, for electric cars, a warning signal of 56 dB is added when the car drives at 20 km/h or lower.
 
         :returns: A numpy array with propulsion noise (dB) for all 8 octaves, per second of driving cycle
         :rtype: numpy.array
@@ -103,9 +108,10 @@ class NoiseEmissionsModel:
                     (-1, 1)
                 )
                 array -= correction
+
+                # Warming signal for electric cars of 56 dB at 20 km/h or lower
                 array[:, cycle < 20] = 56
-            else:
-                array[:, cycle < 20] = 0
+
         else:
             # For non plugin-hybrids, apply electric engine noise coefficient up to 30 km/h
             # and combustion engine noise coefficients above 30 km/h

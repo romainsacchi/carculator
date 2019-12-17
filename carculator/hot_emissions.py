@@ -31,6 +31,12 @@ class HotEmissionsModel:
         Calculate hot pollutants emissions given a powertrain type (i.e., diesel, petrol, CNG), per air sub-compartment
         (i.e., urban, suburban and rural).
 
+        The emission sums are further divided into `air compartments`: urban, suburban and rural.
+
+            * *urban*: from 0 to 50 km/k
+            * *suburban*: from 51 km/h to 80 km/h
+            * *rural*: above 80 km/h
+
 
         :return: Pollutants emission per km driven, per air compartment.
         :rtype: numpy.array

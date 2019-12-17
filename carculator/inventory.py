@@ -15,8 +15,9 @@ from .export import ExportInventory
 class InventoryCalculation:
     """
     Build and solve the inventory for results characterization and inventory export
-    Vehicles to be analyzed can be filtered by passing a `scope` dictionary. Some assumptions in the background system
-    can also be adjusted by passing a `background_configuration` dictionary.
+
+    Vehicles to be analyzed can be filtered by passing a `scope` dictionary.
+    Some assumptions in the background system can also be adjusted by passing a `background_configuration` dictionary.
 
     .. code-block: python
 
@@ -369,7 +370,31 @@ class InventoryCalculation:
 
     def get_dict_impact_categories(self):
         """
-        Load a dictionary with impact assessment method as keys, and assessment level and categories as values.
+        Load a dictionary with available impact assessment methods as keys, and assessment level and categories as values.
+
+        ..code-block: python
+
+            {'recipe': {'midpoint': ['freshwater ecotoxicity',
+                                   'human toxicity',
+                                   'marine ecotoxicity',
+                                   'terrestrial ecotoxicity',
+                                   'metal depletion',
+                                   'agricultural land occupation',
+                                   'climate change',
+                                   'fossil depletion',
+                                   'freshwater eutrophication',
+                                   'ionising radiation',
+                                   'marine eutrophication',
+                                   'natural land transformation',
+                                   'ozone depletion',
+                                   'particulate matter formation',
+                                   'photochemical oxidant formation',
+                                   'terrestrial acidification',
+                                   'urban land occupation',
+                                   'water depletion',
+                                   'human noise']
+                       }
+           }
 
         :return: dictionary
         :rtype: dict
@@ -454,7 +479,29 @@ class InventoryCalculation:
 
     def export_lci_to_bw(self, presamples = True):
         """
-        Export the inventory as a `brightway2` bw2io.importers.base_lci.LCIImporter object.
+        Export the inventory as a `brightway2` bw2io.importers.base_lci.LCIImporter object
+        with the inventory in the `data` attribute.
+
+        .. code-block: python
+
+            # get the invenotry
+            i, _ = ic.export_lci_to_bw()
+
+            # import it in a Brightway2 project
+            i.match_database('ecoinvent 3.6 cutoff', fields=('name', 'unit', 'location', 'reference product'))
+            i.match_database("biosphere3", fields=('name', 'unit', 'categories'))
+            i.match_database(fields=('name', 'unit', 'location', 'reference product'))
+            i.match_database(fields=('name', 'unit', 'categories'))
+
+            # Create an additional biosphere database for the few flows that do not
+            # exist in "biosphere3"
+            i.create_new_biosphere("additional_biosphere", relink=True)
+
+            # Check if all exchanges link
+            i.statistics()
+
+            # Register the database
+            i.write_database()
 
         :return: LCIImport object that can be directly registered in a `brightway2` project.
         :rtype: bw2io.importers.base_lci.LCIImporter
@@ -482,6 +529,7 @@ class InventoryCalculation:
     def set_inputs_in_A_matrix(self, array):
         """
         Fill-in the A matrix. Does not return anything. Modifies in place.
+        Shape of the A matrix (values, products, activities).
 
         :param array: :attr:`array` from :class:`CarModel` class
         """

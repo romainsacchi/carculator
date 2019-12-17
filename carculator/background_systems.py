@@ -12,12 +12,8 @@ class BackgroundSystemModel:
     """
     Retrieve and build dictionaries that contain important information to model in the background system:
 
-        * gross electricity production mixes from nearly all countries in the world, from 2015 to 2050. Source:
-        for European countries (`EU Reference Scenario 2016 <https://ec.europa.eu/energy/en/data-analysis/energy-modelling/eu-reference-scenario-2016>`_),
-        for African countries (`TEMBA <http://www.osemosys.org/temba.html>`_ model)
-        and for other countries (`IEA World Energy outlook 2017 <https://www.iea.org/reports/world-energy-outlook-2017>`_).
+        * gross electricity production mixes from nearly all countries in the world, from 2015 to 2050.
         * cumulative electricity transformation/transmission/distribution losses from high voltage to medium and low voltage.
-        Source: `ecoinvent v.3.6 <https://www.ecoinvent.org/>`_.
 
 
 
@@ -56,9 +52,9 @@ class BackgroundSystemModel:
         """
         Retrieve electricity mixes and shape them into an xarray.
         Source:
-        for European countries (`EU Reference Scenario 2016 <https://ec.europa.eu/energy/en/data-analysis/energy-modelling/eu-reference-scenario-2016>`_),
-        for African countries (`TEMBA <http://www.osemosys.org/temba.html>`_ model)
-        and for other countries (`IEA World Energy outlook 2017 <https://www.iea.org/reports/world-energy-outlook-2017>`_)
+            * for European countries (`EU Reference Scenario 2016 <https://ec.europa.eu/energy/en/data-analysis/energy-modelling/eu-reference-scenario-2016>`_),
+            * for African countries (`TEMBA <http://www.osemosys.org/temba.html>`_ model)
+            * and for other countries (`IEA World Energy outlook 2017 <https://www.iea.org/reports/world-energy-outlook-2017>`_)
 
         :returns: An axarray with 'country' and 'year' as dimensions
         :rtype: xarray.core.dataarray.DataArray
