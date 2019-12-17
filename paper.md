@@ -102,7 +102,7 @@ iron phosphate (LFP) battery type, manufactured in Norway.
 The analysis is done in 72 seconds on a modern laptop.
 
 Additionally, users can export and share the inventories of the car models as well as the uncertainty data,
-to reuse them in other LCA tools, such as Brightway2 [@Mutel2017].
+to reuse them in other LCA tools such as Brightway2 [@Mutel2017].
 
 ```python
    # Receive the inventory as a Brightway2 LCIImporter object,
