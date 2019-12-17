@@ -1,3 +1,4 @@
+---
 title: 'Carculator: Prospective environmental and economic life cycle assessment of vehicles'
 tags:
   - Python
@@ -22,7 +23,6 @@ affiliations:
    index: 1
 date: 18 December 2019
 bibliography: paper.bib
-
 ---
 
 # Summary
