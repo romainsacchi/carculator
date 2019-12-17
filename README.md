@@ -80,21 +80,24 @@ For more examples, see [examples](https://github.com/romainsacchi/carculator/blo
 Carculator has a graphical user interface for fast comparisons of vehicles.
 See [carculator_online](http://carculator.psi.ch).
 
-## Dependencies
+## Installation
 
-Dependencies are listed in `requirements.txt`.
+*Carculator* is at an early stage of development and is subject to continuous change and improvement.
+Three ways of installing *Carculator* are suggested.
 
-## Installation from conda
+### Installation of a stable version from Pypi
+
+    pip install carculator
+
+### Installation of a development version from from conda
 
     conda install -c conda-forge -c pascallesage -c cmutel -c romainsacchi/label/nightly carculator-dev
     
-will install the package in development mode and the required dependencies.
 
-## Installation from GitHub
+### Installation of a development version from from GitHub
 
     pip install git+https://github.com/romainsacchi/carculator.git
 
-will install the package in editable mode and the required dependencies.
 
 ## Contributing
 
