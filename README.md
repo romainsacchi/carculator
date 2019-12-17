@@ -1,7 +1,8 @@
 # Carculator
-[![Build Status](https://travis-ci.org/romainsacchi/carculator.svg?branch=master)](https://travis-ci.org/romainsacchi/carculator) [![Build status](https://ci.appveyor.com/api/projects/status/github/romainsacchi/coarse?svg=true)](https://ci.appveyor.com/project/romainsacchi/coarse) [![Coverage Status](https://coveralls.io/repos/github/romainsacchi/coarse/badge.svg)](https://coveralls.io/github/romainsacchi/coarse) [![Documentation](https://readthedocs.org/projects/coarse_lci/badge/?version=latest)](https://coarse-lci.readthedocs.io/en/latest/)
 
-![MC results](https://github.com/romainsacchi/coarse/raw/master/docs/mediumsmall.png)
+![MC results](https://github.com/romainsacchi/coarse/raw/master/docs/noBackground.svg)
+
+[![Build Status](https://travis-ci.org/romainsacchi/carculator.svg?branch=master)](https://travis-ci.org/romainsacchi/carculator) [![Build status](https://ci.appveyor.com/api/projects/status/github/romainsacchi/coarse?svg=true)](https://ci.appveyor.com/project/romainsacchi/coarse) [![Coverage Status](https://coveralls.io/repos/github/romainsacchi/coarse/badge.svg)](https://coveralls.io/github/romainsacchi/coarse) [![Documentation](https://readthedocs.org/projects/coarse_lci/badge/?version=latest)](https://coarse-lci.readthedocs.io/en/latest/)
 
 A fully parameterized Python model to calculate the life cycle material and energy requirements of passenger cars.
 
