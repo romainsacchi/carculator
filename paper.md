@@ -64,4 +64,4 @@ in other LCA tools.
 The authors would like to acknowledge the financial contribution of InnoSuisse via the project
 Swiss Competence Center for Energy Research (SCCER) Efficient Technologies and Systems for Mobility.
 
-
+# References
