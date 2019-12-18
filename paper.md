@@ -17,10 +17,12 @@ authors:
     affiliation: 1
   - name: Brian Cox
     orcid: 0000-0002-4531-6709
-    affiliation: 1
+    affiliation: [1,2]
 affiliations:
  - name: Technology Assessment, Paul Scherrer Institut, Villigen, Switzerland
    index: 1
+ - name: INFRAS, Berne, Switzerland
+   index: 2
 date: 18 December 2019
 bibliography: paper.bib
 ---
@@ -35,8 +37,8 @@ common functional unit against some environmental indicators (e.g., emissions of
 
 In the field of mobility, LCA studies have largely focused on comparing fossil fuel-powered vehicles to
 battery electric or hydrogen-powered vehicles -- see for example [@Bauer2015].
-While LCA is fit for such purpose, results typically show that assumptions made upstream
-from the use phase can be important, as emphasized, among others, in [@Bauer2015;@Helmers2017].
+While LCA is fit for such purpose, results typically show that assumptions made in the background system
+can be important, as emphasized, among others, in [@Bauer2015;@Helmers2017;@Cox2018].
 Because the importance of such assumptions is not always transparent to the reader and because not all of the
 information required to reproduce the results are readily available,
 it is possible to find similar studies with contradicting conclusions. It was the case with a study by [@Buchal2019],

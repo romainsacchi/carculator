@@ -26,13 +26,31 @@ class InventoryCalculation:
                     }
         background_configuration = {
                                             'country' : 'DE', # will use the network electricity losses of Germany
-                                            'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0], # in this case, 100% hydropower
-                                                                        [0.5,0.5,0,0,0,0,0,0,0,0]], # in this case, 50% hydro, 50% nuclear
+                                            'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0], # in this case, 100% hydropower for the first year
+                                                                        [0.5,0.5,0,0,0,0,0,0,0,0]], # in this case, 50% hydro, 50% nuclear for the second year
                                             'hydrogen technology' : 'Electrolysis',
                                             'petrol technology': 'bioethanol - wheat straw',
                                             'battery technology': 'LFP',
                                             'battery origin': 'NO'
                                         }
+
+    The `custom electricity mix` key in the background_configuration dictionary defines an electricity mix to apply,
+    under the form of one or several array(s), depending on teh number of years to analyze,
+    that should total 1, of which the indices correspond to:
+    
+        - [0]: hydro-power
+        - [1]: nuclear
+        - [2]: natural gas
+        - [3]: solar power
+        - [4]: wind power
+        - [5]: biomass
+        - [6]: coal
+        - [7]: oil
+        - [8]: geothermal
+        - [9]: waste incineration
+
+    If none is given, the electricity mix corresponding tot he country specified in `country` will be selected.
+    If no country is specified, Europe applies.
 
     :ivar array: array from the CarModel class
     :vartype array: CarModel.array
