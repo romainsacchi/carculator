@@ -32,6 +32,7 @@ setup(
     license=open('LICENSE').read(),
     package_data={'carculator': package_files(os.path.join('carculator', 'data'))},
     install_requires=[
+        "pandas",
         "numpy",
         "pytest",
         "pytest-cov",
