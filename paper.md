@@ -47,8 +47,9 @@ As a response to this situation, ``carculator`` was developed to perform LCA of 
 vehicle technologies in a transparent, open-source, reproducible and efficient manner.
  
 ``carculator`` is a fully parameterized Python model that performs prospective
-LCA of passenger vehicles. It is based on a physical model that sizes vehicles of different types
+LCA of passenger vehicles. The foreground modeling is based on a physical model that sizes vehicles of different types
 and dimensions and calculates the energy to move them over a given distance based on a driving cycle.
+The background modeling relies on the extensive life cycle inventory database ecoinvent v.3 [@Wernet2016].
 
 Initially developed by @Cox2018, the code has been refactored into a library to conduct
 fast calculations, but also to offer a convenient way to control parameters both in
@@ -57,7 +58,7 @@ of the model. ``carculator`` also handles uncertainty in parameters and can perf
 relatively quickly.
 
 Therefore, performing complex analyses becomes relatively easy.
-In this example, an error propagation analysis between a bio-ethanol-powered vehicle and a
+In this example, an error propagation analysis between a diesel-powered vehicle, bio-ethanol-powered vehicle and a
 battery electric vehicle in 2040 in terms of Ozone Depletion Potential (ODP) is performed over 1,000 iterations.
 In addition, an electricity mix for the battery charge based solely on hydro-power is specified, along with a lithium
 iron phosphate (LFP) battery type, manufactured in Norway.
@@ -73,7 +74,7 @@ iron phosphate (LFP) battery type, manufactured in Norway.
     'battery origin': 'NO'
     }
     scope = {
-        'powertrain':['BEV', 'ICEV-p'],
+        'powertrain':['ICEV-d', 'BEV', 'ICEV-p'],
         'size':['Large'],
         'year':[2040]
     }
@@ -105,5 +106,8 @@ to reuse them in other LCA tools such as Brightway2 [@Mutel2017].
 
 The authors would like to acknowledge the financial contribution of InnoSuisse via the project
 Swiss Competence Center for Energy Research (SCCER) Efficient Technologies and Systems for Mobility.
+This work was also financially supported by ACT ELEGANCY, Project No 271498, which has received funding
+from DETEC (CH), BMWi (DE), RVO (NL), Gassnova (NO), BEIS (UK), Gassco, Equinor and Total, and is
+cofunded by the European Commission under the Horizon 2020 programme, ACT Grant Agreement No 691712.
 
 # References
