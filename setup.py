@@ -27,7 +27,7 @@ def package_files(directory):
 
 setup(
     name='carculator',
-    version="0.0.2",
+    version="0.0.3",
     packages=packages,
     author="Romain Sacchi <romain.sacchi@psi.ch>, Chris Mutel <christopher.mutel@psi.ch>",
     license=open('LICENSE').read(),
@@ -45,7 +45,7 @@ setup(
     ],
     url="https://github.com/romainsacchi/carculator",
     long_description=open('README.md').read(),
-    description='Environmental footprint calculator for cars',
+    description='Tool to perform environmental and economic prospective life cycle assessments of vehicles',
     classifiers=[
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Developers',
