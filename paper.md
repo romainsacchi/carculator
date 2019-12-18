@@ -98,7 +98,7 @@ The analysis is done in 72 seconds on a modern laptop.
 Additionally, users can export and share the inventories of the car models as well as the uncertainty data,
 to reuse them in other LCA tools such as Brightway2 [@Mutel2017].
 
-An online graphical user interface for ``carculator`` is available at: [http://carculator.psi.ch](http://carculator.psi.ch).
+``carculator`` benefits from an [online documentation](https://coarse-lci.readthedocs.io/en/latest/) as well as a [graphical user interface](http://carculator.psi.ch).
 
 
 # Acknowledgements
