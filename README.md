@@ -47,6 +47,8 @@ See [Documentation](https://coarse-lci.readthedocs.io/en/latest/index.html).
 ``carculator`` is at an early stage of development and is subject to continuous change and improvement.
 Three ways of installing ``carculator`` are suggested.
 
+We recommend the installation on **Python 3.7**.
+
 ### Installation of a stable release (0.0.4) from Pypi
 
     pip install carculator
