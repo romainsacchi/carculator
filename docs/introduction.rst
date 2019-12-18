@@ -1,7 +1,7 @@
 Introduction
 ============
 
-``carculator`` is a parametrized model that allows to generate and characterize life cycle inventories for different
+``carculator`` is a parameterized model that allows to generate and characterize life cycle inventories for different
 vehicle configurations, according to selected:
 
 * powertrain technologies (8): petrol engine, diesel engine, electric motor, hybrid, etc.,
