@@ -37,7 +37,7 @@ class InventoryCalculation:
     The `custom electricity mix` key in the background_configuration dictionary defines an electricity mix to apply,
     under the form of one or several array(s), depending on teh number of years to analyze,
     that should total 1, of which the indices correspond to:
-    
+
         - [0]: hydro-power
         - [1]: nuclear
         - [2]: natural gas
