@@ -72,7 +72,7 @@ class HotEmissionsModel:
                 + 0.0002915 * self.cycle
                 + 0.006481
                 )
-            # PM
+            # PM <= 2.5 um
             em_arr[:, 3] = (
                 2.12e-09 * self.cycle ** 3
                 - 4.61e-07 * self.cycle ** 2
@@ -135,7 +135,7 @@ class HotEmissionsModel:
                 + 0.006821 * self.cycle
                 + 0.1707
             )
-            # NO* self.cycle + NO2
+            # NO + NO2
             em_arr[:, 2] = (
                 1.379e-07 * self.cycle ** 3
                 - 2.708e-05 * self.cycle ** 2
@@ -147,7 +147,7 @@ class HotEmissionsModel:
                 + 8.388e-05 * self.cycle
                 - 0.0008809
             )
-            # PM
+            # PM <= 2.5 um
             em_arr[:, 3] = (
                 -3.18e-10 * self.cycle ** 3
                 + 2.95e-07 * self.cycle ** 2
@@ -215,7 +215,7 @@ class HotEmissionsModel:
                 + 0.03632 * self.cycle
                 - 0.5159
             )
-            # NO* self.cycle + NO2
+            # NO + NO2
             em_arr[:, 2] = (
                 2.163e-08 * self.cycle ** 3
                 - 3.758e-06 * self.cycle ** 2
@@ -227,7 +227,7 @@ class HotEmissionsModel:
                 + 2.251e-05 * self.cycle
                 + 0.002413
             )
-            # PM
+            # PM <= 2.5 um
             em_arr[:, 3] = (
                 1.997e-09 * self.cycle ** 3
                 - 2.116e-07 * self.cycle ** 2

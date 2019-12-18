@@ -1231,7 +1231,7 @@ class InventoryCalculation:
             * -1
         ).transpose([1,0,2])
 
-        if cng_technology=='biogas':
+        if cng_technology == 'biogas':
             # change fossil emissions to non-fossil, if first iteration
             self.A[:,
                 self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
