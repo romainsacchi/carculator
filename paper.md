@@ -17,7 +17,7 @@ authors:
     affiliation: 1
   - name: Brian Cox
     orcid: 0000-0002-4531-6709
-    affiliation: "1, 2"
+    affiliation: 2
 affiliations:
  - name: Technology Assessment, Paul Scherrer Institut, Villigen, Switzerland
    index: 1
