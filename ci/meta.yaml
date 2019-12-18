@@ -20,6 +20,7 @@ requirements:
   run:
     - klausen
     - pandas
+    - xarray
     - numpy
     - python
     - xarray

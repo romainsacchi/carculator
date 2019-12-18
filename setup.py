@@ -33,6 +33,7 @@ setup(
     package_data={'carculator': package_files(os.path.join('carculator', 'data'))},
     install_requires=[
         "pandas",
+        "xarray",
         "numpy",
         "pytest",
         "pytest-cov",
