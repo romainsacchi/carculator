@@ -43,18 +43,18 @@ it is possible to find similar studies with contradicting conclusions. It was th
 where several inconsistencies and unfounded assumptions in the fuel pathway of electric cars led
 to conclusions in contrast with the rest of the scientific literature.
 
-As a response to this situation, ``Carculator`` has been developed to perform LCA of different
+As a response to this situation, ``carculator`` has been developed to perform LCA of different
 vehicle technologies in a transparent, open-source, reproducible and efficient manner.
  
-``Carculator`` is a fully parameterized Python model that allows to perform prospective
+``carculator`` is a fully parameterized Python model that allows to perform prospective
 LCA of passenger vehicles. It is based on a physical model that sizes vehicles of different types
 and dimensions and calculates the energy to move them over a given distance based on a driving cycle.
 
 Initially developed by @Cox2018, the code has been refactored into a library to conduct
 fast calculations, but also to offer a convenient way to control parameters both in
 the foreground (i.e., vehicles) and background (i.e., fuel pathways and energy storage) aspects
-of the model. ``Carculator`` also handles uncertainty in parameters and can perform error propagation analyses
-relatively fast.
+of the model. ``carculator`` also handles uncertainty in parameters and can perform error propagation analyses
+relatively quickly.
 
 Therefore, performing complex analyses becomes relatively easy.
 In this example, an error propagation analysis between a bio-ethanol-powered vehicle and a
@@ -64,37 +64,31 @@ iron phosphate (LFP) battery type, manufactured in Norway.
 
 ```python
     from carculator import *
-    import timeit
-    
-    def MC_analysis():
-        background_configuration = {
-        # will use the network electricity losses of Germany
-        'country' : 'DE', 
-        # in this case, 100% hydropower
-        'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0]],            
-        'petrol technology': 'bioethanol - wheat straw',
-        'battery technology': 'LFP',
-        'battery origin': 'NO'
-        }
-        scope = {
-            'powertrain':['BEV', 'ICEV-p'],
-            'size':['Large'],
-            'year':[2040]
-        }
-        cip = CarInputParameters()
-        # 1000 iterations
-        cip.stochastic(1000)
-        _, array = fill_xarray_from_input_parameters(cip)
-        cm = CarModel(array, cycle='WLTC')
-        cm.set_all()
-        ic = InventoryCalculation(
-                    cm.array,
-                    scope=scope,
-                    background_configuration=background_configuration
-                    )
-        results = ic.calculate_impacts()
-        
-    timeit.timeit(MC_analysis, number=1)
+
+    background_configuration = {
+    # in this case, 100% hydropower
+    'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0]],            
+    'petrol technology': 'bioethanol - wheat straw',
+    'battery technology': 'LFP',
+    'battery origin': 'NO'
+    }
+    scope = {
+        'powertrain':['BEV', 'ICEV-p'],
+        'size':['Large'],
+        'year':[2040]
+    }
+    cip = CarInputParameters()
+    # 1000 iterations
+    cip.stochastic(1000)
+    _, array = fill_xarray_from_input_parameters(cip)
+    cm = CarModel(array, cycle='WLTC')
+    cm.set_all()
+    ic = InventoryCalculation(
+                cm.array,
+                scope=scope,
+                background_configuration=background_configuration
+                )
+    results = ic.calculate_impacts()
 ```
 
 ![ODP results per vehicle-kilometer, 1,000 iterations](https://github.com/romainsacchi/coarse/raw/master/docs/MC_example_article.png)
@@ -104,12 +98,8 @@ The analysis is done in 72 seconds on a modern laptop.
 Additionally, users can export and share the inventories of the car models as well as the uncertainty data,
 to reuse them in other LCA tools such as Brightway2 [@Mutel2017].
 
-```python
-   # Receive the inventory as a Brightway2 LCIImporter object,
-   # as well as the arrays that contain pre-sampled values
-   # for error propagation analysis
-    lci, arr = ic.export_lci_to_bw()
-```
+An online graphical user interface for ``carculator`` is available at: [http://carculator.psi.ch](http://carculator.psi.ch).
+
 
 # Acknowledgements
 
