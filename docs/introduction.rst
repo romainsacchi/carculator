@@ -1,7 +1,7 @@
 Introduction
 ============
 
-**Carculator** is a parametrized model that allows to generate and characterize life cycle inventories for different
+``carculator`` is a parametrized model that allows to generate and characterize life cycle inventories for different
 vehicle configurations, according to selected:
 
 * powertrain technologies (8): petrol engine, diesel engine, electric motor, hybrid, etc.,
@@ -13,7 +13,7 @@ At the moment, the tool has a focus on passenger cars.
 It is initially based on the model developed in `Uncertain environmental footprint of current and future battery electric
 vehicles by Cox, et al (2018) <https://pubs.acs.org/doi/10.1021/acs.est.8b00261>`_.
 
-More specifically, **Carculator** generates `Brightway2 <https://brightwaylca.org/>`_ inventories, but also directly provides characterized
+More specifically, ``carculator`` generates `Brightway2 <https://brightwaylca.org/>`_ inventories, but also directly provides characterized
 results against several midpoint indicators from the impact assessment method ReCiPe as well as life cycle cost indicators.
 
 Objective
@@ -30,12 +30,12 @@ are sensitive to assumptions made in regards to electricity mix used for chargin
 to mixed conclusions being published in the scientific literature. Because the underlying calculations are kept undocumented,
 it is not always possible to explain the disparity in the results given by these models, which can contribute to adding confusion among the public.
 
-Because **Carculator** is kept **as open as possible**, the methods and assumptions behind the generation of results are
+Because ``carculator`` is kept **as open as possible**, the methods and assumptions behind the generation of results are
 easily identifiable and adjustable.
 Also, there is an effort to keep the different modules (classes) separated, so that improving certain areas of the model is relatively
 easy and does not require changing extensive parts of the code. In that regard, contributions are welcome.
 
-Finally, beside being more flexible and transparent, **Carculator** provides interesting features, such as:
+Finally, beside being more flexible and transparent, ``carculator`` provides interesting features, such as:
 
 * a stochastic mode, that allows fast Monte Carlo analyses, to include uncertainty at the vehicle level
 * possibility to override any or all of the 200+ default input car parameters (e.g., number of passengers, drag coefficient)
@@ -48,8 +48,8 @@ but also calculated parameters (e.g., driving mass).
 How to install this package?
 ----------------------------
 
-**Carculator** is a Python package, and is primarily to be used from within a Python 3.x environment.
-Because **Carculator** is still at an early development stage, it is a good idea to install it in a separate environment,
+``carculator`` is a Python package, and is primarily to be used from within a Python 3.x environment.
+Because ``carculator`` is still at an early development stage, it is a good idea to install it in a separate environment,
 such as a conda environment::
 
     conda create -n <name of the environment> python=3.7
@@ -58,7 +58,7 @@ Once your environment created, you should activate it::
 
     conda activate <name of the environment>
 
-And install the development version of the **Carculator** package in your new environment via Conda::
+And install the development version of the ``carculator`` package in your new environment via Conda::
 
     conda install -c conda-forge -c pascallesage -c cmutel -c romainsacchi/label/nightly carculator-dev
 
@@ -150,7 +150,7 @@ It is posisble to inter and extrapolate all the parameters to other years simply
 Changing the driving cycle
 **************************
 
-**Carculator** gives the user the possibility to choose between several driving cycles. Driving cycles are determinant in
+``carculator`` gives the user the possibility to choose between several driving cycles. Driving cycles are determinant in
 many aspects of the car model: hot pollutant emissions, noise emissions, tank-to-wheel energy, etc. Hence, each driving
 cycle leads to slightly different results. By default, if no driving cycle is specified, the WLTC driving cycle is used.
 To specify a driving cycle, simply do::
@@ -261,8 +261,8 @@ of large diesel vehicles in, for all years::
 Characterization of inventories (static)
 ****************************************
 
-**Carculator** makes the characterization of inventories easy. You can characterize the inventories directly from
-**Carculator ** against midpoint, endpoint and single score impact assessment methods.
+``carculator`` makes the characterization of inventories easy. You can characterize the inventories directly from
+``carculator`` against midpoint, endpoint and single score impact assessment methods.
 
 For example, to obtain characterized results against the midpoint impact assessment method ReCiPe for all cars::
 

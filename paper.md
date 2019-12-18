@@ -43,10 +43,10 @@ it is possible to find similar studies with contradicting conclusions. It was th
 where several inconsistencies and unfounded assumptions in the fuel pathway of electric cars led
 to conclusions in contrast with the rest of the scientific literature.
 
-As a response to this situation, ``carculator`` has been developed to perform LCA of different
+As a response to this situation, ``carculator`` was developed to perform LCA of different
 vehicle technologies in a transparent, open-source, reproducible and efficient manner.
  
-``carculator`` is a fully parameterized Python model that allows to perform prospective
+``carculator`` is a fully parameterized Python model that performs prospective
 LCA of passenger vehicles. It is based on a physical model that sizes vehicles of different types
 and dimensions and calculates the energy to move them over a given distance based on a driving cycle.
 

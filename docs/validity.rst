@@ -192,7 +192,7 @@ On an equivalent diesel powertrain, the mass of the glider base is comparatively
     
 
 
-The `curb mass` returned by Carculator is plotted against manufacturers' data, per vehicle size class and powertrain technology.
+The `curb mass` returned by ``carculator`` is plotted against manufacturers' data, per vehicle size class and powertrain technology.
 To do so, we use the car database Car2db (https://car2db.com/) and load all car trims produced after 2013 (21,383 vehicles).
 
     
@@ -216,7 +216,7 @@ But we can use CO2 emission measurements with the lower heating value of the cor
 End-of-pipe CO2 emissions
 -------------------------
 Similarly, we can plot the CO2 measurements from the EU emissions monitoring database against the values returned by
-**Carculator** for fossil fuel-powered vehicles.
+``carculator`` for fossil fuel-powered vehicles.
 
 
 .. image:: https://github.com/romainsacchi/coarse/raw/master/docs/EU_CO2_comparison.png
@@ -224,5 +224,5 @@ Similarly, we can plot the CO2 measurements from the EU emissions monitoring dat
     :alt: Alternative text
 
 There seems to be a general alignment between measured figures from the EU emissions monitoring programme and the figures produced
-by **Carculator**
+by ``carculator``.
 

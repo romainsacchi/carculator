@@ -1,4 +1,4 @@
-# Carculator
+# ``carculator``
 
 <p align="center">
   <img style="height:130px;" src="https://github.com/romainsacchi/coarse/raw/master/docs/mediumsmall.png">
@@ -11,7 +11,7 @@
   <a href="https://coarse-lci.readthedocs.io/en/latest/" target="_blank"><img src="https://readthedocs.org/projects/coarse_lci/badge/?version=latest"></a>
 </p>
 
-## What is Carculator?
+## What is ``carculator``?
 
 A fully parameterized Python model developed by the [Technology Assessment group](https://www.psi.ch/en/ta) of the
 [Paul Scherrer Institut](https://www.psi.ch/en) to perform life cycle assessments (LCA) of passenger cars.
@@ -23,9 +23,9 @@ Typically, the LCA of a passenger vehicle includes the raw material extraction, 
 The compiled inventories of material and energy required along the life cycle of the vehicle is characterized against some impact categories (e.g., climate change).
 In the research field of mobility, LCA is widely used to investigate the superiority of a technology over another one.
 
-## Why is Carculator needed?
+## Why is ``carculator`` needed?
 
-*Carculator* allows to:
+``carculator`` allows to:
 * produce [life cycle assessment (LCA)](https://en.wikipedia.org/wiki/Life-cycle_assessment) results that include conventional midpoint impact assessment indicators as well cost indicators
 * calculate hot pollutant and noise emissions based on a specified driving cycle
 * produce error propagation analyzes (i.e., Monte Carlo) while preserving relations between inputs and outputs
@@ -33,7 +33,7 @@ In the research field of mobility, LCA is widely used to investigate the superio
 (i.e., supply of fuel, battery chemistry, etc.)
 * and easily export the vehicle models as inventories to be further imported in the [Brightway2](https://brightwaylca.org/) LCA framework
 
-*Carculator* integrates well with [Brightway](https://brightwaylca.org/) and [presamples](https://github.com/PascalLesage/brightway2-presamples).
+``carculator`` integrates well with [Brightway](https://brightwaylca.org/) and [presamples](https://github.com/PascalLesage/brightway2-presamples).
 
 Extended from the initial work described in [Uncertain environmental footprint of current and future battery electric vehicles by Cox, et al (2018)](https://pubs.acs.org/doi/abs/10.1021/acs.est.8b00261).
 
@@ -44,8 +44,8 @@ See [Documentation](https://coarse-lci.readthedocs.io/en/latest/index.html).
 
 ## Installation
 
-*Carculator* is at an early stage of development and is subject to continuous change and improvement.
-Three ways of installing *Carculator* are suggested.
+``carculator`` is at an early stage of development and is subject to continuous change and improvement.
+Three ways of installing ``carculator`` are suggested.
 
 ### Installation of a stable version from Pypi
 
@@ -112,7 +112,7 @@ For more examples, see [examples](https://github.com/romainsacchi/carculator/blo
 
 ## Web graphical user interface
 
-Carculator has a graphical user interface for fast comparisons of vehicles.
+``carculator`` has a graphical user interface for fast comparisons of vehicles.
 See [carculator_online](http://carculator.psi.ch).
 
 
