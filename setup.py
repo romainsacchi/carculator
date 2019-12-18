@@ -32,14 +32,15 @@ setup(
     license=open('LICENSE').read(),
     package_data={'carculator': package_files(os.path.join('carculator', 'data'))},
     install_requires=[
-        'klausen',
-        'numpy',
-        'pandas',
-        'xarray',
-        'xlrd',
-        'sphinx-autoapi',
-        'numexpr',
-        'bw2io'
+        "pandas",
+        "numpy",
+        "pytest",
+        "pytest-cov",
+        "klausen",
+        "xlrd",
+        "pytest",
+        "numexpr",
+        "bw2io"
     ],
     url="https://github.com/romainsacchi/carculator",
     description='Tool to perform environmental and economic prospective life cycle assessments of vehicles',
