@@ -24,7 +24,6 @@ def package_files(directory):
             paths.append(os.path.join('..', path, filename))
     return paths
 
-
 setup(
     name='carculator',
     version="0.0.3",
@@ -37,14 +36,12 @@ setup(
         'numpy',
         'pandas',
         'xarray',
-        'presamples',
         'xlrd',
         'sphinx-autoapi',
         'numexpr',
         'bw2io'
     ],
     url="https://github.com/romainsacchi/carculator",
-    long_description=open('README.md').read(),
     description='Tool to perform environmental and economic prospective life cycle assessments of vehicles',
     classifiers=[
         'Intended Audience :: End Users/Desktop',
