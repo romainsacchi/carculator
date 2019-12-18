@@ -1,9 +1,9 @@
-klausen
-numpy
 pandas
-presamples
-xarray
+numpy
+pytest
+pytest-cov
+klausen
 xlrd
-sphinx-autoapi
+pytest
 numexpr
 bw2io
