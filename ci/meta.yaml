@@ -25,7 +25,6 @@ requirements:
     - python
     - xarray
     - xlrd
-    - presamples
     - numexpr
     - bw2io
 

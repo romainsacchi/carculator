@@ -20,9 +20,11 @@ before_install:
   fi
 install:
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then conda create -n test-environment python=$TRAVIS_PYTHON_VERSION
-  pandas xarray xlrd numpy pytest pytest-cov coveralls klausen numexpr
-  bw2io; source activate test-environment; pip3 install -e .; else pip3 install -r
-  ci/macos-travis.txt; pip3 install -e .; fi
+  pandas xarray xlrd numpy pytest pytest-cov coveralls klausen numexpr bw2io;
+  source activate test-environment;
+  pip3 install -e .;
+  else pip3 install -r ci/macos-travis.txt; pip3 install -e .;
+  fi
 script:
 - 'if [ "$TRAVIS_OS_NAME" == "linux" ]; then pwd; ls; pytest --cov=carculator; coveralls;
   if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then conda
