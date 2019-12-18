@@ -52,7 +52,7 @@ and dimensions and calculates the energy to move them over a given distance base
 The background modeling relies on the extensive life cycle inventory database ecoinvent v.3 [@Wernet2016].
 
 Initially developed by @Cox2018, the code has been refactored into a library to conduct
-fast calculations, but also to offer a convenient way to control parameters both in
+fast calculations and offer a convenient way to control parameters both in
 the foreground (i.e., vehicles) and background (i.e., fuel pathways and energy storage) aspects
 of the model. ``carculator`` also handles uncertainty in parameters and can perform error propagation analyses
 relatively quickly.
