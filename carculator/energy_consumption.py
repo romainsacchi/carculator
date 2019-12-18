@@ -52,7 +52,7 @@ class EnergyConsumptionModel:
         # If a string is passed, the corresponding driving cycle is retrieved
         if isinstance(cycle, str):
             try:
-                cycle = get_standard_driving_cycle(cycle).values
+                cycle = get_standard_driving_cycle(cycle)
             except KeyError:
                 raise ("The driving cycle specified could not be found.")
         elif isinstance(cycle, np.ndarray):

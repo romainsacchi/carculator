@@ -20,7 +20,7 @@ before_install:
   fi
 install:
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then conda create -n test-environment python=$TRAVIS_PYTHON_VERSION
-  xarray pandas  xlrd numpy pytest pytest-cov coveralls klausen numexpr
+  xarray xlrd numpy pytest pytest-cov coveralls klausen numexpr
   bw2io; source activate test-environment; pip3 install -e .; else pip3 install -r
   ci/macos-travis.txt; pip3 install -e .; fi
 script:

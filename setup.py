@@ -26,13 +26,12 @@ def package_files(directory):
 
 setup(
     name='carculator',
-    version="0.0.3",
+    version="0.0.4",
     packages=packages,
     author="Romain Sacchi <romain.sacchi@psi.ch>, Chris Mutel <christopher.mutel@psi.ch>",
     license=open('LICENSE').read(),
     package_data={'carculator': package_files(os.path.join('carculator', 'data'))},
     install_requires=[
-        "pandas",
         "numpy",
         "pytest",
         "pytest-cov",
