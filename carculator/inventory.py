@@ -1266,6 +1266,7 @@ class InventoryCalculation:
         if diesel_technology is not None:
             if diesel_technology in ('biodiesel - algae', 'biodiesel - cooking oil'):
                 # change fossil emissions to non-fossil, if first iteration
+
                 self.A[:,
                     self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
                     self.index_diesel] = 0
@@ -1274,9 +1275,9 @@ class InventoryCalculation:
             if petrol_technology in ('bioethanol - wheat straw', 'bioethanol - forest residues',
                                  'bioethanol - sugarbeet', 'bioethanol - maize starch'):
             # change fossil emissions to non-fossil, if first iteration
-            self.A[:,
-                self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
-                self.index_petrol + self.index_hybrid + self.index_plugin_hybrid] = 0
+                self.A[:,
+                    self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
+                    self.index_petrol + self.index_hybrid + self.index_plugin_hybrid] = 0
 
         # Noise emissions
         self.A[:,self.index_noise, -self.number_of_cars :] = (
