@@ -237,7 +237,10 @@ class ExportInventory:
         if directory is None:
             filepath = "lci-" + safe_name + ".xlsx"
         else:
+            if not os.path.exists(directory):
+                os.makedirs(directory)
             filepath = os.path.join(directory, "lci-" + safe_name + ".xlsx")
+            print(filepath)
 
         workbook = xlsxwriter.Workbook(filepath)
         bold = workbook.add_format({"bold": True})
