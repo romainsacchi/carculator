@@ -11,6 +11,7 @@ import bw2io
 import uuid
 import numpy as np
 import pyprind
+import os
 
 class ExportInventory:
     """
@@ -168,7 +169,7 @@ class ExportInventory:
 
 
 
-    def write_lci_to_excel(self):
+    def write_lci_to_excel(self, directory=None):
         """
         Export an Excel file that can be consumed by Brightway2.
 
@@ -233,7 +234,10 @@ class ExportInventory:
 
         safe_name = safe_filename('test', False)
 
-        filepath = "lci-" + safe_name + ".xlsx"
+        if directory is None:
+            filepath = "lci-" + safe_name + ".xlsx"
+        else:
+            filepath = os.path.join(directory, "lci-" + safe_name + ".xlsx")
 
         workbook = xlsxwriter.Workbook(filepath)
         bold = workbook.add_format({"bold": True})

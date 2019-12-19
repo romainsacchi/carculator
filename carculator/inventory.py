@@ -533,7 +533,7 @@ class InventoryCalculation:
             lci = ExportInventory(self.A, self.rev_inputs).write_lci_to_bw(presamples)
             return lci
 
-    def export_lci_to_excel(self):
+    def export_lci_to_excel(self, directory=None):
         """
         Export the inventory as an Excel file. Also return the file path where the file is stored.
 
@@ -541,7 +541,7 @@ class InventoryCalculation:
         :rtype: str
         """
         self.set_inputs_in_A_matrix(self.array.values)
-        fp = ExportInventory(self.A, self.rev_inputs).write_lci_to_excel()
+        fp = ExportInventory(self.A, self.rev_inputs).write_lci_to_excel(directory=None)
         return fp
 
     def set_inputs_in_A_matrix(self, array):
