@@ -989,7 +989,9 @@ class InventoryCalculation:
                          array[self.array_inputs["electricity consumption"], :, index]
                          ) * -1 * losses_to_low).reshape(self.iterations, len(mix[self.scope["year"].index(y)]), len(index))
 
+        print(self.scope['powertrain'])
         if "FCEV" in self.scope['powertrain']:
+            print('in FCEV')
             index = self.get_index_from_array(["FCEV"])
 
             if self.background_configuration:
