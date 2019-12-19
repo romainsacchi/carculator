@@ -1255,20 +1255,23 @@ class InventoryCalculation:
             * -1
         ).transpose([1,0,2])
 
-        if cng_technology == 'biogas':
-            # change fossil emissions to non-fossil, if first iteration
-            self.A[:,
-                self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
-                self.index_cng] = 0
+        if cng_technology is not None:
+            if cng_technology == 'biogas':
+                # change fossil emissions to non-fossil, if first iteration
+                self.A[:,
+                    self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
+                    self.index_cng] = 0
 
 
-        if diesel_technology in ('biodiesel - algae', 'biodiesel - cooking oil'):
-            # change fossil emissions to non-fossil, if first iteration
-            self.A[:,
-                self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
-                self.index_diesel] = 0
+        if diesel_technology is not None:
+            if diesel_technology in ('biodiesel - algae', 'biodiesel - cooking oil'):
+                # change fossil emissions to non-fossil, if first iteration
+                self.A[:,
+                    self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')],
+                    self.index_diesel] = 0
 
-        if petrol_technology in ('bioethanol - wheat straw', 'bioethanol - forest residues',
+        if petrol_technology is not None:
+            if petrol_technology in ('bioethanol - wheat straw', 'bioethanol - forest residues',
                                  'bioethanol - sugarbeet', 'bioethanol - maize starch'):
             # change fossil emissions to non-fossil, if first iteration
             self.A[:,
