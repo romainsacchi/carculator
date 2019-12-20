@@ -45,7 +45,7 @@ Manually, such parameters can be obtained the following way::
 
 Using `carculator`, these parameters can be obtained the following way::
 
-    from coarse.energy_consumption import EnergyConsumptionModel
+    from carculator.energy_consumption import EnergyConsumptionModel
     ecm = EnergyConsumptionModel('WLTC')
 
     # Access the driving distance
@@ -69,7 +69,7 @@ Both approaches should return identical results::
     True
     True
     
-And the acceleration returned by coarse should equal the values given by the UNECE::
+And the acceleration returned by carculator should equal the values given by the UNECE::
 
     np.array_equal(np.around(ecm.acceleration,4),np.around(driving_cycle['m/s²'].values,4))
     
@@ -79,14 +79,14 @@ Which can be also be verified visually::
 
     plt.plot(driving_cycle['m/s²'].values, label='UNECE')
     plt.plot(acceleration, label='Manually calculated')
-    plt.plot(ecm.acceleration, label='coarse', alpha=0.6)
+    plt.plot(ecm.acceleration, label='carculator', alpha=0.6)
     plt.legend()
     plt.ylabel('m/s2')
     plt.xlabel('second')
     plt.savefig('comparison_driving_cycle.png')
     plt.show()
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/comparison_driving_cycle.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/comparison_driving_cycle.png
     :width: 400
     :alt: Alternative text
     
@@ -126,7 +126,7 @@ However, most of the driving mass is explained by the curb mass::
         parameter=['total cargo mass', 'curb mass']).values).tolist(), labels=['Total cargo mass', 'Curb mass'])
     plt.show()
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/pie_total_mass.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/pie_total_mass.png
     :width: 400
     :alt: Alternative text
     
@@ -186,7 +186,7 @@ On an equivalent diesel powertrain, the mass of the glider base is comparatively
     plt.subplots_adjust(wspace=1)
     plt.show()
   
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/pie_mass_components.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/pie_mass_components.png
     :width: 900
     :alt: Alternative text
     
@@ -196,7 +196,7 @@ The `curb mass` returned by ``carculator`` is plotted against manufacturers' dat
 To do so, we use the car database Car2db (https://car2db.com/) and load all car trims produced after 2013 (21,383 vehicles).
 
     
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/mass_comparison.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/mass_comparison.png
     :width: 900
     :alt: Alternative text
     
@@ -209,7 +209,7 @@ See: https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
 However, this database does not directly give energy consumption.
 But we can use CO2 emission measurements with the lower heating value of the corresponding fuel to back-calculate the energy consumption.
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/EU_energy_comparison.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/EU_energy_comparison.png
     :width: 900
     :alt: Alternative text
     
@@ -219,7 +219,7 @@ Similarly, we can plot the CO2 measurements from the EU emissions monitoring dat
 ``carculator`` for fossil fuel-powered vehicles.
 
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/EU_CO2_comparison.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/EU_CO2_comparison.png
     :width: 900
     :alt: Alternative text
 

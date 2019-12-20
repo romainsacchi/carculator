@@ -137,7 +137,7 @@ Then, you simply pass this dictionary to `modify_xarray_from_custom_parameters(<
     cm.set_all()
 
 Alternatively, instead of a Python dictionary, you can pass a file path pointing to an Excel spreadsheet that contains
-the values to change, following `this template <https://github.com/romainsacchi/coarse/raw/master/docs/template_workbook.xlsx>`_.
+the values to change, following `this template <https://github.com/romainsacchi/carculator/raw/master/docs/template_workbook.xlsx>`_.
 
 Inter and extrapolation of parameters
 *************************************
@@ -197,7 +197,7 @@ from the CarModel object::
     plt.ylabel('kWh/100 km')
     plt.show()
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/fig_kwh_100km.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/fig_kwh_100km.png
     :width: 400
     :alt: Alternative text
 
@@ -212,7 +212,7 @@ value for the tank-to-wheel energy, you would have a distribution of values::
     plt.ylabel('kWh/100 km')
     plt.legend()
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/stochastic_example_ttw.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/stochastic_example_ttw.png
     :width: 400
     :alt: Alternative text
 
@@ -231,7 +231,7 @@ Finally, return their values and display the first 10 in a table::
 
     cm.array.sel(parameter=direct_emissions, year=2017, size='Van', powertrain='BEV').to_dataframe(name='direct emissions')
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_direct_emissions.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/example_direct_emissions.png
     :width: 400
     :alt: Alternative text
 
@@ -244,7 +244,7 @@ Or we could be interested in visualizing the distribution of non-characterized n
     data[data>0].plot(kind='bar')
     plt.ylabel('joules per km')
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_noise_emissions.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/example_noise_emissions.png
     :width: 400
     :alt: Alternative text
 
@@ -278,7 +278,7 @@ Hence, to plot the carbon footprint for all medium cars in 2017::
     plt.ylabel('kg CO2-eq./vkm')
     plt.show()
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_carbon_footprint.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/example_carbon_footprint.png
     :width: 400
     :alt: Alternative text
 
@@ -310,7 +310,7 @@ stochastic mode (with 500 iterations and the driving cycle WLTC)::
     plt.xticks(rotation=70)
     plt.ylabel('kg CO2-eq./vkm')
 
-.. image:: https://github.com/romainsacchi/coarse/raw/master/docs/example_stochastic_BEV_PHEV.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/example_stochastic_BEV_PHEV.png
     :width: 400
     :alt: Alternative text
 
