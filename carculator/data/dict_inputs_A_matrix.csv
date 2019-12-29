@@ -475,7 +475,7 @@ market group for electricity, high voltage;ENTSO-E;kilowatt hour;electricity, hi
 market for ammonium sulfate, as N;GLO;kilogram;ammonium sulfate, as N
 Ethanol from sugarbeet;RER;kilogram;Ethanol from sugarbeet
 Dinitrogen monoxide;('air',);kilogram
-Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - Swiss mix;RER;kilogram;Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - Swiss mix
+Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - Swiss mix;CH;kilogram;Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - Swiss mix
 Gas Diffusion Layer 2020;GLO;kilowatt;Gas Diffusion Layer 2020
 market group for electricity, low voltage;GLO;kilowatt hour;electricity, low voltage
 market for transport, freight, lorry 16-32 metric ton, EURO3;RoW;ton kilometer;transport, freight, lorry 16-32 metric ton, EURO3

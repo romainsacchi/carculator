@@ -992,9 +992,8 @@ class InventoryCalculation:
                          array[self.array_inputs["electricity consumption"], :, index]
                          ) * -1 * losses_to_low).reshape(self.iterations, len(mix[self.scope["year"].index(y)]), len(index))
 
-        print(self.scope['powertrain'])
         if "FCEV" in self.scope['powertrain']:
-            print('in FCEV')
+
             index = self.get_index_from_array(["FCEV"])
 
             if self.background_configuration:
@@ -1042,14 +1041,20 @@ class InventoryCalculation:
             if hydro_technology == 'Electrolysis':
 
                 # Zero out initial electricity provider
-                old_amount = self.A[:,
+
+                # TODO: differentiate hydrogen production in time
+
+                self.A[:,[self.inputs[dict_map[t]] for t in dict_map],
+                        self.inputs[dict_h_map[hydro_technology]]
+                        ] = \
+                    (np.outer(mix[0], self.A[:,
 
                     self.inputs[('market group for electricity, medium voltage',
                                                   'Europe without Switzerland',
                                                   'kilowatt hour',
                                                   'electricity, medium voltage')],
                                 self.inputs[dict_h_map[hydro_technology]]
-                ]
+                ]) * losses_to_low).T
 
                 self.A[:,self.inputs[('market group for electricity, medium voltage',
                   'Europe without Switzerland',
@@ -1057,13 +1062,6 @@ class InventoryCalculation:
                   'electricity, medium voltage')],
                    self.inputs[dict_h_map[hydro_technology]]] = 0
 
-
-                # TODO: differentiate hydrogen production in time
-
-                self.A[:,[self.inputs[dict_map[t]] for t in dict_map],
-                        self.inputs[dict_h_map[hydro_technology]]
-                        ] = \
-                    (np.outer(mix[0], old_amount) * losses_to_low).T
 
         if 'ICEV-g' in self.scope['powertrain']:
             index = self.get_index_from_array(["ICEV-g"])
@@ -1099,7 +1097,7 @@ class InventoryCalculation:
                 # biogas
                 self.A[:,self.inputs[dict_cng_map[cng_technology]],
                         self.index_cng] = (
-                    (array[self.array_inputs["fuel mass"], :, index] / 180 ) #kg/m3 @ 200 bar
+                    (array[self.array_inputs["fuel mass"], :, index])
                     / array[self.array_inputs["range"], :, index]
                     * -1
                     ).T
