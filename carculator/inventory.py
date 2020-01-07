@@ -275,7 +275,6 @@ class InventoryCalculation:
                     C = np.dot(X_reshaped, self.B.T).T
 
                     # Iterate through the results array to fill it
-                    # TODO: optimize this section
                     results.loc[
                         dict(impact=self.list_cat, year=y, size=s, powertrain=pt)] = \
                         C[:, self.split_indices].sum(axis=2)
@@ -992,7 +991,6 @@ class InventoryCalculation:
                          array[self.array_inputs["electricity consumption"], :, index]
                          ) * -1 * losses_to_low).reshape(self.iterations, len(mix[self.scope["year"].index(y)]), len(index))
 
-        print(self.scope['powertrain'])
         if "FCEV" in self.scope['powertrain']:
             print('in FCEV')
             index = self.get_index_from_array(["FCEV"])
@@ -1060,10 +1058,21 @@ class InventoryCalculation:
 
                 # TODO: differentiate hydrogen production in time
 
-                self.A[:,[self.inputs[dict_map[t]] for t in dict_map],
-                        self.inputs[dict_h_map[hydro_technology]]
-                        ] = \
-                    (np.outer(mix[0], old_amount) * losses_to_low).T
+                #self.A[:,[self.inputs[dict_map[t]] for t in dict_map],
+                #        self.inputs[dict_h_map[hydro_technology]]
+                #        ] = \
+                #    (np.outer(mix[0], old_amount) * losses_to_low).T
+
+                for y in self.scope["year"]:
+                    index = self.get_index_from_array([str(y)])
+
+                    self.A[np.ix_(np.arange(self.iterations), [self.inputs[dict_map[t]] for t in dict_map],
+                                  [self.inputs[i] for i in self.inputs
+                                   if str(y) in i[0]
+                                   and "Passenger" in i[0]
+                                   and "FCEV" in i[0]
+                                   ])] = \
+                        (np.outer(mix[self.scope["year"].index(y)],old_amount) * losses_to_low).T
 
         if 'ICEV-g' in self.scope['powertrain']:
             index = self.get_index_from_array(["ICEV-g"])
