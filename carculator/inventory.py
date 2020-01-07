@@ -1063,8 +1063,8 @@ class InventoryCalculation:
                                    and "Passenger" in i[0]
                                    and "FCEV" in i[0]
                                    ])] = \
-                        (np.outer(mix[self.scope["year"].index(y)], old_amount) * losses_to_low)\
-                            .reshape(self.iterations, len(mix[self.scope["year"].index(y)]), len(index))
+                        (np.outer(mix[self.scope["year"].index(y)], old_amount) * losses_to_medium)\
+                            .reshape(self.iterations, 10, -1)
 
         if 'ICEV-g' in self.scope['powertrain']:
             index = self.get_index_from_array(["ICEV-g"])
