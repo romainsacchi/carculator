@@ -979,6 +979,7 @@ class InventoryCalculation:
             losses_to_low = float(self.bs.losses["RER"]['LV'])
             mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.scope["year"]).values
 
+
         for y in self.scope["year"]:
             index = self.get_index_from_array([str(y)])
 
@@ -1038,24 +1039,16 @@ class InventoryCalculation:
             # If hydrolysis is chosen, adjust the electricity mix
 
             if hydro_technology == 'Electrolysis':
-
-                # Zero out initial electricity provider
-                old_amount = self.A[:,self.inputs[('market group for electricity, medium voltage',
-                  'Europe without Switzerland',
-                  'kilowatt hour',
-                  'electricity, medium voltage')],
-                   self.inputs[dict_h_map[hydro_technology]]]
-
-                self.A[:, self.inputs[('market group for electricity, medium voltage',
-                                       'Europe without Switzerland',
-                                       'kilowatt hour',
-                                       'electricity, medium voltage')],
-                self.inputs[dict_h_map[hydro_technology]]] = 0
-
-                # TODO: differentiate hydrogen production in time
+                index_FCEV = self.get_index_from_array(["FCEV"])
 
                 for y in self.scope["year"]:
-                    index = self.get_index_from_array([str(y)])
+                    index = [x for x in self.get_index_from_array([str(y)]) if x in index_FCEV]
+
+                    print(array[self.array_inputs["fuel mass"], :, index]
+                                / array[self.array_inputs["range"], :, index])
+                    print(np.outer(mix[self.scope["year"].index(y)], -58) * losses_to_medium * (
+                                array[self.array_inputs["fuel mass"], :, index]
+                                / array[self.array_inputs["range"], :, index]))
 
                     self.A[np.ix_(np.arange(self.iterations), [self.inputs[dict_map[t]] for t in dict_map],
                                   [self.inputs[i] for i in self.inputs
@@ -1063,7 +1056,9 @@ class InventoryCalculation:
                                    and "Passenger" in i[0]
                                    and "FCEV" in i[0]
                                    ])] = \
-                        (np.outer(mix[self.scope["year"].index(y)], old_amount) * losses_to_medium)\
+                        (np.outer(mix[self.scope["year"].index(y)], - 58) * losses_to_medium *
+                         (array[self.array_inputs["fuel mass"], :, index]
+                            / array[self.array_inputs["range"], :, index]))\
                             .reshape(self.iterations, 10, -1)
 
         if 'ICEV-g' in self.scope['powertrain']:
