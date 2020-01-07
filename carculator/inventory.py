@@ -1040,21 +1040,6 @@ class InventoryCalculation:
             if hydro_technology == 'Electrolysis':
 
                 # Zero out initial electricity provider
-
-                # TODO: differentiate hydrogen production in time
-
-                #self.A[:,[self.inputs[dict_map[t]] for t in dict_map],
-                #        self.inputs[dict_h_map[hydro_technology]]
-                #        ] = \
-                #    (np.outer(mix[0], self.A[:,
-
-                #    self.inputs[('market group for electricity, medium voltage',
-                #                                  'Europe without Switzerland',
-                #                                  'kilowatt hour',
-                #                                  'electricity, medium voltage')],
-                #                self.inputs[dict_h_map[hydro_technology]]
-                #]) * losses_to_low).T
-
                 old_amount = self.A[:,self.inputs[('market group for electricity, medium voltage',
                   'Europe without Switzerland',
                   'kilowatt hour',
@@ -1069,11 +1054,6 @@ class InventoryCalculation:
 
                 # TODO: differentiate hydrogen production in time
 
-                #self.A[:,[self.inputs[dict_map[t]] for t in dict_map],
-                #        self.inputs[dict_h_map[hydro_technology]]
-                #        ] = \
-                #    (np.outer(mix[0], old_amount) * losses_to_low).T
-
                 for y in self.scope["year"]:
                     index = self.get_index_from_array([str(y)])
 
@@ -1083,7 +1063,8 @@ class InventoryCalculation:
                                    and "Passenger" in i[0]
                                    and "FCEV" in i[0]
                                    ])] = \
-                        (np.outer(mix[self.scope["year"].index(y)],old_amount) * losses_to_low).T
+                        (np.outer(mix[self.scope["year"].index(y)], old_amount) * losses_to_low)\
+                            .reshape(self.iterations, len(mix[self.scope["year"].index(y)]), len(index))
 
         if 'ICEV-g' in self.scope['powertrain']:
             index = self.get_index_from_array(["ICEV-g"])
