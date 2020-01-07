@@ -1043,23 +1043,29 @@ class InventoryCalculation:
 
                 # TODO: differentiate hydrogen production in time
 
-                self.A[:,[self.inputs[dict_map[t]] for t in dict_map],
-                        self.inputs[dict_h_map[hydro_technology]]
-                        ] = \
-                    (np.outer(mix[0], self.A[:,
+                #self.A[:,[self.inputs[dict_map[t]] for t in dict_map],
+                #        self.inputs[dict_h_map[hydro_technology]]
+                #        ] = \
+                #    (np.outer(mix[0], self.A[:,
 
-                    self.inputs[('market group for electricity, medium voltage',
-                                                  'Europe without Switzerland',
-                                                  'kilowatt hour',
-                                                  'electricity, medium voltage')],
-                                self.inputs[dict_h_map[hydro_technology]]
-                ]) * losses_to_low).T
+                #    self.inputs[('market group for electricity, medium voltage',
+                #                                  'Europe without Switzerland',
+                #                                  'kilowatt hour',
+                #                                  'electricity, medium voltage')],
+                #                self.inputs[dict_h_map[hydro_technology]]
+                #]) * losses_to_low).T
 
-                self.A[:,self.inputs[('market group for electricity, medium voltage',
+                old_amount = self.A[:,self.inputs[('market group for electricity, medium voltage',
                   'Europe without Switzerland',
                   'kilowatt hour',
                   'electricity, medium voltage')],
-                   self.inputs[dict_h_map[hydro_technology]]] = 0
+                   self.inputs[dict_h_map[hydro_technology]]]
+
+                self.A[:, self.inputs[('market group for electricity, medium voltage',
+                                       'Europe without Switzerland',
+                                       'kilowatt hour',
+                                       'electricity, medium voltage')],
+                self.inputs[dict_h_map[hydro_technology]]] = 0
 
                 # TODO: differentiate hydrogen production in time
 
