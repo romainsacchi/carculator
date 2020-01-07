@@ -1044,12 +1044,6 @@ class InventoryCalculation:
                 for y in self.scope["year"]:
                     index = [x for x in self.get_index_from_array([str(y)]) if x in index_FCEV]
 
-                    print(array[self.array_inputs["fuel mass"], :, index]
-                                / array[self.array_inputs["range"], :, index])
-                    print(np.outer(mix[self.scope["year"].index(y)], -58) * losses_to_medium * (
-                                array[self.array_inputs["fuel mass"], :, index]
-                                / array[self.array_inputs["range"], :, index]))
-
                     self.A[np.ix_(np.arange(self.iterations), [self.inputs[dict_map[t]] for t in dict_map],
                                   [self.inputs[i] for i in self.inputs
                                    if str(y) in i[0]
