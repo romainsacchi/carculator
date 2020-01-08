@@ -979,10 +979,8 @@ class InventoryCalculation:
             losses_to_low = float(self.bs.losses["RER"]['LV'])
             mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.scope["year"]).values
 
-
         for y in self.scope["year"]:
             index = self.get_index_from_array([str(y)])
-
             self.A[np.ix_(np.arange(self.iterations),[self.inputs[dict_map[t]] for t in dict_map],
                           [self.inputs[i] for i in self.inputs
                            if str(y) in i[0]
@@ -990,7 +988,7 @@ class InventoryCalculation:
                            ])] = \
                 (np.outer(mix[self.scope["year"].index(y)],
                          array[self.array_inputs["electricity consumption"], :, index]
-                         ) * -1 * losses_to_low).reshape(self.iterations, len(mix[self.scope["year"].index(y)]), len(index))
+                         ) * -1 * losses_to_low).reshape(self.iterations, 10, -1)
 
         if "FCEV" in self.scope['powertrain']:
 
@@ -1041,9 +1039,10 @@ class InventoryCalculation:
             if hydro_technology == 'Electrolysis':
                 index_FCEV = self.get_index_from_array(["FCEV"])
 
+
+
                 for y in self.scope["year"]:
                     index = [x for x in self.get_index_from_array([str(y)]) if x in index_FCEV]
-
                     self.A[np.ix_(np.arange(self.iterations), [self.inputs[dict_map[t]] for t in dict_map],
                                   [self.inputs[i] for i in self.inputs
                                    if str(y) in i[0]
@@ -1052,7 +1051,7 @@ class InventoryCalculation:
                                    ])] = \
                         (np.outer(mix[self.scope["year"].index(y)], - 58) * losses_to_medium *
                          (array[self.array_inputs["fuel mass"], :, index]
-                            / array[self.array_inputs["range"], :, index]))\
+                            / array[self.array_inputs["range"], :, index]).T)\
                             .reshape(self.iterations, 10, -1)
 
         if 'ICEV-g' in self.scope['powertrain']:
