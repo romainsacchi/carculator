@@ -4,6 +4,7 @@
 """
 
 import numpy as np
+import numexpr as ne
 
 def pn(cycle, powertrain_type):
     cycle = np.array(cycle)
@@ -147,24 +148,20 @@ class NoiseEmissionsModel:
         propulsion = self.propulsion_noise(powertrain_type)
 
         # sum of rolling and propulsion noise sources
-        total_noise = np.where(
-            self.cycle != 0,
-            10 * np.log10((10 ** (rolling / 10)) + (10 ** (propulsion / 10))),
-            0,
-        )
+        c = self.cycle
+
+        total_noise = ne.evaluate("where(c != 0, 10 * log10((10 ** (rolling / 10)) + (10 ** (propulsion / 10))), 0)")
 
         # convert dBs to Watts (or J/s)
-        sound_power = (10 ** -12) * (10 ** (total_noise / 10))
+        sound_power = ne.evaluate("(10 ** -12) * (10 ** (total_noise / 10))")
 
         distance = self.cycle.sum() / 3600
 
         # sum sound power over duration (J/s * s --> J) and divide by distance (--> J / km) and further
         # divide into compartments
-        urban_sound = np.where(self.cycle <= 50, sound_power, 0).sum(axis=1) / distance
-        suburban_sound = (
-            np.where((self.cycle > 50) & (self.cycle <= 80), sound_power, 0).sum(axis=1)
-            / distance
-        )
-        rural_sound = np.where(self.cycle > 80, sound_power, 0).sum(axis=1) / distance
+        urban_sound = ne.evaluate("sum(where(c <= 50, sound_power, 0), 1)") / distance
+        suburban_sound = ne.evaluate("sum(where((c > 50) & (c <= 80), sound_power, 0), 1)") / distance
+        rural_sound = ne.evaluate("sum(where(c > 80, sound_power, 0), 1)") / distance
+
 
         return np.array([urban_sound, suburban_sound, rural_sound])

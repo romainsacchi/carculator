@@ -11,6 +11,7 @@ from . import DATA_DIR
 from .background_systems import BackgroundSystemModel
 import itertools
 from .export import ExportInventory
+from scipy import sparse
 
 class InventoryCalculation:
     """
@@ -159,7 +160,7 @@ class InventoryCalculation:
         response = xr.DataArray(
             np.zeros(
                 (
-                    self.B.shape[0],
+                    self.B.shape[1],
                     len(self.scope['size']),
                     len(self.scope['powertrain']),
                     len(self.scope['year']),
@@ -236,6 +237,7 @@ class InventoryCalculation:
                 row.extend([len(self.inputs)-1])
         return list(d.keys()), list_ind
 
+
     def calculate_impacts(self, method="recipe", level="midpoint", split="components"):
         """
         Solve the inventory, fill in the results array, return the results array.
@@ -248,9 +250,8 @@ class InventoryCalculation:
 
         """
 
-
         # Load the B matrix
-        self.B = self.get_B_matrix(method, level)
+        self.B = self.get_B_matrix()
 
         # Prepare an array to store the results
         results = self.get_results_table(method, level, split)
@@ -260,6 +261,7 @@ class InventoryCalculation:
 
         for pt in self.scope['powertrain']:
             for y in self.scope['year']:
+                B = self.B.interp(year=y, kwargs={'fill_value': 'extrapolate'}).values
                 for s in self.scope['size']:
                     # Retrieve the index of a given car in the matrix A
                     car = self.inputs[('Passenger car, '+ pt + ', ' + s + ', ' + str(y),"GLO", "kilometer", "transport, passenger car, EURO6")]
@@ -268,11 +270,12 @@ class InventoryCalculation:
                     f[:,car] = 1
 
                     X = np.linalg.solve(self.A, f)
-                    X_reshaped = np.zeros((X.shape[0],X.shape[1] , X.shape[1]))
+
+                    X_reshaped = np.zeros((X.shape[0], X.shape[1], X.shape[1]))
                     indices = np.arange(X.shape[1])
                     X_reshaped[:, indices, indices] = X
 
-                    C = np.dot(X_reshaped, self.B.T).T
+                    C = np.dot(X_reshaped, B.T).T
 
                     # Iterate through the results array to fill it
                     results.loc[
@@ -310,7 +313,8 @@ class InventoryCalculation:
                            )
         return new_A
 
-    def get_B_matrix(self, method, level):
+
+    def get_B_matrix(self, scenario="BAU"):
         """
         Load the B matrix. The B matrix contains impact assessment figures for a give impact assessment method,
         per unit of activity. Its length column-wise equals the length of the A matrix row-wise.
@@ -322,22 +326,48 @@ class InventoryCalculation:
         :rtype: numpy.ndarray
 
         """
-        filename = "B_matrix" + "_" + method + "_" + level + ".csv"
-        filepath = (DATA_DIR / filename)
 
-        if not filepath.is_file():
-            raise FileNotFoundError(
-                "The method or impact level specified could not be found."
+        if scenario == "BAU":
+            list_file_names = ["B_matrix_recipe_midpoint_BAU_2020.csv",
+                           "B_matrix_recipe_midpoint_BAU_2030.csv",
+                           "B_matrix_recipe_midpoint_BAU_2040.csv",
+                           "B_matrix_recipe_midpoint_BAU_2050.csv"]
+
+        if scenario == "RCP26":
+            list_file_names = ["B_matrix_recipe_midpoint_RCP26_2020.csv",
+                               "B_matrix_recipe_midpoint_RCP26_2030.csv",
+                               "B_matrix_recipe_midpoint_RCP26_2040.csv",
+                               "B_matrix_recipe_midpoint_RCP26_2050.csv"]
+
+
+        B = np.zeros((len(list_file_names), 19, self.A.shape[1]))
+
+        for f in list_file_names:
+            filepath = (DATA_DIR / "IAM" / f)
+            initial_B = np.genfromtxt(filepath, delimiter=";")
+
+            new_B = np.zeros(
+                (np.shape(initial_B)[0], np.shape(initial_B)[1] + self.number_of_cars)
             )
 
-        initial_B = np.genfromtxt(filepath, delimiter=";")
+            new_B[0: np.shape(initial_B)[0], 0: np.shape(initial_B)[1]] = initial_B
 
-        new_B = np.zeros(
-            (np.shape(initial_B)[0], np.shape(initial_B)[1] + self.number_of_cars)
+            B[list_file_names.index(f), :, :] = new_B
+
+        response = xr.DataArray(
+            B,
+            coords=[
+                [2020, 2030, 2040, 2050],
+                self.get_dict_impact_categories()["recipe"]["midpoint"],
+                list(self.inputs.keys()),
+            ],
+            dims=[
+                "year",
+                "category",
+                "activity",
+            ],
         )
-        new_B[0 : np.shape(initial_B)[0], 0 : np.shape(initial_B)[1]] = initial_B
-
-        return new_B
+        return response
 
     def get_dict_input(self):
         """
@@ -1039,20 +1069,18 @@ class InventoryCalculation:
             if hydro_technology == 'Electrolysis':
                 index_FCEV = self.get_index_from_array(["FCEV"])
 
-
-
                 for y in self.scope["year"]:
                     index = [x for x in self.get_index_from_array([str(y)]) if x in index_FCEV]
+
                     self.A[np.ix_(np.arange(self.iterations), [self.inputs[dict_map[t]] for t in dict_map],
                                   [self.inputs[i] for i in self.inputs
                                    if str(y) in i[0]
                                    and "Passenger" in i[0]
                                    and "FCEV" in i[0]
                                    ])] = \
-                        (np.outer(mix[self.scope["year"].index(y)], - 58) * losses_to_medium *
+                        (np.outer(np.outer(mix[self.scope["year"].index(y)], - 58 * losses_to_medium),
                          (array[self.array_inputs["fuel mass"], :, index]
-                            / array[self.array_inputs["range"], :, index]).T)\
-                            .reshape(self.iterations, 10, -1)
+                            / array[self.array_inputs["range"], :, index]))).reshape(self.iterations, 10, -1)
 
         if 'ICEV-g' in self.scope['powertrain']:
             index = self.get_index_from_array(["ICEV-g"])

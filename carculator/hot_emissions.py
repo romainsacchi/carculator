@@ -1,5 +1,6 @@
 import numpy as np
 import xarray
+import numexpr as ne
 
 
 def _(o):
@@ -41,244 +42,81 @@ class HotEmissionsModel:
         :return: Pollutants emission per km driven, per air compartment.
         :rtype: numpy.array
         """
+        c = self.cycle
 
         em_arr = np.zeros((len(self.cycle), 11))
 
         if powertrain_type == "diesel":
             # HC
-            em_arr[:, 0] = (
-                1.42e-09 * self.cycle ** 3
-                - 3.905e-07 * self.cycle ** 2
-                + 6.247e-05 * self.cycle
-                + 0.004804
-            )
+            em_arr[:, 0] = ne.evaluate("1.42e-09 * c ** 3 - 3.905e-07 * c ** 2 + 6.247e-05 * c + 0.004804")
             # CO
-            em_arr[:, 1] = (
-                2.6e-09 * self.cycle ** 3
-                + 9.256e-07 * self.cycle ** 2
-                - 0.0002761 * self.cycle
-                + 0.02438
-                )
+            em_arr[:, 1] = ne.evaluate("2.6e-09 * c ** 3 + 9.256e-07 * c ** 2 - 0.0002761 * c + 0.02438")
             # NOx + NO2
-            em_arr[:, 2] = (
-                1.159e-07 * self.cycle ** 3
-                - 1.891e-05 * self.cycle ** 2
-                + 0.0008328 * self.cycle
-                + 0.01852)\
-                           +\
-                           (
-                4.056e-08 * self.cycle ** 3
-                - 6.618e-06 * self.cycle ** 2
-                + 0.0002915 * self.cycle
-                + 0.006481
-                )
+            em_arr[:, 2] = ne.evaluate("(1.159e-07 * c ** 3 - 1.891e-05 * c ** 2 + 0.0008328 * c + 0.01852) + (4.056e-08 * c ** 3 - 6.618e-06 * c ** 2 + 0.0002915 * c + 0.006481)")
             # PM <= 2.5 um
-            em_arr[:, 3] = (
-                2.12e-09 * self.cycle ** 3
-                - 4.61e-07 * self.cycle ** 2
-                + 3.018e-05 * self.cycle
-                - 0.0001433
-            )
+            em_arr[:, 3] = ne.evaluate("2.12e-09 * c ** 3 - 4.61e-07 * c ** 2 + 3.018e-05 * c - 0.0001433")
             # CH4
-            em_arr[:, 4] = (
-                1.278e-09 * self.cycle ** 3
-                - 3.514e-07 * self.cycle ** 2
-                + 5.622e-05 * self.cycle
-                + 0.004324
-            )
+            em_arr[:, 4] = ne.evaluate("1.278e-09 * c ** 3 - 3.514e-07 * c ** 2  + 5.622e-05 * c + 0.004324")
             # NMVOC
-            em_arr[:, 5] = (
-                1.42e-10 * self.cycle ** 3
-                - 3.905e-08 * self.cycle ** 2
-                + 6.247e-06 * self.cycle
-                + 0.0004804
-            )
+            em_arr[:, 5] = ne.evaluate("1.42e-10 * c ** 3 - 3.905e-08 * c ** 2 + 6.247e-06 * c + 0.0004804")
             # Pb
             # No Pb!
             # SO2
-            em_arr[:, 7] = (
-                2.631e-10 * self.cycle ** 3
-                + 1.122e-08 * self.cycle ** 2
-                - 6.082e-06 * self.cycle
-                + 0.001071
-            )
+            em_arr[:, 7] = ne.evaluate("2.631e-10 * c ** 3 + 1.122e-08 * c ** 2 - 6.082e-06 * c + 0.001071")
             # N2O
-            em_arr[:, 8] = (
-                -0.000107 * self.cycle
-                + 0.01941
-            )
+            em_arr[:, 8] = ne.evaluate("-0.000107 * c + 0.01941")
             # NH3
-            em_arr[:, 9] = (
-                1.927e-05 * self.cycle
-                + 0.006249
-            )
+            em_arr[:, 9] = ne.evaluate("1.927e-05 * c + 0.006249")
             # Benzene
-            em_arr[:, 10] = (
-                1.136e-11 * self.cycle ** 3
-                - 3.124e-09 * self.cycle ** 2
-                + 4.998e-07 * self.cycle
-                + 3.844e-05
-            )
+            em_arr[:, 10] = ne.evaluate("1.136e-11 * c ** 3 - 3.124e-09 * c ** 2 + 4.998e-07 * c + 3.844e-05")
 
         if powertrain_type == "petrol":
             # HC
-            em_arr[:, 0] = (
-                -6.698e-09 * self.cycle ** 3
-                + 2.661e-06 * self.cycle ** 2
-                - 0.0002239 * self.cycle
-                + 0.008068
-            )
+            em_arr[:, 0] = ne.evaluate("-6.698e-09 * c ** 3 + 2.661e-06 * c ** 2 - 0.0002239 * c + 0.008068")
             # CO
-            em_arr[:, 1] = (
-                5.385e-07 * self.cycle ** 3
-                - 0.0001104 * self.cycle ** 2
-                + 0.006821 * self.cycle
-                + 0.1707
-            )
+            em_arr[:, 1] = ne.evaluate("5.385e-07 * c ** 3 - 0.0001104 * c ** 2 + 0.006821 * c + 0.1707")
             # NO + NO2
-            em_arr[:, 2] = (
-                1.379e-07 * self.cycle ** 3
-                - 2.708e-05 * self.cycle ** 2
-                + 0.001678 * self.cycle
-                - 0.01762
-            ) + (
-                6.894e-09 * self.cycle ** 3
-                - 1.354e-06 * self.cycle ** 2
-                + 8.388e-05 * self.cycle
-                - 0.0008809
-            )
+            em_arr[:, 2] = ne.evaluate("(1.379e-07 * c ** 3 - 2.708e-05 * c ** 2 + 0.001678 * c - 0.01762) + (6.894e-09 * c ** 3 - 1.354e-06 * c ** 2 + 8.388e-05 * c - 0.0008809)")
             # PM <= 2.5 um
-            em_arr[:, 3] = (
-                -3.18e-10 * self.cycle ** 3
-                + 2.95e-07 * self.cycle ** 2
-                - 2.911e-05 * self.cycle
-                + 0.001359
-            )
+            em_arr[:, 3] = ne.evaluate("-3.18e-10 * c ** 3 + 2.95e-07 * c ** 2 - 2.911e-05 * c + 0.001359")
             # CH4
-            em_arr[:, 4] = (
-                -2.679e-09 * self.cycle ** 3
-                + 1.064e-06 * self.cycle ** 2
-                - 8.957e-05 * self.cycle
-                + 0.003227
-            )
+            em_arr[:, 4] = ne.evaluate("-2.679e-09 * c ** 3 + 1.064e-06 * c ** 2 - 8.957e-05 * c + 0.003227")
             # NMVOC
-            em_arr[:, 5] = (
-                -4.019e-09 * self.cycle ** 3
-                + 1.597e-06 * self.cycle ** 2
-                - 0.0001344 * self.cycle
-                + 0.004841
-            )
+            em_arr[:, 5] = ne.evaluate("-4.019e-09 * c ** 3 + 1.597e-06 * c ** 2 - 0.0001344 * c + 0.004841")
             # Pb
-            em_arr[:, 6] = (
-                -2.062e-11 * self.cycle ** 3
-                + 9.669e-09 * self.cycle ** 2
-                - 1.099e-06 * self.cycle
-                + 7.273e-05
-            )
+            em_arr[:, 6] = ne.evaluate("-2.062e-11 * c ** 3 + 9.669e-09 * c ** 2 - 1.099e-06 * c + 7.273e-05")
             # SO2
-            em_arr[:, 7] = (
-                -3.264e-10 * self.cycle ** 3
-                + 1.53e-07 * self.cycle ** 2
-                - 1.74e-05 * self.cycle
-                + 0.001151
-            )
+            em_arr[:, 7] = ne.evaluate("-3.264e-10 * c ** 3 + 1.53e-07 * c ** 2 - 1.74e-05 * c + 0.001151")
             # N2O
-            em_arr[:, 8] = (
-                -6.351e-06 * self.cycle
-                + 0.0007994
-            )
+            em_arr[:, 8] = ne.evaluate("-6.351e-06 * c + 0.0007994")
             # NH3
-            em_arr[:, 9] = (
-                9.559e-05 * self.cycle
-                + 0.009297
-            )
+            em_arr[:, 9] = ne.evaluate("9.559e-05 * c + 0.009297")
             # Benzene
-            em_arr[:, 10] = (
-                -6.698e-11 * self.cycle ** 3
-                + 2.661e-08 * self.cycle ** 2
-                - 2.239e-06 * self.cycle
-                + 8.068e-05
-            )
+            em_arr[:, 10] = ne.evaluate("-6.698e-11 * c ** 3 + 2.661e-08 * c ** 2 - 2.239e-06 * c + 8.068e-05")
 
         if powertrain_type == "CNG":
             # HC
-            em_arr[:, 0] = (
-                5.502e-08 * self.cycle ** 3
-                - 1.239e-05 * self.cycle ** 2
-                + 0.000846 * self.cycle
-                - 0.004044
-            )
+            em_arr[:, 0] = ne.evaluate("5.502e-08 * c ** 3 - 1.239e-05 * c ** 2 + 0.000846 * c - 0.004044")
             # CO
-            em_arr[:, 1] = (
-                2.678e-06 * self.cycle ** 3
-                - 0.0005585 * self.cycle ** 2
-                + 0.03632 * self.cycle
-                - 0.5159
-            )
+            em_arr[:, 1] = ne.evaluate("2.678e-06 * c ** 3 - 0.0005585 * c ** 2 + 0.03632 * c - 0.5159")
             # NO + NO2
-            em_arr[:, 2] = (
-                2.163e-08 * self.cycle ** 3
-                - 3.758e-06 * self.cycle ** 2
-                + 5.485e-05 * self.cycle
-                + 0.02848
-            ) + (
-                4.35e-09 * self.cycle ** 3
-                - 7.625e-07 * self.cycle ** 2
-                + 2.251e-05 * self.cycle
-                + 0.002413
-            )
+            em_arr[:, 2] = ne.evaluate("(2.163e-08 * c ** 3 - 3.758e-06 * c ** 2 + 5.485e-05 * c + 0.02848) + (4.35e-09 * c ** 3 - 7.625e-07 * c ** 2 + 2.251e-05 * c + 0.002413)")
             # PM <= 2.5 um
-            em_arr[:, 3] = (
-                1.997e-09 * self.cycle ** 3
-                - 2.116e-07 * self.cycle ** 2
-                - 1.277e-05 * self.cycle
-                + 0.002135
-            )
+            em_arr[:, 3] = ne.evaluate("1.997e-09 * c ** 3 - 2.116e-07 * c ** 2 - 1.277e-05 * c + 0.002135")
             # CH4
-            em_arr[:, 4] = (
-                4.568e-08 * self.cycle ** 3
-                - 1.052e-05 * self.cycle ** 2
-                + 0.0007284 * self.cycle
-                - 0.003946
-            )
+            em_arr[:, 4] = ne.evaluate("4.568e-08 * c ** 3 - 1.052e-05 * c ** 2 + 0.0007284 * c - 0.003946")
             # NMVOC
-            em_arr[:, 5] = (
-                9.338e-09 * self.cycle ** 3
-                - 1.872e-06 * self.cycle ** 2
-                + 0.0001175 * self.cycle
-                - 9.78e-05
-            )
+            em_arr[:, 5] = ne.evaluate("9.338e-09 * c ** 3 - 1.872e-06 * c ** 2 + 0.0001175 * c - 9.78e-05")
             # Pb
-            em_arr[:, 6] = (
-                -1.38e-11 * self.cycle ** 3
-                + 6.464e-09 * self.cycle ** 2
-                - 7.366e-07 * self.cycle
-                + 4.665e-05
-            )
+            em_arr[:, 6] = ne.evaluate("-1.38e-11 * c ** 3 + 6.464e-09 * c ** 2 - 7.366e-07 * c + 4.665e-05")
             # SO2
-            em_arr[:, 7] = (
-                -2.185e-10 * self.cycle ** 3
-                + 1.023e-07 * self.cycle ** 2
-                - 1.166e-05 * self.cycle
-                + 0.0007384
-            )
+            em_arr[:, 7] = ne.evaluate("-2.185e-10 * c ** 3 + 1.023e-07 * c ** 2 - 1.166e-05 * c + 0.0007384")
             # N2O
-            em_arr[:, 8] = (
-                -7.104e-06 * self.cycle
-                + 0.0008573
-            )
+            em_arr[:, 8] = ne.evaluate("-7.104e-06 * c + 0.0008573")
             # NH3
-            em_arr[:, 9] = (
-                8.615e-05 * self.cycle
-                + 0.01022
-            )
+            em_arr[:, 9] = ne.evaluate("8.615e-05 * c + 0.01022")
             # Benzene
-            em_arr[:, 10] = (
-                9.493e-11 * self.cycle ** 3
-                - 1.694e-08 * self.cycle ** 2
-                + 9.587e-07 * self.cycle
-                + 4.34e-06
-            )
+            em_arr[:, 10] = ne.evaluate("9.493e-11 * c ** 3 - 1.694e-08 * c ** 2 + 9.587e-07 * c + 4.34e-06")
 
         if powertrain_type not in ("petrol", "diesel", "CNG"):
             raise TypeError(

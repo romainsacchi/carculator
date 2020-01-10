@@ -2,6 +2,7 @@ import numpy as np
 from .energy_consumption import EnergyConsumptionModel
 from .noise_emissions import NoiseEmissionsModel
 from .hot_emissions import HotEmissionsModel
+import numexpr as ne
 
 import xarray as xr
 DEFAULT_MAPPINGS = {
@@ -385,70 +386,58 @@ class CarModel:
         )
 
     def set_battery_properties(self):
-        for pt in ["ICEV-p", "HEV-p", "ICEV-g", "ICEV-d"]:
-            with self(pt) as cpm:
-                cpm["battery power"] = cpm["electric power"]
-                cpm["battery cell mass"] = (
-                    cpm["battery power"] / cpm["battery cell power density"]
-                )
-                cpm["battery BoP mass"] = cpm["battery cell mass"] * (
-                    1 - cpm["battery cell mass share"]
-                )
-        for pt in ["BEV", "PHEV-c", "PHEV-e"]:
-            with self(pt) as cpm:
-                cpm["battery cell mass"] = (
-                    cpm["energy battery mass"] * cpm["battery cell mass share"]
-                )
-                cpm["battery BoP mass"] = cpm["energy battery mass"] * (
-                    1 - cpm["battery cell mass share"]
-                )
+        pt_list = ["ICEV-p", "HEV-p", "ICEV-g", "ICEV-d"]
+        self.array.loc[:, pt_list, "battery power", :, :] = \
+            self.array.loc[:, pt_list, "electric power", :, :]
+
+        self.array.loc[:, pt_list, "battery cell mass", :, :] = \
+            self.array.loc[:, pt_list, "battery power", :, :] / \
+            self.array.loc[:, pt_list, "battery cell power density", :, :]
+
+        self.array.loc[:, pt_list, "battery BoP mass", :, :] = \
+            self.array.loc[:, pt_list, "battery cell mass", :, :] *\
+            (1 - self.array.loc[:, pt_list, "battery cell mass share", :, :])
+
+        list_pt_el = ["BEV", "PHEV-c", "PHEV-e"]
+        self.array.loc[:, list_pt_el, "battery cell mass", :, :] = \
+            self.array.loc[:, list_pt_el, "energy battery mass", :, :] * \
+            self.array.loc[:, list_pt_el, "battery cell mass share", :, :]
+
+        self.array.loc[:, list_pt_el, "battery BoP mass", :, :] = \
+            self.array.loc[:, list_pt_el, "energy battery mass", :, :] * \
+            (1 - self.array.loc[:, list_pt_el, "battery cell mass share", :, :])
 
     def set_range(self):
 
-        for pt in self.petrol:
-            with self(pt) as cpm:
-                cpm["range"] = (cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] * 1000) / cpm["TtW energy"]
+        list_pt = ["ICEV-p", "HEV-p", "PHEV-c", "ICEV-d", "ICEV-g", "FCEV"]
+        fuel_mass = self.array.loc[:, list_pt, "fuel mass"]
+        lhv = self.array.loc[:, list_pt, "LHV fuel MJ per kg"]
+        energy_stored = self.array.loc[:, ["BEV", "PHEV-e"], "electric energy stored"]
+        battery_DoD = self.array.loc[:, ["BEV", "PHEV-e"], "battery DoD"]
+        TtW_el = self.array.loc[:, ["BEV", "PHEV-e"], "TtW energy"]
+        TtW = self.array.loc[:, list_pt, "TtW energy"]
 
-        for pt in self.diesel:
-            with self(pt) as cpm:
-                cpm["range"] = (cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] * 1000) / cpm["TtW energy"]
+        self.array.loc[:, list_pt, "range"] = ne.evaluate("(fuel_mass * lhv * 1000) / TtW")
+        self.array.loc[:, ["BEV", "PHEV-e"], "range"] = ne.evaluate("(energy_stored * battery_DoD * 3.6 * 1000) / TtW_el")
 
-        for pt in self.cng:
-            with self(pt) as cpm:
-                cpm["range"] = (cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] * 1000) / cpm["TtW energy"]
 
-        for pt in self.electric:
-            with self(pt) as cpm:
-                cpm["range"] = (
-                    cpm["electric energy stored"] * cpm["battery DoD"] * 3.6 * 1000
-                ) / cpm["TtW energy"]
-
-        with self("FCEV") as cpm:
-            cpm["range"] = (cpm["fuel mass"] * 120 * 1000) / cpm["TtW energy"]
 
     def set_energy_stored_properties(self):
 
-        for pt in self.petrol:
-            with self(pt) as cpm:
-                cpm["oxidation energy stored"] = cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] / 3.6
-                cpm["fuel tank mass"] = (
-                    cpm["oxidation energy stored"] * cpm["fuel tank mass per energy"]
-                )
+        list_combustion = ["ICEV-p", "HEV-p", "PHEV-c", "ICEV-d"]
+        self.array.loc[:, list_combustion, "oxidation energy stored"] = self.array.loc[:, list_combustion, "fuel mass"] * \
+                                                                    self.array.loc[:, list_combustion, "LHV fuel MJ per kg"] / 3.6
+        self.array.loc[:, list_combustion, "fuel tank mass"] = self.array.loc[:, list_combustion, "oxidation energy stored"] * \
+                                                           self.array.loc[:, list_combustion, "fuel tank mass per energy"]
 
-        for pt in self.diesel:
-            with self(pt) as cpm:
-                cpm["oxidation energy stored"] = cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] / 3.6
-                cpm["fuel tank mass"] = (
-                    cpm["oxidation energy stored"] * cpm["fuel tank mass per energy"]
-                )
+        self.array.loc[:, "ICEV-g", "oxidation energy stored"] = self.array.loc[:, "ICEV-g",
+                                                                        "fuel mass"] * \
+                                                                        self.array.loc[:, "ICEV-g",
+                                                                        "LHV fuel MJ per kg"] / 3.6
 
-        for pt in self.cng:
-            with self(pt) as cpm:
-                cpm["oxidation energy stored"] = cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] / 3.6
-                cpm["fuel tank mass"] = (
-                    cpm["oxidation energy stored"] * cpm["CNG tank mass slope"]
-                    + cpm["CNG tank mass intercept"]
-                )
+        self.array.loc[:, "ICEV-g", "fuel tank mass"] = self.array.loc[:, "ICEV-g", "oxidation energy stored"] * \
+                                                        self.array.loc[:, "ICEV-g", "CNG tank mass slope"] + \
+                                                        self.array.loc[:, "ICEV-g", "CNG tank mass intercept"]
 
         for pt in self.battery:
             with self(pt) as cpm:
@@ -532,7 +521,8 @@ class CarModel:
         # calculate costs per km:
         self["lifetime"] = self["lifetime kilometers"] / self["kilometers per year"]
         i = self["interest rate"]
-        amortisation_factor = i + (i / ((1 + i) ** self["lifetime"] - 1))
+        lifetime = self["lifetime"]
+        amortisation_factor = ne.evaluate("i + (i / ((1 + i) ** lifetime - 1))")
 
         purchase_cost_list = [
             "battery onboard charging infrastructure cost",
@@ -562,12 +552,9 @@ class CarModel:
         )
 
         # simple assumption that component replacement occurs at half of life.
-        self["amortised component replacement cost"] = (
-            self["component replacement cost"]
-            * ((1 - self["interest rate"]) ** self["lifetime"] / 2)
-            * amortisation_factor
-            / self["kilometers per year"]
-        )
+        km_per_year = self["kilometers per year"]
+        com_repl_cost = self["component replacement cost"]
+        self["amortised component replacement cost"] = ne.evaluate("(com_repl_cost * ((1 - i) ** lifetime / 2) * amortisation_factor / km_per_year)")
 
         self["total cost per km"] = (
             self["energy cost"]

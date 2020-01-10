@@ -10177,5 +10177,55 @@
     "uncertainty_type": 5,
     "unit": "MJ/kg",
     "year": 2040
+  },
+  "106-2017-lower_heating_value_fuel": {
+    "amount": 120,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 120,
+    "maximum": 122,
+    "minimum": 118,
+    "name": "LHV fuel MJ per kg",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
+    "uncertainty_type": 5,
+    "unit": "MJ/kg",
+    "year": 2017
+  },
+  "107-2040-lower_heating_value_fuel": {
+    "amount": 120,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 120,
+    "maximum": 122,
+    "minimum": 118,
+    "name": "LHV fuel MJ per kg",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
+    "uncertainty_type": 5,
+    "unit": "MJ/kg",
+    "year": 2040
   }
 }
