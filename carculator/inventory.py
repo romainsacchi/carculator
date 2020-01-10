@@ -61,7 +61,7 @@ class InventoryCalculation:
 
     """
 
-    def __init__(self, array, scope = None, background_configuration = None):
+    def __init__(self, array, scope = None, background_configuration = None, scenario = "BAU"):
 
         if scope is None:
             scope = {}
@@ -74,6 +74,7 @@ class InventoryCalculation:
             scope['year'] = scope.get('year', array.coords['year'].values.tolist())
 
         self.scope = scope
+        self.scenario = scenario
 
         array = array.sel(powertrain=self.scope["powertrain"], year=self.scope["year"], size=self.scope["size"])
 
@@ -314,7 +315,7 @@ class InventoryCalculation:
         return new_A
 
 
-    def get_B_matrix(self, scenario="BAU"):
+    def get_B_matrix(self):
         """
         Load the B matrix. The B matrix contains impact assessment figures for a give impact assessment method,
         per unit of activity. Its length column-wise equals the length of the A matrix row-wise.
@@ -327,13 +328,13 @@ class InventoryCalculation:
 
         """
 
-        if scenario == "BAU":
+        if self.scenario == "BAU":
             list_file_names = ["B_matrix_recipe_midpoint_BAU_2020.csv",
                            "B_matrix_recipe_midpoint_BAU_2030.csv",
                            "B_matrix_recipe_midpoint_BAU_2040.csv",
                            "B_matrix_recipe_midpoint_BAU_2050.csv"]
 
-        if scenario == "RCP26":
+        if self.scenario == "RCP26":
             list_file_names = ["B_matrix_recipe_midpoint_RCP26_2020.csv",
                                "B_matrix_recipe_midpoint_RCP26_2030.csv",
                                "B_matrix_recipe_midpoint_RCP26_2040.csv",
@@ -812,10 +813,10 @@ class InventoryCalculation:
                         'kilowatt hour',
                         'electricity, high voltage'),
                 'Waste': (
-                        'electricity, from municipal waste incineration to generic market for electricity, medium voltage',
+                        'treatment of municipal solid waste, incineration',
                         'DE',
                         'kilowatt hour',
-                        'electricity, medium voltage'),
+                        'electricity, for reuse in municipal waste incineration only'),
             }
 
         # Energy storage
@@ -871,7 +872,7 @@ class InventoryCalculation:
             )
 
             # Set an input of electricity, given the country of manufacture
-            self.A[:,self.inputs[('market group for electricity, medium voltage', 'GLO',
+            self.A[:,self.inputs[('market group for electricity, medium voltage', 'World',
                                 'kilowatt hour', 'electricity, medium voltage')],
                    self.inputs[('Battery cell', 'GLO', 'kilogram', 'Battery cell')]] = 0
 
