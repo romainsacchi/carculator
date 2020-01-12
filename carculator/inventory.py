@@ -270,18 +270,16 @@ class InventoryCalculation:
                     f = np.zeros((np.shape(self.A)[0],np.shape(self.A)[1] ))
                     f[:,car] = 1
 
-                    X = np.linalg.solve(self.A, f)
+                    for i in range(0, self.iterations):
+                        X = sparse.linalg.spsolve(self.A[i], f[i].T)
+                        C = X * B
 
-                    X_reshaped = np.zeros((X.shape[0], X.shape[1], X.shape[1]))
-                    indices = np.arange(X.shape[1])
-                    X_reshaped[:, indices, indices] = X
-
-                    C = np.dot(X_reshaped, B.T).T
-
-                    # Iterate through the results array to fill it
-                    results.loc[
-                        dict(impact=self.list_cat, year=y, size=s, powertrain=pt)] = \
-                        C[:, self.split_indices].sum(axis=2)
+                        results[:,
+                            self.scope["size"].index(s),
+                            self.scope["powertrain"].index(pt),
+                            self.scope["year"].index(y),
+                            :,
+                            i] = np.sum(C[:, self.split_indices], 2)
 
         return results
 
@@ -1000,26 +998,50 @@ class InventoryCalculation:
                     # If a special electricity mix is specified, we use it
                     mix = self.background_configuration['custom electricity mix']
                 else:
-                    mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.scope["year"]).values
+                    use_year = [int(i) for i in (array[self.array_inputs["lifetime kilometers"], :, self.get_index_from_array(["BEV", "PHEV"])] \
+                                       / array[self.array_inputs["kilometers per year"], :, self.get_index_from_array(["BEV", "PHEV"])]).mean(axis=1)\
+                                            .reshape(-1, len(self.scope["year"])).mean(axis=0)]
+
+                    for y in self.scope["year"]:
+                        mix[self.scope["year"].index(y)] = self.bs.electricity_mix.sel(country=country, value=0)\
+                            .interp(year=np.arange(y, y + use_year[self.scope["year"].index(y)])).mean(axis=0)
+
             else:
                 country = 'RER'
                 losses_to_low = float(self.bs.losses["RER"]['LV'])
-                mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.scope["year"]).values
+                mix = []
+                use_year = [int(i) for i in (array[self.array_inputs["lifetime kilometers"], :, self.get_index_from_array(["BEV", "PHEV"])] \
+                                       / array[self.array_inputs["kilometers per year"], :, self.get_index_from_array(["BEV", "PHEV"])]).mean(axis=1)\
+                                            .reshape(-1, len(self.scope["year"])).mean(axis=0)]
+                for y in self.scope["year"]:
+                    mix[self.scope["year"].index(y)] = self.bs.electricity_mix.sel(country=country, value=0)\
+                        .interp(year=np.arange(y, y + use_year[self.scope["year"].index(y)])).mean(axis=0)
         else:
             country = 'RER'
             losses_to_low = float(self.bs.losses["RER"]['LV'])
-            mix = self.bs.electricity_mix.sel(country=country, value=0).interp(year=self.scope["year"]).values
+            use_year = [int(i) for i in (array[self.array_inputs["lifetime kilometers"], :, self.get_index_from_array(["BEV", "PHEV"])] \
+                                       / array[self.array_inputs["kilometers per year"], :, self.get_index_from_array(["BEV", "PHEV"])]).mean(axis=1)\
+                                            .reshape(-1, len(self.scope["year"])).mean(axis=0)]
+            for y in self.scope["year"]:
+                mix[self.scope["year"].index(y)] = self.bs.electricity_mix.sel(country=country, value=0)\
+                        .interp(year=np.arange(y, y + use_year[self.scope["year"].index(y)])).mean(axis=0)
 
         for y in self.scope["year"]:
             index = self.get_index_from_array([str(y)])
+            new_mix = np.zeros((len(index), 10, self.iterations))
+            m = mix[self.scope["year"].index(y)].reshape(-1, 10)
+            new_mix[:,np.arange(10), :] = m.T
+            b = array[self.array_inputs["electricity consumption"], :, index]
+
             self.A[np.ix_(np.arange(self.iterations),[self.inputs[dict_map[t]] for t in dict_map],
                           [self.inputs[i] for i in self.inputs
                            if str(y) in i[0]
                            and "Passenger" in i[0]
                            ])] = \
-                (np.outer(mix[self.scope["year"].index(y)],
-                         array[self.array_inputs["electricity consumption"], :, index]
-                         ) * -1 * losses_to_low).reshape(self.iterations, 10, -1)
+                np.transpose(np.multiply(np.transpose(new_mix, (1,0,2)), b),(2,0, 1))\
+                    .reshape(self.iterations, 10, -1) * -1 * losses_to_low
+
+
 
         if "FCEV" in self.scope['powertrain']:
 
@@ -1070,8 +1092,15 @@ class InventoryCalculation:
             if hydro_technology == 'Electrolysis':
                 index_FCEV = self.get_index_from_array(["FCEV"])
 
+
+
                 for y in self.scope["year"]:
                     index = [x for x in self.get_index_from_array([str(y)]) if x in index_FCEV]
+                    new_mix = np.zeros((len(index), 10, self.iterations))
+                    m = mix[self.scope["year"].index(y)].reshape(-1, 10)
+                    new_mix[:,np.arange(10), :] = m.T
+                    b = (array[self.array_inputs["fuel mass"], :, index]
+                            / array[self.array_inputs["range"], :, index])
 
                     self.A[np.ix_(np.arange(self.iterations), [self.inputs[dict_map[t]] for t in dict_map],
                                   [self.inputs[i] for i in self.inputs
@@ -1079,9 +1108,8 @@ class InventoryCalculation:
                                    and "Passenger" in i[0]
                                    and "FCEV" in i[0]
                                    ])] = \
-                        (np.outer(np.outer(mix[self.scope["year"].index(y)], - 58 * losses_to_medium),
-                         (array[self.array_inputs["fuel mass"], :, index]
-                            / array[self.array_inputs["range"], :, index]))).reshape(self.iterations, 10, -1)
+                        np.transpose(np.multiply(np.transpose(new_mix, (1,0,2)), b),(2,0, 1))\
+                            .reshape(self.iterations, 10, -1) * -58 * losses_to_medium
 
         if 'ICEV-g' in self.scope['powertrain']:
             index = self.get_index_from_array(["ICEV-g"])
