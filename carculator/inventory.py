@@ -1029,7 +1029,7 @@ class InventoryCalculation:
         for y in self.scope["year"]:
             index = self.get_index_from_array([str(y)])
             new_mix = np.zeros((len(index), 10, self.iterations))
-            m = mix[self.scope["year"].index(y)]
+            m = np.array(mix[self.scope["year"].index(y)]).reshape(-1, 10)
             new_mix[:,np.arange(10), :] = m.T
             b = array[self.array_inputs["electricity consumption"], :, index]
 
