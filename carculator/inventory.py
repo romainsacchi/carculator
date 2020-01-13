@@ -896,10 +896,10 @@ class InventoryCalculation:
             )
 
             # Set an input of electricity, given the country of manufacture
-            old_amount = self.A[:,self.inputs[('market for electricity, medium voltage', 'JP',
+            old_amount = self.A[:,self.inputs[('market group for electricity, medium voltage', 'JPN',
                                 'kilowatt hour', 'electricity, medium voltage')],
                    self.inputs[('Li-ion (LFP)', 'JP', 'kilowatt hour', 'Li-ion (LFP)')]]
-            self.A[:,self.inputs[('market for electricity, medium voltage', 'JP',
+            self.A[:,self.inputs[('market group for electricity, medium voltage', 'JPN',
                                 'kilowatt hour', 'electricity, medium voltage')],
                    self.inputs[('Li-ion (LFP)', 'JP', 'kilowatt hour', 'Li-ion (LFP)')]] = 0
 
@@ -923,10 +923,10 @@ class InventoryCalculation:
             )
 
             # Set an input of electricity, given the country of manufacture
-            old_amount = self.A[:,self.inputs[('market for electricity, medium voltage', 'JP',
+            old_amount = self.A[:,self.inputs[('market group for electricity, medium voltage', 'JPN',
                                 'kilowatt hour', 'electricity, medium voltage')],
                    self.inputs[('Li-ion (NCA)', 'JP', 'kilowatt hour', 'Li-ion (NCA)')]]
-            self.A[:,self.inputs[('market for electricity, medium voltage', 'JP',
+            self.A[:,self.inputs[('market group for electricity, medium voltage', 'JPN',
                                 'kilowatt hour', 'electricity, medium voltage')],
                    self.inputs[('Li-ion (NCA)', 'JP', 'kilowatt hour', 'Li-ion (NCA)')]] = 0
 
