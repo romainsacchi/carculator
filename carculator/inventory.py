@@ -1026,20 +1026,21 @@ class InventoryCalculation:
                 mix[self.scope["year"].index(y)] = self.bs.electricity_mix.sel(country=country, value=0)\
                         .interp(year=np.arange(y, y + use_year[self.scope["year"].index(y)])).mean(axis=0)
 
-        for y in self.scope["year"]:
-            index = self.get_index_from_array([str(y)])
-            new_mix = np.zeros((len(index), 10, self.iterations))
-            m = np.array(mix[self.scope["year"].index(y)]).reshape(-1, 10)
-            new_mix[:,np.arange(10), :] = m.T
-            b = array[self.array_inputs["electricity consumption"], :, index]
+        if any(True for x in ["BEV", "PHEV"] if x in self.scope['powertrain']):
+            for y in self.scope["year"]:
+                index = self.get_index_from_array([str(y)])
+                new_mix = np.zeros((len(index), 10, self.iterations))
+                m = np.array(mix[self.scope["year"].index(y)]).reshape(-1, 10)
+                new_mix[:,np.arange(10), :] = m.T
+                b = array[self.array_inputs["electricity consumption"], :, index]
 
-            self.A[np.ix_(np.arange(self.iterations),[self.inputs[dict_map[t]] for t in dict_map],
-                          [self.inputs[i] for i in self.inputs
-                           if str(y) in i[0]
-                           and "Passenger" in i[0]
-                           ])] = \
-                np.transpose(np.multiply(np.transpose(new_mix, (1,0,2)), b),(2,0, 1))\
-                    .reshape(self.iterations, 10, -1) * -1 * losses_to_low
+                self.A[np.ix_(np.arange(self.iterations),[self.inputs[dict_map[t]] for t in dict_map],
+                              [self.inputs[i] for i in self.inputs
+                               if str(y) in i[0]
+                               and "Passenger" in i[0]
+                               ])] = \
+                    np.transpose(np.multiply(np.transpose(new_mix, (1,0,2)), b),(2,0, 1))\
+                        .reshape(self.iterations, 10, -1) * -1 * losses_to_low
 
 
 
@@ -1097,7 +1098,7 @@ class InventoryCalculation:
                 for y in self.scope["year"]:
                     index = [x for x in self.get_index_from_array([str(y)]) if x in index_FCEV]
                     new_mix = np.zeros((len(index), 10, self.iterations))
-                    m = mix[self.scope["year"].index(y)].reshape(-1, 10)
+                    m = np.array(mix[self.scope["year"].index(y)]).reshape(-1, 10)
                     new_mix[:,np.arange(10), :] = m.T
                     b = (array[self.array_inputs["fuel mass"], :, index]
                             / array[self.array_inputs["range"], :, index])
