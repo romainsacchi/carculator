@@ -877,7 +877,7 @@ class InventoryCalculation:
             self.A[:,[self.inputs[dict_map[t]] for t in dict_map],
                    self.inputs[('Battery cell', 'GLO', 'kilogram', 'Battery cell')]] =\
                     (np.outer(mix[0],
-                              (array[self.array_inputs["battery cell production heat"], :].max(axis=1)
+                              (array[self.array_inputs["battery cell production electricity"], :].max(axis=1)
                                * -1)) * losses_to_medium).T
 
         if battery_tech == "LFP":
