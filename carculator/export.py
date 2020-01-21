@@ -35,13 +35,44 @@ class ExportInventory:
              "uniform": 4,  # loc --> min, loc + scale --> max
              "t": 12,  # df --> shape, loc --> loc, scale --> scale
         }
+        self.map_remind_ecoinvent = {
+            ("market group for electricity, high voltage", "EUR", "kilowatt hour", "electricity, high voltage"): (
+                "market group for electricity, high voltage", "ENTSO-E", "kilowatt hour",
+                "electricity, high voltage"
+            ),
+            ("market group for electricity, medium voltage", "EUR", "kilowatt hour", "electricity, medium voltage"):(
+                "market group for electricity, medium voltage", "ENTSO-E", "kilowatt hour",
+                "electricity, medium voltage"
+            ),
+            ("market group for electricity, low voltage", "EUR", "kilowatt hour", "electricity, low voltage"): (
+                "market group for electricity, low voltage", "ENTSO-E", "kilowatt hour",
+                "electricity, low voltage"
+            ),
+            ("market group for electricity, medium voltage", "JPN", "kilowatt hour","electricity, medium voltage"): (
+                "market for electricity, medium voltage", "JP", "kilowatt hour",
+                "electricity, medium voltage"
+            ),
+            ("market group for electricity, high voltage", "World", "kilowatt hour","electricity, high voltage"): (
+                "market group for electricity, high voltage", "GLO", "kilowatt hour",
+                "electricity, high voltage"
+            ),
+            ("market group for electricity, medium voltage", "World", "kilowatt hour","electricity, medium voltage"): (
+                "market group for electricity, medium voltage", "GLO", "kilowatt hour",
+                "electricity, medium voltage"
+            ),
+            ("market group for electricity, low voltage", "World", "kilowatt hour", "electricity, low voltage"): (
+                "market group for electricity, low voltage", "GLO", "kilowatt hour",
+                "electricity, low voltage"
+            )
+        }
 
-    def write_lci(self, presamples=True):
+    def write_lci(self, presamples=True, ecoinvent_compatibility=True):
         """
         Return the inventory as a dictionary
         If if there several values for one exchange, uncertainty information is generated.
         If `presamples` is True, returns the inventory as well as a `presamples` matrix.
         If `presamples` is False, returns the inventory with characterized uncertainty information.
+        If `ecoinvent_compatibility` is True, the inventory is made compatible with ecoinvent.
 
         :returns: a dictionary that contains all the exchanges
         :rtype: dict
@@ -72,6 +103,11 @@ class ExportInventory:
             for row, col in coords[coords[:,1] == d]:
                 tuple_output = self.indices[col]
                 tuple_input = self.indices[row]
+
+
+                if ecoinvent_compatibility == True:
+                    tuple_output = self.map_remind_ecoinvent.get(tuple_output, tuple_output)
+                    tuple_input = self.map_remind_ecoinvent.get(tuple_input, tuple_input)
 
                 if len(self.array[:, row, col]) == 1:
                     # No uncertainty, only one value
@@ -166,8 +202,6 @@ class ExportInventory:
             )
         else:
             return list_act
-
-
 
     def write_lci_to_excel(self, directory=None):
         """
