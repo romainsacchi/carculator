@@ -397,7 +397,7 @@ The library used to create hybrid versions of ecoinvent from PIK's REMIND is cal
 This means that, as it is, the inventory cannot properly link to ecoinvent 3.6 unless some transformation is performed
 before. These transformations are in fact performed by default when exporting the inventory. Hence, when doing:
 
-.. block-code:: python
+.. code-block:: python
 
     ic.export_lci_to_excel()
 
@@ -405,15 +405,15 @@ the resulting inventory should properly link to ecoinvent 3.6. Now, if you wish 
 REMIND-modified version of ecoinvent, one should just export the inventory with the `ecoinvent_compatibility` argument
 set to `False`.
 
-.. block-code:: python
+.. code-block:: python
 
     ic.export_lci_to_excel(ecoinvent_compatibility=False)
 
 In that case, the inventory will only link to a custom ecoinvent database produced by `rmnd_lca`.
 
-But in any case, the following script should import the inventory:
+But in any case, the following script should successfully import the inventory:
 
-.. block-code:: python
+.. code-block:: python
 
     import brightway2 as bw
     bw.projects.set_current("test_carculator")
