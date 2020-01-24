@@ -1009,12 +1009,15 @@ class InventoryCalculation:
             else:
                 country = 'RER'
                 losses_to_low = float(self.bs.losses["RER"]['LV'])
-                mix = []
-                use_year = [int(i) for i in (array[self.array_inputs["lifetime kilometers"], :, self.get_index_from_array(["BEV", "PHEV"])] \
-                                       / array[self.array_inputs["kilometers per year"], :, self.get_index_from_array(["BEV", "PHEV"])]).mean(axis=1)\
-                                            .reshape(-1, len(self.scope["year"])).mean(axis=0)]
+                use_year = [int(i) for i in (array[self.array_inputs["lifetime kilometers"], :,
+                                             self.get_index_from_array(["BEV", "PHEV"])] \
+                                             / array[self.array_inputs["kilometers per year"], :,
+                                               self.get_index_from_array(["BEV", "PHEV"])]).mean(axis=1) \
+                    .reshape(-1, len(self.scope["year"])).mean(axis=0)]
+
                 for y in self.scope["year"]:
-                    mix[self.scope["year"].index(y)] = self.bs.electricity_mix.sel(country=country, value=0)\
+
+                    mix[self.scope["year"].index(y)] = self.bs.electricity_mix.sel(country=country, value=0) \
                         .interp(year=np.arange(y, y + use_year[self.scope["year"].index(y)])).mean(axis=0)
         else:
             country = 'RER'
