@@ -5,6 +5,7 @@ from .hot_emissions import HotEmissionsModel
 import numexpr as ne
 
 import xarray as xr
+
 DEFAULT_MAPPINGS = {
     "electric": {"BEV", "PHEV-e"},
     "combustion": {"ICEV-p", "HEV-p", "PHEV-c", "ICEV-g", "ICEV-d"},
@@ -387,25 +388,28 @@ class CarModel:
 
     def set_battery_properties(self):
         pt_list = ["ICEV-p", "HEV-p", "ICEV-g", "ICEV-d"]
-        self.array.loc[:, pt_list, "battery power", :, :] = \
-            self.array.loc[:, pt_list, "electric power", :, :]
+        self.array.loc[:, pt_list, "battery power", :, :] = self.array.loc[
+            :, pt_list, "electric power", :, :
+        ]
 
-        self.array.loc[:, pt_list, "battery cell mass", :, :] = \
-            self.array.loc[:, pt_list, "battery power", :, :] / \
-            self.array.loc[:, pt_list, "battery cell power density", :, :]
+        self.array.loc[:, pt_list, "battery cell mass", :, :] = (
+            self.array.loc[:, pt_list, "battery power", :, :]
+            / self.array.loc[:, pt_list, "battery cell power density", :, :]
+        )
 
-        self.array.loc[:, pt_list, "battery BoP mass", :, :] = \
-            self.array.loc[:, pt_list, "battery cell mass", :, :] *\
-            (1 - self.array.loc[:, pt_list, "battery cell mass share", :, :])
+        self.array.loc[:, pt_list, "battery BoP mass", :, :] = self.array.loc[
+            :, pt_list, "battery cell mass", :, :
+        ] * (1 - self.array.loc[:, pt_list, "battery cell mass share", :, :])
 
         list_pt_el = ["BEV", "PHEV-c", "PHEV-e"]
-        self.array.loc[:, list_pt_el, "battery cell mass", :, :] = \
-            self.array.loc[:, list_pt_el, "energy battery mass", :, :] * \
-            self.array.loc[:, list_pt_el, "battery cell mass share", :, :]
+        self.array.loc[:, list_pt_el, "battery cell mass", :, :] = (
+            self.array.loc[:, list_pt_el, "energy battery mass", :, :]
+            * self.array.loc[:, list_pt_el, "battery cell mass share", :, :]
+        )
 
-        self.array.loc[:, list_pt_el, "battery BoP mass", :, :] = \
-            self.array.loc[:, list_pt_el, "energy battery mass", :, :] * \
-            (1 - self.array.loc[:, list_pt_el, "battery cell mass share", :, :])
+        self.array.loc[:, list_pt_el, "battery BoP mass", :, :] = self.array.loc[
+            :, list_pt_el, "energy battery mass", :, :
+        ] * (1 - self.array.loc[:, list_pt_el, "battery cell mass share", :, :])
 
     def set_range(self):
 
@@ -417,27 +421,37 @@ class CarModel:
         TtW_el = self.array.loc[:, ["BEV", "PHEV-e"], "TtW energy"]
         TtW = self.array.loc[:, list_pt, "TtW energy"]
 
-        self.array.loc[:, list_pt, "range"] = ne.evaluate("(fuel_mass * lhv * 1000) / TtW")
-        self.array.loc[:, ["BEV", "PHEV-e"], "range"] = ne.evaluate("(energy_stored * battery_DoD * 3.6 * 1000) / TtW_el")
-
-
+        self.array.loc[:, list_pt, "range"] = ne.evaluate(
+            "(fuel_mass * lhv * 1000) / TtW"
+        )
+        self.array.loc[:, ["BEV", "PHEV-e"], "range"] = ne.evaluate(
+            "(energy_stored * battery_DoD * 3.6 * 1000) / TtW_el"
+        )
 
     def set_energy_stored_properties(self):
 
         list_combustion = ["ICEV-p", "HEV-p", "PHEV-c", "ICEV-d"]
-        self.array.loc[:, list_combustion, "oxidation energy stored"] = self.array.loc[:, list_combustion, "fuel mass"] * \
-                                                                    self.array.loc[:, list_combustion, "LHV fuel MJ per kg"] / 3.6
-        self.array.loc[:, list_combustion, "fuel tank mass"] = self.array.loc[:, list_combustion, "oxidation energy stored"] * \
-                                                           self.array.loc[:, list_combustion, "fuel tank mass per energy"]
+        self.array.loc[:, list_combustion, "oxidation energy stored"] = (
+            self.array.loc[:, list_combustion, "fuel mass"]
+            * self.array.loc[:, list_combustion, "LHV fuel MJ per kg"]
+            / 3.6
+        )
+        self.array.loc[:, list_combustion, "fuel tank mass"] = (
+            self.array.loc[:, list_combustion, "oxidation energy stored"]
+            * self.array.loc[:, list_combustion, "fuel tank mass per energy"]
+        )
 
-        self.array.loc[:, "ICEV-g", "oxidation energy stored"] = self.array.loc[:, "ICEV-g",
-                                                                        "fuel mass"] * \
-                                                                        self.array.loc[:, "ICEV-g",
-                                                                        "LHV fuel MJ per kg"] / 3.6
+        self.array.loc[:, "ICEV-g", "oxidation energy stored"] = (
+            self.array.loc[:, "ICEV-g", "fuel mass"]
+            * self.array.loc[:, "ICEV-g", "LHV fuel MJ per kg"]
+            / 3.6
+        )
 
-        self.array.loc[:, "ICEV-g", "fuel tank mass"] = self.array.loc[:, "ICEV-g", "oxidation energy stored"] * \
-                                                        self.array.loc[:, "ICEV-g", "CNG tank mass slope"] + \
-                                                        self.array.loc[:, "ICEV-g", "CNG tank mass intercept"]
+        self.array.loc[:, "ICEV-g", "fuel tank mass"] = (
+            self.array.loc[:, "ICEV-g", "oxidation energy stored"]
+            * self.array.loc[:, "ICEV-g", "CNG tank mass slope"]
+            + self.array.loc[:, "ICEV-g", "CNG tank mass intercept"]
+        )
 
         for pt in self.battery:
             with self(pt) as cpm:
@@ -451,10 +465,13 @@ class CarModel:
                     cpm["battery cell mass"] * cpm["battery cell energy density"]
                 )
                 cpm["fuel tank mass"] = (
-                    cpm["fuel mass"] * cpm['LHV fuel MJ per kg'] / 3.6 * cpm["fuel tank mass per energy"]
+                    cpm["fuel mass"]
+                    * cpm["LHV fuel MJ per kg"]
+                    / 3.6
+                    * cpm["fuel tank mass per energy"]
                 )
 
-         # kWh electricity/kg battery cell
+        # kWh electricity/kg battery cell
         self["battery cell production electricity"] = (
             self["battery cell production energy"]
             * self["battery cell production energy electricity share"]
@@ -554,7 +571,9 @@ class CarModel:
         # simple assumption that component replacement occurs at half of life.
         km_per_year = self["kilometers per year"]
         com_repl_cost = self["component replacement cost"]
-        self["amortised component replacement cost"] = ne.evaluate("(com_repl_cost * ((1 - i) ** lifetime / 2) * amortisation_factor / km_per_year)")
+        self["amortised component replacement cost"] = ne.evaluate(
+            "(com_repl_cost * ((1 - i) ** lifetime / 2) * amortisation_factor / km_per_year)"
+        )
 
         self["total cost per km"] = (
             self["energy cost"]
@@ -695,17 +714,21 @@ class CarModel:
         :rtype: xarray.core.dataarray.DataArray
         """
         if scope is None:
-            scope={}
-            scope['size'] = self.array.coords['size'].values.tolist()
-            scope['powertrain'] = self.array.coords['powertrain'].values.tolist()
-            scope['year'] = self.array.coords['year'].values.tolist()
+            scope = {}
+            scope["size"] = self.array.coords["size"].values.tolist()
+            scope["powertrain"] = self.array.coords["powertrain"].values.tolist()
+            scope["year"] = self.array.coords["year"].values.tolist()
         else:
-            scope['size'] = scope.get('size', self.array.coords['size'].values.tolist())
-            scope['powertrain'] = scope.get('powertrain', self.array.coords['powertrain'].values.tolist())
-            scope['year'] = scope.get('year', self.array.coords['year'].values.tolist())
+            scope["size"] = scope.get("size", self.array.coords["size"].values.tolist())
+            scope["powertrain"] = scope.get(
+                "powertrain", self.array.coords["powertrain"].values.tolist()
+            )
+            scope["year"] = scope.get("year", self.array.coords["year"].values.tolist())
 
         response = xr.DataArray(
-            np.zeros((1, len(scope["size"]), len(scope["powertrain"]), len(scope["year"]), 5)),
+            np.zeros(
+                (1, len(scope["size"]), len(scope["powertrain"]), len(scope["year"]), 5)
+            ),
             coords=[
                 ["cost"],
                 scope["size"],
@@ -716,20 +739,59 @@ class CarModel:
             dims=["cost", "size", "powertrain", "year", "cost_type"],
         )
 
-        response.loc[:, scope['size'], scope['powertrain'], scope['year'], "purchase"] =\
-            self.array.sel(powertrain=scope['powertrain'],size=scope['size'], year=scope['year'], parameter="amortised purchase cost"
-        ).sum(axis=3)
-        response.loc[:, scope['size'], scope['powertrain'], scope['year'], "maintenance"] =\
-            self.array.sel(powertrain=scope['powertrain'],size=scope['size'], year=scope['year'], parameter="maintenance cost"
-        ).sum(axis=3)
-        response.loc[:, scope['size'], scope['powertrain'], scope['year'], "component replacement"] =\
-            self.array.sel(powertrain=scope['powertrain'],size=scope['size'], year=scope['year'], parameter="amortised component replacement cost"
-        ).sum(axis=3)
-        response.loc[:, scope['size'], scope['powertrain'], scope['year'], "energy"] =\
-            self.array.sel(powertrain=scope['powertrain'],size=scope['size'], year=scope['year'], parameter="energy cost"
-        ).sum(axis=3)
-        response.loc[:, scope['size'], scope['powertrain'], scope['year'], "total"] =\
-            self.array.sel(powertrain=scope['powertrain'],size=scope['size'], year=scope['year'], parameter="total cost per km"
-        ).sum(axis=3)
+        response.loc[
+            :, scope["size"], scope["powertrain"], scope["year"], "purchase"
+        ] = self.array.sel(
+            powertrain=scope["powertrain"],
+            size=scope["size"],
+            year=scope["year"],
+            parameter="amortised purchase cost",
+        ).sum(
+            axis=3
+        )
+        response.loc[
+            :, scope["size"], scope["powertrain"], scope["year"], "maintenance"
+        ] = self.array.sel(
+            powertrain=scope["powertrain"],
+            size=scope["size"],
+            year=scope["year"],
+            parameter="maintenance cost",
+        ).sum(
+            axis=3
+        )
+        response.loc[
+            :,
+            scope["size"],
+            scope["powertrain"],
+            scope["year"],
+            "component replacement",
+        ] = self.array.sel(
+            powertrain=scope["powertrain"],
+            size=scope["size"],
+            year=scope["year"],
+            parameter="amortised component replacement cost",
+        ).sum(
+            axis=3
+        )
+        response.loc[
+            :, scope["size"], scope["powertrain"], scope["year"], "energy"
+        ] = self.array.sel(
+            powertrain=scope["powertrain"],
+            size=scope["size"],
+            year=scope["year"],
+            parameter="energy cost",
+        ).sum(
+            axis=3
+        )
+        response.loc[
+            :, scope["size"], scope["powertrain"], scope["year"], "total"
+        ] = self.array.sel(
+            powertrain=scope["powertrain"],
+            size=scope["size"],
+            year=scope["year"],
+            parameter="total cost per km",
+        ).sum(
+            axis=3
+        )
 
         return response

@@ -11,7 +11,7 @@ import stats_arrays as sa
 import carculator.car_input_parameters as c_i_p
 
 
-def fill_xarray_from_input_parameters(cip):
+def fill_xarray_from_input_parameters(cip, sensitivity=False):
 
     """Create an `xarray` labeled array from the sampled input parameters.
 
@@ -41,41 +41,79 @@ def fill_xarray_from_input_parameters(cip):
         raise TypeError(
             "The argument passed is not an object of the CarInputParameter class"
         )
+    if sensitivity==False:
+        array = xr.DataArray(
+            np.zeros(
+                (
+                    len(cip.sizes),
+                    len(cip.powertrains),
+                    len(cip.parameters),
+                    len(cip.years),
+                    cip.iterations or 1,
+                )
+            ),
+            coords=[
+                cip.sizes,
+                cip.powertrains,
+                cip.parameters,
+                cip.years,
+                np.arange(cip.iterations or 1),
+            ],
+            dims=["size", "powertrain", "parameter", "year", "value"],
+        )
+    else:
+        params = ["reference"]
+        params.extend([a for a in cip.parameters])
+        array = xr.DataArray(
+            np.zeros(
+                (
+                    len(cip.sizes),
+                    len(cip.powertrains),
+                    len(cip.parameters),
+                    len(cip.years),
+                    len(params),
+                )
+            ),
+            coords=[
+                cip.sizes,
+                cip.powertrains,
+                cip.parameters,
+                cip.years,
+                params,
+            ],
+            dims=["size", "powertrain", "parameter", "year", "value"],
+        )
 
-    array = xr.DataArray(
-        np.zeros(
-            (
-                len(cip.sizes),
-                len(cip.powertrains),
-                len(cip.parameters),
-                len(cip.years),
-                cip.iterations or 1,
-            )
-        ),
-        coords=[
-            cip.sizes,
-            cip.powertrains,
-            cip.parameters,
-            cip.years,
-            np.arange(cip.iterations or 1),
-        ],
-        dims=["size", "powertrain", "parameter", "year", "value"],
-    )
 
     size_dict = {k: i for i, k in enumerate(cip.sizes)}
     powertrain_dict = {k: i for i, k in enumerate(cip.powertrains)}
     year_dict = {k: i for i, k in enumerate(cip.years)}
     parameter_dict = {k: i for i, k in enumerate(cip.parameters)}
 
-    for param in cip:
-        array.loc[
-            dict(
-                powertrain=cip.metadata[param]["powertrain"],
-                size=cip.metadata[param]["sizes"],
-                year=cip.metadata[param]["year"],
-                parameter=cip.metadata[param]["name"],
-            )
-        ] = cip.values[param]
+    if sensitivity==False:
+        for param in cip:
+            array.loc[
+                dict(
+                    powertrain=cip.metadata[param]["powertrain"],
+                    size=cip.metadata[param]["sizes"],
+                    year=cip.metadata[param]["year"],
+                    parameter=cip.metadata[param]["name"],
+                )
+            ] = cip.values[param]
+    else:
+        for param in enumerate(cip):
+            vals = [cip.values[param[1]] for p in range(0, len(cip.parameters)+1)]
+            vals[cip.parameters.index(cip.metadata[param[1]]["name"]) + 1] *= 1.1
+
+            array.loc[
+             dict(
+                 powertrain=cip.metadata[param[1]]["powertrain"],
+                 size=cip.metadata[param[1]]["sizes"],
+                 year=cip.metadata[param[1]]["year"],
+                 parameter=cip.metadata[param[1]]["name"],
+             )
+            ] = vals
+
 
 
     return (size_dict, powertrain_dict, parameter_dict, year_dict), array
