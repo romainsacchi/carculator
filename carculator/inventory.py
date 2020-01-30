@@ -211,7 +211,6 @@ class InventoryCalculation:
                         len(self.scope["size"]),
                         len(self.scope["powertrain"]),
                         len(self.scope["year"]),
-                        len(cat),
                         self.iterations,
                     )
                 ),
@@ -220,10 +219,9 @@ class InventoryCalculation:
                     self.scope["size"],
                     self.scope["powertrain"],
                     self.scope["year"],
-                    cat,
                     params,
                 ],
-                dims=["impact_category", "size", "powertrain", "year", "impact", "value" ],
+                dims=["impact_category", "size", "powertrain", "year", "parameter"],
             )
 
 
@@ -332,14 +330,30 @@ class InventoryCalculation:
                         X = sparse.linalg.spsolve(self.A[i], f[i].T)
                         C = X * B
 
-                        results[
+                        if sensitivity== False:
+
+                            results[
+                                :,
+                                self.scope["size"].index(s),
+                                self.scope["powertrain"].index(pt),
+                                self.scope["year"].index(y),
+                                :,
+                                i,
+                            ] = np.sum(C[:, self.split_indices], 2)
+
+                        else:
+
+                            results[
                             :,
                             self.scope["size"].index(s),
                             self.scope["powertrain"].index(pt),
                             self.scope["year"].index(y),
-                            :,
                             i,
-                        ] = np.sum(C[:, self.split_indices], 2)
+                            ] = np.sum(C, 1)
+
+        if sensitivity == True:
+            results /= results.sel(parameter="reference")
+            return results
 
         return results
 
