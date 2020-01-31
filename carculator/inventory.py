@@ -51,7 +51,7 @@ class InventoryCalculation:
         - [8]: geothermal
         - [9]: waste incineration
 
-    If none is given, the electricity mix corresponding tot he country specified in `country` will be selected.
+    If none is given, the electricity mix corresponding to the country specified in `country` will be selected.
     If no country is specified, Europe applies.
 
     :ivar array: array from the CarModel class
