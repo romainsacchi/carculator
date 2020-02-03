@@ -10029,12 +10029,12 @@
     "year": 2040
   },
   "100-2017-lower_heating_value_fuel": {
-    "amount": 45.6,
+    "amount": 48,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 45.6,
-    "maximum": 46,
-    "minimum": 45,
+    "loc": 48,
+    "maximum": 49,
+    "minimum": 47,
     "name": "LHV fuel MJ per kg",
     "powertrain": [
       "ICEV-d"
@@ -10054,12 +10054,12 @@
     "year": 2017
   },
   "101-2040-lower_heating_value_fuel": {
-    "amount": 45.6,
+    "amount": 48,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 45.6,
-    "maximum": 46,
-    "minimum": 45,
+    "loc": 48,
+    "maximum": 49,
+    "minimum": 47,
     "name": "LHV fuel MJ per kg",
     "powertrain": [
       "ICEV-d"
@@ -10079,12 +10079,12 @@
     "year": 2040
   },
   "102-2017-lower_heating_value_fuel": {
-    "amount": 46.4,
+    "amount": 42.4,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 46.4,
-    "maximum": 47,
-    "minimum": 46,
+    "loc": 42.4,
+    "maximum": 43,
+    "minimum": 42,
     "name": "LHV fuel MJ per kg",
     "powertrain": [
       "ICEV-p", "HEV-p", "PHEV-c"
@@ -10104,12 +10104,12 @@
     "year": 2017
   },
   "103-2040-lower_heating_value_fuel": {
-    "amount": 46.4,
+    "amount": 42.4,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 46.4,
-    "maximum": 47,
-    "minimum": 46,
+    "loc": 42.4,
+    "maximum": 43,
+    "minimum": 42,
     "name": "LHV fuel MJ per kg",
     "powertrain": [
       "ICEV-p", "HEV-p", "PHEV-c"
@@ -10129,12 +10129,12 @@
     "year": 2040
   },
   "104-2017-lower_heating_value_fuel": {
-    "amount": 49.3,
+    "amount": 55.5,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 49.3,
-    "maximum": 50,
-    "minimum": 49,
+    "loc": 55.5,
+    "maximum": 56,
+    "minimum": 55,
     "name": "LHV fuel MJ per kg",
     "powertrain": [
       "ICEV-g"
@@ -10154,12 +10154,12 @@
     "year": 2017
   },
   "105-2040-lower_heating_value_fuel": {
-    "amount": 49.3,
+    "amount": 55.5,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 49.3,
-    "maximum": 50,
-    "minimum": 49,
+    "loc": 55.5,
+    "maximum": 56,
+    "minimum": 55,
     "name": "LHV fuel MJ per kg",
     "powertrain": [
       "ICEV-g"
