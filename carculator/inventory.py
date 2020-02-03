@@ -671,7 +671,7 @@ class InventoryCalculation:
         ] = (
             (
                 array[self.array_inputs["glider base mass"], :]
-                * (1 - array[self.array_inputs["lightweighting"], :])
+                #* (1 - array[self.array_inputs["lightweighting"], :])
             )
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1
@@ -686,7 +686,7 @@ class InventoryCalculation:
         ] = (
             (
                 array[self.array_inputs["lightweighting"], :]
-                * array[self.array_inputs["glider base mass"], :]
+                #* array[self.array_inputs["glider base mass"], :]
             )
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1
