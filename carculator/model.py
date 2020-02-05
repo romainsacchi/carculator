@@ -170,7 +170,7 @@ class CarModel:
         for pt in self.electric:
             with self(pt) as cpm:
                 cpm["electricity consumption"] = (
-                    cpm["TtW energy"] / cpm["battery discharge efficiency"]
+                    cpm["TtW energy"] / cpm["battery charge efficiency"]
                 ) / 3600
 
     def calculate_ttw_energy(self):

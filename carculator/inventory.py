@@ -36,6 +36,11 @@ class InventoryCalculation:
                                             'battery origin': 'NO'
                                         }
 
+        InventoryCalculation(CarModel.array,
+                            background_configuration=background_configuration,
+                            scope=scope,
+                            scenario="RCP26")
+
     The `custom electricity mix` key in the background_configuration dictionary defines an electricity mix to apply,
     under the form of one or several array(s), depending on teh number of years to analyze,
     that should total 1, of which the indices correspond to:
@@ -58,6 +63,12 @@ class InventoryCalculation:
     :vartype array: CarModel.array
     :ivar scope: dictionary that contains filters for narrowing the analysis
     :ivar background_configuration: dictionary that contains choices for background system
+    :ivar scenario: REMIND energy scenario to use ("BAU": business-as-usual or "RCP26": limits radiative forcing to 2.6 W/m^2.).
+                    "BAU" selected by default.
+
+    .. code-block:: python
+
+
 
 
     """
@@ -983,38 +994,27 @@ class InventoryCalculation:
         }
 
         # Energy storage
-        if self.background_configuration:
-            if "battery technology" in self.background_configuration:
-                battery_tech = self.background_configuration["battery technology"]
-            else:
-                battery_tech = "NMC"
 
-            if "battery origin" in self.background_configuration:
-                battery_origin = self.background_configuration["battery origin"]
-                losses_to_medium = float(self.bs.losses[battery_origin]["MV"])
-                mix = (
-                    self.bs.electricity_mix.sel(country=battery_origin, value=0)
-                    .interp(year=self.scope["year"])
-                    .values
-                )
-            else:
-                # If not specified, origin set to China
-                battery_origin = "CN"
-                losses_to_medium = float(self.bs.losses[battery_origin]["MV"])
-                mix = (
-                    self.bs.electricity_mix.sel(country=battery_origin, value=0)
-                    .interp(year=self.scope["year"])
-                    .values
-                )
-        else:
-            battery_tech = "NMC"
-            battery_origin = "CN"
-            losses_to_medium = float(self.bs.losses[battery_origin]["MV"])
-            mix = (
-                self.bs.electricity_mix.sel(country=battery_origin, value=0)
-                .interp(year=self.scope["year"])
-                .values
-            )
+        if self.background_configuration is None:
+            self.background_configuration = {"country": "RER"}
+
+        if "battery technology" not in self.background_configuration:
+            self.background_configuration["battery technology"] = "NMC"
+
+        if "battery origin" not in self.background_configuration:
+            self.background_configuration["battery origin"] = "CN"
+
+
+        battery_tech = self.background_configuration["battery technology"]
+        battery_origin = self.background_configuration["battery origin"]
+
+        losses_to_medium = float(self.bs.losses[battery_origin]["MV"])
+        mix_battery_manufacturing = (
+            self.bs.electricity_mix.sel(country=battery_origin, value=0)
+            .interp(year=self.scope["year"])
+            .values
+        )
+
 
         if battery_tech == "NMC":
             # Use the NMC inventory of Schmidt et al. 2019
@@ -1067,7 +1067,7 @@ class InventoryCalculation:
                 self.inputs[("Battery cell", "GLO", "kilogram", "Battery cell")],
             ] = (
                 np.outer(
-                    mix[0],
+                    mix_battery_manufacturing[0],
                     (
                         array[
                             self.array_inputs["battery cell production electricity"], :
@@ -1122,7 +1122,7 @@ class InventoryCalculation:
                 :,
                 [self.inputs[dict_map[t]] for t in dict_map],
                 self.inputs[("Li-ion (LFP)", "JP", "kilowatt hour", "Li-ion (LFP)")],
-            ] = (np.outer(mix[0], old_amount) * losses_to_medium).T
+            ] = (np.outer(mix_battery_manufacturing[0], old_amount) * losses_to_medium).T
 
         if battery_tech == "NCA":
             self.A[
@@ -1168,7 +1168,7 @@ class InventoryCalculation:
                 :,
                 [self.inputs[dict_map[t]] for t in dict_map],
                 self.inputs[("Li-ion (NCA)", "JP", "kilowatt hour", "Li-ion (NCA)")],
-            ] = (np.outer(mix[0], old_amount) * losses_to_medium).T
+            ] = (np.outer(mix_battery_manufacturing[0], old_amount) * losses_to_medium).T
 
         index_A = [
             self.inputs[c]
@@ -1230,8 +1230,7 @@ class InventoryCalculation:
             * -1
         ).T
 
-        if self.background_configuration is None:
-            self.background_configuration = {"country": "RER"}
+
 
         if not any(True for x in ["BEV", "PHEV"] if x in self.scope["powertrain"]):
             self.background_configuration["custom electricity mix"] = [
@@ -1252,6 +1251,7 @@ class InventoryCalculation:
             # If a special electricity mix is specified, we use it
             mix = self.background_configuration["custom electricity mix"]
         else:
+
             use_year = [
                 int(i)
                 for i in (
@@ -1271,17 +1271,16 @@ class InventoryCalculation:
                 .mean(axis=0)
             ]
 
-            for y in self.scope["year"]:
-                mix[self.scope["year"].index(y)] = (
-                    self.bs.electricity_mix.sel(country=country, value=0)
+            mix = [
+                self.bs.electricity_mix.sel(country=country, value=0)
                     .interp(
-                        year=np.arange(
-                            y, y + use_year[self.scope["year"].index(y)]
-                        )
+                    year=np.arange(
+                        y, y + use_year[self.scope["year"].index(y)]
                     )
-                    .mean(axis=0)
                 )
-
+                    .mean(axis=0)
+                for y in self.scope["year"]
+            ]
 
         if any(True for x in ["BEV", "PHEV"] if x in self.scope["powertrain"]):
             for y in self.scope["year"]:
