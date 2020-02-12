@@ -66,13 +66,14 @@ class ExportInventory:
             )
         }
 
-    def write_lci(self, presamples=True, ecoinvent_compatibility=True):
+    def write_lci(self, presamples, ecoinvent_compatibility):
         """
         Return the inventory as a dictionary
         If if there several values for one exchange, uncertainty information is generated.
         If `presamples` is True, returns the inventory as well as a `presamples` matrix.
         If `presamples` is False, returns the inventory with characterized uncertainty information.
-        If `ecoinvent_compatibility` is True, the inventory is made compatible with ecoinvent.
+        If `ecoinvent_compatibility` is True, the inventory is made compatible with ecoinvent. If False,
+        the inventory is compatible with the REMIND-ecoinvent hybrid database output of the `rmnd_lca` library.
 
         :returns: a dictionary that contains all the exchanges
         :rtype: dict
@@ -203,7 +204,7 @@ class ExportInventory:
         else:
             return list_act
 
-    def write_lci_to_excel(self, directory=None):
+    def write_lci_to_excel(self, directory, ecoinvent_compatibility):
         """
         Export an Excel file that can be consumed by Brightway2.
 
@@ -211,7 +212,7 @@ class ExportInventory:
         :rtype: str.
         """
 
-        list_act = self.write_lci(presamples = False)
+        list_act = self.write_lci(False, ecoinvent_compatibility)
         data = []
 
         data.extend((["Database", 'test'], ("format", "Excel spreadsheet")))
@@ -303,7 +304,7 @@ class ExportInventory:
         workbook.close()
         return filepath
 
-    def write_lci_to_bw(self, presamples):
+    def write_lci_to_bw(self, presamples, ecoinvent_compatibility):
         """
         Return a LCIImporter object with the inventory as `data` attribute.
 
@@ -311,12 +312,12 @@ class ExportInventory:
         :rtype: bw2io.base_lci.LCIImporter
         """
         if presamples == True:
-            data, array = self.write_lci(presamples)
+            data, array = self.write_lci(presamples, ecoinvent_compatibility)
             i = bw2io.importers.base_lci.LCIImporter(self.db_name)
             i.data = data
             return (i, array)
         else:
-            data = self.write_lci(presamples)
+            data = self.write_lci(presamples, ecoinvent_compatibility)
             i = bw2io.importers.base_lci.LCIImporter(self.db_name)
             i.data = data
             return i

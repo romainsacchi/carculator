@@ -586,7 +586,7 @@ class InventoryCalculation:
                 if any(ele in c[1] for ele in items_to_look_for)
             ]
 
-    def export_lci(self, presamples=True):
+    def export_lci(self, presamples=True, ecoinvent_compatibility=True):
         """
         Export the inventory as a dictionary. Also return a list of arrays that contain pre-sampled random values if
         :meth:`stochastic` of :class:`CarModel` class has been called.
@@ -597,13 +597,13 @@ class InventoryCalculation:
         """
         self.set_inputs_in_A_matrix(self.array.values)
         if presamples == True:
-            lci, array = ExportInventory(self.A, self.rev_inputs).write_lci(presamples)
+            lci, array = ExportInventory(self.A, self.rev_inputs).write_lci(presamples, ecoinvent_compatibility)
             return (lci, array)
         else:
-            lci = ExportInventory(self.A, self.rev_inputs).write_lci(presamples)
+            lci = ExportInventory(self.A, self.rev_inputs).write_lci(presamples, ecoinvent_compatibility)
             return lci
 
-    def export_lci_to_bw(self, presamples=True):
+    def export_lci_to_bw(self, presamples=True, ecoinvent_compatibility=True):
         """
         Export the inventory as a `brightway2` bw2io.importers.base_lci.LCIImporter object
         with the inventory in the `data` attribute.
@@ -636,14 +636,14 @@ class InventoryCalculation:
         self.set_inputs_in_A_matrix(self.array.values)
         if presamples == True:
             lci, array = ExportInventory(self.A, self.rev_inputs).write_lci_to_bw(
-                presamples
+                presamples, ecoinvent_compatibility
             )
             return (lci, array)
         else:
-            lci = ExportInventory(self.A, self.rev_inputs).write_lci_to_bw(presamples)
+            lci = ExportInventory(self.A, self.rev_inputs).write_lci_to_bw(presamples, ecoinvent_compatibility)
             return lci
 
-    def export_lci_to_excel(self, directory=None):
+    def export_lci_to_excel(self, directory=None, ecoinvent_compatibility=True):
         """
         Export the inventory as an Excel file. Also return the file path where the file is stored.
 
@@ -655,7 +655,7 @@ class InventoryCalculation:
 
         self.set_inputs_in_A_matrix(self.array.values)
         fp = ExportInventory(self.A, self.rev_inputs).write_lci_to_excel(
-            directory=directory
+            directory, ecoinvent_compatibility
         )
         return fp
 
