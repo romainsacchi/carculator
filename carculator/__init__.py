@@ -22,7 +22,7 @@ __all__ = (
     "BackgroundSystemModel",
     "ExportInventory"
 )
-__version__ = (0, 0, 1)
+__version__ = (0, 0, 6)
 
 from pathlib import Path
 
