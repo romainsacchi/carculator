@@ -2,16 +2,17 @@ import pytest
 from carculator.hot_emissions import HotEmissionsModel
 from carculator.driving_cycles import get_standard_driving_cycle
 
+dc = get_standard_driving_cycle()
+dc_name = "WLTC"
+
 def test_wrong_powertrain():
-    dc = get_standard_driving_cycle()
-    hem = HotEmissionsModel(dc)
+    hem = HotEmissionsModel(dc, dc_name)
     with pytest.raises(TypeError) as wrapped_error:
         hem.get_emissions_per_powertrain("electric")
     assert wrapped_error.type == TypeError
 
 def test_output_emissions():
-    dc = get_standard_driving_cycle()
-    hem = HotEmissionsModel(dc)
+    hem = HotEmissionsModel(dc, dc_name)
     urban = hem.get_emissions_per_powertrain("diesel")[0]
 
     assert len(urban) == 11
