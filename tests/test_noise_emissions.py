@@ -16,6 +16,6 @@ def test_output_emissions():
     urban = nem.get_sound_power_per_compartment("combustion")[0]
 
     assert len(urban) == 8
-    assert urban.sum() > 0.1
-    assert urban.sum() < 0.2
+    assert urban.sum() > 0.09
+    assert urban.sum() < 0.1
 
