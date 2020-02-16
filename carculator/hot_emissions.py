@@ -23,9 +23,24 @@ class HotEmissionsModel:
 
     """
 
-    def __init__(self, cycle):
+    def __init__(self, cycle, cycle_name):
 
         self.cycle = cycle
+        self.cycle_name = cycle_name
+
+        self.cycle_environment = {
+            "WLTC": {"urban start": 0, "urban stop": 590, "suburban start": 591, "suburban stop": 1023, "rural start": 1024, "rural stop": 1801},
+            "WLTC 3.1": {"urban start": 0, "urban stop": 590},
+            "WLTC 3.2": {"suburban start": 0, "suburban stop": 433},
+            "WLTC 3.3": {"rural start": 0, "rural stop": 455},
+            "WLTC 3.4": {"rural start": 0, "rural stop": 323},
+            "CADC Urban": {"urban start": 0, "urban stop": 994},
+            "CADC Road": {"suburban start": 0, "suburban stop": 1082},
+            "CADC Motorway": {"rural start": 0, "rural stop": 1068},
+            "CADC Motorway 130": {"rural start": 0, "rural stop": 1068},
+            "CADC": {"urban start": 0, "urban stop": 994, "suburban start": 995, "suburban stop": 2077, "rural start": 2078, "rural stop": 3146},
+            "NEDC": {"urban start": 0, "urban stop": 780,  "rural start": 781, "rural stop": 1180}
+        }
 
     def get_emissions_per_powertrain(self, powertrain_type):
         """
@@ -123,21 +138,60 @@ class HotEmissionsModel:
                 "The powertrain type is not valid."
             )
 
-        distance = self.cycle.sum() / 3600
-        dist_urban = self.cycle[self.cycle <= 50].sum() / 3600
-        dist_suburban = self.cycle[(self.cycle > 50) & (self.cycle <= 80)].sum() / 3600
-        dist_rural = self.cycle[self.cycle > 80].sum() / 3600
+        # If the driving cycle selected is one of the driving cycles for which carculator has specifications,
+        # we use the driving cycle "official" road section types to compartmentalize emissions.
+        # If the driving cycle selected is instead specified by the user (passed directly as an array), we used
+        # speed levels to compartmentalize emissions.
 
-        urban = np.mean(em_arr[self.cycle <= 50], axis=0) * (dist_urban / distance)
-        urban /= 1000  # going from grams to kg
-        suburban = np.mean(em_arr[(self.cycle > 50) & (self.cycle <= 80)], axis=0) * (
-            dist_suburban / distance
-        )
-        suburban /= 1000  # going from grams to kg
-        rural = np.mean(em_arr[self.cycle > 80], axis=0) * (dist_rural / distance)
-        rural /= 1000  # going from grams to kg
+        if self.cycle_name in self.cycle_environment:
+            distance = self.cycle.sum() / 3600
 
-        suburban = np.nan_to_num(suburban)
-        rural = np.nan_to_num(rural)
+            if "urban start" in self.cycle_environment[self.cycle_name]:
+                start = self.cycle_environment[self.cycle_name]["urban start"]
+                stop = self.cycle_environment[self.cycle_name]["urban stop"]
+                dist_urban = self.cycle[start: stop].sum() / 3600
+                urban = np.mean(em_arr[start: stop], axis=0) * (dist_urban / distance)
+                urban /= 1000  # going from grams to kg
+
+            else:
+                urban = np.zeros((11))
+
+            if "suburban start" in self.cycle_environment[self.cycle_name]:
+                start = self.cycle_environment[self.cycle_name]["suburban start"]
+                stop = self.cycle_environment[self.cycle_name]["suburban stop"]
+                dist_suburban = self.cycle[start: stop].sum() / 3600
+                suburban = np.mean(em_arr[start: stop], axis=0) * (dist_suburban / distance)
+                suburban /= 1000  # going from grams to kg
+
+            else:
+                suburban = np.zeros((11))
+
+            if "rural start" in self.cycle_environment[self.cycle_name]:
+                start = self.cycle_environment[self.cycle_name]["rural start"]
+                stop = self.cycle_environment[self.cycle_name]["rural stop"]
+                dist_rural = self.cycle[start: stop].sum() / 3600
+                rural = np.mean(em_arr[start: stop], axis=0) * (dist_rural / distance)
+                rural /= 1000  # going from grams to kg
+
+            else:
+                rural = np.zeros((11))
+
+        else:
+            distance = self.cycle.sum() / 3600
+            dist_urban = self.cycle[self.cycle <= 50].sum() / 3600
+            dist_suburban = self.cycle[(self.cycle > 50) & (self.cycle <= 80)].sum() / 3600
+            dist_rural = self.cycle[self.cycle > 80].sum() / 3600
+
+            urban = np.mean(em_arr[self.cycle <= 50], axis=0) * (dist_urban / distance)
+            urban /= 1000  # going from grams to kg
+            suburban = np.mean(em_arr[(self.cycle > 50) & (self.cycle <= 80)], axis=0) * (
+                dist_suburban / distance
+            )
+            suburban /= 1000  # going from grams to kg
+            rural = np.mean(em_arr[self.cycle > 80], axis=0) * (dist_rural / distance)
+            rural /= 1000  # going from grams to kg
+
+            suburban = np.nan_to_num(suburban)
+            rural = np.nan_to_num(rural)
 
         return (urban, suburban, rural)

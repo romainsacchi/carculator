@@ -48,9 +48,23 @@ class NoiseEmissionsModel:
 
     """
 
-    def __init__(self, cycle):
+    def __init__(self, cycle, cycle_name):
 
         self.cycle = cycle
+        self.cycle_name = cycle_name
+        self.cycle_environment = {
+            "WLTC": {"urban start": 0, "urban stop": 590, "suburban start": 591, "suburban stop": 1023, "rural start": 1024, "rural stop": 1801},
+            "WLTC 3.1": {"urban start": 0, "urban stop": 590},
+            "WLTC 3.2": {"suburban start": 0, "suburban stop": 433},
+            "WLTC 3.3": {"rural start": 0, "rural stop": 455},
+            "WLTC 3.4": {"rural start": 0, "rural stop": 323},
+            "CADC Urban": {"urban start": 0, "urban stop": 994},
+            "CADC Road": {"suburban start": 0, "suburban stop": 1082},
+            "CADC Motorway": {"rural start": 0, "rural stop": 1068},
+            "CADC Motorway 130": {"rural start": 0, "rural stop": 1068},
+            "CADC": {"urban start": 0, "urban stop": 994, "suburban start": 995, "suburban stop": 2077, "rural start": 2078, "rural stop": 3146},
+            "NEDC": {"urban start": 0, "urban stop": 780,  "rural start": 781, "rural stop": 1180}
+        }
 
     def rolling_noise(self):
         """Calculate noise from rolling friction.
@@ -155,13 +169,45 @@ class NoiseEmissionsModel:
         # convert dBs to Watts (or J/s)
         sound_power = ne.evaluate("(10 ** -12) * (10 ** (total_noise / 10))")
 
-        distance = self.cycle.sum() / 3600
+        # If the driving cycle selected is one of the driving cycles for which carculator has specifications,
+        # we use the driving cycle "official" road section types to compartmentalize emissions.
+        # If the driving cycle selected is instead specified by the user (passed directly as an array), we used
+        # speed levels to compartmentalize emissions.
 
-        # sum sound power over duration (J/s * s --> J) and divide by distance (--> J / km) and further
-        # divide into compartments
-        urban_sound = ne.evaluate("sum(where(c <= 50, sound_power, 0), 1)") / distance
-        suburban_sound = ne.evaluate("sum(where((c > 50) & (c <= 80), sound_power, 0), 1)") / distance
-        rural_sound = ne.evaluate("sum(where(c > 80, sound_power, 0), 1)") / distance
+        if self.cycle_name in self.cycle_environment:
+            distance = self.cycle.sum() / 3600
 
+            if "urban start" in self.cycle_environment[self.cycle_name]:
+                start = self.cycle_environment[self.cycle_name]["urban start"]
+                stop = self.cycle_environment[self.cycle_name]["urban stop"]
+                urban = np.sum(sound_power[:, start: stop], axis=1) / distance
 
-        return np.array([urban_sound, suburban_sound, rural_sound])
+            else:
+                urban = np.zeros((8))
+
+            if "suburban start" in self.cycle_environment[self.cycle_name]:
+                start = self.cycle_environment[self.cycle_name]["suburban start"]
+                stop = self.cycle_environment[self.cycle_name]["suburban stop"]
+                suburban = np.sum(sound_power[:, start: stop], axis=1) / distance
+
+            else:
+                suburban = np.zeros((8))
+
+            if "rural start" in self.cycle_environment[self.cycle_name]:
+                start = self.cycle_environment[self.cycle_name]["rural start"]
+                stop = self.cycle_environment[self.cycle_name]["rural stop"]
+                rural = np.sum(sound_power[:, start: stop], axis=1) / distance
+
+            else:
+                rural = np.zeros((8))
+
+        else:
+            distance = self.cycle.sum() / 3600
+
+            # sum sound power over duration (J/s * s --> J) and divide by distance (--> J / km) and further
+            # divide into compartments
+            urban = ne.evaluate("sum(where(c <= 50, sound_power, 0), 1)") / distance
+            suburban = ne.evaluate("sum(where((c > 50) & (c <= 80), sound_power, 0), 1)") / distance
+            rural= ne.evaluate("sum(where(c > 80, sound_power, 0), 1)") / distance
+
+        return np.array([urban, suburban, rural])

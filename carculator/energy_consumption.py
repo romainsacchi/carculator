@@ -52,10 +52,13 @@ class EnergyConsumptionModel:
         # If a string is passed, the corresponding driving cycle is retrieved
         if isinstance(cycle, str):
             try:
+                self.cycle_name = cycle
                 cycle = get_standard_driving_cycle(cycle)
+
             except KeyError:
                 raise ("The driving cycle specified could not be found.")
         elif isinstance(cycle, np.ndarray):
+            self.cycle_name = "custom"
             pass
         else:
             raise ("The format of the driving cycle is not valid.")

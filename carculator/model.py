@@ -599,7 +599,7 @@ class CarModel:
         return emissions per substance per second of driving cycle.
         :return: Does not return anything. Modifies ``self.array`` in place.
         """
-        hem = HotEmissionsModel(self.ecm.cycle)
+        hem = HotEmissionsModel(self.ecm.cycle, self.ecm.cycle_name)
 
         list_direct_emissions = [
             "Benzene direct emissions, urban",
@@ -658,7 +658,7 @@ class CarModel:
 
         :return: Does not return anything. Modifies ``self.array`` in place.
         """
-        nem = NoiseEmissionsModel(self.ecm.cycle)
+        nem = NoiseEmissionsModel(self.ecm.cycle, self.ecm.cycle_name)
 
         list_noise_emissions = [
             "noise, octave 1, day time, urban",
