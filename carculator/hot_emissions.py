@@ -161,7 +161,6 @@ class HotEmissionsModel:
                 stop = self.cycle_environment[self.cycle_name]["urban stop"]
                 dist_urban = self.cycle[start: stop].sum() / 3600
                 urban = np.mean(em_arr[start: stop,:], axis=0) * (dist_urban / distance)
-                print("PM: ", powertrain_type, urban[3])
                 urban /= 1000  # going from grams to kg
 
             else:
@@ -172,7 +171,6 @@ class HotEmissionsModel:
                 stop = self.cycle_environment[self.cycle_name]["suburban stop"]
                 dist_suburban = self.cycle[start: stop].sum() / 3600
                 suburban = np.mean(em_arr[start: stop,:], axis=0) * (dist_suburban / distance)
-                print("PM: ", powertrain_type, suburban[3])
                 suburban /= 1000  # going from grams to kg
 
             else:
@@ -183,7 +181,6 @@ class HotEmissionsModel:
                 stop = self.cycle_environment[self.cycle_name]["rural stop"]
                 dist_rural = self.cycle[start: stop].sum() / 3600
                 rural = np.mean(em_arr[start: stop,:], axis=0) * (dist_rural / distance)
-                print("PM: ", powertrain_type, rural[3])
                 rural /= 1000  # going from grams to kg
 
             else:

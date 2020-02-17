@@ -67,10 +67,10 @@
     "year": 2040
   },
   "10-2017-glider base mass": {
-    "amount": 1300.0,
+    "amount": 1350.0,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1300.0,
+    "loc": 1350.0,
     "maximum": 1500.0,
     "minimum": 900.0,
     "name": "glider base mass",
@@ -371,10 +371,10 @@
     "year": 2040
   },
   "11-2040-glider base mass": {
-    "amount": 1300.0,
+    "amount": 1350.0,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1300.0,
+    "loc": 1350.0,
     "maximum": 1500.0,
     "minimum": 900.0,
     "name": "glider base mass",
@@ -667,14 +667,68 @@
     "minimum": 1000.0,
     "name": "glider base mass",
     "powertrain": [
-      "BEV",
       "FCEV",
-      "HEV-p",
       "ICEV-d",
-      "ICEV-g",
       "ICEV-p",
       "PHEV-c",
       "PHEV-e"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "12-2017-glider base mass-BEV": {
+    "amount": 1580.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1580.0,
+    "maximum": 2300.0,
+    "minimum": 1500.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "12-2017-glider base mass-HEVp": {
+    "amount": 1650.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1650.0,
+    "maximum": 2000.0,
+    "minimum": 1400.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "HEV-p"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "12-2017-glider base mass-ICEVg": {
+    "amount": 1400.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1400.0,
+    "maximum": 1800.0,
+    "minimum": 1200.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-g"
     ],
     "sizes": [
       "Large"
@@ -959,14 +1013,68 @@
     "minimum": 1000.0,
     "name": "glider base mass",
     "powertrain": [
-      "BEV",
       "FCEV",
-      "HEV-p",
       "ICEV-d",
-      "ICEV-g",
       "ICEV-p",
       "PHEV-c",
       "PHEV-e"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2040
+  },
+  "13-2040-glider base mass-BEV": {
+    "amount": 1580.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1580.0,
+    "maximum": 2300.0,
+    "minimum": 1500.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2040
+  },
+  "13-2040-glider base mass-HEVp": {
+    "amount": 1650.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1650.0,
+    "maximum": 2000.0,
+    "minimum": 1300.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "HEV-p"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2040
+  },
+  "13-2040-glider base mass-ICEVg": {
+    "amount": 1400.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1400.0,
+    "maximum": 1800.0,
+    "minimum": 1200.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-g"
     ],
     "sizes": [
       "Large"
@@ -1261,12 +1369,48 @@
     "powertrain": [
       "BEV",
       "FCEV",
-      "HEV-p",
       "ICEV-d",
       "ICEV-g",
-      "ICEV-p",
       "PHEV-c",
       "PHEV-e"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "14-2017-glider base mass-HEVp": {
+    "amount": 1450.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1450.0,
+    "maximum": 1900.0,
+    "minimum": 1100.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "HEV-p"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "14-2017-glider base mass-ICEVp": {
+    "amount": 1400.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1400.0,
+    "maximum": 1900.0,
+    "minimum": 1100.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-p"
     ],
     "sizes": [
       "Van"
@@ -1547,12 +1691,48 @@
     "powertrain": [
       "BEV",
       "FCEV",
-      "HEV-p",
       "ICEV-d",
       "ICEV-g",
-      "ICEV-p",
       "PHEV-c",
       "PHEV-e"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2040
+  },
+  "15-2040-glider base mass-HEVp": {
+    "amount": 1450.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1450.0,
+    "maximum": 1900.0,
+    "minimum": 1100.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "HEV-p"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2040
+  },
+  "15-2040-glider base mass-ICEV-p": {
+    "amount": 1400.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1400.0,
+    "maximum": 1900.0,
+    "minimum": 1100.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-p"
     ],
     "sizes": [
       "Van"
@@ -1825,22 +2005,77 @@
     "year": 2040
   },
   "16-2017-glider base mass": {
-    "amount": 1250.0,
+    "amount": 1650.0,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1250.0,
-    "maximum": 1800.0,
-    "minimum": 700.0,
+    "loc": 1650.0,
+    "maximum": 2000.0,
+    "minimum": 1500.0,
     "name": "glider base mass",
     "powertrain": [
-      "BEV",
-      "FCEV",
       "HEV-p",
       "ICEV-d",
-      "ICEV-g",
-      "ICEV-p",
       "PHEV-c",
-      "PHEV-e"
+      "PHEV-e",
+      "ICEV-d"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "16-2017-glider base mass-BEV": {
+    "amount": 1730.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1730.0,
+    "maximum": 2000.0,
+    "minimum": 1500.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "16-2017-glider base mass-FCEV-ICEVp": {
+    "amount": 1450.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1450.0,
+    "maximum": 1800.0,
+    "minimum": 1300.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "FCEV",
+      "ICEV-p"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "16-2017-glider base mass-ICEVg": {
+    "amount": 1350.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1350.0,
+    "maximum": 1700.0,
+    "minimum": 1300.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-g"
     ],
     "sizes": [
       "SUV"
@@ -2131,22 +2366,76 @@
     "year": 2040
   },
   "17-2040-glider base mass": {
-    "amount": 1250.0,
+    "amount": 1650.0,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1250.0,
-    "maximum": 1800.0,
-    "minimum": 700.0,
+    "loc": 1650.0,
+    "maximum": 2000.0,
+    "minimum": 1500.0,
     "name": "glider base mass",
     "powertrain": [
-      "BEV",
-      "FCEV",
       "HEV-p",
       "ICEV-d",
-      "ICEV-g",
-      "ICEV-p",
       "PHEV-c",
       "PHEV-e"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2040
+  },
+  "17-2040-glider base mass-BEV": {
+    "amount": 1730.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1730.0,
+    "maximum": 2000.0,
+    "minimum": 1500.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2040
+  },
+  "17-2040-glider base mass-FCEV-ICEVp": {
+    "amount": 1450.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1450.0,
+    "maximum": 1800.0,
+    "minimum": 1300.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "FCEV",
+      "ICEV-p"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2040
+  },
+  "17-2040-glider base mass-ICEVg": {
+    "amount": 1350.0,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1350.0,
+    "maximum": 1700.0,
+    "minimum": 1300.0,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-g"
     ],
     "sizes": [
       "SUV"
@@ -8375,11 +8664,11 @@
     "year": 2040
   },
   "44-2017-frontal area": {
-    "amount": 2.7,
+    "amount": 2.6,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.7,
-    "maximum": 3.0,
+    "loc": 2.6,
+    "maximum": 3.4,
     "minimum": 2.5,
     "name": "frontal area",
     "powertrain": [
@@ -8401,12 +8690,12 @@
     "year": 2017
   },
   "45-2040-frontal area": {
-    "amount": 2.7,
+    "amount": 2.5,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.7,
-    "maximum": 3.0,
-    "minimum": 2.5,
+    "loc": 2.5,
+    "maximum": 3.4,
+    "minimum": 2.2,
     "name": "frontal area",
     "powertrain": [
       "BEV",
@@ -8427,10 +8716,10 @@
     "year": 2040
   },
   "46-2017-frontal area": {
-    "amount": 2.8,
+    "amount": 2.7,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.8,
+    "loc": 2.7,
     "maximum": 3.4,
     "minimum": 2.5,
     "name": "frontal area",
@@ -8453,10 +8742,10 @@
     "year": 2017
   },
   "47-2040-frontal area": {
-    "amount": 2.8,
+    "amount": 2.7,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.8,
+    "loc": 2.7,
     "maximum": 3.4,
     "minimum": 2.5,
     "name": "frontal area",
@@ -8615,12 +8904,12 @@
     "year": 2040
   },
   "52-2017-aerodynamic drag coefficient": {
-    "amount": 0.34,
+    "amount": 0.32,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 0.34,
-    "maximum": 0.36,
-    "minimum": 0.29,
+    "loc": 0.32,
+    "maximum": 0.4,
+    "minimum": 0.3,
     "name": "aerodynamic drag coefficient",
     "powertrain": [
       "BEV",
@@ -8641,12 +8930,12 @@
     "year": 2017
   },
   "53-2040-aerodynamic drag coefficient": {
-    "amount": 0.30600000000000005,
+    "amount": 0.29,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 0.30600000000000005,
-    "maximum": 0.36,
-    "minimum": 0.261,
+    "loc": 0.29,
+    "maximum": 0.4,
+    "minimum": 0.27,
     "name": "aerodynamic drag coefficient",
     "powertrain": [
       "BEV",
@@ -8667,12 +8956,12 @@
     "year": 2040
   },
   "54-2017-aerodynamic drag coefficient": {
-    "amount": 0.38,
+    "amount": 0.27,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 0.38,
+    "loc": 0.27,
     "maximum": 0.4,
-    "minimum": 0.3,
+    "minimum": 0.25,
     "name": "aerodynamic drag coefficient",
     "powertrain": [
       "BEV",
@@ -8693,12 +8982,12 @@
     "year": 2017
   },
   "55-2040-aerodynamic drag coefficient": {
-    "amount": 0.342,
+    "amount": 0.25,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 0.342,
-    "maximum": 0.4,
-    "minimum": 0.27,
+    "loc": 0.25,
+    "maximum": 0.35,
+    "minimum": 0.25,
     "name": "aerodynamic drag coefficient",
     "powertrain": [
       "BEV",
@@ -9469,12 +9758,12 @@
     "year": 2017
   },
   "80-2017-fuel cell stack efficiency": {
-    "amount": 0.535,
+    "amount": 0.57,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 0.535,
-    "maximum": 0.57,
-    "minimum": 0.5,
+    "loc": 0.57,
+    "maximum": 0.6,
+    "minimum": 0.53,
     "name": "fuel cell stack efficiency",
     "powertrain": [
       "FCEV"
@@ -9494,12 +9783,12 @@
     "year": 2017
   },
   "81-2040-fuel cell stack efficiency": {
-    "amount": 0.57,
+    "amount": 0.6,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 0.57,
+    "loc": 0.6,
     "maximum": 0.63,
-    "minimum": 0.52,
+    "minimum": 0.55,
     "name": "fuel cell stack efficiency",
     "powertrain": [
       "FCEV"
