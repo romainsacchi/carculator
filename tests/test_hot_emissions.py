@@ -16,6 +16,6 @@ def test_output_emissions():
     urban = hem.get_emissions_per_powertrain("diesel")[0]
 
     assert len(urban) == 33
-    assert urban.sum() > 1.2e-5
-    assert urban.sum() < 1.25e-5
+    assert urban.sum() > 1e-5
+    assert urban.sum() < 10e-5
 
