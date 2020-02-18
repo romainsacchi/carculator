@@ -15,7 +15,7 @@ def test_output_emissions():
     hem = HotEmissionsModel(dc, dc_name)
     urban = hem.get_emissions_per_powertrain("diesel")[0]
 
-    assert len(urban) == 11
+    assert len(urban) == 33
     assert urban.sum() > 1.2e-5
     assert urban.sum() < 1.25e-5
 
