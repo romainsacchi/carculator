@@ -78,6 +78,29 @@ class ExportInventory:
         :returns: a dictionary that contains all the exchanges
         :rtype: dict
         """
+
+        # List of activities that are already part of the REMIND-ecoinvent database.
+        # They should not appear in the exported inventories, otherwise they will be duplicate
+        activities_to_be_removed = ['algae cultivation | algae broth production',
+             'algae harvesting| dry algae production',
+             'transport, pipeline, supercritical CO2, 200km w/o recompression',
+             'Ethanol from maize starch',
+             'Natural Gas provision (at medium pressure grid) {RER}, EU mix',
+             'woodchips from forestry residues',
+             'Ethanol from wheat straw pellets',
+             'straw pellets',
+             'Biodiesel from cooking oil',
+             'Straw bales | baling of straw',
+             'CO2 storage/natural gas, post, 200km pipeline, storage 1000m/2025',
+             'drilling, deep borehole/m',
+             'Sugar beet cultivation {RER} | sugar beet production Europe | Alloc Rec, U',
+             'Refined Waste Cooking Oil {RER} | Refining of waste cooking oil Europe | Alloc Rec, U',
+             'Ethanol from forest residues',
+             'Ethanol from sugarbeet',
+             'pipeline, supercritical CO2/km',
+             'Biodiesel from algae',
+             'Maize cultivation, drying and storage {RER} | Maize production Europe | Alloc Rec, U']
+
         list_act = []
 
         if presamples:
@@ -104,6 +127,10 @@ class ExportInventory:
             for row, col in coords[coords[:,1] == d]:
                 tuple_output = self.indices[col]
                 tuple_input = self.indices[row]
+
+                # If ecoinvent_compatibility==False and the activity name is part of the list
+                if ecoinvent_compatibility == False and tuple_output[0] in activities_to_be_removed:
+                    continue
 
 
                 if ecoinvent_compatibility == True:
