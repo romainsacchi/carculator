@@ -602,62 +602,51 @@ class CarModel:
         hem = HotEmissionsModel(self.ecm.cycle, self.ecm.cycle_name)
 
         list_direct_emissions = [
-            "Benzene direct emissions, urban",
-            "Benzene direct emissions, suburban",
-            "Benzene direct emissions, rural",
-            "Sulfur dioxide direct emissions, urban",
-            "Sulfur dioxide direct emissions, suburban",
-            "Sulfur dioxide direct emissions, rural",
-            "Methane direct emissions, urban",
-            "Methane direct emissions, suburban",
-            "Methane direct emissions, rural",
-            "Carbon monoxide direct emissions, urban",
-            "Carbon monoxide direct emissions, suburban",
-            "Carbon monoxide direct emissions, rural",
             "Hydrocarbons direct emissions, urban",
             "Hydrocarbons direct emissions, suburban",
             "Hydrocarbons direct emissions, rural",
-            "Dinitrogen oxide direct emissions, urban",
-            "Dinitrogen oxide direct emissions, suburban",
-            "Dinitrogen oxide direct emissions, rural",
-            "Ammonia direct emissions, urban",
-            "Ammonia direct emissions, suburban",
-            "Ammonia direct emissions, rural",
-            "NMVOC direct emissions, urban",
-            "NMVOC direct emissions, suburban",
-            "NMVOC direct emissions, rural",
+            "Carbon monoxide direct emissions, urban",
+            "Carbon monoxide direct emissions, suburban",
+            "Carbon monoxide direct emissions, rural",
             "Nitrogen oxides direct emissions, urban",
             "Nitrogen oxides direct emissions, suburban",
             "Nitrogen oxides direct emissions, rural",
             "Particulate matters direct emissions, urban",
             "Particulate matters direct emissions, suburban",
             "Particulate matters direct emissions, rural",
+            "Methane direct emissions, urban",
+            "Methane direct emissions, suburban",
+            "Methane direct emissions, rural",
+            "NMVOC direct emissions, urban",
+            "NMVOC direct emissions, suburban",
+            "NMVOC direct emissions, rural",
             "Lead direct emissions, urban",
             "Lead direct emissions, suburban",
             "Lead direct emissions, rural",
+            "Sulfur dioxide direct emissions, urban",
+            "Sulfur dioxide direct emissions, suburban",
+            "Sulfur dioxide direct emissions, rural",
+            "Dinitrogen oxide direct emissions, urban",
+            "Dinitrogen oxide direct emissions, suburban",
+            "Dinitrogen oxide direct emissions, rural",
+            "Ammonia direct emissions, urban",
+            "Ammonia direct emissions, suburban",
+            "Ammonia direct emissions, rural",
+            "Benzene direct emissions, urban",
+            "Benzene direct emissions, suburban",
+            "Benzene direct emissions, rural"
         ]
 
-        self.array.loc[:, "ICEV-d", list_direct_emissions, :] = np.hstack(
-            hem.get_emissions_per_powertrain("diesel")
-        ).reshape((1, 33, 1, 1))
 
+        self.array.loc[:, "ICEV-d", list_direct_emissions, :] = hem.get_emissions_per_powertrain("diesel")
         # Applies an emission factor, useful for sensitivity purpose
         self.array.loc[:, "ICEV-d", list_direct_emissions, :] *= self.array.loc[:, "ICEV-d", "emission factor", :]
-
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :
-        ] = np.hstack(hem.get_emissions_per_powertrain("petrol")
-                      ).reshape((1, 33, 1, 1))
-
+        self.array.loc[:, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, : ] = hem.get_emissions_per_powertrain("petrol")
         # Applies an emission factor, useful for sensitivity purpose
         self.array.loc[
             :, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :
         ] *= self.array.loc[:, ["ICEV-p", "HEV-p", "PHEV-c"], "emission factor", :]
-
-        self.array.loc[:, "ICEV-g", list_direct_emissions, :] = np.hstack(
-            hem.get_emissions_per_powertrain("CNG")
-        ).reshape((1, 33, 1, 1))
-
+        self.array.loc[:, "ICEV-g", list_direct_emissions, :] =  hem.get_emissions_per_powertrain("CNG")
         # Applies an emission factor, useful for sensitivity purpose
         self.array.loc[:, "ICEV-g", list_direct_emissions, :] *= self.array.loc[:, "ICEV-g", "emission factor", :]
 

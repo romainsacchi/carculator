@@ -71,7 +71,8 @@ class HotEmissionsModel:
             # NOx + NO2
             em_arr[:, 2] = ne.evaluate("(1.159e-07 * c ** 3 - 1.891e-05 * c ** 2 + 0.0008328 * c + 0.01852) + (4.056e-08 * c ** 3 - 6.618e-06 * c ** 2 + 0.0002915 * c + 0.006481)")
             # PM <= 2.5 um
-            em_arr[:, 3] = ne.evaluate("2.12e-09 * c ** 3 - 4.61e-07 * c ** 2 + 3.018e-05 * c - 0.0001433")
+            em_arr[:, 3] = np.clip(ne.evaluate("2.12e-09 * c ** 3 - 4.61e-07 * c ** 2 + 3.018e-05 * c - 0.0001433"),0 ,None)
+
             # CH4
             em_arr[:, 4] = ne.evaluate("1.278e-09 * c ** 3 - 3.514e-07 * c ** 2  + 5.622e-05 * c + 0.004324")
             # NMVOC
@@ -94,6 +95,7 @@ class HotEmissionsModel:
             em_arr[:, 0] = ne.evaluate("-6.698e-09 * c ** 3 + 2.661e-06 * c ** 2 - 0.0002239 * c + 0.008068")
             # CO
             em_arr[:, 1] = ne.evaluate("5.385e-07 * c ** 3 - 0.0001104 * c ** 2 + 0.006821 * c + 0.1707")
+
             # NO + NO2
             em_arr[:, 2] = ne.evaluate("(1.379e-07 * c ** 3 - 2.708e-05 * c ** 2 + 0.001678 * c - 0.01762) + (6.894e-09 * c ** 3 - 1.354e-06 * c ** 2 + 8.388e-05 * c - 0.0008809)")
             # PM <= 2.5 um
@@ -117,17 +119,17 @@ class HotEmissionsModel:
 
         if powertrain_type == "CNG":
             # HC
-            em_arr[:, 0] = ne.evaluate("5.502e-08 * c ** 3 - 1.239e-05 * c ** 2 + 0.000846 * c - 0.004044")
+            em_arr[:, 0] = np.clip(ne.evaluate("5.502e-08 * c ** 3 - 1.239e-05 * c ** 2 + 0.000846 * c - 0.004044"),0, None)
             # CO
-            em_arr[:, 1] = ne.evaluate("2.678e-06 * c ** 3 - 0.0005585 * c ** 2 + 0.03632 * c - 0.5159")
+            em_arr[:, 1] = np.clip(ne.evaluate("2.678e-06 * c ** 3 - 0.0005585 * c ** 2 + 0.03632 * c - 0.5159"), 0, None)
             # NO + NO2
             em_arr[:, 2] = ne.evaluate("(2.163e-08 * c ** 3 - 3.758e-06 * c ** 2 + 5.485e-05 * c + 0.02848) + (4.35e-09 * c ** 3 - 7.625e-07 * c ** 2 + 2.251e-05 * c + 0.002413)")
             # PM <= 2.5 um
             em_arr[:, 3] = ne.evaluate("1.997e-09 * c ** 3 - 2.116e-07 * c ** 2 - 1.277e-05 * c + 0.002135")
             # CH4
-            em_arr[:, 4] = ne.evaluate("4.568e-08 * c ** 3 - 1.052e-05 * c ** 2 + 0.0007284 * c - 0.003946")
+            em_arr[:, 4] = np.clip(ne.evaluate("4.568e-08 * c ** 3 - 1.052e-05 * c ** 2 + 0.0007284 * c - 0.003946"), 0, None)
             # NMVOC
-            em_arr[:, 5] = ne.evaluate("9.338e-09 * c ** 3 - 1.872e-06 * c ** 2 + 0.0001175 * c - 9.78e-05")
+            em_arr[:, 5] = np.clip(ne.evaluate("9.338e-09 * c ** 3 - 1.872e-06 * c ** 2 + 0.0001175 * c - 9.78e-05"), 0, None)
             # Pb
             em_arr[:, 6] = ne.evaluate("-1.38e-11 * c ** 3 + 6.464e-09 * c ** 2 - 7.366e-07 * c + 4.665e-05")
             # SO2
@@ -158,7 +160,7 @@ class HotEmissionsModel:
                 start = self.cycle_environment[self.cycle_name]["urban start"]
                 stop = self.cycle_environment[self.cycle_name]["urban stop"]
                 dist_urban = self.cycle[start: stop].sum() / 3600
-                urban = np.mean(em_arr[start: stop], axis=0) * (dist_urban / distance)
+                urban = np.mean(em_arr[start: stop,:], axis=0) * (dist_urban / distance)
                 urban /= 1000  # going from grams to kg
 
             else:
@@ -168,7 +170,7 @@ class HotEmissionsModel:
                 start = self.cycle_environment[self.cycle_name]["suburban start"]
                 stop = self.cycle_environment[self.cycle_name]["suburban stop"]
                 dist_suburban = self.cycle[start: stop].sum() / 3600
-                suburban = np.mean(em_arr[start: stop], axis=0) * (dist_suburban / distance)
+                suburban = np.mean(em_arr[start: stop,:], axis=0) * (dist_suburban / distance)
                 suburban /= 1000  # going from grams to kg
 
             else:
@@ -178,7 +180,7 @@ class HotEmissionsModel:
                 start = self.cycle_environment[self.cycle_name]["rural start"]
                 stop = self.cycle_environment[self.cycle_name]["rural stop"]
                 dist_rural = self.cycle[start: stop].sum() / 3600
-                rural = np.mean(em_arr[start: stop], axis=0) * (dist_rural / distance)
+                rural = np.mean(em_arr[start: stop,:], axis=0) * (dist_rural / distance)
                 rural /= 1000  # going from grams to kg
 
             else:
@@ -202,4 +204,4 @@ class HotEmissionsModel:
             suburban = np.nan_to_num(suburban)
             rural = np.nan_to_num(rural)
 
-        return (urban, suburban, rural)
+        return (np.hstack((urban.reshape(11,-1), suburban.reshape(11,-1), rural.reshape(11,-1)))).reshape(1, 33, 1, 1)

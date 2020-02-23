@@ -148,6 +148,45 @@ class InventoryCalculation:
                 "Particulates, > 10 um",
             ]
         ]
+
+        self.map_non_fuel_emissions = {
+
+            ('Methane, fossil', ('air', 'non-urban air or from high stacks'), 'kilogram'):"Methane direct emissions, suburban",
+            ('Methane, fossil', ('air', 'low population density, long-term'), 'kilogram'):"Methane direct emissions, rural",
+            ('Lead', ('air', 'non-urban air or from high stacks'), 'kilogram'):"Lead direct emissions, suburban",
+            ('Ammonia', ('air', 'non-urban air or from high stacks'), 'kilogram'):"Ammonia direct emissions, suburban",
+            ('NMVOC, non-methane volatile organic compounds, unspecified origin',('air', 'urban air close to ground'),'kilogram'):"NMVOC direct emissions, urban",
+            ('PAH, polycyclic aromatic hydrocarbons',('air', 'urban air close to ground'),'kilogram'): "Hydrocarbons direct emissions, urban",
+            ('Dinitrogen monoxide',('air', 'low population density, long-term'),'kilogram'):"Dinitrogen oxide direct emissions, rural",
+            ('Nitrogen oxides', ('air', 'urban air close to ground'), 'kilogram'):"Nitrogen oxides direct emissions, urban",
+            ('Ammonia', ('air', 'urban air close to ground'), 'kilogram'):"Ammonia direct emissions, urban",
+            ('Particulates, < 2.5 um',('air', 'non-urban air or from high stacks'),'kilogram'):"Particulate matters direct emissions, suburban",
+            ('Carbon monoxide, fossil', ('air', 'urban air close to ground'), 'kilogram'):"Carbon monoxide direct emissions, urban",
+            ('Nitrogen oxides', ('air', 'low population density, long-term'), 'kilogram'):"Nitrogen oxides direct emissions, rural",
+            ('NMVOC, non-methane volatile organic compounds, unspecified origin',('air', 'non-urban air or from high stacks'),'kilogram'):"NMVOC direct emissions, suburban",
+            ('Benzene', ('air', 'non-urban air or from high stacks'), 'kilogram'):"Benzene direct emissions, suburban",
+            ('Ammonia', ('air', 'low population density, long-term'), 'kilogram'):"Ammonia direct emissions, rural",
+            ('Sulfur dioxide', ('air', 'low population density, long-term'), 'kilogram'):"Sulfur dioxide direct emissions, rural",
+            ('NMVOC, non-methane volatile organic compounds, unspecified origin',('air', 'low population density, long-term'),'kilogram'):"NMVOC direct emissions, rural",
+            ('Particulates, < 2.5 um', ('air', 'urban air close to ground'), 'kilogram'):"Particulate matters direct emissions, urban",
+            ('Sulfur dioxide', ('air', 'urban air close to ground'), 'kilogram'):"Sulfur dioxide direct emissions, urban",
+            ('Dinitrogen monoxide',('air', 'non-urban air or from high stacks'),'kilogram'):"Dinitrogen oxide direct emissions, suburban",
+            ('Carbon monoxide, fossil',('air', 'low population density, long-term'),'kilogram'):"Carbon monoxide direct emissions, rural",
+            ('Methane, fossil', ('air', 'urban air close to ground'), 'kilogram'):"Methane direct emissions, urban",
+            ('Carbon monoxide, fossil',('air', 'non-urban air or from high stacks'),'kilogram'):"Carbon monoxide direct emissions, suburban",
+            ('Lead', ('air', 'urban air close to ground'), 'kilogram'):"Lead direct emissions, urban",
+            ('Particulates, < 2.5 um', ('air', 'low population density, long-term'), 'kilogram'):"Particulate matters direct emissions, rural",
+            ('Sulfur dioxide', ('air', 'non-urban air or from high stacks'), 'kilogram'):"Sulfur dioxide direct emissions, suburban",
+            ('Benzene', ('air', 'low population density, long-term'), 'kilogram'):"Benzene direct emissions, rural",
+            ('Nitrogen oxides', ('air', 'non-urban air or from high stacks'), 'kilogram'):"Nitrogen oxides direct emissions, suburban",
+            ('Lead', ('air', 'low population density, long-term'), 'kilogram'):"Lead direct emissions, rural",
+            ('Benzene', ('air', 'urban air close to ground'), 'kilogram'):"Benzene direct emissions, urban",
+            ('PAH, polycyclic aromatic hydrocarbons',('air', 'low population density, long-term'), 'kilogram'):"Hydrocarbons direct emissions, rural",
+            ('PAH, polycyclic aromatic hydrocarbons', ('air', 'non-urban air or from high stacks'),'kilogram'):"Hydrocarbons direct emissions, suburban",
+            ('Dinitrogen monoxide', ('air', 'urban air close to ground'), 'kilogram'):"Dinitrogen oxide direct emissions, urban"
+        }
+
+
         self.index_noise = [self.inputs[i] for i in self.inputs if "noise" in i[0]]
         self.list_cat, self.split_indices = self.get_split_indices()
         self.bs = BackgroundSystemModel()
@@ -1635,44 +1674,10 @@ class InventoryCalculation:
         )
 
         # Non-fuel based emissions
-        list_direct_emissions = [
-            "Benzene direct emissions, urban",
-            "Benzene direct emissions, suburban",
-            "Benzene direct emissions, rural",
-            "Sulfur dioxide direct emissions, urban",
-            "Sulfur dioxide direct emissions, suburban",
-            "Sulfur dioxide direct emissions, rural",
-            "Methane direct emissions, urban",
-            "Methane direct emissions, suburban",
-            "Methane direct emissions, rural",
-            "Carbon monoxide direct emissions, urban",
-            "Carbon monoxide direct emissions, suburban",
-            "Carbon monoxide direct emissions, rural",
-            "Hydrocarbons direct emissions, urban",
-            "Hydrocarbons direct emissions, suburban",
-            "Hydrocarbons direct emissions, rural",
-            "Dinitrogen oxide direct emissions, urban",
-            "Dinitrogen oxide direct emissions, suburban",
-            "Dinitrogen oxide direct emissions, rural",
-            "Ammonia direct emissions, urban",
-            "Ammonia direct emissions, suburban",
-            "Ammonia direct emissions, rural",
-            "NMVOC direct emissions, urban",
-            "NMVOC direct emissions, suburban",
-            "NMVOC direct emissions, rural",
-            "Nitrogen oxides direct emissions, urban",
-            "Nitrogen oxides direct emissions, suburban",
-            "Nitrogen oxides direct emissions, rural",
-            "Particulate matters direct emissions, urban",
-            "Particulate matters direct emissions, suburban",
-            "Particulate matters direct emissions, rural",
-            "Lead direct emissions, urban",
-            "Lead direct emissions, suburban",
-            "Lead direct emissions, rural",
-        ]
+
 
         self.A[:, self.index_emissions, -self.number_of_cars :] = (
-            array[[self.array_inputs[l] for l in list_direct_emissions]] * -1
+            array[[self.array_inputs[self.map_non_fuel_emissions[self.rev_inputs[x]]] for x in self.index_emissions]] * -1
         ).transpose([1, 0, 2])
 
         if "cng_technology" in locals():
