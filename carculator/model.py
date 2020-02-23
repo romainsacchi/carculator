@@ -637,7 +637,6 @@ class CarModel:
             "Benzene direct emissions, rural"
         ]
 
-
         self.array.loc[:, "ICEV-d", list_direct_emissions, :] = hem.get_emissions_per_powertrain("diesel")
         # Applies an emission factor, useful for sensitivity purpose
         self.array.loc[:, "ICEV-d", list_direct_emissions, :] *= self.array.loc[:, "ICEV-d", "emission factor", :]
