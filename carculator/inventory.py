@@ -1036,6 +1036,9 @@ class InventoryCalculation:
 
         if self.background_configuration is None:
             self.background_configuration = {"country": "RER"}
+        else:
+            if "country" not in self.background_configuration:
+                 self.background_configuration["country"] = "RER"
 
         if "battery technology" not in self.background_configuration:
             self.background_configuration["battery technology"] = "NMC"
