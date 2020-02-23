@@ -10582,5 +10582,159 @@
     "uncertainty_type": 5,
     "unit": "unitless",
     "year": 2040
+  },
+  "109-2017-biodiesel_blend": {
+    "amount": 0.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.0,
+    "maximum": 0.0,
+    "minimum": 0.0,
+    "name": "biodiesel blend share",
+    "powertrain": [
+      "ICEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "",
+    "uncertainty_type": 5,
+    "unit": "unitless",
+    "year": 2017
+  },
+  "109-2040-biodiesel_blend": {
+    "amount": 0.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.0,
+    "maximum": 0.0,
+    "minimum": 0.0,
+    "name": "biodiesel blend share",
+    "powertrain": [
+      "ICEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "",
+    "uncertainty_type": 5,
+    "unit": "unitless",
+    "year": 2040
+  },
+  "110-2017-bioethanol_blend": {
+    "amount": 0.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.0,
+    "maximum": 0.0,
+    "minimum": 0.0,
+    "name": "bioethanol blend share",
+    "powertrain": [
+      "ICEV-p",
+      "HEV-p",
+      "PHEV-c"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "",
+    "uncertainty_type": 5,
+    "unit": "unitless",
+    "year": 2017
+  },
+  "109-2040-bioethanol_blend": {
+    "amount": 0.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.0,
+    "maximum": 0.0,
+    "minimum": 0.0,
+    "name": "bioethanol blend share",
+    "powertrain": [
+      "ICEV-p",
+      "HEV-p",
+      "PHEV-c"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "",
+    "uncertainty_type": 5,
+    "unit": "unitless",
+    "year": 2040
+  },
+  "110-2017-biogas_blend": {
+    "amount": 0.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.0,
+    "maximum": 0.0,
+    "minimum": 0.0,
+    "name": "biogas blend share",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "",
+    "uncertainty_type": 5,
+    "unit": "unitless",
+    "year": 2017
+  },
+  "109-2040-biogas_blend": {
+    "amount": 0.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.0,
+    "maximum": 0.0,
+    "minimum": 0.0,
+    "name": "biogas blend share",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "",
+    "uncertainty_type": 5,
+    "unit": "unitless",
+    "year": 2040
   }
 }

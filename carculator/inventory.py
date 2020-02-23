@@ -1450,17 +1450,13 @@ class InventoryCalculation:
                     # If a customization dict is passed
                     cng_technology = self.background_configuration["cng technology"]
                 else:
-                    cng_technology = "cng"
+                    cng_technology = "biogas"
             else:
-                cng_technology = "cng"
+                cng_technology = "biogas"
+
+
 
             dict_cng_map = {
-                "cng": (
-                    "market for natural gas, from high pressure network (1-5 bar), at service station",
-                    "GLO",
-                    "kilogram",
-                    "natural gas, from high pressure network (1-5 bar), at service station",
-                ),
                 "biogas": (
                     "biogas upgrading - sewage sludge - amine scrubbing - best",
                     "CH",
@@ -1469,23 +1465,41 @@ class InventoryCalculation:
                 ),
             }
 
-            if cng_technology == "cng":
-                self.A[:, self.inputs[dict_cng_map[cng_technology]], self.index_cng] = (
-                    array[self.array_inputs["fuel mass"], :, index]
-                    / array[self.array_inputs["range"], :, index]
-                    * -1
-                ).T
-            else:
-                # biogas
-                self.A[:, self.inputs[dict_cng_map[cng_technology]], self.index_cng] = (
-                    (array[self.array_inputs["fuel mass"], :, index])
-                    / array[self.array_inputs["range"], :, index]
-                    * -1
-                ).T
+            # Conventional CNG minus biogas share
+            self.A[:, self.inputs[(
+                    "market for natural gas, from high pressure network (1-5 bar), at service station",
+                    "GLO",
+                    "kilogram",
+                    "natural gas, from high pressure network (1-5 bar), at service station",
+                )], self.index_cng] = (
+                    (array[self.array_inputs["fuel mass"], :, index] * (1 - array[self.array_inputs["biogas blend share"], :, index]))
+                / array[self.array_inputs["range"], :, index]
+                * -1
+            ).T
+
+            # biogas share
+            self.A[:, self.inputs[dict_cng_map[cng_technology]], self.index_cng] = (
+                (array[self.array_inputs["fuel mass"], :, index] * array[self.array_inputs["biogas blend share"], :, index])
+                / array[self.array_inputs["range"], :, index]
+                * -1
+            ).T
+
+            # Fuel-based emissions from CNG, CO2
+            self.A[
+                :,
+                self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
+                self.index_cng] = (
+                (
+                    array[self.array_inputs["CO2 per kg fuel"],:, index]
+                    * (array[self.array_inputs["fuel mass"], :, index] * (1 - array[self.array_inputs["biogas blend share"], :, index]))
+                )
+                / array[self.array_inputs["range"], :, index] * -1) .T
+
+
 
         if "ICEV-d" in self.scope["powertrain"]:
-
             index = self.get_index_from_array(["ICEV-d"])
+
             if self.background_configuration:
                 if "diesel technology" in self.background_configuration:
                     # If a customization dict is passed
@@ -1493,9 +1507,11 @@ class InventoryCalculation:
                         "diesel technology"
                     ]
                 else:
-                    diesel_technology = "diesel"
+                    diesel_technology = "biodiesel - algae"
             else:
-                diesel_technology = "diesel"
+                diesel_technology = "biodiesel - algae"
+
+
 
             dict_diesel_map = {
                 "diesel": (
@@ -1518,29 +1534,48 @@ class InventoryCalculation:
                 ),
             }
 
-            if diesel_technology == "diesel":
-                self.A[
+            # conventional diesel minus biodiesel share
+            self.A[
                     :,
-                    self.inputs[dict_diesel_map[diesel_technology]],
+                    self.inputs[(
+                    "market for diesel",
+                    "Europe without Switzerland",
+                    "kilogram",
+                    "diesel",
+                )],
                     self.index_diesel,
                 ] = (
-                    array[self.array_inputs["fuel mass"], :, index]
+                                    (array[self.array_inputs["fuel mass"], :, index] * (1 - array[self.array_inputs["biodiesel blend share"], :, index]))
                     / array[self.array_inputs["range"], :, index]
                     * -1
                 ).T
-            else:
-                # biodiesel
-                self.A[
-                    :,
-                    self.inputs[dict_diesel_map[diesel_technology]],
-                    self.index_diesel,
-                ] = (
-                    (
-                        array[self.array_inputs["fuel mass"], :, index] / 48
-                    )  # LHV biodiesel 40 MJ/kg
-                    / array[self.array_inputs["range"], :, index]
-                    * -1
-                ).T
+
+            # biodiesel
+            self.A[
+                :,
+                self.inputs[dict_diesel_map[diesel_technology]],
+                self.index_diesel,
+            ] = (
+                (
+                        (array[self.array_inputs["fuel mass"], :, index] * array[self.array_inputs["biodiesel blend share"], :, index]) / 48
+                )  # LHV biodiesel 48 MJ/kg
+                / array[self.array_inputs["range"], :, index]
+                * -1
+            ).T
+
+            # Fuel-based emissions from conventional diesel, CO2
+            self.A[
+                :,
+                self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
+                self.index_diesel] = (
+                (
+                    array[self.array_inputs["CO2 per kg fuel"], :, index]
+                    * (array[self.array_inputs["fuel mass"], :, index] * (1 - array[self.array_inputs["biodiesel blend share"], :, index]))
+                )
+                / array[self.array_inputs["range"], :, index]
+                * -1
+            ).T
+
 
         if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV"]]:
             index = self.get_index_from_array(["ICEV-p", "HEV-p", "PHEV"])
@@ -1552,17 +1587,13 @@ class InventoryCalculation:
                         "petrol technology"
                     ]
                 else:
-                    petrol_technology = "petrol"
+                    petrol_technology = "bioethanol - wheat straw"
             else:
-                petrol_technology = "petrol"
+                petrol_technology = "bioethanol - wheat straw"
+
+
 
             dict_petrol_map = {
-                "petrol": (
-                    "market for petrol, low-sulfur",
-                    "Europe without Switzerland",
-                    "kilogram",
-                    "petrol, low-sulfur",
-                ),
                 "bioethanol - wheat straw": (
                     "Ethanol from wheat straw pellets",
                     "RER",
@@ -1589,29 +1620,47 @@ class InventoryCalculation:
                 ),
             }
 
-            if petrol_technology == "petrol":
-                self.A[
+            # conventional petrol minus share of bioethanol
+            self.A[
                     :,
-                    self.inputs[dict_petrol_map[petrol_technology]],
+                    self.inputs[(
+                    "market for petrol, low-sulfur",
+                    "Europe without Switzerland",
+                    "kilogram",
+                    "petrol, low-sulfur",
+                )],
                     self.index_petrol + self.index_hybrid + self.index_plugin_hybrid,
                 ] = (
-                    array[self.array_inputs["fuel mass"], :, index]
+                                    (array[self.array_inputs["fuel mass"], :, index] * (1 - array[self.array_inputs["bioethanol blend share"], :, index]))
                     / array[self.array_inputs["range"], :, index]
                     * -1
                 ).T
-            else:
-                # bioethanol
-                self.A[
-                    :,
-                    self.inputs[dict_petrol_map[petrol_technology]],
-                    self.index_petrol + self.index_hybrid + self.index_plugin_hybrid,
-                ] = (
-                    (
-                        array[self.array_inputs["fuel mass"], :, index] / 42.4
-                    )  # LHV petrol 42.4 MJ/kg
-                    / array[self.array_inputs["range"], :, index]
-                    * -1
-                ).T
+
+            # bioethanol
+            self.A[
+                :,
+                self.inputs[dict_petrol_map[petrol_technology]],
+                self.index_petrol + self.index_hybrid + self.index_plugin_hybrid,
+            ] = (
+                (
+                        (array[self.array_inputs["fuel mass"], :, index] * array[self.array_inputs["bioethanol blend share"], :, index]) / 42.4
+                )  # LHV petrol 42.4 MJ/kg
+                / array[self.array_inputs["range"], :, index]
+                * -1
+            ).T
+
+            # Fuel-based emissions from conventional petrol, CO2
+            self.A[
+                :,
+                self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
+                self.index_petrol + self.index_hybrid + self.index_plugin_hybrid] = (
+                (
+                    array[self.array_inputs["CO2 per kg fuel"], :, index]
+                    * (array[self.array_inputs["fuel mass"], :, index] * (1 - array[self.array_inputs["bioethanol blend share"], :, index]))
+                )
+                / array[self.array_inputs["range"], :, index]
+                * -1
+            ).T
 
         # Non-exhaust emissions
         self.A[
@@ -1659,59 +1708,11 @@ class InventoryCalculation:
         ] = (5.37e-7 * array[self.array_inputs["driving mass"], :] * -1)
 
         # Exhaust emissions
-        # Fuel-based emissions
-        self.A[
-            :,
-            self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
-            -self.number_of_cars :,
-        ] = (
-            (
-                array[self.array_inputs["CO2 per kg fuel"], :]
-                * array[self.array_inputs["fuel mass"], :]
-            )
-            / array[self.array_inputs["range"], :]
-            * -1
-        )
 
         # Non-fuel based emissions
-
-
         self.A[:, self.index_emissions, -self.number_of_cars :] = (
             array[[self.array_inputs[self.map_non_fuel_emissions[self.rev_inputs[x]]] for x in self.index_emissions]] * -1
         ).transpose([1, 0, 2])
-
-        if "cng_technology" in locals():
-            if cng_technology == "biogas":
-                # change fossil emissions to non-fossil, if first iteration
-                self.A[
-                    :,
-                    self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
-                    self.index_cng,
-                ] = 0
-
-        if "diesel_technology" in locals():
-            if diesel_technology in ("biodiesel - algae", "biodiesel - cooking oil"):
-                # change fossil emissions to non-fossil, if first iteration
-
-                self.A[
-                    :,
-                    self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
-                    self.index_diesel,
-                ] = 0
-
-        if "petrol_technology" in locals():
-            if petrol_technology in (
-                "bioethanol - wheat straw",
-                "bioethanol - forest residues",
-                "bioethanol - sugarbeet",
-                "bioethanol - maize starch",
-            ):
-                # change fossil emissions to non-fossil, if first iteration
-                self.A[
-                    :,
-                    self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
-                    self.index_petrol + self.index_hybrid + self.index_plugin_hybrid,
-                ] = 0
 
         # Noise emissions
         self.A[:, self.index_noise, -self.number_of_cars :] = (
