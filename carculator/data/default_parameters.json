@@ -10227,5 +10227,71 @@
     "uncertainty_type": 5,
     "unit": "MJ/kg",
     "year": 2040
+  },
+  "108-2017-emission_factor": {
+    "amount": 1.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 1.0,
+    "maximum": 1.0,
+    "minimum": 1.0,
+    "name": "emission factor",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c",
+      "PHEV-e",
+      "PHEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "",
+    "uncertainty_type": 5,
+    "unit": "unitless",
+    "year": 2017
+  },
+  "108-2040-emission_factor": {
+    "amount": 1.0,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 1.0,
+    "maximum": 1.0,
+    "minimum": 1.0,
+    "name": "emission factor",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c",
+      "PHEV-e",
+      "PHEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "",
+    "uncertainty_type": 5,
+    "unit": "unitless",
+    "year": 2040
   }
 }

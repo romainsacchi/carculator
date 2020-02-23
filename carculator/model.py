@@ -640,12 +640,27 @@ class CarModel:
         self.array.loc[:, "ICEV-d", list_direct_emissions, :] = np.hstack(
             hem.get_emissions_per_powertrain("diesel")
         ).reshape((1, 33, 1, 1))
+
+        # Applies an emission factor, useful for sensitivity purpose
+        self.array.loc[:, "ICEV-d", list_direct_emissions, :] *= self.array.loc[:, "ICEV-d", "emission factor", :]
+
         self.array.loc[
             :, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :
-        ] = np.hstack(hem.get_emissions_per_powertrain("petrol")).reshape((1, 33, 1, 1))
+        ] = np.hstack(hem.get_emissions_per_powertrain("petrol")
+                      ).reshape((1, 33, 1, 1))
+
+        # Applies an emission factor, useful for sensitivity purpose
+        self.array.loc[
+            :, ["ICEV-p", "HEV-p", "PHEV-c"], list_direct_emissions, :
+        ] *= self.array.loc[:, ["ICEV-p", "HEV-p", "PHEV-c"], "emission factor", :]
+
         self.array.loc[:, "ICEV-g", list_direct_emissions, :] = np.hstack(
             hem.get_emissions_per_powertrain("CNG")
         ).reshape((1, 33, 1, 1))
+
+        # Applies an emission factor, useful for sensitivity purpose
+        self.array.loc[:, "ICEV-g", list_direct_emissions, :] *= self.array.loc[:, "ICEV-g", "emission factor", :]
+
 
     def set_noise_emissions(self):
         """
