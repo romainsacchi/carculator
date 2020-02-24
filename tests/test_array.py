@@ -7,7 +7,6 @@ def test_type_cip():
         fill_xarray_from_input_parameters("bla")
     assert wrapped_error.type == TypeError
 
-    
 def test_format_array():
     cip = CarInputParameters()
     cip.static()
