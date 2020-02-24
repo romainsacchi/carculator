@@ -214,7 +214,7 @@ class CarModel:
                     self["fuel cell stack efficiency"]
                     / self["fuel cell own consumption"]
                 )
-
+                self["fuel cell power share"] = self["fuel cell power share"].clip(min=0, max=1)
                 self["fuel cell power"] = (
                     self["power"]
                     * self["fuel cell power share"]
@@ -352,6 +352,7 @@ class CarModel:
         """Set electric and combustion motor powers based on input parameter ``power to mass ratio``."""
         # Convert from W/kg to kW
         self["power"] = self["power to mass ratio"] * self["curb mass"] / 1000
+        self["combustion power share"] = self["combustion power share"].clip(min=0, max=1)
         self["combustion power"] = self["power"] * self["combustion power share"]
         self["electric power"] = self["power"] * (1 - self["combustion power share"])
 
@@ -397,6 +398,7 @@ class CarModel:
             / self.array.loc[:, pt_list, "battery cell power density", :, :]
         )
 
+        self["battery cell mass share"] = self["battery cell mass share"].clip(min=0, max=1)
         self.array.loc[:, pt_list, "battery BoP mass", :, :] = self.array.loc[
             :, pt_list, "battery cell mass", :, :
         ] * (1 - self.array.loc[:, pt_list, "battery cell mass share", :, :])
@@ -472,6 +474,7 @@ class CarModel:
                 )
 
         # kWh electricity/kg battery cell
+        self["battery cell production energy electricity share"] = self["battery cell production energy electricity share"].clip(min=0, max=1)
         self["battery cell production electricity"] = (
             self["battery cell production energy"]
             * self["battery cell production energy electricity share"]
