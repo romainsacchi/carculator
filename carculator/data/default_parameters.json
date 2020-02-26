@@ -7318,12 +7318,12 @@
     "year": 2017
   },
   "345-2040-fuel cell cost per kW": {
-    "amount": 40.0,
+    "amount": 60.0,
     "category": "Costs",
     "comment": "considers whole fuel cell system",
     "kind": "distribution",
-    "loc": 40.0,
-    "maximum": 65.0,
+    "loc": 60.0,
+    "maximum": 135.0,
     "minimum": 25.0,
     "name": "fuel cell cost per kW",
     "powertrain": [
@@ -7342,32 +7342,6 @@
     "uncertainty_type": 5,
     "unit": "Euro / kW",
     "year": 2040
-  },
-  "345-2050-fuel cell cost per kW": {
-    "amount": 30.0,
-    "category": "Costs",
-    "comment": "considers whole fuel cell system",
-    "kind": "distribution",
-    "loc": 30.0,
-    "maximum": 45.0,
-    "minimum": 25.0,
-    "name": "fuel cell cost per kW",
-    "powertrain": [
-      "FCEV"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "Ultimate industry objective, according to Thompson et al. 2017",
-    "uncertainty_type": 5,
-    "unit": "Euro / kW",
-    "year": 2050
   },
   "346-2017-power battery cost per kW": {
     "amount": 50.0,
@@ -7944,12 +7918,12 @@
     "year": 2040
   },
   "365-2017-energy storage battery cost per kWh": {
-    "amount": 200.0,
+    "amount": 225.0,
     "category": "Costs",
     "comment": "considers whole battery system except charging system",
     "kind": "distribution",
-    "loc": 200.0,
-    "maximum": 220.0,
+    "loc": 225.0,
+    "maximum": 270.0,
     "minimum": 180.0,
     "name": "energy battery cost per kWh",
     "powertrain": [
@@ -7971,42 +7945,14 @@
     "unit": "Euro / kWh",
     "year": 2017
   },
-  "366-2030-energy storage battery cost per kWh": {
+  "366-2040-energy storage battery cost per kWh": {
     "amount": 90.0,
     "category": "Costs",
     "comment": "considers whole battery system except charging system",
     "kind": "distribution",
     "loc": 90.0,
-    "maximum": 110.0,
-    "minimum": 80.0,
-    "name": "energy battery cost per kWh",
-    "powertrain": [
-      "BEV",
-      "PHEV-e",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "Bloomberg, 2019: 60$/kWh in 2030. Judged too optimistic so 2030 cost value applied to 2040.",
-    "uncertainty_type": 5,
-    "unit": "Euro / kWh",
-    "year": 2030
-  },
-  "366-2040-energy storage battery cost per kWh": {
-    "amount": 60.0,
-    "category": "Costs",
-    "comment": "considers whole battery system except charging system",
-    "kind": "distribution",
-    "loc": 60.0,
-    "maximum": 80.0,
-    "minimum": 40.0,
+    "maximum": 180.0,
+    "minimum": 60.0,
     "name": "energy battery cost per kWh",
     "powertrain": [
       "BEV",
@@ -8026,34 +7972,6 @@
     "uncertainty_type": 5,
     "unit": "Euro / kWh",
     "year": 2040
-  },
-  "366-2050-energy storage battery cost per kWh": {
-    "amount": 50.0,
-    "category": "Costs",
-    "comment": "considers whole battery system except charging system",
-    "kind": "distribution",
-    "loc": 50.0,
-    "maximum": 70.0,
-    "minimum": 30.0,
-    "name": "energy battery cost per kWh",
-    "powertrain": [
-      "BEV",
-      "PHEV-e",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "Bloomberg, 2019: 60$/kWh in 2030. Judged too optimistic so 2030 cost value applied to 2040.",
-    "uncertainty_type": 5,
-    "unit": "Euro / kWh",
-    "year": 2050
   },
   "367-2017-battery onboard charging infrastructure cost": {
     "amount": 180.0,
