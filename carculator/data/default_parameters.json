@@ -10522,8 +10522,6 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 1.0,
-    "maximum": 1.0,
-    "minimum": 1.0,
     "name": "emission factor",
     "powertrain": [
       "BEV",
@@ -10546,7 +10544,7 @@
       "Van"
     ],
     "source": "",
-    "uncertainty_type": 5,
+    "uncertainty_type": 1,
     "unit": "unitless",
     "year": 2017
   },
@@ -10555,8 +10553,6 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 1.0,
-    "maximum": 1.0,
-    "minimum": 1.0,
     "name": "emission factor",
     "powertrain": [
       "BEV",
@@ -10579,7 +10575,7 @@
       "Van"
     ],
     "source": "",
-    "uncertainty_type": 5,
+    "uncertainty_type": 1,
     "unit": "unitless",
     "year": 2040
   },
@@ -10588,8 +10584,6 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 0.0,
-    "maximum": 0.0,
-    "minimum": 0.0,
     "name": "biodiesel blend share",
     "powertrain": [
       "ICEV-d"
@@ -10604,7 +10598,7 @@
       "Van"
     ],
     "source": "",
-    "uncertainty_type": 5,
+    "uncertainty_type": 1,
     "unit": "unitless",
     "year": 2017
   },
@@ -10613,8 +10607,6 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 0.0,
-    "maximum": 0.0,
-    "minimum": 0.0,
     "name": "biodiesel blend share",
     "powertrain": [
       "ICEV-d"
@@ -10629,7 +10621,7 @@
       "Van"
     ],
     "source": "",
-    "uncertainty_type": 5,
+    "uncertainty_type": 1,
     "unit": "unitless",
     "year": 2040
   },
@@ -10638,8 +10630,6 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 0.0,
-    "maximum": 0.0,
-    "minimum": 0.0,
     "name": "bioethanol blend share",
     "powertrain": [
       "ICEV-p",
@@ -10656,7 +10646,7 @@
       "Van"
     ],
     "source": "",
-    "uncertainty_type": 5,
+    "uncertainty_type": 1,
     "unit": "unitless",
     "year": 2017
   },
@@ -10665,8 +10655,6 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 0.0,
-    "maximum": 0.0,
-    "minimum": 0.0,
     "name": "bioethanol blend share",
     "powertrain": [
       "ICEV-p",
@@ -10683,7 +10671,7 @@
       "Van"
     ],
     "source": "",
-    "uncertainty_type": 5,
+    "uncertainty_type": 1,
     "unit": "unitless",
     "year": 2040
   },
@@ -10692,8 +10680,6 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 0.0,
-    "maximum": 0.0,
-    "minimum": 0.0,
     "name": "biogas blend share",
     "powertrain": [
       "ICEV-g"
@@ -10708,7 +10694,7 @@
       "Van"
     ],
     "source": "",
-    "uncertainty_type": 5,
+    "uncertainty_type": 1,
     "unit": "unitless",
     "year": 2017
   },
@@ -10717,8 +10703,6 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 0.0,
-    "maximum": 0.0,
-    "minimum": 0.0,
     "name": "biogas blend share",
     "powertrain": [
       "ICEV-g"
@@ -10733,7 +10717,7 @@
       "Van"
     ],
     "source": "",
-    "uncertainty_type": 5,
+    "uncertainty_type": 1,
     "unit": "unitless",
     "year": 2040
   }

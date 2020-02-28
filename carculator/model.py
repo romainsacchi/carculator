@@ -141,7 +141,7 @@ class CarModel:
         self.set_auxiliaries()
         self.set_ttw_efficiency()
         self.calculate_ttw_energy()
-
+        self.adjust_cost()
         self.set_range()
         self.set_electric_utility_factor()
         self.set_electricity_consumption()
@@ -151,6 +151,28 @@ class CarModel:
         # self.calculate_lci()
         self.create_PHEV()
         self.drop_hybrid()
+
+    def adjust_cost(self):
+        """
+        This method adjusts costs of energy storage over time, to correct for the linear interpolation between years.
+
+        """
+
+        n_year = len(self.array.year.values)
+
+        # Correction of hydrogen tank cost, per kg
+        self.array.loc[:, ["FCEV"], "fuel tank cost per kg", :, :] \
+            = np.reshape((1.078e58 * np.exp(-6.32e-2 * self.array.year.values) + 3.43e2),(1,1,n_year,1))
+
+        # Correction of fuel cell stack cost, per kW
+        self.array.loc[:, ["FCEV"], "fuel cell cost per kW", :, :] \
+            = np.reshape((3.15e66 * np.exp(-7.35e-2 * self.array.year.values) + 2.39e1),(1,1,n_year,1))
+
+        # Correction of battery system cost, per kWh
+        self.array.loc[:, ["BEV", "PHEV-e", "PHEV-c"], "energy battery cost per kWh", :, :] \
+            = np.reshape((2.75e86 * np.exp(-9.61e-2 * self.array.year.values) + 5.059e1),(1,1,n_year,1))
+
+
 
     def drop_hybrid(self):
         """
