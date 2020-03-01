@@ -1057,25 +1057,25 @@ class InventoryCalculation:
             .values
         )
 
-
-        if battery_tech == "NMC":
-            # Use the NMC inventory of Schmidt et al. 2019
-            self.A[
-                :,
-                self.inputs[("Battery BoP", "GLO", "kilogram", "Battery BoP")],
-                -self.number_of_cars :,
-            ] = (
-                (
-                    array[self.array_inputs["battery BoP mass"], :]
-                    * (1 + array[self.array_inputs["battery lifetime replacements"], :])
-                )
-                / array[self.array_inputs["lifetime kilometers"], :]
-                * -1
+        # Use the NMC inventory of Schmidt et al. 2019
+        self.A[
+            :,
+            self.inputs[("Battery BoP", "GLO", "kilogram", "Battery BoP")],
+            -self.number_of_cars :,
+        ] = (
+            (
+                array[self.array_inputs["battery BoP mass"], :]
+                * (1 + array[self.array_inputs["battery lifetime replacements"], :])
             )
+            / array[self.array_inputs["lifetime kilometers"], :]
+            * -1
+        )
 
-            self.A[
+        battery_cell_label = ("Battery cell, " + battery_tech, "GLO", "kilogram", "Battery cell")
+
+        self.A[
                 :,
-                self.inputs[("Battery cell", "GLO", "kilogram", "Battery cell")],
+                self.inputs[battery_cell_label],
                 -self.number_of_cars :,
             ] = (
                 (
@@ -1089,128 +1089,36 @@ class InventoryCalculation:
                 * -1
             )
 
-            # Set an input of electricity, given the country of manufacture
-            self.A[
-                :,
-                self.inputs[
-                    (
-                        "market group for electricity, medium voltage",
-                        "World",
-                        "kilowatt hour",
-                        "electricity, medium voltage",
-                    )
-                ],
-                self.inputs[("Battery cell", "GLO", "kilogram", "Battery cell")],
-            ] = 0
-
-            self.A[
-                :,
-                [self.inputs[dict_map[t]] for t in dict_map],
-                self.inputs[("Battery cell", "GLO", "kilogram", "Battery cell")],
-            ] = (
-                np.outer(
-                    mix_battery_manufacturing[0],
-                    (
-                        array[
-                            self.array_inputs["battery cell production electricity"], :
-                        ].max(axis=1)
-                        * -1
-                    ),
-                )
-                * losses_to_medium
-            ).T
-
-        if battery_tech == "LFP":
-            self.A[
-                :,
-                self.inputs[("Li-ion (LFP)", "JP", "kilowatt hour", "Li-ion (LFP)")],
-                -self.number_of_cars :,
-            ] = (
+        # Set an input of electricity, given the country of manufacture
+        self.A[
+            :,
+            self.inputs[
                 (
-                    array[self.array_inputs["electric energy stored"], :]
-                    * (1 + array[self.array_inputs["battery lifetime replacements"], :])
+                    "market group for electricity, medium voltage",
+                    "World",
+                    "kilowatt hour",
+                    "electricity, medium voltage",
                 )
-                / array[self.array_inputs["lifetime kilometers"], :]
-                * -1
-            )
+            ],
+            self.inputs[battery_cell_label],
+        ] = 0
 
-            # Set an input of electricity, given the country of manufacture
-            old_amount = self.A[
-                :,
-                self.inputs[
-                    (
-                        "market group for electricity, medium voltage",
-                        "JPN",
-                        "kilowatt hour",
-                        "electricity, medium voltage",
-                    )
-                ],
-                self.inputs[("Li-ion (LFP)", "JP", "kilowatt hour", "Li-ion (LFP)")],
-            ]
-            self.A[
-                :,
-                self.inputs[
-                    (
-                        "market group for electricity, medium voltage",
-                        "JPN",
-                        "kilowatt hour",
-                        "electricity, medium voltage",
-                    )
-                ],
-                self.inputs[("Li-ion (LFP)", "JP", "kilowatt hour", "Li-ion (LFP)")],
-            ] = 0
-
-            self.A[
-                :,
-                [self.inputs[dict_map[t]] for t in dict_map],
-                self.inputs[("Li-ion (LFP)", "JP", "kilowatt hour", "Li-ion (LFP)")],
-            ] = (np.outer(mix_battery_manufacturing[0], old_amount) * losses_to_medium).T
-
-        if battery_tech == "NCA":
-            self.A[
-                :,
-                self.inputs[("Li-ion (NCA)", "JP", "kilowatt hour", "Li-ion (NCA)")],
-                -self.number_of_cars :,
-            ] = (
+        self.A[
+            :,
+            [self.inputs[dict_map[t]] for t in dict_map],
+            self.inputs[battery_cell_label],
+        ] = (
+            np.outer(
+                mix_battery_manufacturing[0],
                 (
-                    array[self.array_inputs["electric energy stored"], :]
-                    * (1 + array[self.array_inputs["battery lifetime replacements"], :])
-                )
-                / array[self.array_inputs["lifetime kilometers"], :]
-                * -1
+                    array[
+                        self.array_inputs["battery cell production electricity"], :
+                    ].max(axis=1)
+                    * -1
+                ),
             )
-
-            # Set an input of electricity, given the country of manufacture
-            old_amount = self.A[
-                :,
-                self.inputs[
-                    (
-                        "market group for electricity, medium voltage",
-                        "JPN",
-                        "kilowatt hour",
-                        "electricity, medium voltage",
-                    )
-                ],
-                self.inputs[("Li-ion (NCA)", "JP", "kilowatt hour", "Li-ion (NCA)")],
-            ]
-            self.A[
-                :,
-                self.inputs[
-                    (
-                        "market group for electricity, medium voltage",
-                        "JPN",
-                        "kilowatt hour",
-                        "electricity, medium voltage",
-                    )
-                ],
-                self.inputs[("Li-ion (NCA)", "JP", "kilowatt hour", "Li-ion (NCA)")],
-            ] = 0
-
-            self.A[
-                :,
-                [self.inputs[dict_map[t]] for t in dict_map],
-                self.inputs[("Li-ion (NCA)", "JP", "kilowatt hour", "Li-ion (NCA)")],
-            ] = (np.outer(mix_battery_manufacturing[0], old_amount) * losses_to_medium).T
+            * losses_to_medium
+        ).T
 
         index_A = [
             self.inputs[c]
@@ -1272,8 +1180,6 @@ class InventoryCalculation:
             * -1
         ).T
 
-
-
         if not any(True for x in ["BEV", "PHEV"] if x in self.scope["powertrain"]):
             self.background_configuration["custom electricity mix"] = [
                 self.bs.electricity_mix.sel(country=self.background_configuration["country"], value=0).interp(
@@ -1293,7 +1199,6 @@ class InventoryCalculation:
             # If a special electricity mix is specified, we use it
             mix = self.background_configuration["custom electricity mix"]
         else:
-
             use_year = [
                 int(i)
                 for i in (
@@ -1457,8 +1362,6 @@ class InventoryCalculation:
             else:
                 cng_technology = "biogas"
 
-
-
             dict_cng_map = {
                 "biogas": (
                     "biogas upgrading - sewage sludge - amine scrubbing - best",
@@ -1466,9 +1369,13 @@ class InventoryCalculation:
                     "kilogram",
                     "biogas upgrading - sewage sludge - amine scrubbing - best",
                 ),
+                "synthetic gas": ('methane, from electrochemical methanation, with carbon from atmospheric CO2 capture',
+                  'RER',
+                  'kilogram',
+                  'methane, from electrochemical methanation')
             }
 
-            # Conventional CNG minus biogas share
+            # Conventional CNG minus biogas or syngas share
             self.A[:, self.inputs[(
                     "market for natural gas, from high pressure network (1-5 bar), at service station",
                     "GLO",
@@ -1497,8 +1404,6 @@ class InventoryCalculation:
                     * (array[self.array_inputs["fuel mass"], :, index] * (1 - array[self.array_inputs["biogas blend share"], :, index]))
                 )
                 / array[self.array_inputs["range"], :, index] * -1) .T
-
-
 
         if "ICEV-d" in self.scope["powertrain"]:
             index = self.get_index_from_array(["ICEV-d"])
@@ -1535,6 +1440,12 @@ class InventoryCalculation:
                     "kilogram",
                     "Biodiesel from cooking oil",
                 ),
+                "synthetic diesel": (
+                    'Diesel production, Fischer Tropsch process',
+                     'RER',
+                     'kilogram',
+                     'Diesel'
+                )
             }
 
             # conventional diesel minus biodiesel share
@@ -1621,6 +1532,12 @@ class InventoryCalculation:
                     "kilogram",
                     "Ethanol from maize starch",
                 ),
+                "synthetic gasoline": (
+                    'Gasoline production',
+                    'RER',
+                    'kilowatt hour',
+                    'Gasoline'
+                )
             }
 
             # conventional petrol minus share of bioethanol
