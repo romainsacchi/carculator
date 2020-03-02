@@ -148,7 +148,6 @@ class CarModel:
         self.set_costs()
         self.set_hot_emissions()
         self.set_noise_emissions()
-        # self.calculate_lci()
         self.create_PHEV()
         self.drop_hybrid()
 
@@ -171,8 +170,6 @@ class CarModel:
         # Correction of battery system cost, per kWh
         self.array.loc[:, ["BEV", "PHEV-e", "PHEV-c"], "energy battery cost per kWh", :, :] \
             = np.reshape((2.75e86 * np.exp(-9.61e-2 * self.array.year.values) + 5.059e1),(1,1,n_year,1))
-
-
 
     def drop_hybrid(self):
         """
@@ -411,37 +408,39 @@ class CarModel:
 
     def set_battery_properties(self):
         pt_list = ["ICEV-p", "HEV-p", "ICEV-g", "ICEV-d"]
-        self.array.loc[:, pt_list, "battery power", :, :] = self.array.loc[
-            :, pt_list, "electric power", :, :
+        self.array.loc[:, pt_list, "battery power"] = self.array.loc[
+            :, pt_list, "electric power"
         ]
 
-        self.array.loc[:, pt_list, "battery cell mass", :, :] = (
-            self.array.loc[:, pt_list, "battery power", :, :]
-            / self.array.loc[:, pt_list, "battery cell power density", :, :]
+        self.array.loc[:, pt_list, "battery cell mass"] = (
+            self.array.loc[:, pt_list, "battery power" ]
+            / self.array.loc[:, pt_list, "battery cell power density"]
         )
 
         self["battery cell mass share"] = self["battery cell mass share"].clip(min=0, max=1)
         self.array.loc[:, pt_list, "battery BoP mass", :, :] = self.array.loc[
-            :, pt_list, "battery cell mass", :, :
+            :, pt_list, "battery cell mass",
         ] * (1 - self.array.loc[:, pt_list, "battery cell mass share", :, :])
 
         list_pt_el = ["BEV", "PHEV-c", "PHEV-e"]
-        self.array.loc[:, list_pt_el, "battery cell mass", :, :] = (
-            self.array.loc[:, list_pt_el, "energy battery mass", :, :]
-            * self.array.loc[:, list_pt_el, "battery cell mass share", :, :]
+        self.array.loc[:, list_pt_el, "battery cell mass"] = (
+            self.array.loc[:, list_pt_el, "energy battery mass"]
+            * self.array.loc[:, list_pt_el, "battery cell mass share"]
         )
 
-        self.array.loc[:, list_pt_el, "battery BoP mass", :, :] = self.array.loc[
-            :, list_pt_el, "energy battery mass", :, :
-        ] * (1 - self.array.loc[:, list_pt_el, "battery cell mass share", :, :])
+        self.array.loc[:, list_pt_el, "battery BoP mass"] = self.array.loc[
+            :, list_pt_el, "energy battery mass"
+        ] * (1 - self.array.loc[:, list_pt_el, "battery cell mass share"])
 
     def set_range(self):
 
         list_pt = ["ICEV-p", "HEV-p", "PHEV-c", "ICEV-d", "ICEV-g", "FCEV"]
         fuel_mass = self.array.loc[:, list_pt, "fuel mass"]
         lhv = self.array.loc[:, list_pt, "LHV fuel MJ per kg"]
+
         energy_stored = self.array.loc[:, ["BEV", "PHEV-e"], "electric energy stored"]
         battery_DoD = self.array.loc[:, ["BEV", "PHEV-e"], "battery DoD"]
+
         TtW_el = self.array.loc[:, ["BEV", "PHEV-e"], "TtW energy"]
         TtW = self.array.loc[:, list_pt, "TtW energy"]
 
