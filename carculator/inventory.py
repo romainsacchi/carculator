@@ -1106,6 +1106,10 @@ class InventoryCalculation:
             * -1
         )
 
+        # Start of printout
+
+        print("****************** IMPORTANT BACKGROUND PARAMETERS ******************", end="\n * ")
+
         # Energy chain
         dict_map = {
             "Hydro": (
@@ -1184,8 +1188,15 @@ class InventoryCalculation:
         if "battery origin" not in self.background_configuration:
             self.background_configuration["battery origin"] = "CN"
 
+        print("The country of use is " + self.background_configuration["country"], end='\n * ')
+
+
+
         battery_tech = self.background_configuration["battery technology"]
         battery_origin = self.background_configuration["battery origin"]
+
+        print("Power and energy batteries produced in " + battery_origin + " using " + battery_tech + " chemistry.", end='\n * ')
+
 
         losses_to_medium = float(self.bs.losses[battery_origin]["MV"])
         mix_battery_manufacturing = (
@@ -1337,7 +1348,9 @@ class InventoryCalculation:
         ):
             # If a special electricity mix is specified, we use it
             mix = self.background_configuration["custom electricity mix"]
+            print("The electricity mix is provided by the user.", end="\n \t * ")
         else:
+            print("The electricity mix is provided by carculator.", end="\n \t * ")
             use_year = [
                 int(i)
                 for i in (
@@ -1360,9 +1373,22 @@ class InventoryCalculation:
             mix = [
                 self.bs.electricity_mix.sel(country=country, value=0)
                 .interp(year=np.arange(y, y + use_year[self.scope["year"].index(y)]))
-                .mean(axis=0)
+                .mean(axis=0).values
                 for y in self.scope["year"]
             ]
+
+        for y in self.scope["year"]:
+            sum_renew = mix[self.scope["year"].index(y)][0]+\
+                               mix[self.scope["year"].index(y)][4]+\
+                               mix[self.scope["year"].index(y)][5]+\
+                               mix[self.scope["year"].index(y)][8]
+
+            if self.scope["year"].index(y) + 1 == len(self.scope["year"]):
+                end_str = '\n * '
+            else:
+                end_str = '\n \t * '
+
+            print("in " + str(y) + ", % of renewable _________________________ " + str(np.round(sum_renew*100,0)) + "%", end=end_str)
 
         if any(True for x in ["BEV", "PHEV"] if x in self.scope["powertrain"]):
             for y in self.scope["year"]:
@@ -1407,24 +1433,6 @@ class InventoryCalculation:
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
                 ),
-                "Electrolysis - solar": (
-                    "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - solar PV",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - solar PV",
-                ),
-                "Electrolysis - hydro": (
-                    "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - hydro reservoir",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - hydro reservoir",
-                ),
-                "Electrolysis - nuclear": (
-                    "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - nuclear PWR",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station - nuclear PWR",
-                ),
                 "SMR": (
                     "Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station",
                     "RER",
@@ -1440,6 +1448,9 @@ class InventoryCalculation:
                 / array[self.array_inputs["range"], :, index]
                 * -1
             ).T
+
+            print("Hydrogen produced by " + hydro_technology + ".", end='\n * ')
+
 
             # If hydrolysis is chosen, adjust the electricity mix
 
@@ -1502,7 +1513,6 @@ class InventoryCalculation:
                         "The values for biofuel shares do not match the number of years."
                     )
                     exit(1)
-                share = np.repeat(share, len(index) / len(self.scope["year"])).reshape(-1,1)
 
             else:
                 if "biogas" in cng_technology:
@@ -1523,7 +1533,17 @@ class InventoryCalculation:
                     .interp(year=self.scope["year"])
                     .values
                 )
-                share = np.repeat(share, len(index) / len(self.scope["year"])).reshape(-1,1)
+
+            print("CNG is completed by " + cng_technology + ".", end='\n \t * ')
+
+            for y in self.scope["year"]:
+                if self.scope["year"].index(y) + 1 == len(self.scope["year"]):
+                    end_str = '\n * '
+                else:
+                    end_str = '\n \t * '
+                print("in " + str(y) + " _________________________________________ " +
+                      str(np.round(share[self.scope["year"].index(y)]*100,0)) + "%", end=end_str)
+
 
             dict_cng_map = {
                 "biogas": (
@@ -1542,11 +1562,19 @@ class InventoryCalculation:
 
             # Conventional CNG minus biogas or syngas share
             for y in self.scope["year"]:
-                ind = [
-                    x
-                    for x in self.get_index_from_array([str(y)])
-                    if x in self.index_cng
-                ]
+                ind_A = [
+                                self.inputs[i]
+                                for i in self.inputs
+                                if str(y) in i[0]
+                                and "Passenger" in i[0]
+                                and "ICEV-g" in i[0]
+                            ]
+                ind_array = [
+                        x
+                        for x in self.get_index_from_array([str(y)])
+                        if x in index
+                    ]
+
                 self.A[
                     :,
                     self.inputs[
@@ -1557,22 +1585,22 @@ class InventoryCalculation:
                             "natural gas, from high pressure network (1-5 bar), at service station",
                         )
                     ],
-                    ind,
+                    ind_A,
                 ] = (
                     (
-                        array[self.array_inputs["fuel mass"], :, index]
-                        * (1 - share)
+                        array[self.array_inputs["fuel mass"], :, ind_array]
+                        * (1 - share[self.scope["year"].index(y)])
                     )
-                    / array[self.array_inputs["range"], :, index]
+                    / array[self.array_inputs["range"], :, ind_array]
                     * -1
                 ).T
 
                 # biogas share
-                self.A[:, self.inputs[dict_cng_map[cng_technology]], self.index_cng] = (
-                    (array[self.array_inputs["fuel mass"], :, index] *
-                     share
+                self.A[:, self.inputs[dict_cng_map[cng_technology]], ind_A] = (
+                    (array[self.array_inputs["fuel mass"], :, ind_array] *
+                     share[self.scope["year"].index(y)]
                      )
-                    / array[self.array_inputs["range"], :, index]
+                    / array[self.array_inputs["range"], :, ind_array]
                     * -1
                 ).T
 
@@ -1580,16 +1608,16 @@ class InventoryCalculation:
                 self.A[
                     :,
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
-                    self.index_cng,
+                    ind_A,
                 ] = (
                     (
-                        array[self.array_inputs["CO2 per kg fuel"], :, index]
+                        array[self.array_inputs["CO2 per kg fuel"], :, ind_array]
                         * (
-                            array[self.array_inputs["fuel mass"], :, index]
-                            * (1 - share)
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * (1 - share[self.scope["year"].index(y)])
                         )
                     )
-                    / array[self.array_inputs["range"], :, index]
+                    / array[self.array_inputs["range"], :, ind_array]
                     * -1
                 ).T
 
@@ -1618,7 +1646,6 @@ class InventoryCalculation:
                         "The values for biofuel shares do not match the number of years."
                     )
                     exit(1)
-                share = np.repeat(share, len(index) / len(self.scope["year"])).reshape(-1, 1)
 
             else:
 
@@ -1640,7 +1667,6 @@ class InventoryCalculation:
                     .interp(year=self.scope["year"])
                     .values
                 )
-                share = np.repeat(share, len(index) / len(self.scope["year"])).reshape(-1, 1)
 
             dict_diesel_map = {
                 "diesel": (
@@ -1669,57 +1695,81 @@ class InventoryCalculation:
                 ),
             }
 
-            # conventional diesel minus biodiesel share
-            self.A[
-                :,
-                self.inputs[
-                    (
-                        "market for diesel",
-                        "Europe without Switzerland",
-                        "kilogram",
-                        "diesel",
-                    )
-                ],
-                self.index_diesel,
-            ] = (
-                (
-                    array[self.array_inputs["fuel mass"], :, index]
-                    * (1 - share)
-                )
-                / array[self.array_inputs["range"], :, index]
-                * -1
-            ).T
+            print("Diesel is completed by " + diesel_technology + ".", end='\n \t * ')
 
-            # biodiesel
-            self.A[
-                :, self.inputs[dict_diesel_map[diesel_technology]], self.index_diesel,
-            ] = (
-                (
-                    (
-                        array[self.array_inputs["fuel mass"], :, index]
-                        * share
-                    )
-                )
-                / array[self.array_inputs["range"], :, index]
-                * -1
-            ).T
+            for y in self.scope["year"]:
+                if self.scope["year"].index(y) + 1 == len(self.scope["year"]):
+                    end_str = '\n * '
+                else:
+                    end_str = '\n \t * '
+                print("in " + str(y) + " _________________________________________ " +
+                      str(np.round(share[self.scope["year"].index(y)]*100,0)) + "%", end=end_str)
 
-            # Fuel-based emissions from conventional diesel, CO2
-            self.A[
-                :,
-                self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
-                self.index_diesel,
-            ] = (
-                (
-                    array[self.array_inputs["CO2 per kg fuel"], :, index]
-                    * (
-                        array[self.array_inputs["fuel mass"], :, index]
-                        * (1 - share)
+            for y in self.scope["year"]:
+                ind_A = [
+                                self.inputs[i]
+                                for i in self.inputs
+                                if str(y) in i[0]
+                                and "Passenger" in i[0]
+                                and "ICEV-d" in i[0]
+                            ]
+                ind_array = [
+                        x
+                        for x in self.get_index_from_array([str(y)])
+                        if x in index
+                    ]
+
+                # conventional diesel minus biodiesel share
+                self.A[
+                    :,
+                    self.inputs[
+                        (
+                            "market for diesel",
+                            "Europe without Switzerland",
+                            "kilogram",
+                            "diesel",
+                        )
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        array[self.array_inputs["fuel mass"], :, ind_array]
+                        * (1 - share[self.scope["year"].index(y)])
                     )
-                )
-                / array[self.array_inputs["range"], :, index]
-                * -1
-            ).T
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # biodiesel
+                self.A[
+                    :, self.inputs[dict_diesel_map[diesel_technology]], ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share[self.scope["year"].index(y)]
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Fuel-based emissions from conventional diesel, CO2
+                self.A[
+                    :,
+                    self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                        array[self.array_inputs["CO2 per kg fuel"], :, ind_array]
+                        * (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * (1 - share[self.scope["year"].index(y)])
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
 
         if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV"]]:
             index = self.get_index_from_array(["ICEV-p", "HEV-p", "PHEV"])
@@ -1746,7 +1796,6 @@ class InventoryCalculation:
                         "The values for biofuel shares do not match the number of years."
                     )
                     exit(1)
-                share = np.repeat(share, len(index) / len(self.scope["year"])).reshape(-1, 1)
 
             else:
 
@@ -1768,8 +1817,7 @@ class InventoryCalculation:
                     .interp(year=self.scope["year"])
                     .values
                 )
-                share = np.repeat(share, len(index) / len(self.scope["year"])).reshape(-1, 1)
-            print(share)
+
             dict_petrol_map = {
                 "bioethanol - wheat straw": (
                     "Ethanol from wheat straw pellets",
@@ -1803,64 +1851,83 @@ class InventoryCalculation:
                 ),
             }
 
+            print("Gasoline is completed by " + petrol_technology + ".", end='\n \t * ')
 
-            # conventional petrol supply minus share of bioethanol
+            for y in self.scope["year"]:
+                if self.scope["year"].index(y) + 1 == len(self.scope["year"]):
+                    end_str = '\n * '
+                else:
+                    end_str = '\n \t * '
+                print("in " + str(y) + " _________________________________________ " +
+                      str(np.round(share[self.scope["year"].index(y)]*100, 0)) + "%", end=end_str)
 
-            self.A[
-                :,
-                self.inputs[
+            for y in self.scope["year"]:
+                ind_A = [
+                                self.inputs[i]
+                                for i in self.inputs
+                                if str(y) in i[0]
+                                and "Passenger" in i[0]
+                                and any(x in i[0] for x in ["ICEV-p", "HEV-p", "PHEV"])
+                            ]
+                ind_array = [
+                        x
+                        for x in self.get_index_from_array([str(y)])
+                        if x in index
+                    ]
+                # conventional petrol supply minus share of bioethanol
+                self.A[
+                    :,
+                    self.inputs[
+                        (
+                            "market for petrol, low-sulfur",
+                            "Europe without Switzerland",
+                            "kilogram",
+                            "petrol, low-sulfur",
+                        )
+                    ],
+                    ind_A,
+                ] = (
                     (
-                        "market for petrol, low-sulfur",
-                        "Europe without Switzerland",
-                        "kilogram",
-                        "petrol, low-sulfur",
+                        array[self.array_inputs["fuel mass"], :, ind_array]
+                        * (1 - share[self.scope["year"].index(y)])
                     )
-                ],
-                self.index_petrol + self.index_hybrid + self.index_plugin_hybrid,
-            ] = (
-                (
-                    array[self.array_inputs["fuel mass"], :, index]
-                    * (1 - share)
-                )
-                / array[self.array_inputs["range"], :, index]
-                * -1
-            ).T
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
 
-            # bioethanol supply
-            self.A[
-                :,
-                self.inputs[dict_petrol_map[petrol_technology]],
-                self.index_petrol + self.index_hybrid + self.index_plugin_hybrid,
-            ] = (
-                (
+                # bioethanol supply
+                self.A[
+                    :,
+                    self.inputs[dict_petrol_map[petrol_technology]],
+                    ind_A,
+                ] = (
                     (
-                        array[self.array_inputs["fuel mass"], :, index]
-                        * share
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share[self.scope["year"].index(y)]
+                        )
                     )
-                )
-                / array[self.array_inputs["range"], :, index]
-                * -1
-            ).T
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
 
-            # Fuel-based emissions from conventional petrol, CO2
+                # Fuel-based emissions from conventional petrol, CO2
 
-            self.A[
-                :,
-                self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
-                self.index_petrol + self.index_hybrid + self.index_plugin_hybrid,
-            ] = (
-                (
-                    array[self.array_inputs["CO2 per kg fuel"], :, index]
-                    * (
-                        array[self.array_inputs["fuel mass"], :, index]
-                        * (1 - share)
+                self.A[
+                    :,
+                    self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                        array[self.array_inputs["CO2 per kg fuel"], :, ind_array]
+                        * (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * (1 - share[self.scope["year"].index(y)])
+                        )
                     )
-                )
-                / array[self.array_inputs["range"], :, index]
-                * -1
-            ).T
-
-
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
 
         # Non-exhaust emissions
         self.A[
@@ -1927,3 +1994,4 @@ class InventoryCalculation:
             ]
             * -1
         ).transpose([1, 0, 2])
+        print("*********************************************************************")
