@@ -10526,6 +10526,8 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 1.0,
+    "minimum": 0.7,
+    "maximum": 1.43,
     "name": "emission factor",
     "powertrain": [
       "BEV",
@@ -10547,8 +10549,8 @@
       "Small",
       "Van"
     ],
-    "source": "",
-    "uncertainty_type": 1,
+    "source": "HBEFA 4.1",
+    "uncertainty_type": 5,
     "unit": "unitless",
     "year": 2017
   },
@@ -10557,6 +10559,8 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 1.0,
+    "minimum": 0.7,
+    "maximum": 1.43,
     "name": "emission factor",
     "powertrain": [
       "BEV",
@@ -10578,8 +10582,8 @@
       "Small",
       "Van"
     ],
-    "source": "",
-    "uncertainty_type": 1,
+    "source": "HBEFA 4.1",
+    "uncertainty_type": 5,
     "unit": "unitless",
     "year": 2040
   }
