@@ -12,6 +12,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -48,6 +49,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -83,6 +85,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -139,7 +142,8 @@
       "PHEV-c-d",
       "PHEV-e",
       "FCEV",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -169,7 +173,8 @@
       "PHEV-c-d",
       "PHEV-e",
       "FCEV",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -225,7 +230,8 @@
       "ICEV-g",
       "HEV-p",
       "PHEV-c-p",
-      "PHEV-e"
+      "PHEV-e",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -254,7 +260,8 @@
       "ICEV-g",
       "HEV-p",
       "PHEV-c-p",
-      "PHEV-e"
+      "PHEV-e",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -335,7 +342,8 @@
       "ICEV-g",
       "HEV-p",
       "PHEV-c-p",
-      "PHEV-e"
+      "PHEV-e",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -364,7 +372,8 @@
       "ICEV-g",
       "HEV-p",
       "PHEV-c-p",
-      "PHEV-e"
+      "PHEV-e",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -392,6 +401,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -521,7 +531,8 @@
       "ICEV-p",
       "ICEV-d",
       "ICEV-g",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -549,7 +560,8 @@
       "ICEV-p",
       "ICEV-d",
       "ICEV-g",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -723,7 +735,8 @@
     "minimum": 1400.0,
     "name": "glider base mass",
     "powertrain": [
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large"
@@ -818,7 +831,8 @@
       "ICEV-p",
       "ICEV-d",
       "ICEV-g",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -846,7 +860,8 @@
       "ICEV-p",
       "ICEV-d",
       "ICEV-g",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -872,7 +887,8 @@
     "minimum": 0.6,
     "name": "combustion power share",
     "powertrain": [
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -898,7 +914,8 @@
     "minimum": 0.6,
     "name": "combustion power share",
     "powertrain": [
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -1074,7 +1091,8 @@
     "minimum": 1300.0,
     "name": "glider base mass",
     "powertrain": [
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large"
@@ -1226,7 +1244,8 @@
       "PHEV-c-d",
       "PHEV-e",
       "FCEV",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -1257,7 +1276,8 @@
       "PHEV-c-d",
       "PHEV-e",
       "FCEV",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -1286,6 +1306,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1314,6 +1335,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1341,6 +1363,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1368,6 +1391,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1417,7 +1441,8 @@
     "minimum": 1100.0,
     "name": "glider base mass",
     "powertrain": [
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Van"
@@ -1458,6 +1483,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1485,6 +1511,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1512,6 +1539,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1539,6 +1567,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1566,6 +1595,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1593,6 +1623,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1620,6 +1651,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1647,6 +1679,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1674,6 +1707,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1701,6 +1735,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1750,7 +1785,8 @@
     "minimum": 1100.0,
     "name": "glider base mass",
     "powertrain": [
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Van"
@@ -1792,6 +1828,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1820,6 +1857,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1847,6 +1885,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1874,6 +1913,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1901,6 +1941,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1928,6 +1969,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1955,6 +1997,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -1982,6 +2025,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -2009,6 +2053,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -2036,6 +2081,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -2061,6 +2107,7 @@
     "name": "glider base mass",
     "powertrain": [
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "PHEV-c-p",
       "PHEV-c-d",
@@ -2144,6 +2191,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -2171,6 +2219,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -2198,6 +2247,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -2225,6 +2275,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -2253,6 +2304,7 @@
       "ICEV-g",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d"
     ],
@@ -2283,6 +2335,7 @@
       "ICEV-g",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d"
     ],
@@ -2365,6 +2418,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -2399,6 +2453,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -2430,6 +2485,7 @@
     "name": "glider base mass",
     "powertrain": [
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "PHEV-c-p",
       "PHEV-c-d",
@@ -2703,6 +2759,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -2938,6 +2995,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -3053,6 +3111,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -3083,6 +3142,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -3192,6 +3252,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -3225,6 +3286,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -3366,6 +3428,7 @@
       "ICEV-d",
       "ICEV-g",
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -3395,6 +3458,7 @@
       "ICEV-d",
       "ICEV-g",
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -3477,6 +3541,7 @@
     "name": "battery cell mass share",
     "powertrain": [
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -3503,6 +3568,7 @@
     "name": "battery cell mass share",
     "powertrain": [
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -3531,6 +3597,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -3593,6 +3660,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -3624,6 +3692,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -3683,6 +3752,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -3714,6 +3784,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -3772,6 +3843,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -3802,6 +3874,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -3857,6 +3930,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -3984,6 +4058,7 @@
       "ICEV-p",
       "ICEV-d",
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d",
       "PHEV-e"
@@ -4014,6 +4089,7 @@
       "ICEV-p",
       "ICEV-d",
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d",
       "PHEV-e"
@@ -4144,6 +4220,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -4373,6 +4450,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -4562,6 +4640,7 @@
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d",
       "PHEV-e"
@@ -4585,6 +4664,7 @@
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d",
       "PHEV-e"
@@ -4610,6 +4690,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -4635,6 +4716,7 @@
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d",
       "PHEV-e"
@@ -4658,6 +4740,7 @@
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d",
       "PHEV-e"
@@ -4681,6 +4764,7 @@
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d",
       "PHEV-e"
@@ -4705,6 +4789,7 @@
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d",
       "PHEV-e"
@@ -4853,6 +4938,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -4922,7 +5008,8 @@
     "name": "CO2 per kg fuel",
     "powertrain": [
       "ICEV-d",
-      "PHEV-c-d"
+      "PHEV-c-d",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -4946,7 +5033,8 @@
     "name": "CO2 per kg fuel",
     "powertrain": [
       "ICEV-d",
-      "PHEV-c-d"
+      "PHEV-c-d",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -5012,104 +5100,6 @@
     "unit": "kg / kg fuel",
     "year": 2040
   },
-  "266-2017-SO2 per kg fuel": {
-    "amount": 0.000885,
-    "category": "Emissions",
-    "kind": "distribution",
-    "loc": 0.000885,
-    "name": "SO2 per kg fuel",
-    "powertrain": [
-      "ICEV-d",
-      "PHEV-c-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 1,
-    "unit": "kg / kg fuel",
-    "year": 2017
-  },
-  "267-2040-SO2 per kg fuel": {
-    "amount": 0.000885,
-    "category": "Emissions",
-    "kind": "distribution",
-    "loc": 0.000885,
-    "name": "SO2 per kg fuel",
-    "powertrain": [
-      "ICEV-d",
-      "PHEV-c-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 1,
-    "unit": "kg / kg fuel",
-    "year": 2040
-  },
-  "268-2017-SO2 per kg fuel": {
-    "amount": 1.6e-05,
-    "category": "Emissions",
-    "kind": "distribution",
-    "loc": 1.6e-05,
-    "name": "SO2 per kg fuel",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c-p"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 1,
-    "unit": "kg / kg fuel",
-    "year": 2017
-  },
-  "269-2040-SO2 per kg fuel": {
-    "amount": 1.6e-05,
-    "category": "Emissions",
-    "kind": "distribution",
-    "loc": 1.6e-05,
-    "name": "SO2 per kg fuel",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c-p"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 1,
-    "unit": "kg / kg fuel",
-    "year": 2040
-  },
   "27-2040-power to mass ratio": {
     "amount": 70.0,
     "category": "Glider",
@@ -5122,6 +5112,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5149,6 +5140,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5177,6 +5169,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5206,6 +5199,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5239,6 +5233,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5266,6 +5261,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5293,6 +5289,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5320,6 +5317,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5353,6 +5351,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5387,6 +5386,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5415,6 +5415,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5443,6 +5444,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5472,6 +5474,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5501,6 +5504,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5531,6 +5535,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5560,6 +5565,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5588,6 +5594,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5616,6 +5623,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5644,6 +5652,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5675,6 +5684,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5706,6 +5716,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5736,6 +5747,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5766,6 +5778,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5800,6 +5813,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5885,6 +5899,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -5913,6 +5928,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "ICEV-p",
       "ICEV-d",
       "ICEV-g"
@@ -5944,6 +5960,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "ICEV-p",
       "ICEV-d",
       "ICEV-g"
@@ -5975,6 +5992,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -6009,6 +6027,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -6095,6 +6114,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -6129,6 +6149,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -6212,6 +6233,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -6241,7 +6263,8 @@
       "PHEV-e",
       "PHEV-c-p",
       "PHEV-c-d",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -6271,7 +6294,8 @@
       "PHEV-e",
       "PHEV-c-p",
       "PHEV-c-d",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -6378,7 +6402,8 @@
       "PHEV-e",
       "PHEV-c-p",
       "PHEV-c-d",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -6407,7 +6432,8 @@
       "PHEV-e",
       "PHEV-c-p",
       "PHEV-c-d",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -6510,6 +6536,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -6564,6 +6591,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "ICEV-p",
       "ICEV-d",
       "ICEV-g"
@@ -6596,6 +6624,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "ICEV-p",
       "ICEV-d",
       "ICEV-g"
@@ -6820,6 +6849,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -6875,7 +6905,8 @@
       "PHEV-e",
       "PHEV-c-p",
       "PHEV-c-d",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -6905,7 +6936,8 @@
       "PHEV-e",
       "PHEV-c-p",
       "PHEV-c-d",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -7117,6 +7149,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7171,7 +7204,8 @@
     "name": "energy cost per kWh",
     "powertrain": [
       "ICEV-d",
-      "PHEV-c-d"
+      "PHEV-c-d",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -7198,7 +7232,8 @@
     "name": "energy cost per kWh",
     "powertrain": [
       "ICEV-d",
-      "PHEV-c-d"
+      "PHEV-c-d",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -7278,6 +7313,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7305,6 +7341,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7332,6 +7369,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7359,6 +7397,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7386,6 +7425,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7413,6 +7453,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7440,6 +7481,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7467,6 +7509,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7494,6 +7537,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7521,6 +7565,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7548,6 +7593,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7575,6 +7621,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7602,6 +7649,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7629,6 +7677,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7659,6 +7708,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7689,6 +7739,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7716,6 +7767,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7743,6 +7795,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7770,6 +7823,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7797,6 +7851,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7830,6 +7885,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7863,6 +7919,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7896,6 +7953,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7929,6 +7987,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7956,6 +8015,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -7989,6 +8049,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -8022,6 +8083,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -8055,6 +8117,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -8088,7 +8151,8 @@
       "BEV",
       "FCEV",
       "PHEV-e",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -8116,7 +8180,8 @@
       "BEV",
       "FCEV",
       "PHEV-e",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -8250,6 +8315,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -8479,6 +8545,7 @@
     "name": "engine efficiency",
     "powertrain": [
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d"
     ],
@@ -8506,6 +8573,7 @@
     "name": "engine efficiency",
     "powertrain": [
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d"
     ],
@@ -8535,6 +8603,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -8812,6 +8881,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -8897,6 +8967,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d",
       "PHEV-e"
@@ -8927,6 +8998,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "PHEV-c-p",
       "PHEV-c-d",
       "PHEV-e"
@@ -9015,7 +9087,8 @@
       "PHEV-c-d",
       "PHEV-e",
       "FCEV",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -9045,7 +9118,8 @@
       "PHEV-c-d",
       "PHEV-e",
       "FCEV",
-      "HEV-p"
+      "HEV-p",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -9075,6 +9149,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -9105,6 +9180,7 @@
       "PHEV-c-p",
       "PHEV-c-d",
       "HEV-p",
+      "HEV-d",
       "FCEV"
     ],
     "sizes": [
@@ -9131,7 +9207,8 @@
     "name": "LHV fuel MJ per kg",
     "powertrain": [
       "ICEV-d",
-      "PHEV-c-d"
+      "PHEV-c-d",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -9157,7 +9234,8 @@
     "name": "LHV fuel MJ per kg",
     "powertrain": [
       "ICEV-d",
-      "PHEV-c-d"
+      "PHEV-c-d",
+      "HEV-d"
     ],
     "sizes": [
       "Large",
@@ -9339,6 +9417,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
@@ -9374,6 +9453,7 @@
       "BEV",
       "FCEV",
       "HEV-p",
+      "HEV-d",
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",

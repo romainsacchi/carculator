@@ -121,7 +121,7 @@ class InventoryCalculation:
         self.index_combustion_wo_cng = [
             self.inputs[i]
             for i in self.inputs
-            if any(ele in i[0] for ele in ["ICEV-p", "HEV-p", "PHEV-p", "ICEV-d", "PHEV-d"])
+            if any(ele in i[0] for ele in ["ICEV-p", "HEV-p", "PHEV-p", "ICEV-d", "PHEV-d", "HEV-d"])
         ]
         self.index_diesel = [self.inputs[i] for i in self.inputs if "ICEV-d" in i[0]]
         self.index_all_petrol = [
@@ -130,7 +130,7 @@ class InventoryCalculation:
             if any(ele in i[0] for ele in ["ICEV-p", "HEV-p", "PHEV-p"])
         ]
         self.index_petrol = [self.inputs[i] for i in self.inputs if "ICEV-p" in i[0]]
-        self.index_hybrid = [self.inputs[i] for i in self.inputs if "HEV-p" in i[0]]
+        self.index_hybrid = [self.inputs[i] for i in self.inputs if any(ele in i[0] for ele in ["HEV-p", "HEV-d"])]
         self.index_plugin_hybrid = [
             self.inputs[i] for i in self.inputs if "PHEV" in i[0]
         ]
@@ -1269,9 +1269,9 @@ class InventoryCalculation:
         index_A = [
             self.inputs[c]
             for c in self.inputs
-            if any(ele in c[0] for ele in ["ICEV-d", "ICEV-p", "HEV-p", "PHEV-p", "PHEV-d"])
+            if any(ele in c[0] for ele in ["ICEV-d", "ICEV-p", "HEV-p", "PHEV-p", "PHEV-d", "HEV-d"])
         ]
-        index = self.get_index_from_array(["ICEV-d", "ICEV-p", "HEV-p", "PHEV-p", "PHEV-d"])
+        index = self.get_index_from_array(["ICEV-d", "ICEV-p", "HEV-p", "PHEV-p", "PHEV-d", "HEV-d"])
 
         self.A[
             :,
@@ -1621,8 +1621,8 @@ class InventoryCalculation:
                     * -1
                 ).T
 
-        if [i for i in self.scope["powertrain"] if i in ["ICEV-d", "PHEV-d"]]:
-            index = self.get_index_from_array(["ICEV-d", "PHEV-d"])
+        if [i for i in self.scope["powertrain"] if i in ["ICEV-d", "PHEV-d", "HEV-d"]]:
+            index = self.get_index_from_array(["ICEV-d", "PHEV-d", "HEV-d"])
 
             if "diesel technology" in self.background_configuration:
                 # If a customization dict is passed
@@ -1710,7 +1710,7 @@ class InventoryCalculation:
                     for i in self.inputs
                     if str(y) in i[0]
                        and "Passenger" in i[0]
-                       and any(x in i[0] for x in ["ICEV-d", "PHEV-d"])]
+                       and any(x in i[0] for x in ["ICEV-d", "PHEV-d", "HEV-d"])]
 
                 ind_array = [
                         x

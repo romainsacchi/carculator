@@ -8,8 +8,8 @@ import xarray as xr
 
 DEFAULT_MAPPINGS = {
     "electric": {"BEV", "PHEV-e"},
-    "combustion": {"ICEV-p", "HEV-p", "PHEV-c-p", "ICEV-g", "ICEV-d", "PHEV-c-d"},
-    "combustion_wo_cng": {"ICEV-p", "HEV-p", "PHEV-c-p", "ICEV-d", "PHEV-c-d"},
+    "combustion": {"ICEV-p", "HEV-p", "HEV-d", "PHEV-c-p", "ICEV-g", "ICEV-d", "PHEV-c-d"},
+    "combustion_wo_cng": {"ICEV-p", "HEV-p", "HEV-d", "PHEV-c-p", "ICEV-d", "PHEV-c-d"},
     "pure_combustion": {"ICEV-p", "ICEV-g", "ICEV-d"},
     "petrol": {"ICEV-p", "HEV-p", "PHEV-c-p"},
     "cng": {"ICEV-g"},
@@ -17,7 +17,7 @@ DEFAULT_MAPPINGS = {
     "hybrid": {"PHEV-c-p", "PHEV-e", "PHEV-c-d"},
     "combustion_hybrid": {"PHEV-c-p", "PHEV-c-d"},
     "electric_hybrid": {"PHEV-e"},
-    "diesel": {"ICEV-d", "PHEV-c-d"},
+    "diesel": {"ICEV-d", "PHEV-c-d", "HEV-d"},
     "battery": {"BEV"},
 }
 
@@ -190,7 +190,7 @@ class CarModel:
         :returns: Does not return anything. Modifies ``self.array`` in place.
         """
         self.array = self.array.sel(
-            powertrain=["ICEV-p", "ICEV-d", "ICEV-g", "PHEV-p", "PHEV-d", "FCEV", "BEV", "HEV-p"]
+            powertrain=["ICEV-p", "ICEV-d", "ICEV-g", "PHEV-p", "PHEV-d", "FCEV", "BEV", "HEV-p", "HEV-d"]
         )
 
     def set_electricity_consumption(self):
@@ -433,7 +433,7 @@ class CarModel:
 
 
     def set_battery_properties(self):
-        pt_list = ["ICEV-p", "HEV-p", "ICEV-g", "ICEV-d"]
+        pt_list = ["ICEV-p", "HEV-p", "HEV-d", "ICEV-g", "ICEV-d"]
         self.array.loc[:, pt_list, "battery power"] = self.array.loc[
             :, pt_list, "electric power"
         ]
@@ -465,6 +465,7 @@ class CarModel:
         list_pt = [
             "ICEV-p",
             "HEV-p",
+            "HEV-d",
             "PHEV-c-p",
             "PHEV-c-d",
             "ICEV-d",
@@ -489,7 +490,7 @@ class CarModel:
 
     def set_energy_stored_properties(self):
 
-        list_combustion = ["ICEV-p", "HEV-p", "PHEV-c-p", "PHEV-c-d", "ICEV-d"]
+        list_combustion = ["ICEV-p", "HEV-p", "HEV-d", "PHEV-c-p", "PHEV-c-d", "ICEV-d"]
         self.array.loc[:, list_combustion, "oxidation energy stored"] = (
             self.array.loc[:, list_combustion, "fuel mass"]
             * self.array.loc[:, list_combustion, "LHV fuel MJ per kg"]
@@ -700,11 +701,11 @@ class CarModel:
         ]
 
         self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d"], list_direct_emissions, :
+            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, :
         ] = hem.get_emissions_per_powertrain("diesel")
         # Applies an emission factor, useful for sensitivity purpose
-        self.array.loc[:, ["ICEV-d", "PHEV-c-d"], list_direct_emissions, :] *= self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d"], "emission factor", :
+        self.array.loc[:, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, :] *= self.array.loc[
+            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], "emission factor", :
         ]
         self.array.loc[
             :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, :
@@ -771,7 +772,7 @@ class CarModel:
             :, list(self.fuel_cell), list_noise_emissions, :, :
         ] = nem.get_sound_power_per_compartment("electric").reshape((24, 1, 1))
         self.array.loc[
-            :, "HEV-p", list_noise_emissions, :, :
+            :, ["HEV-p", "HEV-d"], list_noise_emissions, :, :
         ] = nem.get_sound_power_per_compartment("hybrid").reshape((24, 1, 1))
 
     def calculate_cost_impacts(self, scope=None):
