@@ -28,3 +28,4 @@ def test_missing_cycle():
         get_standard_driving_cycle("Foo")
     assert wrapped_error.type == SystemExit
     assert wrapped_error.value.code == 1
+
