@@ -15,9 +15,11 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e",
-      "PHEV"
+      "PHEV-p",
+      "PHEV-d"
     ],
     "sizes": [
       "Large",
@@ -49,8 +51,11 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
-      "PHEV-e"
+      "PHEV-c-p",
+      "PHEV-e",
+      "PHEV-c-d",
+      "PHEV-p",
+      "PHEV-d"
     ],
     "sizes": [
       "Large",
@@ -81,7 +86,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -129,7 +135,8 @@
     "name": "electric fixed mass",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e",
       "FCEV",
       "HEV-p"
@@ -158,7 +165,8 @@
     "name": "electric fixed mass",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e",
       "FCEV",
       "HEV-p"
@@ -216,7 +224,7 @@
       "ICEV-p",
       "ICEV-g",
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
       "PHEV-e"
     ],
     "sizes": [
@@ -245,7 +253,7 @@
       "ICEV-p",
       "ICEV-g",
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
       "PHEV-e"
     ],
     "sizes": [
@@ -271,7 +279,8 @@
     "minimum": 0.7,
     "name": "combustion mass per power",
     "powertrain": [
-      "ICEV-d"
+      "ICEV-d",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -296,7 +305,8 @@
     "minimum": 0.65,
     "name": "combustion mass per power",
     "powertrain": [
-      "ICEV-d"
+      "ICEV-d",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -324,7 +334,7 @@
       "ICEV-p",
       "ICEV-g",
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
       "PHEV-e"
     ],
     "sizes": [
@@ -353,7 +363,7 @@
       "ICEV-p",
       "ICEV-g",
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
       "PHEV-e"
     ],
     "sizes": [
@@ -385,7 +395,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -563,7 +574,8 @@
     "minimum": 0.75,
     "name": "powertrain mass per power",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -589,7 +601,8 @@
     "minimum": 0.54,
     "name": "powertrain mass per power",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -670,7 +683,8 @@
       "FCEV",
       "ICEV-d",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -747,7 +761,8 @@
     "minimum": 67.5,
     "name": "powertrain fixed mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -773,7 +788,8 @@
     "minimum": 48.0,
     "name": "powertrain fixed mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -960,7 +976,8 @@
     "minimum": 0.35,
     "name": "combustion power share",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -987,7 +1004,8 @@
     "minimum": 0.35,
     "name": "combustion power share",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1016,7 +1034,8 @@
       "FCEV",
       "ICEV-d",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1203,7 +1222,8 @@
     "name": "auxilliary power base demand",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e",
       "FCEV",
       "HEV-p"
@@ -1233,7 +1253,8 @@
     "name": "auxilliary power base demand",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e",
       "FCEV",
       "HEV-p"
@@ -1268,7 +1289,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1295,7 +1317,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1321,7 +1344,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1347,7 +1371,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1371,7 +1396,8 @@
       "FCEV",
       "ICEV-d",
       "ICEV-g",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1435,7 +1461,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1461,7 +1488,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1487,7 +1515,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1513,7 +1542,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1539,7 +1569,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1565,7 +1596,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1591,7 +1623,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1617,7 +1650,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1643,7 +1677,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1669,7 +1704,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1693,7 +1729,8 @@
       "FCEV",
       "ICEV-d",
       "ICEV-g",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1758,7 +1795,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1785,7 +1823,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1811,7 +1850,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1837,7 +1877,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1863,7 +1904,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1889,7 +1931,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1915,7 +1958,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1941,7 +1985,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1967,7 +2012,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -1993,7 +2039,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2015,9 +2062,9 @@
     "powertrain": [
       "HEV-p",
       "ICEV-d",
-      "PHEV-c",
-      "PHEV-e",
-      "ICEV-d"
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
     ],
     "sizes": [
       "SUV"
@@ -2100,7 +2147,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2126,7 +2174,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2152,7 +2201,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2178,7 +2228,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2202,7 +2253,8 @@
       "ICEV-g",
       "FCEV",
       "HEV-p",
-      "PHEV-c"
+      "PHEV-c-p",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -2231,7 +2283,8 @@
       "ICEV-g",
       "FCEV",
       "HEV-p",
-      "PHEV-c"
+      "PHEV-c-p",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -2315,7 +2368,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2348,7 +2402,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2376,7 +2431,8 @@
     "powertrain": [
       "HEV-p",
       "ICEV-d",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2650,7 +2706,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2710,7 +2767,8 @@
     "minimum": 40.0,
     "name": "energy battery mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2730,7 +2788,8 @@
     "minimum": 40.0,
     "name": "energy battery mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2750,7 +2809,8 @@
     "minimum": 40.0,
     "name": "energy battery mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2770,7 +2830,8 @@
     "minimum": 40.0,
     "name": "energy battery mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2790,7 +2851,8 @@
     "minimum": 40.0,
     "name": "energy battery mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2810,7 +2872,8 @@
     "minimum": 40.0,
     "name": "energy battery mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2830,7 +2893,8 @@
     "minimum": 50.0,
     "name": "energy battery mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2850,7 +2914,8 @@
     "minimum": 50.0,
     "name": "energy battery mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2876,7 +2941,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2896,7 +2962,8 @@
     "minimum": 50.0,
     "name": "energy battery mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2916,7 +2983,8 @@
     "minimum": 50.0,
     "name": "energy battery mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2936,7 +3004,8 @@
     "minimum": 50.0,
     "name": "energy battery mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2957,7 +3026,8 @@
     "minimum": 50.0,
     "name": "energy battery mass",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -2980,7 +3050,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "FCEV"
     ],
@@ -3009,7 +3080,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "FCEV"
     ],
@@ -3123,7 +3195,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -3155,7 +3228,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -3233,7 +3307,8 @@
     "name": "battery cell energy density",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -3260,7 +3335,8 @@
     "name": "battery cell energy density",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -3345,7 +3421,8 @@
     "name": "battery cell mass share",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -3372,7 +3449,8 @@
     "name": "battery cell mass share",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -3456,7 +3534,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -3511,7 +3590,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "FCEV"
     ],
@@ -3541,7 +3621,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "FCEV"
     ],
@@ -3599,7 +3680,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "FCEV"
     ],
@@ -3629,7 +3711,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "FCEV"
     ],
@@ -3686,7 +3769,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "FCEV"
     ],
@@ -3715,7 +3799,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "FCEV"
     ],
@@ -3775,7 +3860,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -3898,7 +3984,8 @@
       "ICEV-p",
       "ICEV-d",
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -3927,7 +4014,8 @@
       "ICEV-p",
       "ICEV-d",
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -4059,7 +4147,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -4287,7 +4376,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -4472,7 +4562,8 @@
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -4494,7 +4585,8 @@
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -4521,7 +4613,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -4542,7 +4635,8 @@
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -4564,7 +4658,8 @@
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -4586,7 +4681,8 @@
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -4609,7 +4705,8 @@
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -4759,7 +4856,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -4823,7 +4921,8 @@
     "loc": 3.13759,
     "name": "CO2 per kg fuel",
     "powertrain": [
-      "ICEV-d"
+      "ICEV-d",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -4846,7 +4945,8 @@
     "loc": 3.13759,
     "name": "CO2 per kg fuel",
     "powertrain": [
-      "ICEV-d"
+      "ICEV-d",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -4871,7 +4971,7 @@
     "powertrain": [
       "ICEV-p",
       "HEV-p",
-      "PHEV-c"
+      "PHEV-c-p"
     ],
     "sizes": [
       "Large",
@@ -4896,7 +4996,7 @@
     "powertrain": [
       "ICEV-p",
       "HEV-p",
-      "PHEV-c"
+      "PHEV-c-p"
     ],
     "sizes": [
       "Large",
@@ -4919,7 +5019,8 @@
     "loc": 0.000885,
     "name": "SO2 per kg fuel",
     "powertrain": [
-      "ICEV-d"
+      "ICEV-d",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -4942,7 +5043,8 @@
     "loc": 0.000885,
     "name": "SO2 per kg fuel",
     "powertrain": [
-      "ICEV-d"
+      "ICEV-d",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -4967,7 +5069,7 @@
     "powertrain": [
       "ICEV-p",
       "HEV-p",
-      "PHEV-c"
+      "PHEV-c-p"
     ],
     "sizes": [
       "Large",
@@ -4992,7 +5094,7 @@
     "powertrain": [
       "ICEV-p",
       "HEV-p",
-      "PHEV-c"
+      "PHEV-c-p"
     ],
     "sizes": [
       "Large",
@@ -5023,7 +5125,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -5032,286 +5135,6 @@
     "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
     "uncertainty_type": 5,
     "unit": "W/kg",
-    "year": 2040
-  },
-  "270-2017-Benzene": {
-    "amount": 9.99e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 9.99e-07,
-    "maximum": 1.998e-06,
-    "minimum": 4.995e-07,
-    "name": "Benzene",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "271-2040-Benzene": {
-    "amount": 4.995e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 4.995e-07,
-    "maximum": 9.99e-07,
-    "minimum": 2.4975e-07,
-    "name": "Benzene",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "272-2017-CH4": {
-    "amount": 6.49e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 6.49e-07,
-    "maximum": 1.298e-06,
-    "minimum": 3.245e-07,
-    "name": "CH4",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "273-2040-CH4": {
-    "amount": 3.245e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 3.245e-07,
-    "maximum": 6.49e-07,
-    "minimum": 1.6225e-07,
-    "name": "CH4",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "274-2017-CO": {
-    "amount": 0.000471264,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 0.000471264,
-    "maximum": 0.000942528,
-    "minimum": 0.000235632,
-    "name": "CO",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "275-2040-CO": {
-    "amount": 0.000235632,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 0.000235632,
-    "maximum": 0.000471264,
-    "minimum": 0.000117816,
-    "name": "CO",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "276-2017-HC": {
-    "amount": 7.727e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 7.727e-06,
-    "maximum": 1.5454e-05,
-    "minimum": 3.8635e-06,
-    "name": "HC",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "277-2040-HC": {
-    "amount": 3.8635e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 3.8635e-06,
-    "maximum": 7.727e-06,
-    "minimum": 1.93175e-06,
-    "name": "HC",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "278-2017-N2O": {
-    "amount": 5.730000000000001e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 5.730000000000001e-07,
-    "maximum": 1.1460000000000001e-06,
-    "minimum": 2.8650000000000003e-07,
-    "name": "N2O",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "279-2040-N2O": {
-    "amount": 2.8650000000000003e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 2.8650000000000003e-07,
-    "maximum": 5.730000000000001e-07,
-    "minimum": 1.4325000000000002e-07,
-    "name": "N2O",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
     "year": 2040
   },
   "28-2017-power to mass ratio": {
@@ -5329,7 +5152,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -5340,286 +5164,6 @@
     "uncertainty_type": 5,
     "unit": "W/kg",
     "year": 2017
-  },
-  "280-2017-NH3": {
-    "amount": 3.703e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 3.703e-05,
-    "maximum": 7.406e-05,
-    "minimum": 1.8515e-05,
-    "name": "NH3",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "281-2040-NH3": {
-    "amount": 1.8515e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 1.8515e-05,
-    "maximum": 3.703e-05,
-    "minimum": 9.2575e-06,
-    "name": "NH3",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "282-2017-NMVOC": {
-    "amount": 7.078e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 7.078e-06,
-    "maximum": 1.4156e-05,
-    "minimum": 3.539e-06,
-    "name": "NMVOC",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "283-2040-NMVOC": {
-    "amount": 3.539e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 3.539e-06,
-    "maximum": 7.078e-06,
-    "minimum": 1.7695e-06,
-    "name": "NMVOC",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "284-2017-NO2": {
-    "amount": 1.096e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 1.096e-06,
-    "maximum": 2.192e-06,
-    "minimum": 5.48e-07,
-    "name": "NO2",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "285-2040-NO2": {
-    "amount": 5.48e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 5.48e-07,
-    "maximum": 1.096e-06,
-    "minimum": 2.74e-07,
-    "name": "NO2",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "286-2017-NOx": {
-    "amount": 2.1927e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 2.1927e-05,
-    "maximum": 4.3854e-05,
-    "minimum": 1.09635e-05,
-    "name": "NOx",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "287-2040-NOx": {
-    "amount": 1.09635e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 1.09635e-05,
-    "maximum": 2.1927e-05,
-    "minimum": 5.48175e-06,
-    "name": "NOx",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "288-2017-PM": {
-    "amount": 1.66e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 1.66e-06,
-    "maximum": 3.32e-06,
-    "minimum": 8.3e-07,
-    "name": "PM",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "289-2040-PM": {
-    "amount": 8.3e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively. Assume same for hybrid",
-    "kind": "distribution",
-    "loc": 8.3e-07,
-    "maximum": 1.66e-06,
-    "minimum": 4.15e-07,
-    "name": "PM",
-    "powertrain": [
-      "ICEV-p",
-      "HEV-p",
-      "PHEV-c"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
   },
   "29-2040-power to mass ratio": {
     "amount": 80.0,
@@ -5636,7 +5180,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -5646,266 +5191,6 @@
     "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
     "uncertainty_type": 5,
     "unit": "W/kg",
-    "year": 2040
-  },
-  "290-2017-Benzene": {
-    "amount": 1.2799999999999998e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 1.2799999999999998e-07,
-    "maximum": 2.5599999999999996e-07,
-    "minimum": 6.399999999999999e-08,
-    "name": "Benzene",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "291-2040-Benzene": {
-    "amount": 6.399999999999999e-08,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 6.399999999999999e-08,
-    "maximum": 1.2799999999999998e-07,
-    "minimum": 3.1999999999999995e-08,
-    "name": "Benzene",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "292-2017-CH4": {
-    "amount": 1.83e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 1.83e-07,
-    "maximum": 3.66e-07,
-    "minimum": 9.15e-08,
-    "name": "CH4",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "293-2040-CH4": {
-    "amount": 9.15e-08,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 9.15e-08,
-    "maximum": 1.83e-07,
-    "minimum": 4.575e-08,
-    "name": "CH4",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "294-2017-CO": {
-    "amount": 3.1133e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 3.1133e-05,
-    "maximum": 6.2266e-05,
-    "minimum": 1.55665e-05,
-    "name": "CO",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "295-2040-CO": {
-    "amount": 1.55665e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 1.55665e-05,
-    "maximum": 3.1133e-05,
-    "minimum": 7.78325e-06,
-    "name": "CO",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "296-2017-HC": {
-    "amount": 7.643e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 7.643e-06,
-    "maximum": 1.5286e-05,
-    "minimum": 3.8215e-06,
-    "name": "HC",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "297-2040-HC": {
-    "amount": 3.8215e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 3.8215e-06,
-    "maximum": 7.643e-06,
-    "minimum": 1.91075e-06,
-    "name": "HC",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "298-2017-N2O": {
-    "amount": 5.0920000000000005e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 5.0920000000000005e-06,
-    "maximum": 1.0184000000000001e-05,
-    "minimum": 2.5460000000000003e-06,
-    "name": "N2O",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "299-2040-N2O": {
-    "amount": 2.5460000000000003e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 2.5460000000000003e-06,
-    "maximum": 5.0920000000000005e-06,
-    "minimum": 1.2730000000000001e-06,
-    "name": "N2O",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
     "year": 2040
   },
   "3-2040-kilometers per year": {
@@ -5924,7 +5209,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -5956,7 +5242,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -5966,266 +5253,6 @@
     "uncertainty_type": 5,
     "unit": "W/kg",
     "year": 2017
-  },
-  "300-2017-NH3": {
-    "amount": 1e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 1e-06,
-    "maximum": 2e-06,
-    "minimum": 5e-07,
-    "name": "NH3",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "301-2040-NH3": {
-    "amount": 5e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 5e-07,
-    "maximum": 1e-06,
-    "minimum": 2.5e-07,
-    "name": "NH3",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "302-2017-NMVOC": {
-    "amount": 7.46e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 7.46e-06,
-    "maximum": 1.492e-05,
-    "minimum": 3.73e-06,
-    "name": "NMVOC",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "303-2040-NMVOC": {
-    "amount": 3.73e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 3.73e-06,
-    "maximum": 7.46e-06,
-    "minimum": 1.865e-06,
-    "name": "NMVOC",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "304-2017-NO2": {
-    "amount": 2.5487e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 2.5487e-05,
-    "maximum": 5.0974e-05,
-    "minimum": 1.27435e-05,
-    "name": "NO2",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "305-2040-NO2": {
-    "amount": 1.27435e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 1.27435e-05,
-    "maximum": 2.5487e-05,
-    "minimum": 6.37175e-06,
-    "name": "NO2",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "306-2017-NOx": {
-    "amount": 8.4957e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min is half base value, max value is 1mg/km, which is a reasonable value for current Euro 6 cheating cars. See Mock (2017)",
-    "kind": "distribution",
-    "loc": 8.4957e-05,
-    "maximum": 0.001,
-    "minimum": 4.24785e-05,
-    "name": "NOx",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017), Mock (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "307-2040-NOx": {
-    "amount": 4.24785e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min is half base value, max value is 1mg/km, which is a reasonable value for current Euro 6 cheating cars. See Mock (2017)",
-    "kind": "distribution",
-    "loc": 4.24785e-05,
-    "maximum": 8.4957e-05,
-    "minimum": 2.123925e-05,
-    "name": "NOx",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017), Mock (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "308-2017-PM": {
-    "amount": 2.103e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 2.103e-06,
-    "maximum": 4.206e-06,
-    "minimum": 1.0515e-06,
-    "name": "PM",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "309-2040-PM": {
-    "amount": 1.0515e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 1.0515e-06,
-    "maximum": 2.103e-06,
-    "minimum": 5.2575e-07,
-    "name": "PM",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
   },
   "31-2040-power to mass ratio": {
     "amount": 65.0,
@@ -6242,7 +5269,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6251,266 +5279,6 @@
     "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
     "uncertainty_type": 5,
     "unit": "W/kg",
-    "year": 2040
-  },
-  "310-2017-CH4": {
-    "amount": 1.4118000000000001e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 1.4118000000000001e-05,
-    "maximum": 2.8236000000000002e-05,
-    "minimum": 7.0590000000000005e-06,
-    "name": "CH4",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "311-2040-CH4": {
-    "amount": 7.0590000000000005e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 7.0590000000000005e-06,
-    "maximum": 1.4118000000000001e-05,
-    "minimum": 3.5295000000000003e-06,
-    "name": "CH4",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "312-2017-CO": {
-    "amount": 0.000459529,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 0.000459529,
-    "maximum": 0.000919058,
-    "minimum": 0.0002297645,
-    "name": "CO",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "313-2040-CO": {
-    "amount": 0.0002297645,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 0.0002297645,
-    "maximum": 0.000459529,
-    "minimum": 0.00011488225,
-    "name": "CO",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "314-2017-HC": {
-    "amount": 1.5346000000000002e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 1.5346000000000002e-05,
-    "maximum": 3.0692000000000004e-05,
-    "minimum": 7.673000000000001e-06,
-    "name": "HC",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "315-2040-HC": {
-    "amount": 7.673000000000001e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 7.673000000000001e-06,
-    "maximum": 1.5346000000000002e-05,
-    "minimum": 3.8365000000000005e-06,
-    "name": "HC",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "316-2017-NMVOC": {
-    "amount": 1.228e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 1.228e-06,
-    "maximum": 2.456e-06,
-    "minimum": 6.14e-07,
-    "name": "NMVOC",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "317-2040-NMVOC": {
-    "amount": 6.14e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 6.14e-07,
-    "maximum": 1.228e-06,
-    "minimum": 3.07e-07,
-    "name": "NMVOC",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
-  },
-  "318-2017-NOx": {
-    "amount": 4.3854e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 4.3854e-05,
-    "maximum": 8.7708e-05,
-    "minimum": 2.1927e-05,
-    "name": "NOx",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "319-2040-NOx": {
-    "amount": 2.1927e-05,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 2.1927e-05,
-    "maximum": 4.3854e-05,
-    "minimum": 1.09635e-05,
-    "name": "NOx",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
     "year": 2040
   },
   "32-2017-power to mass ratio": {
@@ -6528,7 +5296,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6538,58 +5307,6 @@
     "uncertainty_type": 5,
     "unit": "W/kg",
     "year": 2017
-  },
-  "320-2017-PM": {
-    "amount": 1.66e-06,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 1.66e-06,
-    "maximum": 3.32e-06,
-    "minimum": 8.3e-07,
-    "name": "PM",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2017
-  },
-  "321-2040-PM": {
-    "amount": 8.3e-07,
-    "category": "Emissions",
-    "comment": "HBEFA 3.3, mode value for Euro6 average driving, min and max are half and double respectively.",
-    "kind": "distribution",
-    "loc": 8.3e-07,
-    "maximum": 1.66e-06,
-    "minimum": 4.15e-07,
-    "name": "PM",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "HBEFA 3.3 (2017)",
-    "uncertainty_type": 5,
-    "unit": "kg/km",
-    "year": 2040
   },
   "322-2017-interest rate": {
     "amount": 0.05,
@@ -6606,7 +5323,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6638,7 +5356,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6671,7 +5390,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6698,7 +5418,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6725,7 +5446,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6753,7 +5475,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6781,7 +5504,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6810,7 +5534,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6838,7 +5563,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6865,7 +5591,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6892,7 +5619,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6919,7 +5647,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6949,7 +5678,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -6979,7 +5709,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -7008,7 +5739,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -7037,7 +5769,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -7070,7 +5803,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -7154,7 +5888,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -7175,7 +5910,8 @@
     "name": "maintenance cost per glider cost",
     "powertrain": [
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "ICEV-p",
       "ICEV-d",
@@ -7205,7 +5941,8 @@
     "name": "maintenance cost per glider cost",
     "powertrain": [
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "ICEV-p",
       "ICEV-d",
@@ -7241,7 +5978,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -7274,7 +6012,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -7359,7 +6098,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -7392,7 +6132,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -7474,7 +6215,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -7497,7 +6239,8 @@
     "powertrain": [
       "FCEV",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p"
     ],
     "sizes": [
@@ -7526,7 +6269,8 @@
     "powertrain": [
       "FCEV",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p"
     ],
     "sizes": [
@@ -7632,7 +6376,8 @@
     "name": "combustion powertrain cost per kW",
     "powertrain": [
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p"
     ],
     "sizes": [
@@ -7660,7 +6405,8 @@
     "name": "combustion powertrain cost per kW",
     "powertrain": [
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p"
     ],
     "sizes": [
@@ -7767,7 +6513,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -7814,7 +6561,8 @@
     "name": "combustion exhaust treatment cost",
     "powertrain": [
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "ICEV-p",
       "ICEV-d",
@@ -7845,7 +6593,8 @@
     "name": "combustion exhaust treatment cost",
     "powertrain": [
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "ICEV-p",
       "ICEV-d",
@@ -7929,7 +6678,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c"
+      "PHEV-c-p",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -7957,7 +6707,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c"
+      "PHEV-c-p",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -7985,7 +6736,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c"
+      "PHEV-c-p",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -8013,7 +6765,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c"
+      "PHEV-c-p",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -8070,7 +6823,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8119,7 +6873,8 @@
       "ICEV-p",
       "ICEV-d",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p"
     ],
     "sizes": [
@@ -8148,7 +6903,8 @@
       "ICEV-p",
       "ICEV-d",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p"
     ],
     "sizes": [
@@ -8331,7 +7087,7 @@
     "minimum": 0.11536188679245284,
     "name": "energy cost per kWh",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
       "HEV-p",
       "ICEV-p"
     ],
@@ -8364,7 +7120,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8385,7 +7142,7 @@
     "minimum": 0.09130001886792453,
     "name": "energy cost per kWh",
     "powertrain": [
-      "PHEV-c",
+      "PHEV-c-p",
       "HEV-p",
       "ICEV-p"
     ],
@@ -8413,7 +7170,8 @@
     "minimum": 0.09620331325301204,
     "name": "energy cost per kWh",
     "powertrain": [
-      "ICEV-d"
+      "ICEV-d",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -8439,7 +7197,8 @@
     "minimum": 0.07093958584337348,
     "name": "energy cost per kWh",
     "powertrain": [
-      "ICEV-d"
+      "ICEV-d",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -8522,7 +7281,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8548,7 +7308,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8574,7 +7335,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8600,7 +7362,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8626,7 +7389,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8652,7 +7416,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8678,7 +7443,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8704,7 +7470,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8730,7 +7497,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8756,7 +7524,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8782,7 +7551,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8808,7 +7578,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8834,7 +7605,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8860,7 +7632,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8889,7 +7662,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8918,7 +7692,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8944,7 +7719,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8970,7 +7746,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -8996,7 +7773,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -9022,7 +7800,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -9054,7 +7833,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -9086,7 +7866,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -9118,7 +7899,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -9150,7 +7932,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -9176,7 +7959,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -9208,7 +7992,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -9240,7 +8025,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -9272,7 +8058,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -9408,7 +8195,8 @@
     "minimum": 0.6400000000000001,
     "name": "drivetrain efficiency",
     "powertrain": [
-      "PHEV-c"
+      "PHEV-c-p",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -9433,7 +8221,8 @@
     "minimum": 0.6723999999999999,
     "name": "drivetrain efficiency",
     "powertrain": [
-      "PHEV-c"
+      "PHEV-c-p",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -9464,7 +8253,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -9689,7 +8479,8 @@
     "name": "engine efficiency",
     "powertrain": [
       "HEV-p",
-      "PHEV-c"
+      "PHEV-c-p",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -9715,7 +8506,8 @@
     "name": "engine efficiency",
     "powertrain": [
       "HEV-p",
-      "PHEV-c"
+      "PHEV-c-p",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -9746,7 +8538,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -10022,7 +8815,8 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -10043,7 +8837,8 @@
     "name": "converter mass",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e",
       "FCEV"
     ],
@@ -10071,7 +8866,8 @@
     "name": "converter mass",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e",
       "FCEV"
     ],
@@ -10101,7 +8897,8 @@
       "BEV",
       "FCEV",
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -10130,7 +8927,8 @@
       "BEV",
       "FCEV",
       "HEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -10157,7 +8955,8 @@
     "name": "charger mass",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -10184,7 +8983,8 @@
     "name": "charger mass",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e"
     ],
     "sizes": [
@@ -10211,7 +9011,8 @@
     "name": "power distribution unit mass",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e",
       "FCEV",
       "HEV-p"
@@ -10240,7 +9041,8 @@
     "name": "power distribution unit mass",
     "powertrain": [
       "BEV",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e",
       "FCEV",
       "HEV-p"
@@ -10270,7 +9072,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "FCEV"
     ],
@@ -10299,7 +9102,8 @@
     "powertrain": [
       "BEV",
       "PHEV-e",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "HEV-p",
       "FCEV"
     ],
@@ -10326,7 +9130,8 @@
     "minimum": 47,
     "name": "LHV fuel MJ per kg",
     "powertrain": [
-      "ICEV-d"
+      "ICEV-d",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -10351,7 +9156,8 @@
     "minimum": 47,
     "name": "LHV fuel MJ per kg",
     "powertrain": [
-      "ICEV-d"
+      "ICEV-d",
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -10378,7 +9184,7 @@
     "powertrain": [
       "ICEV-p",
       "HEV-p",
-      "PHEV-c"
+      "PHEV-c-p"
     ],
     "sizes": [
       "Large",
@@ -10405,7 +9211,7 @@
     "powertrain": [
       "ICEV-p",
       "HEV-p",
-      "PHEV-c"
+      "PHEV-c-p"
     ],
     "sizes": [
       "Large",
@@ -10536,9 +9342,11 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e",
-      "PHEV"
+      "PHEV-p",
+      "PHEV-d"
     ],
     "sizes": [
       "Large",
@@ -10569,9 +9377,11 @@
       "ICEV-d",
       "ICEV-g",
       "ICEV-p",
-      "PHEV-c",
+      "PHEV-c-p",
+      "PHEV-c-d",
       "PHEV-e",
-      "PHEV"
+      "PHEV-p",
+      "PHEV-d"
     ],
     "sizes": [
       "Large",

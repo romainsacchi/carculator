@@ -81,11 +81,9 @@ class HotEmissionsModel:
             # SO2
             em_arr[:, 7] = ne.evaluate("2.631e-10 * c ** 3 + 1.122e-08 * c ** 2 - 6.082e-06 * c + 0.001071")
             # N2O
-            #em_arr[:, 8] = ne.evaluate("-0.000107 * c + 0.01941")
             em_arr[:, 8] = .014
             # NH3
             em_arr[:, 9] = .006
-            #em_arr[:, 9] = ne.evaluate("1.927e-05 * c + 0.006249")
             # Benzene
             em_arr[:, 10] = ne.evaluate("1.136e-11 * c ** 3 - 3.124e-09 * c ** 2 + 4.998e-07 * c + 3.844e-05")
 
@@ -107,10 +105,8 @@ class HotEmissionsModel:
             # SO2
             em_arr[:, 7] = ne.evaluate("-3.264e-10 * c ** 3 + 1.53e-07 * c ** 2 - 1.74e-05 * c + 0.001151")
             # N2O
-            #em_arr[:, 8] = ne.evaluate("-6.351e-06 * c + 0.0007994")
             em_arr[:, 8] = 8.5e-4
             # NH3
-            #em_arr[:, 9] = ne.evaluate("9.559e-05 * c + 0.009297")
             em_arr[:, 9] = .019
             # Benzene
             em_arr[:, 10] = ne.evaluate("-6.698e-11 * c ** 3 + 2.661e-08 * c ** 2 - 2.239e-06 * c + 8.068e-05")
@@ -133,10 +129,8 @@ class HotEmissionsModel:
             # SO2
             em_arr[:, 7] = ne.evaluate("-2.185e-10 * c ** 3 + 1.023e-07 * c ** 2 - 1.166e-05 * c + 0.0007384")
             # N2O
-            #em_arr[:, 8] = ne.evaluate("-7.104e-06 * c + 0.0008573")
             em_arr[:, 8] = 8.5e-4
             # NH3
-            #em_arr[:, 9] = ne.evaluate("8.615e-05 * c + 0.01022")
             em_arr[:, 9] = .019
             # Benzene
             em_arr[:, 10] = ne.evaluate("9.493e-11 * c ** 3 - 1.694e-08 * c ** 2 + 9.587e-07 * c + 4.34e-06")

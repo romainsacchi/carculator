@@ -121,13 +121,13 @@ class InventoryCalculation:
         self.index_combustion_wo_cng = [
             self.inputs[i]
             for i in self.inputs
-            if any(ele in i[0] for ele in ["ICEV-p", "HEV-p", "PHEV", "ICEV-d"])
+            if any(ele in i[0] for ele in ["ICEV-p", "HEV-p", "PHEV-p", "ICEV-d", "PHEV-d"])
         ]
         self.index_diesel = [self.inputs[i] for i in self.inputs if "ICEV-d" in i[0]]
         self.index_all_petrol = [
             self.inputs[i]
             for i in self.inputs
-            if any(ele in i[0] for ele in ["ICEV-p", "HEV-p", "PHEV"])
+            if any(ele in i[0] for ele in ["ICEV-p", "HEV-p", "PHEV-p"])
         ]
         self.index_petrol = [self.inputs[i] for i in self.inputs if "ICEV-p" in i[0]]
         self.index_hybrid = [self.inputs[i] for i in self.inputs if "HEV-p" in i[0]]
@@ -1269,9 +1269,9 @@ class InventoryCalculation:
         index_A = [
             self.inputs[c]
             for c in self.inputs
-            if any(ele in c[0] for ele in ["ICEV-d", "ICEV-p", "HEV-p", "PHEV"])
+            if any(ele in c[0] for ele in ["ICEV-d", "ICEV-p", "HEV-p", "PHEV-p", "PHEV-d"])
         ]
-        index = self.get_index_from_array(["ICEV-d", "ICEV-p", "HEV-p", "PHEV"])
+        index = self.get_index_from_array(["ICEV-d", "ICEV-p", "HEV-p", "PHEV-p", "PHEV-d"])
 
         self.A[
             :,
@@ -1326,7 +1326,7 @@ class InventoryCalculation:
             * -1
         ).T
 
-        if not any(True for x in ["BEV", "PHEV"] if x in self.scope["powertrain"]):
+        if not any(True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in self.scope["powertrain"]):
             self.background_configuration["custom electricity mix"] = [
                 self.bs.electricity_mix.sel(
                     country=self.background_configuration["country"], value=0
@@ -1344,7 +1344,7 @@ class InventoryCalculation:
             losses_to_low = 1.15
 
         if "custom electricity mix" in self.background_configuration or not any(
-            True for x in ["BEV", "PHEV"] if x in self.scope["powertrain"]
+            True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in self.scope["powertrain"]
         ):
             # If a special electricity mix is specified, we use it
             mix = self.background_configuration["custom electricity mix"]
@@ -1357,12 +1357,12 @@ class InventoryCalculation:
                     array[
                         self.array_inputs["lifetime kilometers"],
                         :,
-                        self.get_index_from_array(["BEV", "PHEV"]),
+                        self.get_index_from_array(["BEV", "PHEV-p", "PHEV-d"]),
                     ]
                     / array[
                         self.array_inputs["kilometers per year"],
                         :,
-                        self.get_index_from_array(["BEV", "PHEV"]),
+                        self.get_index_from_array(["BEV", "PHEV-p", "PHEV-d"]),
                     ]
                 )
                 .mean(axis=1)
@@ -1390,7 +1390,7 @@ class InventoryCalculation:
 
             print("in " + str(y) + ", % of renewable _________________________ " + str(np.round(sum_renew*100,0)) + "%", end=end_str)
 
-        if any(True for x in ["BEV", "PHEV"] if x in self.scope["powertrain"]):
+        if any(True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in self.scope["powertrain"]):
             for y in self.scope["year"]:
                 index = self.get_index_from_array([str(y)])
                 new_mix = np.zeros((len(index), 10, self.iterations))
@@ -1621,9 +1621,8 @@ class InventoryCalculation:
                     * -1
                 ).T
 
-        if "ICEV-d" in self.scope["powertrain"]:
-            index = self.get_index_from_array(["ICEV-d"])
-
+        if [i for i in self.scope["powertrain"] if i in ["ICEV-d", "PHEV-d"]]:
+            index = self.get_index_from_array(["ICEV-d", "PHEV-d"])
 
             if "diesel technology" in self.background_configuration:
                 # If a customization dict is passed
@@ -1707,12 +1706,12 @@ class InventoryCalculation:
 
             for y in self.scope["year"]:
                 ind_A = [
-                                self.inputs[i]
-                                for i in self.inputs
-                                if str(y) in i[0]
-                                and "Passenger" in i[0]
-                                and "ICEV-d" in i[0]
-                            ]
+                    self.inputs[i]
+                    for i in self.inputs
+                    if str(y) in i[0]
+                       and "Passenger" in i[0]
+                       and any(x in i[0] for x in ["ICEV-d", "PHEV-d"])]
+
                 ind_array = [
                         x
                         for x in self.get_index_from_array([str(y)])
@@ -1771,8 +1770,8 @@ class InventoryCalculation:
                     * -1
                 ).T
 
-        if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV"]]:
-            index = self.get_index_from_array(["ICEV-p", "HEV-p", "PHEV"])
+        if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV-p"]]:
+            index = self.get_index_from_array(["ICEV-p", "HEV-p", "PHEV-p"])
 
 
             if "petrol technology" in self.background_configuration:
@@ -1867,7 +1866,7 @@ class InventoryCalculation:
                                 for i in self.inputs
                                 if str(y) in i[0]
                                 and "Passenger" in i[0]
-                                and any(x in i[0] for x in ["ICEV-p", "HEV-p", "PHEV"])
+                                and any(x in i[0] for x in ["ICEV-p", "HEV-p", "PHEV-p"])
                             ]
                 ind_array = [
                         x
