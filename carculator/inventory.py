@@ -1797,7 +1797,6 @@ class InventoryCalculation:
                     exit(1)
 
             else:
-
                 if "bioethanol" in petrol_technology:
                     fuel_type = "Biomass fuel"
                 else:
