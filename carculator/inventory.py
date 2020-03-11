@@ -522,49 +522,27 @@ class InventoryCalculation:
                 C = X * B
                 new_arr[ a, :, self.scope["year"].index(y)] = C.sum(axis=1)
 
+        #print((new_arr.T * self.A[:,:,685]).shape)
+        #print(new_arr[self.split_indices,:,:].sum(axis=1).shape)
+        print(new_arr.shape)
+        print(self.A[:,:,-self.number_of_cars:].shape)
+        print((new_arr.T * self.A[:,:,-self.number_of_cars:].transpose(1,2,0)).shape)
+        #for s in self.scope["size"]:
+        #    for pt in self.scope["powertrain"]:
+        #        for y in self.scope["year"]:
 
-        print("new_arr shape: ", new_arr.shape)
-        #print(new_arr[10,:,6,0].sum(axis=0).sum())
+        #            ind = self.inputs[(
+        #                 "Passenger car, " + pt + ", " + s + ", " + str(y),
+        #                 "GLO",
+        #                 "kilometer",
+        #                 "transport, passenger car, EURO6",
+        #             )]
+                    #arr = new_arr.T * self.A[0,:,ind] *-1
+        #            arr = np.outer(new_arr.T,  self.A[:,:,ind])
+        #            print(arr.shape)
+                    #results.loc[:, s, pt, y, :, a] = arr[self.scope["year"].index(y),:,self.split_indices].sum(axis=1).T
 
-        new_res = np.zeros((self.iterations,
-                            new_arr.shape[0],
-                            new_arr.shape[1],
-                            new_arr.shape[2]))
-
-
-        new_res[0: self.iterations, 0: new_arr.shape[0], 0: new_arr.shape[1], 0: new_arr.shape[2]] = new_arr
-
-        res = self.A[:,:,-self.number_of_cars:].transpose((0,2,1)) * -1 * new_res.transpose((1,3,2,0))
-
-        print("res shape: ", res.shape)
-        print(res[0,6,:,:].sum())
-
-
-
-
-        #res = res[:, :, :,  -self.number_of_cars:,:]
-        #print(res.shape)
-        #print(res[6, 0, 0, :, :].sum(axis=0))
-
-
-        for s in self.scope["size"]:
-            for pt in self.scope["powertrain"]:
-                for y in self.scope["year"]:
-
-                    ind = self.inputs[(
-                            "Passenger car, " + pt + ", " + s + ", " + str(y),
-                            "GLO",
-                            "kilometer",
-                            "transport, passenger car, EURO6",
-                        )]
-
-                    results.loc[:, s, pt, y, :, :] = res[
-                                                     :,
-                                                     self.scope["year"].index(y),
-                                                     :,
-                                                     self.split_indices,
-                                                     ind
-                                                     ]
+                    #for a in range(0,self.iterations):
 
 
         return results
