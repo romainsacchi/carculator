@@ -6,39 +6,9 @@ components;direct;name;market for road wear emissions, passenger car
 components;direct;name;market for brake wear emissions, passenger car
 components;energy chain;name;market for petrol
 components;energy chain;name;market for diesel
+components;energy chain;name;market for natural gas, from high pressure network (1-5 bar), at service station
 components;energy chain;name;Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station
-components;energy chain;name;market for natural gas, from high pressure network
-components;energy chain;name;market group for electricity, low voltage
-components;energy chain;name;market group for electricity, medium voltage
-components;energy chain;name;electricity production, deep geothermal
-components;energy chain;name;electricity production, hard coal
-components;energy chain;name;electricity production, hydro, reservoir, alpine region
-components;energy chain;name;electricity production, hydro, run-of-river
-components;energy chain;name;electricity production, natural gas, combined cycle power plant
-components;energy chain;name;electricity production, natural gas, conventional power plant
-components;energy chain;name;electricity production, nuclear, pressure water reactor
-components;energy chain;name;electricity production, oil
-components;energy chain;name;electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted
-components;energy chain;name;electricity production, wind, >3MW turbine, onshore
-components;energy chain;name;electricity production, wind, 1-3MW turbine, onshore
-components;energy chain;name;electricity, from municipal waste incineration to generic market for electricity, medium voltage
-components;energy chain;name;Electricity, high voltage, hard coal, at grid
-components;energy chain;name;Electricity, high voltage, hydro-reservoir, at grid
-components;energy chain;name;Electricity, high voltage, natural gas CCPP, at grid
-components;energy chain;name;Electricity, high voltage, nuclear- PWR, at grid
-components;energy chain;name;Electricity, high voltage, wind, at grid
-components;energy chain;name;Electricity, low voltage, hard coal, at grid
-components;energy chain;name;Electricity, low voltage, hydro-reservoir, at grid
-components;energy chain;name;Electricity, low voltage, natural gas CCPP, at grid
-components;energy chain;name;Electricity, low voltage, nuclear- PWR, at grid
-components;energy chain;name;Electricity, low voltage, solar, at grid
-components;energy chain;name;Electricity, low voltage, wind, at grid
-components;energy chain;name;Electricity, medium voltage, hard coal, at grid
-components;energy chain;name;Electricity, medium voltage, hydro-reservoir, at grid
-components;energy chain;name;Electricity, medium voltage, natural gas CCPP, at grid
-components;energy chain;name;Electricity, medium voltage, nuclear- PWR, at grid
-components;energy chain;name;Electricity, medium voltage, wind, at grid
-components;energy chain;name;heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014
+components;energy chain;name;electricity market for fuel preparation
 components;energy chain;name;market for aluminium oxide, metallurgical
 components;energy chain;name;market for zinc oxide
 components;energy chain;name;market for molybdenum trioxide
@@ -68,7 +38,7 @@ components;powertrain;name;market for used powertrain
 components;powertrain;name;market for internal combustion engine
 components;energy storage;name;Ancillary BoP
 components;energy storage;name;Essential BoP
-components;energy storage;name;Stack 2020
+components;energy storage;name;Stack
 components;energy storage;name;Battery BoP
 components;energy storage;name;Battery cell
 components;energy storage;name;polyethylene production, high density

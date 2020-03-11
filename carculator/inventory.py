@@ -9,9 +9,9 @@ import csv
 import xarray as xr
 from . import DATA_DIR
 from .background_systems import BackgroundSystemModel
-import itertools
 from .export import ExportInventory
 from scipy import sparse
+import itertools
 
 
 class InventoryCalculation:
@@ -92,22 +92,37 @@ class InventoryCalculation:
         self.scope = scope
         self.scenario = scenario
 
+
+
+        if background_configuration is None:
+            self.background_configuration = {"country": "RER"}
+        else:
+            self.background_configuration = background_configuration
+
+        if "country" not in self.background_configuration:
+            self.background_configuration["country"] = "RER"
+
+        if "battery technology" not in self.background_configuration:
+            self.background_configuration["battery technology"] = "NMC"
+
+        if "battery origin" not in self.background_configuration:
+            self.background_configuration["battery origin"] = "CN"
+
+
         array = array.sel(
             powertrain=self.scope["powertrain"],
             year=self.scope["year"],
             size=self.scope["size"],
         )
-
-        self.number_of_cars = (
-            len(self.scope["year"])
-            * len(self.scope["size"])
-            * len(self.scope["powertrain"])
-        )
-        self.array = array.stack(desired=["powertrain", "size", "year"])
+        self.array = array.stack(desired=["size", "powertrain", "year"])
         self.iterations = len(array.value.values)
 
-        self.inputs = self.get_dict_input()
-        self.rev_inputs = self.get_rev_dict_input()
+        self.number_of_cars = (
+            len(self.scope["size"])
+            * len(self.scope["powertrain"])
+            * len(self.scope["year"])
+        )
+
         self.array_inputs = {
             x: i for i, x in enumerate(list(self.array.parameter.values), 0)
         }
@@ -115,7 +130,13 @@ class InventoryCalculation:
             x: i for i, x in enumerate(list(self.array.powertrain.values), 0)
         }
 
+
         self.A = self.get_A_matrix()
+        self.inputs = self.get_dict_input()
+        self.add_additional_activities()
+
+
+        self.rev_inputs = self.get_rev_dict_input()
 
         self.index_cng = [self.inputs[i] for i in self.inputs if "ICEV-g" in i[0]]
         self.index_combustion_wo_cng = [
@@ -320,7 +341,8 @@ class InventoryCalculation:
         self.index_noise = [self.inputs[i] for i in self.inputs if "noise" in i[0]]
         self.list_cat, self.split_indices = self.get_split_indices()
         self.bs = BackgroundSystemModel()
-        self.background_configuration = background_configuration
+
+
 
     def __getitem__(self, key):
         """
@@ -471,6 +493,90 @@ class InventoryCalculation:
                 row.extend([len(self.inputs) - 1])
         return list(d.keys()), list_ind
 
+    def pre_calculate_impacts(self, method="recipe", level="midpoint", split="components", sensitivity=False):
+
+        # Load the B matrix
+        self.B = self.get_B_matrix()
+
+        # Prepare an array to store the results
+        results = self.get_results_table(method, level, split, sensitivity=sensitivity)
+
+        # Fill in the A matrix with car parameters
+        self.set_inputs_in_A_matrix(self.array.values)
+
+        # Collect indices of activities contributing to the first level
+        arr = self.A[0, :-self.number_of_cars, -self.number_of_cars:].sum(axis=1)
+        ind = np.nonzero(arr)[0]
+
+        new_arr = np.zeros((self.A.shape[1], self.B.shape[1], len(self.scope["year"])))
+
+        f = np.zeros((np.shape(self.A)[1]))
+
+        for y in self.scope["year"]:
+            B = self.B.interp(year=y, kwargs={"fill_value": "extrapolate"}).values
+
+            for a in ind:
+                f[:] = 0
+                f[a] = 1
+                X = sparse.linalg.spsolve(self.A[0], f.T)
+                C = X * B
+                print(C.sum(axis=1).shape)
+                new_arr[ a, :, self.scope["year"].index(y)] = C.sum(axis=1)
+
+
+        print("new_arr shape: ", new_arr.shape)
+        #print(new_arr[10,:,6,0].sum(axis=0).sum())
+
+        new_res = np.zeros((self.iterations,
+                            new_arr.shape[0],
+                            new_arr.shape[1],
+                            new_arr.shape[2]))
+
+
+
+        new_res[0: self.iterations, 0: new_arr.shape[0], 0: new_arr.shape[1], 0: new_arr.shape[2]] = new_arr
+
+        #print("new_res shape: ", new_res.shape)
+
+        #print(new_res[3, :, :, 6, 0].sum(axis=0))
+        #print(self.A[:,0, ].shape)
+        #print(self.A[:,0, ].sum(axis=1))
+
+        res = self.A[:,0,:] * -1 * new_res.transpose((3,2,0,1))
+
+        print("res shape: ", res.shape)
+        print(res[0,6,:,:].sum())
+
+
+
+
+        #res = res[:, :, :,  -self.number_of_cars:,:]
+        #print(res.shape)
+        #print(res[6, 0, 0, :, :].sum(axis=0))
+
+
+        for s in self.scope["size"]:
+            for pt in self.scope["powertrain"]:
+                for y in self.scope["year"]:
+
+                    ind = self.inputs[(
+                            "Passenger car, " + pt + ", " + s + ", " + str(y),
+                            "GLO",
+                            "kilometer",
+                            "transport, passenger car, EURO6",
+                        )]
+
+                    results.loc[:, s, pt, y, :, :] = res[
+                                                     :,
+                                                     self.scope["year"].index(y),
+                                                     :,
+                                                     self.split_indices,
+                                                     ind
+                                                     ]
+
+
+        return results
+
     def calculate_impacts(
         self, method="recipe", level="midpoint", split="components", sensitivity=False
     ):
@@ -494,10 +600,50 @@ class InventoryCalculation:
         # Fill in the A matrix with car parameters
         self.set_inputs_in_A_matrix(self.array.values)
 
-        for pt in self.scope["powertrain"]:
-            for y in self.scope["year"]:
-                B = self.B.interp(year=y, kwargs={"fill_value": "extrapolate"}).values
-                for s in self.scope["size"]:
+        for y in self.scope["year"]:
+            B = self.B.interp(year=y, kwargs={"fill_value": "extrapolate"}).values
+
+            # TODO: improve the accountability of electricity used for different purposes
+            # Environmental impacts of energy storage and energy chain-related electricity
+
+            pos_fuel_prep = self.inputs[
+                (
+                    "electricity market for fuel preparation, " + str(y),
+                    self.background_configuration["country"],
+                    "kilowatt hour",
+                    "electricity, low voltage"
+                )
+            ]
+
+            pos_energy_stor = self.inputs[
+                (
+                     "electricity market for energy storage production, " + str(y),
+                     self.background_configuration["battery origin"],
+                     "kilowatt hour",
+                     "electricity, low voltage"
+                )
+            ]
+
+            # Set the demand vector with zeros and a 1 corresponding to the electricity market
+            # position in the vector
+            f_elec = np.zeros((np.shape(self.A)[0], np.shape(self.A)[1]))
+            f_elec[:, pos_fuel_prep] = 1
+
+            X = sparse.linalg.spsolve(self.A[0], f_elec[0].T)
+            C_elec_supply = X * B
+
+            # Set the demand vector with zeros and a 1 corresponding to the electricity market
+            # position in the vector
+            f_elec = np.zeros((np.shape(self.A)[0], np.shape(self.A)[1]))
+            f_elec[:, pos_energy_stor] = 1
+
+            X = sparse.linalg.spsolve(self.A[0], f_elec[0].T)
+            C_energy_storage = X * B
+
+
+
+            for s in self.scope["size"]:
+                for pt in self.scope["powertrain"]:
                     # Retrieve the index of a given car in the matrix A
                     car = self.inputs[
                         (
@@ -526,6 +672,7 @@ class InventoryCalculation:
                                 i,
                             ] = np.sum(C[:, self.split_indices], 2)
 
+
                         else:
 
                             results[
@@ -536,11 +683,113 @@ class InventoryCalculation:
                                 i,
                             ] = np.sum(C, 1)
 
+            # Add impact from electricity generation
+            # And withdraw equivalent from "others" category
+
+
+            elec_supp = self.A[
+                            :,
+                            [
+                                self.inputs[ind]
+                                for ind in self.inputs
+                                if str(y) in ind[0]
+                                and "electricity market for fuel preparation" in ind[0]
+                            ]
+                            ,
+                            [
+                                self.inputs[ind]
+                                for ind in self.inputs
+                                if str(y) in ind[0]
+                                   and "Passenger" in ind[0]
+                            ]
+
+                        ] * -1
+
+            energy_stor = self.A[
+                        :,
+                        [
+                            self.inputs[ind]
+                            for ind in self.inputs
+                            if str(y) in ind[0]
+                               and "electricity market for energy storage production" in ind[0]
+                        ]
+                        ,
+                          [
+                              self.inputs[ind]
+                              for ind in self.inputs
+                              if str(y) in ind[0]
+                                 and "Passenger" in ind[0]
+                          ]
+                        ] * -1
+
+
+            C_elec_supply = C_elec_supply.sum(axis=1).reshape(-1,1) * elec_supp
+
+            C_elec_supply = C_elec_supply.reshape((
+                np.shape(B)[0],
+                len(self.scope["size"]),
+                len(self.scope["powertrain"]),
+                self.iterations))
+
+
+            C_energy_storage = C_energy_storage.sum(axis=1).reshape(-1,1) * energy_stor
+
+            C_energy_storage = C_energy_storage.reshape((
+                np.shape(B)[0],
+                len(self.scope["size"]),
+                len(self.scope["powertrain"]),
+                self.iterations))
+
+            # Add electricity supply-related impacts to "energy chain" category
+            # Impact category, size, powertrain, year
+            #print(np.shape(C_elec_supply))
+            print(C_energy_storage[6, 0, :])
+            #print(size_pt)
+            results.loc[:, :, :, y, "energy chain", :] += C_elec_supply
+
+            # Remove electricity supply-related impacts from "other" category
+            results.loc[:, :, :, y, "other", :] -= C_elec_supply
+
+            # Add energy storage electricity-related impacts to "energy storage" category
+            results.loc[:, :, :, y, "energy storage", :] += C_energy_storage
+
+            # Remove energy storage electricity-related impacts from "other" category
+            results.loc[:, :, :, y, "other", :] -= C_energy_storage
+
         if sensitivity == True:
             results /= results.sel(parameter="reference")
             return results
 
         return results
+
+    def add_additional_activities(self):
+        # Add as many rows and columns as cars to consider
+        # Also add additional columns and rows for electricity markets
+        # for fuel preparation and energy battery production
+
+        maximum = max(self.inputs.values())
+
+        for y in self.scope["year"]:
+            maximum += 1
+            self.inputs[("electricity market for fuel preparation, " + str(y),
+                         self.background_configuration["country"],
+                         "kilowatt hour",
+                         "electricity, low voltage")] = maximum
+            maximum += 1
+            self.inputs[("electricity market for energy storage production, " + str(y),
+                         self.background_configuration["battery origin"],
+                         "kilowatt hour",
+                         "electricity, low voltage")] = maximum
+
+        for s in self.scope["size"]:
+            for pt in self.scope["powertrain"]:
+                for y in self.scope["year"]:
+                    maximum += 1
+                    name = "Passenger car, " + pt + ", " + s + ", " + str(y)
+                    self.inputs[
+                        (name, "GLO", "kilometer", "transport, passenger car, EURO6")
+                    ] = maximum
+
 
     def get_A_matrix(self):
         """
@@ -560,7 +809,12 @@ class InventoryCalculation:
             raise FileNotFoundError("The technology matrix could not be found.")
 
         initial_A = np.genfromtxt(filepath, delimiter=";")
-        new_A = np.identity(np.shape(initial_A)[0] + self.number_of_cars)
+
+
+
+
+        new_A = np.identity(np.shape(initial_A)[0] + (len(self.scope["year"]) * 2) + self.number_of_cars)
+
         new_A[0 : np.shape(initial_A)[0], 0 : np.shape(initial_A)[0]] = initial_A
         # Resize the matrix to fit the number of iterations in `array`
         new_A = np.resize(new_A, (self.array.shape[1], new_A.shape[0], new_A.shape[1]))
@@ -602,7 +856,7 @@ class InventoryCalculation:
             initial_B = np.genfromtxt(filepath, delimiter=";")
 
             new_B = np.zeros(
-                (np.shape(initial_B)[0], np.shape(initial_B)[1] + self.number_of_cars)
+                (np.shape(initial_B)[0], np.shape(initial_B)[1] + (self.number_of_cars + (len(self.scope["year"]) * 2)))
             )
 
             new_B[0 : np.shape(initial_B)[0], 0 : np.shape(initial_B)[1]] = initial_B
@@ -656,15 +910,6 @@ class InventoryCalculation:
                 else:
                     csv_dict[(row[0], row[1], row[2], row[3])] = count
                 count += 1
-
-        for pt in self.scope["powertrain"]:
-            for s in self.scope["size"]:
-                for y in self.scope["year"]:
-                    maximum = csv_dict[max(csv_dict, key=csv_dict.get)]
-                    name = "Passenger car, " + pt + ", " + s + ", " + str(y)
-                    csv_dict[
-                        (name, "GLO", "kilometer", "transport, passenger car, EURO6")
-                    ] = (maximum + 1)
 
         return csv_dict
 
@@ -724,19 +969,34 @@ class InventoryCalculation:
         """
         return {v: k for k, v in self.inputs.items()}
 
-    def get_index_from_array(self, items_to_look_for):
+    def get_index_from_array(self, items_to_look_for, items_to_look_for_also=None, method="or"):
         """
         Return list of row/column indices of self.array of labels that contain the string defined in `items_to_look_for`.
 
         :param items_to_look_for: string to search for
         :return: list
         """
-        return [
-            self.inputs[c] - (len(self.inputs) - self.number_of_cars)
-            for c in self.inputs
-            if any(ele in c[0] for ele in items_to_look_for)
-            and (self.inputs[c] - (len(self.inputs) - self.number_of_cars)) >= 0
-        ]
+        #return [
+        #    self.inputs[c] - (len(self.inputs) + self.number_of_cars)
+        #    for c in self.inputs
+        #    if any(ele in c[0] for ele in items_to_look_for)
+        #    and (self.inputs[c] - (len(self.inputs) + self.number_of_cars)) >= 0
+        #]
+        if method=="or":
+            return [
+                self.inputs[c] - (len(self.inputs) - self.number_of_cars)
+                for c in self.inputs
+                if any(ele in c[0] for ele in items_to_look_for)
+                and (self.inputs[c] - (len(self.inputs) - self.number_of_cars)) >= 0
+            ]
+        if method == "and":
+            return [
+                self.inputs[c] - (len(self.inputs) - self.number_of_cars)
+                for c in self.inputs
+                if any(ele in c[0] for ele in items_to_look_for)
+                and any(ele in c[0] for ele in items_to_look_for_also)
+                and (self.inputs[c] - (len(self.inputs) - self.number_of_cars)) >= 0
+            ]
 
     def get_index_of_flows(self, items_to_look_for, search_by="name"):
         """
@@ -874,7 +1134,6 @@ class InventoryCalculation:
         ] = (
             (
                 array[self.array_inputs["lightweighting"], :]
-                # * array[self.array_inputs["glider base mass"], :]
             )
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1
@@ -1098,7 +1357,7 @@ class InventoryCalculation:
 
         self.A[
             :,
-            self.inputs[("Stack 2020", "GLO", "kilowatt", "Stack 2020")],
+            self.inputs[("Stack", "GLO", "kilowatt", "Stack")],
             -self.number_of_cars :,
         ] = (
             array[self.array_inputs["fuel cell stack mass"], :]
@@ -1176,18 +1435,6 @@ class InventoryCalculation:
 
         # Energy storage
 
-        if self.background_configuration is None:
-            self.background_configuration = {"country": "RER"}
-        else:
-            if "country" not in self.background_configuration:
-                self.background_configuration["country"] = "RER"
-
-        if "battery technology" not in self.background_configuration:
-            self.background_configuration["battery technology"] = "NMC"
-
-        if "battery origin" not in self.background_configuration:
-            self.background_configuration["battery origin"] = "CN"
-
         print("The country of use is " + self.background_configuration["country"], end='\n * ')
 
 
@@ -1204,6 +1451,23 @@ class InventoryCalculation:
             .interp(year=self.scope["year"])
             .values
         )
+
+        # Fill the electricity markets for battery production
+        for y in self.scope["year"]:
+            m = np.array(mix_battery_manufacturing[self.scope["year"].index(y)]).reshape(-1, 10, 1)
+
+            self.A[
+                np.ix_(
+                    np.arange(self.iterations),
+                    [self.inputs[dict_map[t]] for t in dict_map],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                           and "electricity market for energy storage production" in i[0]
+                    ],
+                )
+            ] = m * losses_to_medium * -1
 
         # Use the NMC inventory of Schmidt et al. 2019
         self.A[
@@ -1249,22 +1513,47 @@ class InventoryCalculation:
             self.inputs[battery_cell_label],
         ] = 0
 
-        self.A[
-            :,
-            [self.inputs[dict_map[t]] for t in dict_map],
-            self.inputs[battery_cell_label],
-        ] = (
-            np.outer(
-                mix_battery_manufacturing[0],
-                (
-                    array[
-                        self.array_inputs["battery cell production electricity"], :
-                    ].max(axis=1)
-                    * -1
-                ),
+        for y in self.scope["year"]:
+
+            index = self.get_index_from_array([str(y)])
+
+            self.A[
+
+                np.ix_(
+                    np.arange(self.iterations),
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                           and "electricity market for energy storage production" in i[0]
+                    ],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                           and "Passenger" in i[0]
+
+                    ])
+
+            ] = (
+
+                        array[
+                            self.array_inputs["battery cell production electricity"], :, index
+                        ].T
+                        * self.A[:, self.inputs[battery_cell_label],
+                          [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                           and "Passenger" in i[0]
+
+                        ]]
+
+            ).reshape(
+                self.iterations,
+                1,
+                -1
             )
-            * losses_to_medium
-        ).T
 
         index_A = [
             self.inputs[c]
@@ -1390,30 +1679,54 @@ class InventoryCalculation:
 
             print("in " + str(y) + ", % of renewable _________________________ " + str(np.round(sum_renew*100,0)) + "%", end=end_str)
 
+        # Fill the electricity markets for battery charging and hydrogen production
+        for y in self.scope["year"]:
+            m = np.array(mix[self.scope["year"].index(y)]).reshape(-1, 10, 1)
+
+            self.A[
+                np.ix_(
+                    np.arange(self.iterations),
+                    [self.inputs[dict_map[t]] for t in dict_map],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for fuel preparation" in i[0]
+                    ],
+                )
+            ] = m * losses_to_low * -1
+
+
         if any(True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in self.scope["powertrain"]):
             for y in self.scope["year"]:
-                index = self.get_index_from_array([str(y)])
-                new_mix = np.zeros((len(index), 10, self.iterations))
-                m = np.array(mix[self.scope["year"].index(y)]).reshape(-1, 10)
-                new_mix[:, np.arange(10), :] = m.T
-                b = array[self.array_inputs["electricity consumption"], :, index]
+                index = self.get_index_from_array(["BEV", "PHEV-p", "PHEV-d"], [str(y)], method="and")
 
                 self.A[
                     np.ix_(
                         np.arange(self.iterations),
-                        [self.inputs[dict_map[t]] for t in dict_map],
                         [
                             self.inputs[i]
                             for i in self.inputs
-                            if str(y) in i[0] and "Passenger" in i[0]
+                            if str(y) in i[0]
+                               and "electricity market for fuel preparation" in i[0]
+                        ]
+                        ,
+                        [
+                            self.inputs[i]
+                            for i in self.inputs
+                            if str(y) in i[0]
+                            and "Passenger" in i[0]
+                            and any(True
+                                    for x in ["BEV", "PHEV-p", "PHEV-d"]
+                                    if x in i[0])
                         ],
                     )
                 ] = (
-                    np.transpose(
-                        np.multiply(np.transpose(new_mix, (1, 0, 2)), b), (2, 0, 1)
-                    ).reshape(self.iterations, 10, -1)
-                    * -1
-                    * losses_to_low
+                    array[self.array_inputs["electricity consumption"], :, index] * -1
+                ).T.reshape(
+                    self.iterations,
+                    1,
+                    -1
                 )
 
         if "FCEV" in self.scope["powertrain"]:
@@ -1472,24 +1785,27 @@ class InventoryCalculation:
                     )
 
                     self.A[
-                        np.ix_(
-                            np.arange(self.iterations),
-                            [self.inputs[dict_map[t]] for t in dict_map],
+                       :,
+                            [
+                                self.inputs[i]
+                                for i in self.inputs
+                                if str(y) in i[0]
+                                   and "electricity market for fuel preparation" in i[0]
+                            ],
                             [
                                 self.inputs[i]
                                 for i in self.inputs
                                 if str(y) in i[0]
                                 and "Passenger" in i[0]
                                 and "FCEV" in i[0]
-                            ],
-                        )
-                    ] = (
-                        np.transpose(
-                            np.multiply(np.transpose(new_mix, (1, 0, 2)), b), (2, 0, 1)
-                        ).reshape(self.iterations, 10, -1)
-                        * -58
-                        * losses_to_medium
-                    )
+                            ]
+
+                    ] =  (
+                            (
+                                    array[self.array_inputs["fuel mass"], :, index]
+                                    / array[self.array_inputs["range"], :, index]
+                            ) * -58
+                    ).T
 
         if "ICEV-g" in self.scope["powertrain"]:
             index = self.get_index_from_array(["ICEV-g"])
