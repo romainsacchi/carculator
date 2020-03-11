@@ -520,7 +520,6 @@ class InventoryCalculation:
                 f[a] = 1
                 X = sparse.linalg.spsolve(self.A[0], f.T)
                 C = X * B
-                print(C.sum(axis=1).shape)
                 new_arr[ a, :, self.scope["year"].index(y)] = C.sum(axis=1)
 
 
@@ -533,16 +532,9 @@ class InventoryCalculation:
                             new_arr.shape[2]))
 
 
-
         new_res[0: self.iterations, 0: new_arr.shape[0], 0: new_arr.shape[1], 0: new_arr.shape[2]] = new_arr
 
-        #print("new_res shape: ", new_res.shape)
-
-        #print(new_res[3, :, :, 6, 0].sum(axis=0))
-        #print(self.A[:,0, ].shape)
-        #print(self.A[:,0, ].sum(axis=1))
-
-        res = self.A[:,0,:] * -1 * new_res.transpose((3,2,0,1))
+        res = self.A[:,:,-self.number_of_cars:].transpose((0,2,1)) * -1 * new_res.transpose((1,3,2,0))
 
         print("res shape: ", res.shape)
         print(res[0,6,:,:].sum())
