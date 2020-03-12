@@ -6,102 +6,31 @@ components;direct;name;market for road wear emissions, passenger car
 components;direct;name;market for brake wear emissions, passenger car
 components;energy chain;name;market for petrol
 components;energy chain;name;market for diesel
-components;energy chain;name;Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station
-components;energy chain;name;market for natural gas, from high pressure network
-components;energy chain;name;market group for electricity, low voltage
-components;energy chain;name;market group for electricity, medium voltage
-components;energy chain;name;electricity production, deep geothermal
-components;energy chain;name;electricity production, hard coal
-components;energy chain;name;electricity production, hydro, reservoir, alpine region
-components;energy chain;name;electricity production, hydro, run-of-river
-components;energy chain;name;electricity production, natural gas, combined cycle power plant
-components;energy chain;name;electricity production, natural gas, conventional power plant
-components;energy chain;name;electricity production, nuclear, pressure water reactor
-components;energy chain;name;electricity production, oil
-components;energy chain;name;electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted
-components;energy chain;name;electricity production, wind, >3MW turbine, onshore
-components;energy chain;name;electricity production, wind, 1-3MW turbine, onshore
-components;energy chain;name;electricity, from municipal waste incineration to generic market for electricity, medium voltage
-components;energy chain;name;Electricity, high voltage, hard coal, at grid
-components;energy chain;name;Electricity, high voltage, hydro-reservoir, at grid
-components;energy chain;name;Electricity, high voltage, natural gas CCPP, at grid
-components;energy chain;name;Electricity, high voltage, nuclear- PWR, at grid
-components;energy chain;name;Electricity, high voltage, wind, at grid
-components;energy chain;name;Electricity, low voltage, hard coal, at grid
-components;energy chain;name;Electricity, low voltage, hydro-reservoir, at grid
-components;energy chain;name;Electricity, low voltage, natural gas CCPP, at grid
-components;energy chain;name;Electricity, low voltage, nuclear- PWR, at grid
-components;energy chain;name;Electricity, low voltage, solar, at grid
-components;energy chain;name;Electricity, low voltage, wind, at grid
-components;energy chain;name;Electricity, medium voltage, hard coal, at grid
-components;energy chain;name;Electricity, medium voltage, hydro-reservoir, at grid
-components;energy chain;name;Electricity, medium voltage, natural gas CCPP, at grid
-components;energy chain;name;Electricity, medium voltage, nuclear- PWR, at grid
-components;energy chain;name;Electricity, medium voltage, wind, at grid
-components;energy chain;name;heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014
-components;energy chain;name;market for aluminium oxide, metallurgical
-components;energy chain;name;market for zinc oxide
-components;energy chain;name;market for molybdenum trioxide
-components;energy chain;name;market for silica sand
-components;energy chain;name;market for nickel, 99.5%
-components;energy chain;name;market for liquid storage tank, chemicals, organics
-components;energy chain;name;market for quicklime, milled, packed
-components;energy chain;name;market for copper oxide
-components;energy chain;name;market for chromium oxide, flakes
-components;energy chain;name;chemical factory construction, organics
-components;energy chain;name;market for portafer
-components;energy chain;name;market for magnesium oxide
-components;energy chain;name;market for zeolite, powder
-components;energy chain;name;ATR NG, HT+LT, 700 bar
-components;energy chain;name;biogas upgrading - sewage sludge - amine scrubbing - best
-components;maintenance;name;maintenance
-components;glider;name;glider
-components;glider;name;lightweighting
-components;glider;name;manual dismantling
-components;glider;name;steel
-components;powertrain;name;market for charger
-components;powertrain;name;market for inverter
-components;powertrain;name;market for converter
-components;powertrain;name;market for electric motor
-components;powertrain;name;market for power distribution unit
-components;powertrain;name;market for used powertrain
-components;powertrain;name;market for internal combustion engine
-components;energy storage;name;Ancillary BoP
-components;energy storage;name;Essential BoP
-components;energy storage;name;Stack 2020
-components;energy storage;name;Battery BoP
-components;energy storage;name;Battery cell
+components;energy chain;name;market for natural gas, from high pressure network (1-5 bar), at service station
+components;energy chain;name;hydrogen, gaseous, 700 bar
+components;energy chain;name;biogas
+components;energy chain;name;ethanol
+components;energy chain;name;biodiesel
+components;energy chain;name;methane, from electrochemical
+components;energy chain;name;electricity market for fuel preparation
+components;maintenance;name;maintenance, passenger car
+components;glider;name;market for glider
+components;glider;name;glider lightweighting
+components;EoL;name;market for manual dismantling
+components;EoL;name;market for used powertrain
+components;powertrain;name;charger
+components;powertrain;name;inverter
+components;powertrain;name;converter
+components;powertrain;name;electric motor
+components;powertrain;name;power distribution unit
+components;powertrain;name;internal combustion engine
+components;energy storage;name;ancillary bop
+components;energy storage;name;essential bop
+components;energy storage;name;stack
+components;energy storage;name;battery bop
+components;energy storage;name;battery cell
 components;energy storage;name;polyethylene production, high density
 components;energy storage;name;glass fibre reinforced plastic production
-components;energy storage;name;Fuel tank, compressed hydrogen gas, 700bar
-components;energy storage;name;market for precious metal refinery
-components;energy storage;name;market for graphite
-components;energy storage;name;market for platinum
-components;energy storage;name;market for carbon black
-components;energy storage;name;market for titanium dioxide
-components;energy storage;name;market for aluminium, wrought alloy
-components;energy storage;name;sulfuric acid production
-components;energy storage;name;tetrafluoroethylene production
-components;energy storage;name;market for ethylene glycol
-components;energy storage;name;market for polyphenylene sulfide
-components;energy storage;name;market for copper
-components;energy storage;name;tetrafluoroethylene production
-components;energy storage;name;aluminium ingot, primary, to aluminium, wrought alloy market
-components;energy storage;name;metal working, average for aluminium product manufacturing
-components;energy storage;name;market for anode, graphite, for lithium-ion battery
-components;energy storage;name;market for polyvinylfluoride
-components;energy storage;name;market for N-methyl-2-pyrrolidone
-components;energy storage;name;market for printed wiring board, through-hole mounted, unspecified, Pb free
-components;energy storage;name;market for polyethylene terephthalate, granulate, amorphous
-components;energy storage;name;market for electronic component factory
-components;energy storage;name;market for acrylonitrile-butadiene-styrene copolymer
-components;energy storage;name;market for electric connector, wire clamp
-components;energy storage;name;market for casting, brass
-components;energy storage;name;market for brass
-components;energy storage;name;market for nylon 6
-components;energy storage;name;market for injection moulding
-components;energy storage;name;market for lithium hydroxide
-components;energy storage;name;market for nickel sulfate
-components;energy storage;name;market for manganese sulfate
-components;energy storage;name;market for soda ash, light, crystalline, heptahydrate
+components;energy storage;name;fuel tank, compressed hydrogen gas, 700bar
+components;energy storage;name;electricity market for energy storage production
 components;road;name;market for road

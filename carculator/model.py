@@ -149,7 +149,7 @@ class CarModel:
         self.set_hot_emissions()
         self.set_noise_emissions()
         self.create_PHEV()
-        #self.drop_hybrid()
+        self.drop_hybrid()
 
     def adjust_cost(self):
         """
