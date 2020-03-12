@@ -371,10 +371,10 @@ class InventoryCalculation:
                 "energy chain",
                 "maintenance",
                 "glider",
+                "EoL",
                 "powertrain",
                 "energy storage",
-                "road",
-                "other",
+                "road"
             ]
 
         dict_impact_cat = self.get_dict_impact_categories()
@@ -473,6 +473,7 @@ class InventoryCalculation:
 
         d = {}
         l = []
+
         for cat in csv_dict["components"]:
             d[cat] = list(
                 flatten(
@@ -484,8 +485,6 @@ class InventoryCalculation:
             )
             l.append(d[cat])
 
-        d["other"] = [x for x in self.rev_inputs if not x in list(flatten(l))]
-
         list_ind = [d[x] for x in d]
         maxLen = max(map(len, list_ind))
         for row in list_ind:
@@ -493,7 +492,7 @@ class InventoryCalculation:
                 row.extend([len(self.inputs) - 1])
         return list(d.keys()), list_ind
 
-    def pre_calculate_impacts(self, method="recipe", level="midpoint", split="components", sensitivity=False):
+    def calculate_impacts(self, method="recipe", level="midpoint", split="components", sensitivity=False):
 
         # Load the B matrix
         self.B = self.get_B_matrix()
@@ -522,213 +521,25 @@ class InventoryCalculation:
                 C = X * B
                 new_arr[ a, :, self.scope["year"].index(y)] = C.sum(axis=1)
 
-        #print((new_arr.T * self.A[:,:,685]).shape)
-        #print(new_arr[self.split_indices,:,:].sum(axis=1).shape)
-        print(new_arr.shape)
-        print(self.A[:,:,-self.number_of_cars:].shape)
-        print((new_arr.T * self.A[:,:,-self.number_of_cars:].transpose(1,2,0)).shape)
-        #for s in self.scope["size"]:
-        #    for pt in self.scope["powertrain"]:
-        #        for y in self.scope["year"]:
+        new_arr = new_arr.T.reshape(
+                                len(self.scope["year"]),
+                                B.shape[0],
+                                1,
+                                1,
+                                self.A.shape[-1])
 
-        #            ind = self.inputs[(
-        #                 "Passenger car, " + pt + ", " + s + ", " + str(y),
-        #                 "GLO",
-        #                 "kilometer",
-        #                 "transport, passenger car, EURO6",
-        #             )]
-                    #arr = new_arr.T * self.A[0,:,ind] *-1
-        #            arr = np.outer(new_arr.T,  self.A[:,:,ind])
-        #            print(arr.shape)
-                    #results.loc[:, s, pt, y, :, a] = arr[self.scope["year"].index(y),:,self.split_indices].sum(axis=1).T
+        arr = self.A[:, :, -self.number_of_cars:].transpose(0, 2, 1) * new_arr * -1
 
-                    #for a in range(0,self.iterations):
+        arr = arr.transpose(1, 3, 0, 4, 2)
+        arr = arr[:, :, :, self.split_indices, :].sum(axis=4)
 
-
-        return results
-
-    def calculate_impacts(
-        self, method="recipe", level="midpoint", split="components", sensitivity=False
-    ):
-        """
-        Solve the inventory, fill in the results array, return the results array.
-
-        :param method: Impact assessment method. Only "recipe" available at the moment.
-        :param level: Impact assessment level ("midpoint" or "endpoint"). Only "midpoint" available at the moment.
-        :param split: Splitting mode ("components" or "impact categories"). Only "components" available at the moment.
-        :return: an array with characterized results.
-        :rtype: xarray.DataArray
-
-        """
-
-        # Load the B matrix
-        self.B = self.get_B_matrix()
-
-        # Prepare an array to store the results
-        results = self.get_results_table(method, level, split, sensitivity=sensitivity)
-
-        # Fill in the A matrix with car parameters
-        self.set_inputs_in_A_matrix(self.array.values)
-
-        for y in self.scope["year"]:
-            B = self.B.interp(year=y, kwargs={"fill_value": "extrapolate"}).values
-
-            # TODO: improve the accountability of electricity used for different purposes
-            # Environmental impacts of energy storage and energy chain-related electricity
-
-            pos_fuel_prep = self.inputs[
-                (
-                    "electricity market for fuel preparation, " + str(y),
-                    self.background_configuration["country"],
-                    "kilowatt hour",
-                    "electricity, low voltage"
-                )
-            ]
-
-            pos_energy_stor = self.inputs[
-                (
-                     "electricity market for energy storage production, " + str(y),
-                     self.background_configuration["battery origin"],
-                     "kilowatt hour",
-                     "electricity, low voltage"
-                )
-            ]
-
-            # Set the demand vector with zeros and a 1 corresponding to the electricity market
-            # position in the vector
-            f_elec = np.zeros((np.shape(self.A)[0], np.shape(self.A)[1]))
-            f_elec[:, pos_fuel_prep] = 1
-
-            X = sparse.linalg.spsolve(self.A[0], f_elec[0].T)
-            C_elec_supply = X * B
-
-            # Set the demand vector with zeros and a 1 corresponding to the electricity market
-            # position in the vector
-            f_elec = np.zeros((np.shape(self.A)[0], np.shape(self.A)[1]))
-            f_elec[:, pos_energy_stor] = 1
-
-            X = sparse.linalg.spsolve(self.A[0], f_elec[0].T)
-            C_energy_storage = X * B
-
-
-
-            for s in self.scope["size"]:
-                for pt in self.scope["powertrain"]:
-                    # Retrieve the index of a given car in the matrix A
-                    car = self.inputs[
-                        (
-                            "Passenger car, " + pt + ", " + s + ", " + str(y),
-                            "GLO",
-                            "kilometer",
-                            "transport, passenger car, EURO6",
-                        )
-                    ]
-                    # Set the demand vector with zeros and a 1 corresponding to the car position in the vector
-                    f = np.zeros((np.shape(self.A)[0], np.shape(self.A)[1]))
-                    f[:, car] = 1
-
-                    for i in range(0, self.iterations):
-                        X = sparse.linalg.spsolve(self.A[i], f[i].T)
-                        C = X * B
-
-                        if sensitivity == False:
-
-                            results[
-                                :,
-                                self.scope["size"].index(s),
-                                self.scope["powertrain"].index(pt),
-                                self.scope["year"].index(y),
-                                :,
-                                i,
-                            ] = np.sum(C[:, self.split_indices], 2)
-
-
-                        else:
-
-                            results[
-                                :,
-                                self.scope["size"].index(s),
-                                self.scope["powertrain"].index(pt),
-                                self.scope["year"].index(y),
-                                i,
-                            ] = np.sum(C, 1)
-
-            # Add impact from electricity generation
-            # And withdraw equivalent from "others" category
-
-
-            elec_supp = self.A[
-                            :,
-                            [
-                                self.inputs[ind]
-                                for ind in self.inputs
-                                if str(y) in ind[0]
-                                and "electricity market for fuel preparation" in ind[0]
-                            ]
-                            ,
-                            [
-                                self.inputs[ind]
-                                for ind in self.inputs
-                                if str(y) in ind[0]
-                                   and "Passenger" in ind[0]
-                            ]
-
-                        ] * -1
-
-            energy_stor = self.A[
-                        :,
-                        [
-                            self.inputs[ind]
-                            for ind in self.inputs
-                            if str(y) in ind[0]
-                               and "electricity market for energy storage production" in ind[0]
-                        ]
-                        ,
-                          [
-                              self.inputs[ind]
-                              for ind in self.inputs
-                              if str(y) in ind[0]
-                                 and "Passenger" in ind[0]
-                          ]
-                        ] * -1
-
-
-            C_elec_supply = C_elec_supply.sum(axis=1).reshape(-1,1) * elec_supp
-
-            C_elec_supply = C_elec_supply.reshape((
-                np.shape(B)[0],
+        for y in range(0, len(self.scope["year"])):
+            results[:, :, :, y, :, :] = arr[:, y::len(self.scope["year"]), y, :, :].reshape((
+                B.shape[0],
                 len(self.scope["size"]),
                 len(self.scope["powertrain"]),
+                len(results.impact.values),
                 self.iterations))
-
-
-            C_energy_storage = C_energy_storage.sum(axis=1).reshape(-1,1) * energy_stor
-
-            C_energy_storage = C_energy_storage.reshape((
-                np.shape(B)[0],
-                len(self.scope["size"]),
-                len(self.scope["powertrain"]),
-                self.iterations))
-
-            # Add electricity supply-related impacts to "energy chain" category
-            # Impact category, size, powertrain, year
-            #print(np.shape(C_elec_supply))
-            print(C_energy_storage[6, 0, :])
-            #print(size_pt)
-            results.loc[:, :, :, y, "energy chain", :] += C_elec_supply
-
-            # Remove electricity supply-related impacts from "other" category
-            results.loc[:, :, :, y, "other", :] -= C_elec_supply
-
-            # Add energy storage electricity-related impacts to "energy storage" category
-            results.loc[:, :, :, y, "energy storage", :] += C_energy_storage
-
-            # Remove energy storage electricity-related impacts from "other" category
-            results.loc[:, :, :, y, "other", :] -= C_energy_storage
-
-        if sensitivity == True:
-            results /= results.sel(parameter="reference")
-            return results
 
         return results
 
@@ -981,13 +792,13 @@ class InventoryCalculation:
             return [
                 int(self.inputs[c])
                 for c in self.inputs
-                if any(ele in c[0] for ele in items_to_look_for)
+                if all(ele in c[0].lower() for ele in items_to_look_for)
             ]
         if search_by == "compartment":
             return [
                 int(self.inputs[c])
                 for c in self.inputs
-                if any(ele in c[1] for ele in items_to_look_for)
+                if all(ele in c[1] for ele in items_to_look_for)
             ]
 
     def export_lci(self, presamples=True, ecoinvent_compatibility=True):
