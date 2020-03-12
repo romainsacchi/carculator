@@ -11,8 +11,8 @@ from . import DATA_DIR
 from .background_systems import BackgroundSystemModel
 from .export import ExportInventory
 from scipy import sparse
+import numexpr as ne
 import itertools
-
 
 class InventoryCalculation:
     """
@@ -507,9 +507,9 @@ class InventoryCalculation:
         arr = self.A[0, :-self.number_of_cars, -self.number_of_cars:].sum(axis=1)
         ind = np.nonzero(arr)[0]
 
-        new_arr = np.zeros((self.A.shape[1], self.B.shape[1], len(self.scope["year"])))
+        new_arr = np.float16(np.zeros((self.A.shape[1], self.B.shape[1], len(self.scope["year"]))))
 
-        f = np.zeros((np.shape(self.A)[1]))
+        f = np.float16(np.zeros((np.shape(self.A)[1])))
 
         for y in self.scope["year"]:
             B = self.B.interp(year=y, kwargs={"fill_value": "extrapolate"}).values
@@ -517,7 +517,7 @@ class InventoryCalculation:
             for a in ind:
                 f[:] = 0
                 f[a] = 1
-                X = sparse.linalg.spsolve(self.A[0], f.T)
+                X = np.float16(sparse.linalg.spsolve(self.A[0], f.T))
                 C = X * B
                 new_arr[ a, :, self.scope["year"].index(y)] = C.sum(axis=1)
 
@@ -528,7 +528,9 @@ class InventoryCalculation:
                                 1,
                                 self.A.shape[-1])
 
-        arr = self.A[:, :, -self.number_of_cars:].transpose(0, 2, 1) * new_arr * -1
+        a = np.float16(self.A[:, :, -self.number_of_cars:].transpose(0, 2, 1))
+
+        arr = np.float16(ne.evaluate("a * new_arr * -1"))
 
         arr = arr.transpose(1, 3, 0, 4, 2)
         arr = arr[:, :, :, self.split_indices, :].sum(axis=4)
@@ -541,7 +543,7 @@ class InventoryCalculation:
                 len(results.impact.values),
                 self.iterations))
 
-        return results
+        return results.astype("float16").round(3)
 
     def add_additional_activities(self):
         # Add as many rows and columns as cars to consider
