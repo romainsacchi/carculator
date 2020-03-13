@@ -1107,8 +1107,7 @@ class InventoryCalculation:
                         self.array_inputs[l]
                         for l in [
                             "combustion engine mass",
-                            "electric engine mass",
-                            "powertrain mass",
+                            "powertrain mass"
                         ]
                     ],
                     :,
