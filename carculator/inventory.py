@@ -543,7 +543,7 @@ class InventoryCalculation:
                 len(results.impact.values),
                 self.iterations))
 
-        return results.astype("float16").round(3)
+        return results.astype("float16")
 
     def add_additional_activities(self):
         # Add as many rows and columns as cars to consider
@@ -1464,7 +1464,7 @@ class InventoryCalculation:
         # Fill the electricity markets for battery charging and hydrogen production
         for y in self.scope["year"]:
             m = np.array(mix[self.scope["year"].index(y)]).reshape(-1, 10, 1)
-
+            # Add electricity technology shares
             self.A[
                 np.ix_(
                     np.arange(self.iterations),
@@ -1476,7 +1476,111 @@ class InventoryCalculation:
                         and "electricity market for fuel preparation" in i[0]
                     ],
                 )
-            ] = m * losses_to_low * -1
+            ] = m * -1
+
+            # Add transmission network for high and medium voltage
+            self.A[
+                np.ix_(
+                    np.arange(self.iterations),
+                    self.inputs[('transmission network construction, electricity, high voltage',
+                                 'CH',
+                                 'kilometer',
+                                 'transmission network, electricity, high voltage')],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for fuel preparation" in i[0]
+                    ],
+                )
+            ] = 6.58e-9 * -1
+
+            self.A[
+                np.ix_(
+                    np.arange(self.iterations),
+                    self.inputs[('transmission network construction, electricity, medium voltage',
+                                 'CH',
+                                 'kilometer',
+                                 'transmission network, electricity, medium voltage')],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for fuel preparation" in i[0]
+                    ],
+                )
+            ] = 1.86e-8 * -1
+
+            self.A[
+                np.ix_(
+                    np.arange(self.iterations),
+                    self.inputs[('transmission network construction, long-distance',
+                                 'UCTE',
+                                 'kilometer',
+                                 'transmission network, long-distance')],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for fuel preparation" in i[0]
+                    ],
+                )
+            ] = 3.17e-10 * -1
+
+            # Add distribution network, low voltage
+            self.A[
+                np.ix_(
+                    np.arange(self.iterations),
+                    self.inputs[('distribution network construction, electricity, low voltage',
+                                 'CH',
+                                 'kilometer',
+                                 'distribution network, electricity, low voltage')],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for fuel preparation" in i[0]
+                    ],
+                )
+            ] = 8.74e-8 * -1
+
+            # Add supply of sulfur hexafluoride for transformers
+            self.A[
+                np.ix_(
+                    np.arange(self.iterations),
+                    self.inputs[('market for sulfur hexafluoride, liquid',
+                                 'RoW',
+                                 'kilogram',
+                                 'sulfur hexafluoride, liquid')],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for fuel preparation" in i[0]
+                    ],
+                )
+            ] = (5.4e-8 + 2.99e-9) * -1
+
+            # Add SF_6 leakage
+
+            self.A[
+                np.ix_(
+                    np.arange(self.iterations),
+                    self.inputs[('Sulfur hexafluoride',
+                                 ('air',),
+                                 'kilogram')],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for fuel preparation" in i[0]
+                    ],
+                )
+            ] = (5.4e-8 + 2.99e-9) * -1
+
+
+
+
 
 
         if any(True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in self.scope["powertrain"]):
@@ -1504,7 +1608,7 @@ class InventoryCalculation:
                         ],
                     )
                 ] = (
-                    array[self.array_inputs["electricity consumption"], :, index] * -1
+                    array[self.array_inputs["electricity consumption"], :, index] * -1 * losses_to_low
                 ).T.reshape(
                     self.iterations,
                     1,
@@ -1586,7 +1690,7 @@ class InventoryCalculation:
                             (
                                     array[self.array_inputs["fuel mass"], :, index]
                                     / array[self.array_inputs["range"], :, index]
-                            ) * -58
+                            ) * -58 * losses_to_low
                     ).T
 
         if "ICEV-g" in self.scope["powertrain"]:
