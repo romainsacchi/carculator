@@ -232,7 +232,7 @@ glass fibre reinforced plastic production, polyamide, injection moulded;RER;kilo
 Multilayer pouch;GLO;kilogram;Multilayer pouch
 market for potassium sulfate, as K2O;GLO;kilogram;potassium sulfate, as K2O
 market for heat, district or industrial, natural gas;Europe without Switzerland;megajoule;heat, district or industrial, natural gas
-PEM Fuel Cell 2020;GLO;kilowatt;PEM Fuel Cell 2020
+PEM Fuel Cell;GLO;kilowatt;PEM Fuel Cell
 Lithium iron phosphate [LiFePO4];JP;kilogram;Lithium iron phosphate [LiFePO4]
 Carbon monoxide, fossil;('air', 'non-urban air or from high stacks');kilogram
 Carbon dioxide, fossil;('air',);kilogram
@@ -241,7 +241,7 @@ Particulates, < 2.5 um;('air', 'urban air close to ground');kilogram
 Fuel tank, compressed hydrogen gas, 700bar, with aluminium liner;RER;kilogram;Hydrogen tank
 market for petrol, low-sulfur;Europe without Switzerland;kilogram;petrol, low-sulfur
 tube insulation production, elastomere;RoW;kilogram;tube insulation, elastomere
-Stack 2020;GLO;kilowatt;Stack 2020
+Stack;GLO;kilowatt;Stack
 market for concrete, high exacting requirements;CH;cubic meter;concrete, high exacting requirements
 lubricating oil production;RoW;kilogram;lubricating oil
 market for used powertrain from electric passenger car, manual dismantling;GLO;kilogram;used powertrain from electric passenger car, manual dismantling
@@ -350,7 +350,7 @@ market for tap water;RoW;kilogram;tap water
 heat exchanger, carbon dioxide capture process;RER;unit;heat exchanger, carbon dioxide capture process
 market for chemical factory;GLO;kilogram;chemical factory
 noise, octave 2, day time, suburban;('octave 2', 'day time', 'suburban');joule
-Catalyst layer 2020;GLO;kilowatt;Catalyst layer 2020
+Catalyst layer;GLO;kilowatt;Catalyst layer
 market for road wear emissions, passenger car;GLO;kilogram;road wear emissions, passenger car
 Nitrogen oxides;('air', 'non-urban air or from high stacks');kilogram
 Lithium, ion;('water',);kilogram
@@ -423,7 +423,7 @@ heat production, natural gas, at industrial furnace low-NOx >100kW;Europe withou
 activated silica production;GLO;kilogram;activated silica
 market group for natural gas, high pressure;Europe without Switzerland;cubic meter;natural gas, high pressure
 Hydrogen refuelling station, SMR;GLO;unit;Hydrogen refuelling station, SMR
-Membrane 2020;GLO;kilowatt;Membrane 2020
+Membrane;GLO;kilowatt;Membrane
 argon production, liquid;RoW;kilogram;argon, liquid
 Cathode paste, NCA;JP;kilogram;Cathode paste, NCA
 wiring and tubing, carbon dioxide capture process;RER;unit;wiring and tubing, carbon dioxide capture process
@@ -431,7 +431,7 @@ Hydrogen sulfide;('air',);kilogram
 chemical factory construction, organics;RER;unit;chemical factory, organics
 market for light fuel oil;RoW;kilogram;light fuel oil
 market for water, deionised;Europe without Switzerland;kilogram;water, deionised
-Bipolar plate 2020;GLO;kilowatt;Bipolar plate 2020
+Bipolar plate;GLO;kilowatt;Bipolar plate
 market group for electricity, high voltage;EUR;kilowatt hour;electricity, high voltage
 epoxy resin production, liquid;RoW;kilogram;epoxy resin, liquid
 Tie-rods;GLO;kilogram;Tie-rods
@@ -485,7 +485,7 @@ Nitrogen oxides;('air', 'low population density, long-term');kilogram
 Carbon monoxide, fossil;('air',);kilogram
 algae harvesting| dry algae production;RER;kilogram;algae harvesting| dry algae production
 Pipe fitting;GLO;kilogram;Pipe fitting
-Gas Diffusion Layer 2020;GLO;kilowatt;Gas Diffusion Layer 2020
+Gas Diffusion Layer;GLO;kilowatt;Gas Diffusion Layer
 market for copper oxide;GLO;kilogram;copper oxide
 market for water, decarbonised;DE;kilogram;water, decarbonised
 market for butadiene;RER;kilogram;butadiene

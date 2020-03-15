@@ -1480,8 +1480,7 @@ class InventoryCalculation:
 
             # Add transmission network for high and medium voltage
             self.A[
-                np.ix_(
-                    np.arange(self.iterations),
+                :,
                     self.inputs[('transmission network construction, electricity, high voltage',
                                  'CH',
                                  'kilometer',
@@ -1491,13 +1490,12 @@ class InventoryCalculation:
                         for i in self.inputs
                         if str(y) in i[0]
                         and "electricity market for fuel preparation" in i[0]
-                    ],
-                )
+                    ]
+
             ] = 6.58e-9 * -1
 
             self.A[
-                np.ix_(
-                    np.arange(self.iterations),
+               :,
                     self.inputs[('transmission network construction, electricity, medium voltage',
                                  'CH',
                                  'kilometer',
@@ -1508,12 +1506,12 @@ class InventoryCalculation:
                         if str(y) in i[0]
                         and "electricity market for fuel preparation" in i[0]
                     ],
-                )
+
             ] = 1.86e-8 * -1
 
             self.A[
-                np.ix_(
-                    np.arange(self.iterations),
+
+                    :,
                     self.inputs[('transmission network construction, long-distance',
                                  'UCTE',
                                  'kilometer',
@@ -1524,13 +1522,12 @@ class InventoryCalculation:
                         if str(y) in i[0]
                         and "electricity market for fuel preparation" in i[0]
                     ],
-                )
+
             ] = 3.17e-10 * -1
 
             # Add distribution network, low voltage
             self.A[
-                np.ix_(
-                    np.arange(self.iterations),
+                :,
                     self.inputs[('distribution network construction, electricity, low voltage',
                                  'CH',
                                  'kilometer',
@@ -1541,15 +1538,14 @@ class InventoryCalculation:
                         if str(y) in i[0]
                         and "electricity market for fuel preparation" in i[0]
                     ],
-                )
+
             ] = 8.74e-8 * -1
 
             # Add supply of sulfur hexafluoride for transformers
             self.A[
-                np.ix_(
-                    np.arange(self.iterations),
+                :,
                     self.inputs[('market for sulfur hexafluoride, liquid',
-                                 'RoW',
+                                 'RER',
                                  'kilogram',
                                  'sulfur hexafluoride, liquid')],
                     [
@@ -1558,14 +1554,13 @@ class InventoryCalculation:
                         if str(y) in i[0]
                         and "electricity market for fuel preparation" in i[0]
                     ],
-                )
+
             ] = (5.4e-8 + 2.99e-9) * -1
 
             # Add SF_6 leakage
 
             self.A[
-                np.ix_(
-                    np.arange(self.iterations),
+                :,
                     self.inputs[('Sulfur hexafluoride',
                                  ('air',),
                                  'kilogram')],
@@ -1575,7 +1570,7 @@ class InventoryCalculation:
                         if str(y) in i[0]
                         and "electricity market for fuel preparation" in i[0]
                     ],
-                )
+
             ] = (5.4e-8 + 2.99e-9) * -1
 
 
