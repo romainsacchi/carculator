@@ -36,6 +36,9 @@ class EnergyConsumptionModel:
     :type cycle: pandas.Series
     :param rho_air: Mass per unit volume of air. Set to (1.225 kg/m3) by default.
     :type rho_air: float
+    :param gradient: Road gradient per second of driving, in degrees. None by default. Should be passed as an array of
+                    length equal to the length of the driving cycle.
+    :type gradient: numpy.ndarray
 
     :ivar rho_air: Mass per unit volume of air. Value of 1.204 at 23C (test temperature for WLTC).
     :vartype rho_air: float
@@ -48,7 +51,7 @@ class EnergyConsumptionModel:
 
     """
 
-    def __init__(self, cycle, rho_air=1.204):
+    def __init__(self, cycle, rho_air=1.204, gradient=None):
         # If a string is passed, the corresponding driving cycle is retrieved
         if isinstance(cycle, str):
             try:
@@ -66,8 +69,23 @@ class EnergyConsumptionModel:
 
         self.cycle = cycle
         self.rho_air = rho_air
+
+        if gradient is not None:
+            try:
+                assert isinstance(gradient, np.ndarray)
+            except AssertionError:
+                raise AssertionError("The type of the gradient array is not valid. Required: numpy.ndarray.")
+            try:
+                assert len(gradient) == len(self.cycle)
+            except AssertionError:
+                raise AssertionError("The length of the gradient array does not equal the length of the driving cycle.")
+            self.gradient = gradient
+        else:
+            self.gradient = np.zeros_like(cycle)
+
         # Unit conversion km/h to m/s
         self.velocity = (cycle * 1000) / 3600
+
 
         # Model acceleration as difference in velocity between time steps (1 second)
         # Zero at first value
@@ -162,13 +180,15 @@ class EnergyConsumptionModel:
         dc = _(drag_coef)
         v = self.velocity
         a = self.acceleration
+        g = self.gradient
         rho_air = self.rho_air
         ttw_eff = _(ttw_efficiency)
         mp = _(motor_power)
         re = _(recuperation_efficiency)
 
+        # rolling resistance + air resistance + kinetic energy + gradient resistance
         total_force = ne.evaluate(
-            "(ones * dm * rr * 9.81)+(v ** 2 * fa * dc * rho_air / 2)+(a * dm)"
+            "(ones * dm * rr * 9.81) + (v ** 2 * fa * dc * rho_air / 2) + (a * dm) + (dm * 9.81 * sin(g))"
         )
 
         tv = ne.evaluate("total_force * v")

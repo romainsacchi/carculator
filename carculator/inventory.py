@@ -1227,7 +1227,7 @@ class InventoryCalculation:
         print("Power and energy batteries produced in " + battery_origin + " using " + battery_tech + " chemistry.", end='\n * ')
 
 
-        losses_to_medium = float(self.bs.losses[battery_origin]["MV"])
+        losses_to_low = float(self.bs.losses[battery_origin]["LV"])
         mix_battery_manufacturing = (
             self.bs.electricity_mix.sel(country=battery_origin, value=0)
             .interp(year=self.scope["year"])
@@ -1249,7 +1249,102 @@ class InventoryCalculation:
                            and "electricity market for energy storage production" in i[0]
                     ],
                 )
-            ] = m * losses_to_medium * -1
+            ] = m * losses_to_low * -1
+
+        # Add transmission network for high and medium voltage
+            self.A[
+                :,
+                    self.inputs[('transmission network construction, electricity, high voltage',
+                                 'CH',
+                                 'kilometer',
+                                 'transmission network, electricity, high voltage')],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for energy storage production" in i[0]
+                    ]
+
+            ] = 6.58e-9 * -1 * losses_to_low
+
+            self.A[
+               :,
+                    self.inputs[('transmission network construction, electricity, medium voltage',
+                                 'CH',
+                                 'kilometer',
+                                 'transmission network, electricity, medium voltage')],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for energy storage production" in i[0]
+                    ],
+
+            ] = 1.86e-8 * -1 * losses_to_low
+
+            self.A[
+
+                    :,
+                    self.inputs[('transmission network construction, long-distance',
+                                 'UCTE',
+                                 'kilometer',
+                                 'transmission network, long-distance')],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for energy storage production" in i[0]
+                    ],
+
+            ] = 3.17e-10 * -1 * losses_to_low
+
+            # Add distribution network, low voltage
+            self.A[
+                :,
+                    self.inputs[('distribution network construction, electricity, low voltage',
+                                 'CH',
+                                 'kilometer',
+                                 'distribution network, electricity, low voltage')],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for energy storage production" in i[0]
+                    ],
+
+            ] = 8.74e-8 * -1 * losses_to_low
+
+            # Add supply of sulfur hexafluoride for transformers
+            self.A[
+                :,
+                    self.inputs[('market for sulfur hexafluoride, liquid',
+                                 'RER',
+                                 'kilogram',
+                                 'sulfur hexafluoride, liquid')],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for energy storage production" in i[0]
+                    ],
+
+            ] = (5.4e-8 + 2.99e-9) * -1 * losses_to_low
+
+            # Add SF_6 leakage
+
+            self.A[
+                :,
+                    self.inputs[('Sulfur hexafluoride',
+                                 ('air',),
+                                 'kilogram')],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for energy storage production" in i[0]
+                    ],
+
+            ] = (5.4e-8 + 2.99e-9) * -1 * losses_to_low
 
         # Use the NMC inventory of Schmidt et al. 2019
         self.A[
@@ -1476,7 +1571,7 @@ class InventoryCalculation:
                         and "electricity market for fuel preparation" in i[0]
                     ],
                 )
-            ] = m * -1
+            ] = m * -1 * losses_to_low
 
             # Add transmission network for high and medium voltage
             self.A[
@@ -1492,7 +1587,7 @@ class InventoryCalculation:
                         and "electricity market for fuel preparation" in i[0]
                     ]
 
-            ] = 6.58e-9 * -1
+            ] = 6.58e-9 * -1 * losses_to_low
 
             self.A[
                :,
@@ -1507,7 +1602,7 @@ class InventoryCalculation:
                         and "electricity market for fuel preparation" in i[0]
                     ],
 
-            ] = 1.86e-8 * -1
+            ] = 1.86e-8 * -1 * losses_to_low
 
             self.A[
 
@@ -1523,7 +1618,7 @@ class InventoryCalculation:
                         and "electricity market for fuel preparation" in i[0]
                     ],
 
-            ] = 3.17e-10 * -1
+            ] = 3.17e-10 * -1 * losses_to_low
 
             # Add distribution network, low voltage
             self.A[
@@ -1539,7 +1634,7 @@ class InventoryCalculation:
                         and "electricity market for fuel preparation" in i[0]
                     ],
 
-            ] = 8.74e-8 * -1
+            ] = 8.74e-8 * -1 * losses_to_low
 
             # Add supply of sulfur hexafluoride for transformers
             self.A[
@@ -1555,7 +1650,7 @@ class InventoryCalculation:
                         and "electricity market for fuel preparation" in i[0]
                     ],
 
-            ] = (5.4e-8 + 2.99e-9) * -1
+            ] = (5.4e-8 + 2.99e-9) * -1 * losses_to_low
 
             # Add SF_6 leakage
 
@@ -1571,12 +1666,7 @@ class InventoryCalculation:
                         and "electricity market for fuel preparation" in i[0]
                     ],
 
-            ] = (5.4e-8 + 2.99e-9) * -1
-
-
-
-
-
+            ] = (5.4e-8 + 2.99e-9) * -1 * losses_to_low
 
         if any(True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in self.scope["powertrain"]):
             for y in self.scope["year"]:
@@ -1603,7 +1693,7 @@ class InventoryCalculation:
                         ],
                     )
                 ] = (
-                    array[self.array_inputs["electricity consumption"], :, index] * -1 * losses_to_low
+                    array[self.array_inputs["electricity consumption"], :, index] * -1
                 ).T.reshape(
                     self.iterations,
                     1,
@@ -1685,7 +1775,7 @@ class InventoryCalculation:
                             (
                                     array[self.array_inputs["fuel mass"], :, index]
                                     / array[self.array_inputs["range"], :, index]
-                            ) * -58 * losses_to_low
+                            ) * -58
                     ).T
 
         if "ICEV-g" in self.scope["powertrain"]:
@@ -1730,6 +1820,7 @@ class InventoryCalculation:
                     .interp(year=self.scope["year"])
                     .values
                 )
+                self.background_configuration["alternative CNG share"] = share
 
             print("CNG is completed by " + cng_technology + ".", end='\n \t * ')
 
@@ -1863,6 +1954,7 @@ class InventoryCalculation:
                     .interp(year=self.scope["year"])
                     .values
                 )
+                self.background_configuration["alternative diesel share"] = share
 
             dict_diesel_map = {
                 "diesel": (
@@ -2002,6 +2094,7 @@ class InventoryCalculation:
                 region = self.bs.region_map[
                     self.background_configuration["country"]
                 ]["RegionCode"]
+
                 share = (
                     self.bs.biofuel.sel(
                         region=region,
@@ -2012,6 +2105,7 @@ class InventoryCalculation:
                     .interp(year=self.scope["year"])
                     .values
                 )
+                self.background_configuration["alternative petrol share"] = share
 
             dict_petrol_map = {
                 "bioethanol - wheat straw": (

@@ -130,8 +130,7 @@ class ExportInventory:
 
                 # If ecoinvent_compatibility==False and the activity name is part of the list
                 if ecoinvent_compatibility == False and tuple_output[0] in activities_to_be_removed:
-                    continue
-
+                    break
 
                 if ecoinvent_compatibility == True:
                     tuple_output = self.map_remind_ecoinvent.get(tuple_output, tuple_output)
@@ -209,20 +208,21 @@ class ExportInventory:
                                     }
                                 )
                     list_exc[-1].update(uncertainty)
+            else:
+                list_act.append(
+                    {
+                        "production amount": 1,
+                        "database": self.db_name,
+                        "name": tuple_output[0],
+                        "unit": tuple_output[2],
+                        "location": tuple_output[1],
+                        "exchanges": list_exc,
+                        "reference product": tuple_output[3],
+                        "type": "process",
+                        "code": str(uuid.uuid1())
+                    }
+                )
 
-            list_act.append(
-                {
-                    "production amount": 1,
-                    "database": self.db_name,
-                    "name": tuple_output[0],
-                    "unit": tuple_output[2],
-                    "location": tuple_output[1],
-                    "exchanges": list_exc,
-                    "reference product": tuple_output[3],
-                    "type": "process",
-                    "code": str(uuid.uuid1())
-                }
-            )
         if presamples:
             return (
                 list_act,

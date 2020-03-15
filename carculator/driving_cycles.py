@@ -44,6 +44,9 @@ def get_standard_driving_cycle(name="WLTC"):
         "CADC Motorway 130":9,
         "CADC":10,
         "NEDC":11,
+        "SORT 1":12,
+        "SORT 2":13,
+        "SORT 3":14,
     }
     try:
         arr = np.genfromtxt(DATA_DIR / "driving_cycles.csv",
