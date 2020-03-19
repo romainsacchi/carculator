@@ -1,10 +1,10 @@
-import numpy as np
 from .energy_consumption import EnergyConsumptionModel
-from .noise_emissions import NoiseEmissionsModel
 from .hot_emissions import HotEmissionsModel
+from .noise_emissions import NoiseEmissionsModel
 import numexpr as ne
-
+import numpy as np
 import xarray as xr
+
 
 DEFAULT_MAPPINGS = {
     "electric": {"BEV", "PHEV-e"},

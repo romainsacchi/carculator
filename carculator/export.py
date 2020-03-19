@@ -1,17 +1,13 @@
-"""
-.. module: export.py
-
-"""
 from bw2io.export.excel import (
     safe_filename,
     xlsxwriter,
     create_valid_worksheet_name,
 )
 import bw2io
-import uuid
 import numpy as np
-import pyprind
 import os
+import pyprind
+import uuid
 
 
 class ExportInventory:

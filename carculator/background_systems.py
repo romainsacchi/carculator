@@ -1,12 +1,7 @@
-"""
-.. module: background_systems.py
-
-"""
-
+from . import DATA_DIR
 import numpy as np
 import pandas as pd
 import xarray as xr
-from . import DATA_DIR
 
 
 class BackgroundSystemModel:

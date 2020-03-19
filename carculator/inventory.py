@@ -1,18 +1,14 @@
-"""
-.. module: inventory.py
-
-"""
-import numpy as np
-from pathlib import Path
-from inspect import currentframe, getframeinfo
-import csv
-import xarray as xr
 from . import DATA_DIR
 from .background_systems import BackgroundSystemModel
 from .export import ExportInventory
+from inspect import currentframe, getframeinfo
+from pathlib import Path
 from scipy import sparse
-import numexpr as ne
+import csv
 import itertools
+import numexpr as ne
+import numpy as np
+import xarray as xr
 
 
 class InventoryCalculation:

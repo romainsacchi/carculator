@@ -1,8 +1,3 @@
-"""
-.. module: noise_emissions.py
-
-"""
-
 import numpy as np
 import numexpr as ne
 

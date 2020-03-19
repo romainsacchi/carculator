@@ -1,6 +1,6 @@
+import numexpr as ne
 import numpy as np
 import xarray
-import numexpr as ne
 
 
 def _(o):

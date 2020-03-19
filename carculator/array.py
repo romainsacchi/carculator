@@ -1,14 +1,8 @@
-"""
-.. module: array.py
-
-"""
-
-
+from .car_input_parameters import car_input_parameters as c_i_p
 import numpy as np
-import xarray as xr
 import pandas as pd
 import stats_arrays as sa
-import carculator.car_input_parameters as c_i_p
+import xarray as xr
 
 
 def fill_xarray_from_input_parameters(cip, sensitivity=False):

@@ -1,5 +1,5 @@
-import pytest
 from carculator.background_systems import BackgroundSystemModel
+import pytest
 
 
 def test_size_dictionary():

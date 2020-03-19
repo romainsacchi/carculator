@@ -1,6 +1,6 @@
 from . import DATA_DIR
-import sys
 import numpy as np
+import sys
 
 
 def get_standard_driving_cycle(name="WLTC"):

@@ -1,6 +1,6 @@
+from carculator import *
 import numpy as np
 import pytest
-from carculator import *
 
 
 def test_type_cip():

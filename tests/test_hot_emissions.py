@@ -1,7 +1,7 @@
-import pytest
-import numpy as np
-from carculator.hot_emissions import HotEmissionsModel
 from carculator.driving_cycles import get_standard_driving_cycle
+from carculator.hot_emissions import HotEmissionsModel
+import numpy as np
+import pytest
 
 dc = get_standard_driving_cycle()
 dc_name = "WLTC"

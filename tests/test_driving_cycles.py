@@ -1,6 +1,6 @@
-import pytest
-import numpy as np
 from carculator.driving_cycles import get_standard_driving_cycle
+import numpy as np
+import pytest
 
 
 def test_cycle_retrieval_default():

@@ -1,12 +1,7 @@
-"""
-.. module: energy_consumption.py
-
-"""
-
+from .driving_cycles import get_standard_driving_cycle
+import numexpr as ne
 import numpy as np
 import xarray
-import numexpr as ne
-from .driving_cycles import get_standard_driving_cycle
 
 
 def _(o):

@@ -1,6 +1,6 @@
-import pytest
-from carculator.noise_emissions import NoiseEmissionsModel
 from carculator.driving_cycles import get_standard_driving_cycle
+from carculator.noise_emissions import NoiseEmissionsModel
+import pytest
 
 dc = get_standard_driving_cycle()
 dc_name = "WLTC"
