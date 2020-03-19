@@ -142,7 +142,7 @@ Do not hesitate to contact the development team at [carculator@psi.ch](mailto:ca
 
 ## Contributing
 
-Details on how to contribute: see [Issues](https://github.com/romainsacchi/carculator/issues).
+See [contributing](https://github.com/romainsacchi/carculator/blob/master/CONTRIBUTING.md).
 
 ## License
 
