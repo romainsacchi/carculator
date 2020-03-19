@@ -45,7 +45,7 @@ setup(
         "bw2io",
     ],
     url="https://github.com/romainsacchi/carculator",
-    description="Tool to perform environmental and economic prospective life cycle assessments of vehicles",
+    description="Prospective environmental and economic life cycle assessment of vehicles made blazing fast",
     classifiers=[
         "Intended Audience :: End Users/Desktop",
         "Intended Audience :: Developers",
