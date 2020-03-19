@@ -66,7 +66,6 @@ class EnergyConsumptionModel:
         else:
             raise ("The format of the driving cycle is not valid.")
 
-
         self.cycle = cycle
         self.rho_air = rho_air
 
@@ -74,18 +73,21 @@ class EnergyConsumptionModel:
             try:
                 assert isinstance(gradient, np.ndarray)
             except AssertionError:
-                raise AssertionError("The type of the gradient array is not valid. Required: numpy.ndarray.")
+                raise AssertionError(
+                    "The type of the gradient array is not valid. Required: numpy.ndarray."
+                )
             try:
                 assert len(gradient) == len(self.cycle)
             except AssertionError:
-                raise AssertionError("The length of the gradient array does not equal the length of the driving cycle.")
+                raise AssertionError(
+                    "The length of the gradient array does not equal the length of the driving cycle."
+                )
             self.gradient = gradient
         else:
             self.gradient = np.zeros_like(cycle)
 
         # Unit conversion km/h to m/s
         self.velocity = (cycle * 1000) / 3600
-
 
         # Model acceleration as difference in velocity between time steps (1 second)
         # Zero at first value
@@ -118,8 +120,16 @@ class EnergyConsumptionModel:
 
         return auxiliary_energy / efficiency
 
-    def motive_energy_per_km(self, driving_mass, rr_coef, drag_coef, frontal_area, ttw_efficiency,
-                             recuperation_efficiency=0, motor_power=0):
+    def motive_energy_per_km(
+        self,
+        driving_mass,
+        rr_coef,
+        drag_coef,
+        frontal_area,
+        ttw_efficiency,
+        recuperation_efficiency=0,
+        motor_power=0,
+    ):
         """
         Calculate energy used and recuperated for a given vehicle per km driven.
 

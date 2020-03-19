@@ -20,7 +20,6 @@ def load_parameters(obj):
         return obj
 
 
-
 class CarInputParameters(NamedParameters):
     """
     A class used to represent vehicles with associated type, size, technology, year and parameters.

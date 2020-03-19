@@ -20,7 +20,7 @@ __all__ = (
     "HotEmissionsModel",
     "InventoryCalculation",
     "BackgroundSystemModel",
-    "ExportInventory"
+    "ExportInventory",
 )
 __version__ = (0, 0, 6)
 
