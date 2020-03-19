@@ -23,11 +23,11 @@ See [the documentation](https://coarse-lci.readthedocs.io/en/latest/index.html) 
 ## Table of Contents
 
 - [Background](#background)
-  - [What is LCA](#what-is-lca)
+  - [What is LCA](#what-is-life-cycle-assessment)
   - [Why carculator](#why-carculator)
 - [Install](#install)
 - [Usage](#usage)
-    - [As a Python library](as-a-python-library)
+    - [As a Python library](#as-a-python-library)
     - [As a Web app](#as-a-web-app)
 - [Support](#support)
 - [Maintainers](#maintainers)
@@ -146,4 +146,4 @@ Details on how to contribute: see [Issues](https://github.com/romainsacchi/carcu
 
 ## License
 
-[BSD-3-Clause](https://github.com/romainsacchi/carculator/blob/master/LICENSE). Copyright (c) 2020 Paul Scherrer Institut.
+[BSD-3-Clause](https://github.com/romainsacchi/carculator/blob/master/LICENSE). Copyright 2020 Paul Scherrer Institut.
