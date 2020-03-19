@@ -1,10 +1,6 @@
-"""
-.. module: noise_emissions.py
-
-"""
-
 import numpy as np
 import numexpr as ne
+
 
 def pn(cycle, powertrain_type):
     cycle = np.array(cycle)
@@ -53,7 +49,14 @@ class NoiseEmissionsModel:
         self.cycle = cycle
         self.cycle_name = cycle_name
         self.cycle_environment = {
-            "WLTC": {"urban start": 0, "urban stop": 590, "suburban start": 591, "suburban stop": 1023, "rural start": 1024, "rural stop": 1801},
+            "WLTC": {
+                "urban start": 0,
+                "urban stop": 590,
+                "suburban start": 591,
+                "suburban stop": 1023,
+                "rural start": 1024,
+                "rural stop": 1801,
+            },
             "WLTC 3.1": {"urban start": 0, "urban stop": 590},
             "WLTC 3.2": {"suburban start": 0, "suburban stop": 433},
             "WLTC 3.3": {"rural start": 0, "rural stop": 455},
@@ -62,8 +65,20 @@ class NoiseEmissionsModel:
             "CADC Road": {"suburban start": 0, "suburban stop": 1082},
             "CADC Motorway": {"rural start": 0, "rural stop": 1068},
             "CADC Motorway 130": {"rural start": 0, "rural stop": 1068},
-            "CADC": {"urban start": 0, "urban stop": 994, "suburban start": 995, "suburban stop": 2077, "rural start": 2078, "rural stop": 3146},
-            "NEDC": {"urban start": 0, "urban stop": 780,  "rural start": 781, "rural stop": 1180}
+            "CADC": {
+                "urban start": 0,
+                "urban stop": 994,
+                "suburban start": 995,
+                "suburban stop": 2077,
+                "rural start": 2078,
+                "rural stop": 3146,
+            },
+            "NEDC": {
+                "urban start": 0,
+                "urban stop": 780,
+                "rural start": 781,
+                "rural stop": 1180,
+            },
         }
 
     def rolling_noise(self):
@@ -152,9 +167,7 @@ class NoiseEmissionsModel:
         """
 
         if powertrain_type not in ("combustion", "electric", "hybrid"):
-            raise TypeError(
-                "The powertrain type is not valid."
-            )
+            raise TypeError("The powertrain type is not valid.")
 
         # rolling noise, in dB, for each second of the driving cycle
         rolling = self.rolling_noise()
@@ -164,7 +177,9 @@ class NoiseEmissionsModel:
         # sum of rolling and propulsion noise sources
         c = self.cycle
 
-        total_noise = ne.evaluate("where(c != 0, 10 * log10((10 ** (rolling / 10)) + (10 ** (propulsion / 10))), 0)")
+        total_noise = ne.evaluate(
+            "where(c != 0, 10 * log10((10 ** (rolling / 10)) + (10 ** (propulsion / 10))), 0)"
+        )
 
         # convert dBs to Watts (or J/s)
         sound_power = ne.evaluate("(10 ** -12) * (10 ** (total_noise / 10))")
@@ -180,7 +195,7 @@ class NoiseEmissionsModel:
             if "urban start" in self.cycle_environment[self.cycle_name]:
                 start = self.cycle_environment[self.cycle_name]["urban start"]
                 stop = self.cycle_environment[self.cycle_name]["urban stop"]
-                urban = np.sum(sound_power[:, start: stop], axis=1) / distance
+                urban = np.sum(sound_power[:, start:stop], axis=1) / distance
 
             else:
                 urban = np.zeros((8))
@@ -188,7 +203,7 @@ class NoiseEmissionsModel:
             if "suburban start" in self.cycle_environment[self.cycle_name]:
                 start = self.cycle_environment[self.cycle_name]["suburban start"]
                 stop = self.cycle_environment[self.cycle_name]["suburban stop"]
-                suburban = np.sum(sound_power[:, start: stop], axis=1) / distance
+                suburban = np.sum(sound_power[:, start:stop], axis=1) / distance
 
             else:
                 suburban = np.zeros((8))
@@ -196,7 +211,7 @@ class NoiseEmissionsModel:
             if "rural start" in self.cycle_environment[self.cycle_name]:
                 start = self.cycle_environment[self.cycle_name]["rural start"]
                 stop = self.cycle_environment[self.cycle_name]["rural stop"]
-                rural = np.sum(sound_power[:, start: stop], axis=1) / distance
+                rural = np.sum(sound_power[:, start:stop], axis=1) / distance
 
             else:
                 rural = np.zeros((8))
@@ -207,7 +222,10 @@ class NoiseEmissionsModel:
             # sum sound power over duration (J/s * s --> J) and divide by distance (--> J / km) and further
             # divide into compartments
             urban = ne.evaluate("sum(where(c <= 50, sound_power, 0), 1)") / distance
-            suburban = ne.evaluate("sum(where((c > 50) & (c <= 80), sound_power, 0), 1)") / distance
-            rural= ne.evaluate("sum(where(c > 80, sound_power, 0), 1)") / distance
+            suburban = (
+                ne.evaluate("sum(where((c > 50) & (c <= 80), sound_power, 0), 1)")
+                / distance
+            )
+            rural = ne.evaluate("sum(where(c > 80, sound_power, 0), 1)") / distance
 
         return np.array([urban, suburban, rural])

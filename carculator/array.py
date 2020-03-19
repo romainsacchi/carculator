@@ -1,14 +1,8 @@
-"""
-.. module: array.py
-
-"""
-
-
+from .car_input_parameters import car_input_parameters as c_i_p
 import numpy as np
-import xarray as xr
 import pandas as pd
 import stats_arrays as sa
-import carculator.car_input_parameters as c_i_p
+import xarray as xr
 
 
 def fill_xarray_from_input_parameters(cip, sensitivity=False):
@@ -41,7 +35,7 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False):
         raise TypeError(
             "The argument passed is not an object of the CarInputParameter class"
         )
-    if sensitivity==False:
+    if sensitivity == False:
         array = xr.DataArray(
             np.zeros(
                 (
@@ -74,23 +68,16 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False):
                     len(params),
                 )
             ),
-            coords=[
-                cip.sizes,
-                cip.powertrains,
-                cip.parameters,
-                cip.years,
-                params,
-            ],
+            coords=[cip.sizes, cip.powertrains, cip.parameters, cip.years, params,],
             dims=["size", "powertrain", "parameter", "year", "value"],
         )
-
 
     size_dict = {k: i for i, k in enumerate(cip.sizes)}
     powertrain_dict = {k: i for i, k in enumerate(cip.powertrains)}
     year_dict = {k: i for i, k in enumerate(cip.years)}
     parameter_dict = {k: i for i, k in enumerate(cip.parameters)}
 
-    if sensitivity==False:
+    if sensitivity == False:
         for param in cip:
             array.loc[
                 dict(
@@ -102,19 +89,17 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False):
             ] = cip.values[param]
     else:
         for param in enumerate(cip):
-            vals = [cip.values[param[1]] for p in range(0, len(cip.parameters)+1)]
+            vals = [cip.values[param[1]] for p in range(0, len(cip.parameters) + 1)]
             vals[cip.parameters.index(cip.metadata[param[1]]["name"]) + 1] *= 1.1
 
             array.loc[
-             dict(
-                 powertrain=cip.metadata[param[1]]["powertrain"],
-                 size=cip.metadata[param[1]]["sizes"],
-                 year=cip.metadata[param[1]]["year"],
-                 parameter=cip.metadata[param[1]]["name"],
-             )
+                dict(
+                    powertrain=cip.metadata[param[1]]["powertrain"],
+                    size=cip.metadata[param[1]]["sizes"],
+                    year=cip.metadata[param[1]]["year"],
+                    parameter=cip.metadata[param[1]]["name"],
+                )
             ] = vals
-
-
 
     return (size_dict, powertrain_dict, parameter_dict, year_dict), array
 
@@ -183,7 +168,7 @@ def modify_xarray_from_custom_parameters(fp, array):
         print("The format passed as parameter is not valid.")
         raise
 
-    FORBIDDEN_KEYS = ['Driving cycle', 'Background', 'Functional unit']
+    FORBIDDEN_KEYS = ["Driving cycle", "Background", "Functional unit"]
 
     for k in d:
         if k[0] not in FORBIDDEN_KEYS:
@@ -201,7 +186,11 @@ def modify_xarray_from_custom_parameters(fp, array):
             param = k[3]
 
             if not param in array.coords["parameter"].values:
-                print("{} is not a recognized parameter. It will be skipped.".format(param))
+                print(
+                    "{} is not a recognized parameter. It will be skipped.".format(
+                        param
+                    )
+                )
                 continue
 
             val = d[k]
@@ -227,11 +216,18 @@ def modify_xarray_from_custom_parameters(fp, array):
                             for s in sizes:
                                 for p in pt:
                                     array.loc[
-                                        dict(powertrain=p, size=s, year=y, parameter=param)
+                                        dict(
+                                            powertrain=p,
+                                            size=s,
+                                            year=y,
+                                            parameter=param,
+                                        )
                                     ] = val[(y, "loc")]
                         # Otherwise warn
                         else:
-                            print("`loc`parameter missing for {} in {}.".format(param, y))
+                            print(
+                                "`loc`parameter missing for {} in {}.".format(param, y)
+                            )
                             continue
 
                     elif distr in [2, 3, 4, 5]:
@@ -320,11 +316,18 @@ def modify_xarray_from_custom_parameters(fp, array):
                             for s in sizes:
                                 for p in pt:
                                     array.loc[
-                                        dict(powertrain=p, size=s, year=y, parameter=param)
+                                        dict(
+                                            powertrain=p,
+                                            size=s,
+                                            year=y,
+                                            parameter=param,
+                                        )
                                     ] = val[(y, "loc")]
                         # Otherwise warn
                         else:
-                            print("`loc`parameter missing for {} in {}.".format(param, y))
+                            print(
+                                "`loc`parameter missing for {} in {}.".format(param, y)
+                            )
                             continue
 
                     elif distr in [2, 3, 4, 5]:

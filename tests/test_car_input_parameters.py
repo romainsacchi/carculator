@@ -1,7 +1,7 @@
-import pytest
-import carculator.car_input_parameters as cip
 from pathlib import Path
+import carculator.car_input_parameters as cip
 import json
+import pytest
 
 
 DEFAULT = Path(__file__, "..").resolve() / "fixtures" / "default_test.json"

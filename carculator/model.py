@@ -1,14 +1,22 @@
-import numpy as np
 from .energy_consumption import EnergyConsumptionModel
-from .noise_emissions import NoiseEmissionsModel
 from .hot_emissions import HotEmissionsModel
+from .noise_emissions import NoiseEmissionsModel
 import numexpr as ne
-
+import numpy as np
 import xarray as xr
+
 
 DEFAULT_MAPPINGS = {
     "electric": {"BEV", "PHEV-e"},
-    "combustion": {"ICEV-p", "HEV-p", "HEV-d", "PHEV-c-p", "ICEV-g", "ICEV-d", "PHEV-c-d"},
+    "combustion": {
+        "ICEV-p",
+        "HEV-p",
+        "HEV-d",
+        "PHEV-c-p",
+        "ICEV-g",
+        "ICEV-d",
+        "PHEV-c-d",
+    },
     "combustion_wo_cng": {"ICEV-p", "HEV-p", "HEV-d", "PHEV-c-p", "ICEV-d", "PHEV-c-d"},
     "pure_combustion": {"ICEV-p", "ICEV-g", "ICEV-d"},
     "petrol": {"ICEV-p", "HEV-p", "PHEV-c-p"},
@@ -190,7 +198,17 @@ class CarModel:
         :returns: Does not return anything. Modifies ``self.array`` in place.
         """
         self.array = self.array.sel(
-            powertrain=["ICEV-p", "ICEV-d", "ICEV-g", "PHEV-p", "PHEV-d", "FCEV", "BEV", "HEV-p", "HEV-d"]
+            powertrain=[
+                "ICEV-p",
+                "ICEV-d",
+                "ICEV-g",
+                "PHEV-p",
+                "PHEV-d",
+                "FCEV",
+                "BEV",
+                "HEV-p",
+                "HEV-d",
+            ]
         )
 
     def set_electricity_consumption(self):
@@ -416,13 +434,12 @@ class CarModel:
         """ PHEV-p/d is the range-weighted average between PHEV-c-p/PHEV-c-d and PHEV-e.
         """
         self.array.loc[:, "PHEV-d", :, :, :] = (
-               self.array.loc[:, "PHEV-e", :, :, :]
-               * self.array.loc[:, "PHEV-e", "electric utility factor", :, :]
-       ) + (
-               self.array.loc[:, "PHEV-c-d", :, :, :]
-               * (1 - self.array.loc[:, "PHEV-e", "electric utility factor", :,
-                      :])
-       )
+            self.array.loc[:, "PHEV-e", :, :, :]
+            * self.array.loc[:, "PHEV-e", "electric utility factor", :, :]
+        ) + (
+            self.array.loc[:, "PHEV-c-d", :, :, :]
+            * (1 - self.array.loc[:, "PHEV-e", "electric utility factor", :, :])
+        )
         self.array.loc[:, "PHEV-p", :, :, :] = (
             self.array.loc[:, "PHEV-e", :, :, :]
             * self.array.loc[:, "PHEV-e", "electric utility factor", :, :]
@@ -430,7 +447,6 @@ class CarModel:
             self.array.loc[:, "PHEV-c-p", :, :, :]
             * (1 - self.array.loc[:, "PHEV-e", "electric utility factor", :, :])
         )
-
 
     def set_battery_properties(self):
         pt_list = ["ICEV-p", "HEV-p", "HEV-d", "ICEV-g", "ICEV-d"]
@@ -704,9 +720,9 @@ class CarModel:
             :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, :
         ] = hem.get_emissions_per_powertrain("diesel")
         # Applies an emission factor, useful for sensitivity purpose
-        self.array.loc[:, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, :] *= self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], "emission factor", :
-        ]
+        self.array.loc[
+            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, :
+        ] *= self.array.loc[:, ["ICEV-d", "PHEV-c-d", "HEV-d"], "emission factor", :]
         self.array.loc[
             :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, :
         ] = hem.get_emissions_per_powertrain("petrol")

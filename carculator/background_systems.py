@@ -1,12 +1,8 @@
-"""
-.. module: background_systems.py
-
-"""
-
+from . import DATA_DIR
 import numpy as np
 import pandas as pd
 import xarray as xr
-from . import DATA_DIR
+
 
 class BackgroundSystemModel:
     """
@@ -33,7 +29,7 @@ class BackgroundSystemModel:
 
         """
         filename = "cumulative_electricity_losses.csv"
-        filepath = (DATA_DIR / filename)
+        filepath = DATA_DIR / filename
         if not filepath.is_file():
             raise FileNotFoundError(
                 "The CSV file that contains electricity mixes could not be found."
@@ -57,7 +53,7 @@ class BackgroundSystemModel:
 
         """
         filename = "region_mapping.csv"
-        filepath = (DATA_DIR / filename)
+        filepath = DATA_DIR / filename
         if not filepath.is_file():
             raise FileNotFoundError(
                 "The CSV file that contains correspondences between REMIND region names and ISO country codes "
@@ -86,17 +82,16 @@ class BackgroundSystemModel:
 
         """
         filename = "electricity_mixes.csv"
-        filepath = (DATA_DIR / filename)
+        filepath = DATA_DIR / filename
         if not filepath.is_file():
             raise FileNotFoundError(
                 "The CSV file that contains electricity mixes could not be found."
             )
 
+        df = pd.read_csv(filepath, sep=";", index_col=["Country code", "Year"])
 
-        df = pd.read_csv(filepath, sep=";", index_col=['Country code', 'Year'])
-
-        country_code = df.index.get_level_values('Country code').unique()
-        year = df.index.get_level_values('Year').unique()
+        country_code = df.index.get_level_values("Country code").unique()
+        year = df.index.get_level_values("Year").unique()
         tech = df.columns.unique()
 
         array = xr.DataArray(
@@ -120,7 +115,7 @@ class BackgroundSystemModel:
         :rtype: xarray.core.dataarray.DataArray
         """
         filename = "biofuel_share.csv"
-        filepath = (DATA_DIR / filename)
+        filepath = DATA_DIR / filename
 
         if not filepath.is_file():
             raise FileNotFoundError(
@@ -130,15 +125,17 @@ class BackgroundSystemModel:
 
         country_code = df["Region"].unique()
         scenario = df["Scenario"].unique()
-        year = df['Year'].unique()
+        year = df["Year"].unique()
         tech = df.columns[3:]
         array = xr.DataArray(
             np.zeros((len(country_code), len(year), len(scenario), len(tech), 1)),
             coords=[country_code, year, scenario, tech, np.arange(1)],
-            dims=["region", "year", "scenario","fuel_type", "value"],
+            dims=["region", "year", "scenario", "fuel_type", "value"],
         )
         for r in country_code:
             for s in scenario:
-                val = df.loc[(df["Region"] == r)&(df["Scenario"] == s), "Biomass fuel":]
+                val = df.loc[
+                    (df["Region"] == r) & (df["Scenario"] == s), "Biomass fuel":
+                ]
                 array.loc[dict(region=r, scenario=s, value=0)] = val
         return array
