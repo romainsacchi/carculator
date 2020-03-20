@@ -179,7 +179,7 @@ class CarModel:
             (1, 1, n_year, 1),
         )
 
-        # Correction of battery system cost, per kWh
+        # Correction of energy battery system cost, per kWh
         self.array.loc[
             :,
             ["BEV", "PHEV-e", "PHEV-c-p", "PHEV-c-d"],
@@ -188,6 +188,30 @@ class CarModel:
             :,
         ] = np.reshape(
             (2.75e86 * np.exp(-9.61e-2 * self.array.year.values) + 5.059e1),
+            (1, 1, n_year, 1),
+        )
+
+        # Correction of power battery system cost, per kWh
+        self.array.loc[
+            :,
+            ["ICEV-p","ICEV-d","ICEV-g","PHEV-c-p","PHEV-c-d", "FCEV", "HEV-p", "HEV-d"],
+            "power battery cost per kW",
+            :,
+            :,
+        ] = np.reshape(
+            (8.337e40 * np.exp(-4.49e-2 * self.array.year.values) + 11.17),
+            (1, 1, n_year, 1),
+        )
+
+        # Correction of combusiton powertrain cost for ICEV-g
+        self.array.loc[
+            :,
+            ["ICEV-g"],
+            "combustion powertrain cost per kW",
+            :,
+            :,
+        ] = np.reshape(
+            (5.92e160 * np.exp(-.1819 * self.array.year.values) + 26.76),
             (1, 1, n_year, 1),
         )
 

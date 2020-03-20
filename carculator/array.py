@@ -1,4 +1,4 @@
-from .car_input_parameters import car_input_parameters as c_i_p
+from .car_input_parameters import CarInputParameters as c_i_p
 import numpy as np
 import pandas as pd
 import stats_arrays as sa
@@ -30,8 +30,8 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False):
 
     """
 
-    # Check whether the argument passed is an cip object
-    if not isinstance(cip, c_i_p.CarInputParameters):
+    # Check whether the argument passed is a cip object
+    if not isinstance(cip, c_i_p):
         raise TypeError(
             "The argument passed is not an object of the CarInputParameter class"
         )

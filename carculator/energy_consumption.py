@@ -192,9 +192,9 @@ class EnergyConsumptionModel:
         re = _(recuperation_efficiency)
 
         # rolling resistance + air resistance + kinetic energy + gradient resistance
-        total_force = ne.evaluate(
+        total_force = np.float16(ne.evaluate(
             "(ones * dm * rr * 9.81) + (v ** 2 * fa * dc * rho_air / 2) + (a * dm) + (dm * 9.81 * sin(g))"
-        )
+        ))
 
         tv = ne.evaluate("total_force * v")
 
