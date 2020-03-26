@@ -3214,11 +3214,11 @@
     "year": 2017
   },
   "199-2040-battery discharge efficiency": {
-    "amount": 0.8931999999999999,
+    "amount": 0.89,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 0.8931999999999999,
-    "maximum": 0.9476000000000001,
+    "loc": 0.89,
+    "maximum": 0.95,
     "minimum": 0.85,
     "name": "battery discharge efficiency",
     "powertrain": [
@@ -7004,11 +7004,11 @@
     "year": 2040
   },
   "375-2017-energy cost per kWh": {
-    "amount": 0.22399999999999998,
+    "amount": 0.22,
     "category": "Costs",
     "comment": "Electricity for household consumers : 0.02 Euro surcharge for charging station amortisation included. Future prices from IMAGE results",
     "kind": "distribution",
-    "loc": 0.22399999999999998,
+    "loc": 0.22,
     "maximum": 0.32,
     "minimum": 0.06,
     "name": "energy cost per kWh",
@@ -7110,13 +7110,13 @@
     "year": 2040
   },
   "379-2017-energy cost per kWh": {
-    "amount": 0.158782641509434,
+    "amount": 0.16,
     "category": "Costs",
     "comment": "2017 European prices - uncertainty based on regional difference. Future prices from IMAGE results",
     "kind": "distribution",
-    "loc": 0.158782641509434,
-    "maximum": 0.18752603773584908,
-    "minimum": 0.11536188679245284,
+    "loc": 0.16,
+    "maximum": 0.19,
+    "minimum": 0.12,
     "name": "energy cost per kWh",
     "powertrain": [
       "PHEV-c-p",
@@ -7166,13 +7166,13 @@
     "year": 2017
   },
   "380-2040-energy cost per kWh": {
-    "amount": 0.18260003773584907,
+    "amount": 0.18,
     "category": "Costs",
     "comment": "2017 European prices - uncertainty based on regional difference. Future prices from IMAGE results",
     "kind": "distribution",
-    "loc": 0.18260003773584907,
-    "maximum": 0.2739000566037736,
-    "minimum": 0.09130001886792453,
+    "loc": 0.18,
+    "maximum": 0.27,
+    "minimum": 0.09,
     "name": "energy cost per kWh",
     "powertrain": [
       "PHEV-c-p",
@@ -7194,13 +7194,13 @@
     "year": 2040
   },
   "381-2017-energy cost per kWh": {
-    "amount": 0.12337319277108433,
+    "amount": 0.12,
     "category": "Costs",
     "comment": "2017 European prices - uncertainty based on regional difference. Future prices from IMAGE results",
     "kind": "distribution",
-    "loc": 0.12337319277108433,
-    "maximum": 0.14904036144578314,
-    "minimum": 0.09620331325301204,
+    "loc": 0.12,
+    "maximum": 0.15,
+    "minimum": 0.1,
     "name": "energy cost per kWh",
     "powertrain": [
       "ICEV-d",
@@ -7222,13 +7222,13 @@
     "year": 2017
   },
   "382-2040-energy cost per kWh": {
-    "amount": 0.14187917168674696,
+    "amount": 0.14,
     "category": "Costs",
     "comment": "2017 European prices - uncertainty based on regional difference. Future prices from IMAGE results",
     "kind": "distribution",
-    "loc": 0.14187917168674696,
-    "maximum": 0.21281875753012044,
-    "minimum": 0.07093958584337348,
+    "loc": 0.14,
+    "maximum": 0.21,
+    "minimum": 0.07,
     "name": "energy cost per kWh",
     "powertrain": [
       "ICEV-d",
@@ -8252,12 +8252,12 @@
     "year": 2040
   },
   "68-2017-drivetrain efficiency": {
-    "amount": 0.7224999999999999,
+    "amount": 0.72,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 0.7224999999999999,
+    "loc": 0.72,
     "maximum": 0.81,
-    "minimum": 0.6400000000000001,
+    "minimum": 0.64,
     "name": "drivetrain efficiency",
     "powertrain": [
       "PHEV-c-p",
@@ -8278,12 +8278,12 @@
     "year": 2017
   },
   "69-2040-drivetrain efficiency": {
-    "amount": 0.7569,
+    "amount": 0.76,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 0.7569,
-    "maximum": 0.8464,
-    "minimum": 0.6723999999999999,
+    "loc": 0.76,
+    "maximum": 0.85,
+    "minimum": 0.67,
     "name": "drivetrain efficiency",
     "powertrain": [
       "PHEV-c-p",

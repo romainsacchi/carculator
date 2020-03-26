@@ -161,22 +161,32 @@ class CarModel:
 
     def adjust_cost(self):
         """
-        This method adjusts costs of energy storage over time, to correct for the linear interpolation between years.
+        This method adjusts costs of energy storage over time, to correct for the overly optimistic linear
+        interpolation between years.
 
         """
 
+        n_iterations = self.array.shape[-1]
         n_year = len(self.array.year.values)
+
+        # If uncertainty is not considered, teh cost factor equals 1.
+        # Otherwise, a variability of +/-30% is added.
+
+        if n_iterations == 1:
+            cost_factor = 1
+        else:
+            cost_factor = np.random.triangular(.7, 1, 1.3, (n_iterations, 1))
 
         # Correction of hydrogen tank cost, per kg
         self.array.loc[:, ["FCEV"], "fuel tank cost per kg", :, :] = np.reshape(
-            (1.078e58 * np.exp(-6.32e-2 * self.array.year.values) + 3.43e2),
-            (1, 1, n_year, 1),
+            (1.078e58 * np.exp(-6.32e-2 * self.array.year.values) + 3.43e2) * cost_factor,
+            (1, 1, n_year, n_iterations),
         )
 
         # Correction of fuel cell stack cost, per kW
         self.array.loc[:, ["FCEV"], "fuel cell cost per kW", :, :] = np.reshape(
-            (3.15e66 * np.exp(-7.35e-2 * self.array.year.values) + 2.39e1),
-            (1, 1, n_year, 1),
+            (3.15e66 * np.exp(-7.35e-2 * self.array.year.values) + 2.39e1) * cost_factor,
+            (1, 1, n_year, n_iterations),
         )
 
         # Correction of energy battery system cost, per kWh
@@ -187,8 +197,8 @@ class CarModel:
             :,
             :,
         ] = np.reshape(
-            (2.75e86 * np.exp(-9.61e-2 * self.array.year.values) + 5.059e1),
-            (1, 1, n_year, 1),
+            (2.75e86 * np.exp(-9.61e-2 * self.array.year.values) + 5.059e1) * cost_factor,
+            (1, 1, n_year, n_iterations),
         )
 
         # Correction of power battery system cost, per kWh
@@ -199,11 +209,11 @@ class CarModel:
             :,
             :,
         ] = np.reshape(
-            (8.337e40 * np.exp(-4.49e-2 * self.array.year.values) + 11.17),
-            (1, 1, n_year, 1),
+            (8.337e40 * np.exp(-4.49e-2 * self.array.year.values) + 11.17) * cost_factor,
+            (1, 1, n_year, n_iterations),
         )
 
-        # Correction of combusiton powertrain cost for ICEV-g
+        # Correction of combustion powertrain cost for ICEV-g
         self.array.loc[
             :,
             ["ICEV-g"],
@@ -211,8 +221,8 @@ class CarModel:
             :,
             :,
         ] = np.reshape(
-            (5.92e160 * np.exp(-.1819 * self.array.year.values) + 26.76),
-            (1, 1, n_year, 1),
+            (5.92e160 * np.exp(-.1819 * self.array.year.values) + 26.76) * cost_factor,
+            (1, 1, n_year, n_iterations),
         )
 
     def drop_hybrid(self):
