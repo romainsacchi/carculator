@@ -46,8 +46,6 @@ setup(
     ],
     url="https://github.com/romainsacchi/carculator",
     description="Prospective environmental and economic life cycle assessment of vehicles made blazing fast",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
     classifiers=[
         "Intended Audience :: End Users/Desktop",
         "Intended Audience :: Developers",
