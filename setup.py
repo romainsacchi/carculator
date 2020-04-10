@@ -6,7 +6,6 @@ root_dir = os.path.dirname(__file__)
 if root_dir:
     os.chdir(root_dir)
 
-
 # Probably should be changed, __init__.py is no longer required for Python 3
 for dirpath, dirnames, filenames in os.walk("carculator"):
     # Ignore dirnames that start with '.'
@@ -23,11 +22,12 @@ def package_files(directory):
         for filename in filenames:
             paths.append(os.path.join("..", path, filename))
     return paths
-
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 setup(
     name="carculator",
-    version="0.0.6",
+    version="0.0.7",
     packages=packages,
     author="Romain Sacchi <romain.sacchi@psi.ch>, Chris Mutel <christopher.mutel@psi.ch>",
     license=open("LICENSE").read(),
@@ -46,6 +46,8 @@ setup(
     ],
     url="https://github.com/romainsacchi/carculator",
     description="Prospective environmental and economic life cycle assessment of vehicles made blazing fast",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     classifiers=[
         "Intended Audience :: End Users/Desktop",
         "Intended Audience :: Developers",

@@ -49,7 +49,7 @@ class CarModel:
 
     """
 
-    def __init__(self, array, mappings=None, cycle=None):
+    def __init__(self, array, mappings=None, cycle=None, gradient=None):
 
         self.array = array
         self.mappings = mappings or DEFAULT_MAPPINGS
@@ -57,7 +57,7 @@ class CarModel:
         if cycle is None:
             self.ecm = EnergyConsumptionModel("WLTC")
         else:
-            self.ecm = EnergyConsumptionModel(cycle)
+            self.ecm = EnergyConsumptionModel(cycle=cycle, gradient=gradient)
 
     def __call__(self, key):
         """

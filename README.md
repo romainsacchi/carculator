@@ -18,7 +18,7 @@ Prospective environmental and economic life cycle assessment of vehicles made bl
 A fully parameterized Python model developed by the [Technology Assessment group](https://www.psi.ch/en/ta) of the
 [Paul Scherrer Institut](https://www.psi.ch/en) to perform life cycle assessments (LCA) of vehicles.
 
-See [the documentation](https://coarse-lci.readthedocs.io/en/latest/index.html) for more detail, validation, etc.
+See [the documentation](https://carculator.readthedocs.io/en/latest/index.html) for more detail, validation, etc.
 
 ## Table of Contents
 
@@ -36,14 +36,15 @@ See [the documentation](https://coarse-lci.readthedocs.io/en/latest/index.html) 
 
 ## Background
 
-### What is Life Cycle Assessment
+### What is Life Cycle Assessment?
 
 Life Cycle Assessment (LCA) is a systematic way of accounting for environmental impacts along the relevant phases of the life of a product or service.
 Typically, the LCA of a passenger vehicle includes the raw material extraction, the manufacture of the vehicle, its distribution, use and maintenance, as well as its disposal.
 The compiled inventories of material and energy required along the life cycle of the vehicle is characterized against some impact categories (e.g., climate change).
+
 In the research field of mobility, LCA is widely used to investigate the superiority of a technology over another one.
 
-### Why ``carculator``
+### Why ``carculator``?
 
 ``carculator`` allows to:
 * produce [life cycle assessment (LCA)](https://en.wikipedia.org/wiki/Life-cycle_assessment) results that include conventional midpoint impact assessment indicators as well cost indicators
@@ -64,7 +65,7 @@ Three ways of installing ``carculator`` are suggested.
 
 We recommend the installation on **Python 3.7**.
 
-### Installation of a stable release (0.0.4) from Pypi
+### Installation of a stable release (0.0.7) from Pypi
 
     pip install carculator
 
@@ -129,7 +130,7 @@ For more examples, see [examples](https://github.com/romainsacchi/carculator/blo
 
 ## As a Web app
 
-``carculator`` has a [graphical user interface]((http://carculator.psi.ch)) for fast comparisons of vehicles.
+``carculator`` has a [graphical user interface](https://carculator.psi.ch) for fast comparisons of vehicles.
 
 ## Support
 

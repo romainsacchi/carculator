@@ -29,6 +29,7 @@ class InventoryCalculation:
                                                                         [0.5,0.5,0,0,0,0,0,0,0,0]], # in this case, 50% hydro, 50% nuclear for the second year
                                             'hydrogen technology' : 'Electrolysis',
                                             'petrol technology': 'bioethanol - wheat straw',
+                                            'alternative petrol share':[0.1,0.2],
                                             'battery technology': 'LFP',
                                             'battery origin': 'NO'
                                         }
@@ -56,6 +57,9 @@ class InventoryCalculation:
     If none is given, the electricity mix corresponding to the country specified in `country` will be selected.
     If no country is specified, Europe applies.
 
+    The `alternative petrol share` key contains an array with shares of alternative petrol fuel for each year, to create a custom blend.
+    If none is provided, a blend provided by the Integrated Assessment model REMIND is used, which will depend on the REMIND energy scenario selected.
+
     :ivar array: array from the CarModel class
     :vartype array: CarModel.array
     :ivar scope: dictionary that contains filters for narrowing the analysis
@@ -64,9 +68,6 @@ class InventoryCalculation:
                     "BAU" selected by default.
 
     .. code-block:: python
-
-
-
 
     """
 
@@ -427,7 +428,11 @@ class InventoryCalculation:
                     self.scope["year"],
                     params,
                 ],
-                dims=["impact_category", "size", "powertrain", "year", "parameter"],
+                dims=["impact_category",
+                      "size",
+                      "powertrain",
+                      "year",
+                      "parameter"],
             )
 
         return response
@@ -499,6 +504,7 @@ class InventoryCalculation:
         # Prepare an array to store the results
         results = self.get_results_table(method, level, split, sensitivity=sensitivity)
 
+
         # Fill in the A matrix with car parameters
         self.set_inputs_in_A_matrix(self.array.values)
 
@@ -533,18 +539,38 @@ class InventoryCalculation:
         arr = arr.transpose(1, 3, 0, 4, 2)
         arr = arr[:, :, :, self.split_indices, :].sum(axis=4)
 
-        for y in range(0, len(self.scope["year"])):
-            results[:, :, :, y, :, :] = arr[
-                :, y :: len(self.scope["year"]), y, :, :
-            ].reshape(
-                (
-                    B.shape[0],
-                    len(self.scope["size"]),
-                    len(self.scope["powertrain"]),
-                    len(results.impact.values),
-                    self.iterations,
+
+
+        if not sensitivity:
+            for y in range(0, len(self.scope["year"])):
+                results[:, :, :, y, :, :] = arr[
+                    :, y :: len(self.scope["year"]), y, :, :
+                ].reshape(
+                    (
+                        B.shape[0],
+                        len(self.scope["size"]),
+                        len(self.scope["powertrain"]),
+                        len(results.impact.values),
+                        self.iterations,
+                    )
                 )
-            )
+        else:
+            for y in range(0, len(self.scope["year"])):
+                results[:, :, :, y, :] = arr[
+                    :, y :: len(self.scope["year"]), y, :
+                ].sum(axis=2).reshape(
+                    (
+                        B.shape[0],
+                        len(self.scope["size"]),
+                        len(self.scope["powertrain"]),
+                        self.iterations,
+                    )
+                )
+
+
+
+
+            results /= results.sel(parameter="reference")
 
         return results.astype("float16")
 

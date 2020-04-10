@@ -6311,14 +6311,42 @@
     "unit": "Euro / kW",
     "year": 2040
   },
-  "352-2040-electric powertrain cost per kW": {
-    "amount": 27.0,
+  "352-2017-electric powertrain cost per kW": {
+    "amount": 45.0,
     "category": "Costs",
     "comment": "Assumed to be double the cost per kW because system is much smaller.",
     "kind": "distribution",
-    "loc": 27.0,
-    "maximum": 54.0,
-    "minimum": 19.5,
+    "loc": 45.0,
+    "maximum": 90.0,
+    "minimum": 22.5,
+    "name": "electric powertrain cost per kW",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro / kW",
+    "year": 2017
+  },
+  "352-2040-electric powertrain cost per kW": {
+    "amount": 36.0,
+    "category": "Costs",
+    "comment": "Assumed to be double the cost per kW because system is much smaller.",
+    "kind": "distribution",
+    "loc": 36.0,
+    "maximum": 68.0,
+    "minimum": 18,
     "name": "electric powertrain cost per kW",
     "powertrain": [
       "ICEV-p",
