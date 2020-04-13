@@ -8,7 +8,7 @@
   <a href="https://badge.fury.io/py/carculator" target="_blank"><img src="https://badge.fury.io/py/carculator.svg"></a>
   <a href="https://travis-ci.org/romainsacchi/carculator" target="_blank"><img src="https://travis-ci.org/romainsacchi/carculator.svg?branch=master"></a>
   <a href="https://ci.appveyor.com/project/romainsacchi/carculator" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/github/romainsacchi/carculator?svg=true"></a>
-  <a href="https://coveralls.io/github/romainsacchi/coarse" target="_blank"><img src="https://coveralls.io/repos/github/romainsacchi/coarse/badge.svg"></a>
+  <a href="https://coveralls.io/github/romainsacchi/carculator" target="_blank"><img src="https://coveralls.io/repos/github/romainsacchi/carculator/badge.svg"></a>
   <a href="https://carculator.readthedocs.io/en/latest/" target="_blank"><img src="https://readthedocs.org/projects/carculator/badge/?version=latest"></a>
   <a href="https://doi.org/10.5281/zenodo.3582994"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3582994.svg" alt="DOI"></a>
 </p>
