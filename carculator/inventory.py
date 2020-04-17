@@ -109,6 +109,11 @@ class InventoryCalculation:
             if "electric" not in self.background_configuration["energy storage"]:
                 self.background_configuration["energy storage"]["electric"] = {"type":"NMC",
                                                                                  "origin":"CN"}
+            else:
+                if "origin" not in self.background_configuration["energy storage"]["electric"]:
+                    self.background_configuration["energy storage"]["electric"]["origin"] = "CN"
+                if "type" not in self.background_configuration["energy storage"]["electric"]:
+                    self.background_configuration["energy storage"]["electric"]["type"] = "NMC"
 
         array = array.sel(
             powertrain=self.scope["powertrain"],
@@ -576,10 +581,6 @@ class InventoryCalculation:
                         self.iterations,
                     )
                 )
-
-
-
-
             results /= results.sel(parameter="reference")
 
         return results.astype("float16")
@@ -603,15 +604,10 @@ class InventoryCalculation:
             ] = maximum
             maximum += 1
 
-            if "origin" in self.background_configuration["energy storage"]['electric']:
-                origin = self.background_configuration["energy storage"]["electric"]["origin"]
-            else:
-                origin = "CN"
-
             self.inputs[
                 (
                     "electricity market for energy storage production, " + str(y),
-                    origin,
+                    self.background_configuration["energy storage"]["electric"]["origin"],
                     "kilowatt hour",
                     "electricity, low voltage",
                 )
