@@ -605,7 +605,7 @@ class InventoryCalculation:
             self.inputs[
                 (
                     "electricity market for energy storage production, " + str(y),
-                    self.background_configuration["battery origin"],
+                    self.background_configuration["energy storage"]['electric']['origin'],
                     "kilowatt hour",
                     "electricity, low voltage",
                 )
