@@ -100,11 +100,15 @@ class InventoryCalculation:
         if "country" not in self.background_configuration:
             self.background_configuration["country"] = "RER"
 
-        if "battery technology" not in self.background_configuration:
-            self.background_configuration["battery technology"] = "NMC"
-
-        if "battery origin" not in self.background_configuration:
-            self.background_configuration["battery origin"] = "CN"
+        if "energy storage" not in self.background_configuration:
+            self.background_configuration["energy storage"] = {
+                    "electric": {"type":"NMC",
+                                 "origin":"CN"}
+                }
+        else:
+            if "electric" not in self.background_configuration["energy storage"]:
+                self.background_configuration["energy storage"]["electric"] = {"type":"NMC",
+                                                                                 "origin":"CN"}
 
         array = array.sel(
             powertrain=self.scope["powertrain"],
@@ -1264,8 +1268,8 @@ class InventoryCalculation:
             end="\n * ",
         )
 
-        battery_tech = self.background_configuration["battery technology"]
-        battery_origin = self.background_configuration["battery origin"]
+        battery_tech = self.background_configuration["energy storage"]["electric"]["type"]
+        battery_origin = self.background_configuration["energy storage"]["electric"]["origin"]
 
         print(
             "Power and energy batteries produced in "
@@ -1535,9 +1539,9 @@ class InventoryCalculation:
             * -1
         ).T
 
-        if "hydrogen tank technology" in self.background_configuration:
+        if "hydrogen" in self.background_configuration["energy storage"]:
                 # If a customization dict is passed
-                hydro_tank_technology = self.background_configuration["hydrogen tank technology"]
+                hydro_tank_technology = self.background_configuration["energy storage"]["hydrogen"]["type"]
         else:
             hydro_tank_technology = "carbon fiber"
 
