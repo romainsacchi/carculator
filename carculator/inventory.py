@@ -74,7 +74,7 @@ class InventoryCalculation:
     """
 
     def __init__(
-        self, array, scope=None, background_configuration=None, scenario="BAU"
+        self, array, scope=None, background_configuration=None, scenario="SSP2-Base"
     ):
 
         if scope is None:
