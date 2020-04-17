@@ -602,10 +602,16 @@ class InventoryCalculation:
                 )
             ] = maximum
             maximum += 1
+
+            if "origin" in self.background_configuration["energy storage"]['electric']:
+                origin = self.background_configuration["energy storage"]["electric"]["origin"]
+            else:
+                origin = "CN"
+
             self.inputs[
                 (
                     "electricity market for energy storage production, " + str(y),
-                    self.background_configuration["energy storage"]['electric']['origin'],
+                    origin,
                     "kilowatt hour",
                     "electricity, low voltage",
                 )
