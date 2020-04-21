@@ -1,12 +1,12 @@
 {
   "0-2017-lifetime kilometers": {
-    "amount": 200000.0,
+    "amount": 200000,
     "category": "Driving",
     "comment": "Typical values, higher bound expected to increase in the future due to increases in car sharing",
     "kind": "distribution",
-    "loc": 200000.0,
-    "maximum": 300000.0,
-    "minimum": 80000.0,
+    "loc": 200000,
+    "maximum": 300000,
+    "minimum": 80000,
     "name": "lifetime kilometers",
     "powertrain": [
       "BEV",
@@ -37,13 +37,13 @@
     "year": 2017
   },
   "1-2040-lifetime kilometers": {
-    "amount": 200000.0,
+    "amount": 200000,
     "category": "Driving",
     "comment": "Typical values, higher bound expected to increase in the future due to increases in car sharing",
     "kind": "distribution",
-    "loc": 200000.0,
-    "maximum": 400000.0,
-    "minimum": 80000.0,
+    "loc": 200000,
+    "maximum": 400000,
+    "minimum": 80000,
     "name": "lifetime kilometers",
     "powertrain": [
       "BEV",
@@ -74,12 +74,12 @@
     "year": 2040
   },
   "10-2017-glider base mass": {
-    "amount": 1350.0,
+    "amount": 1350,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1350.0,
-    "maximum": 1500.0,
-    "minimum": 900.0,
+    "loc": 1350,
+    "maximum": 1500,
+    "minimum": 900,
     "name": "glider base mass",
     "powertrain": [
       "BEV",
@@ -129,12 +129,12 @@
     "year": 2040
   },
   "101-2017-electric fixed mass": {
-    "amount": 20.0,
+    "amount": 20,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 20.0,
-    "maximum": 25.0,
-    "minimum": 15.0,
+    "loc": 20,
+    "maximum": 25,
+    "minimum": 15,
     "name": "electric fixed mass",
     "powertrain": [
       "BEV",
@@ -160,12 +160,12 @@
     "year": 2017
   },
   "102-2040-electric fixed mass": {
-    "amount": 15.0,
+    "amount": 15,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 15.0,
-    "maximum": 20.0,
-    "minimum": 10.0,
+    "loc": 15,
+    "maximum": 20,
+    "minimum": 10,
     "name": "electric fixed mass",
     "powertrain": [
       "BEV",
@@ -191,12 +191,12 @@
     "year": 2040
   },
   "103-2040-electric fixed mass": {
-    "amount": 15.0,
+    "amount": 15,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 15.0,
-    "maximum": 20.0,
-    "minimum": 10.0,
+    "loc": 15,
+    "maximum": 20,
+    "minimum": 10,
     "name": "electric fixed mass",
     "powertrain": [
       "ICEV-p",
@@ -330,12 +330,12 @@
     "year": 2040
   },
   "108-2017-combustion fixed mass": {
-    "amount": 60.0,
+    "amount": 60,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 60.0,
-    "maximum": 70.0,
-    "minimum": 50.0,
+    "loc": 60,
+    "maximum": 70,
+    "minimum": 50,
     "name": "combustion fixed mass",
     "powertrain": [
       "ICEV-p",
@@ -360,12 +360,12 @@
     "year": 2017
   },
   "109-2040-combustion fixed mass": {
-    "amount": 50.0,
+    "amount": 50,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 50.0,
-    "maximum": 55.0,
-    "minimum": 45.0,
+    "loc": 50,
+    "maximum": 55,
+    "minimum": 45,
     "name": "combustion fixed mass",
     "powertrain": [
       "ICEV-p",
@@ -390,12 +390,12 @@
     "year": 2040
   },
   "11-2040-glider base mass": {
-    "amount": 1350.0,
+    "amount": 1350,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1350.0,
-    "maximum": 1500.0,
-    "minimum": 900.0,
+    "loc": 1350,
+    "maximum": 1500,
+    "minimum": 900,
     "name": "glider base mass",
     "powertrain": [
       "BEV",
@@ -418,12 +418,12 @@
     "year": 2040
   },
   "110-2017-combustion fixed mass": {
-    "amount": 69.0,
+    "amount": 69,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 69.0,
-    "maximum": 79.0,
-    "minimum": 59.0,
+    "loc": 69,
+    "maximum": 79,
+    "minimum": 59,
     "name": "combustion fixed mass",
     "powertrain": [
       "ICEV-d"
@@ -443,12 +443,12 @@
     "year": 2017
   },
   "111-2040-combustion fixed mass": {
-    "amount": 59.0,
+    "amount": 59,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 59.0,
-    "maximum": 64.0,
-    "minimum": 54.0,
+    "loc": 59,
+    "maximum": 64,
+    "minimum": 54,
     "name": "combustion fixed mass",
     "powertrain": [
       "ICEV-d"
@@ -632,12 +632,12 @@
     "year": 2040
   },
   "118-2017-powertrain fixed mass": {
-    "amount": 35.0,
+    "amount": 35,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 35.0,
-    "maximum": 40.0,
-    "minimum": 30.0,
+    "loc": 35,
+    "maximum": 40,
+    "minimum": 30,
     "name": "powertrain fixed mass",
     "powertrain": [
       "BEV",
@@ -658,12 +658,12 @@
     "year": 2017
   },
   "119-2040-powertrain fixed mass": {
-    "amount": 30.0,
+    "amount": 30,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 30.0,
-    "maximum": 35.0,
-    "minimum": 25.0,
+    "loc": 30,
+    "maximum": 35,
+    "minimum": 25,
     "name": "powertrain fixed mass",
     "powertrain": [
       "BEV",
@@ -684,12 +684,12 @@
     "year": 2040
   },
   "12-2017-glider base mass": {
-    "amount": 1500.0,
+    "amount": 1500,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1500.0,
-    "maximum": 2300.0,
-    "minimum": 1000.0,
+    "loc": 1500,
+    "maximum": 2300,
+    "minimum": 1000,
     "name": "glider base mass",
     "powertrain": [
       "FCEV",
@@ -708,12 +708,12 @@
     "year": 2017
   },
   "12-2017-glider base mass-BEV": {
-    "amount": 1580.0,
+    "amount": 1580,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1580.0,
-    "maximum": 2300.0,
-    "minimum": 1500.0,
+    "loc": 1580,
+    "maximum": 2300,
+    "minimum": 1500,
     "name": "glider base mass",
     "powertrain": [
       "BEV"
@@ -727,12 +727,12 @@
     "year": 2017
   },
   "12-2017-glider base mass-HEVp": {
-    "amount": 1650.0,
+    "amount": 1650,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1650.0,
-    "maximum": 2000.0,
-    "minimum": 1400.0,
+    "loc": 1650,
+    "maximum": 2000,
+    "minimum": 1400,
     "name": "glider base mass",
     "powertrain": [
       "HEV-p",
@@ -747,12 +747,12 @@
     "year": 2017
   },
   "12-2017-glider base mass-ICEVg": {
-    "amount": 1400.0,
+    "amount": 1400,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1400.0,
-    "maximum": 1800.0,
-    "minimum": 1200.0,
+    "loc": 1400,
+    "maximum": 1800,
+    "minimum": 1200,
     "name": "glider base mass",
     "powertrain": [
       "ICEV-g"
@@ -793,12 +793,12 @@
     "year": 2017
   },
   "121-2040-powertrain fixed mass": {
-    "amount": 60.0,
+    "amount": 60,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 60.0,
-    "maximum": 72.0,
-    "minimum": 48.0,
+    "loc": 60,
+    "maximum": 72,
+    "minimum": 48,
     "name": "powertrain fixed mass",
     "powertrain": [
       "PHEV-c-p",
@@ -820,12 +820,12 @@
     "year": 2040
   },
   "122-2017-powertrain fixed mass": {
-    "amount": 55.0,
+    "amount": 55,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 55.0,
-    "maximum": 65.0,
-    "minimum": 45.0,
+    "loc": 55,
+    "maximum": 65,
+    "minimum": 45,
     "name": "powertrain fixed mass",
     "powertrain": [
       "ICEV-p",
@@ -849,12 +849,12 @@
     "year": 2017
   },
   "123-2040-powertrain fixed mass": {
-    "amount": 50.0,
+    "amount": 50,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 50.0,
-    "maximum": 60.0,
-    "minimum": 40.0,
+    "loc": 50,
+    "maximum": 60,
+    "minimum": 40,
     "name": "powertrain fixed mass",
     "powertrain": [
       "ICEV-p",
@@ -932,11 +932,11 @@
     "year": 2040
   },
   "126-2017-combustion power share": {
-    "amount": 1.0,
+    "amount": 1,
     "category": "Powertrain",
     "comment": "Share of total vehicle power provided by combustion (versus battery)",
     "kind": "distribution",
-    "loc": 1.0,
+    "loc": 1,
     "name": "combustion power share",
     "powertrain": [
       "ICEV-p",
@@ -1040,12 +1040,12 @@
     "year": 2040
   },
   "13-2040-glider base mass": {
-    "amount": 1500.0,
+    "amount": 1500,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1500.0,
-    "maximum": 2300.0,
-    "minimum": 1000.0,
+    "loc": 1500,
+    "maximum": 2300,
+    "minimum": 1000,
     "name": "glider base mass",
     "powertrain": [
       "FCEV",
@@ -1064,12 +1064,12 @@
     "year": 2040
   },
   "13-2040-glider base mass-BEV": {
-    "amount": 1580.0,
+    "amount": 1580,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1580.0,
-    "maximum": 2300.0,
-    "minimum": 1500.0,
+    "loc": 1580,
+    "maximum": 2300,
+    "minimum": 1500,
     "name": "glider base mass",
     "powertrain": [
       "BEV"
@@ -1083,12 +1083,12 @@
     "year": 2040
   },
   "13-2040-glider base mass-HEVp": {
-    "amount": 1650.0,
+    "amount": 1650,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1650.0,
-    "maximum": 2000.0,
-    "minimum": 1300.0,
+    "loc": 1650,
+    "maximum": 2000,
+    "minimum": 1300,
     "name": "glider base mass",
     "powertrain": [
       "HEV-p",
@@ -1103,12 +1103,12 @@
     "year": 2040
   },
   "13-2040-glider base mass-ICEVg": {
-    "amount": 1400.0,
+    "amount": 1400,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1400.0,
-    "maximum": 1800.0,
-    "minimum": 1200.0,
+    "loc": 1400,
+    "maximum": 1800,
+    "minimum": 1200,
     "name": "glider base mass",
     "powertrain": [
       "ICEV-g"
@@ -1179,7 +1179,7 @@
     "comment": "average power demand (mechanical)",
     "kind": "distribution",
     "loc": 93.75,
-    "maximum": 125.0,
+    "maximum": 125,
     "minimum": 62.5,
     "name": "auxilliary power base demand",
     "powertrain": [
@@ -1207,8 +1207,8 @@
     "comment": "average power demand (mechanical)",
     "kind": "distribution",
     "loc": 71.25,
-    "maximum": 100.0,
-    "minimum": 45.0,
+    "maximum": 100,
+    "minimum": 45,
     "name": "auxilliary power base demand",
     "powertrain": [
       "ICEV-p",
@@ -1230,13 +1230,13 @@
     "year": 2040
   },
   "134-2017-auxilliary power base demand": {
-    "amount": 75.0,
+    "amount": 75,
     "category": "Auxiliaries",
     "comment": "average power demand (electrical)",
     "kind": "distribution",
-    "loc": 75.0,
-    "maximum": 100.0,
-    "minimum": 50.0,
+    "loc": 75,
+    "maximum": 100,
+    "minimum": 50,
     "name": "auxilliary power base demand",
     "powertrain": [
       "BEV",
@@ -1267,8 +1267,8 @@
     "comment": "average power demand (electrical)",
     "kind": "distribution",
     "loc": 71.25,
-    "maximum": 100.0,
-    "minimum": 45.0,
+    "maximum": 100,
+    "minimum": 45,
     "name": "auxilliary power base demand",
     "powertrain": [
       "BEV",
@@ -1294,13 +1294,13 @@
     "year": 2040
   },
   "136-2017-heating thermal demand": {
-    "amount": 200.0,
+    "amount": 200,
     "category": "Auxiliaries",
     "comment": "annual average heat demand (thermal)",
     "kind": "distribution",
-    "loc": 200.0,
-    "maximum": 300.0,
-    "minimum": 100.0,
+    "loc": 200,
+    "maximum": 300,
+    "minimum": 100,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1323,13 +1323,13 @@
     "year": 2017
   },
   "137-2040-heating thermal demand": {
-    "amount": 190.0,
+    "amount": 190,
     "category": "Auxiliaries",
     "comment": "annual average heat demand (thermal)",
     "kind": "distribution",
-    "loc": 190.0,
-    "maximum": 300.0,
-    "minimum": 90.0,
+    "loc": 190,
+    "maximum": 300,
+    "minimum": 90,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1352,12 +1352,12 @@
     "year": 2040
   },
   "138-2017-heating thermal demand": {
-    "amount": 250.0,
+    "amount": 250,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 250.0,
-    "maximum": 350.0,
-    "minimum": 150.0,
+    "loc": 250,
+    "maximum": 350,
+    "minimum": 150,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1384,8 +1384,8 @@
     "category": "Auxiliaries",
     "kind": "distribution",
     "loc": 237.5,
-    "maximum": 350.0,
-    "minimum": 135.0,
+    "maximum": 350,
+    "minimum": 135,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1408,12 +1408,12 @@
     "year": 2040
   },
   "14-2017-glider base mass": {
-    "amount": 1350.0,
+    "amount": 1350,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1350.0,
-    "maximum": 1900.0,
-    "minimum": 1100.0,
+    "loc": 1350,
+    "maximum": 1900,
+    "minimum": 1100,
     "name": "glider base mass",
     "powertrain": [
       "BEV",
@@ -1433,12 +1433,12 @@
     "year": 2017
   },
   "14-2017-glider base mass-HEVp": {
-    "amount": 1450.0,
+    "amount": 1450,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1450.0,
-    "maximum": 1900.0,
-    "minimum": 1100.0,
+    "loc": 1450,
+    "maximum": 1900,
+    "minimum": 1100,
     "name": "glider base mass",
     "powertrain": [
       "HEV-p",
@@ -1453,12 +1453,12 @@
     "year": 2017
   },
   "14-2017-glider base mass-ICEVp": {
-    "amount": 1400.0,
+    "amount": 1400,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1400.0,
-    "maximum": 1900.0,
-    "minimum": 1100.0,
+    "loc": 1400,
+    "maximum": 1900,
+    "minimum": 1100,
     "name": "glider base mass",
     "powertrain": [
       "ICEV-p"
@@ -1472,12 +1472,12 @@
     "year": 2017
   },
   "140-2017-heating thermal demand": {
-    "amount": 300.0,
+    "amount": 300,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 300.0,
-    "maximum": 400.0,
-    "minimum": 200.0,
+    "loc": 300,
+    "maximum": 400,
+    "minimum": 200,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1500,12 +1500,12 @@
     "year": 2017
   },
   "141-2040-heating thermal demand": {
-    "amount": 285.0,
+    "amount": 285,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 285.0,
-    "maximum": 400.0,
-    "minimum": 180.0,
+    "loc": 285,
+    "maximum": 400,
+    "minimum": 180,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1528,12 +1528,12 @@
     "year": 2040
   },
   "142-2017-heating thermal demand": {
-    "amount": 320.0,
+    "amount": 320,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 320.0,
-    "maximum": 420.0,
-    "minimum": 220.0,
+    "loc": 320,
+    "maximum": 420,
+    "minimum": 220,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1556,12 +1556,12 @@
     "year": 2017
   },
   "143-2040-heating thermal demand": {
-    "amount": 304.0,
+    "amount": 304,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 304.0,
-    "maximum": 420.0,
-    "minimum": 198.0,
+    "loc": 304,
+    "maximum": 420,
+    "minimum": 198,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1584,12 +1584,12 @@
     "year": 2040
   },
   "144-2017-heating thermal demand": {
-    "amount": 350.0,
+    "amount": 350,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 350.0,
-    "maximum": 450.0,
-    "minimum": 250.0,
+    "loc": 350,
+    "maximum": 450,
+    "minimum": 250,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1616,8 +1616,8 @@
     "category": "Auxiliaries",
     "kind": "distribution",
     "loc": 332.5,
-    "maximum": 450.0,
-    "minimum": 225.0,
+    "maximum": 450,
+    "minimum": 225,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1640,12 +1640,12 @@
     "year": 2040
   },
   "146-2017-heating thermal demand": {
-    "amount": 350.0,
+    "amount": 350,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 350.0,
-    "maximum": 450.0,
-    "minimum": 250.0,
+    "loc": 350,
+    "maximum": 450,
+    "minimum": 250,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1672,8 +1672,8 @@
     "category": "Auxiliaries",
     "kind": "distribution",
     "loc": 332.5,
-    "maximum": 450.0,
-    "minimum": 225.0,
+    "maximum": 450,
+    "minimum": 225,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1696,12 +1696,12 @@
     "year": 2040
   },
   "148-2017-heating thermal demand": {
-    "amount": 350.0,
+    "amount": 350,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 350.0,
-    "maximum": 450.0,
-    "minimum": 250.0,
+    "loc": 350,
+    "maximum": 450,
+    "minimum": 250,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1728,8 +1728,8 @@
     "category": "Auxiliaries",
     "kind": "distribution",
     "loc": 332.5,
-    "maximum": 450.0,
-    "minimum": 225.0,
+    "maximum": 450,
+    "minimum": 225,
     "name": "heating thermal demand",
     "powertrain": [
       "BEV",
@@ -1752,12 +1752,12 @@
     "year": 2040
   },
   "15-2040-glider base mass": {
-    "amount": 1350.0,
+    "amount": 1350,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1350.0,
-    "maximum": 1900.0,
-    "minimum": 1100.0,
+    "loc": 1350,
+    "maximum": 1900,
+    "minimum": 1100,
     "name": "glider base mass",
     "powertrain": [
       "BEV",
@@ -1777,12 +1777,12 @@
     "year": 2040
   },
   "15-2040-glider base mass-HEVp": {
-    "amount": 1450.0,
+    "amount": 1450,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1450.0,
-    "maximum": 1900.0,
-    "minimum": 1100.0,
+    "loc": 1450,
+    "maximum": 1900,
+    "minimum": 1100,
     "name": "glider base mass",
     "powertrain": [
       "HEV-p",
@@ -1797,12 +1797,12 @@
     "year": 2040
   },
   "15-2040-glider base mass-ICEV-p": {
-    "amount": 1400.0,
+    "amount": 1400,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1400.0,
-    "maximum": 1900.0,
-    "minimum": 1100.0,
+    "loc": 1400,
+    "maximum": 1900,
+    "minimum": 1100,
     "name": "glider base mass",
     "powertrain": [
       "ICEV-p"
@@ -1816,13 +1816,13 @@
     "year": 2040
   },
   "150-2017-cooling thermal demand": {
-    "amount": 200.0,
+    "amount": 200,
     "category": "Auxiliaries",
     "comment": "annual average A/C demand (thermal)",
     "kind": "distribution",
-    "loc": 200.0,
-    "maximum": 300.0,
-    "minimum": 100.0,
+    "loc": 200,
+    "maximum": 300,
+    "minimum": 100,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -1845,13 +1845,13 @@
     "year": 2017
   },
   "151-2040-cooling thermal demand": {
-    "amount": 190.0,
+    "amount": 190,
     "category": "Auxiliaries",
     "comment": "annual average A/C demand (thermal)",
     "kind": "distribution",
-    "loc": 190.0,
-    "maximum": 300.0,
-    "minimum": 90.0,
+    "loc": 190,
+    "maximum": 300,
+    "minimum": 90,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -1874,12 +1874,12 @@
     "year": 2040
   },
   "152-2017-cooling thermal demand": {
-    "amount": 250.0,
+    "amount": 250,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 250.0,
-    "maximum": 350.0,
-    "minimum": 150.0,
+    "loc": 250,
+    "maximum": 350,
+    "minimum": 150,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -1906,8 +1906,8 @@
     "category": "Auxiliaries",
     "kind": "distribution",
     "loc": 237.5,
-    "maximum": 350.0,
-    "minimum": 135.0,
+    "maximum": 350,
+    "minimum": 135,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -1930,12 +1930,12 @@
     "year": 2040
   },
   "154-2017-cooling thermal demand": {
-    "amount": 300.0,
+    "amount": 300,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 300.0,
-    "maximum": 400.0,
-    "minimum": 200.0,
+    "loc": 300,
+    "maximum": 400,
+    "minimum": 200,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -1958,12 +1958,12 @@
     "year": 2017
   },
   "155-2040-cooling thermal demand": {
-    "amount": 285.0,
+    "amount": 285,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 285.0,
-    "maximum": 400.0,
-    "minimum": 180.0,
+    "loc": 285,
+    "maximum": 400,
+    "minimum": 180,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -1986,12 +1986,12 @@
     "year": 2040
   },
   "156-2017-cooling thermal demand": {
-    "amount": 320.0,
+    "amount": 320,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 320.0,
-    "maximum": 420.0,
-    "minimum": 220.0,
+    "loc": 320,
+    "maximum": 420,
+    "minimum": 220,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -2014,12 +2014,12 @@
     "year": 2017
   },
   "157-2040-cooling thermal demand": {
-    "amount": 304.0,
+    "amount": 304,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 304.0,
-    "maximum": 420.0,
-    "minimum": 198.0,
+    "loc": 304,
+    "maximum": 420,
+    "minimum": 198,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -2042,12 +2042,12 @@
     "year": 2040
   },
   "158-2017-cooling thermal demand": {
-    "amount": 350.0,
+    "amount": 350,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 350.0,
-    "maximum": 450.0,
-    "minimum": 250.0,
+    "loc": 350,
+    "maximum": 450,
+    "minimum": 250,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -2074,8 +2074,8 @@
     "category": "Auxiliaries",
     "kind": "distribution",
     "loc": 332.5,
-    "maximum": 450.0,
-    "minimum": 225.0,
+    "maximum": 450,
+    "minimum": 225,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -2098,12 +2098,12 @@
     "year": 2040
   },
   "16-2017-glider base mass": {
-    "amount": 1650.0,
+    "amount": 1650,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1650.0,
-    "maximum": 2000.0,
-    "minimum": 1500.0,
+    "loc": 1650,
+    "maximum": 2000,
+    "minimum": 1500,
     "name": "glider base mass",
     "powertrain": [
       "HEV-p",
@@ -2122,12 +2122,12 @@
     "year": 2017
   },
   "16-2017-glider base mass-BEV": {
-    "amount": 1730.0,
+    "amount": 1730,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1730.0,
-    "maximum": 2000.0,
-    "minimum": 1500.0,
+    "loc": 1730,
+    "maximum": 2000,
+    "minimum": 1500,
     "name": "glider base mass",
     "powertrain": [
       "BEV"
@@ -2141,12 +2141,12 @@
     "year": 2017
   },
   "16-2017-glider base mass-FCEV-ICEVp": {
-    "amount": 1450.0,
+    "amount": 1450,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1450.0,
-    "maximum": 1800.0,
-    "minimum": 1300.0,
+    "loc": 1450,
+    "maximum": 1800,
+    "minimum": 1300,
     "name": "glider base mass",
     "powertrain": [
       "FCEV",
@@ -2161,12 +2161,12 @@
     "year": 2017
   },
   "16-2017-glider base mass-ICEVg": {
-    "amount": 1350.0,
+    "amount": 1350,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1350.0,
-    "maximum": 1700.0,
-    "minimum": 1300.0,
+    "loc": 1350,
+    "maximum": 1700,
+    "minimum": 1300,
     "name": "glider base mass",
     "powertrain": [
       "ICEV-g"
@@ -2180,12 +2180,12 @@
     "year": 2017
   },
   "160-2017-cooling thermal demand": {
-    "amount": 350.0,
+    "amount": 350,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 350.0,
-    "maximum": 450.0,
-    "minimum": 250.0,
+    "loc": 350,
+    "maximum": 450,
+    "minimum": 250,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -2212,8 +2212,8 @@
     "category": "Auxiliaries",
     "kind": "distribution",
     "loc": 332.5,
-    "maximum": 450.0,
-    "minimum": 225.0,
+    "maximum": 450,
+    "minimum": 225,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -2236,12 +2236,12 @@
     "year": 2040
   },
   "162-2017-cooling thermal demand": {
-    "amount": 350.0,
+    "amount": 350,
     "category": "Auxiliaries",
     "kind": "distribution",
-    "loc": 350.0,
-    "maximum": 450.0,
-    "minimum": 250.0,
+    "loc": 350,
+    "maximum": 450,
+    "minimum": 250,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -2268,8 +2268,8 @@
     "category": "Auxiliaries",
     "kind": "distribution",
     "loc": 332.5,
-    "maximum": 450.0,
-    "minimum": 225.0,
+    "maximum": 450,
+    "minimum": 225,
     "name": "cooling thermal demand",
     "powertrain": [
       "BEV",
@@ -2292,11 +2292,11 @@
     "year": 2040
   },
   "164-2017-heating energy consumption": {
-    "amount": 0.0,
+    "amount": 0,
     "category": "Auxiliaries",
     "comment": "mechanical load per thermal load",
     "kind": "distribution",
-    "loc": 0.0,
+    "loc": 0,
     "name": "heating energy consumption",
     "powertrain": [
       "ICEV-p",
@@ -2323,11 +2323,11 @@
     "year": 2017
   },
   "165-2040-heating energy consumption": {
-    "amount": 0.0,
+    "amount": 0,
     "category": "Auxiliaries",
     "comment": "mechanical load per thermal load",
     "kind": "distribution",
-    "loc": 0.0,
+    "loc": 0,
     "name": "heating energy consumption",
     "powertrain": [
       "ICEV-p",
@@ -2354,11 +2354,11 @@
     "year": 2040
   },
   "166-2017-heating energy consumption": {
-    "amount": 1.0,
+    "amount": 1,
     "category": "Auxiliaries",
     "comment": "electrical load per thermal load",
     "kind": "distribution",
-    "loc": 1.0,
+    "loc": 1,
     "name": "heating energy consumption",
     "powertrain": [
       "BEV",
@@ -2384,7 +2384,7 @@
     "comment": "electrical load per thermal load",
     "kind": "distribution",
     "loc": 0.8,
-    "maximum": 1.0,
+    "maximum": 1,
     "minimum": 0.3,
     "name": "heating energy consumption",
     "powertrain": [
@@ -2406,11 +2406,11 @@
     "year": 2040
   },
   "168-2017-cooling energy consumption": {
-    "amount": 1.0,
+    "amount": 1,
     "category": "Auxiliaries",
     "comment": "mechanical load per thermal load",
     "kind": "distribution",
-    "loc": 1.0,
+    "loc": 1,
     "maximum": 1.2,
     "minimum": 0.8,
     "name": "cooling energy consumption",
@@ -2446,7 +2446,7 @@
     "comment": "mechanical load per thermal load",
     "kind": "distribution",
     "loc": 0.8,
-    "maximum": 1.0,
+    "maximum": 1,
     "minimum": 0.5,
     "name": "cooling energy consumption",
     "powertrain": [
@@ -2476,12 +2476,12 @@
     "year": 2040
   },
   "17-2040-glider base mass": {
-    "amount": 1650.0,
+    "amount": 1650,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1650.0,
-    "maximum": 2000.0,
-    "minimum": 1500.0,
+    "loc": 1650,
+    "maximum": 2000,
+    "minimum": 1500,
     "name": "glider base mass",
     "powertrain": [
       "HEV-p",
@@ -2500,12 +2500,12 @@
     "year": 2040
   },
   "17-2040-glider base mass-BEV": {
-    "amount": 1730.0,
+    "amount": 1730,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1730.0,
-    "maximum": 2000.0,
-    "minimum": 1500.0,
+    "loc": 1730,
+    "maximum": 2000,
+    "minimum": 1500,
     "name": "glider base mass",
     "powertrain": [
       "BEV"
@@ -2519,12 +2519,12 @@
     "year": 2040
   },
   "17-2040-glider base mass-FCEV-ICEVp": {
-    "amount": 1450.0,
+    "amount": 1450,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1450.0,
-    "maximum": 1800.0,
-    "minimum": 1300.0,
+    "loc": 1450,
+    "maximum": 1800,
+    "minimum": 1300,
     "name": "glider base mass",
     "powertrain": [
       "FCEV",
@@ -2539,12 +2539,12 @@
     "year": 2040
   },
   "17-2040-glider base mass-ICEVg": {
-    "amount": 1350.0,
+    "amount": 1350,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1350.0,
-    "maximum": 1700.0,
-    "minimum": 1300.0,
+    "loc": 1350,
+    "maximum": 1700,
+    "minimum": 1300,
     "name": "glider base mass",
     "powertrain": [
       "ICEV-g"
@@ -2558,12 +2558,12 @@
     "year": 2040
   },
   "170-2017-energy battery mass": {
-    "amount": 150.0,
+    "amount": 150,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 150.0,
-    "maximum": 250.0,
-    "minimum": 100.0,
+    "loc": 150,
+    "maximum": 250,
+    "minimum": 100,
     "name": "energy battery mass",
     "powertrain": [
       "BEV"
@@ -2577,12 +2577,12 @@
     "year": 2017
   },
   "171-2040-energy battery mass": {
-    "amount": 105.0,
+    "amount": 105,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 105.0,
-    "maximum": 250.0,
-    "minimum": 70.0,
+    "loc": 105,
+    "maximum": 250,
+    "minimum": 70,
     "name": "energy battery mass",
     "powertrain": [
       "BEV"
@@ -2596,12 +2596,12 @@
     "year": 2040
   },
   "172-2017-energy battery mass": {
-    "amount": 250.0,
+    "amount": 250,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 250.0,
-    "maximum": 350.0,
-    "minimum": 150.0,
+    "loc": 250,
+    "maximum": 350,
+    "minimum": 150,
     "name": "energy battery mass",
     "powertrain": [
       "BEV"
@@ -2615,12 +2615,12 @@
     "year": 2017
   },
   "173-2040-energy battery mass": {
-    "amount": 175.0,
+    "amount": 175,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 175.0,
-    "maximum": 350.0,
-    "minimum": 105.0,
+    "loc": 175,
+    "maximum": 350,
+    "minimum": 105,
     "name": "energy battery mass",
     "powertrain": [
       "BEV"
@@ -2634,12 +2634,12 @@
     "year": 2040
   },
   "174-2017-energy battery mass": {
-    "amount": 300.0,
+    "amount": 300,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 300.0,
-    "maximum": 450.0,
-    "minimum": 200.0,
+    "loc": 300,
+    "maximum": 450,
+    "minimum": 200,
     "name": "energy battery mass",
     "powertrain": [
       "BEV"
@@ -2653,12 +2653,12 @@
     "year": 2017
   },
   "175-2040-energy battery mass": {
-    "amount": 210.0,
+    "amount": 210,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 210.0,
-    "maximum": 450.0,
-    "minimum": 140.0,
+    "loc": 210,
+    "maximum": 450,
+    "minimum": 140,
     "name": "energy battery mass",
     "powertrain": [
       "BEV"
@@ -2672,12 +2672,12 @@
     "year": 2040
   },
   "176-2017-energy battery mass": {
-    "amount": 400.0,
+    "amount": 400,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 400.0,
-    "maximum": 600.0,
-    "minimum": 200.0,
+    "loc": 400,
+    "maximum": 600,
+    "minimum": 200,
     "name": "energy battery mass",
     "powertrain": [
       "BEV"
@@ -2691,12 +2691,12 @@
     "year": 2017
   },
   "177-2040-energy battery mass": {
-    "amount": 280.0,
+    "amount": 280,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 280.0,
-    "maximum": 600.0,
-    "minimum": 140.0,
+    "loc": 280,
+    "maximum": 600,
+    "minimum": 140,
     "name": "energy battery mass",
     "powertrain": [
       "BEV"
@@ -2710,12 +2710,12 @@
     "year": 2040
   },
   "178-2017-energy battery mass": {
-    "amount": 450.0,
+    "amount": 450,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 450.0,
-    "maximum": 700.0,
-    "minimum": 300.0,
+    "loc": 450,
+    "maximum": 700,
+    "minimum": 300,
     "name": "energy battery mass",
     "powertrain": [
       "BEV"
@@ -2729,12 +2729,12 @@
     "year": 2017
   },
   "179-2040-energy battery mass": {
-    "amount": 315.0,
+    "amount": 315,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 315.0,
-    "maximum": 700.0,
-    "minimum": 210.0,
+    "loc": 315,
+    "maximum": 700,
+    "minimum": 210,
     "name": "energy battery mass",
     "powertrain": [
       "BEV"
@@ -2753,7 +2753,7 @@
     "kind": "distribution",
     "loc": 0.05,
     "maximum": 0.15,
-    "minimum": 0.0,
+    "minimum": 0,
     "name": "lightweighting",
     "powertrain": [
       "BEV",
@@ -2776,12 +2776,12 @@
     "year": 2017
   },
   "180-2017-energy battery mass": {
-    "amount": 400.0,
+    "amount": 400,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 400.0,
-    "maximum": 600.0,
-    "minimum": 300.0,
+    "loc": 400,
+    "maximum": 600,
+    "minimum": 300,
     "name": "energy battery mass",
     "powertrain": [
       "BEV"
@@ -2796,12 +2796,12 @@
     "year": 2017
   },
   "181-2040-energy battery mass": {
-    "amount": 280.0,
+    "amount": 280,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 280.0,
-    "maximum": 600.0,
-    "minimum": 210.0,
+    "loc": 280,
+    "maximum": 600,
+    "minimum": 210,
     "name": "energy battery mass",
     "powertrain": [
       "BEV"
@@ -2816,12 +2816,12 @@
     "year": 2040
   },
   "182-2017-energy battery mass": {
-    "amount": 60.0,
+    "amount": 60,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 60.0,
-    "maximum": 120.0,
-    "minimum": 40.0,
+    "loc": 60,
+    "maximum": 120,
+    "minimum": 40,
     "name": "energy battery mass",
     "powertrain": [
       "PHEV-c-p",
@@ -2837,12 +2837,12 @@
     "year": 2017
   },
   "183-2040-energy battery mass": {
-    "amount": 60.0,
+    "amount": 60,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 60.0,
-    "maximum": 120.0,
-    "minimum": 40.0,
+    "loc": 60,
+    "maximum": 120,
+    "minimum": 40,
     "name": "energy battery mass",
     "powertrain": [
       "PHEV-c-p",
@@ -2858,12 +2858,12 @@
     "year": 2040
   },
   "184-2017-energy battery mass": {
-    "amount": 60.0,
+    "amount": 60,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 60.0,
-    "maximum": 120.0,
-    "minimum": 40.0,
+    "loc": 60,
+    "maximum": 120,
+    "minimum": 40,
     "name": "energy battery mass",
     "powertrain": [
       "PHEV-c-p",
@@ -2879,12 +2879,12 @@
     "year": 2017
   },
   "185-2040-energy battery mass": {
-    "amount": 60.0,
+    "amount": 60,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 60.0,
-    "maximum": 120.0,
-    "minimum": 40.0,
+    "loc": 60,
+    "maximum": 120,
+    "minimum": 40,
     "name": "energy battery mass",
     "powertrain": [
       "PHEV-c-p",
@@ -2900,12 +2900,12 @@
     "year": 2040
   },
   "186-2017-energy battery mass": {
-    "amount": 60.0,
+    "amount": 60,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 60.0,
-    "maximum": 150.0,
-    "minimum": 40.0,
+    "loc": 60,
+    "maximum": 150,
+    "minimum": 40,
     "name": "energy battery mass",
     "powertrain": [
       "PHEV-c-p",
@@ -2921,12 +2921,12 @@
     "year": 2017
   },
   "187-2040-energy battery mass": {
-    "amount": 60.0,
+    "amount": 60,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 60.0,
-    "maximum": 150.0,
-    "minimum": 40.0,
+    "loc": 60,
+    "maximum": 150,
+    "minimum": 40,
     "name": "energy battery mass",
     "powertrain": [
       "PHEV-c-p",
@@ -2942,12 +2942,12 @@
     "year": 2040
   },
   "188-2017-energy battery mass": {
-    "amount": 80.0,
+    "amount": 80,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 80.0,
-    "maximum": 150.0,
-    "minimum": 50.0,
+    "loc": 80,
+    "maximum": 150,
+    "minimum": 50,
     "name": "energy battery mass",
     "powertrain": [
       "PHEV-c-p",
@@ -2963,12 +2963,12 @@
     "year": 2017
   },
   "189-2040-energy battery mass": {
-    "amount": 80.0,
+    "amount": 80,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 80.0,
-    "maximum": 150.0,
-    "minimum": 50.0,
+    "loc": 80,
+    "maximum": 150,
+    "minimum": 50,
     "name": "energy battery mass",
     "powertrain": [
       "PHEV-c-p",
@@ -2989,7 +2989,7 @@
     "kind": "distribution",
     "loc": 0.1,
     "maximum": 0.15,
-    "minimum": 0.0,
+    "minimum": 0,
     "name": "lightweighting",
     "powertrain": [
       "BEV",
@@ -3012,12 +3012,12 @@
     "year": 2040
   },
   "190-2017-energy battery mass": {
-    "amount": 100.0,
+    "amount": 100,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 100.0,
-    "maximum": 200.0,
-    "minimum": 50.0,
+    "loc": 100,
+    "maximum": 200,
+    "minimum": 50,
     "name": "energy battery mass",
     "powertrain": [
       "PHEV-c-p",
@@ -3033,12 +3033,12 @@
     "year": 2017
   },
   "191-2040-energy battery mass": {
-    "amount": 100.0,
+    "amount": 100,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 100.0,
-    "maximum": 200.0,
-    "minimum": 50.0,
+    "loc": 100,
+    "maximum": 200,
+    "minimum": 50,
     "name": "energy battery mass",
     "powertrain": [
       "PHEV-c-p",
@@ -3054,12 +3054,12 @@
     "year": 2040
   },
   "192-2017-energy battery mass": {
-    "amount": 100.0,
+    "amount": 100,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 100.0,
-    "maximum": 200.0,
-    "minimum": 50.0,
+    "loc": 100,
+    "maximum": 200,
+    "minimum": 50,
     "name": "energy battery mass",
     "powertrain": [
       "PHEV-c-p",
@@ -3076,12 +3076,12 @@
     "year": 2017
   },
   "193-2040-energy battery mass": {
-    "amount": 100.0,
+    "amount": 100,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 100.0,
-    "maximum": 200.0,
-    "minimum": 50.0,
+    "loc": 100,
+    "maximum": 200,
+    "minimum": 50,
     "name": "energy battery mass",
     "powertrain": [
       "PHEV-c-p",
@@ -3240,13 +3240,13 @@
     "year": 2040
   },
   "2-2017-kilometers per year": {
-    "amount": 12000.0,
+    "amount": 12000,
     "category": "Driving",
     "comment": "Typical values",
     "kind": "distribution",
-    "loc": 12000.0,
-    "maximum": 15000.0,
-    "minimum": 8000.0,
+    "loc": 12000,
+    "maximum": 15000,
+    "minimum": 8000,
     "name": "kilometers per year",
     "powertrain": [
       "BEV",
@@ -3280,7 +3280,7 @@
     "kind": "distribution",
     "loc": 0.1,
     "maximum": 0.25,
-    "minimum": 0.0,
+    "minimum": 0,
     "name": "lightweighting",
     "powertrain": [
       "BEV",
@@ -3416,10 +3416,10 @@
     "year": 2040
   },
   "204-2017-battery cell power density": {
-    "amount": 2.0,
+    "amount": 2,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 2.0,
+    "loc": 2,
     "maximum": 2.3,
     "minimum": 1.3,
     "name": "battery cell power density",
@@ -3446,10 +3446,10 @@
     "year": 2017
   },
   "205-2040-battery cell power density": {
-    "amount": 3.0,
+    "amount": 3,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 3.0,
+    "loc": 3,
     "maximum": 3.4499999999999997,
     "minimum": 1.9500000000000002,
     "name": "battery cell power density",
@@ -3591,7 +3591,7 @@
     "kind": "distribution",
     "loc": 0.15,
     "maximum": 0.25,
-    "minimum": 0.0,
+    "minimum": 0,
     "name": "lightweighting",
     "powertrain": [
       "BEV",
@@ -3646,13 +3646,13 @@
     "year": 2040
   },
   "211-2017-battery cell production energy": {
-    "amount": 8.0,
+    "amount": 8,
     "category": "Energy Storage",
     "comment": "Total energy consumption split between electricity and direct natural gas combustion",
     "kind": "distribution",
-    "loc": 8.0,
-    "maximum": 20.0,
-    "minimum": 4.0,
+    "loc": 8,
+    "maximum": 20,
+    "minimum": 4,
     "name": "battery cell production energy",
     "powertrain": [
       "BEV",
@@ -3678,13 +3678,13 @@
     "year": 2017
   },
   "212-2040-battery cell production energy": {
-    "amount": 8.0,
+    "amount": 8,
     "category": "Energy Storage",
     "comment": "Total energy consumption split between electricity and direct natural gas combustion",
     "kind": "distribution",
-    "loc": 8.0,
-    "maximum": 12.0,
-    "minimum": 4.0,
+    "loc": 8,
+    "maximum": 12,
+    "minimum": 4,
     "name": "battery cell production energy",
     "powertrain": [
       "BEV",
@@ -3710,13 +3710,13 @@
     "year": 2040
   },
   "213-2040-battery cell production energy": {
-    "amount": 8.0,
+    "amount": 8,
     "category": "Energy Storage",
     "comment": "Total energy consumption split between electricity and direct natural gas combustion",
     "kind": "distribution",
-    "loc": 8.0,
-    "maximum": 12.0,
-    "minimum": 4.0,
+    "loc": 8,
+    "maximum": 12,
+    "minimum": 4,
     "name": "battery cell production energy",
     "powertrain": [
       "ICEV-p",
@@ -3830,12 +3830,12 @@
     "year": 2040
   },
   "217-2017-battery lifetime kilometers": {
-    "amount": 200000.0,
+    "amount": 200000,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 200000.0,
-    "maximum": 300000.0,
-    "minimum": 100000.0,
+    "loc": 200000,
+    "maximum": 300000,
+    "minimum": 100000,
     "name": "battery lifetime kilometers",
     "powertrain": [
       "BEV",
@@ -3861,12 +3861,12 @@
     "year": 2017
   },
   "218-2040-storage lifetime kilometers": {
-    "amount": 200000.0,
+    "amount": 200000,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 200000.0,
-    "maximum": 350000.0,
-    "minimum": 150000.0,
+    "loc": 200000,
+    "maximum": 350000,
+    "minimum": 150000,
     "name": "battery lifetime kilometers",
     "powertrain": [
       "BEV",
@@ -3892,12 +3892,12 @@
     "year": 2040
   },
   "219-2040-storage lifetime kilometers": {
-    "amount": 200000.0,
+    "amount": 200000,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 200000.0,
-    "maximum": 350000.0,
-    "minimum": 150000.0,
+    "loc": 200000,
+    "maximum": 350000,
+    "minimum": 150000,
     "name": "battery lifetime kilometers",
     "powertrain": [
       "ICEV-p",
@@ -3919,12 +3919,12 @@
     "year": 2040
   },
   "22-2017-power to mass ratio": {
-    "amount": 60.0,
+    "amount": 60,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 60.0,
-    "maximum": 90.0,
-    "minimum": 40.0,
+    "loc": 60,
+    "maximum": 90,
+    "minimum": 40,
     "name": "power to mass ratio",
     "powertrain": [
       "BEV",
@@ -3947,12 +3947,12 @@
     "year": 2017
   },
   "220-2017-storage lifetime kilometers": {
-    "amount": 150000.0,
+    "amount": 150000,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 150000.0,
-    "maximum": 300000.0,
-    "minimum": 100000.0,
+    "loc": 150000,
+    "maximum": 300000,
+    "minimum": 100000,
     "name": "fuel cell lifetime kilometers",
     "powertrain": [
       "FCEV"
@@ -3972,12 +3972,12 @@
     "year": 2017
   },
   "221-2040-storage lifetime kilometers": {
-    "amount": 200000.0,
+    "amount": 200000,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 200000.0,
-    "maximum": 350000.0,
-    "minimum": 150000.0,
+    "loc": 200000,
+    "maximum": 350000,
+    "minimum": 150000,
     "name": "fuel cell lifetime kilometers",
     "powertrain": [
       "FCEV"
@@ -4159,12 +4159,12 @@
     "year": 2040
   },
   "228-2017-CNG tank mass intercept": {
-    "amount": 25.0,
+    "amount": 25,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 25.0,
-    "maximum": 30.0,
-    "minimum": 20.0,
+    "loc": 25,
+    "maximum": 30,
+    "minimum": 20,
     "name": "CNG tank mass intercept",
     "powertrain": [
       "ICEV-g"
@@ -4184,12 +4184,12 @@
     "year": 2017
   },
   "229-2040-CNG tank mass intercept": {
-    "amount": 25.0,
+    "amount": 25,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 25.0,
-    "maximum": 30.0,
-    "minimum": 20.0,
+    "loc": 25,
+    "maximum": 30,
+    "minimum": 20,
     "name": "CNG tank mass intercept",
     "powertrain": [
       "ICEV-g"
@@ -4209,12 +4209,12 @@
     "year": 2040
   },
   "23-2040-power to mass ratio": {
-    "amount": 60.0,
+    "amount": 60,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 60.0,
-    "maximum": 90.0,
-    "minimum": 40.0,
+    "loc": 60,
+    "maximum": 90,
+    "minimum": 40,
     "name": "power to mass ratio",
     "powertrain": [
       "BEV",
@@ -4237,12 +4237,12 @@
     "year": 2040
   },
   "230-2017-fuel mass": {
-    "amount": 18.0,
+    "amount": 18,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 18.0,
-    "maximum": 20.0,
-    "minimum": 15.0,
+    "loc": 18,
+    "maximum": 20,
+    "minimum": 15,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-p"
@@ -4261,7 +4261,7 @@
     "category": "Energy Storage",
     "kind": "distribution",
     "loc": 12.6,
-    "maximum": 14.0,
+    "maximum": 14,
     "minimum": 10.5,
     "name": "fuel mass",
     "powertrain": [
@@ -4277,12 +4277,12 @@
     "year": 2040
   },
   "232-2017-fuel mass": {
-    "amount": 28.0,
+    "amount": 28,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 28.0,
-    "maximum": 30.0,
-    "minimum": 25.0,
+    "loc": 28,
+    "maximum": 30,
+    "minimum": 25,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-p"
@@ -4301,7 +4301,7 @@
     "category": "Energy Storage",
     "kind": "distribution",
     "loc": 19.599999999999998,
-    "maximum": 21.0,
+    "maximum": 21,
     "minimum": 17.5,
     "name": "fuel mass",
     "powertrain": [
@@ -4317,12 +4317,12 @@
     "year": 2040
   },
   "234-2017-fuel mass": {
-    "amount": 33.0,
+    "amount": 33,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 33.0,
-    "maximum": 35.0,
-    "minimum": 30.0,
+    "loc": 33,
+    "maximum": 35,
+    "minimum": 30,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-p"
@@ -4343,7 +4343,7 @@
     "kind": "distribution",
     "loc": 23.099999999999998,
     "maximum": 24.5,
-    "minimum": 21.0,
+    "minimum": 21,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-p"
@@ -4359,12 +4359,12 @@
     "year": 2040
   },
   "236-2017-fuel mass": {
-    "amount": 18.0,
+    "amount": 18,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 18.0,
-    "maximum": 20.0,
-    "minimum": 15.0,
+    "loc": 18,
+    "maximum": 20,
+    "minimum": 15,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-d"
@@ -4383,7 +4383,7 @@
     "category": "Energy Storage",
     "kind": "distribution",
     "loc": 12.6,
-    "maximum": 14.0,
+    "maximum": 14,
     "minimum": 10.5,
     "name": "fuel mass",
     "powertrain": [
@@ -4399,12 +4399,12 @@
     "year": 2040
   },
   "238-2017-fuel mass": {
-    "amount": 28.0,
+    "amount": 28,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 28.0,
-    "maximum": 30.0,
-    "minimum": 25.0,
+    "loc": 28,
+    "maximum": 30,
+    "minimum": 25,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-d"
@@ -4423,7 +4423,7 @@
     "category": "Energy Storage",
     "kind": "distribution",
     "loc": 19.599999999999998,
-    "maximum": 21.0,
+    "maximum": 21,
     "minimum": 17.5,
     "name": "fuel mass",
     "powertrain": [
@@ -4439,12 +4439,12 @@
     "year": 2040
   },
   "24-2017-power to mass ratio": {
-    "amount": 65.0,
+    "amount": 65,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 65.0,
-    "maximum": 120.0,
-    "minimum": 40.0,
+    "loc": 65,
+    "maximum": 120,
+    "minimum": 40,
     "name": "power to mass ratio",
     "powertrain": [
       "BEV",
@@ -4467,12 +4467,12 @@
     "year": 2017
   },
   "240-2017-fuel mass": {
-    "amount": 33.0,
+    "amount": 33,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 33.0,
-    "maximum": 35.0,
-    "minimum": 30.0,
+    "loc": 33,
+    "maximum": 35,
+    "minimum": 30,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-d"
@@ -4493,7 +4493,7 @@
     "kind": "distribution",
     "loc": 23.099999999999998,
     "maximum": 24.5,
-    "minimum": 21.0,
+    "minimum": 21,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-d"
@@ -4509,12 +4509,12 @@
     "year": 2040
   },
   "242-2017-fuel mass": {
-    "amount": 13.0,
+    "amount": 13,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 13.0,
-    "maximum": 15.0,
-    "minimum": 10.0,
+    "loc": 13,
+    "maximum": 15,
+    "minimum": 10,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-g"
@@ -4534,7 +4534,7 @@
     "kind": "distribution",
     "loc": 9.1,
     "maximum": 10.5,
-    "minimum": 7.0,
+    "minimum": 7,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-g"
@@ -4549,12 +4549,12 @@
     "year": 2040
   },
   "244-2017-fuel mass": {
-    "amount": 23.0,
+    "amount": 23,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 23.0,
-    "maximum": 25.0,
-    "minimum": 20.0,
+    "loc": 23,
+    "maximum": 25,
+    "minimum": 20,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-g"
@@ -4574,7 +4574,7 @@
     "kind": "distribution",
     "loc": 16.099999999999998,
     "maximum": 17.5,
-    "minimum": 14.0,
+    "minimum": 14,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-g"
@@ -4589,12 +4589,12 @@
     "year": 2040
   },
   "246-2017-fuel mass": {
-    "amount": 28.0,
+    "amount": 28,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 28.0,
-    "maximum": 30.0,
-    "minimum": 25.0,
+    "loc": 28,
+    "maximum": 30,
+    "minimum": 25,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-g"
@@ -4614,7 +4614,7 @@
     "category": "Energy Storage",
     "kind": "distribution",
     "loc": 19.599999999999998,
-    "maximum": 21.0,
+    "maximum": 21,
     "minimum": 17.5,
     "name": "fuel mass",
     "powertrain": [
@@ -4631,12 +4631,12 @@
     "year": 2040
   },
   "248-2017-fuel mass": {
-    "amount": 13.0,
+    "amount": 13,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 13.0,
-    "maximum": 15.0,
-    "minimum": 10.0,
+    "loc": 13,
+    "maximum": 15,
+    "minimum": 10,
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
@@ -4660,7 +4660,7 @@
     "kind": "distribution",
     "loc": 9.1,
     "maximum": 10.5,
-    "minimum": 7.0,
+    "minimum": 7,
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
@@ -4679,12 +4679,12 @@
     "year": 2040
   },
   "25-2040-power to mass ratio": {
-    "amount": 65.0,
+    "amount": 65,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 65.0,
-    "maximum": 120.0,
-    "minimum": 40.0,
+    "loc": 65,
+    "maximum": 120,
+    "minimum": 40,
     "name": "power to mass ratio",
     "powertrain": [
       "BEV",
@@ -4707,12 +4707,12 @@
     "year": 2040
   },
   "250-2017-fuel mass": {
-    "amount": 23.0,
+    "amount": 23,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 23.0,
-    "maximum": 25.0,
-    "minimum": 20.0,
+    "loc": 23,
+    "maximum": 25,
+    "minimum": 20,
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
@@ -4736,7 +4736,7 @@
     "kind": "distribution",
     "loc": 16.099999999999998,
     "maximum": 17.5,
-    "minimum": 14.0,
+    "minimum": 14,
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
@@ -4755,12 +4755,12 @@
     "year": 2040
   },
   "252-2017-fuel mass": {
-    "amount": 28.0,
+    "amount": 28,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 28.0,
-    "maximum": 30.0,
-    "minimum": 25.0,
+    "loc": 28,
+    "maximum": 30,
+    "minimum": 25,
     "name": "fuel mass",
     "powertrain": [
       "HEV-p",
@@ -4784,7 +4784,7 @@
     "category": "Energy Storage",
     "kind": "distribution",
     "loc": 19.599999999999998,
-    "maximum": 21.0,
+    "maximum": 21,
     "minimum": 17.5,
     "name": "fuel mass",
     "powertrain": [
@@ -4805,12 +4805,12 @@
     "year": 2040
   },
   "254-2017-fuel mass": {
-    "amount": 4.0,
+    "amount": 4,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 4.0,
-    "maximum": 5.0,
-    "minimum": 3.0,
+    "loc": 4,
+    "maximum": 5,
+    "minimum": 3,
     "name": "fuel mass",
     "powertrain": [
       "FCEV"
@@ -4829,7 +4829,7 @@
     "category": "Energy Storage",
     "kind": "distribution",
     "loc": 3.2,
-    "maximum": 4.0,
+    "maximum": 4,
     "minimum": 2.4000000000000004,
     "name": "fuel mass",
     "powertrain": [
@@ -4845,12 +4845,12 @@
     "year": 2040
   },
   "256-2017-fuel mass": {
-    "amount": 5.0,
+    "amount": 5,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 5.0,
-    "maximum": 6.0,
-    "minimum": 4.0,
+    "loc": 5,
+    "maximum": 6,
+    "minimum": 4,
     "name": "fuel mass",
     "powertrain": [
       "FCEV"
@@ -4865,10 +4865,10 @@
     "year": 2017
   },
   "257-2040-fuel mass": {
-    "amount": 4.0,
+    "amount": 4,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 4.0,
+    "loc": 4,
     "maximum": 4.800000000000001,
     "minimum": 3.2,
     "name": "fuel mass",
@@ -4885,12 +4885,12 @@
     "year": 2040
   },
   "258-2017-fuel mass": {
-    "amount": 6.0,
+    "amount": 6,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 6.0,
-    "maximum": 7.0,
-    "minimum": 5.0,
+    "loc": 6,
+    "maximum": 7,
+    "minimum": 5,
     "name": "fuel mass",
     "powertrain": [
       "FCEV"
@@ -4911,7 +4911,7 @@
     "kind": "distribution",
     "loc": 4.800000000000001,
     "maximum": 5.6000000000000005,
-    "minimum": 4.0,
+    "minimum": 4,
     "name": "fuel mass",
     "powertrain": [
       "FCEV"
@@ -4927,12 +4927,12 @@
     "year": 2040
   },
   "26-2017-power to mass ratio": {
-    "amount": 70.0,
+    "amount": 70,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 70.0,
-    "maximum": 120.0,
-    "minimum": 45.0,
+    "loc": 70,
+    "maximum": 120,
+    "minimum": 45,
     "name": "power to mass ratio",
     "powertrain": [
       "BEV",
@@ -5101,12 +5101,12 @@
     "year": 2040
   },
   "27-2040-power to mass ratio": {
-    "amount": 70.0,
+    "amount": 70,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 70.0,
-    "maximum": 120.0,
-    "minimum": 45.0,
+    "loc": 70,
+    "maximum": 120,
+    "minimum": 45,
     "name": "power to mass ratio",
     "powertrain": [
       "BEV",
@@ -5129,12 +5129,12 @@
     "year": 2040
   },
   "28-2017-power to mass ratio": {
-    "amount": 80.0,
+    "amount": 80,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 80.0,
-    "maximum": 120.0,
-    "minimum": 55.0,
+    "loc": 80,
+    "maximum": 120,
+    "minimum": 55,
     "name": "power to mass ratio",
     "powertrain": [
       "BEV",
@@ -5158,12 +5158,12 @@
     "year": 2017
   },
   "29-2040-power to mass ratio": {
-    "amount": 80.0,
+    "amount": 80,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 80.0,
-    "maximum": 120.0,
-    "minimum": 55.0,
+    "loc": 80,
+    "maximum": 120,
+    "minimum": 55,
     "name": "power to mass ratio",
     "powertrain": [
       "BEV",
@@ -5187,13 +5187,13 @@
     "year": 2040
   },
   "3-2040-kilometers per year": {
-    "amount": 12000.0,
+    "amount": 12000,
     "category": "Driving",
     "comment": "Typical values",
     "kind": "distribution",
-    "loc": 12000.0,
-    "maximum": 15000.0,
-    "minimum": 8000.0,
+    "loc": 12000,
+    "maximum": 15000,
+    "minimum": 8000,
     "name": "kilometers per year",
     "powertrain": [
       "BEV",
@@ -5222,12 +5222,12 @@
     "year": 2040
   },
   "30-2017-power to mass ratio": {
-    "amount": 65.0,
+    "amount": 65,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 65.0,
-    "maximum": 90.0,
-    "minimum": 40.0,
+    "loc": 65,
+    "maximum": 90,
+    "minimum": 40,
     "name": "power to mass ratio",
     "powertrain": [
       "BEV",
@@ -5250,12 +5250,12 @@
     "year": 2017
   },
   "31-2040-power to mass ratio": {
-    "amount": 65.0,
+    "amount": 65,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 65.0,
-    "maximum": 90.0,
-    "minimum": 40.0,
+    "loc": 65,
+    "maximum": 90,
+    "minimum": 40,
     "name": "power to mass ratio",
     "powertrain": [
       "BEV",
@@ -5278,12 +5278,12 @@
     "year": 2040
   },
   "32-2017-power to mass ratio": {
-    "amount": 75.0,
+    "amount": 75,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 75.0,
-    "maximum": 105.0,
-    "minimum": 50.0,
+    "loc": 75,
+    "maximum": 105,
+    "minimum": 50,
     "name": "power to mass ratio",
     "powertrain": [
       "BEV",
@@ -5554,12 +5554,12 @@
     "year": 2040
   },
   "33-2040-power to mass ratio": {
-    "amount": 75.0,
+    "amount": 75,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 75.0,
-    "maximum": 105.0,
-    "minimum": 50.0,
+    "loc": 75,
+    "maximum": 105,
+    "minimum": 50,
     "name": "power to mass ratio",
     "powertrain": [
       "BEV",
@@ -5645,8 +5645,8 @@
     "comment": "this is the base cost of the car per kg of glider - doesn't include energy storage or powertrain and should be the same for all powertrains",
     "kind": "distribution",
     "loc": 12.5,
-    "maximum": 15.0,
-    "minimum": 7.0,
+    "maximum": 15,
+    "minimum": 7,
     "name": "glider cost slope",
     "powertrain": [
       "BEV",
@@ -5677,8 +5677,8 @@
     "comment": "this is the base cost of the car per kg of glider - doesn't include energy storage or powertrain and should be the same for all powertrains",
     "kind": "distribution",
     "loc": 12.5,
-    "maximum": 15.0,
-    "minimum": 8.0,
+    "maximum": 15,
+    "minimum": 8,
     "name": "glider cost slope",
     "powertrain": [
       "BEV",
@@ -5704,13 +5704,13 @@
     "year": 2040
   },
   "334-2017-glider cost slope": {
-    "amount": 16.0,
+    "amount": 16,
     "category": "Costs",
     "comment": "this is the base cost of the car per kg of glider - doesn't include energy storage or powertrain and should be the same for all powertrains",
     "kind": "distribution",
-    "loc": 16.0,
-    "maximum": 18.0,
-    "minimum": 9.0,
+    "loc": 16,
+    "maximum": 18,
+    "minimum": 9,
     "name": "glider cost slope",
     "powertrain": [
       "BEV",
@@ -5735,13 +5735,13 @@
     "year": 2017
   },
   "335-2040-glider cost slope": {
-    "amount": 16.0,
+    "amount": 16,
     "category": "Costs",
     "comment": "this is the base cost of the car per kg of glider - doesn't include energy storage or powertrain and should be the same for all powertrains",
     "kind": "distribution",
-    "loc": 16.0,
-    "maximum": 18.0,
-    "minimum": 11.0,
+    "loc": 16,
+    "maximum": 18,
+    "minimum": 11,
     "name": "glider cost slope",
     "powertrain": [
       "BEV",
@@ -5766,13 +5766,13 @@
     "year": 2040
   },
   "336-2017-glider cost intercept": {
-    "amount": -900.0,
+    "amount": -900,
     "category": "Costs",
     "comment": "this is the base cost of the car per kg of glider - doesn't include energy storage or powertrain and should be the same for all powertrains",
     "kind": "distribution",
-    "loc": -900.0,
-    "maximum": -720.0,
-    "minimum": -3150.0,
+    "loc": -900,
+    "maximum": -720,
+    "minimum": -3150,
     "name": "glider cost intercept",
     "powertrain": [
       "BEV",
@@ -5801,13 +5801,13 @@
     "year": 2017
   },
   "337-2040-glider cost intercept": {
-    "amount": -900.0,
+    "amount": -900,
     "category": "Costs",
     "comment": "this is the base cost of the car per kg of glider - doesn't include energy storage or powertrain and should be the same for all powertrains",
     "kind": "distribution",
-    "loc": -900.0,
-    "maximum": -720.0,
-    "minimum": -3150.0,
+    "loc": -900,
+    "maximum": -720,
+    "minimum": -3150,
     "name": "glider cost intercept",
     "powertrain": [
       "BEV",
@@ -5985,7 +5985,7 @@
     "comment": "represents mass reduction by replacing standard materials with high strength steel.",
     "kind": "distribution",
     "loc": 4.5,
-    "maximum": 9.0,
+    "maximum": 9,
     "minimum": 1.5,
     "name": "glider lightweighting cost per kg",
     "powertrain": [
@@ -6020,7 +6020,7 @@
     "comment": "represents mass reduction by replacing standard materials with high strength steel.",
     "kind": "distribution",
     "loc": 3.5,
-    "maximum": 9.0,
+    "maximum": 9,
     "minimum": 1.5,
     "name": "glider lightweighting cost per kg",
     "powertrain": [
@@ -6050,13 +6050,13 @@
     "year": 2040
   },
   "344-2017-fuel cell cost per kW": {
-    "amount": 160.0,
+    "amount": 160,
     "category": "Costs",
     "comment": "considers whole fuel cell system",
     "kind": "distribution",
-    "loc": 160.0,
-    "maximum": 270.0,
-    "minimum": 125.0,
+    "loc": 160,
+    "maximum": 270,
+    "minimum": 125,
     "name": "fuel cell cost per kW",
     "powertrain": [
       "FCEV"
@@ -6076,13 +6076,13 @@
     "year": 2017
   },
   "345-2040-fuel cell cost per kW": {
-    "amount": 60.0,
+    "amount": 60,
     "category": "Costs",
     "comment": "considers whole fuel cell system",
     "kind": "distribution",
-    "loc": 60.0,
-    "maximum": 135.0,
-    "minimum": 25.0,
+    "loc": 60,
+    "maximum": 135,
+    "minimum": 25,
     "name": "fuel cell cost per kW",
     "powertrain": [
       "FCEV"
@@ -6102,13 +6102,13 @@
     "year": 2040
   },
   "346-2017-power battery cost per kW": {
-    "amount": 50.0,
+    "amount": 50,
     "category": "Costs",
     "comment": "considers whole battery system",
     "kind": "distribution",
-    "loc": 50.0,
-    "maximum": 60.0,
-    "minimum": 45.0,
+    "loc": 50,
+    "maximum": 60,
+    "minimum": 45,
     "name": "power battery cost per kW",
     "powertrain": [
       "BEV",
@@ -6137,13 +6137,13 @@
     "year": 2017
   },
   "347-2040-power battery cost per kW": {
-    "amount": 25.0,
+    "amount": 25,
     "category": "Costs",
     "comment": "considers whole battery system",
     "kind": "distribution",
-    "loc": 25.0,
-    "maximum": 36.0,
-    "minimum": 18.0,
+    "loc": 25,
+    "maximum": 36,
+    "minimum": 18,
     "name": "power battery cost per kW",
     "powertrain": [
       "BEV",
@@ -6172,12 +6172,12 @@
     "year": 2040
   },
   "348-2017-electric powertrain cost per kW": {
-    "amount": 22.0,
+    "amount": 22,
     "category": "Costs",
     "kind": "distribution",
-    "loc": 22.0,
-    "maximum": 36.0,
-    "minimum": 13.0,
+    "loc": 22,
+    "maximum": 36,
+    "minimum": 13,
     "name": "electric powertrain cost per kW",
     "powertrain": [
       "BEV"
@@ -6197,12 +6197,12 @@
     "year": 2017
   },
   "349-2040-electric powertrain cost per kW": {
-    "amount": 18.0,
+    "amount": 18,
     "category": "Costs",
     "kind": "distribution",
-    "loc": 18.0,
-    "maximum": 36.0,
-    "minimum": 13.0,
+    "loc": 18,
+    "maximum": 36,
+    "minimum": 13,
     "name": "electric powertrain cost per kW",
     "powertrain": [
       "BEV"
@@ -6250,12 +6250,12 @@
     "year": 2040
   },
   "350-2017-electric powertrain cost per kW": {
-    "amount": 33.0,
+    "amount": 33,
     "category": "Costs",
     "comment": "Assume 50% higher cost than pure electric powertrain due to increased complexity of interfacing with ICE or fuel cell",
     "kind": "distribution",
-    "loc": 33.0,
-    "maximum": 54.0,
+    "loc": 33,
+    "maximum": 54,
     "minimum": 19.5,
     "name": "electric powertrain cost per kW",
     "powertrain": [
@@ -6281,12 +6281,12 @@
     "year": 2017
   },
   "351-2040-electric powertrain cost per kW": {
-    "amount": 27.0,
+    "amount": 27,
     "category": "Costs",
     "comment": "Assume 50% higher cost than pure electric powertrain due to increased complexity of interfacing with ICE or fuel cell",
     "kind": "distribution",
-    "loc": 27.0,
-    "maximum": 54.0,
+    "loc": 27,
+    "maximum": 54,
     "minimum": 19.5,
     "name": "electric powertrain cost per kW",
     "powertrain": [
@@ -6312,12 +6312,12 @@
     "year": 2040
   },
   "352-2017-electric powertrain cost per kW": {
-    "amount": 45.0,
+    "amount": 45,
     "category": "Costs",
     "comment": "Assumed to be double the cost per kW because system is much smaller.",
     "kind": "distribution",
-    "loc": 45.0,
-    "maximum": 90.0,
+    "loc": 45,
+    "maximum": 90,
     "minimum": 22.5,
     "name": "electric powertrain cost per kW",
     "powertrain": [
@@ -6340,12 +6340,12 @@
     "year": 2017
   },
   "352-2040-electric powertrain cost per kW": {
-    "amount": 36.0,
+    "amount": 36,
     "category": "Costs",
     "comment": "Assumed to be double the cost per kW because system is much smaller.",
     "kind": "distribution",
-    "loc": 36.0,
-    "maximum": 68.0,
+    "loc": 36,
+    "maximum": 68,
     "minimum": 18,
     "name": "electric powertrain cost per kW",
     "powertrain": [
@@ -6368,12 +6368,12 @@
     "year": 2040
   },
   "353-2017-combustion powertrain cost per kW": {
-    "amount": 27.0,
+    "amount": 27,
     "category": "Costs",
     "kind": "distribution",
-    "loc": 27.0,
-    "maximum": 110.0,
-    "minimum": 18.0,
+    "loc": 27,
+    "maximum": 110,
+    "minimum": 18,
     "name": "combustion powertrain cost per kW",
     "powertrain": [
       "ICEV-p"
@@ -6393,12 +6393,12 @@
     "year": 2017
   },
   "354-2040-combustion powertrain cost per kW": {
-    "amount": 27.0,
+    "amount": 27,
     "category": "Costs",
     "kind": "distribution",
-    "loc": 27.0,
-    "maximum": 110.0,
-    "minimum": 18.0,
+    "loc": 27,
+    "maximum": 110,
+    "minimum": 18,
     "name": "combustion powertrain cost per kW",
     "powertrain": [
       "ICEV-p"
@@ -6423,8 +6423,8 @@
     "comment": "Assume 50% higher cost than combustion powertrain due to increased complexity of interfacing with electric motor",
     "kind": "distribution",
     "loc": 40.5,
-    "maximum": 110.0,
-    "minimum": 27.0,
+    "maximum": 110,
+    "minimum": 27,
     "name": "combustion powertrain cost per kW",
     "powertrain": [
       "PHEV-e",
@@ -6453,8 +6453,8 @@
     "comment": "Assume 50% higher cost than combustion powertrain due to increased complexity of interfacing with electric motor",
     "kind": "distribution",
     "loc": 40.5,
-    "maximum": 110.0,
-    "minimum": 27.0,
+    "maximum": 110,
+    "minimum": 27,
     "name": "combustion powertrain cost per kW",
     "powertrain": [
       "PHEV-e",
@@ -6478,12 +6478,12 @@
     "year": 2040
   },
   "357-2017-combustion powertrain cost per kW": {
-    "amount": 54.0,
+    "amount": 54,
     "category": "Costs",
     "kind": "distribution",
-    "loc": 54.0,
-    "maximum": 110.0,
-    "minimum": 36.0,
+    "loc": 54,
+    "maximum": 110,
+    "minimum": 36,
     "name": "combustion powertrain cost per kW",
     "powertrain": [
       "ICEV-g"
@@ -6503,12 +6503,12 @@
     "year": 2017
   },
   "358-2040-combustion powertrain cost per kW": {
-    "amount": 27.0,
+    "amount": 27,
     "category": "Costs",
     "kind": "distribution",
-    "loc": 27.0,
-    "maximum": 110.0,
-    "minimum": 18.0,
+    "loc": 27,
+    "maximum": 110,
+    "minimum": 18,
     "name": "combustion powertrain cost per kW",
     "powertrain": [
       "ICEV-g"
@@ -6528,12 +6528,12 @@
     "year": 2040
   },
   "359-2017-combustion powertrain cost per kW": {
-    "amount": 54.0,
+    "amount": 54,
     "category": "Costs",
     "kind": "distribution",
-    "loc": 54.0,
-    "maximum": 160.0,
-    "minimum": 36.0,
+    "loc": 54,
+    "maximum": 160,
+    "minimum": 36,
     "name": "combustion powertrain cost per kW",
     "powertrain": [
       "ICEV-d"
@@ -6581,12 +6581,12 @@
     "year": 2017
   },
   "360-2040-combustion powertrain cost per kW": {
-    "amount": 54.0,
+    "amount": 54,
     "category": "Costs",
     "kind": "distribution",
-    "loc": 54.0,
-    "maximum": 160.0,
-    "minimum": 36.0,
+    "loc": 54,
+    "maximum": 160,
+    "minimum": 36,
     "name": "combustion powertrain cost per kW",
     "powertrain": [
       "ICEV-d"
@@ -6606,13 +6606,13 @@
     "year": 2040
   },
   "361-2017-combustion exhaust treatment cost": {
-    "amount": 650.0,
+    "amount": 650,
     "category": "Costs",
     "comment": "applies to all vehicles with a combustion engine regardless of type and size",
     "kind": "distribution",
-    "loc": 650.0,
-    "maximum": 900.0,
-    "minimum": 450.0,
+    "loc": 650,
+    "maximum": 900,
+    "minimum": 450,
     "name": "combustion exhaust treatment cost",
     "powertrain": [
       "PHEV-e",
@@ -6639,13 +6639,13 @@
     "year": 2017
   },
   "362-2040-combustion exhaust treatment cost": {
-    "amount": 650.0,
+    "amount": 650,
     "category": "Costs",
     "comment": "applies to all vehicles with a combustion engine regardless of type and size",
     "kind": "distribution",
-    "loc": 650.0,
-    "maximum": 900.0,
-    "minimum": 450.0,
+    "loc": 650,
+    "maximum": 900,
+    "minimum": 450,
     "name": "combustion exhaust treatment cost",
     "powertrain": [
       "PHEV-e",
@@ -6672,13 +6672,13 @@
     "year": 2040
   },
   "363-2017-heat pump cost": {
-    "amount": 300.0,
+    "amount": 300,
     "category": "Costs",
     "comment": "only for pure BEV - this is for heating only. Cooling system included in glider cost",
     "kind": "distribution",
-    "loc": 300.0,
-    "maximum": 450.0,
-    "minimum": 200.0,
+    "loc": 300,
+    "maximum": 450,
+    "minimum": 200,
     "name": "heat pump cost",
     "powertrain": [
       "BEV"
@@ -6698,13 +6698,13 @@
     "year": 2017
   },
   "364-2040-heat pump cost": {
-    "amount": 300.0,
+    "amount": 300,
     "category": "Costs",
     "comment": "only for pure BEV - this is for heating only. Cooling system included in glider cost",
     "kind": "distribution",
-    "loc": 300.0,
-    "maximum": 450.0,
-    "minimum": 200.0,
+    "loc": 300,
+    "maximum": 450,
+    "minimum": 200,
     "name": "heat pump cost",
     "powertrain": [
       "BEV"
@@ -6724,13 +6724,13 @@
     "year": 2040
   },
   "365-2017-energy storage battery cost per kWh": {
-    "amount": 225.0,
+    "amount": 225,
     "category": "Costs",
     "comment": "considers whole battery system except charging system",
     "kind": "distribution",
-    "loc": 225.0,
-    "maximum": 270.0,
-    "minimum": 180.0,
+    "loc": 225,
+    "maximum": 270,
+    "minimum": 180,
     "name": "energy battery cost per kWh",
     "powertrain": [
       "BEV",
@@ -6753,13 +6753,13 @@
     "year": 2017
   },
   "366-2040-energy storage battery cost per kWh": {
-    "amount": 90.0,
+    "amount": 90,
     "category": "Costs",
     "comment": "considers whole battery system except charging system",
     "kind": "distribution",
-    "loc": 90.0,
-    "maximum": 180.0,
-    "minimum": 60.0,
+    "loc": 90,
+    "maximum": 180,
+    "minimum": 60,
     "name": "energy battery cost per kWh",
     "powertrain": [
       "BEV",
@@ -6782,13 +6782,13 @@
     "year": 2040
   },
   "367-2017-battery onboard charging infrastructure cost": {
-    "amount": 180.0,
+    "amount": 180,
     "category": "Costs",
     "comment": "considers onboard system",
     "kind": "distribution",
-    "loc": 180.0,
-    "maximum": 270.0,
-    "minimum": 90.0,
+    "loc": 180,
+    "maximum": 270,
+    "minimum": 90,
     "name": "battery onboard charging infrastructure cost",
     "powertrain": [
       "BEV",
@@ -6811,13 +6811,13 @@
     "year": 2017
   },
   "368-2040-battery onboard charging infrastructure cost": {
-    "amount": 135.0,
+    "amount": 135,
     "category": "Costs",
     "comment": "considers onboard system",
     "kind": "distribution",
-    "loc": 135.0,
-    "maximum": 180.0,
-    "minimum": 90.0,
+    "loc": 135,
+    "maximum": 180,
+    "minimum": 90,
     "name": "battery onboard charging infrastructure cost",
     "powertrain": [
       "BEV",
@@ -6840,13 +6840,13 @@
     "year": 2040
   },
   "369-2017-fuel tank cost per kg": {
-    "amount": 800.0,
+    "amount": 800,
     "category": "Costs",
     "comment": "considers whole hydrogen storage system 700 bar",
     "kind": "distribution",
-    "loc": 800.0,
-    "maximum": 1100.0,
-    "minimum": 600.0,
+    "loc": 800,
+    "maximum": 1100,
+    "minimum": 600,
     "name": "fuel tank cost per kg",
     "powertrain": [
       "FCEV"
@@ -6894,13 +6894,13 @@
     "year": 2040
   },
   "370-2040-fuel tank cost per kg": {
-    "amount": 450.0,
+    "amount": 450,
     "category": "Costs",
     "comment": "considers whole hydrogen storage system 700 bar",
     "kind": "distribution",
-    "loc": 450.0,
-    "maximum": 800.0,
-    "minimum": 350.0,
+    "loc": 450,
+    "maximum": 800,
+    "minimum": 350,
     "name": "fuel tank cost per kg",
     "powertrain": [
       "FCEV"
@@ -6982,12 +6982,12 @@
     "year": 2040
   },
   "373-2017-fuel tank cost per kg": {
-    "amount": 8.0,
+    "amount": 8,
     "category": "Costs",
     "kind": "distribution",
-    "loc": 8.0,
-    "maximum": 9.0,
-    "minimum": 5.0,
+    "loc": 8,
+    "maximum": 9,
+    "minimum": 5,
     "name": "fuel tank cost per kg",
     "powertrain": [
       "ICEV-g"
@@ -7007,12 +7007,12 @@
     "year": 2017
   },
   "374-2040-fuel tank cost per kg": {
-    "amount": 8.0,
+    "amount": 8,
     "category": "Costs",
     "kind": "distribution",
-    "loc": 8.0,
-    "maximum": 9.0,
-    "minimum": 5.0,
+    "loc": 8,
+    "maximum": 9,
+    "minimum": 5,
     "name": "fuel tank cost per kg",
     "powertrain": [
       "ICEV-g"
@@ -7171,7 +7171,7 @@
     "kind": "distribution",
     "loc": 2.2,
     "maximum": 2.4,
-    "minimum": 2.0,
+    "minimum": 2,
     "name": "frontal area",
     "powertrain": [
       "BEV",
@@ -7335,7 +7335,7 @@
     "kind": "distribution",
     "loc": 2.2,
     "maximum": 2.4,
-    "minimum": 2.0,
+    "minimum": 2,
     "name": "frontal area",
     "powertrain": [
       "BEV",
@@ -7358,12 +7358,12 @@
     "year": 2040
   },
   "4-2017-glider base mass": {
-    "amount": 780.0,
+    "amount": 780,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 780.0,
-    "maximum": 900.0,
-    "minimum": 650.0,
+    "loc": 780,
+    "maximum": 900,
+    "minimum": 650,
     "name": "glider base mass",
     "powertrain": [
       "BEV",
@@ -7666,12 +7666,12 @@
     "year": 2040
   },
   "5-2040-glider base mass": {
-    "amount": 780.0,
+    "amount": 780,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 780.0,
-    "maximum": 900.0,
-    "minimum": 650.0,
+    "loc": 780,
+    "maximum": 900,
+    "minimum": 650,
     "name": "glider base mass",
     "powertrain": [
       "BEV",
@@ -7940,8 +7940,8 @@
     "category": "Glider",
     "kind": "distribution",
     "loc": 1.8,
-    "maximum": 4.0,
-    "minimum": 1.0,
+    "maximum": 4,
+    "minimum": 1,
     "name": "average passengers",
     "powertrain": [
       "BEV",
@@ -7974,8 +7974,8 @@
     "category": "Glider",
     "kind": "distribution",
     "loc": 1.8,
-    "maximum": 4.0,
-    "minimum": 1.0,
+    "maximum": 4,
+    "minimum": 1,
     "name": "average passengers",
     "powertrain": [
       "BEV",
@@ -8004,12 +8004,12 @@
     "year": 2040
   },
   "6-2017-glider base mass": {
-    "amount": 950.0,
+    "amount": 950,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 950.0,
-    "maximum": 1100.0,
-    "minimum": 750.0,
+    "loc": 950,
+    "maximum": 1100,
+    "minimum": 750,
     "name": "glider base mass",
     "powertrain": [
       "BEV",
@@ -8032,12 +8032,12 @@
     "year": 2017
   },
   "60-2017-average passenger mass": {
-    "amount": 75.0,
+    "amount": 75,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 75.0,
-    "maximum": 90.0,
-    "minimum": 60.0,
+    "loc": 75,
+    "maximum": 90,
+    "minimum": 60,
     "name": "average passenger mass",
     "powertrain": [
       "BEV",
@@ -8066,12 +8066,12 @@
     "year": 2017
   },
   "61-2040-average passenger mass": {
-    "amount": 75.0,
+    "amount": 75,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 75.0,
-    "maximum": 90.0,
-    "minimum": 60.0,
+    "loc": 75,
+    "maximum": 90,
+    "minimum": 60,
     "name": "average passenger mass",
     "powertrain": [
       "BEV",
@@ -8100,12 +8100,12 @@
     "year": 2040
   },
   "62-2017-cargo mass": {
-    "amount": 20.0,
+    "amount": 20,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 20.0,
-    "maximum": 250.0,
-    "minimum": 0.0,
+    "loc": 20,
+    "maximum": 250,
+    "minimum": 0,
     "name": "cargo mass",
     "powertrain": [
       "BEV",
@@ -8134,12 +8134,12 @@
     "year": 2017
   },
   "63-2040-cargo mass": {
-    "amount": 20.0,
+    "amount": 20,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 20.0,
-    "maximum": 250.0,
-    "minimum": 0.0,
+    "loc": 20,
+    "maximum": 250,
+    "minimum": 0,
     "name": "cargo mass",
     "powertrain": [
       "BEV",
@@ -8332,12 +8332,12 @@
     "year": 2040
   },
   "7-2040-glider base mass": {
-    "amount": 950.0,
+    "amount": 950,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 950.0,
-    "maximum": 1100.0,
-    "minimum": 750.0,
+    "loc": 950,
+    "maximum": 1100,
+    "minimum": 750,
     "name": "glider base mass",
     "powertrain": [
       "BEV",
@@ -8620,12 +8620,12 @@
     "year": 2040
   },
   "8-2017-glider base mass": {
-    "amount": 1150.0,
+    "amount": 1150,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1150.0,
-    "maximum": 1350.0,
-    "minimum": 950.0,
+    "loc": 1150,
+    "maximum": 1350,
+    "minimum": 950,
     "name": "glider base mass",
     "powertrain": [
       "BEV",
@@ -8698,12 +8698,12 @@
     "year": 2040
   },
   "82-2017-fuel cell power area density": {
-    "amount": 900.0,
+    "amount": 900,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 900.0,
-    "maximum": 1100.0,
-    "minimum": 700.0,
+    "loc": 900,
+    "maximum": 1100,
+    "minimum": 700,
     "name": "fuel cell power area density",
     "powertrain": [
       "FCEV"
@@ -8723,12 +8723,12 @@
     "year": 2017
   },
   "83-2040-fuel cell power area density": {
-    "amount": 1000.0,
+    "amount": 1000,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 1000.0,
-    "maximum": 1200.0,
-    "minimum": 800.0,
+    "loc": 1000,
+    "maximum": 1200,
+    "minimum": 800,
     "name": "fuel cell power area density",
     "powertrain": [
       "FCEV"
@@ -8798,10 +8798,10 @@
     "year": 2040
   },
   "86-2017-fuel cell essential BoP mass per power": {
-    "amount": 1.0,
+    "amount": 1,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 1.0,
+    "loc": 1,
     "maximum": 1.3,
     "minimum": 0.7,
     "name": "fuel cell essential BoP mass per power",
@@ -8827,7 +8827,7 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 0.7,
-    "maximum": 1.0,
+    "maximum": 1,
     "minimum": 0.5,
     "name": "fuel cell essential BoP mass per power",
     "powertrain": [
@@ -8898,12 +8898,12 @@
     "year": 2040
   },
   "9-2040-glider base mass": {
-    "amount": 1150.0,
+    "amount": 1150,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1150.0,
-    "maximum": 1350.0,
-    "minimum": 950.0,
+    "loc": 1150,
+    "maximum": 1350,
+    "minimum": 950,
     "name": "glider base mass",
     "powertrain": [
       "BEV",
@@ -8930,8 +8930,8 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 4.5,
-    "maximum": 6.0,
-    "minimum": 4.0,
+    "maximum": 6,
+    "minimum": 4,
     "name": "converter mass",
     "powertrain": [
       "BEV",
@@ -8959,7 +8959,7 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 4.2749999999999995,
-    "maximum": 6.0,
+    "maximum": 6,
     "minimum": 3.6,
     "name": "converter mass",
     "powertrain": [
@@ -8984,12 +8984,12 @@
     "year": 2040
   },
   "92-2017-inverter mass": {
-    "amount": 9.0,
+    "amount": 9,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 9.0,
-    "maximum": 10.0,
-    "minimum": 8.0,
+    "loc": 9,
+    "maximum": 10,
+    "minimum": 8,
     "name": "inverter mass",
     "powertrain": [
       "BEV",
@@ -9019,7 +9019,7 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 8.549999999999999,
-    "maximum": 10.0,
+    "maximum": 10,
     "minimum": 7.2,
     "name": "inverter mass",
     "powertrain": [
@@ -9046,12 +9046,12 @@
     "year": 2040
   },
   "94-2017-charger mass": {
-    "amount": 6.0,
+    "amount": 6,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 6.0,
-    "maximum": 7.0,
-    "minimum": 4.0,
+    "loc": 6,
+    "maximum": 7,
+    "minimum": 4,
     "name": "charger mass",
     "powertrain": [
       "BEV",
@@ -9078,7 +9078,7 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 5.699999999999999,
-    "maximum": 7.0,
+    "maximum": 7,
     "minimum": 3.6,
     "name": "charger mass",
     "powertrain": [
@@ -9102,12 +9102,12 @@
     "year": 2040
   },
   "96-2017-power distribution unit mass": {
-    "amount": 4.0,
+    "amount": 4,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 4.0,
-    "maximum": 5.0,
-    "minimum": 3.0,
+    "loc": 4,
+    "maximum": 5,
+    "minimum": 3,
     "name": "power distribution unit mass",
     "powertrain": [
       "BEV",
@@ -9137,7 +9137,7 @@
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 3.8,
-    "maximum": 5.0,
+    "maximum": 5,
     "minimum": 2.7,
     "name": "power distribution unit mass",
     "powertrain": [
@@ -9434,10 +9434,10 @@
     "year": 2040
   },
   "108-2017-emission_factor": {
-    "amount": 1.0,
+    "amount": 1,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 1.0,
+    "loc": 1,
     "minimum": 0.7,
     "maximum": 1.43,
     "name": "emission factor",
@@ -9470,10 +9470,10 @@
     "year": 2017
   },
   "108-2040-emission_factor": {
-    "amount": 1.0,
+    "amount": 1,
     "category": "Powertrain",
     "kind": "distribution",
-    "loc": 1.0,
+    "loc": 1,
     "minimum": 0.7,
     "maximum": 1.43,
     "name": "emission factor",
@@ -9504,5 +9504,4845 @@
     "uncertainty_type": 5,
     "unit": "unitless",
     "year": 2040
+  },
+  "0-2010-lifetime kilometers": {
+    "amount": 200000,
+    "category": "Driving",
+    "comment": "Typical values, higher bound expected to increase in the future due to increases in car sharing",
+    "kind": "distribution",
+    "loc": 200000,
+    "maximum": 300000,
+    "minimum": 80000,
+    "name": "lifetime kilometers",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e",
+      "PHEV-p",
+      "PHEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Weymar et al. (2016), Biedermann et al (2017)",
+    "uncertainty_type": 5,
+    "unit": "km",
+    "year": 2010
+  },
+  "10-2010-glider base mass-ICEV-g": {
+    "amount": 1250,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1250,
+    "maximum": 1500,
+    "minimum": 900,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "source": "Calibration against car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "10-2010-glider base mass": {
+    "amount": 1350,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1350,
+    "maximum": 1500,
+    "minimum": 900,
+    "name": "glider base mass",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "101-2010-electric fixed mass": {
+    "amount": 20,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 20,
+    "maximum": 25,
+    "minimum": 15,
+    "name": "electric fixed mass",
+    "powertrain": [
+      "BEV",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e",
+      "FCEV",
+      "HEV-p",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "104-2010-combustion mass per power": {
+    "amount": 0.7,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.7,
+    "maximum": 0.8,
+    "minimum": 0.6,
+    "name": "combustion mass per power",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-g",
+      "HEV-p",
+      "PHEV-c-p",
+      "PHEV-e",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kW",
+    "year": 2010
+  },
+  "106-2010-combustion mass per power": {
+    "amount": 0.8,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.8,
+    "maximum": 0.9,
+    "minimum": 0.7,
+    "name": "combustion mass per power",
+    "powertrain": [
+      "ICEV-d",
+      "PHEV-c-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kW",
+    "year": 2010
+  },
+  "108-2010-combustion fixed mass": {
+    "amount": 60,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 60,
+    "maximum": 70,
+    "minimum": 50,
+    "name": "combustion fixed mass",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-g",
+      "HEV-p",
+      "PHEV-c-p",
+      "PHEV-e",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "110-2010-combustion fixed mass": {
+    "amount": 69,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 69,
+    "maximum": 79,
+    "minimum": 59,
+    "name": "combustion fixed mass",
+    "powertrain": [
+      "ICEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "112-2010-powertrain mass per power": {
+    "amount": 0.4,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.4,
+    "maximum": 0.45,
+    "minimum": 0.35,
+    "name": "powertrain mass per power",
+    "powertrain": [
+      "BEV",
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kW",
+    "year": 2010
+  },
+  "114-2010-powertrain mass per power": {
+    "amount": 0.55,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.55,
+    "maximum": 0.6,
+    "minimum": 0.5,
+    "name": "powertrain mass per power",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g",
+      "HEV-p",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kW",
+    "year": 2010
+  },
+  "116-2010-powertrain mass per power": {
+    "amount": 0.8250000000000001,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.8250000000000001,
+    "maximum": 0.8999999999999999,
+    "minimum": 0.75,
+    "name": "powertrain mass per power",
+    "powertrain": [
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kW",
+    "year": 2010
+  },
+  "118-2010-powertrain fixed mass": {
+    "amount": 35,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 35,
+    "maximum": 40,
+    "minimum": 30,
+    "name": "powertrain fixed mass",
+    "powertrain": [
+      "BEV",
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "12-2010-glider base mass": {
+    "amount": 1600,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1500,
+    "maximum": 2300,
+    "minimum": 1000,
+    "name": "glider base mass",
+    "powertrain": [
+      "FCEV",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "12-2010-glider base mass-ICEV-d": {
+    "amount": 1750,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1450,
+    "maximum": 2300,
+    "minimum": 1000,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-d"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Calibration against car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "12-2010-glider base mass-BEV": {
+    "amount": 1500,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1500,
+    "maximum": 2300,
+    "minimum": 1500,
+    "name": "glider base mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "12-2010-glider base mass-HEVp": {
+    "amount": 1750,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1700,
+    "maximum": 2000,
+    "minimum": 1400,
+    "name": "glider base mass",
+    "powertrain": [
+      "HEV-p",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Calibration against car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "12-2010-glider base mass-ICEVg": {
+    "amount": 1600,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1600,
+    "maximum": 1800,
+    "minimum": 1200,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "120-2010-powertrain fixed mass": {
+    "amount": 82.5,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 82.5,
+    "maximum": 97.5,
+    "minimum": 67.5,
+    "name": "powertrain fixed mass",
+    "powertrain": [
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "122-2010-powertrain fixed mass": {
+    "amount": 55,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 55,
+    "maximum": 65,
+    "minimum": 45,
+    "name": "powertrain fixed mass",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g",
+      "HEV-p",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "124-2010-combustion power share": {
+    "amount": 0.75,
+    "category": "Powertrain",
+    "comment": "Share of total vehicle power provided by combustion (versus battery)",
+    "kind": "distribution",
+    "loc": 0.75,
+    "maximum": 0.9,
+    "minimum": 0.6,
+    "name": "combustion power share",
+    "powertrain": [
+      "HEV-p",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "126-2010-combustion power share": {
+    "amount": 1,
+    "category": "Powertrain",
+    "comment": "Share of total vehicle power provided by combustion (versus battery)",
+    "kind": "distribution",
+    "loc": 1,
+    "name": "combustion power share",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 1,
+    "unit": null,
+    "year": 2010
+  },
+  "128-2010-combustion power share": {
+    "amount": 0.4,
+    "category": "Powertrain",
+    "comment": "Share of total vehicle power provided by combustion (versus battery)",
+    "kind": "distribution",
+    "loc": 0.4,
+    "maximum": 0.5,
+    "minimum": 0.35,
+    "name": "combustion power share",
+    "powertrain": [
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "130-2010-fuel cell power share": {
+    "amount": 0.75,
+    "category": "Powertrain",
+    "comment": "Share of total vehicle power provided by fuel cell (versus battery)",
+    "kind": "distribution",
+    "loc": 0.75,
+    "maximum": 0.9,
+    "minimum": 0.6,
+    "name": "fuel cell power share",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "132-2010-auxilliary power base demand": {
+    "amount": 93.75,
+    "category": "Auxiliaries",
+    "comment": "average power demand (mechanical)",
+    "kind": "distribution",
+    "loc": 93.75,
+    "maximum": 125,
+    "minimum": 62.5,
+    "name": "auxilliary power base demand",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "134-2010-auxilliary power base demand": {
+    "amount": 75,
+    "category": "Auxiliaries",
+    "comment": "average power demand (electrical)",
+    "kind": "distribution",
+    "loc": 75,
+    "maximum": 100,
+    "minimum": 50,
+    "name": "auxilliary power base demand",
+    "powertrain": [
+      "BEV",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e",
+      "FCEV",
+      "HEV-p",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "136-2010-heating thermal demand": {
+    "amount": 200,
+    "category": "Auxiliaries",
+    "comment": "annual average heat demand (thermal)",
+    "kind": "distribution",
+    "loc": 200,
+    "maximum": 300,
+    "minimum": 100,
+    "name": "heating thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Mini"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "138-2010-heating thermal demand": {
+    "amount": 250,
+    "category": "Auxiliaries",
+    "kind": "distribution",
+    "loc": 250,
+    "maximum": 350,
+    "minimum": 150,
+    "name": "heating thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "14-2010-glider base mass-ICEV-d": {
+    "amount": 1450,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1450,
+    "maximum": 1900,
+    "minimum": 1100,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-d"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Calibration against car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+
+  "14-2010-glider base mass-ICEV-g": {
+    "amount": 1150,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1150,
+    "maximum": 1500,
+    "minimum": 1000,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Calibration against car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "14-2010-glider base mass": {
+    "amount": 1350,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1350,
+    "maximum": 1900,
+    "minimum": 1100,
+    "name": "glider base mass",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "14-2010-glider base mass-HEVp": {
+    "amount": 1450,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1450,
+    "maximum": 1900,
+    "minimum": 1100,
+    "name": "glider base mass",
+    "powertrain": [
+      "HEV-p",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "14-2010-glider base mass-ICEVp": {
+    "amount": 1300,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1300,
+    "maximum": 1900,
+    "minimum": 1100,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-p"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Calibration against car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "140-2010-heating thermal demand": {
+    "amount": 300,
+    "category": "Auxiliaries",
+    "kind": "distribution",
+    "loc": 300,
+    "maximum": 400,
+    "minimum": 200,
+    "name": "heating thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Lower medium"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "142-2010-heating thermal demand": {
+    "amount": 320,
+    "category": "Auxiliaries",
+    "kind": "distribution",
+    "loc": 320,
+    "maximum": 420,
+    "minimum": 220,
+    "name": "heating thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "144-2010-heating thermal demand": {
+    "amount": 350,
+    "category": "Auxiliaries",
+    "kind": "distribution",
+    "loc": 350,
+    "maximum": 450,
+    "minimum": 250,
+    "name": "heating thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "146-2010-heating thermal demand": {
+    "amount": 350,
+    "category": "Auxiliaries",
+    "kind": "distribution",
+    "loc": 350,
+    "maximum": 450,
+    "minimum": 250,
+    "name": "heating thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "148-2010-heating thermal demand": {
+    "amount": 350,
+    "category": "Auxiliaries",
+    "kind": "distribution",
+    "loc": 350,
+    "maximum": 450,
+    "minimum": 250,
+    "name": "heating thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "150-2010-cooling thermal demand": {
+    "amount": 200,
+    "category": "Auxiliaries",
+    "comment": "annual average A/C demand (thermal)",
+    "kind": "distribution",
+    "loc": 200,
+    "maximum": 300,
+    "minimum": 100,
+    "name": "cooling thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Mini"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "152-2010-cooling thermal demand": {
+    "amount": 250,
+    "category": "Auxiliaries",
+    "kind": "distribution",
+    "loc": 250,
+    "maximum": 350,
+    "minimum": 150,
+    "name": "cooling thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "154-2010-cooling thermal demand": {
+    "amount": 300,
+    "category": "Auxiliaries",
+    "kind": "distribution",
+    "loc": 300,
+    "maximum": 400,
+    "minimum": 200,
+    "name": "cooling thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Lower medium"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "156-2010-cooling thermal demand": {
+    "amount": 320,
+    "category": "Auxiliaries",
+    "kind": "distribution",
+    "loc": 320,
+    "maximum": 420,
+    "minimum": 220,
+    "name": "cooling thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "158-2010-cooling thermal demand": {
+    "amount": 350,
+    "category": "Auxiliaries",
+    "kind": "distribution",
+    "loc": 350,
+    "maximum": 450,
+    "minimum": 250,
+    "name": "cooling thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "16-2010-glider base mass": {
+    "amount": 1650,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1650,
+    "maximum": 2000,
+    "minimum": 1500,
+    "name": "glider base mass",
+    "powertrain": [
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "16-2010-glider base mass-ICEV-d": {
+    "amount": 1550,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1550,
+    "maximum": 1700,
+    "minimum": 1400,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-d"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Calibration against car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "16-2010-glider base mass-BEV": {
+    "amount": 1650,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1650,
+    "maximum": 1900,
+    "minimum": 1500,
+    "name": "glider base mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "16-2010-glider base mass-FCEV-ICEVp": {
+    "amount": 1500,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1500,
+    "maximum": 1800,
+    "minimum": 1300,
+    "name": "glider base mass",
+    "powertrain": [
+      "FCEV",
+      "ICEV-p"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Calibration against car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "16-2010-glider base mass-ICEVg": {
+    "amount": 1700,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1700,
+    "maximum": 2000,
+    "minimum": 1500,
+    "name": "glider base mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Calibration against car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "160-2010-cooling thermal demand": {
+    "amount": 350,
+    "category": "Auxiliaries",
+    "kind": "distribution",
+    "loc": 350,
+    "maximum": 450,
+    "minimum": 250,
+    "name": "cooling thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "162-2010-cooling thermal demand": {
+    "amount": 350,
+    "category": "Auxiliaries",
+    "kind": "distribution",
+    "loc": 350,
+    "maximum": 450,
+    "minimum": 250,
+    "name": "cooling thermal demand",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W",
+    "year": 2010
+  },
+  "164-2010-heating energy consumption": {
+    "amount": 0,
+    "category": "Auxiliaries",
+    "comment": "mechanical load per thermal load",
+    "kind": "distribution",
+    "loc": 0,
+    "name": "heating energy consumption",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "PHEV-c-p",
+      "PHEV-c-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Own assumption",
+    "uncertainty_type": 1,
+    "unit": "W/W",
+    "year": 2010
+  },
+  "166-2010-heating energy consumption": {
+    "amount": 1,
+    "category": "Auxiliaries",
+    "comment": "electrical load per thermal load",
+    "kind": "distribution",
+    "loc": 1,
+    "name": "heating energy consumption",
+    "powertrain": [
+      "BEV",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Own assumption",
+    "uncertainty_type": 1,
+    "unit": "W/W",
+    "year": 2010
+  },
+  "168-2010-cooling energy consumption": {
+    "amount": 1,
+    "category": "Auxiliaries",
+    "comment": "mechanical load per thermal load",
+    "kind": "distribution",
+    "loc": 1,
+    "maximum": 1.2,
+    "minimum": 0.8,
+    "name": "cooling energy consumption",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Own assumption",
+    "uncertainty_type": 5,
+    "unit": "W/W",
+    "year": 2010
+  },
+  "170-2010-energy battery mass": {
+    "amount": 150,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 150,
+    "maximum": 250,
+    "minimum": 100,
+    "name": "energy battery mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Mini"
+    ],
+    "source": "Konecky, Anderman (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "172-2010-energy battery mass": {
+    "amount": 250,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 250,
+    "maximum": 350,
+    "minimum": 150,
+    "name": "energy battery mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "source": "Konecky, Anderman (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "174-2010-energy battery mass": {
+    "amount": 300,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 300,
+    "maximum": 450,
+    "minimum": 200,
+    "name": "energy battery mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Lower medium"
+    ],
+    "source": "Konecky, Anderman (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "176-2010-energy battery mass": {
+    "amount": 400,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 400,
+    "maximum": 600,
+    "minimum": 200,
+    "name": "energy battery mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "source": "Konecky, Anderman (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "178-2010-energy battery mass": {
+    "amount": 450,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 450,
+    "maximum": 700,
+    "minimum": 300,
+    "name": "energy battery mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Konecky, Anderman (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "18-2010-lightweighting": {
+    "amount": 0.05,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.05,
+    "maximum": 0.15,
+    "minimum": 0,
+    "name": "lightweighting",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Mini"
+    ],
+    "source": "Geyer (2017), Hirschberg et al. (2016)",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "180-2010-energy battery mass": {
+    "amount": 400,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 400,
+    "maximum": 600,
+    "minimum": 300,
+    "name": "energy battery mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Van",
+      "SUV"
+    ],
+    "source": "Konecky, Anderman (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "182-2010-energy battery mass": {
+    "amount": 60,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 60,
+    "maximum": 120,
+    "minimum": 40,
+    "name": "energy battery mass",
+    "powertrain": [
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Mini"
+    ],
+    "source": "Konecky, Anderman (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "184-2010-energy battery mass": {
+    "amount": 60,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 60,
+    "maximum": 120,
+    "minimum": 40,
+    "name": "energy battery mass",
+    "powertrain": [
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "source": "Konecky, Anderman (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "186-2010-energy battery mass": {
+    "amount": 60,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 60,
+    "maximum": 150,
+    "minimum": 40,
+    "name": "energy battery mass",
+    "powertrain": [
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Lower medium"
+    ],
+    "source": "Konecky, Anderman (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "188-2010-energy battery mass": {
+    "amount": 80,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 80,
+    "maximum": 150,
+    "minimum": 50,
+    "name": "energy battery mass",
+    "powertrain": [
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "source": "Konecky, Anderman (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "190-2010-energy battery mass": {
+    "amount": 100,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 100,
+    "maximum": 200,
+    "minimum": 50,
+    "name": "energy battery mass",
+    "powertrain": [
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Konecky, Anderman (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "192-2010-energy battery mass": {
+    "amount": 100,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 100,
+    "maximum": 200,
+    "minimum": 50,
+    "name": "energy battery mass",
+    "powertrain": [
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Van",
+      "SUV"
+    ],
+    "source": "Konecky, Anderman (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "194-2010-battery charge efficiency": {
+    "amount": 0.83,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 0.83,
+    "maximum": 0.9,
+    "minimum": 0.8,
+    "name": "battery charge efficiency",
+    "powertrain": [
+      "BEV",
+      "PHEV-e",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "HEV-p",
+      "HEV-d",
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Ottaviano (2012), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "198-2010-battery discharge efficiency": {
+    "amount": 0.85,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 0.85,
+    "maximum": 0.9,
+    "minimum": 0.8,
+    "name": "battery discharge efficiency",
+    "powertrain": [
+      "BEV",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Ottaviano (2012)",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "2-2010-kilometers per year": {
+    "amount": 12000,
+    "category": "Driving",
+    "comment": "Typical values",
+    "kind": "distribution",
+    "loc": 12000,
+    "maximum": 15000,
+    "minimum": 8000,
+    "name": "kilometers per year",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Biedermann et al. (2015)",
+    "uncertainty_type": 5,
+    "unit": "km",
+    "year": 2010
+  },
+  "20-2010-lightweighting": {
+    "amount": 0.1,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.1,
+    "maximum": 0.25,
+    "minimum": 0,
+    "name": "lightweighting",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Small",
+      "Lower medium",
+      "Medium",
+      "Large",
+      "Van",
+      "SUV"
+    ],
+    "source": "Geyer (2017), Hirschberg et al. (2016)",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "200-2010-battery DoD": {
+    "amount": 0.8,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 0.8,
+    "maximum": 0.85,
+    "minimum": 0.75,
+    "name": "battery DoD",
+    "powertrain": [
+      "BEV",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Own assumption",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "202-2010-battery cell energy density": {
+    "amount": 0.2,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 0.2,
+    "maximum": 0.25,
+    "minimum": 0.15,
+    "name": "battery cell energy density",
+    "powertrain": [
+      "BEV",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c)",
+    "uncertainty_type": 5,
+    "unit": "kWh/kg",
+    "year": 2010
+  },
+  "204-2010-battery cell power density": {
+    "amount": 2,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 2,
+    "maximum": 2.3,
+    "minimum": 1.3,
+    "name": "battery cell power density",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g",
+      "HEV-p",
+      "HEV-d",
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Dai (2018),Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kW/kg",
+    "year": 2010
+  },
+  "206-2010-battery cell mass share": {
+    "amount": 0.6,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 0.6,
+    "maximum": 0.75,
+    "minimum": 0.55,
+    "name": "battery cell mass share",
+    "powertrain": [
+      "BEV",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Own assumption",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "208-2010-battery cell mass share": {
+    "amount": 0.5,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 0.5,
+    "maximum": 0.6,
+    "minimum": 0.4,
+    "name": "battery cell mass share",
+    "powertrain": [
+      "HEV-p",
+      "HEV-d",
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Own assumption",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "211-2010-battery cell production energy": {
+    "amount": 8,
+    "category": "Energy Storage",
+    "comment": "Total energy consumption split between electricity and direct natural gas combustion",
+    "kind": "distribution",
+    "loc": 8,
+    "maximum": 20,
+    "minimum": 4,
+    "name": "battery cell production energy",
+    "powertrain": [
+      "BEV",
+      "PHEV-e",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "HEV-p",
+      "HEV-d",
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Dai et al (2017), Ellingsen et al (2014), Ellingesen et al (2016), Ellingsen et al (2017), Peters et al (2017)",
+    "uncertainty_type": 5,
+    "unit": "kWh/kg",
+    "year": 2010
+  },
+  "214-2010-battery cell production energy electricity share": {
+    "amount": 0.5,
+    "category": "Energy Storage",
+    "comment": "share of electricity (balance made up by direct combustion of natural gas)",
+    "kind": "distribution",
+    "loc": 0.5,
+    "maximum": 0.9,
+    "minimum": 0.1,
+    "name": "battery cell production energy electricity share",
+    "powertrain": [
+      "BEV",
+      "PHEV-e",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "HEV-p",
+      "HEV-d",
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Dai et al (2017), Peters et al (2017),  Own assumption",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "217-2010-battery lifetime kilometers": {
+    "amount": 200000,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 200000,
+    "maximum": 300000,
+    "minimum": 100000,
+    "name": "battery lifetime kilometers",
+    "powertrain": [
+      "BEV",
+      "PHEV-e",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "HEV-p",
+      "HEV-d",
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kWh",
+    "year": 2010
+  },
+  "22-2010-power to mass ratio": {
+    "amount": 60,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 60,
+    "maximum": 90,
+    "minimum": 40,
+    "name": "power to mass ratio",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Mini"
+    ],
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
+    "uncertainty_type": 5,
+    "unit": "W/kg",
+    "year": 2010
+  },
+  "220-2010-storage lifetime kilometers": {
+    "amount": 150000,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 150000,
+    "maximum": 300000,
+    "minimum": 100000,
+    "name": "fuel cell lifetime kilometers",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016) ,Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b),  Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kWh",
+    "year": 2010
+  },
+  "222-2010-H2 tank mass per energy": {
+    "amount": 0.6,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 0.6,
+    "maximum": 0.65,
+    "minimum": 0.55,
+    "name": "H2 tank mass per energy",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "DOE (2017d), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kWh",
+    "year": 2010
+  },
+  "224-2010-fuel tank mass per energy": {
+    "amount": 0.075,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 0.075,
+    "maximum": 0.08,
+    "minimum": 0.07,
+    "name": "fuel tank mass per energy",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "HEV-p",
+      "HEV-d",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kWh",
+    "year": 2010
+  },
+  "226-2010-CNG tank mass slope": {
+    "amount": 0.2,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 0.2,
+    "maximum": 0.22,
+    "minimum": 0.18,
+    "name": "CNG tank mass slope",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kWh",
+    "year": 2010
+  },
+  "228-2010-CNG tank mass intercept": {
+    "amount": 25,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 25,
+    "maximum": 30,
+    "minimum": 20,
+    "name": "CNG tank mass intercept",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "230-2010-fuel mass": {
+    "amount": 18,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 18,
+    "maximum": 20,
+    "minimum": 15,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-p"
+    ],
+    "sizes": [
+      "Mini",
+      "Small"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "232-2010-fuel mass": {
+    "amount": 28,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 28,
+    "maximum": 30,
+    "minimum": 25,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-p"
+    ],
+    "sizes": [
+      "Lower medium",
+      "Medium"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "234-2010-fuel mass": {
+    "amount": 33,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 33,
+    "maximum": 35,
+    "minimum": 30,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "Van",
+      "SUV"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "236-2010-fuel mass": {
+    "amount": 18,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 18,
+    "maximum": 20,
+    "minimum": 15,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-d"
+    ],
+    "sizes": [
+      "Mini",
+      "Small"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "238-2010-fuel mass": {
+    "amount": 28,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 28,
+    "maximum": 30,
+    "minimum": 25,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-d"
+    ],
+    "sizes": [
+      "Lower medium",
+      "Medium"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "24-2010-power to mass ratio": {
+    "amount": 65,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 65,
+    "maximum": 120,
+    "minimum": 40,
+    "name": "power to mass ratio",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
+    "uncertainty_type": 5,
+    "unit": "W/kg",
+    "year": 2010
+  },
+  "240-2010-fuel mass": {
+    "amount": 33,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 33,
+    "maximum": 35,
+    "minimum": 30,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Van",
+      "SUV"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "242-2010-fuel mass": {
+    "amount": 13,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 13,
+    "maximum": 15,
+    "minimum": 10,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Mini",
+      "Small"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "244-2010-fuel mass": {
+    "amount": 23,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 23,
+    "maximum": 25,
+    "minimum": 20,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Lower medium",
+      "Medium"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "246-2010-fuel mass": {
+    "amount": 28,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 28,
+    "maximum": 30,
+    "minimum": 25,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Van",
+      "SUV"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "248-2010-fuel mass": {
+    "amount": 13,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 13,
+    "maximum": 15,
+    "minimum": 10,
+    "name": "fuel mass",
+    "powertrain": [
+      "HEV-p",
+      "HEV-d",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Mini",
+      "Small"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "250-2010-fuel mass": {
+    "amount": 23,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 23,
+    "maximum": 25,
+    "minimum": 20,
+    "name": "fuel mass",
+    "powertrain": [
+      "HEV-p",
+      "HEV-d",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Lower medium",
+      "Medium"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "252-2010-fuel mass": {
+    "amount": 28,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 28,
+    "maximum": 30,
+    "minimum": 25,
+    "name": "fuel mass",
+    "powertrain": [
+      "HEV-p",
+      "HEV-d",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Van",
+      "SUV"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "254-2010-fuel mass": {
+    "amount": 4,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 4,
+    "maximum": 5,
+    "minimum": 3,
+    "name": "fuel mass",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Mini",
+      "Small"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "256-2010-fuel mass": {
+    "amount": 5,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 5,
+    "maximum": 6,
+    "minimum": 4,
+    "name": "fuel mass",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Lower medium",
+      "Medium"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "258-2010-fuel mass": {
+    "amount": 6,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 6,
+    "maximum": 7,
+    "minimum": 5,
+    "name": "fuel mass",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Van",
+      "SUV"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "26-2010-power to mass ratio": {
+    "amount": 70,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 70,
+    "maximum": 120,
+    "minimum": 45,
+    "name": "power to mass ratio",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Lower medium"
+    ],
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
+    "uncertainty_type": 5,
+    "unit": "W/kg",
+    "year": 2010
+  },
+  "260-2010-CO2 per kg fuel": {
+    "amount": 2.65,
+    "category": "Emissions",
+    "kind": "distribution",
+    "loc": 2.65,
+    "name": "CO2 per kg fuel",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "EMEP/ EEA (2016)",
+    "uncertainty_type": 1,
+    "unit": "kg / kg fuel",
+    "year": 2010
+  },
+  "262-2010-CO2 per kg fuel": {
+    "amount": 3.13759,
+    "category": "Emissions",
+    "kind": "distribution",
+    "loc": 3.13759,
+    "name": "CO2 per kg fuel",
+    "powertrain": [
+      "ICEV-d",
+      "PHEV-c-d",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "EMEP/ EEA (2016)",
+    "uncertainty_type": 1,
+    "unit": "kg / kg fuel",
+    "year": 2010
+  },
+  "264-2010-CO2 per kg fuel": {
+    "amount": 3.18334,
+    "category": "Emissions",
+    "kind": "distribution",
+    "loc": 3.18334,
+    "name": "CO2 per kg fuel",
+    "powertrain": [
+      "ICEV-p",
+      "HEV-p",
+      "PHEV-c-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "EMEP/ EEA (2016)",
+    "uncertainty_type": 1,
+    "unit": "kg / kg fuel",
+    "year": 2010
+  },
+  "28-2010-power to mass ratio": {
+    "amount": 80,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 80,
+    "maximum": 120,
+    "minimum": 55,
+    "name": "power to mass ratio",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Medium",
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
+    "uncertainty_type": 5,
+    "unit": "W/kg",
+    "year": 2010
+  },
+  "30-2010-power to mass ratio": {
+    "amount": 65,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 65,
+    "maximum": 90,
+    "minimum": 40,
+    "name": "power to mass ratio",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
+    "uncertainty_type": 5,
+    "unit": "W/kg",
+    "year": 2010
+  },
+  "32-2010-power to mass ratio": {
+    "amount": 75,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 75,
+    "maximum": 105,
+    "minimum": 50,
+    "name": "power to mass ratio",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
+    "uncertainty_type": 5,
+    "unit": "W/kg",
+    "year": 2010
+  },
+  "322-2010-interest rate": {
+    "amount": 0.05,
+    "category": "Costs",
+    "kind": "distribution",
+    "loc": 0.05,
+    "maximum": 0.07,
+    "minimum": 0.03,
+    "name": "interest rate",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Typical values",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "324-2010-markup factor": {
+    "amount": 1.2,
+    "category": "Costs",
+    "comment": "This is the markup from manufacturing cost to consumer purchase price",
+    "kind": "distribution",
+    "loc": 1.2,
+    "maximum": 1.4,
+    "minimum": 1.1,
+    "name": "markup factor",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Mini"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "326-2010-markup factor": {
+    "amount": 1.3,
+    "category": "Costs",
+    "comment": "This is the markup from manufacturing cost to consumer purchase price",
+    "kind": "distribution",
+    "loc": 1.3,
+    "maximum": 1.5,
+    "minimum": 1.1,
+    "name": "markup factor",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "328-2010-markup factor": {
+    "amount": 1.4,
+    "category": "Costs",
+    "comment": "This is the markup from manufacturing cost to consumer purchase price",
+    "kind": "distribution",
+    "loc": 1.4,
+    "maximum": 1.7,
+    "minimum": 1.2,
+    "name": "markup factor",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Lower medium",
+      "Medium",
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "330-2010-markup factor": {
+    "amount": 1.6,
+    "category": "Costs",
+    "comment": "This is the markup from manufacturing cost to consumer purchase price",
+    "kind": "distribution",
+    "loc": 1.6,
+    "maximum": 1.8,
+    "minimum": 1.4,
+    "name": "markup factor",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "332-2010-glider cost slope": {
+    "amount": 12.5,
+    "category": "Costs",
+    "comment": "this is the base cost of the car per kg of glider - doesn't include energy storage or powertrain and should be the same for all powertrains",
+    "kind": "distribution",
+    "loc": 12.5,
+    "maximum": 15,
+    "minimum": 7,
+    "name": "glider cost slope",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Mini",
+      "Small",
+      "Lower medium",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "Euro/ kg",
+    "year": 2010
+  },
+  "334-2010-glider cost slope": {
+    "amount": 16,
+    "category": "Costs",
+    "comment": "this is the base cost of the car per kg of glider - doesn't include energy storage or powertrain and should be the same for all powertrains",
+    "kind": "distribution",
+    "loc": 16,
+    "maximum": 18,
+    "minimum": 9,
+    "name": "glider cost slope",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Medium",
+      "SUV",
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "Euro / kg",
+    "year": 2010
+  },
+  "336-2010-glider cost intercept": {
+    "amount": -900,
+    "category": "Costs",
+    "comment": "this is the base cost of the car per kg of glider - doesn't include energy storage or powertrain and should be the same for all powertrains",
+    "kind": "distribution",
+    "loc": -900,
+    "maximum": -720,
+    "minimum": -3150,
+    "name": "glider cost intercept",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "Euro / car",
+    "year": 2010
+  },
+  "338-2010-maintenance cost per glider cost": {
+    "amount": 0.025,
+    "category": "Costs",
+    "kind": "distribution",
+    "loc": 0.025,
+    "maximum": 0.04,
+    "minimum": 0.02,
+    "name": "maintenance cost per glider cost",
+    "powertrain": [
+      "BEV",
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "% of glider cost",
+    "year": 2010
+  },
+  "34-2010-frontal area": {
+    "amount": 1.9,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1.9,
+    "maximum": 2.1,
+    "minimum": 1.7,
+    "name": "frontal area",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Mini"
+    ],
+    "source": "Calibration result",
+    "uncertainty_type": 5,
+    "unit": "m2",
+    "year": 2010
+  },
+  "340-2010-maintenance cost per glider cost": {
+    "amount": 0.03,
+    "category": "Costs",
+    "kind": "distribution",
+    "loc": 0.03,
+    "maximum": 0.04,
+    "minimum": 0.02,
+    "name": "maintenance cost per glider cost",
+    "powertrain": [
+      "PHEV-e",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "% of glider cost",
+    "year": 2010
+  },
+  "342-2010-glider lightweighting cost per kg": {
+    "amount": 4.5,
+    "category": "Costs",
+    "comment": "represents mass reduction by replacing standard materials with high strength steel.",
+    "kind": "distribution",
+    "loc": 4.5,
+    "maximum": 9,
+    "minimum": 1.5,
+    "name": "glider lightweighting cost per kg",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro/ kg saved",
+    "year": 2010
+  },
+  "344-2010-fuel cell cost per kW": {
+    "amount": 160,
+    "category": "Costs",
+    "comment": "considers whole fuel cell system",
+    "kind": "distribution",
+    "loc": 160,
+    "maximum": 270,
+    "minimum": 125,
+    "name": "fuel cell cost per kW",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "James (2017), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro / kW",
+    "year": 2010
+  },
+  "346-2010-power battery cost per kW": {
+    "amount": 50,
+    "category": "Costs",
+    "comment": "considers whole battery system",
+    "kind": "distribution",
+    "loc": 50,
+    "maximum": 60,
+    "minimum": 45,
+    "name": "power battery cost per kW",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro / kW",
+    "year": 2010
+  },
+  "348-2010-electric powertrain cost per kW": {
+    "amount": 22,
+    "category": "Costs",
+    "kind": "distribution",
+    "loc": 22,
+    "maximum": 36,
+    "minimum": 13,
+    "name": "electric powertrain cost per kW",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro / kW",
+    "year": 2010
+  },
+  "350-2010-electric powertrain cost per kW": {
+    "amount": 33,
+    "category": "Costs",
+    "comment": "Assume 50% higher cost than pure electric powertrain due to increased complexity of interfacing with ICE or fuel cell",
+    "kind": "distribution",
+    "loc": 33,
+    "maximum": 54,
+    "minimum": 19.5,
+    "name": "electric powertrain cost per kW",
+    "powertrain": [
+      "FCEV",
+      "PHEV-e",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "HEV-p",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro / kW",
+    "year": 2010
+  },
+  "352-2010-electric powertrain cost per kW": {
+    "amount": 45,
+    "category": "Costs",
+    "comment": "Assumed to be double the cost per kW because system is much smaller.",
+    "kind": "distribution",
+    "loc": 45,
+    "maximum": 90,
+    "minimum": 22.5,
+    "name": "electric powertrain cost per kW",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro / kW",
+    "year": 2010
+  },
+  "353-2010-combustion powertrain cost per kW": {
+    "amount": 27,
+    "category": "Costs",
+    "kind": "distribution",
+    "loc": 27,
+    "maximum": 110,
+    "minimum": 18,
+    "name": "combustion powertrain cost per kW",
+    "powertrain": [
+      "ICEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "Euro / kW",
+    "year": 2010
+  },
+  "355-2010-combustion powertrain cost per kW": {
+    "amount": 40.5,
+    "category": "Costs",
+    "comment": "Assume 50% higher cost than combustion powertrain due to increased complexity of interfacing with electric motor",
+    "kind": "distribution",
+    "loc": 40.5,
+    "maximum": 110,
+    "minimum": 27,
+    "name": "combustion powertrain cost per kW",
+    "powertrain": [
+      "PHEV-e",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "HEV-p",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "Euro / kW",
+    "year": 2010
+  },
+  "357-2010-combustion powertrain cost per kW": {
+    "amount": 54,
+    "category": "Costs",
+    "kind": "distribution",
+    "loc": 54,
+    "maximum": 110,
+    "minimum": 36,
+    "name": "combustion powertrain cost per kW",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "Euro / kW",
+    "year": 2010
+  },
+  "359-2010-combustion powertrain cost per kW": {
+    "amount": 54,
+    "category": "Costs",
+    "kind": "distribution",
+    "loc": 54,
+    "maximum": 160,
+    "minimum": 36,
+    "name": "combustion powertrain cost per kW",
+    "powertrain": [
+      "ICEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "Euro / kW",
+    "year": 2010
+  },
+  "36-2010-frontal area": {
+    "amount": 2.1,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 2.1,
+    "maximum": 2.3,
+    "minimum": 1.9,
+    "name": "frontal area",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "source": "Calibration result",
+    "uncertainty_type": 5,
+    "unit": "m2",
+    "year": 2010
+  },
+  "361-2010-combustion exhaust treatment cost": {
+    "amount": 650,
+    "category": "Costs",
+    "comment": "applies to all vehicles with a combustion engine regardless of type and size",
+    "kind": "distribution",
+    "loc": 650,
+    "maximum": 900,
+    "minimum": 450,
+    "name": "combustion exhaust treatment cost",
+    "powertrain": [
+      "PHEV-e",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro / car",
+    "year": 2010
+  },
+  "363-2010-heat pump cost": {
+    "amount": 300,
+    "category": "Costs",
+    "comment": "only for pure BEV - this is for heating only. Cooling system included in glider cost",
+    "kind": "distribution",
+    "loc": 300,
+    "maximum": 450,
+    "minimum": 200,
+    "name": "heat pump cost",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro / car",
+    "year": 2010
+  },
+  "365-2010-energy storage battery cost per kWh": {
+    "amount": 720,
+    "category": "Costs",
+    "comment": "considers whole battery system except charging system",
+    "kind": "distribution",
+    "loc": 720,
+    "maximum": 630,
+    "minimum": 810,
+    "name": "energy battery cost per kWh",
+    "powertrain": [
+      "BEV",
+      "PHEV-e",
+      "PHEV-c-p",
+      "PHEV-c-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "https://www.ucsusa.org/resources/ev-batteries",
+    "uncertainty_type": 5,
+    "unit": "Euro / kWh",
+    "year": 2010
+  },
+  "367-2010-battery onboard charging infrastructure cost": {
+    "amount": 180,
+    "category": "Costs",
+    "comment": "considers onboard system",
+    "kind": "distribution",
+    "loc": 180,
+    "maximum": 270,
+    "minimum": 90,
+    "name": "battery onboard charging infrastructure cost",
+    "powertrain": [
+      "BEV",
+      "PHEV-e",
+      "PHEV-c-p",
+      "PHEV-c-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro / car",
+    "year": 2010
+  },
+  "369-2010-fuel tank cost per kg": {
+    "amount": 800,
+    "category": "Costs",
+    "comment": "considers whole hydrogen storage system 700 bar",
+    "kind": "distribution",
+    "loc": 800,
+    "maximum": 1100,
+    "minimum": 600,
+    "name": "fuel tank cost per kg",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "DOE (2017d), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro / kg capacity",
+    "year": 2010
+  },
+  "371-2010-fuel tank cost per kg": {
+    "amount": 0.55,
+    "category": "Costs",
+    "kind": "distribution",
+    "loc": 0.55,
+    "maximum": 0.9,
+    "minimum": 0.45,
+    "name": "fuel tank cost per kg",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "PHEV-e",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "HEV-p",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro / kg capacity",
+    "year": 2010
+  },
+  "373-2010-fuel tank cost per kg": {
+    "amount": 8,
+    "category": "Costs",
+    "kind": "distribution",
+    "loc": 8,
+    "maximum": 9,
+    "minimum": 5,
+    "name": "fuel tank cost per kg",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "Euro / kg capacity",
+    "year": 2010
+  },
+  "375-2010-energy cost per kWh": {
+    "amount": 0.22,
+    "category": "Costs",
+    "comment": "Electricity for household consumers : 0.02 Euro surcharge for charging station amortisation included. Future prices from IMAGE results",
+    "kind": "distribution",
+    "loc": 0.22,
+    "maximum": 0.32,
+    "minimum": 0.06,
+    "name": "energy cost per kWh",
+    "powertrain": [
+      "BEV",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Bauer (2017), European Commission (2018a)",
+    "uncertainty_type": 5,
+    "unit": "Euro / kWh",
+    "year": 2010
+  },
+  "377-2010-energy cost per kWh": {
+    "amount": 0.2356646890793233,
+    "category": "Costs",
+    "comment": "Production via electrolysis, with industrial electricity prices. Infrastructure 0.1 Euro / kWh for current. Future prices from IMAGE results",
+    "kind": "distribution",
+    "loc": 0.2356646890793233,
+    "maximum": 0.33,
+    "minimum": 0.19771171171171173,
+    "name": "energy cost per kWh",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "DOE (2015), European Commission (2018a)",
+    "uncertainty_type": 5,
+    "unit": "Euro / kWh",
+    "year": 2010
+  },
+  "379-2010-energy cost per kWh": {
+    "amount": 0.16,
+    "category": "Costs",
+    "comment": "2017 European prices - uncertainty based on regional difference. Future prices from IMAGE results",
+    "kind": "distribution",
+    "loc": 0.16,
+    "maximum": 0.19,
+    "minimum": 0.12,
+    "name": "energy cost per kWh",
+    "powertrain": [
+      "PHEV-c-p",
+      "HEV-p",
+      "ICEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "European Commission (2018c)",
+    "uncertainty_type": 5,
+    "unit": "Euro / kWh",
+    "year": 2010
+  },
+  "38-2010-frontal area": {
+    "amount": 2.2,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 2.2,
+    "maximum": 2.4,
+    "minimum": 2,
+    "name": "frontal area",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Lower medium"
+    ],
+    "source": "Calibration result",
+    "uncertainty_type": 5,
+    "unit": "m2",
+    "year": 2010
+  },
+  "381-2010-energy cost per kWh": {
+    "amount": 0.12,
+    "category": "Costs",
+    "comment": "2017 European prices - uncertainty based on regional difference. Future prices from IMAGE results",
+    "kind": "distribution",
+    "loc": 0.12,
+    "maximum": 0.15,
+    "minimum": 0.1,
+    "name": "energy cost per kWh",
+    "powertrain": [
+      "ICEV-d",
+      "PHEV-c-d",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "European Commission (2018c)",
+    "uncertainty_type": 5,
+    "unit": "Euro / kWh",
+    "year": 2010
+  },
+  "383-2010-energy cost per kWh": {
+    "amount": 0.06964127764127764,
+    "category": "Costs",
+    "comment": "2017 European prices - uncertainty based on regional difference. Future prices from IMAGE results",
+    "kind": "distribution",
+    "loc": 0.06964127764127764,
+    "maximum": 0.1309729589189189,
+    "minimum": 0.02370976216216216,
+    "name": "energy cost per kWh",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "www.cngeurope.com",
+    "uncertainty_type": 5,
+    "unit": "Euro / kWh",
+    "year": 2010
+  },
+  "4-2010-glider base mass-BEV": {
+    "amount": 350,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 350,
+    "maximum": 300,
+    "minimum": 400,
+    "name": "glider base mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Mini"
+    ],
+    "source": "Calibration against car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "4-2010-glider base mass": {
+    "amount": 700,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 700,
+    "maximum": 600,
+    "minimum": 800,
+    "name": "glider base mass",
+    "powertrain": [
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Mini"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "40-2010-frontal area": {
+    "amount": 2.3,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 2.3,
+    "maximum": 2.5,
+    "minimum": 2.1,
+    "name": "frontal area",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "source": "Calibration result",
+    "uncertainty_type": 5,
+    "unit": "m2",
+    "year": 2010
+  },
+  "42-2010-frontal area": {
+    "amount": 2.4,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 2.4,
+    "maximum": 2.6,
+    "minimum": 2.2,
+    "name": "frontal area",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Calibration result",
+    "uncertainty_type": 5,
+    "unit": "m2",
+    "year": 2010
+  },
+  "44-2010-frontal area": {
+    "amount": 2.6,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 2.6,
+    "maximum": 3.4,
+    "minimum": 2.5,
+    "name": "frontal area",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Calibration result",
+    "uncertainty_type": 5,
+    "unit": "m2",
+    "year": 2010
+  },
+  "46-2010-frontal area": {
+    "amount": 2.7,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 2.7,
+    "maximum": 3.4,
+    "minimum": 2.5,
+    "name": "frontal area",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Calibration result",
+    "uncertainty_type": 5,
+    "unit": "m2",
+    "year": 2010
+  },
+  "48-2010-aerodynamic drag coefficient": {
+    "amount": 0.33,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.33,
+    "maximum": 0.35,
+    "minimum": 0.3,
+    "name": "aerodynamic drag coefficient",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Mini"
+    ],
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "50-2010-aerodynamic drag coefficient": {
+    "amount": 0.3,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.3,
+    "maximum": 0.33,
+    "minimum": 0.25,
+    "name": "aerodynamic drag coefficient",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Small",
+      "Lower medium",
+      "Medium",
+      "Large"
+    ],
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "52-2010-aerodynamic drag coefficient": {
+    "amount": 0.32,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.32,
+    "maximum": 0.4,
+    "minimum": 0.3,
+    "name": "aerodynamic drag coefficient",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "54-2010-aerodynamic drag coefficient": {
+    "amount": 0.27,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.27,
+    "maximum": 0.4,
+    "minimum": 0.25,
+    "name": "aerodynamic drag coefficient",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "56-2010-rolling resistance coefficient": {
+    "amount": 0.01,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.01,
+    "maximum": 0.012,
+    "minimum": 0.007,
+    "name": "rolling resistance coefficient",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Transportation research board (2006)",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "58-2010-average passengers": {
+    "amount": 1.8,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1.8,
+    "maximum": 4,
+    "minimum": 1,
+    "name": "average passengers",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), EEA (2012)",
+    "uncertainty_type": 5,
+    "unit": "persons",
+    "year": 2010
+  },
+  "6-2010-glider base mass-BEV": {
+    "amount": 800,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 800,
+    "maximum": 1050,
+    "minimum": 650,
+    "name": "glider base mass",
+    "powertrain": [
+      "BEV"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "source": "Calibration against car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "6-2010-glider base mass": {
+    "amount": 900,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 900,
+    "maximum": 1050,
+    "minimum": 750,
+    "name": "glider base mass",
+    "powertrain": [
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "source": "Calibration against car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "60-2010-average passenger mass": {
+    "amount": 75,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 75,
+    "maximum": 90,
+    "minimum": 60,
+    "name": "average passenger mass",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Typical values",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "62-2010-cargo mass": {
+    "amount": 20,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 20,
+    "maximum": 250,
+    "minimum": 0,
+    "name": "cargo mass",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Typical values",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "64-2010-drivetrain efficiency": {
+    "amount": 0.78,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.78,
+    "maximum": 0.9,
+    "minimum": 0.75,
+    "name": "drivetrain efficiency",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "PHEV-e",
+      "HEV-p",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "66-2010-drivetrain efficiency": {
+    "amount": 0.8,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.8,
+    "maximum": 0.9,
+    "minimum": 0.75,
+    "name": "drivetrain efficiency",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "Small"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "66-2010-drivetrain efficiency-Large-SUV": {
+    "amount": 0.75,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.75,
+    "maximum": 0.8,
+    "minimum": 0.7,
+    "name": "drivetrain efficiency",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "SUV",
+      "Van"
+    ],
+    "source": "Calibration against EEA database",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "68-2010-drivetrain efficiency": {
+    "amount": 0.72,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.72,
+    "maximum": 0.81,
+    "minimum": 0.64,
+    "name": "drivetrain efficiency",
+    "powertrain": [
+      "PHEV-c-p",
+      "PHEV-c-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "70-2010-engine efficiency": {
+    "amount": 0.82,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.82,
+    "maximum": 0.9,
+    "minimum": 0.8,
+    "name": "engine efficiency",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "72-2010-engine efficiency": {
+    "amount": 0.23,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.23,
+    "maximum": 0.25,
+    "minimum": 0.2,
+    "name": "engine efficiency",
+    "powertrain": [
+      "ICEV-p"
+    ],
+    "sizes": [
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "Small",
+      "Van"
+    ],
+    "source": "Calibration against EEA database",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "72-2010-engine efficiency-ICEV-p-Large": {
+    "amount": 0.2,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.2,
+    "maximum": 0.25,
+    "minimum": 0.15,
+    "name": "engine efficiency",
+    "powertrain": [
+      "ICEV-p"
+    ],
+    "sizes": [
+      "Large",
+      "SUV"
+    ],
+    "source": "Calibration against EEA database",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "74-2010-engine efficiency": {
+    "amount": 0.22,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.22,
+    "maximum": 0.25,
+    "minimum": 0.2,
+    "name": "engine efficiency",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Calibration against EEA database",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "74-2010-engine efficiency-ICEV-g-Large": {
+    "amount": 0.19,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.19,
+    "maximum": 0.25,
+    "minimum": 0.15,
+    "name": "engine efficiency",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Calibration against EEA database",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "76-2010-engine efficiency": {
+    "amount": 0.28,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.28,
+    "maximum": 0.3,
+    "minimum": 0.26,
+    "name": "engine efficiency",
+    "powertrain": [
+      "ICEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "78-2010-engine efficiency": {
+    "amount": 0.33,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.33,
+    "maximum": 0.35,
+    "minimum": 0.31,
+    "name": "engine efficiency",
+    "powertrain": [
+      "HEV-p",
+      "HEV-d",
+      "PHEV-c-p",
+      "PHEV-c-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "8-2010-glider base mass": {
+    "amount": 1150,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 1150,
+    "maximum": 1350,
+    "minimum": 950,
+    "name": "glider base mass",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Lower medium"
+    ],
+    "source": "Hirschberg et al. (2016), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "80-2010-fuel cell stack efficiency": {
+    "amount": 0.57,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.57,
+    "maximum": 0.6,
+    "minimum": 0.53,
+    "name": "fuel cell stack efficiency",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "82-2010-fuel cell power area density": {
+    "amount": 900,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 900,
+    "maximum": 1100,
+    "minimum": 700,
+    "name": "fuel cell power area density",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "mW/cm2",
+    "year": 2010
+  },
+  "84-2010-fuel cell ancillary BoP mass per power": {
+    "amount": 0.4,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.4,
+    "maximum": 0.45,
+    "minimum": 0.3,
+    "name": "fuel cell ancillary BoP mass per power",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg/kW",
+    "year": 2010
+  },
+  "86-2010-fuel cell essential BoP mass per power": {
+    "amount": 1,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 1,
+    "maximum": 1.3,
+    "minimum": 0.7,
+    "name": "fuel cell essential BoP mass per power",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg/kW",
+    "year": 2010
+  },
+  "88-2010-fuel cell own consumption": {
+    "amount": 1.15,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 1.15,
+    "maximum": 1.2,
+    "minimum": 1.1,
+    "name": "fuel cell own consumption",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2010
+  },
+  "90-2010-converter mass": {
+    "amount": 4.5,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 4.5,
+    "maximum": 6,
+    "minimum": 4,
+    "name": "converter mass",
+    "powertrain": [
+      "BEV",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e",
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016)",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "92-2010-inverter mass": {
+    "amount": 9,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 9,
+    "maximum": 10,
+    "minimum": 8,
+    "name": "inverter mass",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016)",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "94-2010-charger mass": {
+    "amount": 6,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 6,
+    "maximum": 7,
+    "minimum": 4,
+    "name": "charger mass",
+    "powertrain": [
+      "BEV",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016)",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2010
+  },
+  "96-2010-power distribution unit mass": {
+    "amount": 4,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 4,
+    "maximum": 5,
+    "minimum": 3,
+    "name": "power distribution unit mass",
+    "powertrain": [
+      "BEV",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e",
+      "FCEV",
+      "HEV-p",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016)",
+    "uncertainty_type": 5,
+    "unit": "kg ",
+    "year": 2010
+  },
+  "98-2010-electric mass per power": {
+    "amount": 0.5,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 0.5,
+    "maximum": 0.75,
+    "minimum": 0.3,
+    "name": "electric mass per power",
+    "powertrain": [
+      "BEV",
+      "PHEV-e",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "HEV-p",
+      "HEV-d",
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kW",
+    "year": 2010
+  },
+  "100-2010-lower_heating_value_fuel": {
+    "amount": 48,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 48,
+    "maximum": 49,
+    "minimum": 47,
+    "name": "LHV fuel MJ per kg",
+    "powertrain": [
+      "ICEV-d",
+      "PHEV-c-d",
+      "HEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
+    "uncertainty_type": 5,
+    "unit": "MJ/kg",
+    "year": 2010
+  },
+  "102-2010-lower_heating_value_fuel": {
+    "amount": 42.4,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 42.4,
+    "maximum": 43,
+    "minimum": 42,
+    "name": "LHV fuel MJ per kg",
+    "powertrain": [
+      "ICEV-p",
+      "HEV-p",
+      "PHEV-c-p"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
+    "uncertainty_type": 5,
+    "unit": "MJ/kg",
+    "year": 2010
+  },
+  "104-2010-lower_heating_value_fuel": {
+    "amount": 55.5,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 55.5,
+    "maximum": 56,
+    "minimum": 55,
+    "name": "LHV fuel MJ per kg",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
+    "uncertainty_type": 5,
+    "unit": "MJ/kg",
+    "year": 2010
+  },
+  "106-2010-lower_heating_value_fuel": {
+    "amount": 120,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 120,
+    "maximum": 122,
+    "minimum": 118,
+    "name": "LHV fuel MJ per kg",
+    "powertrain": [
+      "FCEV"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
+    "uncertainty_type": 5,
+    "unit": "MJ/kg",
+    "year": 2010
+  },
+  "108-2010-emission_factor": {
+    "amount": 1,
+    "category": "Powertrain",
+    "kind": "distribution",
+    "loc": 1,
+    "minimum": 0.7,
+    "maximum": 1.43,
+    "name": "emission factor",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e",
+      "PHEV-p",
+      "PHEV-d"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "HBEFA 4.1",
+    "uncertainty_type": 5,
+    "unit": "unitless",
+    "year": 2010
   }
 }

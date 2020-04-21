@@ -686,7 +686,7 @@ class InventoryCalculation:
             response = xr.DataArray(
                 B,
                 coords=[
-                    [2020, 2030, 2040, 2050],
+                    [2010, 2020, 2030, 2040, 2050],
                     self.get_dict_impact_categories()["recipe"]["midpoint"],
                     list(self.inputs.keys()),
                 ],
@@ -1284,7 +1284,8 @@ class InventoryCalculation:
 
         losses_to_low = float(self.bs.losses[battery_origin]["LV"])
         mix_battery_manufacturing = (
-            self.bs.electricity_mix.sel(country=battery_origin, value=0)
+            self.bs.electricity_mix.sel(country=battery_origin,
+            variable=["Hydro","Nuclear","Gas","Solar","Wind","Biomass","Coal","Oil","Geothermal","Waste"])
             .interp(year=self.scope["year"])
             .values
         )
@@ -1586,7 +1587,8 @@ class InventoryCalculation:
         ):
             self.background_configuration["custom electricity mix"] = [
                 self.bs.electricity_mix.sel(
-                    country=self.background_configuration["country"], value=0
+                    country=self.background_configuration["country"],
+                    variable=["Hydro","Nuclear","Gas","Solar","Wind","Biomass","Coal","Oil","Geothermal","Waste"]
                 )
                 .interp(year=y)
                 .values
@@ -1628,10 +1630,9 @@ class InventoryCalculation:
             ]
 
             mix = [
-                self.bs.electricity_mix.sel(country=country, value=0)
-                .interp(year=np.arange(y, y + use_year[self.scope["year"].index(y)]))
-                .mean(axis=0)
-                .values
+                self.bs.electricity_mix.sel(country=country,
+                variable=["Hydro","Nuclear","Gas","Solar","Wind","Biomass","Coal","Oil","Geothermal","Waste"])
+                .interp(year=np.arange(y, y + use_year[self.scope["year"].index(y)])).mean(axis=0).values
                 for y in self.scope["year"]
             ]
 

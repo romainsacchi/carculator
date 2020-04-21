@@ -88,20 +88,16 @@ class BackgroundSystemModel:
                 "The CSV file that contains electricity mixes could not be found."
             )
 
-        df = pd.read_csv(filepath, sep=";", index_col=["Country code", "Year"])
+        df = pd.read_csv(filepath, sep=";", index_col=["country", "year"])
+        df = df.reset_index()
 
-        country_code = df.index.get_level_values("Country code").unique()
-        year = df.index.get_level_values("Year").unique()
-        tech = df.columns.unique()
-
-        array = xr.DataArray(
-            np.zeros((len(country_code), len(year), len(tech), 1)),
-            coords=[country_code, year, tech, np.arange(1)],
-            dims=["country", "year", "technology", "value"],
-        )
-        for r in country_code:
-            val = df.loc[(df.index.get_level_values("Country code") == r), :]
-            array.loc[dict(country=r, value=0)] = val
+        array = df.melt(id_vars=["country", "year"],
+                    value_name="value")\
+                    .groupby(["country","year", "variable"])["value"]\
+                    .mean()\
+                    .to_xarray()
+        array = array.interpolate_na(dim="year", method="linear", fill_value='extrapolate').clip(0,1)
+        array /= array.sum(axis=2)
 
         return array
 
