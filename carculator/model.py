@@ -464,6 +464,7 @@ class CarModel:
                 1 - np.exp(-0.01147 * cpm["range"])
             ) ** 1.186185
 
+
     def create_PHEV(self):
         """ PHEV-p/d is the range-weighted average between PHEV-c-p/PHEV-c-d and PHEV-e.
         """
