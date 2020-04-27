@@ -966,7 +966,7 @@ class InventoryCalculation:
             ],
             -self.number_of_cars :,
         ] = (
-            (array[self.array_inputs["lightweighting"], :])
+            (array[self.array_inputs["lightweighting"], :] * array[self.array_inputs["glider base mass"], :])
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1
         )
