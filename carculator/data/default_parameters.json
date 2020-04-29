@@ -11274,8 +11274,8 @@
     "category": "Energy Storage",
     "kind": "distribution",
     "loc": 0.1,
-    "maximum": 0.05,
-    "minimum": 0.15,
+    "maximum": 0.15,
+    "minimum": 0.05,
     "name": "battery cell energy density",
     "powertrain": [
       "BEV",
@@ -12882,8 +12882,8 @@
     "comment": "considers whole battery system except charging system",
     "kind": "distribution",
     "loc": 720,
-    "maximum": 630,
-    "minimum": 810,
+    "maximum": 810,
+    "minimum": 630,
     "name": "energy battery cost per kWh",
     "powertrain": [
       "BEV",
@@ -13184,8 +13184,8 @@
     "category": "Glider",
     "kind": "distribution",
     "loc": 350,
-    "maximum": 300,
-    "minimum": 400,
+    "maximum": 400,
+    "minimum": 300,
     "name": "glider base mass",
     "powertrain": [
       "BEV"
@@ -13203,8 +13203,8 @@
     "category": "Glider",
     "kind": "distribution",
     "loc": 700,
-    "maximum": 600,
-    "minimum": 800,
+    "maximum": 800,
+    "minimum": 600,
     "name": "glider base mass",
     "powertrain": [
       "FCEV",
@@ -17665,8 +17665,8 @@
       "comment":"considers whole battery system except charging system",
       "kind":"distribution",
       "loc":720,
-      "maximum":630,
-      "minimum":810,
+      "maximum":810,
+      "minimum":630,
       "name":"energy battery cost per kWh",
       "powertrain":[
          "BEV",
@@ -17967,8 +17967,8 @@
       "category":"Glider",
       "kind":"distribution",
       "loc":350,
-      "maximum":300,
-      "minimum":400,
+      "maximum":400,
+      "minimum":300,
       "name":"glider base mass",
       "powertrain":[
          "BEV"
@@ -17986,8 +17986,8 @@
       "category":"Glider",
       "kind":"distribution",
       "loc":700,
-      "maximum":600,
-      "minimum":800,
+      "maximum":800,
+      "minimum":600,
       "name":"glider base mass",
       "powertrain":[
          "FCEV",
