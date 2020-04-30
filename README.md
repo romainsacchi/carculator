@@ -10,7 +10,7 @@
   <a href="https://ci.appveyor.com/project/romainsacchi/carculator" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/github/romainsacchi/carculator?svg=true"></a>
   <a href="https://coveralls.io/github/romainsacchi/carculator" target="_blank"><img src="https://coveralls.io/repos/github/romainsacchi/carculator/badge.svg"></a>
   <a href="https://carculator.readthedocs.io/en/latest/" target="_blank"><img src="https://readthedocs.org/projects/carculator/badge/?version=latest"></a>
-  <a href="https://doi.org/10.5281/zenodo.3582994"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3582994.svg" alt="DOI"></a>
+  <a href="https://doi.org/10.5281/zenodo.3778259"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3778259.svg" alt="DOI"></a>
 </p>
 
 Prospective environmental and economic life cycle assessment of vehicles made blazing fast.
@@ -48,6 +48,7 @@ In the research field of mobility, LCA is widely used to investigate the superio
 
 ``carculator`` allows to:
 * produce [life cycle assessment (LCA)](https://en.wikipedia.org/wiki/Life-cycle_assessment) results that include conventional midpoint impact assessment indicators as well cost indicators
+* ``carculator`` uses time- and energy scenario-differentiated background inventories for the future, based on outputs of Integrated Asessment Model [REMIND](https://www.pik-potsdam.de/research/transformation-pathways/models/remind/remind). 
 * calculate hot pollutant and noise emissions based on a specified driving cycle
 * produce error propagation analyzes (i.e., Monte Carlo) while preserving relations between inputs and outputs
 * control all the parameters sensitive to the foreground model (i.e., the vehicles) but also to the background model
@@ -65,17 +66,14 @@ Three ways of installing ``carculator`` are suggested.
 
 We recommend the installation on **Python 3.7**.
 
-### Installation of a stable release (0.0.7) from Pypi
+### Installation of a stable release (1.0.0) from Pypi
 
     pip install carculator
-
-### Installation of a development version from conda
-
-    conda install -c conda-forge -c cmutel -c romainsacchi/label/nightly carculator
-
+    
 ### Installation of a development version from GitHub
 
     pip install git+https://github.com/romainsacchi/carculator.git
+
 
 ## Usage
 
