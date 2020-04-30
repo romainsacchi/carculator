@@ -27,7 +27,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="carculator",
-    version="0.0.8",
+    version="1.0.0",
     packages=packages,
     author="Romain Sacchi <romain.sacchi@psi.ch>, Chris Mutel <christopher.mutel@psi.ch>",
     license=open("LICENSE").read(),

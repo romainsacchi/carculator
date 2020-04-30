@@ -26,16 +26,58 @@ class InventoryCalculation:
         scope = {
                         'powertrain':['BEV', 'FCEV', 'ICEV-p'],
                     }
-        background_configuration = {
-                                            'country' : 'DE', # will use the network electricity losses of Germany
-                                            'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0], # in this case, 100% hydropower for the first year
-                                                                        [0.5,0.5,0,0,0,0,0,0,0,0]], # in this case, 50% hydro, 50% nuclear for the second year
-                                            'hydrogen technology' : 'Electrolysis',
-                                            'petrol technology': 'bioethanol - wheat straw',
-                                            'alternative petrol share':[0.1,0.2],
-                                            'battery technology': 'LFP',
-                                            'battery origin': 'NO'
-                                        }
+        bc = {'country':'CH', # considers electricity network losses for Switzerland
+              'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0], # in this case, 100% hydropower for the first year
+                                          [0,1,0,0,0,0,0,0,0,0],
+                                          [0,0,1,0,0,0,0,0,0,0],
+                                          [0,0,0,1,0,0,0,0,0,0],
+                                         ], # in this case, 100% nuclear for the second year
+              'fuel blend':{
+                  'cng':{ #specify fuel bland for compressed gas
+                        'primary fuel':{
+                            'type':'biogas',
+                            'share':[0.9, 0.8, 0.7, 0.6] # shares per year. Must total 1 for each year.
+                            },
+                        'secondary fuel':{
+                            'type':'syngas',
+                            'share': [0.1, 0.2, 0.3, 0.4]
+                            }
+                        },
+                 'diesel':{
+                        'primary fuel':{
+                            'type':'synthetic diesel',
+                            'share':[0.9, 0.8, 0.7, 0.6]
+                            },
+                        'secondary fuel':{
+                            'type':'biodiesel - cooking oil',
+                            'share': [0.1, 0.2, 0.3, 0.4]
+                            }
+                        },
+                 'petrol':{
+                        'primary fuel':{
+                            'type':'petrol',
+                            'share':[0.9, 0.8, 0.7, 0.6]
+                            },
+                        'secondary fuel':{
+                            'type':'bioethanol - wheat straw',
+                            'share': [0.1, 0.2, 0.3, 0.4]
+                            }
+                        },
+                'hydrogen':{
+                        'primary fuel':{'type':'electrolysis', 'share':[1, 0, 0, 0]},
+                        'secondary fuel':{'type':'smr', 'share':[0, 1, 1, 1]}
+                        }
+                    },
+              'energy storage': {
+                  'electric': {
+                      'type':'NMC',
+                      'origin': 'NO'
+                  },
+                  'hydrogen': {
+                      'type':'carbon fiber'
+                  }
+              }
+             }
 
         InventoryCalculation(CarModel.array,
                             background_configuration=background_configuration,
@@ -67,8 +109,10 @@ class InventoryCalculation:
     :vartype array: CarModel.array
     :ivar scope: dictionary that contains filters for narrowing the analysis
     :ivar background_configuration: dictionary that contains choices for background system
-    :ivar scenario: REMIND energy scenario to use ("BAU": business-as-usual or "RCP26": limits radiative forcing to 2.6 W/m^2.).
-                    "BAU" selected by default.
+    :ivar scenario: REMIND energy scenario to use ("SSP2-Baseline": business-as-usual,
+                                                    "SSP2-PkBudg1100": limits cumulative GHG emissions to 1,100 gigatons by 2100,
+                                                    "static": no forward-looking modification of the background inventories).
+                    "SSP2-Baseline" selected by default.
 
     .. code-block:: python
 
@@ -1619,6 +1663,8 @@ class InventoryCalculation:
                 self.bs.electricity_mix.sel(country=country,
                 variable=["Hydro","Nuclear","Gas","Solar","Wind","Biomass","Coal","Oil","Geothermal","Waste"])
                 .interp(year=np.arange(y, y + use_year[self.scope["year"].index(y)]), kwargs={"fill_value": "extrapolate"}).mean(axis=0).values
+                if y + use_year[self.scope["year"].index(y)] <= 2050 else self.bs.electricity_mix.sel(country=country,
+                variable=["Hydro","Nuclear","Gas","Solar","Wind","Biomass","Coal","Oil","Geothermal","Waste"]).interp(year=np.arange(y, 2051), kwargs={"fill_value": "extrapolate"}).mean(axis=0).values
                 for y in self.scope["year"]
             ]
 
