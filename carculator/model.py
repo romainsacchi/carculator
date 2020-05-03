@@ -175,7 +175,10 @@ class CarModel:
         if n_iterations == 1:
             cost_factor = 1
         else:
-            cost_factor = np.random.triangular(.7, 1, 1.3, (n_iterations, 1))
+            if 'reference' in self.array.value.values:
+                cost_factor = np.ones((n_iterations, 1))
+            else:
+                cost_factor = np.random.triangular(.7, 1, 1.3, (n_iterations, 1))
 
         # Correction of hydrogen tank cost, per kg
         self.array.loc[:, ["FCEV"], "fuel tank cost per kg", :, :] = np.reshape(
@@ -886,7 +889,7 @@ class CarModel:
             :, ["HEV-p", "HEV-d"], list_noise_emissions, :, :
         ] = nem.get_sound_power_per_compartment("hybrid").reshape((24, 1, 1))
 
-    def calculate_cost_impacts(self, scope=None):
+    def calculate_cost_impacts(self, sensitivity=False):
         """
         This method returns an array with cost values per vehicle-km, sub-divided into the following groups:
 
@@ -899,85 +902,38 @@ class CarModel:
         :return: A xarray array with cost information per vehicle-km
         :rtype: xarray.core.dataarray.DataArray
         """
-        if scope is None:
-            scope = {}
-            scope["size"] = self.array.coords["size"].values.tolist()
-            scope["powertrain"] = self.array.coords["powertrain"].values.tolist()
-            scope["year"] = self.array.coords["year"].values.tolist()
-        else:
-            scope["size"] = scope.get("size", self.array.coords["size"].values.tolist())
-            scope["powertrain"] = scope.get(
-                "powertrain", self.array.coords["powertrain"].values.tolist()
-            )
-            scope["year"] = scope.get("year", self.array.coords["year"].values.tolist())
+
+        list_cost_cat = ["purchase", "maintenance", "component replacement", "energy", "total"]
 
         response = xr.DataArray(
             np.zeros(
-                (1, len(scope["size"]), len(scope["powertrain"]), len(scope["year"]), 5)
+                (len(self.array.coords['size']),
+                 len(self.array.coords['powertrain']),
+                 len(list_cost_cat),
+                 len(self.array.coords['year']),
+                 len(self.array.coords['value']))
             ),
             coords=[
-                ["cost"],
-                scope["size"],
-                scope["powertrain"],
-                scope["year"],
+                self.array.coords['size'].values.tolist(),
+                self.array.coords['powertrain'].values.tolist(),
                 ["purchase", "maintenance", "component replacement", "energy", "total"],
+                self.array.coords['year'].values.tolist(),
+                self.array.coords['value'].values.tolist(),
             ],
-            dims=["cost", "size", "powertrain", "year", "cost_type"],
+            dims=["size", "powertrain", "cost_type", "year", "value"],
         )
 
         response.loc[
-            :, scope["size"], scope["powertrain"], scope["year"], "purchase"
+            :,:,["purchase", "maintenance", "component replacement", "energy", "total"],:,:
         ] = self.array.sel(
-            powertrain=scope["powertrain"],
-            size=scope["size"],
-            year=scope["year"],
-            parameter="amortised purchase cost",
-        ).sum(
-            axis=3
-        )
-        response.loc[
-            :, scope["size"], scope["powertrain"], scope["year"], "maintenance"
-        ] = self.array.sel(
-            powertrain=scope["powertrain"],
-            size=scope["size"],
-            year=scope["year"],
-            parameter="maintenance cost",
-        ).sum(
-            axis=3
-        )
-        response.loc[
-            :,
-            scope["size"],
-            scope["powertrain"],
-            scope["year"],
-            "component replacement",
-        ] = self.array.sel(
-            powertrain=scope["powertrain"],
-            size=scope["size"],
-            year=scope["year"],
-            parameter="amortised component replacement cost",
-        ).sum(
-            axis=3
-        )
-        response.loc[
-            :, scope["size"], scope["powertrain"], scope["year"], "energy"
-        ] = self.array.sel(
-            powertrain=scope["powertrain"],
-            size=scope["size"],
-            year=scope["year"],
-            parameter="energy cost",
-        ).sum(
-            axis=3
-        )
-        response.loc[
-            :, scope["size"], scope["powertrain"], scope["year"], "total"
-        ] = self.array.sel(
-            powertrain=scope["powertrain"],
-            size=scope["size"],
-            year=scope["year"],
-            parameter="total cost per km",
-        ).sum(
-            axis=3
-        )
+            parameter=["amortised purchase cost",
+                       "maintenance cost",
+                       "amortised component replacement cost",
+                       "energy cost",
+                       "total cost per km"]
+        ).values
 
-        return response
+        if not sensitivity:
+            return response
+        else:
+            return response/response.sel(value="reference")

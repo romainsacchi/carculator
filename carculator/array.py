@@ -57,7 +57,7 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False):
         )
     else:
         params = ["reference"]
-        params.extend([a for a in cip.parameters])
+        params.extend([a for a in cip.input_parameters])
         array = xr.DataArray(
             np.zeros(
                 (
@@ -88,21 +88,23 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False):
                 )
             ] = cip.values[param]
     else:
-        for param in enumerate(cip):
-            vals = [cip.values[param[1]] for p in range(0, len(cip.parameters) + 1)]
-            vals[cip.parameters.index(cip.metadata[param[1]]["name"]) + 1] *= 1.1
+        for param in cip.input_parameters:
+            names = [n for n in cip.metadata if cip.metadata[n]['name'] == param]
 
-            array.loc[
-                dict(
-                    powertrain=cip.metadata[param[1]]["powertrain"],
-                    size=cip.metadata[param[1]]["sizes"],
-                    year=cip.metadata[param[1]]["year"],
-                    parameter=cip.metadata[param[1]]["name"],
-                )
-            ] = vals
+            for name in names:
+                vals = [cip.values[name] for _ in range(0, len(cip.input_parameters) + 1)]
+                vals[cip.input_parameters.index(param) + 1] *= 1.1
+
+                array.loc[
+                    dict(
+                        powertrain=cip.metadata[name]["powertrain"],
+                        size=cip.metadata[name]["sizes"],
+                        year=cip.metadata[name]["year"],
+                        parameter=cip.metadata[name]["name"],
+                    )
+                ] = vals
 
     return (size_dict, powertrain_dict, parameter_dict, year_dict), array
-
 
 def modify_xarray_from_custom_parameters(fp, array):
     """

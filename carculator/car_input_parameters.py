@@ -71,6 +71,12 @@ class CarInputParameters(NamedParameters):
         self.parameters = sorted(
             {o["name"] for o in parameters.values()}.union(set(extra))
         )
+
+        # keep a list of input parameters, for sensitivity purpose
+        self.input_parameters = sorted(
+            {o["name"] for o in parameters.values()})
+
+
         self.years = sorted({o["year"] for o in parameters.values()})
         self.add_car_parameters(parameters)
 

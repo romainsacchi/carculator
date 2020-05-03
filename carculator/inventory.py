@@ -465,8 +465,7 @@ class InventoryCalculation:
             )
 
         else:
-            params = ["reference"]
-            params.extend([a for a in self.array_inputs])
+            params = [a for a in self.array.value.values]
             response = xr.DataArray(
                 np.zeros(
                     (
@@ -598,8 +597,6 @@ class InventoryCalculation:
 
         arr = arr.transpose(1, 3, 0, 4, 2)
         arr = arr[:, :, :, self.split_indices, :].sum(axis=4)
-
-
 
         if not sensitivity:
             for y in range(0, len(self.scope["year"])):
