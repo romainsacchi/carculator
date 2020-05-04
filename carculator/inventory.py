@@ -1666,6 +1666,12 @@ class InventoryCalculation:
             ]
 
         for y in self.scope["year"]:
+
+            if self.scenario == "static":
+                co2_intensity_tech = (self.B.sel(category="climate change", year=2020, activity=list(dict_map.values())).values * float(self.bs.losses[country]["LV"]))*1000
+            else:
+                co2_intensity_tech = (self.B.sel(category="climate change", activity=list(dict_map.values())).interp(year=y, kwargs={"fill_value": "extrapolate"}).values * float(self.bs.losses[country]["LV"]))*1000
+
             sum_renew = (
                 mix[self.scope["year"].index(y)][0]
                 + mix[self.scope["year"].index(y)][3]
@@ -1679,12 +1685,16 @@ class InventoryCalculation:
             else:
                 end_str = "\n \t * "
 
+
             print(
                 "in "
                 + str(y)
-                + ", % of renewable _________________________ "
+                + ", % of renewable: "
                 + str(np.round(sum_renew * 100, 0))
-                + "%",
+                + "%"
+                + ", GHG intensity per kWh: "
+                + str(int(np.sum(co2_intensity_tech * mix[self.scope["year"].index(y)])))
+                + " g. CO2-eq.",
                 end=end_str,
             )
 

@@ -889,7 +889,7 @@ class CarModel:
             :, ["HEV-p", "HEV-d"], list_noise_emissions, :, :
         ] = nem.get_sound_power_per_compartment("hybrid").reshape((24, 1, 1))
 
-    def calculate_cost_impacts(self, sensitivity=False):
+    def calculate_cost_impacts(self, sensitivity=False, scope=None):
         """
         This method returns an array with cost values per vehicle-km, sub-divided into the following groups:
 
@@ -903,21 +903,33 @@ class CarModel:
         :rtype: xarray.core.dataarray.DataArray
         """
 
+        if scope is None:
+            scope = {}
+            scope["size"] = self.array.coords["size"].values.tolist()
+            scope["powertrain"] = self.array.coords["powertrain"].values.tolist()
+            scope["year"] = self.array.coords["year"].values.tolist()
+        else:
+            scope["size"] = scope.get("size", self.array.coords["size"].values.tolist())
+            scope["powertrain"] = scope.get(
+                "powertrain", self.array.coords["powertrain"].values.tolist()
+            )
+            scope["year"] = scope.get("year", self.array.coords["year"].values.tolist())
+
         list_cost_cat = ["purchase", "maintenance", "component replacement", "energy", "total"]
 
         response = xr.DataArray(
             np.zeros(
-                (len(self.array.coords['size']),
-                 len(self.array.coords['powertrain']),
+                (len(scope['size']),
+                 len(scope['powertrain']),
                  len(list_cost_cat),
-                 len(self.array.coords['year']),
-                 len(self.array.coords['value']))
+                 len(scope['year']),
+                 len(scope['value']))
             ),
             coords=[
-                self.array.coords['size'].values.tolist(),
-                self.array.coords['powertrain'].values.tolist(),
+                scope['size'],
+                scope['powertrain'],
                 ["purchase", "maintenance", "component replacement", "energy", "total"],
-                self.array.coords['year'].values.tolist(),
+                scope['year'],
                 self.array.coords['value'].values.tolist(),
             ],
             dims=["size", "powertrain", "cost_type", "year", "value"],
