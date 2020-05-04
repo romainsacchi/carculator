@@ -937,7 +937,9 @@ class CarModel:
 
         response.loc[
             :,:,["purchase", "maintenance", "component replacement", "energy", "total"],:,:
-        ] = self.array.sel(
+        ] = self.array.sel(powertrain=scope['powertrain'],
+                           size=scope['size'],
+                           year=scope['year'],
             parameter=["amortised purchase cost",
                        "maintenance cost",
                        "amortised component replacement cost",
