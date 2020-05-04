@@ -923,7 +923,7 @@ class CarModel:
                  len(scope['powertrain']),
                  len(list_cost_cat),
                  len(scope['year']),
-                 len(scope['value']))
+                 len(self.array.coords['value'].values))
             ),
             coords=[
                 scope['size'],
