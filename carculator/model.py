@@ -755,28 +755,44 @@ class CarModel:
         ]
 
         # Year index for EURO 6 pollution class, starts in 2015
-
         self.array.loc[
             :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if y>=2015]
         ] = hem.get_emissions_per_powertrain("diesel", euro_class=6)
 
-        # Year index for EURO 5 pollution class, starts in 2009
+        # Year index for EURO 5 pollution class, starts in 2011, ends in 2014
         self.array.loc[
             :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2009 <= y < 2015]
+                                                                        2011 <= y < 2015]
         ] = hem.get_emissions_per_powertrain("diesel", euro_class=5)
 
-        # Year index for EURO 4 pollution class, starts in 2005, ends in 2008
+        # Year index for EURO 4 pollution class, starts in 2006, ends in 2010
         self.array.loc[
             :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2005 <= y < 2009]
+                                                                        2006 <= y < 2011]
         ] = hem.get_emissions_per_powertrain("diesel", euro_class=4)
 
-        # Year index for EURO 3 pollution class, starts in 2000, ends in 2004
+        # Year index for EURO 3 pollution class, starts in 2001, ends in 2005
         self.array.loc[
             :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2000 <= y < 2004]
+                                                                        2001 <= y < 2006]
         ] = hem.get_emissions_per_powertrain("diesel", euro_class=3)
+
+        # Year index for EURO 2 pollution class, starts in 1997, ends in 2000
+        self.array.loc[
+            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
+                                                                        1997 <= y < 2001]
+        ] = hem.get_emissions_per_powertrain("diesel", euro_class=2)
+
+        # Year index for EURO 1 pollution class, starts in 1993, ends in 1996
+        self.array.loc[
+            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
+                                                                        1993 <= y < 1997]
+        ] = hem.get_emissions_per_powertrain("diesel", euro_class=1)
+
+        # Year index for EURO 0 pollution class, ends in 1992
+        self.array.loc[
+            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if y < 1993]
+        ] = hem.get_emissions_per_powertrain("diesel", euro_class=0)
 
         # Applies an emission factor, useful for sensitivity purpose
         self.array.loc[
@@ -788,23 +804,40 @@ class CarModel:
             :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if y>=2015]
         ] = hem.get_emissions_per_powertrain("petrol", euro_class=6)
 
-        # Year index for EURO 5 pollution class, starts in 2009, ends in 2014
+        # Year index for EURO 5 pollution class, starts in 2011, ends in 2014
         self.array.loc[
             :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2009 <= y < 2015]
+                                                                        2011 <= y < 2015]
         ] = hem.get_emissions_per_powertrain("petrol", euro_class=5)
 
-        # Year index for EURO 4 pollution class, starts in 2005, ends in 2008
+        # Year index for EURO 4 pollution class, starts in 2006, ends in 2010
         self.array.loc[
             :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2005 <= y < 2009]
+                                                                        2006 <= y < 2011]
         ] = hem.get_emissions_per_powertrain("petrol", euro_class=4)
 
-        # Year index for EURO 3 pollution class, starts in 2000, ends in 2004
+        # Year index for EURO 3 pollution class, starts in 2001, ends in 2005
         self.array.loc[
             :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2000 <= y < 2004]
+                                                                        2001 <= y < 2006]
         ] = hem.get_emissions_per_powertrain("petrol", euro_class=3)
+
+        # Year index for EURO 2 pollution class, starts in 1997, ends in 2000
+        self.array.loc[
+            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
+                                                                        1997 <= y < 2001]
+        ] = hem.get_emissions_per_powertrain("petrol", euro_class=2)
+
+        # Year index for EURO 1 pollution class, starts in 1993, ends in 1996
+        self.array.loc[
+            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
+                                                                        1993 <= y < 1997]
+        ] = hem.get_emissions_per_powertrain("petrol", euro_class=1)
+
+        # Year index for EURO 0 pollution class, starts ends in 1992
+        self.array.loc[
+            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if y < 1993]
+        ] = hem.get_emissions_per_powertrain("petrol", euro_class=0)
 
         # Applies an emission factor, useful for sensitivity purpose
         self.array.loc[
@@ -816,20 +849,25 @@ class CarModel:
             :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if y>=2015]
         ] = hem.get_emissions_per_powertrain("CNG", euro_class=6)
 
-        # Year index for EURO 5 pollution class, starts in 2009
+        # Year index for EURO 5 pollution class, starts in 2011, ends in 2014
         self.array.loc[
-            :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if 2009 <= y < 2015]
+            :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if 2011 <= y < 2015]
         ] = hem.get_emissions_per_powertrain("CNG", euro_class=5)
 
-        # Year index for EURO 4 pollution class, starts in 2005, ends in 2009
+        # Year index for EURO 4 pollution class, starts in 2006, ends in 2010
         self.array.loc[
-            :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if 2005 <= y < 2009]
+            :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if 2006 <= y < 2011]
         ] = hem.get_emissions_per_powertrain("CNG", euro_class=4)
 
-         # Year index for EURO 3 pollution class, starts in 2000, ends in 2004
+        # Year index for EURO 3 pollution class, starts in 2001, ends in 2005
         self.array.loc[
-            :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if 2000 <= y < 2004]
+            :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if 2001 <= y < 2006]
         ] = hem.get_emissions_per_powertrain("CNG", euro_class=3)
+
+        # Year index for EURO 2 pollution class, ends in 2000
+        self.array.loc[
+            :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if y < 2001]
+        ] = hem.get_emissions_per_powertrain("CNG", euro_class=2)
 
         # Applies an emission factor, useful for sensitivity purpose
         self.array.loc[:, "ICEV-g", list_direct_emissions, :] *= self.array.loc[

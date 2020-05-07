@@ -2323,7 +2323,7 @@ class InventoryCalculation:
                                 (array[self.array_inputs["fuel mass"], :, ind_array] * share[self.scope["year"].index(y)])
                             / array[self.array_inputs["range"], :, ind_array]
                         )
-                        * -58 * 0.103 # kWh/kg hydrogen, times amount of hydrogen per kg of syngas (RWGS)
+                        * -58 * 0.251 # kWh/kg hydrogen, times amount of hydrogen per kg of syngas (RWGS)
                     ).T
 
         if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV-p"]]:
@@ -2511,7 +2511,7 @@ class InventoryCalculation:
                                 (array[self.array_inputs["fuel mass"], :, ind_array] * share[self.scope["year"].index(y)])
                             / array[self.array_inputs["range"], :, ind_array]
                         )
-                        * -58 * 3.24e-04 # kWh/kg hydrogen, times amount of hydrogen per kg of syngas (RWGS)
+                        * -58 * 0.15 # kWh/kg hydrogen, times amount of hydrogen per kg of synthetic gasoline (RWGS)
                     ).T
 
         # Non-exhaust emissions
