@@ -707,7 +707,7 @@ class InventoryCalculation:
 
         list_file_names = glob.glob(str(REMIND_FILES_DIR) + '/*{}*.csv'.format(self.scenario))
 
-        B = np.zeros((len(list_file_names), 19, self.A.shape[1]))
+        B = np.zeros((len(list_file_names), 21, self.A.shape[1]))
 
         for f in list_file_names:
             initial_B = np.genfromtxt(f, delimiter=";")
@@ -2511,7 +2511,7 @@ class InventoryCalculation:
                                 (array[self.array_inputs["fuel mass"], :, ind_array] * share[self.scope["year"].index(y)])
                             / array[self.array_inputs["range"], :, ind_array]
                         )
-                        * -58 * 0.15 # kWh/kg hydrogen, times amount of hydrogen per kg of synthetic gasoline (RWGS)
+                        * -58 * 0.331 # kWh/kg hydrogen, times amount of hydrogen per kg of synthetic gasoline (RWGS)
                     ).T
 
         # Non-exhaust emissions

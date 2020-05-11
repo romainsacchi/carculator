@@ -322,13 +322,9 @@ class HotEmissionsModel:
                     "(1.159e-07 * c ** 3 - 1.891e-05 * c ** 2 + 0.0008328 * c + 0.01852) + (4.056e-08 * c ** 3 - 6.618e-06 * c ** 2 + 0.0002915 * c + 0.006481)"
                 )
                 # PM <= 2.5 um
-                em_arr[:, 3] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 3] =  ne.evaluate(
                         "2.12e-09 * c ** 3 - 4.61e-07 * c ** 2 + 3.018e-05 * c - 0.0001433"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # CH4
                 em_arr[:, 4] = ne.evaluate(
                     "1.278e-09 * c ** 3 - 3.514e-07 * c ** 2  + 5.622e-05 * c + 0.004324"
@@ -367,14 +363,9 @@ class HotEmissionsModel:
                     "(-2.973e-07 * c ** 3 + 0.00018 * c ** 2 - 0.01601 * c + 1.184) + (-1.486e-08 * c ** 3 + 9e-06 * c ** 2 - 0.0008007 * c + 0.05918)"
                 )
                 # PM <= 2.5 um
-                em_arr[:, 3] = \
-                    np.clip(
-                        ne.evaluate(
+                em_arr[:, 3] =  ne.evaluate(
                             "6.057e-08 * c ** 3 - 1.191e-05 * c ** 2 + 0.0007664 * c - 0.01338"
-                        ),
-                        0,
-                        None
-                    )
+                        )
 
                 # CH4
                 em_arr[:, 4] = ne.evaluate(
@@ -650,48 +641,30 @@ class HotEmissionsModel:
         if powertrain_type == "CNG":
             if euro_class == 2:
                 # HC
-                em_arr[:, 0] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 0] = ne.evaluate(
                         "-4.483e-08 * c ** 3 + 1.26e-05 * c ** 2 - 0.0008596 * c + 0.06402"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # CO
-                em_arr[:, 1] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 1] = ne.evaluate(
                         "1.573e-05 * c ** 3 - 0.003288 * c ** 2 + 0.2176 * c - 4.045"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # NO + NO2
-                em_arr[:, 2] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 2] =  ne.evaluate(
                     "(3.802e-07 * c ** 3 - 4.275e-05 * c ** 2 - 0.001211 * c + 0.2782) + (2.37e-08 * c ** 3 - 2.666e-06 * c ** 2 - 7.551e-05 * c + 0.01734)"
-                ), 0, None)
+                )
 
                 # PM <= 2.5 um
-                em_arr[:, 3] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 3] =  ne.evaluate(
                     "5.509e-08 * c ** 3 - 9.59e-06 * c ** 2 + 0.0005602 * c - 0.008264"
-                ), 0, None)
+                )
                 # CH4
-                em_arr[:, 4] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 4] = ne.evaluate(
                         "-3.202e-08 * c ** 3 + 9.001e-06 * c ** 2 - 0.000614 * c + 0.04573"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # NMVOC
-                em_arr[:, 5] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 5] = ne.evaluate(
                         "-1.281e-08 * c ** 3 + 3.6e-06 * c ** 2 - 0.0002456 * c + 0.01829"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # Pb
                 em_arr[:, 6] = ne.evaluate(
                     "-3.679e-12 * c ** 3 + 4.9e-09 * c ** 2 - 6.404e-07 * c + 4.914e-05"
@@ -705,54 +678,35 @@ class HotEmissionsModel:
                 # NH3
                 em_arr[:, 9] = 0.075
                 # Benzene
-                em_arr[:, 10] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 10] =  ne.evaluate(
                     "-1.656e-09 * c ** 3 + 4.655e-07 * c ** 2 - 3.176e-05 * c + 0.002365"
-                ), 0, None)
+                )
             if euro_class == 3:
                 # HC
-                em_arr[:, 0] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 0] =  ne.evaluate(
                         "6.91e-08 * c ** 3 - 1.357e-05 * c ** 2 + 0.0009447 * c - 0.01034"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # CO
-                em_arr[:, 1] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 1] =  ne.evaluate(
                         "1.472e-05 * c ** 3 - 0.003084 * c ** 2 + 0.2045 * c - 3.806"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # NO + NO2
-                em_arr[:, 2] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 2] =  ne.evaluate(
                     "(2.075e-07 * c ** 3 - 2.335e-05 * c ** 2 - 0.0006691 * c + 0.1524) + (1.452e-08 * c ** 3 - 1.634e-06 * c ** 2 - 4.684e-05 * c + 0.01067)"
-                ), 0, None)
+                )
 
                 # PM <= 2.5 um
-                em_arr[:, 3] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 3] =  ne.evaluate(
                     "1.73e-08 * c ** 3 - 2.854e-06 * c ** 2 + 0.0001556 * c - 0.001652"
-                ), 0, None)
+                )
                 # CH4
-                em_arr[:, 4] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 4] =  ne.evaluate(
                         "4.215e-08 * c ** 3 - 8.28e-06 * c ** 2 + 0.0005763 * c - 0.006305"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # NMVOC
-                em_arr[:, 5] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 5] =  ne.evaluate(
                         "2.695e-08 * c ** 3 - 5.294e-06 * c ** 2 + 0.0003684 * c - 0.004031"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # Pb
                 em_arr[:, 6] = ne.evaluate(
                     "-4.803e-12 * c ** 3 + 5.227e-09 * c ** 2 - 6.738e-07 * c + 5.072e-05"
@@ -766,54 +720,36 @@ class HotEmissionsModel:
                 # NH3
                 em_arr[:, 9] = 0.03
                 # Benzene
-                em_arr[:, 10] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 10] =  ne.evaluate(
                     "4.468e-09 * c ** 3 - 8.776e-07 * c ** 2 + 6.108e-05 * c - 0.0006682"
-                ), 0, None)
+                )
             if euro_class == 4:
                 # HC
-                em_arr[:, 0] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 0] =  ne.evaluate(
                         "6.557e-09 * c ** 3 + 3.168e-06 * c ** 2 - 0.0004758 * c + 0.03329"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # CO
-                em_arr[:, 1] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 1] =  ne.evaluate(
                         "6.843e-06 * c ** 3 - 0.001373 * c ** 2 + 0.08654 * c - 1.442"
-                    ),
-                    0,
-                    None,
-                )
+                    )
+
                 # NO + NO2
-                em_arr[:, 2] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 2] =  ne.evaluate(
                     "(1.775e-06 * c ** 3 - 0.0003727 * c ** 2 + 0.02381 * c - 0.3833) + (1.398e-07 * c ** 3 - 2.943e-05 * c ** 2 + 0.001887 * c - 0.03122)"
-                ), 0, None)
+                )
 
                 # PM <= 2.5 um
-                em_arr[:, 3] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 3] =  ne.evaluate(
                     "3.087e-08 * c ** 3 - 5.349e-06 * c ** 2 + 0.0002932 * c - 0.002924"
-                ), 0, None)
+                )
                 # CH4
-                em_arr[:, 4] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 4] =  ne.evaluate(
                         "-1.646e-08 * c ** 3 + 7.339e-06 * c ** 2 - 0.000706 * c + 0.03439"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # NMVOC
-                em_arr[:, 5] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 5] =  ne.evaluate(
                         "2.302e-08 * c ** 3 - 4.17e-06 * c ** 2 + 0.0002302 * c - 0.001097"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # Pb
                 em_arr[:, 6] = ne.evaluate(
                     "-9.752e-12 * c ** 3 + 5.948e-09 * c ** 2 - 7.025e-07 * c + 4.688e-05"
@@ -827,54 +763,35 @@ class HotEmissionsModel:
                 # NH3
                 em_arr[:, 9] = 0.03
                 # Benzene
-                em_arr[:, 10] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 10] =  ne.evaluate(
                     "4.326e-10 * c ** 3 - 8.507e-08 * c ** 2 + 5.158e-06 * c - 7.231e-05"
-                ), 0, None)
+                )
             if euro_class == 5:
                 # HC
-                em_arr[:, 0] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 0] =  ne.evaluate(
                         "-1.029e-08 * c ** 3 + 8.099e-06 * c ** 2 - 0.000892 * c + 0.04839"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # CO
-                em_arr[:, 1] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 1] =  ne.evaluate(
                         "4.389e-06 * c ** 3 - 0.0008576 * c ** 2 + 0.0548 * c - 0.8267"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # NO + NO2
-                em_arr[:, 2] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 2] =  ne.evaluate(
                     "(2.835e-07 * c ** 3 - 5.778e-05 * c ** 2 + 0.003404 * c - 0.02752) + (2.238e-08 * c ** 3 - 4.585e-06 * c ** 2 + 0.000276 * c - 0.002851)"
-                ), 0, None)
+                )
 
                 # PM <= 2.5 um
-                em_arr[:, 3] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 3] =  ne.evaluate(
                     "3.568e-08 * c ** 3 - 6.356e-06 * c ** 2 + 0.000347 * c - 0.002842"
-                ), 0, None)
+                )
                 # CH4
-                em_arr[:, 4] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 4] =  ne.evaluate(
                         "-2.619e-08 * c ** 3 + 1.075e-05 * c ** 2 - 0.001026 * c + 0.0469"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # NMVOC
-                em_arr[:, 5] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 5] =  ne.evaluate(
                         "1.59e-08 * c ** 3 - 2.653e-06 * c ** 2 + 0.000134 * c + 0.001487"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # Pb
                 em_arr[:, 6] = ne.evaluate(
                     "-9.722e-12 * c ** 3 + 5.618e-09 * c ** 2 - 6.622e-07 * c + 4.414e-05"
@@ -888,27 +805,18 @@ class HotEmissionsModel:
                 # NH3
                 em_arr[:, 9] = 0.019
                 # Benzene
-                em_arr[:, 10] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 10] =  ne.evaluate(
                     "3.216e-10 * c ** 3 - 6.349e-08 * c ** 2 + 3.948e-06 * c - 4.585e-05"
-                ), 0, None)
+                )
             if euro_class == 6:
                 # HC
-                em_arr[:, 0] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 0] =  ne.evaluate(
                         "5.502e-08 * c ** 3 - 1.239e-05 * c ** 2 + 0.000846 * c - 0.004044"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # CO
-                em_arr[:, 1] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 1] =  ne.evaluate(
                         "2.678e-06 * c ** 3 - 0.0005585 * c ** 2 + 0.03632 * c - 0.5159"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # NO + NO2
                 em_arr[:, 2] = ne.evaluate(
                     "(2.163e-08 * c ** 3 - 3.758e-06 * c ** 2 + 5.485e-05 * c + 0.02848) + (4.35e-09 * c ** 3 - 7.625e-07 * c ** 2 + 2.251e-05 * c + 0.002413)"
@@ -918,21 +826,13 @@ class HotEmissionsModel:
                     "1.997e-09 * c ** 3 - 2.116e-07 * c ** 2 - 1.277e-05 * c + 0.002135"
                 )
                 # CH4
-                em_arr[:, 4] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 4] =  ne.evaluate(
                         "4.568e-08 * c ** 3 - 1.052e-05 * c ** 2 + 0.0007284 * c - 0.003946"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # NMVOC
-                em_arr[:, 5] = np.clip(
-                    ne.evaluate(
+                em_arr[:, 5] =  ne.evaluate(
                         "9.338e-09 * c ** 3 - 1.872e-06 * c ** 2 + 0.0001175 * c - 9.78e-05"
-                    ),
-                    0,
-                    None,
-                )
+                    )
                 # Pb
                 em_arr[:, 6] = ne.evaluate(
                     "-1.38e-11 * c ** 3 + 6.464e-09 * c ** 2 - 7.366e-07 * c + 4.665e-05"
@@ -952,6 +852,9 @@ class HotEmissionsModel:
 
         if powertrain_type not in ("petrol", "diesel", "CNG"):
             raise TypeError("The powertrain type is not valid.")
+
+        # In case the fit produces negative numbers
+        em_arr[em_arr<0] = 0
 
         # If the driving cycle selected is one of the driving cycles for which carculator has specifications,
         # we use the driving cycle "official" road section types to compartmentalize emissions.
