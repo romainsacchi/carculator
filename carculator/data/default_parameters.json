@@ -4642,8 +4642,7 @@
       "HEV-p",
       "HEV-d",
       "PHEV-c-p",
-      "PHEV-c-d",
-      "PHEV-e"
+      "PHEV-c-d"
     ],
     "sizes": [
       "Mini",
@@ -4666,8 +4665,7 @@
       "HEV-p",
       "HEV-d",
       "PHEV-c-p",
-      "PHEV-c-d",
-      "PHEV-e"
+      "PHEV-c-d"
     ],
     "sizes": [
       "Mini",
@@ -4718,8 +4716,7 @@
       "HEV-p",
       "HEV-d",
       "PHEV-c-p",
-      "PHEV-c-d",
-      "PHEV-e"
+      "PHEV-c-d"
     ],
     "sizes": [
       "Lower medium",
@@ -4742,8 +4739,7 @@
       "HEV-p",
       "HEV-d",
       "PHEV-c-p",
-      "PHEV-c-d",
-      "PHEV-e"
+      "PHEV-c-d"
     ],
     "sizes": [
       "Lower medium",
@@ -4766,8 +4762,7 @@
       "HEV-p",
       "HEV-d",
       "PHEV-c-p",
-      "PHEV-c-d",
-      "PHEV-e"
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -4791,8 +4786,7 @@
       "HEV-p",
       "HEV-d",
       "PHEV-c-p",
-      "PHEV-c-d",
-      "PHEV-e"
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -11859,8 +11853,7 @@
       "HEV-p",
       "HEV-d",
       "PHEV-c-p",
-      "PHEV-c-d",
-      "PHEV-e"
+      "PHEV-c-d"
     ],
     "sizes": [
       "Mini",
@@ -11883,8 +11876,7 @@
       "HEV-p",
       "HEV-d",
       "PHEV-c-p",
-      "PHEV-c-d",
-      "PHEV-e"
+      "PHEV-c-d"
     ],
     "sizes": [
       "Lower medium",
@@ -11907,8 +11899,7 @@
       "HEV-p",
       "HEV-d",
       "PHEV-c-p",
-      "PHEV-c-d",
-      "PHEV-e"
+      "PHEV-c-d"
     ],
     "sizes": [
       "Large",
@@ -16642,8 +16633,7 @@
          "HEV-p",
          "HEV-d",
          "PHEV-c-p",
-         "PHEV-c-d",
-         "PHEV-e"
+         "PHEV-c-d"
       ],
       "sizes":[
          "Mini",
@@ -16666,8 +16656,7 @@
          "HEV-p",
          "HEV-d",
          "PHEV-c-p",
-         "PHEV-c-d",
-         "PHEV-e"
+         "PHEV-c-d"
       ],
       "sizes":[
          "Lower medium",
@@ -16690,8 +16679,7 @@
          "HEV-p",
          "HEV-d",
          "PHEV-c-p",
-         "PHEV-c-d",
-         "PHEV-e"
+         "PHEV-c-d"
       ],
       "sizes":[
          "Large",
