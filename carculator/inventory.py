@@ -397,6 +397,8 @@ class InventoryCalculation:
         self.index_noise = [self.inputs[i] for i in self.inputs if "noise" in i[0]]
         self.list_cat, self.split_indices = self.get_split_indices()
         self.bs = BackgroundSystemModel()
+        # Load the B matrix
+        self.B = self.get_B_matrix()
 
     def __getitem__(self, key):
         """
@@ -553,8 +555,7 @@ class InventoryCalculation:
         self, method="recipe", level="midpoint", split="components", sensitivity=False
     ):
 
-        # Load the B matrix
-        self.B = self.get_B_matrix()
+
 
         # Prepare an array to store the results
         results = self.get_results_table(method, level, split, sensitivity=sensitivity)
@@ -1643,12 +1644,12 @@ class InventoryCalculation:
                     array[
                         self.array_inputs["lifetime kilometers"],
                         :,
-                        self.get_index_from_array(["BEV", "PHEV-p", "PHEV-d"]),
+                        self.get_index_from_array(["BEV", "FCEV", "PHEV-p", "PHEV-d", "ICEV-p", "ICEV-d", "HEV-p", "HEV-d", "ICEV-g"]),
                     ]
                     / array[
                         self.array_inputs["kilometers per year"],
                         :,
-                        self.get_index_from_array(["BEV", "PHEV-p", "PHEV-d"]),
+                        self.get_index_from_array(["BEV", "FCEV", "PHEV-p", "PHEV-d", "ICEV-p", "ICEV-d", "HEV-p", "HEV-d", "ICEV-g"]),
                     ]
                 )
                 .mean(axis=1)
@@ -2003,7 +2004,7 @@ class InventoryCalculation:
                         print(
                             "The values for biofuel shares do not match the number of years."
                         )
-                        exit(1)
+                        sys.exit(1)
 
             try:
                 type_primary_icevg
