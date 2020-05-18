@@ -284,7 +284,23 @@ In the case of battery electric vehicles and hybrid vehicles, things are similar
 
     ``range`` [km] = (``electric energy stored`` [kWh] x ``battery DoD`` [%] x 3.6 x 1000) / ``TtW energy``
 
+The following lower heating values (LHV) for the liquid and gaseous fuels, in Mj/kg, are used:
 
+* gasoline: 42.4
+* diesel: 48
+* compressed gas: 55.5
+* hydrogen: 120
+
+Those can be changed by modifying the value of the ``LHV fuel MJ per kg`` in ``array`` before passing it to ``CarModel``.
+For example, we can decrease the LHV of diesel::
+
+    dict_param = {('Powertrain',  'ICEV-d', 'all', 'LHV fuel MJ per kg', 'none'): {
+                                                                                        (2000, 'loc'): 44,
+                                                                                        (2010, 'loc'): 44,
+                                                                                        (2017, 'loc'): 44,
+                                                                                        (2040, 'loc'): 44
+                                                                                        }
+    modify_xarray_from_custom_parameters(dict_param, array)
 
 How can I override the tank-to-wheel efficiency?
 ------------------------------------------------
@@ -312,14 +328,14 @@ Here is an example for a diesel car of medium size in 2020, for which we want to
     cm.calculate_ttw_energy()
 
 If I know already the fuel consumption of a vehicle, can I override it?
--------------------------------------------------------------------
+-----------------------------------------------------------------------
 
 With **carculator online**:
 
 Currently, it is not possible to modify directly the parameter ``TtW energy``, as it would be recalculated.
-In order to do so, you need to use instead the Python library *carculator* (see next section).
+In order to do so, you need to use instead the Python library *carculator* (see next section):
 
-
+    carbon dioxide emission [kg/km] = ``CO2 per kg fuel`` [kg/kg] x ``fuel mass`` [kg] x share_fossil_co2 / ``range`` [km]
 With **carculator**:
 
 Yes. After having created the CarModel() object and executed the :meth:`.set_all` method, you can override the
@@ -337,8 +353,57 @@ calculated ``TtW energy`` value (in kilojoules). Here is an example for a diesel
 Fuel-related direct emissions
 *****************************
 
+Only carbon dioxide emissions are calculated based on the fuel consumption:
+
+    carbon dioxide emission [kg/km] = ``CO2 per kg fuel`` [kg/kg] x ``fuel mass`` [kg] x share_fossil_co2 / ``range`` [km]
+
+`share_fossil_co2` is the share of the CO2 resulting from the fuel combustion that is of fossil nature.
+This is conditioned by the type of fuel the user selects later on.
+
 Hot pollutants emissions
 ************************
+
+**carculator** quantifies the emissions of the following substances:
+
+* Hydrocarbons
+* Carbon monoxide
+* Nitrogen oxides
+* Particulate matters
+* Methane
+* NMVOC
+* Lead
+* Sulfur dioxide
+* Dinitrogen oxide
+* Ammonia
+* Benzene
+
+It does so by correlating the emission of a substance at a given speed and the speed given for each second of the driving cycle.
+
+The emission of substances function of the speed level is sourced from the
+`Handbook Emission Factors for Road Transport <https://www.hbefa.net/e/index.html>` for vehicles of various emission
+standards (from Euro-0 to Euro-6d).
+
+Here is such correlation plotted for gasoline-run vehicles with a Euro-6d emission standard:
+
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/hbefa_petrol_euro6d.png
+    :width: 900
+    :alt: Substance emission versus speed, petrol, Euro-6d
+
+Given the years selected, the corresponding emission factors are chosen:
+
+* before 1993: Euro-0
+* between 1993 and 1997: Euro-1
+* between 1998 and 2000: Euro-2
+* between 2001 and 2005: Euro-3
+* between 2006 and 2010: Euro-4
+* between 2011 and 2014: Euro-5
+* above 2015: Euro-6
+
+Emissions are summed over the duration of the driving cycle. Furthermore, some driving cycles have distinct parts
+corresponding to different driving environments: urban, suburban, highway, etc. These driving environments are used
+to further split emissions and be more precise on the fate of the substances and the exposure of the population.
+
+
 
 Components origin
 *****************
