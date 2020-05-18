@@ -48,8 +48,6 @@ The ``driving mass`` of the vehicle is then obtained by summing the ``curb mass`
 
 A second step consists into calculating the mass of the combustion and electric engine, based on the following:
 
-.. math::
-
     power demand (``power``) [kW] = ``power-to-mass ratio`` [kW/kg] x ``curb mass`` [kg]
     electrical power demand (``electric power``) [kW] = power demand (``power``) [kW] x (1 - ``combustion power share`` [%])
     ``electric engine mass`` [kW] = (``electric power`` [kW] x ``electric mass per power`` [kg/kW]) + ``electric fixed mass`` [kg]
@@ -57,8 +55,6 @@ A second step consists into calculating the mass of the combustion and electric 
     ``combustion engine mass`` [kW] = (``combustion power`` [kW] x ``combustion mass per power`` [kg/kW]) + ``combustion fixed mass`` [kg]
 
 As well as for the mass of the powertrain:
-
-.. math::
 
     ``powertrain mass`` [kg] = (``power`` [kW] x ``powertrain mass per power`` [kg/kW]) + ``powertrain fixed mass`` [kg]
 
