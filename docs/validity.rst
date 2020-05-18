@@ -192,8 +192,9 @@ On an equivalent diesel powertrain, the mass of the glider base is comparatively
     
 
 
-The `curb mass` returned by ``carculator`` is plotted against manufacturers' data, per vehicle size class and powertrain technology.
-To do so, we use the car database Car2db (https://car2db.com/) and load all car trims produced after 2013 (21,383 vehicles).
+The `curb mass` returned by ``carculator`` for the year 2010 and 2017 is further calibrated against manufacturers' data, per vehicle size class and powertrain technology.
+For example, we use the car database Car2db (https://car2db.com/) and load all the vehicles produced between 2015 and 2019 (11,500+ vehicles) to do the curb mass calibration for 2017 vehicles.
+The same exercise is done with vehicles between 2008 and 2012 to calibrate the curb mass of given by carculator for vehicles in 2010.
 
     
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/mass_comparison.png
@@ -203,11 +204,13 @@ To do so, we use the car database Car2db (https://car2db.com/) and load all car 
 
 Tank-to-wheel energy
 --------------------
-The EU tests all new commercialized cars for emissions and energy consumption according to the WLTC driving cycle (v.3).
+The European Commission monitors all new registered cars for emissions and energy consumption according to the WLTC driving cycle (v.3).
 See: https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
 
 However, this database does not directly give energy consumption.
 But we can use CO2 emission measurements with the lower heating value of the corresponding fuel to back-calculate the energy consumption.
+Here is an example, where the 2017 vehicle fuel consumption is calibrated against 15,000,000+ measurements found in the EU database for vehicles registered in 2018
+(the 2017 database could not be used as emissions were not measured according to WLTC just yet).
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/EU_energy_comparison.png
     :width: 900

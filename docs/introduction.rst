@@ -69,11 +69,7 @@ Once your environment created, you should activate it::
 
     conda activate <name of the environment>
 
-And install the development version of the ``carculator`` package in your new environment via Conda::
-
-    conda install -c conda-forge -c pascallesage -c cmutel -c romainsacchi/label/nightly carculator-dev
-
-Or from the Python Package Index::
+And install the ``carculator`` library in your new environment via Conda::
 
     pip install carculator
 
@@ -85,9 +81,12 @@ How to use it?
 Static vs. Stochastic mode
 **************************
 
-The inventories can be calculated using the most likely value of the given input parameters, but also using
-randomly-generated values based on a probability distribution for those.
-For example, the drivetrain efficiency of SUVs, regardless of the powertrain, is given the most likely value of 0.38,
+Note: many examples are given in this `notebook <https://github.com/romainsacchi/carculator/blob/master/examples/Examples.ipynb>`_ that you can run directly on your computer..
+
+The inventories can be calculated using the most likely value of the given input parameters ("static" mode), but also using
+randomly-generated values based on a probability distribution for those ("stochastic" mode).
+
+For example, the drivetrain efficiency of SUVs in 2017, regardless of the powertrain, is given the most likely value (i.e., the mode) of 0.38,
 but with a triangular probability distribution with a minimum and maximum of 0.3 and 0.4, respectively.
 
 Creating car models in static mode will use the most likely value of the given parameters to dimension the cars, etc., such as:
@@ -118,7 +117,7 @@ This effectively creates 800 iterations of the same car models, picking pseudo-r
 within the probability distributions defined. This allows to assess later the effect of uncertainty propagation on
 characterized results.
 
-In both case, a CarModel object is returned, with a 3-dimensional array `array` to store the generated parameters values, with the following dimensions:
+In both case, a CarModel object is returned, with a 4-dimensional array `array` to store the generated parameters values, with the following dimensions:
 
 0. Vehicle size, e.g. "small", "medium". str.
 1. Powertrain, e.g. "ICE-p", "BEV". str.
@@ -162,14 +161,24 @@ Then, you simply pass this dictionary to `modify_xarray_from_custom_parameters(<
 Alternatively, instead of a Python dictionary, you can pass a file path pointing to an Excel spreadsheet that contains
 the values to change, following `this template <https://github.com/romainsacchi/carculator/raw/master/docs/template_workbook.xlsx>`_.
 
+The following probability distributions are accepted:
+* "triangular"
+* "lognormal"
+* "normal"
+* "uniform"
+* "none"
+
 Inter and extrapolation of parameters
 *************************************
 
+``carculator`` creates by default car models for the year 2000, 2010, 2017 and 2040.
 It is possible to inter and extrapolate all the parameters to other years simply by writing:
 
 .. code-block:: python
 
     array = array.interp(year=[2018, 2022, 2035, 2040, 2045, 2050],  kwargs={'fill_value': 'extrapolate'})
+
+However, we do not recommend extrapolating for years before 2000 or beyond 2050.
 
 
 Changing the driving cycle
@@ -250,7 +259,7 @@ value for the tank-to-wheel energy, you would have a distribution of values:
     :alt: Alternative text
 
 Any other attributes of the CarModel class can be obtained in a similar way.
-Hence, the following lists all direct exhaust emissions included in the inventory of an petrol Van in 2017:
+Hence, the following code lists all direct exhaust emissions included in the inventory of an petrol Van in 2017:
 
 List of all the given and calculated parameters of the car model:
 
@@ -270,9 +279,6 @@ Finally, return their values and display the first 10 in a table:
 
     cm.array.sel(parameter=direct_emissions, year=2017, size='Van', powertrain='BEV').to_dataframe(name='direct emissions')
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/example_direct_emissions.png
-    :width: 400
-    :alt: Alternative text
 
 
 Or we could be interested in visualizing the distribution of non-characterized noise emissions, in joules:
@@ -292,18 +298,18 @@ Or we could be interested in visualizing the distribution of non-characterized n
 Modify calculated parameters
 ****************************
 
-As input parameters, calculated parameters cna also be overridden. For exmaple here, we override the `driving mass`
-of large diesel vehicles in, for all years:
+As input parameters, calculated parameters can also be overridden. For example here, we override the `driving mass`
+of large diesel vehicles for 2010 and 2017:
 
 .. code-block:: python
 
-    cm.array.loc['Large','ICEV-d','driving mass',:] = [[2000],[2200]]
+    cm.array.loc['Large','ICEV-d','driving mass',[2010, 2017]] = [[2000],[2200]]
 
 Characterization of inventories (static)
 ****************************************
 
 ``carculator`` makes the characterization of inventories easy. You can characterize the inventories directly from
-``carculator`` against midpoint, endpoint and single score impact assessment methods.
+``carculator`` against midpoint impact assessment methods.
 
 For example, to obtain characterized results against the midpoint impact assessment method ReCiPe for all cars:
 

@@ -282,7 +282,6 @@ class ExportInventory:
                         "code": str(uuid.uuid1()),
                     }
                 )
-
         if presamples:
             return (list_act, presamples_matrix)
         else:
