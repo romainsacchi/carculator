@@ -195,37 +195,85 @@ Tank-to-wheel energy consumption
 ********************************
 Once the vehicle and its powertrain has been sized, it is possible to calculate the motive energy required along
 a specific drivign cycle to overcome the following forces:
+
 * rolling resistance
 * aerodynamic resistance
 * air resistance
 * road gradient resistance (if provided)
 
-on top of the kinetic energy needed to move the vehicle.
+on top of the *kinetic energy* needed to move the vehicle.
 
 To that amount of energy is subtracted the *energy recuperated* during braking, if the vehicle is equipped with
 an electric motor (to the extent of the power of the motor, discounted with an `recuperation efficiency` currently set at 72%).
 
 To calculate the tank-to-wheel energy, the following parameters are needed:
+
 * the ``driving mass`` of the vehicle
 * its ``rolling resistance coefficient``
 * its ``aerodynamic drag coefficient``
 * its ``frontal area``
 * its tank-to-wheel efficiency (``TtW efficiency``)
 * its ``recuperation efficiency``
-* and the power of its electric motor, if any (`electric power`)
+* and the power of its electric motor, if any (``electric power``)
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/motive_energy.png
     :width: 900
     :alt: Calculation of the motive energy
 
-Here is a second-by-second power requirement for a medium battery electric vehicle, along the WLTC driving cycle:
+Here is plotted the second-by-second power requirement for a large-sized battery electric vehicle, along the WLTC driving cycle:
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/kw_bev_wltc.png
     :width: 900
     :alt: Calculation of the motive energy
 
 
-The power required for each second of the driving cycle is summed up to obtain the amount of kilojoules needed per km.
+In parallel, the ``TtW efficiency`` is calculated as the sum of the following inefficiencies:
+* ``battery discharge efficiency``
+* ``fuel cell system efficiency``
+* ``drivetrain efficiency``
+* ``engine efficiency``
+
+It represents the loss of energy between the energy storage and the wheels.
+
+The power required for each second of the driving cycle is therefore summed up, and divided by the ``TtW efficiency``,
+to obtain the amount of kilojoules needed in the tank (or battery) per km.
+
+Finally, the `auxillary` energy, that is the energy needed to operate onboard equipment, is also calculated.
+The sum of the `motive` and the `auxillary` energy gives the tank-to-wheel energy (``TtW energy``) of the vehicle.
+
+Parameters such as ``battery discharge efficiency``, ``fuel cell system efficiency``, ``drivetrain efficiency``,
+``engine efficiency`` and therefore, indirectly, ``TtW efficiency``, have been calibrated to obtain ``TtW energy``
+figures that fit what is observed in reality.
+
+For 2010 and 2017 vehicles, the tank-to-wheel energy use (``TtW energy``) and underlying parameters have been calibrated
+against the database from the `Monitoring of CO2 emissions from passenger cars <https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16>`_
+program from the European Environment Agency. This database lists energy and emission measurement for each new passenger
+car registered in the European Union, based on the NEDC and WLTC driving cycles.
+
+Tank-to-wheel energy calibration for 2010 vehicles
+
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/EU_energy_comparison_2010.png
+    :width: 900
+    :alt: Tank-to-wheel energy calibration for 2010 vehicles
+
+
+Tank-to-wheel energy calibration for 2017 vehicles
+
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/EU_energy_comparison.png
+    :width: 900
+    :alt: Tank-to-wheel energy calibration for 2017 vehicles
+
+For the year 2000, such energy and emission measurement data was not available. Hence, we relied on XXX that provides
+historical time series on the measured fuel efficiency of diesel and petrol engines based on the WLTC driving cycle,
+including its evolution between 2000 and 2010 (-20%). Therefore, the underlying parameters of ``TtW efficiency`` have
+been adjusted to produce ``TtW energy`` figures about 20% more important than those observed in 2010.
+
+Here is a comparison of the ``TtW energy`` based on the WLTC driving cycle for 2000, 2010 and 2017 vehicles:
+
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/EU_energy_comparison_2000.png
+    :width: 900
+    :alt: Tank-to-wheel energy calibration for 2000 vehicles
+
 
 Fuel-related direct emissions
 *****************************
