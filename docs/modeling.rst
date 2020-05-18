@@ -5,7 +5,7 @@ The modeling of passenger vehicles in the past, present and future is complex an
 With **carculator**, we wish to be transparent about those: assumptions and modeling approaches should ideally be easily
 critiqued and modified.
 
-We there try to give a comprehensive list of assumptions and modeling choices on this page, and describe how, as a user, you
+We try here to give a comprehensive list of assumptions and modeling choices, and describe how, as a user, you
 can change those.
 
 Parameters' names are indicated ``verbatim`` and are to be used in **carculator**.
@@ -20,7 +20,7 @@ Vehicle sizing
 * and a parameter dimension (i.e., input and calculated parameters).
 
 When **carculator** sizes the vehicles for the different powertrains, sizes and years, it starts with the
-input parameter's value for the `glider base mass`, which is essentially an initial guess for the mass of the vehicle's
+input parameter's value for the ``glider base mass``, which is essentially an initial guess for the mass of the vehicle's
 glider without anything on it.
 
 Then it adds the following components and their associated mass:
@@ -73,10 +73,10 @@ mass of more than one percent).
     :alt: Structure of mass module
 
 Four initial input parameters are therefore of importance:
-* `glider base mass`:the initial mass of the glider
-* `power to mass ratio`: the power-to-mass ratio
-* `combustion power share`: how much of the power is provided by an internal combustion engine
-* `combustion mass per power`: the mass of the combustion engine per unit of power
+* ``glider base mass``:the initial mass of the glider
+* ``power to mass ratio``: the power-to-mass ratio
+* ``combustion power share``: how much of the power is provided by an internal combustion engine
+* ``combustion mass per power``: the mass of the combustion engine per unit of power
 
 For electric vehicles (i.e., BEV and FCEV), ``combustion power share`` = 0.
 For internal combustion engine vehicles (i.e., ICEV-p, ICEV-d and ICEV-g),
@@ -94,6 +94,18 @@ This means that plugin hybrid vehicles are made of between 60 and 70% of a purel
 
 If I know already the ``curb mass`` of a vehicle, can I override its value?
 ---------------------------------------------------------------------------
+
+With **carculator online**:
+
+Currently, it is not possible to modify directly the calculated parameter ``curb mass``, as it would be recalculated.
+In order to do so, you need to use instead the Python library **carculator** (see next section). You can however
+modify any of the input parameters ``glider base mass``, ``power to mass ratio``, ``combustion power share``
+and ``combustion mass per power`` used to calculate ``curb mass``.
+To do so, type their name in the search field of the Parameters section.
+
+
+With **carculator**:
+
 Yes. After having created the CarModel() object and executed the :meth:`.set_all` method, you can override the
 calculated ``curb mass`` value. Here is an example for a diesel car of medium size in 2020::
 
@@ -380,7 +392,7 @@ Hot pollutants emissions
 It does so by correlating the emission of a substance at a given speed and the speed given for each second of the driving cycle.
 
 The emission of substances function of the speed level is sourced from the
-`Handbook Emission Factors for Road Transport <https://www.hbefa.net/e/index.html>` for vehicles of various emission
+`Handbook Emission Factors for Road Transport <https://www.hbefa.net/e/index.html>`_ for vehicles of various emission
 standards (from Euro-0 to Euro-6d).
 
 Here is such correlation plotted for gasoline-run vehicles with a Euro-6d emission standard:
@@ -403,6 +415,8 @@ Emissions are summed over the duration of the driving cycle. Furthermore, some d
 corresponding to different driving environments: urban, suburban, highway, etc. These driving environments are used
 to further split emissions and be more precise on the fate of the substances and the exposure of the population.
 
+Noise emissions
+***************
 
 
 Components origin
