@@ -2,7 +2,7 @@ Modeling and assumptions
 ========================
 
 The modeling of passenger vehicles in the past, present and future is complex and relies on many assumptions.
-With ```carculator``, we wish to be transparent about those: assumptions and modeling approaches should ideally be easily
+With ``carculator``, we wish to be transparent about those: assumptions and modeling approaches should ideally be easily
 critiqued and modified.
 
 We there try to give a comprehensive list of assumptions and modeling choices on this page, and describe how, as a user, you
@@ -11,6 +11,7 @@ can change those.
 Vehicle sizing
 **************
 ``carculator`` models vehicles along four dimensions:
+
 * their powertrain (e.g., gasoline-run internal combustion engine, battery electric vehicle, etc.),
 * their size (e.g., mini, medium, large, etc.),
 * their year of production (2000, 2010, 2017 and 2040)
@@ -21,6 +22,7 @@ input parameter's value for the `glider base mass`, which is essentially an init
 glider without anything on it.
 
 Then it adds the following components and their associated mass:
+
 * `fuel mass`: mass of the fuel in the fuel tank (only applicable to vehicles using liquid or gaseous fuels),
 * `fuel tank mass`: mass of the fuel tank (empty),
 * `charger mass`: mass of the onboard battery charger (for battery electric and plugin hybrid vehicles only),
@@ -43,6 +45,7 @@ The `driving mass` of the vehicle is then obtained by summing the `curb mass` to
 (`average passengers` * `average passenger mass`) and cargo transported (`cargo mass`).
 
 A second step consists into calculating the mass of the combustion and electric engine, based on the following:
+
 * power demand (`power`) [kW]: `power-to-mass ratio` [kW/kg] * `curb mass` [kg]
     * electrical power demand (`electric power`) [kW]: power demand (`power`) [kW] * (1 - `combustion power share` [%])
         * `electric engine mass` [kW]: (`electric power` [kW] * `electric mass per power` [kg/kW]) + `electric fixed mass` [kg]
@@ -50,6 +53,7 @@ A second step consists into calculating the mass of the combustion and electric 
         * `combustion engine mass` [kW]: (`combustion power` [kW] * `combustion mass per power` [kg/kW]) + `combustion fixed mass` [kg]
 
 As well as for the mass of the powertrain:
+
 * `powertrain mass` [kg]: (`power` [kW] * `powertrain mass per power` [kg/kW]) + `powertrain fixed mass` [kg]
 
 With the mass of these new components recalculated (`electric engine mass`, `combustion engine mass` and `powertrain mass`),
@@ -113,22 +117,26 @@ the Car2DB database with a production year in the range of 1998-2002, against 20
 The value of the input parameter `glider base mass` was adjusted to fit the distribution shown in the plots below.
 
 Calibration of vehicles' curb mass for the year 2000
+
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/curb_mass_calibration_2000.png
     :width: 900
     :alt: Calibration for year 2000 vehicles
 
 Calibration of vehicles' curb mass for the year 2010
+
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/curb_mass_calibration_2010.png
     :width: 900
     :alt: Calibration for year 2010 vehicles
 
 Calibration of vehicles' curb mass for the year 2017
+
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/mass_comparison.png
     :width: 900
     :alt: Calibration for year 2017 vehicles
 
 For the year 2040, the value for input parameters `glider base mass`, `combustion mass per power`, `power to mass ratio` are
 adjusted according to the following studies:
+
 * Hirschberg (Editor) S, Bauer C, Cox B, Heck T, Hofer J, Schenler W, et al. Opportunities and challenges for electric mobility: an interdisciplinary assessment of passenger vehicles Final report of the THELMA project in co-operation with the Swiss Competence Center for Energy Research "Efficient technologies and systems for mobil. 2016.
 * Del Duce, Andrea; Gauch, Marcel; Althaus, Hans-Jörg: "Electric passenger car transport and passenger car life cycle inventories in ecoinvent version 3", International Journal of Life Cycle Assessment, Vol. 21, pp. 1314-1326, (2016)
 * E. A. Grunditz and T. Thiringer, "Performance Analysis of Current BEVs Based on a Comprehensive Review of Specifications," in IEEE Transactions on Transportation Electrification, vol. 2, no. 3, pp. 270-289, Sept. 2016, doi: 10.1109/TTE.2016.2571783.
@@ -157,6 +165,7 @@ Hence, parameters such as `fuel tank cost per kg`, `fuel cell cost per kW`, `ene
 or `combustion powertrain cost per kW` would be of shape: a*exp(b) + c. Coefficients *a*, *b* and *c* are defined to fit the literature and projections.
 
 Projection of energy battery cost per kWh for BEV and FCEV.
+
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/cost_energy_battery_projection.png
     :width: 900
     :alt: Projection of energy battery cost per kWh
