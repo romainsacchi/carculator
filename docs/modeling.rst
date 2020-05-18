@@ -228,6 +228,7 @@ Here is plotted the second-by-second power requirement for a large-sized battery
 
 
 In parallel, the ``TtW efficiency`` is calculated as the sum of the following inefficiencies:
+
 * ``battery discharge efficiency``
 * ``fuel cell system efficiency``
 * ``drivetrain efficiency``
@@ -263,7 +264,8 @@ Tank-to-wheel energy calibration for 2017 vehicles
     :width: 900
     :alt: Tank-to-wheel energy calibration for 2017 vehicles
 
-For the year 2000, such energy and emission measurement data was not available. Hence, we relied on XXX that provides
+For the year 2000, such energy and emission measurement data was not available. Hence, we relied on the `International
+Council on Clean Transportation data <https://theicct.org/chart-library-passenger-vehicle-fuel-economy>`_ that provides
 historical time series on the measured fuel efficiency of diesel and petrol engines based on the WLTC driving cycle,
 including its evolution between 2000 and 2010 (-20%). Therefore, the underlying parameters of ``TtW efficiency`` have
 been adjusted to produce ``TtW energy`` figures about 20% more important than those observed in 2010.
@@ -273,6 +275,13 @@ Here is a comparison of the ``TtW energy`` based on the WLTC driving cycle for 2
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/EU_energy_comparison_2000.png
     :width: 900
     :alt: Tank-to-wheel energy calibration for 2000 vehicles
+
+
+How can I override the engine efficiency?
+-----------------------------------------
+
+If I konw already the fuel consumption of a car, can I override it?
+-------------------------------------------------------------------
 
 
 Fuel-related direct emissions
