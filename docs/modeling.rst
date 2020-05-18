@@ -173,7 +173,7 @@ adjusted according to the following studies:
 * Del Duce, Andrea; Gauch, Marcel; Althaus, Hans-Jörg: "Electric passenger car transport and passenger car life cycle inventories in ecoinvent version 3", International Journal of Life Cycle Assessment, Vol. 21, pp. 1314-1326, (2016)
 * E. A. Grunditz and T. Thiringer, "Performance Analysis of Current BEVs Based on a Comprehensive Review of Specifications," in IEEE Transactions on Transportation Electrification, vol. 2, no. 3, pp. 270-289, Sept. 2016, doi: 10.1109/TTE.2016.2571783.
 
-What happens what I inter-/extrapolate to other years?
+What happens when I inter-/extrapolate to other years?
 ------------------------------------------------------
 
 If the default years of 2000, 2010, 2017 and 2040 are of no interest, it is possible to inter-/extrapolate the vehicle
@@ -181,9 +181,11 @@ models to any year between 2000 and 2050. When such inter-/extrapolation is done
 are inter-/extrapolated **linearly**.
 
 With **carculator online**:
-Simply drag the desired years from the left frame to the right frame.
+
+In the Scope section, simply drag the desired years from the left frame to the right frame.
 
 With **carculator**:
+
 After creating ``array``, which is a `DataArray` object from the library ``xarray``, it is possible to use the `.interp()`
 method, like so::
 
@@ -239,7 +241,7 @@ Here is plotted the second-by-second power requirement for a large-sized battery
     :alt: Calculation of the motive energy
 
 
-In parallel, the ``TtW efficiency`` is calculated as the product of the following inefficiency parameters:
+In parallel, the ``TtW efficiency`` is calculated as the product of the following efficiency parameters:
 
 * ``battery discharge efficiency``
 * ``fuel cell system efficiency``
@@ -248,7 +250,20 @@ In parallel, the ``TtW efficiency`` is calculated as the product of the followin
 
 It represents the loss of energy between the energy storage and the wheels.
 
-The power required for each second of the driving cycle is therefore summed up, and divided by the ``TtW efficiency``,
+rolling resistance = driving mass [kg] x rolling resistance coefficient [%] x 9.81 [m/s^2]
+air resistance = velocity^2 x frontal area [m^2] x drag coefficient [%] x air density [kg/m^3] / 2
+road gradient resistance = driving mass [kg] x 9.81 [m/s^2] x sin(gradient)
+kinetic energy = acceleration [m/s^2] x driving mass [kg]
+
+power required [kg m^2 s^-3] = rolling resistance + air resistance + road gradient resistance + kinetic energy
+
+motive energy = power required x velocity [m/s]
+
+recuperated energy = (-1000 x electric power x recuperation efficiency) if power required < (-1000 x electric power x recuperation efficiency)
+
+``TtW energy`` = (energy required / (distance x 1000) + (recuperated power / distance / 1000)) / ``TtW efficiency``
+
+The energy required for each second of the driving cycle is therefore summed up along the driving time, and divided by the ``TtW efficiency``,
 to obtain the amount of kilojoules needed in the tank (or battery) per km.
 
 Finally, the `auxillary` energy, that is the energy needed to operate onboard equipment, is also calculated.
@@ -320,15 +335,14 @@ How can I override the tank-to-wheel efficiency?
 With **carculator online**:
 
 In the Parameters section, search for any or all of ``battery discharge efficiency``, ``fuel cell system efficiency``, ``drivetrain efficiency``,
- ``engine efficiency`` parameters and add them for the vehicles you wish to modify. The ``TtW efficiency`` is the
- product of those. Currently, it is not possible to modify directly the parameter ``TtW efficiency``, as it would be recalculated.
-In order to do so, you need to use instead the Python library *carculator* (see next section).
-
+``engine efficiency`` parameters and add them for the vehicles you wish to modify. The ``TtW efficiency`` is the
+product of those. Currently, it is not possible to modify directly the parameter ``TtW efficiency``, as it would be recalculated.
+In order to do so, you need to use instead the Python library **carculator** (see next section).
 
 With **carculator**:
 
 Yes. After having created the CarModel() object and executed the :meth:`.set_all` method, you can override the
-calculated ``TtW efficiency`` value and recalculate the TtW energy with the :meth:`.calculate_ttw_energy` method.
+calculated ``TtW efficiency`` value and recalculate ``TtW energy`` with the :meth:`.calculate_ttw_energy` method.
 Here is an example for a diesel car of medium size in 2020, for which we want to set the TtW efficiency at 30% (instead of 24%)::
 
     cm = CarModel(array, cycle='WLTC')
@@ -347,7 +361,6 @@ With **carculator online**:
 Currently, it is not possible to modify directly the parameter ``TtW energy``, as it would be recalculated.
 In order to do so, you need to use instead the Python library *carculator* (see next section):
 
-    carbon dioxide emission [kg/km] = ``CO2 per kg fuel`` [kg/kg] x ``fuel mass`` [kg] x share_fossil_co2 / ``range`` [km]
 With **carculator**:
 
 Yes. After having created the CarModel() object and executed the :meth:`.set_all` method, you can override the

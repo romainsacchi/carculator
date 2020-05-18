@@ -177,34 +177,37 @@ def modify_xarray_from_custom_parameters(fp, array):
             if not isinstance(k[1], str):
                 pt = [p.strip() for p in k[1] if p]
                 pt = [p for p in pt if p]
+                pt = list(pt)
             elif k[1] == "all":
                 pt = array.coords["powertrain"].values
             else:
                 if k[1] in array.coords["powertrain"].values:
-                    pt = k[1]
+                    pt = [k[1]]
                 else:
                     print(
                     "{} is not a recognized powertrain. It will be skipped.".format(
                         k[1]
+                        )
                     )
-                )
-                continue
+                    continue
 
 
             if not isinstance(k[2], str):
                 sizes = [s.strip() for s in k[2] if s]
+                sizes = [s for s in sizes if s]
+                sizes = list(sizes)
             elif k[2] == "all":
                 sizes = array.coords["size"].values
             else:
                 if k[2] in array.coords["size"].values:
-                    sizes = k[2]
+                    sizes = [k[2]]
                 else:
                     print(
                     "{} is not a recognized size category. It will be skipped.".format(
                         k[2]
+                        )
                     )
-                )
-                continue
+                    continue
 
             param = k[3]
 
