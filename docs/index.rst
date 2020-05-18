@@ -8,6 +8,7 @@ Index
 
    introduction
    structure
+   modeling
    validity
 
 Technical Reference

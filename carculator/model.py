@@ -204,7 +204,7 @@ class CarModel:
             (1, 1, n_year, n_iterations),
         )
 
-        # Correction of power battery system cost, per kWh
+        # Correction of power battery system cost, per kW
         self.array.loc[
             :,
             ["ICEV-p","ICEV-d","ICEV-g","PHEV-c-p","PHEV-c-d", "FCEV", "HEV-p", "HEV-d"],
