@@ -168,7 +168,7 @@ If the default years of 2000, 2010, 2017 and 2040 are of no interest, it is poss
 models to any year between 2000 and 2050. When such inter-/extrapolation is done, all the *physical* input parameters' values
 are inter-/extrapolated **linearly**.
 
-With ***carculator online***:
+With **carculator online**:
 Simply drag the desired years from the left frame to the right frame.
 
 With **carculator**:
@@ -280,8 +280,28 @@ Here is a comparison of the ``TtW energy`` based on the WLTC driving cycle for 2
 How can I override the engine efficiency?
 -----------------------------------------
 
-If I konw already the fuel consumption of a car, can I override it?
+With **carculator online**:
+
+In the Parameters section, search for any or all of ``battery discharge efficiency``, ``fuel cell system efficiency``, ``drivetrain efficiency``,
+ ``engine efficiency`` and add the parameter for the vehicles you wish to modify. Currently, it is not possible
+ to modify directly the parameter ``TtW efficiency``, as it would be recalculated.
+In order to do so, you need to use instead the Python library *carculator* (see next section).
+
+
+With **carculator**:
+
+
+
+If I know already the fuel consumption of a vehicle, can I override it?
 -------------------------------------------------------------------
+
+With **carculator online**:
+
+Currently, it is not possible to modify directly the parameter ``TtW energy``, as it would be recalculated.
+In order to do so, you need to use instead the Python library *carculator* (see next section).
+
+
+With **carculator**:
 
 
 Fuel-related direct emissions
