@@ -2,22 +2,24 @@ Modeling and assumptions
 ========================
 
 The modeling of passenger vehicles in the past, present and future is complex and relies on many assumptions.
-With *carculator*, we wish to be transparent about those: assumptions and modeling approaches should ideally be easily
+With **carculator**, we wish to be transparent about those: assumptions and modeling approaches should ideally be easily
 critiqued and modified.
 
 We there try to give a comprehensive list of assumptions and modeling choices on this page, and describe how, as a user, you
 can change those.
 
+Parameters' names are indicated ``verbatim`` and are to be used in **carculator**.
+
 Vehicle sizing
 **************
-*carculator* models vehicles along four dimensions:
+**carculator** models vehicles along four dimensions:
 
 * their powertrain (e.g., gasoline-run internal combustion engine, battery electric vehicle, etc.),
 * their size (e.g., mini, medium, large, etc.),
 * their year of production (2000, 2010, 2017 and 2040)
 * and a parameter dimension (i.e., input and calculated parameters).
 
-When *carculator* sizes the vehicles for the different powertrains, sizes and years, it starts with the
+When **carculator** sizes the vehicles for the different powertrains, sizes and years, it starts with the
 input parameter's value for the `glider base mass`, which is essentially an initial guess for the mass of the vehicle's
 glider without anything on it.
 
@@ -46,15 +48,19 @@ The ``driving mass`` of the vehicle is then obtained by summing the ``curb mass`
 
 A second step consists into calculating the mass of the combustion and electric engine, based on the following:
 
-* power demand (``power``) [kW] = ``power-to-mass ratio`` [kW/kg] x ``curb mass`` [kg]
-    * electrical power demand (``electric power``) [kW] = power demand (``power``) [kW] x (1 - ``combustion power share`` [%])
-        * ``electric engine mass`` [kW] = (``electric power`` [kW] x ``electric mass per power`` [kg/kW]) + ``electric fixed mass`` [kg]
-    * combustion power demand (``combustion power``) [kW] = ``power`` [kW] x ``combustion power share`` [%]
-        * ``combustion engine mass`` [kW] = (``combustion power`` [kW] x ``combustion mass per power`` [kg/kW]) + ``combustion fixed mass`` [kg]
+.. math::
+
+    power demand (``power``) [kW] = ``power-to-mass ratio`` [kW/kg] x ``curb mass`` [kg]
+    electrical power demand (``electric power``) [kW] = power demand (``power``) [kW] x (1 - ``combustion power share`` [%])
+    ``electric engine mass`` [kW] = (``electric power`` [kW] x ``electric mass per power`` [kg/kW]) + ``electric fixed mass`` [kg]
+    combustion power demand (``combustion power``) [kW] = ``power`` [kW] x ``combustion power share`` [%]
+    ``combustion engine mass`` [kW] = (``combustion power`` [kW] x ``combustion mass per power`` [kg/kW]) + ``combustion fixed mass`` [kg]
 
 As well as for the mass of the powertrain:
 
-* ``powertrain mass`` [kg] = (``power`` [kW] x ``powertrain mass per power`` [kg/kW]) + ``powertrain fixed mass`` [kg]
+.. math::
+
+    ``powertrain mass`` [kg] = (``power`` [kW] x ``powertrain mass per power`` [kg/kW]) + ``powertrain fixed mass`` [kg]
 
 With the mass of these new components recalculated (``electric engine mass``, ``combustion engine mass`` and ``powertrain mass``),
 the curb mass of the vehicle is calculated once again. This iterative process stops when the curb mass of the vehicle
@@ -88,11 +94,11 @@ This means that plugin hybrid vehicles are made of between 60 and 70% of a purel
 How to prevent the mild-hybridization of ICEVs?
 -----------------------------------------------
 
-With *carculator online*:
+With **carculator online**:
 
 In the Parameters section, search for `combustion power share` and add the parameter for the vehicles you wish to modify.
 
-With *carculator*:
+With **carculator**:
 You can simply override the default value by "1" in ``array`` before passing it to CarModel()::
 
     dict_param = {('Powertrain',  ('ICEV-d', 'ICEV-p', 'ICEV-g'), 'all', 'combustion power share', 'none'): {
@@ -111,7 +117,7 @@ You can also just override the default value of a specific powertrain of a speci
     modify_xarray_from_custom_parameters(dict_param, array)
 
 The ``curb mass`` values obtained for the vehicles in 2000, 2010 and 2017 are calibrated against a passenger cars database
-`Car2DB <https://car2db.com/>`_. The calibration of the ``curb mass` for vehicles for the year 2000 is done against vehicles in
+`Car2DB <https://car2db.com/>`_. The calibration of the ``curb mass`` for vehicles for the year 2000 is done against vehicles in
 the Car2DB database with a production year in the range of 1998-2002, against 2008-2012 and 2015-2018 for vehicles for the years
 2010 and 2017, respectively.
 The value of the input parameter ``glider base mass`` was adjusted to fit the distribution shown in the plots below.
@@ -148,11 +154,11 @@ If the default years of 2000, 2010, 2017 and 2040 are of no interest, it is poss
 models to any year between 2000 and 2050. When such inter-/extrapolation is done, all the *physical* input parameters' values
 are inter-/extrapolated **linearly**.
 
-With *carculator online*:
+With ***carculator online***:
 Simply drag the desired years from the left frame to the right frame.
 
-With *carculator*:
-After creating `array`, which is a `DataArray` object from the library ``xarray``, it is possible to use the `.interp()`
+With **carculator**:
+After creating ``array``, which is a `DataArray` object from the library ``xarray``, it is possible to use the `.interp()`
 method, like so::
 
      array = array.interp(year=np.arange(2015, 2051, 5),  kwargs={'fill_value': 'extrapolate'})
@@ -186,7 +192,7 @@ Components origin
 Background inventory
 ********************
 
-*carculator* is a parameterized model that allows to generate and characterize life cycle inventories for different
+**carculator** is a parameterized model that allows to generate and characterize life cycle inventories for different
 vehicle configurations, according to selected:
 
 * powertrain technologies (9): petrol engine, diesel engine, electric motor, hybrid, plugin-hybrid, etc.,
@@ -203,10 +209,10 @@ At the moment, the tool has a focus on passenger cars.
 It is initially based on the model developed in `Uncertain environmental footprint of current and future battery electric
 vehicles by Cox, et al (2018) <https://pubs.acs.org/doi/10.1021/acs.est.8b00261>`_.
 
-More specifically, *carculator* generates `Brightway2 <https://brightwaylca.org/>`_ inventories, but also directly provides characterized
+More specifically, **carculator** generates `Brightway2 <https://brightwaylca.org/>`_ inventories, but also directly provides characterized
 results against several midpoint indicators from the impact assessment method ReCiPe as well as life cycle cost indicators.
 
-*carculator* is a special in the way that it uses time- and energy-scenario-differentiated background inventories for the future,
+**carculator** is a special in the way that it uses time- and energy-scenario-differentiated background inventories for the future,
 resulting from the coupling between the `ecoinvent 3.6 database <https://ecoinvent.org>`_ and the scenario outputs of PIK's
 integrated assessment model `REMIND <https://www.pik-potsdam.de/research/transformation-pathways/models/remind/remind>`_.
 This allows to perform prospective study while consider future expected changes in regard to the production of electricity,
@@ -226,12 +232,12 @@ are sensitive to assumptions made in regards to electricity mix used for chargin
 to mixed conclusions being published in the scientific literature. Because the underlying calculations are kept undocumented,
 it is not always possible to explain the disparity in the results given by these models, which can contribute to adding confusion among the public.
 
-Because *carculator* is kept **as open as possible**, the methods and assumptions behind the generation of results are
+Because **carculator** is kept **as open as possible**, the methods and assumptions behind the generation of results are
 easily identifiable and adjustable.
 Also, there is an effort to keep the different modules (classes) separated, so that improving certain areas of the model is relatively
 easy and does not require changing extensive parts of the code. In that regard, contributions are welcome.
 
-Finally, beside being more flexible and transparent, *carculator* provides interesting features, such as:
+Finally, beside being more flexible and transparent, **carculator** provides interesting features, such as:
 
 * a stochastic mode, that allows fast Monte Carlo analyses, to include uncertainty at the vehicle level
 * possibility to override any or all of the 200+ default input car parameters (e.g., number of passengers, drag coefficient) but also calculated parameters (e.g., driving mass).
@@ -244,8 +250,8 @@ Finally, beside being more flexible and transparent, *carculator* provides inter
 How to install this package?
 ----------------------------
 
-*carculator* is a Python package, and is primarily to be used from within a Python 3.x environment.
-Because *carculator* is still at an early development stage, it is a good idea to install it in a separate environment,
+**carculator** is a Python package, and is primarily to be used from within a Python 3.x environment.
+Because **carculator** is still at an early development stage, it is a good idea to install it in a separate environment,
 such as a conda environment::
 
     conda create -n <name of the environment> python=3.7
@@ -254,7 +260,7 @@ Once your environment created, you should activate it::
 
     conda activate <name of the environment>
 
-And install the *carculator* library in your new environment via Conda::
+And install the **carculator** library in your new environment via Conda::
 
     pip install carculator
 
@@ -371,7 +377,7 @@ The following probability distributions are accepted:
 Inter and extrapolation of parameters
 *************************************
 
-*carculator* creates by default car models for the year 2000, 2010, 2017 and 2040.
+**carculator** creates by default car models for the year 2000, 2010, 2017 and 2040.
 It is possible to inter and extrapolate all the parameters to other years simply by writing:
 
 .. code-block:: python
@@ -383,7 +389,7 @@ However, we do not recommend extrapolating for years before 2000 or beyond 2050.
 Changing the driving cycle
 **************************
 
-*carculator* gives the user the possibility to choose between several driving cycles. Driving cycles are determinant in
+**carculator** gives the user the possibility to choose between several driving cycles. Driving cycles are determinant in
 many aspects of the car model: hot pollutant emissions, noise emissions, tank-to-wheel energy, etc. Hence, each driving
 cycle leads to slightly different results. By default, if no driving cycle is specified, the WLTC driving cycle is used.
 To specify a driving cycle, simply do:
@@ -507,8 +513,8 @@ of large diesel vehicles for 2010 and 2017:
 Characterization of inventories (static)
 ****************************************
 
-*carculator* makes the characterization of inventories easy. You can characterize the inventories directly from
-*carculator* against midpoint impact assessment methods.
+**carculator** makes the characterization of inventories easy. You can characterize the inventories directly from
+**carculator** against midpoint impact assessment methods.
 
 For example, to obtain characterized results against the midpoint impact assessment method ReCiPe for all cars:
 
