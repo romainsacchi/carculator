@@ -91,6 +91,18 @@ combustion-based vehicle. Later on, when the range of the purely-electric vehicl
 is obtained, which is used to fusion both vehicles. This ratio, which is dependent on the range, is usually between 0.6 and 0.7.
 This means that plugin hybrid vehicles are made of between 60 and 70% of a purely electric vehicle and 30 to 40% of a purely combustion-based vehicle.
 
+If I know already the ``curb mass`` of a vehicle, can I override its value?
+---------------------------------------------------------------------------
+Yes. After having created the CarModel() object and executed the :meth:`.set_all` method, you can override the
+calculated ``curb mass`` value. Here is an example for a diesel car of medium size in 2020::
+
+    cm = CarModel(array, cycle='WLTC')
+    cm.set_all()
+    cm.array.loc[dict(parameter="curb mass",
+                  powertrain="ICEV-d",
+                  year=2020,
+                  size="Medium")] = 1600
+
 How to prevent the mild-hybridization of ICEVs?
 -----------------------------------------------
 
@@ -99,6 +111,7 @@ With **carculator online**:
 In the Parameters section, search for `combustion power share` and add the parameter for the vehicles you wish to modify.
 
 With **carculator**:
+
 You can simply override the default value by "1" in ``array`` before passing it to CarModel()::
 
     dict_param = {('Powertrain',  ('ICEV-d', 'ICEV-p', 'ICEV-g'), 'all', 'combustion power share', 'none'): {
