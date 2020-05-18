@@ -276,6 +276,15 @@ Here is a comparison of the ``TtW energy`` based on the WLTC driving cycle for 2
     :width: 900
     :alt: Tank-to-wheel energy calibration for 2000 vehicles
 
+Knowing the tank-to-wheel energy requirement allows to calculate the range (in km) of a vehicle on a full tank since:
+
+    ``range`` [km] = (``fuel mass`` [kg] x ``LHV fuel MJ per kg`` [Mj/kg] x 1000) / ``TtW energy``
+
+In the case of battery electric vehicles and hybrid vehicles, things are similar:
+
+    ``range`` [km] = (``electric energy stored`` [kWh] x ``battery DoD`` [%] x 3.6 x 1000) / ``TtW energy``
+
+
 
 How can I override the tank-to-wheel efficiency?
 ------------------------------------------------
