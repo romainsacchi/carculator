@@ -46,13 +46,18 @@ the vehicle, that is its mass in working order, but without passengers and cargo
 The ``driving mass`` of the vehicle is then obtained by summing the ``curb mass`` to the mass of the passengers
 (``average passengers`` x ``average passenger mass``) and cargo transported (``cargo mass``).
 
-A second step consists into calculating the mass of the combustion and electric engine, based on the following:
+A second step consists into calculating the mass of the combustion and electric engine, based on the following relations:
 
     power demand (``power``) [kW] = ``power-to-mass ratio`` [kW/kg] x ``curb mass`` [kg]
+
     electrical power demand (``electric power``) [kW] = power demand (``power``) [kW] x (1 - ``combustion power share`` [%])
+
     ``electric engine mass`` [kW] = (``electric power`` [kW] x ``electric mass per power`` [kg/kW]) + ``electric fixed mass`` [kg]
+
     combustion power demand (``combustion power``) [kW] = ``power`` [kW] x ``combustion power share`` [%]
+
     ``combustion engine mass`` [kW] = (``combustion power`` [kW] x ``combustion mass per power`` [kg/kW]) + ``combustion fixed mass`` [kg]
+
 
 As well as for the mass of the powertrain:
 
@@ -188,6 +193,39 @@ Projection of energy battery cost per kWh for BEV and FCEV.
 
 Tank-to-wheel energy consumption
 ********************************
+Once the vehicle and its powertrain has been sized, it is possible to calculate the motive energy required along
+a specific drivign cycle to overcome the following forces:
+* rolling resistance
+* aerodynamic resistance
+* air resistance
+* road gradient resistance (if provided)
+
+on top of the kinetic energy needed to move the vehicle.
+
+To that amount of energy is subtracted the *energy recuperated* during braking, if the vehicle is equipped with
+an electric motor (to the extent of the power of the motor, discounted with an `recuperation efficiency` currently set at 72%).
+
+To calculate the tank-to-wheel energy, the following parameters are needed:
+* the ``driving mass`` of the vehicle
+* its ``rolling resistance coefficient``
+* its ``aerodynamic drag coefficient``
+* its ``frontal area``
+* its tank-to-wheel efficiency (``TtW efficiency``)
+* its ``recuperation efficiency``
+* and the power of its electric motor, if any (`electric power`)
+
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/motive_energy.png
+    :width: 900
+    :alt: Calculation of the motive energy
+
+Here is a second-by-second power requirement for a medium battery electric vehicle, along the WLTC driving cycle:
+
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/kw_bev_wltc.png
+    :width: 900
+    :alt: Calculation of the motive energy
+
+
+The power required for each second of the driving cycle is summed up to obtain the amount of kilojoules needed per km.
 
 Fuel-related direct emissions
 *****************************
