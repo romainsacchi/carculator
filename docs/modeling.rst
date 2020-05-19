@@ -510,7 +510,7 @@ Therefore, the noise produced by a `small` vehicle will be similar to that produ
 
 Vehicle inventory
 *****************
-This section presents how the list of the vehicle inventory once its size, mass, energy consumption and emissions are known.
+This section presents the vehicle inventory once its size, mass, energy consumption and emissions are known.
 
 .. csv-table:: Vehicle inventory
     :file: table_1.csv
@@ -518,6 +518,15 @@ This section presents how the list of the vehicle inventory once its size, mass,
     :header-rows: 1
 
 
-Background inventory
-********************
+Fuel pathways
+*************
+
+Different fuel pathways can be selected for a given powertrain type.
+The table below lists them.
+
+.. csv-table:: Fuel pathways
+    :file: table_2.csv
+    :widths: 15 25 30 30
+    :header-rows: 1
+
 
