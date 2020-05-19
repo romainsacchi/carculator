@@ -530,4 +530,47 @@ The table below lists them.
     :widths: 15 25 30 30
     :header-rows: 1
 
+Electricity mixes for battery charging and hydrogen production
+**************************************************************
+
+
+
+Background inventory
+********************
+
+The vehicle inventory relies on a number of datasets provided by the database `ecoinvent cutoff 3.6 <https://www.ecoinvent.org>`_
+such as "market for glider, passenger car", "market for diesel", etc.
+
+However **carculator** does not directly use the database as is: the database and its datasets are modified according to
+projections provided by the Integrated Assessment Model `REMIND <https://www.pik-potsdam.de/research/transformation-pathways/models/remind/remind>`_.
+
+REMIND provides projections for different regions in the world until 2150, following different energy scenarios,
+described `here <https://github.com/romainsacchi/rmnd-lca/blob/master/rmnd_lca/data/remind_output_files/description.md>`_.
+
+Projection outputs include the expected change over time in efficiency for power plants, steel making, cement production, etc.
+
+Using the Python library `rmnd_lca <https://github.com/romainsacchi/rmnd-lca/tree/master/rmnd_lca>`_, we produce a number
+of ecoinvent databases with the inclusion of REMIND projections, so that future improvements in electricity production, among others,
+propagate into the datasets involved in the vehicles' inventories.
+
+*carculator* comes with pre-calculated impact values for ecoinvent datasets from the following databases:
+
+* 2005 - ecoinvent-REMIND, SSP2-Base
+* 2010 - ecoinvent-REMIND, SSP2-Base
+* 2020 - ecoinvent-REMIND, SSP2-Base
+* 2030 - ecoinvent-REMIND, SSP2-Base
+* 2040 - ecoinvent-REMIND, SSP2-Base
+* 2050 - ecoinvent-REMIND, SSP2-Base
+* 2005 - ecoinvent-REMIND, SSP2-PkBudg1100
+* 2010 - ecoinvent-REMIND, SSP2-PkBudg1100
+* 2020 - ecoinvent-REMIND, SSP2-PkBudg1100
+* 2030 - ecoinvent-REMIND, SSP2-PkBudg1100
+* 2040 - ecoinvent-REMIND, SSP2-PkBudg1100
+* 2050 - ecoinvent-REMIND, SSP2-PkBudg1100
+
+Depending on the year of analysis and the energy scenario demanded, **carculator** picks the corresponding datasets.
+If year of analysis in between the available years is demanded, a linear interpolation is used.
+
+With **carculator online**, the results provided only use the "SSP2-Base" energy scenario of REMIND, projecting a global
+atmospheric temperature increase by 3.5 degrees Celsius by 2100.
 
