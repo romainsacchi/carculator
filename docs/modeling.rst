@@ -503,6 +503,10 @@ emissions against midpoint and endpoint indicators, expressed in Person-Pascal-s
 Overall, propulsion noise emissions dominate in urban environments, thereby justifying the use of electric cars in that
 regard. In sub-urban and rural environments, rolling noise emissions dominate above a speed level around 50 km/h.
 
+It is important to note that although **carculator** differentiates noise coefficients by powertrain
+(internal combusiton engine, electric and hybrid), it is not possible to differentiate them by size class.
+Therefore, the noise produced by a `small` vehicle will be similar to that produced by a `large` vehicle.
+
 
 Components origin
 *****************
