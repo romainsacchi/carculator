@@ -226,12 +226,9 @@ a specific driving cycle to overcome the following forces:
 
 on top of the *kinetic energy* needed to move the vehicle.
 
-To that amount of energy is subtracted the *energy recuperated* during braking, if the vehicle is equipped with
-an electric motor (to the extent of the power of the motor, discounted with a ``recuperation efficiency``).
 
-* ``recuperation efficiency`` [%] = ``drivetrain efficiency`` [%] x ``battery charge efficiency`` [%]
 
-To calculate the tank-to-wheel energy, the following parameters are needed:
+To calculate the motive energy, the following parameters are needed:
 
 * the ``driving mass`` of the vehicle
 * its ``rolling resistance coefficient``
@@ -241,30 +238,37 @@ To calculate the tank-to-wheel energy, the following parameters are needed:
 * its ``recuperation efficiency``
 * and the power of its electric motor, if any (``electric power``)
 
+To that amount of energy is subtracted the *energy recuperated* during braking, if the vehicle is equipped with
+an electric motor (to the extent of the power of the motor, discounted with a ``recuperation efficiency``).
+
+* ``recuperation efficiency`` [%] = ``drivetrain efficiency`` [%] x ``battery charge efficiency`` [%]
+
+
+
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/motive_energy.png
     :width: 900
     :alt: Calculation of the motive energy
 
-Here is plotted the second-by-second power requirement for a large-sized battery electric vehicle, along the WLTC driving cycle:
+Also, ``velocity`` and ``acceleration`` are derived from the driving cycle.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/kw_bev_wltc.png
-    :width: 900
-    :alt: Calculation of the motive energy
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/driving_cycle.png
+    :width: 400
+    :alt: Driving cycle
 
 
-In parallel, the ``TtW efficiency`` is calculated as the product of the following efficiency parameters:
+In parallel, the ``TtW efficiency`` (the loss of energy between the energy storage and the wheels) is calculated as the product of the following efficiency parameters:
 
 * ``battery discharge efficiency``
 * ``fuel cell system efficiency``
 * ``drivetrain efficiency``
 * ``engine efficiency``
 
-It represents the loss of energy between the energy storage and the wheels.
 
-* rolling resistance = driving mass [kg] x rolling resistance coefficient [%] x 9.81 [m/s^2]
-* air resistance = velocity^2 x frontal area [m^2] x drag coefficient [%] x air density [kg/m^3] / 2
-* road gradient resistance = driving mass [kg] x 9.81 [m/s^2] x sin(gradient)
-* kinetic energy = acceleration [m/s^2] x driving mass [kg]
+
+* rolling resistance = ``driving mass`` [kg] x ``rolling resistance coefficient`` [%] x 9.81 [m/s^2]
+* air resistance = velocity^2 x ``frontal area`` [m^2] x ``aerodynamic drag coefficient`` [%] x air density [kg/m^3] / 2
+* road gradient resistance = ``driving mass`` [kg] x 9.81 [m/s^2] x sin(gradient)
+* kinetic energy = acceleration [m/s^2] x ``driving mass`` [kg]
 
 * force required = rolling resistance + air resistance + road gradient resistance + kinetic energy
 
@@ -276,6 +280,12 @@ It represents the loss of energy between the energy storage and the wheels.
 
 The power required, minus the power recuperated, is divided by the ``TtW efficiency``, for each second of the driving cycle and summed up along the driving time,
 to obtain the amount of kilojoules needed in the tank (or battery) to move the vehicle over 1 km.
+
+Here is plotted the second-by-second power requirement for a large-sized battery electric vehicle, along the WLTC driving cycle:
+
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/kw_bev_wltc.png
+    :width: 900
+    :alt: Calculation of the motive energy
 
 Auxilliary energy
 ----------------
