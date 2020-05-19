@@ -510,23 +510,13 @@ Therefore, the noise produced by a `small` vehicle will be similar to that produ
 
 Vehicle inventory
 *****************
+This section presents how the vehicle inventory is built once its size, mass, energy consumption and emissions are known.
 
-.. list-table:: Vehicle inventory
-    :widths: 25 25 50
+.. csv-table:: Vehicle inventory
+    :file: table_1.csv
+    :widths: 25 25 25 25
     :header-rows: 1
 
-    * - Component
-      - Formula
-      - Dataset
-      - Source
-    * - Glider
-      - ``glider base mass`` / ``lifetime kilometers``
-      - market for glider, passenger car, GLO
-      - ecoinvent cutoff 3.6
-    * - Glider light-weighting
-      - (``glider base mass`` x ``lightweighting``) / ``lifetime kilometers``
-      - Glider lightweighting
-      - PSI
 
 Background inventory
 ********************

@@ -1,0 +1,3 @@
+Component,Formula,Dataset,Source
+Glider,(glider base mass x lightweighting)/lifetime kilometers,"market for glider, passenger car",ecoinvent cutoff 3.6
+Glider light-weighting,(glider bas emass x lightweighting)/lifetime kilometers,,
