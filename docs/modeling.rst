@@ -533,12 +533,28 @@ The table below lists them.
 Electricity mixes for battery charging and hydrogen production
 **************************************************************
 
+**carculator** has national electricity mixes for more than 80 countries, gathered from the following sources:
+
+* European Union State members and the UK: `EU Reference Scenario 2016 <https://ec.europa.eu/energy/en/data-analysis/energy-modelling/eu-reference-scenario-2016>`_
+* Switzerland: STEM model - Panos E, Kober T, Wokaun A. Long term evaluation of electric storage technologies vs alternative flexibility options for the Swiss energy system. Appl Energy 2019;252:113470
+* African countries: `TEMBA <http://www.osemosys.org/temba.html>`_ model
+* Other countries: `IEA World Energy outlook 2017 <https://www.iea.org/reports/world-energy-outlook-2017>`_
+
+Unless a specific electricity mix is indicated by the user, such national mixes are used when modeling the energy chain
+for battery and fuel cell electric vehicles (BEV, FCEV), for battery charging and the production of hydrogen via electrolysis, respectively.
+
+Knowing the production year of the vehicle, considered to be its first year of use, as well as its annual mileage,
+the number of years of use is calculated. Hence, the electricity mix used is the kilometer-distributed mix over the
+years of use of the vehicle.
+
+If the annual mileage of the vehicle is evenly distributed throughout its lifetime, the electricity mix used therefore
+equals the average of the national mixes comprised between Year 0 and Year 0 + the number of years of use.
 
 
 Background inventory
 ********************
 
-The vehicle inventory relies on a number of datasets provided by the database `ecoinvent cutoff 3.6 <https://www.ecoinvent.org>`_
+Besides datasets adapted from the literature, vehicle inventories also rely on a number of datasets provided by the database `ecoinvent cutoff 3.6 <https://www.ecoinvent.org>`_
 such as "market for glider, passenger car", "market for diesel", etc.
 
 However **carculator** does not directly use the database as is: the database and its datasets are modified according to
@@ -553,7 +569,7 @@ Using the Python library `rmnd_lca <https://github.com/romainsacchi/rmnd-lca/tre
 of ecoinvent databases with the inclusion of REMIND projections, so that future improvements in electricity production, among others,
 propagate into the datasets involved in the vehicles' inventories.
 
-*carculator* comes with pre-calculated impact values for ecoinvent datasets from the following databases:
+**carculator** comes with pre-calculated impact values for ecoinvent datasets from the following databases:
 
 * 2005 - ecoinvent-REMIND, SSP2-Base
 * 2010 - ecoinvent-REMIND, SSP2-Base
@@ -573,4 +589,3 @@ If year of analysis in between the available years is demanded, a linear interpo
 
 With **carculator online**, the results provided only use the "SSP2-Base" energy scenario of REMIND, projecting a global
 atmospheric temperature increase by 3.5 degrees Celsius by 2100.
-
