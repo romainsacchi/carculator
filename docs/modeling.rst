@@ -210,8 +210,8 @@ Tank-to-wheel energy consumption
 
 The `tank-to-wheel` energy consumption is the sum of:
 
-* the `motive energy` need to move the vehicle over 1 km
-* the `auxilliary` energy needed to operate onboard equipment as well as to provide heating and cooling
+* the `motive energy` needed to move the vehicle over 1 km
+* the `auxilliary` energy needed to operate onboard equipment as well as to provide heating and cooling over 1 km
 
 Motive energy
 -------------
@@ -227,7 +227,9 @@ a specific driving cycle to overcome the following forces:
 on top of the *kinetic energy* needed to move the vehicle.
 
 To that amount of energy is subtracted the *energy recuperated* during braking, if the vehicle is equipped with
-an electric motor (to the extent of the power of the motor, discounted with an `recuperation efficiency` currently set at 72%).
+an electric motor (to the extent of the power of the motor, discounted with a ``recuperation efficiency``).
+
+* ``recuperation efficiency`` [%] = ``drivetrain efficiency`` [%] x ``battery charge efficiency`` [%]
 
 To calculate the tank-to-wheel energy, the following parameters are needed:
 
