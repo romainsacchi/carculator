@@ -249,7 +249,7 @@ an electric motor (to the extent of the power of the motor, discounted with a ``
     :width: 900
     :alt: Calculation of the motive energy
 
-Also, ``velocity`` and ``acceleration`` are derived from the driving cycle.
+Also, ``distance``, ``velocity`` and ``acceleration`` are derived from the driving cycle.
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/driving_cycle.png
     :width: 400
@@ -266,9 +266,9 @@ In parallel, the ``TtW efficiency`` (the loss of energy between the energy stora
 
 
 * rolling resistance = ``driving mass`` [kg] x ``rolling resistance coefficient`` [%] x 9.81 [m/s^2]
-* air resistance = velocity^2 x ``frontal area`` [m^2] x ``aerodynamic drag coefficient`` [%] x air density [kg/m^3] / 2
+* air resistance = ``velocity``^2 x ``frontal area`` [m^2] x ``aerodynamic drag coefficient`` [%] x air density [kg/m^3] / 2
 * road gradient resistance = ``driving mass`` [kg] x 9.81 [m/s^2] x sin(gradient)
-* kinetic energy = acceleration [m/s^2] x ``driving mass`` [kg]
+* kinetic energy = ``acceleration`` [m/s^2] x ``driving mass`` [kg]
 
 * force required = rolling resistance + air resistance + road gradient resistance + kinetic energy
 
@@ -483,6 +483,25 @@ to further split emissions and be more precise on the fate of the substances and
 
 Noise emissions
 ***************
+
+Given the driving cycle, where speed [km/h] is given along time [s], noise levels (in dB) are calculated for each of the
+8 octaves (or frequency ranges) to obtain `propulsion` and `rolling noise` levels, based on the
+`CNOSSOS model <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_.
+
+For electric engines, `special coefficients apply <https://hal.archives-ouvertes.fr/hal-01355872/document>`_.
+
+Also, electric cars are added a warning signal of 56 dB at speed levels lower than 20 km/h.
+Hybrid cars are assumed to use an electric engine up to a speed level of 30 km/h, beyond which the combustion engine is used.
+The sum of the propulsion and rolling noise levels is converted to noise power (in joules) and divided by the distance
+driven to obtain the noise power par km driven (joules/km), for each octave.
+
+Noise emissions are further compartmented into urban, sub-urban and rural geographical environments based on speed
+intervals given by the driving cycle.
+The study from  `Cucurachi et al. 2014 <https://www.ncbi.nlm.nih.gov/pubmed/24035845>`_ is used to characterize noise
+emissions against midpoint and endpoint indicators, expressed in Person-Pascal-second and DALYs, respectively.
+
+Overall, propulsion noise emissions dominate in urban environments, thereby justifying the use of electric cars in that
+regard. In sub-urban and rural environments, rolling noise emissions dominate above a speed level around 50 km/h.
 
 
 Components origin
