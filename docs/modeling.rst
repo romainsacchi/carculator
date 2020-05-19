@@ -207,8 +207,17 @@ Projection of energy battery cost per kWh for BEV and FCEV.
 
 Tank-to-wheel energy consumption
 ********************************
-Once the vehicle and its powertrain has been sized, it is possible to calculate the motive energy required along
-a specific drivign cycle to overcome the following forces:
+
+The `tank-to-wheel` energy consumption is the sum of:
+
+* the `motive energy` need to move the vehicle over 1 km
+* the `auxilliary` energy needed to operate onboard equipment as well as to provide heating and cooling
+
+Motive energy
+-------------
+
+Once the vehicle and its powertrain has been sized, it is possible to calculate the `motive energy` required along
+a specific driving cycle to overcome the following forces:
 
 * rolling resistance
 * aerodynamic resistance
@@ -250,24 +259,56 @@ In parallel, the ``TtW efficiency`` is calculated as the product of the followin
 
 It represents the loss of energy between the energy storage and the wheels.
 
-rolling resistance = driving mass [kg] x rolling resistance coefficient [%] x 9.81 [m/s^2]
-air resistance = velocity^2 x frontal area [m^2] x drag coefficient [%] x air density [kg/m^3] / 2
-road gradient resistance = driving mass [kg] x 9.81 [m/s^2] x sin(gradient)
-kinetic energy = acceleration [m/s^2] x driving mass [kg]
+* rolling resistance = driving mass [kg] x rolling resistance coefficient [%] x 9.81 [m/s^2]
+* air resistance = velocity^2 x frontal area [m^2] x drag coefficient [%] x air density [kg/m^3] / 2
+* road gradient resistance = driving mass [kg] x 9.81 [m/s^2] x sin(gradient)
+* kinetic energy = acceleration [m/s^2] x driving mass [kg]
 
-force required = rolling resistance + air resistance + road gradient resistance + kinetic energy
+* force required = rolling resistance + air resistance + road gradient resistance + kinetic energy
 
-power [kg m^2 s^-3] = force required x velocity [m/s]
+* power [W] = force required x velocity [m/s]
 
-recuperated power = (-1000 x electric power x recuperation efficiency) if power required < (-1000 x electric power x recuperation efficiency)
+* recuperated power = (-1000 x electric power x recuperation efficiency) if power required < (-1000 x electric power x recuperation efficiency)
 
-``TtW energy`` = (power / (distance x 1000) + (recuperated power / distance / 1000)) / ``TtW efficiency``
+* `motive energy` = sum ((power [W] / (distance [m] x 1000) + (recuperated power [W] / distance [m] / 1000)) / ``TtW efficiency`` [%])
 
-The power required, minus the power recuperated, for each second of the driving cycle is therefore summed up along the driving time, and divided by the ``TtW efficiency``,
-to obtain the amount of kilojoules needed in the tank (or battery) per km.
+The power required, minus the power recuperated, is divided by the ``TtW efficiency``, for each second of the driving cycle and summed up along the driving time,
+to obtain the amount of kilojoules needed in the tank (or battery) to move the vehicle over 1 km.
 
-Finally, the `auxillary` energy, that is the energy needed to operate onboard equipment, is also calculated.
-The sum of the `motive` and the `auxillary` energy gives the tank-to-wheel energy (``TtW energy``) of the vehicle.
+Auxilliary energy
+----------------
+
+The `auxilliary` energy, that is the energy needed to operate onboard equipment and heating and cooling systems, is also calculated
+as the sum of the power demand over time.
+
+This power demand entails:
+
+* the average power demand for heating
+* the average power demand for cooling
+* the average power demand for onboard electronics
+
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/aux_energy.png
+    :width: 900
+    :alt: Auxilliary energy
+
+This power demand is modeled as:
+
+* ``auxilliary power demand`` [W] = ``auxilliary power base demand`` [W] + (``heating thermal demand`` [W] x ``heating energy consumption`` [0-1]) + (``cooling thermal demand`` [W] x ``cooling energy consumption`` [0-1])
+
+``auxilliary power demand`` is summed over the driving time defined by the driving cycle and divided by the ``engine efficiency``.
+
+
+The power demand for heating varies between 200 Watts and 350 Watts depending on the car size.
+The power demand for cooling varies between 200 Watts and 350 Watts depending on the car size.
+
+Note that, unlike battery electric vehicles, internal combustion engine vehicles satisfy the power demand in heating
+without the additional use of energy, because ``heating energy consumption`` = 0.
+
+
+Tank-to-wheel energy
+--------------------
+
+The sum of the `motive` and the `auxilliary` energy gives the tank-to-wheel energy (``TtW energy``) of the vehicle.
 
 Parameters such as ``battery discharge efficiency``, ``fuel cell system efficiency``, ``drivetrain efficiency``,
 ``engine efficiency`` and therefore, indirectly, ``TtW efficiency``, have been calibrated to obtain ``TtW energy``
