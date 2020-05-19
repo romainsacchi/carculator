@@ -73,6 +73,7 @@ mass of more than one percent).
     :alt: Structure of mass module
 
 Four initial input parameters are therefore of importance:
+
 * ``glider base mass``:the initial mass of the glider
 * ``power to mass ratio``: the power-to-mass ratio
 * ``combustion power share``: how much of the power is provided by an internal combustion engine
