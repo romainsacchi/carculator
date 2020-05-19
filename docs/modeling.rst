@@ -255,15 +255,15 @@ air resistance = velocity^2 x frontal area [m^2] x drag coefficient [%] x air de
 road gradient resistance = driving mass [kg] x 9.81 [m/s^2] x sin(gradient)
 kinetic energy = acceleration [m/s^2] x driving mass [kg]
 
-power required [kg m^2 s^-3] = rolling resistance + air resistance + road gradient resistance + kinetic energy
+force required = rolling resistance + air resistance + road gradient resistance + kinetic energy
 
-motive energy = power required x velocity [m/s]
+power [kg m^2 s^-3] = force required x velocity [m/s]
 
-recuperated energy = (-1000 x electric power x recuperation efficiency) if power required < (-1000 x electric power x recuperation efficiency)
+recuperated power = (-1000 x electric power x recuperation efficiency) if power required < (-1000 x electric power x recuperation efficiency)
 
-``TtW energy`` = (energy required / (distance x 1000) + (recuperated power / distance / 1000)) / ``TtW efficiency``
+``TtW energy`` = (power / (distance x 1000) + (recuperated power / distance / 1000)) / ``TtW efficiency``
 
-The energy required for each second of the driving cycle is therefore summed up along the driving time, and divided by the ``TtW efficiency``,
+The power required, minus the power recuperated, for each second of the driving cycle is therefore summed up along the driving time, and divided by the ``TtW efficiency``,
 to obtain the amount of kilojoules needed in the tank (or battery) per km.
 
 Finally, the `auxillary` energy, that is the energy needed to operate onboard equipment, is also calculated.
