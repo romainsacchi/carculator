@@ -26,3 +26,6 @@ ICEV-p,Gasoline supply,``fuel mass`` / ``range``,"market for petrol, low-sulfur/
 All,Road wear emissions,``driving mass`` x 1e-08,"market for road wear emissions, passenger car",GLO,ecoinvent cutoff 3.6
 All,Tyre wear emissions,``driving mass`` x 6e-08,"market for brake wear emissions, passenger cars",GLO,ecoinvent cutoff 3.6
 All,Road,``driving mass`` x 5.37e-7,market for road,GLO,ecoinvent cutoff 3.6
+ICEV/HEV/PHEV,CO2 emissions,(``CO2 per kg fuel`` x ``fuel mass``) / ``range``,,,
+ICEV/HEV/PHEV,Hot pollutants,,,,
+All,Noise,,,,

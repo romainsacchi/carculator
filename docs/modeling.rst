@@ -510,7 +510,7 @@ Therefore, the noise produced by a `small` vehicle will be similar to that produ
 
 Vehicle inventory
 *****************
-This section presents how the vehicle inventory is built once its size, mass, energy consumption and emissions are known.
+This section presents how the list of the vehicle inventory once its size, mass, energy consumption and emissions are known.
 
 .. csv-table:: Vehicle inventory
     :file: table_1.csv
