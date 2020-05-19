@@ -514,7 +514,7 @@ This section presents how the vehicle inventory is built once its size, mass, en
 
 .. csv-table:: Vehicle inventory
     :file: table_1.csv
-    :widths: 25 25 25 25
+    :widths: 10 10 30 30 10 10
     :header-rows: 1
 
 
