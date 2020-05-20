@@ -212,19 +212,7 @@ class InventoryCalculation:
             self.inputs[i] for i in self.inputs if "PHEV" in i[0]
         ]
         self.index_fuel_cell = [self.inputs[i] for i in self.inputs if "FCEV" in i[0]]
-        self.index_emissions = [
-            self.inputs[i]
-            for i in self.inputs
-            if "air" in i[1][0]
-            and len(i[1]) > 1
-            and i[0]
-            not in [
-                "Carbon dioxide, fossil",
-                "Carbon monoxide, non-fossil",
-                "Methane, non-fossil",
-                "Particulates, > 10 um",
-            ]
-        ]
+
 
         self.map_non_fuel_emissions = {
             (
@@ -394,7 +382,87 @@ class InventoryCalculation:
             ): "Dinitrogen oxide direct emissions, urban",
         }
 
-        self.index_noise = [self.inputs[i] for i in self.inputs if "noise" in i[0]]
+        self.index_emissions = [self.inputs[i] for i in self.map_non_fuel_emissions.keys()]
+
+        self.map_noise_emissions = {
+
+                ('noise, octave 1, day time, urban',
+              ('octave 1', 'day time', 'urban'),
+              'joule'):"noise, octave 1, day time, urban",
+                ('noise, octave 2, day time, urban',
+              ('octave 2', 'day time', 'urban'),
+              'joule'):"noise, octave 2, day time, urban",
+                        ('noise, octave 3, day time, urban',
+              ('octave 3', 'day time', 'urban'),
+              'joule'):"noise, octave 3, day time, urban",
+                        ('noise, octave 4, day time, urban',
+              ('octave 4', 'day time', 'urban'),
+              'joule'):"noise, octave 4, day time, urban",
+                        ('noise, octave 5, day time, urban',
+              ('octave 5', 'day time', 'urban'),
+              'joule'):"noise, octave 5, day time, urban",
+                        ('noise, octave 6, day time, urban',
+              ('octave 6', 'day time', 'urban'),
+              'joule'):"noise, octave 6, day time, urban",
+                        ('noise, octave 7, day time, urban',
+              ('octave 7', 'day time', 'urban'),
+              'joule'):"noise, octave 7, day time, urban",
+                        ('noise, octave 8, day time, urban',
+              ('octave 8', 'day time', 'urban'),
+              'joule'):"noise, octave 8, day time, urban",
+                        ('noise, octave 1, day time, suburban',
+              ('octave 1', 'day time', 'suburban'),
+              'joule'):"noise, octave 1, day time, suburban",
+                        ('noise, octave 2, day time, suburban',
+              ('octave 2', 'day time', 'suburban'),
+              'joule'):"noise, octave 2, day time, suburban",
+                       ('noise, octave 3, day time, suburban',
+              ('octave 3', 'day time', 'suburban'),
+              'joule') :"noise, octave 3, day time, suburban",
+                        ('noise, octave 4, day time, suburban',
+              ('octave 4', 'day time', 'suburban'),
+              'joule'):"noise, octave 4, day time, suburban",
+                        ('noise, octave 5, day time, suburban',
+              ('octave 5', 'day time', 'suburban'),
+              'joule'):"noise, octave 5, day time, suburban",
+                        ('noise, octave 6, day time, suburban',
+              ('octave 6', 'day time', 'suburban'),
+              'joule'):"noise, octave 6, day time, suburban",
+                        ('noise, octave 7, day time, suburban',
+              ('octave 7', 'day time', 'suburban'),
+              'joule'):"noise, octave 7, day time, suburban",
+                        ('noise, octave 8, day time, suburban',
+              ('octave 8', 'day time', 'suburban'),
+              'joule'):"noise, octave 8, day time, suburban",
+                        ('noise, octave 1, day time, rural',
+              ('octave 1', 'day time', 'rural'),
+              'joule'):"noise, octave 1, day time, rural",
+                        ('noise, octave 2, day time, rural',
+              ('octave 2', 'day time', 'rural'),
+              'joule'):"noise, octave 2, day time, rural",
+                        ('noise, octave 3, day time, rural',
+              ('octave 3', 'day time', 'rural'),
+              'joule'):"noise, octave 3, day time, rural",
+                        ('noise, octave 4, day time, rural',
+              ('octave 4', 'day time', 'rural'),
+              'joule'):"noise, octave 4, day time, rural",
+                        ('noise, octave 5, day time, rural',
+              ('octave 5', 'day time', 'rural'),
+              'joule'):"noise, octave 5, day time, rural",
+                        ('noise, octave 6, day time, rural',
+              ('octave 6', 'day time', 'rural'),
+              'joule'):"noise, octave 6, day time, rural",
+                        ('noise, octave 7, day time, rural',
+              ('octave 7', 'day time', 'rural'),
+              'joule'):"noise, octave 7, day time, rural",
+                        ('noise, octave 8, day time, rural',
+              ('octave 8', 'day time', 'rural'),
+              'joule'):"noise, octave 8, day time, rural",
+
+        }
+
+        self.index_noise = [self.inputs[i] for i in self.map_noise_emissions.keys()]
+
         self.list_cat, self.split_indices = self.get_split_indices()
         self.bs = BackgroundSystemModel()
         # Load the B matrix
@@ -542,6 +610,12 @@ class InventoryCalculation:
                     ]
                 )
             )
+
+            if cat=="direct":
+                d[cat].append(self.inputs[('Carbon dioxide, fossil', ('air',), 'kilogram')])
+                d[cat].extend(self.index_emissions)
+                d[cat].extend(self.index_noise)
+
             l.append(d[cat])
 
         list_ind = [d[x] for x in d]
@@ -811,7 +885,9 @@ class InventoryCalculation:
                                    'terrestrial acidification',
                                    'urban land occupation',
                                    'water depletion',
-                                   'human noise']
+                                   'human noise',
+                                   'primary energy, non-renewable',
+                                   'primary energy, renewable']
                        }
            }
 
@@ -2575,7 +2651,10 @@ class InventoryCalculation:
         # Noise emissions
         self.A[:, self.index_noise, -self.number_of_cars :] = (
             array[
-                [self.array_inputs[self.rev_inputs[e][0]] for e in self.index_noise], :
+                [
+                    self.array_inputs[self.map_noise_emissions[self.rev_inputs[x]]]
+                    for x in self.index_noise
+                ]
             ]
             * -1
         ).transpose([1, 0, 2])

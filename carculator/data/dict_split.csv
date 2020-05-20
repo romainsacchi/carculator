@@ -1,9 +1,9 @@
 split;category;search by;search for
-components;direct;compartment;air
-components;direct;name;noise
 components;direct;name;market for tyre wear emissions, passenger car
 components;direct;name;market for road wear emissions, passenger car
 components;direct;name;market for brake wear emissions, passenger car
+components;energy chain;name;Diesel production, Fischer Tropsch process
+components;energy chain;name;Gasoline production
 components;energy chain;name;market for petrol
 components;energy chain;name;market for diesel
 components;energy chain;name;market for natural gas, from high pressure network (1-5 bar), at service station
