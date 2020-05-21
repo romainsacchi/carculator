@@ -2,13 +2,14 @@ Modeling and assumptions
 ========================
 
 The modeling of passenger vehicles in the past, present and future is complex and relies on many assumptions.
-With **carculator**, we wish to be transparent about those: assumptions and modeling approaches should ideally be easily
+With **carculator** and **carculator online**, we wish to be transparent about those: assumptions and modeling approaches should ideally be easily
 critiqued and modified.
 
 We try here to give a comprehensive list of assumptions and modeling choices, and describe how, as a user, you
 can change those.
 
-Parameters' names are indicated ``verbatim`` and are to be used in **carculator**.
+Parameters' names are indicated ``verbatim`` and are to be used in **carculator**. The can also be accessed and modified
+via its online graphical user interface **carculator online**,  via the search bar in the *Car Parameters* section.
 
 Vehicle sizing
 **************
@@ -104,6 +105,10 @@ modify any of the input parameters ``glider base mass``, ``power to mass ratio``
 and ``combustion mass per power`` used to calculate ``curb mass``.
 To do so, type their name in the search field of the Parameters section.
 
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/power_to_mass_change.png
+    :width: 900
+    :alt: Change parameters affecting the curb mass
+
 
 With **carculator**:
 
@@ -123,6 +128,10 @@ How to prevent the mild-hybridization of ICEVs?
 With **carculator online**:
 
 In the Parameters section, search for `combustion power share` and add the parameter for the vehicles you wish to modify.
+
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/combustion_power_share.png
+    :width: 900
+    :alt: Change combustion power share parameter
 
 With **carculator**:
 
@@ -185,6 +194,10 @@ With **carculator online**:
 
 In the Scope section, simply drag the desired years from the left frame to the right frame.
 
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/select_vehicle_tutorial.gif
+    :width: 900
+    :alt: Select years
+
 With **carculator**:
 
 After creating ``array``, which is a `DataArray` object from the library ``xarray``, it is possible to use the `.interp()`
@@ -227,8 +240,6 @@ a specific driving cycle to overcome the following forces:
 
 on top of the *kinetic energy* needed to move the vehicle.
 
-
-
 To calculate the motive energy, the following parameters are needed:
 
 * the ``driving mass`` of the vehicle
@@ -243,7 +254,6 @@ To that amount of energy is subtracted the *energy recuperated* during braking, 
 an electric motor (to the extent of the power of the motor, discounted with a ``recuperation efficiency``).
 
 * ``recuperation efficiency`` [%] = ``drivetrain efficiency`` [%] x ``battery charge efficiency`` [%]
-
 
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/motive_energy.png
@@ -389,9 +399,14 @@ How can I override the tank-to-wheel efficiency?
 With **carculator online**:
 
 In the Parameters section, search for any or all of ``battery discharge efficiency``, ``fuel cell system efficiency``, ``drivetrain efficiency``,
-``engine efficiency`` parameters and add them for the vehicles you wish to modify. The ``TtW efficiency`` is the
-product of those. Currently, it is not possible to modify directly the parameter ``TtW efficiency``, as it would be recalculated.
-In order to do so, you need to use instead the Python library **carculator** (see next section).
+``engine efficiency`` parameters and add them for the vehicles you wish to modify.
+
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/ttw_efficiency_change.png
+    :width: 900
+    :alt: Modify tank-to-wheel efficiency
+
+``TtW efficiency`` is the product of those. Currently, it is not possible to modify directly the parameter
+``TtW efficiency``, as it would be recalculated. In order to do so, you need to use instead the Python library **carculator** (see next section).
 
 With **carculator**:
 
@@ -544,11 +559,11 @@ Unless a specific electricity mix is indicated by the user, such national mixes 
 for battery and fuel cell electric vehicles (BEV, FCEV), for battery charging and the production of hydrogen via electrolysis, respectively.
 
 Knowing the production year of the vehicle, considered to be its first year of use, as well as its annual mileage,
-the number of years of use is calculated. Hence, the electricity mix used is the kilometer-distributed mix over the
-years of use of the vehicle.
+the number of years of use is calculated. Hence, **the electricity mix used is the kilometer-distributed mix over the
+years of use of the vehicle**.
 
 If the annual mileage of the vehicle is evenly distributed throughout its lifetime, the electricity mix used therefore
-equals the average of the national mixes comprised between Year 0 and Year 0 + the number of years of use.
+equals the average of the year-by-year national mixes comprised between Year 0 and Year 0 + the number of years of use.
 
 
 Background inventory
