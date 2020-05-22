@@ -152,6 +152,35 @@ You can also just override the default value of a specific powertrain of a speci
                                                                                         }
     modify_xarray_from_custom_parameters(dict_param, array)
 
+How can I modify the battery capacity of a battery electric car?
+-----------------------------------------------------------------------
+
+Two parameters are of importance: ``energy battery mass`` [kg] and ``battery cell energy density`` [kWh/kg], so that:
+
+``battery cell mass`` [kg] = ``energy battery mass`` [kg] × ``battery cell mass share`` [%]
+``energy stored`` [kWh] = ``battery cell energy density`` [kWh/kg] x ``battery cell mass`` [kWh]
+
+Hence, by modifying either of them (or both), you can affect the capacity of the battery for a given size class.
+
+With **carculator online**:
+
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/battery_capacity_change.png
+    :width: 900
+    :alt: Change battery capacity
+
+
+With **carculator**:
+
+You can simply override the default values in ``array`` before passing it to CarModel()::
+
+    dict_param = {('Energy Storage',  'BEV', 'Medium', 'energy battery mass', 'none'): {
+                                                                                        (2000, 'loc'): 100,
+                                                                                        (2010, 'loc'): 150,
+                                                                                        (2017, 'loc'): 180,
+                                                                                        (2040, 'loc'): 200}
+                                                                                        }
+    modify_xarray_from_custom_parameters(dict_param, array)
+
 The ``curb mass`` values obtained for the vehicles in 2000, 2010 and 2017 are calibrated against a passenger cars database
 `Car2DB <https://car2db.com/>`_. The calibration of the ``curb mass`` for vehicles for the year 2000 is done against vehicles in
 the Car2DB database with a production year in the range of 1998-2002, against 2008-2012 and 2015-2018 for vehicles for the years
