@@ -159,7 +159,7 @@ Two parameters are of importance: ``energy battery mass`` [kg] and ``battery cel
 
 ``battery cell mass`` [kg] = ``energy battery mass`` [kg] × ``battery cell mass share`` [%]
 
-``energy stored`` [kWh] = ``battery cell energy density`` [kWh/kg] x ``battery cell mass`` [kWh]
+``energy stored`` [kWh] = ``battery cell energy density`` [kWh/kg] x ``battery cell mass`` [kg]
 
 Hence, by modifying either of them (or both), you can affect the capacity of the battery for a given size class.
 
