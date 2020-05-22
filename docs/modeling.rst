@@ -155,7 +155,7 @@ You can also just override the default value of a specific powertrain of a speci
 How can I modify the battery capacity of a battery electric car?
 -----------------------------------------------------------------------
 
-Two parameters are of importance: ``energy battery mass`` [kg] and ``battery cell energy density`` [kWh/kg], so that:
+Two parameters are of importance, ``energy battery mass`` [kg] and ``battery cell energy density`` [kWh/kg], so that:
 
 ``battery cell mass`` [kg] = ``energy battery mass`` [kg] × ``battery cell mass share`` [%]
 
@@ -179,7 +179,14 @@ You can simply override the default values in ``array`` before passing it to Car
                                                                                         (2010, 'loc'): 150,
                                                                                         (2017, 'loc'): 180,
                                                                                         (2040, 'loc'): 200}
+                                                                                        },
+                 ('Energy Storage',  'BEV', 'Medium', 'battery cell energy density', 'none'): {
+                                                                                        (2000, 'loc'): 0.05,
+                                                                                        (2010, 'loc'): 0.1,
+                                                                                        (2017, 'loc'): 0.2,
+                                                                                        (2040, 'loc'): 0.3}
                                                                                         }
+
     modify_xarray_from_custom_parameters(dict_param, array)
 
 The ``curb mass`` values obtained for the vehicles in 2000, 2010 and 2017 are calibrated against a passenger cars database
