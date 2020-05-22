@@ -158,6 +158,7 @@ How can I modify the battery capacity of a battery electric car?
 Two parameters are of importance: ``energy battery mass`` [kg] and ``battery cell energy density`` [kWh/kg], so that:
 
 ``battery cell mass`` [kg] = ``energy battery mass`` [kg] × ``battery cell mass share`` [%]
+
 ``energy stored`` [kWh] = ``battery cell energy density`` [kWh/kg] x ``battery cell mass`` [kWh]
 
 Hence, by modifying either of them (or both), you can affect the capacity of the battery for a given size class.
@@ -303,8 +304,6 @@ In parallel, the ``TtW efficiency`` (the loss of energy between the energy stora
 * ``drivetrain efficiency``
 * ``engine efficiency``
 
-
-
 * rolling resistance = ``driving mass`` [kg] x ``rolling resistance coefficient`` [%] x 9.81 [m/s^2]
 * air resistance = ``velocity``^2 x ``frontal area`` [m^2] x ``aerodynamic drag coefficient`` [%] x air density [kg/m^3] / 2
 * road gradient resistance = ``driving mass`` [kg] x 9.81 [m/s^2] x sin(gradient)
@@ -326,6 +325,13 @@ Here is plotted the second-by-second power requirement for a large-sized battery
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/kw_bev_wltc.png
     :width: 900
     :alt: Calculation of the motive energy
+
+How can I add a road gradient?
+------------------------------
+
+By default, the vehicles are compared based on a driving cycle on a flat road.
+
+
 
 Auxilliary energy
 ----------------
