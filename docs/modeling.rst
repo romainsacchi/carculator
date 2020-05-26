@@ -444,19 +444,16 @@ How can I override the tank-to-wheel efficiency?
 
 With **carculator online**:
 
-In the Parameters section, search for any or all of ``battery discharge efficiency``, ``fuel cell system efficiency``, ``drivetrain efficiency``,
-``engine efficiency`` parameters and add them for the vehicles you wish to modify.
+You cannot directly override ``TtW efficieny``.
+However, you can adjust any of the four parameters affecting ``TtW efficiency`` in the Tank-to-wheel efficiency section.
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/ttw_efficiency_change.png
     :width: 900
-    :alt: Modify tank-to-wheel efficiency
-
-``TtW efficiency`` is the product of those. Currently, it is not possible to modify directly the parameter
-``TtW efficiency``, as it would be recalculated. In order to do so, you need to use instead the Python library **carculator** (see next section).
+    :alt: Tank-to-wheel efficiency adjustment
 
 With **carculator**:
 
-Yes. After having created the CarModel() object and executed the :meth:`.set_all` method, you can override the
+After having created the CarModel() object and executed the :meth:`.set_all` method, you can override the
 calculated ``TtW efficiency`` value and recalculate ``TtW energy`` with the :meth:`.calculate_ttw_energy` method.
 Here is an example for a diesel car of medium size in 2020, for which we want to set the TtW efficiency at 30% (instead of 24%)::
 
@@ -467,6 +464,10 @@ Here is an example for a diesel car of medium size in 2020, for which we want to
                   year=2020,
                   size="Medium")] = 0.3
     cm.calculate_ttw_energy()
+
+You can also adjust any of the input parameters that affect ``TtW efficiency``, namely ``battery discharge efficiency``
+ (for battery electric cars only), ``fuel cell stack efficiency`` (for fuel cell cars only), ``engine efficiency`` and
+ ``drivetrain efficiency``.
 
 If I know already the fuel consumption of a vehicle, can I override it?
 -----------------------------------------------------------------------
