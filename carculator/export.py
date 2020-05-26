@@ -8,6 +8,10 @@ import numpy as np
 import os
 import pyprind
 import uuid
+import datetime
+import json
+import csv
+from . import DATA_DIR, __version__
 
 
 class ExportInventory:
@@ -112,7 +116,129 @@ class ExportInventory:
             ),
         }
 
-    def write_lci(self, presamples, ecoinvent_compatibility):
+        self.map_36_to_35 = {
+            ("market for nylon 6", "RoW", "kilogram", "nylon 6"): (
+                "market for nylon 6",
+                "GLO",
+                "kilogram",
+                "nylon 6",
+            ),
+            (
+                "market for aluminium oxide, metallurgical",
+                "IAI Area, EU27 & EFTA",
+                "kilogram",
+                "aluminium oxide, metallurgical",
+            ): ("market for aluminium oxide", "GLO", "kilogram", "aluminium oxide"),
+            (
+                "market for flat glass, coated",
+                "RER",
+                "kilogram",
+                "flat glass, coated",
+            ): (
+                "market for flat glass, coated",
+                "GLO",
+                "kilogram",
+                "flat glass, coated",
+            ),
+            (
+                "market for water, decarbonised",
+                "RoW",
+                "kilogram",
+                "water, decarbonised",
+            ): (
+                "market for water, decarbonised, at user",
+                "GLO",
+                "kilogram",
+                "water, decarbonised, at user",
+            ),
+            (
+                "market for water, decarbonised",
+                "DE",
+                "kilogram",
+                "water, decarbonised",
+            ): (
+                "market for water, decarbonised, at user",
+                "GLO",
+                "kilogram",
+                "water, decarbonised, at user",
+            ),
+            (
+                "market for transport, freight, sea, tanker for petroleum",
+                "GLO",
+                "ton kilometer",
+                "transport, freight, sea, tanker for petroleum",
+            ): (
+                "market for transport, freight, sea, transoceanic tanker",
+                "GLO",
+                "ton kilometer",
+                "transport, freight, sea, transoceanic tanker",
+            ),
+            (
+                "market for transport, freight, sea, tanker for liquid goods other than petroleum and liquefied natural gas",
+                "GLO",
+                "ton kilometer",
+                "transport, freight, sea, tanker for liquid goods other than petroleum and liquefied natural gas",
+            ): (
+                "market for transport, freight, sea, transoceanic tanker",
+                "GLO",
+                "ton kilometer",
+                "transport, freight, sea, transoceanic tanker",
+            ),
+            ("market for water, deionised", "CH", "kilogram", "water, deionised"): (
+                "market for water, deionised, from tap water, at user",
+                "CH",
+                "kilogram",
+                "water, deionised, from tap water, at user",
+            ),
+            (
+                "market for styrene butadiene rubber (SBR)",
+                "RER",
+                "kilogram",
+                "styrene butadiene rubber (SBR)",
+            ): ("latex production", "RER", "kilogram", "latex"),
+            (
+                "market for water, deionised",
+                "Europe without Switzerland",
+                "kilogram",
+                "water, deionised",
+            ): (
+                "market for water, deionised, from tap water, at user",
+                "Europe without Switzerland",
+                "kilogram",
+                "water, deionised, from tap water, at user",
+            ),
+            ("market for water, deionised", "RoW", "kilogram", "water, deionised",): (
+                "market for water, deionised, from tap water, at user",
+                "RoW",
+                "kilogram",
+                "water, deionised, from tap water, at user",
+            ),
+            (
+                "market for flat glass, uncoated",
+                "RER",
+                "kilogram",
+                "flat glass, uncoated",
+            ): (
+                "market for flat glass, uncoated",
+                "GLO",
+                "kilogram",
+                "flat glass, uncoated",
+            ),
+            ("market for water, ultrapure", "RoW", "kilogram", "water, ultrapure"): (
+                "market for water, ultrapure",
+                "GLO",
+                "kilogram",
+                "water, ultrapure",
+            ),
+            ("market for concrete block", "DE", "kilogram", "concrete block"): (
+                "market for concrete block",
+                "GLO",
+                "kilogram",
+                "concrete block",
+            ),
+        }
+
+    def write_lci(self, presamples, ecoinvent_compatibility, ecoinvent_version):
         """
         Return the inventory as a dictionary
         If if there several values for one exchange, uncertainty information is generated.
@@ -147,6 +273,45 @@ class ExportInventory:
             "pipeline, supercritical CO2/km",
             "Biodiesel from algae",
             "Maize cultivation, drying and storage {RER} | Maize production Europe | Alloc Rec, U",
+            "Fischer Tropsch reactor and upgrading plant, construction",
+            "Methanol Synthesis",
+            "Walls and foundations, for hydrogen refuelling station",
+            "container, with pipes and fittings, for diaphragm compressor",
+            "RWGS tank construction",
+            "storage module, high pressure, at fuelling station",
+            "pumps, carbon dioxide capture process",
+            "PEM electrolyzer, Operation and Maintenance",
+            "heat exchanger, carbon dioxide capture process",
+            "biogas upgrading - sewage sludge - amine scrubbing - best",
+            "Hydrogen refuelling station, SMR",
+            "Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station",
+            "transformer and rectifier unit, for electrolyzer",
+            "PEM electrolyzer, ACDC Converter",
+            "Hydrogen, gaseous, 25 bar, from electrolysis",
+            "carbon dioxide, captured from atmosphere",
+            "PEM electrolyzer, Balance of Plant",
+            "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
+            "Sabatier reaction methanation unit",
+            "Diesel production, Fischer Tropsch process",
+            "Syngas, RWGS, Production",
+            "PEM electrolyzer, Stack",
+            "hot water tank, carbon dioxide capture process",
+            "cooling unit, carbon dioxide capture process",
+            "methane, from electrochemical methanation, with carbon from atmospheric CO2 capture",
+            "diaphragm compressor module, high pressure",
+            "carbon dioxide capture system",
+            "Hydrogen dispenser, for gaseous hydrogen",
+            "diaphragms, for diaphragm compressor",
+            "MTG production facility, construction",
+            "Disposal, hydrogen fuelling station",
+            "production of 2 wt-% potassium iodide solution",
+            "production of nickle-based catalyst for methanation",
+            "Methanol distillation",
+            "wiring and tubing, carbon dioxide capture process",
+            "control panel, carbon dioxide capture process",
+            "adsorption and desorption unit, carbon dioxide capture process",
+            "Buffer tank",
+            "frequency converter, for diaphragm compressor",
         ]
 
         list_act = []
@@ -186,12 +351,17 @@ class ExportInventory:
                     break
 
                 if ecoinvent_compatibility == True:
+
                     tuple_output = self.map_remind_ecoinvent.get(
                         tuple_output, tuple_output
                     )
                     tuple_input = self.map_remind_ecoinvent.get(
                         tuple_input, tuple_input
                     )
+
+                    if ecoinvent_version == "3.5":
+                        tuple_output = self.map_36_to_35.get(tuple_output, tuple_output)
+                        tuple_input = self.map_36_to_35.get(tuple_input, tuple_input)
 
                 if len(self.array[:, row, col]) == 1:
                     # No uncertainty, only one value
@@ -287,107 +457,434 @@ class ExportInventory:
         else:
             return list_act
 
-    def write_lci_to_excel(self, directory, ecoinvent_compatibility):
+    def write_lci_to_excel(
+        self,
+        directory,
+        ecoinvent_compatibility,
+        ecoinvent_version,
+        software_compatibility,
+    ):
         """
-        Export an Excel file that can be consumed by Brightway2.
+        Export an Excel file that can be consumed by the software defined in `software_compatibility`.
 
+        :param directory: str. path to export the file to.
+        :param ecoinvent_compatibility: bool. If True, the inventory is compatible with ecoinvent. If False, the inventory is compatible with REMIND-ecoinvent.
+        :param ecoinvent_version: str. "3.5" or "3.6"
+        :param software_compatibility: str. "brightway2" or "simapro"
         :returns: returns the file path of the exported inventory.
         :rtype: str.
         """
 
-        list_act = self.write_lci(False, ecoinvent_compatibility)
-        data = []
-
-        data.extend((["Database", "test"], ("format", "Excel spreadsheet")))
-        data.append([])
-
-        for k in list_act:
-            if k.get("exchanges"):
-                data.extend(
-                    (
-                        ["Activity", k["name"]],
-                        ("location", k["location"]),
-                        ("production amount", float(k["production amount"])),
-                        ("reference product", k.get("reference product")),
-                        ("type", "process"),
-                        ("unit", k["unit"]),
-                        ("worksheet name", "None"),
-                        ["Exchanges"],
-                        [
-                            "name",
-                            "amount",
-                            "database",
-                            "location",
-                            "unit",
-                            "categories",
-                            "type",
-                            "reference product",
-                        ],
-                    )
-                )
-
-                for e in k["exchanges"]:
-                    data.append(
-                        [
-                            e["name"],
-                            float(e["amount"]),
-                            e["database"],
-                            e.get("location", "None"),
-                            e["unit"],
-                            "::".join(e.get("categories", ())),
-                            e["type"],
-                            e.get("reference product"),
-                        ]
-                    )
-            else:
-                data.extend(
-                    (
-                        ["Activity", k["name"]],
-                        ("type", "biosphere"),
-                        ("unit", k["unit"]),
-                        ("worksheet name", "None"),
-                    )
-                )
-            data.append([])
-
-        safe_name = safe_filename("test", False)
+        if software_compatibility == "brightway2":
+            safe_name = safe_filename(
+                "carculator_inventory_export_{}_brightway2".format(
+                    str(datetime.date.today())
+                ),
+                False,
+            ) + ".xlsx"
+        else:
+            safe_name = safe_filename(
+                "carculator_inventory_export_{}_simapro".format(
+                    str(datetime.date.today())
+                ),
+                False,
+            ) + ".csv"
 
         if directory is None:
-            filepath = "lci-" + safe_name + ".xlsx"
+            filepath_export = safe_name
         else:
             if not os.path.exists(directory):
                 os.makedirs(directory)
-            filepath = os.path.join(directory, "lci-" + safe_name + ".xlsx")
-            print(filepath)
+            filepath_export = os.path.join(directory, safe_name)
 
-        workbook = xlsxwriter.Workbook(filepath)
-        bold = workbook.add_format({"bold": True})
-        bold.set_font_size(12)
-        highlighted = {
-            "Activity",
-            "Database",
-            "Exchanges",
-            "Parameters",
-            "Database parameters",
-            "Project parameters",
-        }
-        frmt = lambda x: bold if row[0] in highlighted else None
+        list_act = self.write_lci(False, ecoinvent_compatibility, ecoinvent_version)
 
-        sheet = workbook.add_worksheet(create_valid_worksheet_name("test"))
+        if software_compatibility == "brightway2":
+            data = []
+            data.extend((["Database", "test"], ("format", "Excel spreadsheet")))
+            data.append([])
 
-        for row_index, row in enumerate(data):
-            for col_index, value in enumerate(row):
-                if value is None:
-                    continue
-                elif isinstance(value, float):
-                    sheet.write_number(row_index, col_index, value, frmt(value))
+            for k in list_act:
+                if k.get("exchanges"):
+                    data.extend(
+                        (
+                            ["Activity", k["name"]],
+                            ("location", k["location"]),
+                            ("production amount", float(k["production amount"])),
+                            ("reference product", k.get("reference product")),
+                            ("type", "process"),
+                            ("unit", k["unit"]),
+                            ("worksheet name", "None"),
+                            ["Exchanges"],
+                            [
+                                "name",
+                                "amount",
+                                "database",
+                                "location",
+                                "unit",
+                                "categories",
+                                "type",
+                                "reference product",
+                            ],
+                        )
+                    )
+
+                    for e in k["exchanges"]:
+                        data.append(
+                            [
+                                e["name"],
+                                float(e["amount"]),
+                                e["database"],
+                                e.get("location", "None"),
+                                e["unit"],
+                                "::".join(e.get("categories", ())),
+                                e["type"],
+                                e.get("reference product"),
+                            ]
+                        )
                 else:
-                    sheet.write_string(row_index, col_index, value, frmt(value))
-        print("Inventories exported to {}.".format(filepath))
-        workbook.close()
-        return filepath
+                    data.extend(
+                        (
+                            ["Activity", k["name"]],
+                            ("type", "biosphere"),
+                            ("unit", k["unit"]),
+                            ("worksheet name", "None"),
+                        )
+                    )
+                data.append([])
 
-    def write_lci_to_bw(self, presamples, ecoinvent_compatibility):
+            workbook = xlsxwriter.Workbook(filepath_export)
+            bold = workbook.add_format({"bold": True})
+            bold.set_font_size(12)
+            highlighted = {
+                "Activity",
+                "Database",
+                "Exchanges",
+                "Parameters",
+                "Database parameters",
+                "Project parameters",
+            }
+            frmt = lambda x: bold if row[0] in highlighted else None
+
+            sheet = workbook.add_worksheet(create_valid_worksheet_name("test"))
+
+            for row_index, row in enumerate(data):
+                for col_index, value in enumerate(row):
+                    if value is None:
+                        continue
+                    elif isinstance(value, float):
+                        sheet.write_number(row_index, col_index, value, frmt(value))
+                    else:
+                        sheet.write_string(row_index, col_index, value, frmt(value))
+            print("Inventories exported to {}.".format(filepath_export))
+            workbook.close()
+
+        else:
+
+            # Load the matching dictionary between ecoinvent and Simapro biosphere flows
+            filename = "simapro-biosphere.json"
+            filepath = DATA_DIR / filename
+            if not filepath.is_file():
+                raise FileNotFoundError(
+                    "The dictionary of biosphere flow match between ecoinvent and Simapro could not be found."
+                )
+            with open(filepath) as json_file:
+                data = json.load(json_file)
+            dict_bio = {}
+            for d in data:
+                dict_bio[d[2]] = d[1]
+
+            # Load the matching dictionary between ecoinvent and Simapro product flows
+            filename = "simapro-technosphere-3.5.csv"
+            filepath = DATA_DIR / filename
+            with open(filepath) as f:
+                csv_list = [
+                    [val.strip() for val in r.split(";")] for r in f.readlines()
+                ]
+            (_, _, *header), *data = csv_list
+
+            dict_tech = {}
+            for row in data:
+                name, location, simapro_name = row
+                dict_tech[(name, location)] = simapro_name
+
+            headers = [
+                "{CSV separator: Semicolon}",
+                "{CSV Format version: 7.0.0}",
+                "{Decimal separator: .}",
+                "{Date separator: /}",
+                "{Short date format: dd/MM/yyyy}",
+            ]
+
+            fields = [
+                "Process",
+                "Category type",
+                "Time Period",
+                "Geography",
+                "Technology",
+                "Representativeness",
+                "Multiple output allocation",
+                "Substitution allocation",
+                "Cut off rules",
+                "Capital goods",
+                "Date",
+                "Boundary with nature",
+                "Record",
+                "Generator",
+                "Literature references",
+                "External documents",
+                "Collection method",
+                "Data treatment",
+                "Verification",
+                "Products",
+                "Materials/fuels",
+                "Resources",
+                "Emissions to air",
+                "Emissions to water",
+                "Emissions to soil",
+                "Final waste flows",
+                "Non material emission",
+                "Social issues",
+                "Economic issues",
+                "Waste to treatment",
+                "End",
+            ]
+
+            simapro_units = {
+                "kilogram": "kg",
+                "cubic meter": "m3",
+                "kilowatt hour": "kWh",
+                "kilometer": "km",
+                "ton kilometer": "tkm",
+                "megajoule": "mj",
+                "unit": "unit",
+                "square meter": "m2",
+                "kilowatt": "kW",
+                "hour": "h",
+                "square meter-year": "m2a",
+                "meter": "m",
+                "vehicle-kilometer": "vkm",
+                "meter-year": "ma",
+            }
+
+            with open(filepath_export, "w", newline="") as csvFile:
+                writer = csv.writer(csvFile, delimiter=";")
+                for item in headers:
+                    writer.writerow([item])
+                writer.writerow([])
+
+                for a in list_act:
+                    for item in fields:
+                        writer.writerow([item])
+
+                        if item == "Process":
+                            name = (
+                                a["name"].capitalize()
+                                + " {"
+                                + a.get("location", "GLO")
+                                + "}"
+                                + "| Cut-off, U"
+                            )
+                            writer.writerow([name])
+
+                        if item == "Generator":
+                            writer.writerow(["carculator " + str(__version__)])
+
+                        if item == "Geography":
+                            writer.writerow([a["location"]])
+
+                        if item == "Time Period":
+                            writer.writerow(
+                                [
+                                    "Between 2010 and 2020. Extrapolated to the selected years."
+                                ]
+                            )
+
+                        if item == "Date":
+                            writer.writerow([str(datetime.date.today())])
+
+                        if item == "Cut off rules":
+                            writer.writerow(["100:0 - polluter pays-principle."])
+
+                        if item == "Multiple output allocation":
+                            writer.writerow(["No"])
+
+                        if item == "Substitution allocation":
+                            writer.writerow(["No"])
+
+                        if item == "Capital goods":
+                            writer.writerow(
+                                [
+                                    "Included when relevant (e.g., factory and machinery.)"
+                                ]
+                            )
+
+                        if item == "Literature references":
+                            writer.writerow(
+                                [
+                                    "Sacchi, R. et al., 2020, Renewable and Sustainable Energy Reviews (in review), https://www.psi.ch/en/ta/preprint"
+                                ]
+                            )
+
+                        if item == "External documents":
+                            writer.writerow(["https://carculator.psi.ch"])
+
+                        if item == "Collection method":
+                            writer.writerow(
+                                [
+                                    "Modeling and assumptions: https://carculator.readthedocs.io/en/latest/modeling.html"
+                                ]
+                            )
+
+                        if item == "Verification":
+                            writer.writerow(["In review. Susceptible to change."])
+
+                        if item == "Products":
+                            for e in a["exchanges"]:
+                                if e["type"] == "production":
+                                    name = (
+                                        e["reference product"].capitalize()
+                                        + " {"
+                                        + e.get("location", "GLO")
+                                        + "}"
+                                        + "| Cut-off, U"
+                                    )
+
+                                    writer.writerow(
+                                        [
+                                            dict_tech.get(
+                                                (a["name"], a["location"]), name
+                                            ),
+                                            simapro_units[a["unit"]],
+                                            1.0,
+                                            "100%",
+                                            "not defined",
+                                            a["database"],
+                                        ]
+                                    )
+
+                        if item == "Materials/fuels":
+                            for e in a["exchanges"]:
+                                if (
+                                    e["type"] == "technosphere"
+                                    and "waste" not in e["name"]
+                                ):
+                                    name = (
+                                        e["reference product"].capitalize()
+                                        + " {"
+                                        + e.get("location", "GLO")
+                                        + "}"
+                                        + "| Cut-off, U"
+                                    )
+
+                                    writer.writerow(
+                                        [
+                                            dict_tech.get(
+                                                (e["name"], e["location"]), name
+                                            ),
+                                            simapro_units[e["unit"]],
+                                            e["amount"],
+                                            "undefined",
+                                            0,
+                                            0,
+                                            0,
+                                        ]
+                                    )
+
+                        if item == "Resources":
+                            for e in a["exchanges"]:
+                                if (
+                                    e["type"] == "biosphere"
+                                    and e["categories"][0] == "natural resource"
+                                ):
+                                    writer.writerow(
+                                        [
+                                            dict_bio.get(e["name"]),
+                                            simapro_units[e["unit"]],
+                                            e["amount"],
+                                            "undefined",
+                                            0,
+                                            0,
+                                            0,
+                                        ]
+                                    )
+
+                        if item == "Emissions to air":
+                            for e in a["exchanges"]:
+                                if (
+                                    e["type"] == "biosphere"
+                                    and e["categories"][0] == "air"
+                                ):
+                                    writer.writerow(
+                                        [
+                                            dict_bio.get(e["name"], e["name"]),
+                                            simapro_units[e["unit"]],
+                                            e["amount"],
+                                            "undefined",
+                                            0,
+                                            0,
+                                            0,
+                                        ]
+                                    )
+
+                        if item == "Emissions to water":
+                            for e in a["exchanges"]:
+                                if (
+                                    e["type"] == "biosphere"
+                                    and e["categories"][0] == "water"
+                                ):
+                                    writer.writerow(
+                                        [
+                                            dict_bio.get(e["name"], e["name"]),
+                                            simapro_units[e["unit"]],
+                                            e["amount"],
+                                            "undefined",
+                                            0,
+                                            0,
+                                            0,
+                                        ]
+                                    )
+
+                        if item == "Emissions to soil":
+                            for e in a["exchanges"]:
+                                if (
+                                    e["type"] == "biosphere"
+                                    and e["categories"][0] == "soil"
+                                ):
+                                    writer.writerow(
+                                        [
+                                            dict_bio.get(e["name"], e["name"]),
+                                            simapro_units[e["unit"]],
+                                            e["amount"],
+                                            "undefined",
+                                            0,
+                                            0,
+                                            0,
+                                        ]
+                                    )
+
+                        if item == "Final waste flows":
+                            for e in a["exchanges"]:
+                                if e["type"] == "technosphere" and "waste" in e["name"]:
+                                    writer.writerow(
+                                        [
+                                            dict_bio.get(e["name"], e["name"]),
+                                            simapro_units[e["unit"]],
+                                            e["amount"],
+                                            "undefined",
+                                            0,
+                                            0,
+                                            0,
+                                        ]
+                                    )
+
+                        writer.writerow([])
+
+            csvFile.close()
+
+        return filepath_export
+
+    def write_lci_to_bw(self, presamples, ecoinvent_compatibility, ecoinvent_version):
         """
         Return a LCIImporter object with the inventory as `data` attribute.
 
@@ -395,12 +892,16 @@ class ExportInventory:
         :rtype: bw2io.base_lci.LCIImporter
         """
         if presamples == True:
-            data, array = self.write_lci(presamples, ecoinvent_compatibility)
+            data, array = self.write_lci(
+                presamples, ecoinvent_compatibility, ecoinvent_version
+            )
             i = bw2io.importers.base_lci.LCIImporter(self.db_name)
             i.data = data
             return (i, array)
         else:
-            data = self.write_lci(presamples, ecoinvent_compatibility)
+            data = self.write_lci(
+                presamples, ecoinvent_compatibility, ecoinvent_version
+            )
             i = bw2io.importers.base_lci.LCIImporter(self.db_name)
             i.data = data
             return i

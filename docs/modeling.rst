@@ -311,18 +311,22 @@ In parallel, the ``TtW efficiency`` (the loss of energy between the energy stora
 * ``drivetrain efficiency``
 * ``engine efficiency``
 
+The `motive energy` is calculated as the sun of:
+
 * rolling resistance = ``driving mass`` [kg] x ``rolling resistance coefficient`` [%] x 9.81 [m/s^2]
-* air resistance = ``velocity``^2 x ``frontal area`` [m^2] x ``aerodynamic drag coefficient`` [%] x air density [kg/m^3] / 2
+* air resistance = ``velocity`` ^2 x ``frontal area`` [m^2] x ``aerodynamic drag coefficient`` [%] x air density [kg/m^3] / 2
 * road gradient resistance = ``driving mass`` [kg] x 9.81 [m/s^2] x sin(gradient)
 * kinetic energy = ``acceleration`` [m/s^2] x ``driving mass`` [kg]
 
+This gives:
+
 * force required = rolling resistance + air resistance + road gradient resistance + kinetic energy
-
 * power [W] = force required x velocity [m/s]
-
 * recuperated power = (-1000 x electric power x recuperation efficiency) if power required < (-1000 x electric power x recuperation efficiency)
 
-* `motive energy` = sum ((power [W] / (distance [m] x 1000) + (recuperated power [W] / distance [m] / 1000)) / ``TtW efficiency`` [%])
+and results in:
+
+ * `motive energy` = sum ((power [W] / (distance [m] x 1000) + (recuperated power [W] / distance [m] / 1000)) / ``TtW efficiency`` [%])
 
 The power required, minus the power recuperated, is divided by the ``TtW efficiency``, for each second of the driving cycle and summed up along the driving time,
 to obtain the amount of kilojoules needed in the tank (or battery) to move the vehicle over 1 km.
