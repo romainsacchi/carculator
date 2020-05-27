@@ -11,5 +11,5 @@ def test_size_dictionary():
 
 def test_cumulative_losses():
     bs = BackgroundSystemModel()
-    assert len(bs.losses) == 147
+    assert len(bs.losses) == 146
     assert float(bs.losses["AL"]["LV"]) > 1.1
