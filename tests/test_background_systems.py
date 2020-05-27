@@ -4,7 +4,7 @@ import pytest
 
 def test_size_dictionary():
     bs = BackgroundSystemModel()
-    assert len(bs.electricity_mix) == 89
+    assert len(bs.electricity_mix) == 90
     assert int(bs.electricity_mix.sel(country="FR").values.sum()) == 10
     assert int(bs.electricity_mix.sel(country="FR", year=2015).values.sum()) == 1
 
