@@ -66,7 +66,7 @@ class InventoryCalculation:
                         },
                 'hydrogen':{
                         'primary fuel':{'type':'electrolysis', 'share':[1, 0, 0, 0]},
-                        'secondary fuel':{'type':'smr', 'share':[0, 1, 1, 1]}
+                        'secondary fuel':{'type':'smr - natural gas', 'share':[0, 1, 1, 1]}
                         }
                     },
               'energy storage': {
@@ -2176,7 +2176,7 @@ class InventoryCalculation:
                 type_primary_fcev
             except NameError:
                 type_primary_fcev = "electrolysis"
-                type_secondary_fcev = "smr"
+                type_secondary_fcev = "smr - natural gas"
                 share_secondary_fcev = np.linspace(0, 0, len(self.scope["year"]))
                 share_primary_fcev = 1 - share_secondary_fcev
 
@@ -2209,17 +2209,35 @@ class InventoryCalculation:
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
                 ),
-                "smr": (
+                "smr - natural gas": (
                     "Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station",
                 ),
-                "smr with CCS": (
+                "smr - natural gas with CCS": (
                     "Hydrogen, gaseous, 700 bar, from SMR NG w CCS, at H2 fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar, from SMR NG w CCS, at H2 fuelling station",
+                ),
+                "smr - biogas": (
+                    "Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station",
+                    "RER",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station",
+                ),
+                "smr - biogas with CCS": (
+                    "Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station",
+                    "RER",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station",
+                ),
+                "coal gasification": (
+                    "Hydrogen, gaseous, 700 bar, from coal gasification, at H2 fuelling station",
+                    "RER",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar, from coal gasification, at H2 fuelling station",
                 ),
             }
 

@@ -312,6 +312,7 @@ class ExportInventory:
             "adsorption and desorption unit, carbon dioxide capture process",
             "Buffer tank",
             "frequency converter, for diaphragm compressor",
+            'Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant'
         ]
 
         list_act = []
