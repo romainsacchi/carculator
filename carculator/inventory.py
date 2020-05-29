@@ -1138,6 +1138,7 @@ class InventoryCalculation:
         ecoinvent_compatibility=True,
         ecoinvent_version="3.6",
         software_compatibility="brightway2",
+        filename=None
     ):
         """
         Export the inventory as an Excel file (if the destination software is Brightway2) or a CSV file (if the destination software is Simapro) file.
@@ -1161,8 +1162,8 @@ class InventoryCalculation:
             ecoinvent_version="3.5"
 
         self.set_inputs_in_A_matrix(self.array.values)
-        fp = ExportInventory(self.A, self.rev_inputs).write_lci_to_excel(
-            directory, ecoinvent_compatibility, ecoinvent_version, software_compatibility
+        fp = ExportInventory(self.A, self.rev_inputs, db_name=filename or "Car db").write_lci_to_excel(
+            directory, ecoinvent_compatibility, ecoinvent_version, software_compatibility, filename
         )
         return fp
 
@@ -2679,7 +2680,7 @@ class InventoryCalculation:
                             and "electricity market for fuel preparation" in i[0]
                         ],
                         ind_A,
-                    ] = (
+                    ] += (
                         (
                             (
                                 array[self.array_inputs["fuel mass"], :, ind_array]
@@ -2892,7 +2893,7 @@ class InventoryCalculation:
                             and "electricity market for fuel preparation" in i[0]
                         ],
                         ind_A,
-                    ] = (
+                    ] += (
                         (
                             (
                                 array[self.array_inputs["fuel mass"], :, ind_array]

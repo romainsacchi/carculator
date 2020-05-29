@@ -464,6 +464,7 @@ class ExportInventory:
         ecoinvent_compatibility,
         ecoinvent_version,
         software_compatibility,
+        filename=None
     ):
         """
         Export an Excel file that can be consumed by the software defined in `software_compatibility`.
@@ -477,12 +478,18 @@ class ExportInventory:
         """
 
         if software_compatibility == "brightway2":
-            safe_name = safe_filename(
-                "carculator_inventory_export_{}_brightway2".format(
-                    str(datetime.date.today())
-                ),
-                False,
-            ) + ".xlsx"
+            if filename is None:
+                safe_name = safe_filename(
+                    "carculator_inventory_export_{}_brightway2".format(
+                        str(datetime.date.today())
+                    ),
+                    False,
+                ) + ".xlsx"
+            else:
+                safe_name = safe_filename(
+                    filename,
+                    False,
+                ) + ".xlsx"
         else:
             safe_name = safe_filename(
                 "carculator_inventory_export_{}_simapro".format(
@@ -502,7 +509,7 @@ class ExportInventory:
 
         if software_compatibility == "brightway2":
             data = []
-            data.extend((["Database", "test"], ("format", "Excel spreadsheet")))
+            data.extend((["Database", self.db_name], ("format", "Excel spreadsheet")))
             data.append([])
 
             for k in list_act:
