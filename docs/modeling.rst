@@ -314,7 +314,7 @@ In parallel, the ``TtW efficiency`` (the loss of energy between the energy stora
 The `motive energy` is calculated as the sum of:
 
 * rolling resistance [kg.m.s^-2] = ``driving mass`` [kg] x ``rolling resistance coefficient`` [%] x 9.81 [m/s^2]
-* air resistance [kg.m.s^-2] = ``velocity``^2 [m^2/s^2] x (``frontal area`` [m^2] x ``aerodynamic drag coefficient`` [%] x air density [kg/m^3] / 2)
+* air resistance [kg.m.s^-2] = ``velocity`` ^2 [m^2/s^2] x (``frontal area`` [m^2] x ``aerodynamic drag coefficient`` [%] x air density [kg/m^3] / 2)
 * road gradient resistance [kg.m.s^-2] = ``driving mass`` [kg] x 9.81 [m/s^2] x sin(gradient)
 * kinetic force [kg.m.s^-2] = ``acceleration`` [m/s^2] x ``driving mass`` [kg]
 
@@ -324,7 +324,7 @@ This gives:
 
 Then, the gross power required is calculated as:
 
-* power [W or kg.m^-2.s^3-] = force required [kg.m.s^-2] x velocity [m/s]
+* power [W or kg.m^2.s^-3] = force required [kg.m.s^-2] x velocity [m/s]
 
 The recuperated power, via electro-braking is calculated as the decelerating power (when power is negative) comprised
 within the upper limit of the electric engine power, times the recuperation efficiency:
