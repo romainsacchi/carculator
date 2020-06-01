@@ -21,6 +21,7 @@ __all__ = (
     "InventoryCalculation",
     "BackgroundSystemModel",
     "ExportInventory",
+    "InternalNoiseModel"
 )
 __version__ = (1, 0, 9)
 
@@ -35,6 +36,7 @@ from .array import (
     modify_xarray_from_custom_parameters,
 )
 from .noise_emissions import NoiseEmissionsModel
+from .internal_noise import InternalNoiseModel
 from .hot_emissions import HotEmissionsModel
 from .driving_cycles import get_standard_driving_cycle
 from .model import CarModel

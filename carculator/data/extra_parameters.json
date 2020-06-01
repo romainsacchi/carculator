@@ -151,5 +151,6 @@
   "maintenance cost",
   "noise, octave 1, day time, urban",
   "noise, octave 8, day time, rural",
-  "Lead direct emissions, suburban"
+  "Lead direct emissions, suburban",
+  "internal noise"
 ]

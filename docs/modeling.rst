@@ -311,25 +311,31 @@ In parallel, the ``TtW efficiency`` (the loss of energy between the energy stora
 * ``drivetrain efficiency``
 * ``engine efficiency``
 
-The `motive energy` is calculated as the sun of:
+The `motive energy` is calculated as the sum of:
 
-* rolling resistance = ``driving mass`` [kg] x ``rolling resistance coefficient`` [%] x 9.81 [m/s^2]
-* air resistance = ``velocity`` ^2 x ``frontal area`` [m^2] x ``aerodynamic drag coefficient`` [%] x air density [kg/m^3] / 2
-* road gradient resistance = ``driving mass`` [kg] x 9.81 [m/s^2] x sin(gradient)
-* kinetic energy = ``acceleration`` [m/s^2] x ``driving mass`` [kg]
+* rolling resistance [kg.m.s^-2] = ``driving mass`` [kg] x ``rolling resistance coefficient`` [%] x 9.81 [m/s^2]
+* air resistance [kg.m.s^-2] = ``velocity``^2 [m^2/s^2] x (``frontal area`` [m^2] x ``aerodynamic drag coefficient`` [%] x air density [kg/m^3] / 2)
+* road gradient resistance [kg.m.s^-2] = ``driving mass`` [kg] x 9.81 [m/s^2] x sin(gradient)
+* kinetic force [kg.m.s^-2] = ``acceleration`` [m/s^2] x ``driving mass`` [kg]
 
 This gives:
 
-* force required = rolling resistance + air resistance + road gradient resistance + kinetic energy
-* power [W] = force required x velocity [m/s]
-* recuperated power = (-1000 x electric power x recuperation efficiency) if power required < (-1000 x electric power x recuperation efficiency)
+* force required [kg.m.s^-2] = rolling resistance + air resistance + road gradient resistance + kinetic force
 
-and results in:
+Then, the gross power required is calculated as:
 
- * `motive energy` = sum ((power [W] / (distance [m] x 1000) + (recuperated power [W] / distance [m] / 1000)) / ``TtW efficiency`` [%])
+* power [W or kg.m^-2.s^3-] = force required [kg.m.s^-2] x velocity [m/s]
 
-The power required, minus the power recuperated, is divided by the ``TtW efficiency``, for each second of the driving cycle and summed up along the driving time,
-to obtain the amount of kilojoules needed in the tank (or battery) to move the vehicle over 1 km.
+The recuperated power, via electro-braking is calculated as the decelerating power (when power is negative) comprised
+within the upper limit of the electric engine power, times the recuperation efficiency:
+
+* recuperated power [W] = (-1000 x electric engine power x recuperation efficiency) if power required < (-1000 x electric engine power x recuperation efficiency)
+
+Finally, to obtain the `motive energy` the gross power minus the recuperated power (which is negative!) are summed along the driving cycle duration:
+
+ * `motive energy` [joules] = sum ((power [W or joules/s] / (distance [m] x 1000) + (recuperated power [W or joules/s] / distance [m] / 1000)) / ``TtW efficiency`` [%])
+
+The `motive energy` is divided by the ``TtW efficiency`` to obtain the amount of kilojoules needed in the tank (or battery) to move the vehicle over 1 km.
 
 Here is plotted the second-by-second power requirement for a large-sized battery electric vehicle, along the WLTC driving cycle:
 
