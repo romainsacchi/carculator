@@ -327,17 +327,17 @@ Then, the gross power required is calculated as:
 * power [W or kg.m^2.s^-3] = force required [kg.m.s^-2] x velocity [m/s]
 
 The recuperated power, via electro-braking is calculated as the decelerating power (when power is negative) comprised
-within the upper limit of the electric engine power, times the recuperation efficiency:
+between 0 and the electric engine power *-1, times the recuperation efficiency:
 
-* recuperated power [W] = (-1000 x electric engine power x recuperation efficiency) if power required < (-1000 x electric engine power x recuperation efficiency)
+* recuperated power [W] = power [W] * recuperation efficiency [%], when power between (-1 x electric engine power [W]) and 0
 
 Finally, to obtain the `motive energy` the gross power minus the recuperated power (which is negative!) are summed along the driving cycle duration:
 
- * `motive energy` [joules] = sum ((power [W or joules/s] / (distance [m] x 1000) + (recuperated power [W or joules/s] / distance [m] / 1000)) / ``TtW efficiency`` [%])
+ * `motive energy` [joules] = sum ((power [W or joules/s] + recuperated power [W or joules/s]) / distance [m] / ``TtW efficiency`` [%] / 1000 [j/kj])
 
 The `motive energy` is divided by the ``TtW efficiency`` to obtain the amount of kilojoules needed in the tank (or battery) to move the vehicle over 1 km.
 
-Here is plotted the second-by-second power requirement for a large-sized battery electric vehicle, along the WLTC driving cycle:
+Here is plotted the second-by-second gross power requirement for a large-sized battery electric vehicle, along the WLTC driving cycle:
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/kw_bev_wltc.png
     :width: 900
