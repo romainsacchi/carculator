@@ -1524,7 +1524,11 @@ class InventoryCalculation:
             end="\n * ",
         )
 
-        losses_to_low = float(self.bs.losses[battery_origin]["LV"])
+        try:
+            losses_to_low = float(self.bs.losses[battery_origin]["LV"])
+        except KeyError:
+            losses_to_low = float(self.bs.losses["CN"]["LV"])
+
         mix_battery_manufacturing = (
             self.bs.electricity_mix.sel(
                 country=battery_origin,
@@ -1839,8 +1843,8 @@ class InventoryCalculation:
         try:
             losses_to_low = float(self.bs.losses[country]["LV"])
         except KeyError:
-            # If losses for the country are not found, assume 15%
-            losses_to_low = 1.15
+            # If losses for the country are not found, assume EU average
+            losses_to_low = float(self.bs.losses["RER"]["LV"])
 
         if "custom electricity mix" in self.background_configuration:
             # If a special electricity mix is specified, we use it
@@ -1937,6 +1941,13 @@ class InventoryCalculation:
 
         for y in self.scope["year"]:
 
+            try:
+                losses_to_low = float(self.bs.losses[country]["LV"])
+            except KeyError:
+                losses_to_low = float(self.bs.losses["RER"]["LV"])
+
+
+
             if self.scenario == "static":
                 co2_intensity_tech = (
                     self.B.sel(
@@ -1944,7 +1955,7 @@ class InventoryCalculation:
                         year=2020,
                         activity=list(dict_map.values()),
                     ).values
-                    * float(self.bs.losses[country]["LV"])
+                    * losses_to_low
                 ) * 1000
             else:
                 co2_intensity_tech = (
@@ -1953,7 +1964,7 @@ class InventoryCalculation:
                     )
                     .interp(year=y, kwargs={"fill_value": "extrapolate"})
                     .values
-                    * float(self.bs.losses[country]["LV"])
+                    * losses_to_low
                 ) * 1000
 
             sum_renew = (

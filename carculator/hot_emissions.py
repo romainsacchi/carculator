@@ -350,6 +350,7 @@ class HotEmissionsModel:
 
         if powertrain_type == "petrol":
             if euro_class == 0:
+
                 # HC
                 em_arr[:, 0] = ne.evaluate(
                     "-2.397e-06 * c ** 3 + 0.0007389 * c ** 2 - 0.07681 * c + 3.276"

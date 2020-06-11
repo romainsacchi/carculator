@@ -7930,10 +7930,10 @@
     "year": 2040
   },
   "58-2017-average passengers": {
-    "amount": 1.8,
+    "amount": 1.6,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1.8,
+    "loc": 1.6,
     "maximum": 4,
     "minimum": 1,
     "name": "average passengers",
@@ -7958,16 +7958,16 @@
       "Small",
       "Van"
     ],
-    "source": "Hirschberg et al. (2016), EEA (2012)",
+    "source": "https://www.bfs.admin.ch/bfs/en/home/statistics/mobility-transport/passenger-transport/travel-behaviour.html",
     "uncertainty_type": 5,
     "unit": "persons",
     "year": 2017
   },
   "59-2040-average passengers": {
-    "amount": 1.8,
+    "amount": 1.6,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1.8,
+    "loc": 1.6,
     "maximum": 4,
     "minimum": 1,
     "name": "average passengers",
@@ -7992,7 +7992,7 @@
       "Small",
       "Van"
     ],
-    "source": "Hirschberg et al. (2016), EEA (2012)",
+    "source": "https://www.bfs.admin.ch/bfs/en/home/statistics/mobility-transport/passenger-transport/travel-behaviour.html",
     "uncertainty_type": 5,
     "unit": "persons",
     "year": 2040
@@ -13478,10 +13478,10 @@
     "year": 2010
   },
   "58-2010-average passengers": {
-    "amount": 1.8,
+    "amount": 1.6,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1.8,
+    "loc": 1.6,
     "maximum": 4,
     "minimum": 1,
     "name": "average passengers",
@@ -13506,7 +13506,7 @@
       "Small",
       "Van"
     ],
-    "source": "Hirschberg et al. (2016), EEA (2012)",
+    "source": "https://www.bfs.admin.ch/bfs/en/home/statistics/mobility-transport/passenger-transport/travel-behaviour.html",
     "uncertainty_type": 5,
     "unit": "persons",
     "year": 2010
@@ -18258,10 +18258,10 @@
       "year":2000
    },
    "58-2000-average passengers":{
-      "amount":1.8,
+      "amount":1.6,
       "category":"Glider",
       "kind":"distribution",
-      "loc":1.8,
+      "loc":1.6,
       "maximum":4,
       "minimum":1,
       "name":"average passengers",
@@ -18286,7 +18286,7 @@
          "Small",
          "Van"
       ],
-      "source":"Hirschberg et al. (2016), EEA (2012)",
+      "source":"https://www.bfs.admin.ch/bfs/en/home/statistics/mobility-transport/passenger-transport/travel-behaviour.html",
       "uncertainty_type":5,
       "unit":"persons",
       "year":2000
