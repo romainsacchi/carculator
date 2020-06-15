@@ -313,8 +313,8 @@ class CarModel:
                 self["fuel cell stack mass"] = (
                     0.51
                     * self["fuel cell power"]
-                    * 800
-                    / self["fuel cell power area density"]
+                    * (800
+                    / self["fuel cell power area density"])
                 )
                 self["fuel cell ancillary BoP mass"] = (
                     self["fuel cell power"]

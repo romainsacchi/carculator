@@ -1072,7 +1072,7 @@ class InventoryCalculation:
 
         :param presamples: boolean.
         :param ecoinvent_compatibility: bool. If True, compatible with ecoinvent. If False, compatible with REMIND-ecoinvent.
-        :param ecoinvent_version: str. "3.5" or "3.6"
+        :param ecoinvent_version: str. "3.5", "3.6" or "uvek"
         :return: inventory, and optionally, list of arrays containing pre-sampled values.
         :rtype: list
         """
@@ -1147,7 +1147,7 @@ class InventoryCalculation:
         :param directory: directory where to save the file.
         :type directory: str
         :param ecoinvent_compatibility: If True, compatible with ecoinvent. If False, compatible with REMIND-ecoinvent.
-        :param ecoinvent_version: "3.6" or "3.5"
+        :param ecoinvent_version: "3.6", "3.5" or "uvek"
         :param software_compatibility: "brightway2" or "simapro"
         :return: file path where the file is stored.
         :rtype: str
@@ -1156,8 +1156,11 @@ class InventoryCalculation:
         if software_compatibility not in ("brightway2", "simapro"):
             raise NameError("The destination software argument is not valid. Choose between 'brightway2' or 'simapro'.")
 
-        # Simapro inventory only for ecoinvent 3.5
+        # Simapro inventory only for ecoinvent 3.5 or UVEK
         if software_compatibility=="simapro":
+            if ecoinvent_version == "3.6":
+                print("Simapro-compatible inventory export is only available for ecoinvent 3.5 or UVEK.")
+                return
             ecoinvent_compatibility=True
             ecoinvent_version="3.5"
 
@@ -1219,7 +1222,7 @@ class InventoryCalculation:
                 )
             ],
             -self.number_of_cars :,
-        ] = (array[self.array_inputs["curb mass"], :] / 1600 / 150000 * -1)
+        ] = (array[self.array_inputs["curb mass"], :] / 1240 / 150000 * -1)
 
         # Glider EoL
         self.A[
@@ -1236,7 +1239,6 @@ class InventoryCalculation:
         ] = (
             array[self.array_inputs["curb mass"], :]
             * (1 - array[self.array_inputs["combustion power share"], :])
-            / 1180
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1
         )
@@ -1255,7 +1257,6 @@ class InventoryCalculation:
         ] = (
             array[self.array_inputs["curb mass"], :]
             * array[self.array_inputs["combustion power share"], :]
-            / 1600
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1
         )
@@ -2735,7 +2736,7 @@ class InventoryCalculation:
                         print(
                             "The values for biofuel shares do not match the number of years."
                         )
-                        exit(1)
+                        sys.exit(1)
 
             try:
                 type_primary_icevp

@@ -238,6 +238,32 @@ class ExportInventory:
             ),
         }
 
+        self.map_36_to_uvek = self.load_mapping_36_to_uvek()
+
+    def load_mapping_36_to_uvek(self):
+        """Load mapping dictionary between ecoinvent 3.6 and UVEK"""
+
+        # Load the matching dictionary between ecoinvent and Simapro biosphere flows
+        filename = "uvek_mapping.csv"
+        filepath = DATA_DIR / filename
+        if not filepath.is_file():
+            raise FileNotFoundError(
+                "The dictionary of activities flows match between ecoinvent 3.6 and UVEK could not be found."
+            )
+        with open(filepath) as f:
+            csv_list = [
+                [val.strip() for val in r.split(";")] for r in f.readlines()
+            ]
+        (_, _, *header), *data = csv_list
+
+        dict_uvek = {}
+        for row in data:
+            name, ref_prod, unit, location, uvek_name, uvek_ref_prod, uvek_unit, uvek_loc = row
+            dict_uvek[(name, ref_prod, unit, location)] = (uvek_name, uvek_ref_prod, uvek_unit, uvek_loc)
+
+        return dict_uvek
+
+
     def write_lci(self, presamples, ecoinvent_compatibility, ecoinvent_version):
         """
         Return the inventory as a dictionary
@@ -315,6 +341,23 @@ class ExportInventory:
             'Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant'
         ]
 
+        uvek_activities_to_remove = [
+            "market for activated carbon, granular",
+            "market for iodine",
+            "market for manganese sulfate",
+            "market for molybdenum trioxide",
+            "market for nickel sulfate",
+            "market for soda ash, light, crystalline, heptahydrate",
+        ]
+
+        uvek_multiplication_factors = {
+            "Steam, for chemical processes, at plant": 1/2.257, # 2.257 MJ/kg steam @ ambient pressure
+            "Natural gas, from high pressure network (1-5 bar), at service station": 0.842,
+            "Disposal, passenger car": 1/1600
+
+
+        }
+
         list_act = []
 
         if presamples:
@@ -343,6 +386,7 @@ class ExportInventory:
             for row, col in coords[coords[:, 1] == d]:
                 tuple_output = self.indices[col]
                 tuple_input = self.indices[row]
+                mult_factor = 1
 
                 # If ecoinvent_compatibility==False and the activity name is part of the list
                 if (
@@ -364,22 +408,35 @@ class ExportInventory:
                         tuple_output = self.map_36_to_35.get(tuple_output, tuple_output)
                         tuple_input = self.map_36_to_35.get(tuple_input, tuple_input)
 
+                    if ecoinvent_version == "uvek":
+
+                        tuple_output = self.map_36_to_uvek.get(tuple_output, tuple_output)
+
+                        if tuple_input[0] in uvek_activities_to_remove:
+                            continue
+                        else:
+                            tuple_input = self.map_36_to_uvek.get(tuple_input, tuple_input)
+
+                        #print(tuple_input[0])
+                        if tuple_input[0] in uvek_multiplication_factors:
+                            mult_factor = uvek_multiplication_factors[tuple_input[0]]
+
                 if len(self.array[:, row, col]) == 1:
                     # No uncertainty, only one value
-                    amount = self.array[0, row, col]
+                    amount = self.array[0, row, col] * mult_factor
                     uncertainty = [("uncertainty type", 1)]
 
                 elif np.all(
                     np.isclose(self.array[:, row, col], self.array[0, row, col])
                 ):
                     # Several values, but all the same, so no uncertainty
-                    amount = self.array[0, row, col]
+                    amount = self.array[0, row, col]  * mult_factor
                     uncertainty = [("uncertainty type", 1)]
                 else:
                     # Uncertainty
                     if presamples == True:
                         # Generate pre-sampled values
-                        amount = np.median(self.array[:, row, col])
+                        amount = np.median(self.array[:, row, col])  * mult_factor
                         uncertainty = [("uncertainty type", 1)]
                         if len(tuple_input) > 3:
                             type_exc = "technosphere"
@@ -471,7 +528,7 @@ class ExportInventory:
 
         :param directory: str. path to export the file to.
         :param ecoinvent_compatibility: bool. If True, the inventory is compatible with ecoinvent. If False, the inventory is compatible with REMIND-ecoinvent.
-        :param ecoinvent_version: str. "3.5" or "3.6"
+        :param ecoinvent_version: str. "3.5", "3.6" or "uvek"
         :param software_compatibility: str. "brightway2" or "simapro"
         :returns: returns the file path of the exported inventory.
         :rtype: str.
