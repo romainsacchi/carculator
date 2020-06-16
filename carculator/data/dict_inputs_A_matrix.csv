@@ -1,604 +1,604 @@
-market for sulfur dioxide, liquid;RER;kilogram;sulfur dioxide, liquid
-market for carbon black;GLO;kilogram;carbon black
-market for chemical, organic;GLO;kilogram;chemical, organic
-market for concrete, high exacting requirements;CH;cubic meter;concrete, high exacting requirements
-market for polyvinylchloride, suspension polymerised;GLO;kilogram;polyvinylchloride, suspension polymerised
-Toluene;('air',);kilogram
-market for reinforcing steel;GLO;kilogram;reinforcing steel
-noise, octave 4, day time, urban;('octave 4', 'day time', 'urban');joule
-Cathode current collector, LFP;JP;kilogram;Cathode current collector, LFP
-lithium hydroxide production;GLO;kilogram;lithium hydroxide
-Anode paste, NCA;JP;kilogram;Anode paste, NCA
-End plate;GLO;kilowatt;End plate
-heat production, natural gas, at industrial furnace >100kW;RoW;megajoule;heat, district or industrial, natural gas
-market for lubricating oil;RER;kilogram;lubricating oil
-market for iodine;GLO;kilogram;iodine
-market for heat, district or industrial, natural gas;Europe without Switzerland;megajoule;heat, district or industrial, natural gas
-Separator, LFP;JP;kilogram;Separator, LFP
-market for natural gas, from high pressure network (1-5 bar), at service station;GLO;kilogram;natural gas, from high pressure network (1-5 bar), at service station
-Textile, carbon cloth;GLO;kilogram;Textile, carbon cloth
-Lower retention;GLO;kilogram;Lower retention
-market for styrene;GLO;kilogram;styrene
+Separator;GLO;kilogram;Separator
+aluminium production, primary, ingot;IAI Area, Asia, without China and GCC;kilogram;aluminium, primary, ingot
+Gas Diffusion Layer;GLO;kilowatt;Gas Diffusion Layer
+electronics production, for control units;RoW;kilogram;electronics, for control units
+RWGS tank construction;GLO;unit;RWGS tank construction
+market for polyethylene terephthalate, granulate, amorphous;GLO;kilogram;polyethylene terephthalate, granulate, amorphous
+noise, octave 6, day time, urban;('octave 6', 'day time', 'urban');joule
+PAH, polycyclic aromatic hydrocarbons;('air', 'urban air close to ground');kilogram
+Sulfate;('water',);kilogram
 welding, arc, steel;RoW;meter;welding, arc, steel
-Sulfur dioxide;('air', 'low population density, long-term');kilogram
-market for injection moulding;GLO;kilogram;injection moulding
-ethylene glycol production;RoW;kilogram;ethylene glycol
-treatment of waste mineral oil, hazardous waste incineration;RoW;kilogram;waste mineral oil
+Carbon dioxide, fossil;('air', 'urban air close to ground');kilogram
+gas motor production, 206kW;RER;unit;gas motor, 206kW
+transport, freight train, diesel, with particle filter;CH;ton kilometer;transport, freight train
+Methane, fossil;('air', 'urban air close to ground');kilogram
+Methanol Synthesis;RER;kilogram;Methanol, unpurified
+transport, helicopter, LTO cycle;GLO;unit;transport, helicopter, LTO cycle
+market for polyvinylfluoride;GLO;kilogram;polyvinylfluoride
+Carbon dioxide, to soil or biomass stock;('soil',);kilogram
+market for monoethanolamine;GLO;kilogram;monoethanolamine
+market for nickel sulfate;GLO;kilogram;nickel sulfate
+metal working, average for aluminium product manufacturing;RoW;kilogram;metal working, average for aluminium product manufacturing
+Disposal, hydrogen fuelling station;RER;unit;Disposal, hydrogen fuelling station
+noise, octave 1, day time, urban;('octave 1', 'day time', 'urban');joule
+Diesel production, Fischer Tropsch process;RER;kilogram;Diesel
+distribution network construction, electricity, low voltage;CH;kilometer;distribution network, electricity, low voltage
+BOD5, Biological Oxygen Demand;('water', 'surface water');kilogram
+market for steel, low-alloyed;GLO;kilogram;steel, low-alloyed
+market for concrete, high exacting requirements;CH;cubic meter;concrete, high exacting requirements
+market for municipal solid waste;RoW;kilogram;municipal solid waste
+Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station;RER;kilogram;Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station
+SMR NG, 25 bar;CH;megajoule;SMR NG, 25 bar
+cast iron production;RoW;kilogram;cast iron
+Low voltage system;GLO;kilogram;Low voltage system
+activated silica production;GLO;kilogram;activated silica
+Ancillary BoP;GLO;kilogram;Ancillary BoP
+market for blasting;GLO;kilogram;blasting
+Manganese;('water', 'surface water');kilogram
+market for air compressor, screw-type compressor, 300kW;GLO;unit;air compressor, screw-type compressor, 300kW
+market for heat, from steam, in chemical industry;RER;megajoule;heat, from steam, in chemical industry
+kraft paper production, bleached;RoW;kilogram;kraft paper, bleached
+treatment of wastewater, from residence, capacity 1.1E10l/year;RoW;cubic meter;wastewater, from residence
+treatment of drilling waste, landfarming;CH;kilogram;drilling waste
+market group for electricity, low voltage;World;kilowatt hour;electricity, low voltage
+transport, freight, inland waterways, barge;RER;ton kilometer;transport, freight, inland waterways, barge
+market for waste plastic, industrial electronics;RoW;kilogram;waste plastic, industrial electronics
+Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station;RER;kilogram;Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station
+Cathode current collector, LFP;JP;kilogram;Cathode current collector, LFP
+market for N-methyl-2-pyrrolidone;GLO;kilogram;N-methyl-2-pyrrolidone
+market for nylon 6;RoW;kilogram;nylon 6
+market for charger, electric passenger car;GLO;kilogram;charger, electric passenger car
+container, with pipes and fittings, for diaphragm compressor;GLO;unit;container, with pipes and fittings, for diaphragm compressor
+treatment of municipal solid waste, incineration;DE;kilowatt hour;electricity, for reuse in municipal waste incineration only
+Glider lightweighting;GLO;kilogram;Glider lightweighting
+market for concrete block;DE;kilogram;concrete block
+Electrolyte, LFP;JP;kilogram;Electrolyte, LFP
+market for water, ultrapure;RoW;kilogram;water, ultrapure
+barite production;RER;kilogram;barite
+Carbon fibre, from acrylonitrile;GLO;kilogram;Carbon fibre, from acrylonitrile
+Negative current collector Cu;GLO;kilogram;Negative current collector Cu
+Sugar beet cultivation {RER} | sugar beet production Europe | Alloc Rec, U;RER;megajoule;Sugar beet cultivation {RER} | sugar beet production Europe | Alloc Rec, U
+market for heat, district or industrial, other than natural gas;Europe without Switzerland;megajoule;heat, district or industrial, other than natural gas
+Ethanol from wheat straw pellets;RER;kilogram;Ethanol from wheat straw pellets
+heat production, heavy fuel oil, at industrial furnace 1MW;RoW;megajoule;heat, district or industrial, other than natural gas
+Monoethanolamine;('air',);kilogram
+metal working, average for chromium steel product manufacturing;RER;kilogram;metal working, average for chromium steel product manufacturing
+liquid storage tank production, chemicals, organics;CH;unit;liquid storage tank, chemicals, organics
+Tab Aluminum;GLO;kilogram;Tab Aluminum
+Battery management system;GLO;kilogram;Battery management system
+market group for electricity, medium voltage;EUR;kilowatt hour;electricity, medium voltage
+Tab Copper;GLO;kilogram;Tab Copper
+market for iron sulfate;RoW;kilogram;iron sulfate
+Ammonia;('air', 'non-urban air or from high stacks');kilogram
+tetrafluoroethylene production;RoW;kilogram;tetrafluoroethylene
+pump production, 40W;CH;unit;pump, 40W
+market for sulfur dioxide, liquid;RER;kilogram;sulfur dioxide, liquid
 Ethanol from maize starch;RER;kilogram;Ethanol from maize starch
 treatment of waste plastic, mixture, sanitary landfill;RoW;kilogram;waste plastic, mixture
-Nitrogen oxides;('air', 'low population density, long-term');kilogram
-market for nylon 6;RoW;kilogram;nylon 6
-activated bentonite production;DE;kilogram;activated bentonite
-treatment of drilling waste, landfarming;CH;kilogram;drilling waste
-Arsenic, ion;('water', 'surface water');kilogram
-noise, octave 6, day time, urban;('octave 6', 'day time', 'urban');joule
-market for soda ash, light, crystalline, heptahydrate;GLO;kilogram;soda ash, light, crystalline, heptahydrate
-polyvinylchloride production, bulk polymerisation;RER;kilogram;polyvinylchloride, bulk polymerised
-market for brass;CH;kilogram;brass
-liquid storage tank production, chemicals, organics;CH;unit;liquid storage tank, chemicals, organics
-Sulfur hexafluoride;('air',);kilogram
-Refined Waste Cooking Oil {RER} | Refining of waste cooking oil Europe | Alloc Rec, U;RER;megajoule;Refined Waste Cooking Oil {RER} | Refining of waste cooking oil Europe | Alloc Rec, U
-NMVOC, non-methane volatile organic compounds, unspecified origin;('air', 'urban air close to ground');kilogram
-NMVOC, non-methane volatile organic compounds, unspecified origin;('air', 'low population density, long-term');kilogram
-market group for electricity, medium voltage;World;kilowatt hour;electricity, medium voltage
-distribution network construction, electricity, low voltage;CH;kilometer;distribution network, electricity, low voltage
-market for phosphate fertiliser, as P2O5;GLO;kilogram;phosphate fertiliser, as P2O5
-market for lithium hydroxide;GLO;kilogram;lithium hydroxide
-Strontium;('water', 'surface water');kilogram
-noise, octave 5, day time, urban;('octave 5', 'day time', 'urban');joule
-market for gas turbine, 10MW electrical;GLO;unit;gas turbine, 10MW electrical
-market for acrylonitrile-butadiene-styrene copolymer;GLO;kilogram;acrylonitrile-butadiene-styrene copolymer
-market for carboxymethyl cellulose, powder;GLO;kilogram;carboxymethyl cellulose, powder
-treatment of wastewater, average, capacity 1E9l/year;CH;cubic meter;wastewater, average
-Dinitrogen monoxide;('air', 'urban air close to ground');kilogram
-market for carbon monoxide;RER;kilogram;carbon monoxide
-market for polyethylene terephthalate, granulate, amorphous;GLO;kilogram;polyethylene terephthalate, granulate, amorphous
-market for corrugated board box;RoW;kilogram;corrugated board box
-market for steel, unalloyed;GLO;kilogram;steel, unalloyed
-market for zinc oxide;GLO;kilogram;zinc oxide
-Clamps and fasteners;GLO;kilogram;Clamps and fasteners
-market for light fuel oil;RoW;kilogram;light fuel oil
-Tray with fasteners;GLO;kilogram;Tray with fasteners
-Syngas, RWGS, Production;RER;kilogram;Syngas, RWGS, Production
-Carbon dioxide, from soil or biomass stock;('air',);kilogram
-Disposal, hydrogen fuelling station;RER;unit;Disposal, hydrogen fuelling station
-aluminium hydroxide production;CN;kilogram;aluminium hydroxide
-Hydrogen, gaseous, 700 bar, from coal gasification, at H2 fuelling station;RER;kilogram;Hydrogen, gaseous, 700 bar, from coal gasification, at H2 fuelling station
-lubricating oil production;RoW;kilogram;lubricating oil
-Particulates, < 2.5 um;('air',);kilogram
-Fuel tank, compressed hydrogen gas, 700bar, with HDPE liner;RER;kilogram;Hydrogen tank
-operation, computer, desktop, with liquid crystal display, active mode;CH;hour;operation, computer, desktop, with liquid crystal display, active mode
-market for glass fibre;GLO;kilogram;glass fibre
-Tie-rods;GLO;kilogram;Tie-rods
-Ancillary BoP;GLO;kilogram;Ancillary BoP
-market for potassium hydroxide;GLO;kilogram;potassium hydroxide
-market for sheet rolling, steel;GLO;kilogram;sheet rolling, steel
-market for metal working, average for steel product manufacturing;GLO;kilogram;metal working, average for steel product manufacturing
-market for water, decarbonised;RoW;kilogram;water, decarbonised
-Sulfur dioxide;('air', 'non-urban air or from high stacks');kilogram
-Positive active material;GLO;kilogram;Positive active material
-Fuel tank, compressed hydrogen gas, 700bar, with aluminium liner;RER;kilogram;Hydrogen tank
-market for pesticide, unspecified;GLO;kilogram;pesticide, unspecified
-market group for electricity, medium voltage;JPN;kilowatt hour;electricity, medium voltage
-noise, octave 5, day time, suburban;('octave 5', 'day time', 'suburban');joule
-End-busbar copper;GLO;kilogram;End-busbar copper
-algae cultivation | algae broth production;RER;kilogram;algae cultivation | algae broth production
-market for aluminium, cast alloy;GLO;kilogram;aluminium, cast alloy
-noise, octave 7, day time, suburban;('octave 7', 'day time', 'suburban');joule
-market for calcium chloride;RER;kilogram;calcium chloride
-market for transport, freight, inland waterways, barge;RER;ton kilometer;transport, freight, inland waterways, barge
-gravel and sand quarry operation;CH;kilogram;sand
-Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station;RER;kilogram;Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station
-market for waste rubber, unspecified;RoW;kilogram;waste rubber, unspecified
-market for lubricating oil;RoW;kilogram;lubricating oil
-Nitrogen oxides;('air', 'urban air close to ground');kilogram
-market for manual dismantling of used passenger car with internal combustion engine;GLO;unit;manual dismantling of used passenger car with internal combustion engine
-Sodium, ion;('water', 'surface water');kilogram
-chemical factory construction, organics;RER;unit;chemical factory, organics
-Chloride;('water', 'surface water');kilogram
-Cathode paste, LFP;JP;kilogram;Cathode paste, LFP
-Occupation, industrial area;('natural resource', 'land');square meter-year
-Inner frame;GLO;kilogram;Inner frame
-Electrolyte, LFP;JP;kilogram;Electrolyte, LFP
-Methane, fossil;('air',);kilogram
-maintenance, passenger car;RER;unit;passenger car maintenance
-market for heat, district or industrial, natural gas;RoW;megajoule;heat, district or industrial, natural gas
-Methane, fossil;('air', 'low population density, long-term');kilogram
-market for municipal solid waste;RoW;kilogram;municipal solid waste
-Nitrogen oxides;('air',);kilogram
-Membrane;GLO;kilowatt;Membrane
-market for manganese sulfate;GLO;kilogram;manganese sulfate
-market for zeolite, powder;GLO;kilogram;zeolite, powder
-market for monoethanolamine;GLO;kilogram;monoethanolamine
-market for chemical factory, organics;GLO;unit;chemical factory, organics
-straw pellets;RER;megajoule;straw pellets
-Methane, non-fossil;('air',);kilogram
-Negative electrode paste;GLO;kilogram;Negative electrode paste
-lime production, milled, packed;CH;kilogram;lime, packed
-electronics production, for control units;RoW;kilogram;electronics, for control units
-Carbon dioxide, in air;('natural resource', 'in air');kilogram
-electricity production, hydro, run-of-river;DE;kilowatt hour;electricity, high voltage
-market for tin;GLO;kilogram;tin
-cement production, Portland;CH;kilogram;cement, Portland
-market for transport, freight, lorry, unspecified;RER;ton kilometer;transport, freight, lorry, unspecified
-market for aluminium scrap, new;RER;kilogram;aluminium scrap, new
-market for sheet rolling, aluminium;GLO;kilogram;sheet rolling, aluminium
-Carbon monoxide, fossil;('air', 'urban air close to ground');kilogram
-carbon dioxide capture system;RER;unit;carbon dioxide capture system
-phenolic resin production;RoW;kilogram;phenolic resin
-PEM electrolyzer, Stack;GLO;unit;PEM electrolyzer, Stack
-market for water, completely softened;RER;kilogram;water, completely softened
-Benzene;('air', 'urban air close to ground');kilogram
-market group for natural gas, high pressure;Europe without Switzerland;cubic meter;natural gas, high pressure
-market for integrated circuit, logic type;GLO;kilogram;integrated circuit, logic type
-market for molybdenum trioxide;GLO;kilogram;molybdenum trioxide
-noise, octave 3, day time, suburban;('octave 3', 'day time', 'suburban');joule
-market for used vegetable cooking oil;GLO;kilogram;used vegetable cooking oil
-market for silica sand;GLO;kilogram;silica sand
-IBIS fasteners;GLO;kilogram;IBIS fasteners
-Negative current collector Cu;GLO;kilogram;Negative current collector Cu
-adsorption and desorption unit, carbon dioxide capture process;RER;unit;adsorption and desorption unit, carbon dioxide capture process
-market for lithium hexafluorophosphate;GLO;kilogram;lithium hexafluorophosphate
-market for diesel;Europe without Switzerland;kilogram;diesel
-market for nickel, 99.5%;GLO;kilogram;nickel, 99.5%
-market for welding, arc, steel;GLO;meter;welding, arc, steel
-nickel mine operation, sulfidic ore;GLO;kilogram;nickel, 99.5%
-market for soil pH raising agent, as CaCO3;GLO;kilogram;soil pH raising agent, as CaCO3
-Carbon monoxide, fossil;('air',);kilogram
-SMR NG + CCS (MDEA), 98 (average), 700 bar;CH;kilogram;SMR NG + CCS, 700 bar
-noise, octave 2, day time, suburban;('octave 2', 'day time', 'suburban');joule
-market for sugar beet seed, for sowing;GLO;kilogram;sugar beet seed, for sowing
-High voltage system;GLO;kilogram;High voltage system
-aluminium ingot, primary, to aluminium, wrought alloy market;GLO;kilogram;aluminium, wrought alloy
-Battery cell, NMC;GLO;kilogram;Battery cell
-Silicon;('water', 'surface water');kilogram
-market for printed wiring board, through-hole mounted, unspecified, Pb free;GLO;kilogram;printed wiring board, through-hole mounted, unspecified, Pb free
-NCA electrode material (LiNi0.8Co0.15Al0.05O2);JP;kilogram;NCA electrode material (LiNi0.8Co0.15Al0.05O2)
-Occupation, construction site;('natural resource', 'land');square meter-year
-Strap retention;GLO;kilogram;Strap retention
-Heat transfer plate;GLO;kilogram;Heat transfer plate
-Zinc, ion;('water', 'surface water');kilogram
-market for internal combustion engine, passenger car;GLO;kilogram;internal combustion engine, for passenger car
-metal working, average for aluminium product manufacturing;RoW;kilogram;metal working, average for aluminium product manufacturing
-Catalyst layer;GLO;kilowatt;Catalyst layer
-market for aluminium casting facility;GLO;unit;aluminium casting facility
-market for flat glass, uncoated;RER;kilogram;flat glass, uncoated
-electricity production, deep geothermal;DE;kilowatt hour;electricity, high voltage
-air separation, cryogenic;RoW;kilogram;oxygen, liquid
-transport, freight train, diesel, with particle filter;CH;ton kilometer;transport, freight train
-Carbon monoxide, non-fossil;('air',);kilogram
-Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant;RER;kilogram;Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant
-market for polyurethane, flexible foam;RER;kilogram;polyurethane, flexible foam
-diesel, burned in building machine;GLO;megajoule;diesel, burned in building machine
-market for inverter, for electric passenger car;GLO;kilogram;inverter, for electric passenger car
-Module lid;GLO;kilogram;Module lid
-Hydrogen, gaseous, 25 bar, from electrolysis;RER;kilogram;Hydrogen, gaseous, 25 bar, from electrolysis
-market for silicon, electronics grade;GLO;kilogram;silicon, electronics grade
-diesel, burned in diesel-electric generating set, 18.5kW;GLO;megajoule;diesel, burned in diesel-electric generating set, 18.5kW
-sheet rolling, steel;RoW;kilogram;sheet rolling, steel
-Sulfur dioxide;('air', 'urban air close to ground');kilogram
-Particulates, < 2.5 um;('air', 'urban air close to ground');kilogram
-Sabatier reaction methanation unit;RER;unit;Sabatier reaction methanation unit
-Coating and curing, general manufacturing;GLO;square meter;Coating and curing, general manufacturing
-Iron, ion;('water', 'surface water');kilogram
-Lead;('air', 'low population density, long-term');kilogram
-wire drawing, copper;RoW;kilogram;wire drawing, copper
-lignite mine operation;RER;kilogram;lignite
-water production, deionised;Europe without Switzerland;kilogram;water, deionised
-market for chromium oxide, flakes;GLO;kilogram;chromium oxide, flakes
-noise, octave 1, day time, suburban;('octave 1', 'day time', 'suburban');joule
-polyethylene production, low density, granulate;RoW;kilogram;polyethylene, low density, granulate
-electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted;DE;kilowatt hour;electricity, low voltage
-market for transport, freight, sea, tanker for petroleum;GLO;ton kilometer;transport, freight, sea, tanker for petroleum
-Battery BoP;GLO;kilogram;Battery BoP
-Hydrogen sulfide;('air',);kilogram
-market for transport, freight, lorry 16-32 metric ton, EURO3;RoW;ton kilometer;transport, freight, lorry 16-32 metric ton, EURO3
-Heat, waste;('air',);megajoule
-Phosphate;('water',);kilogram
-market for anodising, aluminium sheet;GLO;square meter;anodising, aluminium sheet
-metal working, average for chromium steel product manufacturing;RER;kilogram;metal working, average for chromium steel product manufacturing
-market for copper;GLO;kilogram;copper
-market group for light fuel oil;RER;kilogram;light fuel oil
-copper production, blister-copper;RER;kilogram;copper, blister-copper
-Water;('water',);cubic meter
-anode production, graphite, for lithium-ion battery;RoW;kilogram;anode, graphite, for lithium-ion battery
-Sulfur dioxide;('air',);kilogram
-treatment of waste gypsum, inert material landfill;Europe without Switzerland;kilogram;waste gypsum
-market for acrylic acid;RoW;kilogram;acrylic acid
-PEM electrolyzer, Operation and Maintenance;RER;hour;PEM electrolyzer, Operation and Maintenance
-Fuel tank, compressed hydrogen gas, 700bar;GLO;kilogram;Fuel tank, compressed hydrogen gas, 700bar
-Particulates, < 2.5 um;('air', 'low population density, long-term');kilogram
-market for road wear emissions, passenger car;GLO;kilogram;road wear emissions, passenger car
-pump production, 40W;CH;unit;pump, 40W
-market for transport, freight, sea, tanker for liquid goods other than petroleum and liquefied natural gas;GLO;ton kilometer;transport, freight, sea, tanker for liquid goods other than petroleum and liquefied natural gas
-Cell container;GLO;kilogram;Cell container
-Bipolar plate;GLO;kilowatt;Bipolar plate
-NMVOC, non-methane volatile organic compounds, unspecified origin;('air', 'non-urban air or from high stacks');kilogram
-market for used powertrain from electric passenger car, manual dismantling;GLO;kilogram;used powertrain from electric passenger car, manual dismantling
-market for thermoforming, with calendering;GLO;kilogram;thermoforming, with calendering
-TOC, Total Organic Carbon;('water', 'surface water');kilogram
-woodchips from forestry residues;RER;megajoule;woodchips from forestry residues
-noise, octave 1, day time, rural;('octave 1', 'day time', 'rural');joule
-Module packaging;GLO;kilogram;Module packaging
-glass fibre reinforced plastic production, polyester resin, hand lay-up;RER;kilogram;glass fibre reinforced plastic, polyester resin, hand lay-up
-wiring and tubing, carbon dioxide capture process;RER;unit;wiring and tubing, carbon dioxide capture process
-market for steel, low-alloyed, hot rolled;GLO;kilogram;steel, low-alloyed, hot rolled
-market for air compressor, screw-type compressor, 300kW;GLO;unit;air compressor, screw-type compressor, 300kW
-storage module, high pressure, at fuelling station;GLO;unit;storage module, high pressure, at fuelling station
-electricity production, natural gas, conventional power plant;DE;kilowatt hour;electricity, high voltage
-pumps, carbon dioxide capture process;RER;unit;pumps, carbon dioxide capture process
-Lithium, ion;('water',);kilogram
-PAH, polycyclic aromatic hydrocarbons;('air', 'urban air close to ground');kilogram
-treatment of waste mineral wool, inert material landfill;CH;kilogram;waste mineral wool, for final disposal
-heat exchanger, carbon dioxide capture process;RER;unit;heat exchanger, carbon dioxide capture process
-Anode paste, LFP;JP;kilogram;Anode paste, LFP
-polyethylene production, high density, granulate;RER;kilogram;polyethylene, high density, granulate
-noise, octave 3, day time, urban;('octave 3', 'day time', 'urban');joule
-market for metal working, average for copper product manufacturing;GLO;kilogram;metal working, average for copper product manufacturing
-market for concrete block;DE;kilogram;concrete block
-algae harvesting| dry algae production;RER;kilogram;algae harvesting| dry algae production
-market for sheet rolling, chromium steel;GLO;kilogram;sheet rolling, chromium steel
-market for ethylene carbonate;GLO;kilogram;ethylene carbonate
-Transformation, to heterogeneous, agricultural;('natural resource', 'land');square meter
-Tray lid;GLO;kilogram;Tray lid
-Buffer tank;GLO;unit;Buffer tank
-market for stone wool, packed;GLO;kilogram;stone wool, packed
-market for display, liquid crystal, 17 inches;GLO;unit;display, liquid crystal, 17 inches
-ethylene glycol production;RER;kilogram;ethylene glycol
-treatment of sewage sludge by anaerobic digestion;CH;cubic meter;biogas
-market for sulfuric acid;RER;kilogram;sulfuric acid
-Nitrogen oxides;('air', 'non-urban air or from high stacks');kilogram
-market for sulfur hexafluoride, liquid;RER;kilogram;sulfur hexafluoride, liquid
-electricity production, oil;DE;kilowatt hour;electricity, high voltage
-market for water, decarbonised;DE;kilogram;water, decarbonised
-steel production, converter, low-alloyed;RER;kilogram;steel, low-alloyed
-frequency converter, for diaphragm compressor;GLO;unit;frequency converter, for diaphragm compressor
-Ammonia;('air', 'low population density, long-term');kilogram
-PEM electrolyzer, Balance of Plant;GLO;unit;PEM electrolyzer, Balance of Plant
-noise, octave 4, day time, rural;('octave 4', 'day time', 'rural');joule
-Pipe fitting;GLO;kilogram;Pipe fitting
-noise, octave 7, day time, urban;('octave 7', 'day time', 'urban');joule
-market for nitrogen, liquid;RoW;kilogram;nitrogen, liquid
-market for power distribution unit, for electric passenger car;GLO;kilogram;power distribution unit, for electric passenger car
-Manifolds;GLO;kilogram;Manifolds
-aluminium production, primary, ingot;IAI Area, EU27 & EFTA;kilogram;aluminium, primary, ingot
-Dinitrogen monoxide;('air',);kilogram
-market for aluminium alloy, AlLi;GLO;kilogram;aluminium alloy, AlLi
-market for N-methyl-2-pyrrolidone;GLO;kilogram;N-methyl-2-pyrrolidone
-Monoethanolamine;('air',);kilogram
-market for copper oxide;GLO;kilogram;copper oxide
-noise, octave 8, day time, urban;('octave 8', 'day time', 'urban');joule
-market for steel, chromium steel 18/8, hot rolled;GLO;kilogram;steel, chromium steel 18/8, hot rolled
-drilling, deep borehole/m;RER;meter;drilling, deep borehole/m
-epoxy resin production, liquid;RER;kilogram;epoxy resin, liquid
-market for electronic component, passive, unspecified;GLO;kilogram;electronic component, passive, unspecified
-Carbon dioxide, fossil;('air', 'urban air close to ground');kilogram
-market for ammonium sulfate, as N;GLO;kilogram;ammonium sulfate, as N
-heat production, natural gas, at industrial furnace low-NOx >100kW;Europe without Switzerland;megajoule;heat, district or industrial, natural gas
-Formaldehyde;('air',);kilogram
-Positive current collector Al;GLO;kilogram;Positive current collector Al
-SMR NG, 25 bar;CH;megajoule;SMR NG, 25 bar
-Barium;('water', 'surface water');kilogram
-Acetaldehyde;('air',);kilogram
-transmission network construction, electricity, high voltage;CH;kilometer;transmission network, electricity, high voltage
-cobalt production;GLO;kilogram;cobalt
-transport, helicopter, LTO cycle;GLO;unit;transport, helicopter, LTO cycle
-Pentane;('air',);kilogram
-market for gypsum fibreboard;GLO;kilogram;gypsum fibreboard
-nitric acid production, product in 50% solution state;RER;kilogram;nitric acid, without water, in 50% solution state
-Radiator;GLO;kilogram;Radiator
-Carbon dioxide, fossil;('air',);kilogram
-market for hard coal;Europe, without Russia and Turkey;kilogram;hard coal
-market for steel, chromium steel 18/8;GLO;kilogram;steel, chromium steel 18/8
-market group for diesel;RER;kilogram;diesel
-PAH, polycyclic aromatic hydrocarbons;('air', 'non-urban air or from high stacks');kilogram
-Dinitrogen monoxide;('air', 'low population density, long-term');kilogram
-electronics production, for control units;RER;kilogram;electronics, for control units
-Dinitrogen monoxide;('air', 'non-urban air or from high stacks');kilogram
-Carbon monoxide, fossil;('air', 'low population density, long-term');kilogram
-Ni1/3Co1/3Mn1/3(OH)2;GLO;kilogram;Ni1/3Co1/3Mn1/3(OH)2
-methane, from electrochemical methanation, with carbon from atmospheric CO2 capture;RER;kilogram;methane, from electrochemical methanation
-production of nickle-based catalyst for methanation;RER;kilogram;production of nickle-based catalyst for methanation
-market for polyethylene, high density, granulate;GLO;kilogram;polyethylene, high density, granulate
-market for titanium dioxide;RoW;kilogram;titanium dioxide
-Propane;('air',);kilogram
-market for water, ultrapure;RER;kilogram;water, ultrapure
-market for synthetic rubber;GLO;kilogram;synthetic rubber
-Electrolyte;GLO;kilogram;Electrolyte
-market for butadiene;RER;kilogram;butadiene
-reinforcing steel production;RER;kilogram;reinforcing steel
-market for blow moulding;GLO;kilogram;blow moulding
-kraft paper production, bleached;RoW;kilogram;kraft paper, bleached
-Methane, fossil;('air', 'urban air close to ground');kilogram
-gravel production, crushed;RoW;kilogram;gravel, crushed
-Cathode current collector, NCA;JP;kilogram;Cathode current collector, NCA
-Glider lightweighting;GLO;kilogram;Glider lightweighting
-transmission network construction, electricity, medium voltage;CH;kilometer;transmission network, electricity, medium voltage
-Carbon dioxide, fossil;('air', 'non-urban air or from high stacks');kilogram
-COD, Chemical Oxygen Demand;('water', 'surface water');kilogram
-Benzene;('air', 'non-urban air or from high stacks');kilogram
-noise, octave 8, day time, suburban;('octave 8', 'day time', 'suburban');joule
-treatment of wastewater, unpolluted, capacity 5E9l/year;RoW;cubic meter;wastewater, unpolluted
-barite production;RER;kilogram;barite
-market for portafer;GLO;kilogram;portafer
-Hydrogen, gaseous, 700 bar, from SMR NG w CCS, at H2 fuelling station;RER;kilogram;Hydrogen, gaseous, 700 bar, from SMR NG w CCS, at H2 fuelling station
-market for phosphoric acid, industrial grade, without water, in 85% solution state;GLO;kilogram;phosphoric acid, industrial grade, without water, in 85% solution state
-Ethanol from wheat straw pellets;RER;kilogram;Ethanol from wheat straw pellets
-market for tap water;CH;kilogram;tap water
-treatment of hazardous waste, hazardous waste incineration;RoW;kilogram;hazardous waste, for incineration
-market for concrete, normal;CH;cubic meter;concrete, normal
-Thermal pad;GLO;kilogram;Thermal pad
-Multilayer pouch;GLO;kilogram;Multilayer pouch
-SMR NG, 700 bar;CH;kilogram;SMR NG, 700 bar
-aluminium production, primary, ingot;IAI Area, Asia, without China and GCC;kilogram;aluminium, primary, ingot
-Battery retention;GLO;kilogram;Battery retention
-Methanol Synthesis;RER;kilogram;Methanol, unpurified
-Battery packaging;GLO;kilogram;Battery packaging
-Maize cultivation, drying and storage {RER} | Maize production Europe | Alloc Rec, U;RER;megajoule;Maize cultivation, drying and storage {RER} | Maize production Europe | Alloc Rec, U
-electricity production, nuclear, pressure water reactor;DE;kilowatt hour;electricity, high voltage
-market for activated carbon, granular;GLO;kilogram;activated carbon, granular
-market for iron sulfate;RoW;kilogram;iron sulfate
-market for water, deionised;Europe without Switzerland;kilogram;water, deionised
-noise, octave 4, day time, suburban;('octave 4', 'day time', 'suburban');joule
-market for platinum;GLO;kilogram;platinum
-Methanol distillation;RER;kilogram;Purified methanol
-market for nickel sulfate;GLO;kilogram;nickel sulfate
-market for petrol, low-sulfur;Europe without Switzerland;kilogram;petrol, low-sulfur
-market for ammonia, liquid;RER;kilogram;ammonia, liquid
-market for tap water;Europe without Switzerland;kilogram;tap water
-carbon dioxide, captured from atmosphere;RER;kilogram;carbon dioxide, captured from atmosphere
-noise, octave 6, day time, suburban;('octave 6', 'day time', 'suburban');joule
-Battery tray;GLO;kilogram;Battery tray
-market for polyethylene, low density, granulate;GLO;kilogram;polyethylene, low density, granulate
-market for aluminium oxide, metallurgical;IAI Area, EU27 & EFTA;kilogram;aluminium oxide, metallurgical
-Iron, ion;('water',);kilogram
-market group for electricity, high voltage;EUR;kilowatt hour;electricity, high voltage
-Tab Copper;GLO;kilogram;Tab Copper
-market for brake wear emissions, passenger car;GLO;kilogram;brake wear emissions, passenger car
-market for converter, for electric passenger car;GLO;kilogram;converter, for electric passenger car
-Benzene;('air',);kilogram
-market for flat glass, coated;RER;kilogram;flat glass, coated
-Hydrogen chloride;('air', 'non-urban air or from high stacks');kilogram
-diaphragms, for diaphragm compressor;GLO;unit;diaphragms, for diaphragm compressor
-market for pump, 40W;GLO;unit;pump, 40W
-Benzo(a)pyrene;('air',);kilogram
-market for chemicals, inorganic;GLO;kilogram;chemical, inorganic
-heat production, natural gas, at industrial furnace low-NOx >100kW;RoW;megajoule;heat, district or industrial, natural gas
-Battery cell, NCA;GLO;kilogram;Battery cell
-Carbon dioxide, non-fossil;('air',);kilogram
-Sulfur;('water', 'surface water');kilogram
-market for steel, low-alloyed;GLO;kilogram;steel, low-alloyed
-market for polypropylene, granulate;GLO;kilogram;polypropylene, granulate
-market for charger, electric passenger car;GLO;kilogram;charger, electric passenger car
-biomethane from biogas upgrading - biowaste - amine scrubbing, best - with biogenic carbon uptake, lower bound C sequestration, digestate incineration;CH;cubic meter;biomethane from biogas upgrading - biowaste - amine scrubbing, best - with biogenic carbon uptake, lower bound C sequestration, digestate incineration
-carbon black production;GLO;kilogram;carbon black
-epichlorohydrin production from allyl chloride;RoW;kilogram;epichlorohydrin
-Water, unspecified natural origin;('natural resource', 'in water');cubic meter
-Positive electrode paste;GLO;kilogram;Positive electrode paste
-Particulates, < 2.5 um;('air', 'non-urban air or from high stacks');kilogram
-market for quicklime, milled, packed;RER;kilogram;quicklime, milled, packed
-treatment of wastewater, from residence, capacity 1.1E10l/year;RoW;cubic meter;wastewater, from residence
-noise, octave 6, day time, rural;('octave 6', 'day time', 'rural');joule
-Electrolyte, NCA;JP;kilogram;Electrolyte, NCA
-market for aluminium alloy, AlMg3;GLO;kilogram;aluminium alloy, AlMg3
-market group for electricity, low voltage;EUR;kilowatt hour;electricity, low voltage
-noise, octave 2, day time, urban;('octave 2', 'day time', 'urban');joule
-market for waste plastic, industrial electronics;RoW;kilogram;waste plastic, industrial electronics
-noise, octave 5, day time, rural;('octave 5', 'day time', 'rural');joule
-DOC, Dissolved Organic Carbon;('water', 'surface water');kilogram
-heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014;DE;kilowatt hour;electricity, high voltage
-transport, freight, inland waterways, barge;RER;ton kilometer;transport, freight, inland waterways, barge
-Cooling system;GLO;kilogram;Cooling system
-market for electric connector, wire clamp;GLO;kilogram;electric connector, wire clamp
-Tab Aluminum;GLO;kilogram;Tab Aluminum
-Separator;GLO;kilogram;Separator
-Methane, dichloro-, HCC-30;('water', 'surface water');kilogram
-market for heat, from steam, in chemical industry;RoW;megajoule;heat, from steam, in chemical industry
-Battery management system;GLO;kilogram;Battery management system
-market for plastic processing factory;GLO;unit;plastic processing factory
-transport, helicopter;GLO;hour;transport, helicopter
-reinforcing steel production;RoW;kilogram;reinforcing steel
-Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station;RER;kilogram;Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station
-tube insulation production, elastomere;RoW;kilogram;tube insulation, elastomere
-market for concrete, normal;RoW;cubic meter;concrete, normal
-market for hexane;GLO;kilogram;hexane
-Cobalt sulfate;GLO;kilogram;Cobalt sulfate
-market for sheet rolling, copper;GLO;kilogram;sheet rolling, copper
-IBIS;GLO;kilogram;IBIS
-CO2 storage/at H2 production plant, pre, pipeline 200km, storage 1000m;RER;kilogram;CO2 storage/at H2 production plant, pre, pipeline 200km, storage 1000m
-synthetic rubber production;RER;kilogram;synthetic rubber
-End-busbar aluminum;GLO;kilogram;End-busbar aluminum
-market for manual dismantling of used electric passenger car;GLO;unit;manual dismantling of used electric passenger car
-market for electric motor, electric passenger car;GLO;kilogram;electric motor, electric passenger car
-Outer frame;GLO;kilogram;Outer frame
 market for transport, freight, lorry >32 metric ton, EURO6;RER;ton kilometer;transport, freight, lorry >32 metric ton, EURO6
-market for heat, from steam, in chemical industry;RER;megajoule;heat, from steam, in chemical industry
-market for chemical factory;GLO;kilogram;chemical factory
-glass fibre reinforced plastic production, polyamide, injection moulded;RoW;kilogram;glass fibre reinforced plastic, polyamide, injection moulded
-Stack;GLO;kilowatt;Stack
-metal working, average for chromium steel product manufacturing;RoW;kilogram;metal working, average for chromium steel product manufacturing
-market for cast iron;GLO;kilogram;cast iron
-Battery cell, LFP;GLO;kilogram;Battery cell
-Anode current collector, LFP;JP;kilogram;Anode current collector, LFP
-argon production, liquid;RoW;kilogram;argon, liquid
-pipeline, supercritical CO2/km;RER;kilometer;pipeline, supercritical CO2/km
-Sohio process;RoW;kilogram;acrylonitrile
-Ammonia;('air', 'urban air close to ground');kilogram
-market for water, ultrapure;RoW;kilogram;water, ultrapure
-transport, pipeline, supercritical CO2, 200km w/o recompression;RER;ton kilometer;transport, pipeline, supercritical CO2, 200km w/o recompression
-market for soap;GLO;kilogram;soap
-Carbon fibre, from acrylonitrile;GLO;kilogram;Carbon fibre, from acrylonitrile
-Transformation, from forest, unspecified;('natural resource', 'land');square meter
-Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station;RER;kilogram;Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station
-market for electronic component factory;GLO;unit;electronic component factory
-transformer and rectifier unit, for electrolyzer;GLO;unit;transformer and rectifier unit, for electrolyzer
-Essential BoP;GLO;kilogram;Essential BoP
-Biodiesel from cooking oil;RER;kilogram;Biodiesel from cooking oil
-SMR BM, HT+LT, with digestate incineration, 26 bar;CH;megajoule;Hydrogen, gaseous, 26 bar
-Aluminium;('water', 'surface water');kilogram
-drawing of pipe, steel;RER;kilogram;drawing of pipe, steel
-transport, freight, lorry 16-32 metric ton, EURO5;RER;ton kilometer;transport, freight, lorry 16-32 metric ton, EURO5
-Cathode paste, NCA;JP;kilogram;Cathode paste, NCA
-market for casting, brass;GLO;kilogram;casting, brass
-market for transport, freight, lorry 16-32 metric ton, EURO5;RoW;ton kilometer;transport, freight, lorry 16-32 metric ton, EURO5
-SMR BM, HT+LT, + CCS (MDEA), 98 (average), digestate incineration, 26 bar;CH;megajoule;Hydrogen, gaseous, 26 bar
-PAH, polycyclic aromatic hydrocarbons;('air', 'low population density, long-term');kilogram
-PAH, polycyclic aromatic hydrocarbons;('air',);kilogram
-Separator, NCA;JP;kilogram;Separator, NCA
-market for potassium sulfate, as K2O;GLO;kilogram;potassium sulfate, as K2O
-electricity production, wind, >3MW turbine, onshore;DE;kilowatt hour;electricity, high voltage
-market for metal working factory;GLO;unit;metal working factory
-treatment of drilling waste, residual material landfill;CH;kilogram;drilling waste
-PEM Fuel Cell;GLO;kilowatt;PEM Fuel Cell
-Water, cooling, unspecified natural origin;('natural resource', 'in water');cubic meter
-market for butyl acrylate;RoW;kilogram;butyl acrylate
-Tray seal;GLO;kilogram;Tray seal
-market for styrene butadiene rubber (SBR);RER;kilogram;styrene butadiene rubber (SBR)
-Ethanol from sugarbeet;RER;kilogram;Ethanol from sugarbeet
-noise, octave 1, day time, urban;('octave 1', 'day time', 'urban');joule
-Calcium, ion;('water', 'surface water');kilogram
-chemical factory construction, organics;RoW;unit;chemical factory, organics
-market group for electricity, medium voltage;EUR;kilowatt hour;electricity, medium voltage
-Acetic acid;('air',);kilogram
-market group for electricity, low voltage;World;kilowatt hour;electricity, low voltage
-sheet rolling, chromium steel;RoW;kilogram;sheet rolling, chromium steel
-market for aluminium, wrought alloy;GLO;kilogram;aluminium, wrought alloy
-COD, Chemical Oxygen Demand;('water',);kilogram
-Straw bales | baling of straw;RER;megajoule;Straw bales | baling of straw
-market for precious metal refinery;GLO;unit;precious metal refinery
-market for water, deionised;CH;kilogram;water, deionised
-Ammonia;('air', 'non-urban air or from high stacks');kilogram
-Hydrogen dispenser, for gaseous hydrogen;GLO;unit;Hydrogen dispenser, for gaseous hydrogen
-market for cyclohexane;GLO;kilogram;cyclohexane
-market for graphite;GLO;kilogram;graphite
-market for ethylene glycol;GLO;kilogram;ethylene glycol
-cooling unit, carbon dioxide capture process;RER;unit;cooling unit, carbon dioxide capture process
-Potassium, ion;('water', 'surface water');kilogram
-packaging box factory construction;RoW;unit;packaging box factory
-market for natural gas, from medium pressure network (0.1-1 bar), at service station;GLO;kilogram;natural gas, from medium pressure network (0.1-1 bar), at service station
-Ethanol from forest residues;RER;kilogram;Ethanol from forest residues
-Anode;GLO;kilogram;Anode
-market for maize seed, for sowing;GLO;kilogram;maize seed, for sowing
-Diesel production, Fischer Tropsch process;RER;kilogram;Diesel
-tin production;RoW;kilogram;tin
-Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station;RER;kilogram;Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station
-Phosphorus;('water', 'surface water');kilogram
-Carbon dioxide, to soil or biomass stock;('soil',);kilogram
-market group for heat, central or small-scale, natural gas;RER;megajoule;heat, central or small-scale, natural gas
-epoxy resin production, liquid;RoW;kilogram;epoxy resin, liquid
-sulfuric acid production;RoW;kilogram;sulfuric acid
-market for nylon 6-6, glass-filled;RoW;kilogram;nylon 6-6, glass-filled
-injection moulding;RoW;kilogram;injection moulding
-market for ethanol, without water, in 99.7% solution state, from ethylene;RER;kilogram;ethanol, without water, in 99.7% solution state, from ethylene
-market for packaging film, low density polyethylene;GLO;kilogram;packaging film, low density polyethylene
-control panel, carbon dioxide capture process;RER;unit;control panel, carbon dioxide capture process
-market for dolomite;RER;kilogram;dolomite
-treatment of hazardous waste, hazardous waste incineration;CH;kilogram;hazardous waste, for incineration
-electricity production, hard coal;DE;kilowatt hour;electricity, high voltage
-market for urea, as N;GLO;kilogram;urea, as N
-metal coating facility construction;RoW;unit;metal coating facility
-market for extrusion, plastic film;GLO;kilogram;extrusion, plastic film
-Lead;('air', 'urban air close to ground');kilogram
-cast iron production;RoW;kilogram;cast iron
-market for diethanolamine;GLO;kilogram;diethanolamine
-Gasoline production;RER;kilogram;Gasoline
-AOX, Adsorbable Organic Halogen as Cl;('water', 'surface water');kilogram
-market for sodium chloride, powder;GLO;kilogram;sodium chloride, powder
-heat production, heavy fuel oil, at industrial furnace 1MW;RoW;megajoule;heat, district or industrial, other than natural gas
-market for heat, future;GLO;megajoule;heat, future
-Ozone;('air',);kilogram
-Module fasteners;GLO;kilogram;Module fasteners
-market for transformer, high voltage use;GLO;kilogram;transformer, high voltage use
-Bimetallic busbars and washers;GLO;kilogram;Bimetallic busbars and washers
-Selective coating, sputtering;GLO;square meter;Selective coating, sputtering
-treatment of hard coal ash, residual material landfill;DE;kilogram;hard coal ash
-computer production, desktop, without screen;GLO;unit;computer, desktop, without screen
-heat production, natural gas, at boiler condensing modulating >100kW;Europe without Switzerland;megajoule;heat, district or industrial, natural gas
-Propionic acid;('air',);kilogram
-Carbon monoxide, fossil;('air', 'non-urban air or from high stacks');kilogram
-market for diesel, burned in building machine;GLO;megajoule;diesel, burned in building machine
+market for water, decarbonised;DE;kilogram;water, decarbonised
+aluminium ingot, primary, to aluminium, wrought alloy market;GLO;kilogram;aluminium, wrought alloy
+chemical factory construction, organics;RER;unit;chemical factory, organics
+treatment of hazardous waste, hazardous waste incineration;RoW;kilogram;hazardous waste, for incineration
+Coating and curing, general manufacturing;GLO;square meter;Coating and curing, general manufacturing
+market for metal working, average for steel product manufacturing;GLO;kilogram;metal working, average for steel product manufacturing
 Walls and foundations, for hydrogen refuelling station;RER;unit;Walls and foundations, for hydrogen refuelling station
-Water, well, in ground;('natural resource', 'in water');cubic meter
-market for transport, freight train;Europe without Switzerland;ton kilometer;transport, freight train
-treatment of inert waste, inert material landfill;CH;kilogram;inert waste, for final disposal
-market for liquid storage tank, chemicals, organics;GLO;unit;liquid storage tank, chemicals, organics
-router, internet;CH;unit;router, internet
-Gas Diffusion Layer;GLO;kilowatt;Gas Diffusion Layer
-Manganese;('water', 'surface water');kilogram
-Lead;('air', 'non-urban air or from high stacks');kilogram
-market for tyre wear emissions, passenger car;GLO;kilogram;tyre wear emissions, passenger car
-noise, octave 8, day time, rural;('octave 8', 'day time', 'rural');joule
-SMR NG + CCS (MDEA), 98 (average), 25 bar;CH;megajoule;Hydrogen, gaseous, 25 bar
-market for cable, ribbon cable, 20-pin, with plugs;GLO;kilogram;cable, ribbon cable, 20-pin, with plugs
-treatment of waste asphalt, sanitary landfill;RoW;kilogram;waste asphalt
-production of 2 wt-% potassium iodide solution;RER;kilogram;production of 2 wt-% potassium iodide solution
-NMVOC, non-methane volatile organic compounds, unspecified origin;('air',);kilogram
-Biodiesel from algae;RER;kilogram;Biodiesel from algae
-transmission network construction, long-distance;UCTE;kilometer;transmission network, long-distance
-Lithium iron phosphate [LiFePO4];JP;kilogram;Lithium iron phosphate [LiFePO4]
-Sugar beet cultivation {RER} | sugar beet production Europe | Alloc Rec, U;RER;megajoule;Sugar beet cultivation {RER} | sugar beet production Europe | Alloc Rec, U
-market for glider, passenger car;GLO;kilogram;glider, passenger car
-Mercury;('air',);kilogram
-sheet rolling, aluminium;RoW;kilogram;sheet rolling, aluminium
-Butane;('air',);kilogram
-market for methanol;GLO;kilogram;methanol
-steel production, electric, low-alloyed;RER;kilogram;steel, low-alloyed
-market for metal working, average for aluminium product manufacturing;GLO;kilogram;metal working, average for aluminium product manufacturing
-glass fibre reinforced plastic production, polyamide, injection moulded;RER;kilogram;glass fibre reinforced plastic, polyamide, injection moulded
-market for anode, graphite, for lithium-ion battery;GLO;kilogram;anode, graphite, for lithium-ion battery
-market for magnesium sulfate;GLO;kilogram;magnesium sulfate
-activated silica production;GLO;kilogram;activated silica
-hot water tank, carbon dioxide capture process;RER;unit;hot water tank, carbon dioxide capture process
-market for hydrogen, liquid;RER;kilogram;hydrogen, liquid
-Fischer Tropsch reactor and upgrading plant, construction;RER;unit;Fischer Tropsch reactor and upgrading plant, construction
-market for blasting;GLO;kilogram;blasting
+noise, octave 7, day time, suburban;('octave 7', 'day time', 'suburban');joule
 steam production, as energy carrier, in chemical industry;RoW;megajoule;heat, from steam, in chemical industry
-treatment of municipal solid waste, incineration;DE;kilowatt hour;electricity, for reuse in municipal waste incineration only
-MEA hot pressing;GLO;kilogram;MEA hot pressing
-gas motor production, 206kW;RER;unit;gas motor, 206kW
-electricity production, wind, 1-3MW turbine, onshore;DE;kilowatt hour;electricity, high voltage
-Weaving, carbon cloth;GLO;kilogram;Weaving, carbon cloth
-Benzene;('air', 'low population density, long-term');kilogram
-Methane, fossil;('air', 'non-urban air or from high stacks');kilogram
-market for magnesium oxide;GLO;kilogram;magnesium oxide
-market for nitrogen fertiliser, as N;GLO;kilogram;nitrogen fertiliser, as N
-Anode current collector, NCA;JP;kilogram;Anode current collector, NCA
-Cathode;GLO;kilogram;Cathode
-Low voltage system;GLO;kilogram;Low voltage system
+market for lithium hexafluorophosphate;GLO;kilogram;lithium hexafluorophosphate
+PAH, polycyclic aromatic hydrocarbons;('air', 'low population density, long-term');kilogram
+market for sulfuric acid;RER;kilogram;sulfuric acid
+market for plastic processing factory;GLO;unit;plastic processing factory
+market for tyre wear emissions, passenger car;GLO;kilogram;tyre wear emissions, passenger car
+market for copper;GLO;kilogram;copper
+market for brass;CH;kilogram;brass
+market for hydrogen, liquid;RER;kilogram;hydrogen, liquid
+market for manganese sulfate;GLO;kilogram;manganese sulfate
+noise, octave 5, day time, rural;('octave 5', 'day time', 'rural');joule
+market for potassium hydroxide;GLO;kilogram;potassium hydroxide
+treatment of hard coal ash, residual material landfill;DE;kilogram;hard coal ash
+noise, octave 2, day time, rural;('octave 2', 'day time', 'rural');joule
+Occupation, construction site;('natural resource', 'land');square meter-year
+biogas upgrading - sewage sludge - amine scrubbing - best;CH;kilogram;biogas upgrading - sewage sludge - amine scrubbing - best
 market for cobalt;GLO;kilogram;cobalt
-tetrafluoroethylene production;RoW;kilogram;tetrafluoroethylene
-Ammonia;('air',);kilogram
+Potassium, ion;('water', 'surface water');kilogram
+electricity production, wind, >3MW turbine, onshore;DE;kilowatt hour;electricity, high voltage
+market group for heat, central or small-scale, natural gas;RER;megajoule;heat, central or small-scale, natural gas
+market for thermoforming, with calendering;GLO;kilogram;thermoforming, with calendering
+Fuel tank, compressed hydrogen gas, 700bar, with aluminium liner;RER;kilogram;Hydrogen tank
+market for water, decarbonised;RoW;kilogram;water, decarbonised
+market for sheet rolling, steel;GLO;kilogram;sheet rolling, steel
+market for heat, district or industrial, natural gas;RoW;megajoule;heat, district or industrial, natural gas
+market for sheet rolling, copper;GLO;kilogram;sheet rolling, copper
+Dinitrogen monoxide;('air', 'low population density, long-term');kilogram
+diaphragms, for diaphragm compressor;GLO;unit;diaphragms, for diaphragm compressor
+Benzene;('air', 'low population density, long-term');kilogram
+treatment of wastewater, unpolluted, capacity 5E9l/year;RoW;cubic meter;wastewater, unpolluted
+market for petrol, low-sulfur;Europe without Switzerland;kilogram;petrol, low-sulfur
+carbon black production;GLO;kilogram;carbon black
+market for electronic component factory;GLO;unit;electronic component factory
+noise, octave 3, day time, rural;('octave 3', 'day time', 'rural');joule
+market for transport, freight, lorry 16-32 metric ton, EURO3;RoW;ton kilometer;transport, freight, lorry 16-32 metric ton, EURO3
+Tray with fasteners;GLO;kilogram;Tray with fasteners
+adsorption and desorption unit, carbon dioxide capture process;RER;unit;adsorption and desorption unit, carbon dioxide capture process
+epoxy resin production, liquid;RER;kilogram;epoxy resin, liquid
+market for tin;GLO;kilogram;tin
+SMR BM, HT+LT, + CCS (MDEA), 98 (average), digestate incineration, 26 bar;CH;megajoule;Hydrogen, gaseous, 26 bar
+market for phosphate fertiliser, as P2O5;GLO;kilogram;phosphate fertiliser, as P2O5
+Water;('water',);cubic meter
+Carbon dioxide, from soil or biomass stock;('air',);kilogram
+market for transport, freight train;Europe without Switzerland;ton kilometer;transport, freight train
+market for hexane;GLO;kilogram;hexane
+market for natural gas, from high pressure network (1-5 bar), at service station;GLO;kilogram;natural gas, from high pressure network (1-5 bar), at service station
+Separator, NCA;JP;kilogram;Separator, NCA
+diesel, burned in diesel-electric generating set, 18.5kW;GLO;megajoule;diesel, burned in diesel-electric generating set, 18.5kW
+treatment of hazardous waste, hazardous waste incineration;CH;kilogram;hazardous waste, for incineration
+Tray seal;GLO;kilogram;Tray seal
+Battery packaging;GLO;kilogram;Battery packaging
+Lead;('air', 'urban air close to ground');kilogram
+market for steel, unalloyed;GLO;kilogram;steel, unalloyed
+Nitrogen oxides;('air', 'non-urban air or from high stacks');kilogram
+market for extrusion, plastic film;GLO;kilogram;extrusion, plastic film
+Methane, dichloro-, HCC-30;('water', 'surface water');kilogram
+market for glider, passenger car;GLO;kilogram;glider, passenger car
+market for activated carbon, granular;GLO;kilogram;activated carbon, granular
+market for liquid storage tank, chemicals, organics;GLO;unit;liquid storage tank, chemicals, organics
+Bimetallic busbars and washers;GLO;kilogram;Bimetallic busbars and washers
+noise, octave 4, day time, suburban;('octave 4', 'day time', 'suburban');joule
+Gasoline production;RER;kilogram;Gasoline
+market for corrugated board box;RoW;kilogram;corrugated board box
+market for water, deionised;RoW;kilogram;water, deionised
+Mercury;('air',);kilogram
+Tie-rods;GLO;kilogram;Tie-rods
+hot water tank, carbon dioxide capture process;RER;unit;hot water tank, carbon dioxide capture process
+Ni1/3Co1/3Mn1/3(OH)2;GLO;kilogram;Ni1/3Co1/3Mn1/3(OH)2
+IBIS fasteners;GLO;kilogram;IBIS fasteners
+transformer and rectifier unit, for electrolyzer;GLO;unit;transformer and rectifier unit, for electrolyzer
+treatment of waste mineral wool, inert material landfill;CH;kilogram;waste mineral wool, for final disposal
+market for concrete, normal;RoW;cubic meter;concrete, normal
+Hydrogen dispenser, for gaseous hydrogen;GLO;unit;Hydrogen dispenser, for gaseous hydrogen
+sheet rolling, aluminium;RoW;kilogram;sheet rolling, aluminium
+algae cultivation | algae broth production;RER;kilogram;algae cultivation | algae broth production
+Positive electrode paste;GLO;kilogram;Positive electrode paste
+SMR NG + CCS (MDEA), 98 (average), 700 bar;CH;kilogram;SMR NG + CCS, 700 bar
+market for transport, freight, inland waterways, barge;RER;ton kilometer;transport, freight, inland waterways, barge
+Hydrogen, gaseous, 700 bar, from SMR NG w CCS, at H2 fuelling station;RER;kilogram;Hydrogen, gaseous, 700 bar, from SMR NG w CCS, at H2 fuelling station
+carbon dioxide, captured from atmosphere;RER;kilogram;carbon dioxide, captured from atmosphere
+market for brake wear emissions, passenger car;GLO;kilogram;brake wear emissions, passenger car
+diaphragm compressor module, high pressure;GLO;unit;diaphragm compressor module, high pressure
+Anode current collector, LFP;JP;kilogram;Anode current collector, LFP
+Heat transfer plate;GLO;kilogram;Heat transfer plate
+Sabatier reaction methanation unit;RER;unit;Sabatier reaction methanation unit
+Fuel tank, compressed hydrogen gas, 700bar, with HDPE liner;RER;kilogram;Hydrogen tank
+market for transport, freight, lorry >32 metric ton, EURO3;RoW;ton kilometer;transport, freight, lorry >32 metric ton, EURO3
+market for transport, freight, sea, tanker for liquid goods other than petroleum and liquefied natural gas;GLO;ton kilometer;transport, freight, sea, tanker for liquid goods other than petroleum and liquefied natural gas
+market for heat, future;GLO;megajoule;heat, future
+Methanol distillation;RER;kilogram;Purified methanol
+PAH, polycyclic aromatic hydrocarbons;('air',);kilogram
+pumps, carbon dioxide capture process;RER;unit;pumps, carbon dioxide capture process
+wire drawing, copper;RoW;kilogram;wire drawing, copper
+Nitrogen oxides;('air', 'urban air close to ground');kilogram
+market for copper oxide;GLO;kilogram;copper oxide
+Nitrogen oxides;('air',);kilogram
+sulfuric acid production;RoW;kilogram;sulfuric acid
+market for chromium oxide, flakes;GLO;kilogram;chromium oxide, flakes
+Positive active material;GLO;kilogram;Positive active material
+Methane, fossil;('air',);kilogram
+Buffer tank;GLO;unit;Buffer tank
+market group for electricity, medium voltage;JPN;kilowatt hour;electricity, medium voltage
+Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station;RER;kilogram;Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station
+End-busbar copper;GLO;kilogram;End-busbar copper
+market for light fuel oil;RoW;kilogram;light fuel oil
+tin production;RoW;kilogram;tin
+market for chemical, organic;GLO;kilogram;chemical, organic
+market for carboxymethyl cellulose, powder;GLO;kilogram;carboxymethyl cellulose, powder
+market for used vegetable cooking oil;GLO;kilogram;used vegetable cooking oil
+market for ethanol, without water, in 99.7% solution state, from ethylene;RER;kilogram;ethanol, without water, in 99.7% solution state, from ethylene
+market for potassium fertiliser, as K2O;GLO;kilogram;potassium fertiliser, as K2O
+market for methanol;GLO;kilogram;methanol
+market for aluminium oxide, metallurgical;IAI Area, EU27 & EFTA;kilogram;aluminium oxide, metallurgical
+market group for electricity, high voltage;EUR;kilowatt hour;electricity, high voltage
+Strap retention;GLO;kilogram;Strap retention
+straw pellets;RER;megajoule;straw pellets
+market for concrete, normal;CH;cubic meter;concrete, normal
+CO2 storage/at H2 production plant, pre, pipeline 200km, storage 1000m;RER;kilogram;CO2 storage/at H2 production plant, pre, pipeline 200km, storage 1000m
+market for tap water;CH;kilogram;tap water
+SMR NG + CCS (MDEA), 98 (average), 25 bar;CH;megajoule;Hydrogen, gaseous, 25 bar
+Methane, fossil;('air', 'non-urban air or from high stacks');kilogram
+market for cable, ribbon cable, 20-pin, with plugs;GLO;kilogram;cable, ribbon cable, 20-pin, with plugs
+market for platinum;GLO;kilogram;platinum
+lubricating oil production;RoW;kilogram;lubricating oil
+transmission network construction, electricity, medium voltage;CH;kilometer;transmission network, electricity, medium voltage
+market for butyl acrylate;RoW;kilogram;butyl acrylate
+market for chemicals, inorganic;GLO;kilogram;chemical, inorganic
+treatment of sewage sludge by anaerobic digestion;CH;cubic meter;biogas
+electricity production, wind, 1-3MW turbine, onshore;DE;kilowatt hour;electricity, high voltage
+NMVOC, non-methane volatile organic compounds, unspecified origin;('air', 'urban air close to ground');kilogram
+market for water, ultrapure;RER;kilogram;water, ultrapure
+electricity production, hydro, run-of-river;DE;kilowatt hour;electricity, high voltage
+gravel and sand quarry operation;CH;kilogram;sand
+market for steel, chromium steel 18/8, hot rolled;GLO;kilogram;steel, chromium steel 18/8, hot rolled
+PEM Fuel Cell;GLO;kilowatt;PEM Fuel Cell
+control panel, carbon dioxide capture process;RER;unit;control panel, carbon dioxide capture process
+Electrolyte, NCA;JP;kilogram;Electrolyte, NCA
+Refined Waste Cooking Oil {RER} | Refining of waste cooking oil Europe | Alloc Rec, U;RER;megajoule;Refined Waste Cooking Oil {RER} | Refining of waste cooking oil Europe | Alloc Rec, U
+market for urea, as N;GLO;kilogram;urea, as N
+Transformation, to heterogeneous, agricultural;('natural resource', 'land');square meter
+Lithium, ion;('water',);kilogram
+market for road wear emissions, passenger car;GLO;kilogram;road wear emissions, passenger car
+market for polyethylene, low density, granulate;GLO;kilogram;polyethylene, low density, granulate
+Sulfur dioxide;('air', 'non-urban air or from high stacks');kilogram
+Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station;RER;kilogram;Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station
+market for ammonia, liquid;RER;kilogram;ammonia, liquid
+PEM electrolyzer, Stack;GLO;unit;PEM electrolyzer, Stack
+wiring and tubing, carbon dioxide capture process;RER;unit;wiring and tubing, carbon dioxide capture process
+Acetic acid;('air',);kilogram
+Battery cell, LFP;GLO;kilogram;Battery cell
+Particulates, < 2.5 um;('air', 'urban air close to ground');kilogram
+market for water, completely softened;RER;kilogram;water, completely softened
+injection moulding;RoW;kilogram;injection moulding
+polyvinylchloride production, bulk polymerisation;RER;kilogram;polyvinylchloride, bulk polymerised
+market for titanium dioxide;RoW;kilogram;titanium dioxide
+market for flat glass, uncoated;RER;kilogram;flat glass, uncoated
+electricity production, natural gas, conventional power plant;DE;kilowatt hour;electricity, high voltage
+market for zinc oxide;GLO;kilogram;zinc oxide
+market for gas turbine, 10MW electrical;GLO;unit;gas turbine, 10MW electrical
+market for portafer;GLO;kilogram;portafer
+market for nylon 6-6, glass-filled;RoW;kilogram;nylon 6-6, glass-filled
+market for silica sand;GLO;kilogram;silica sand
+market for ethylene glycol;GLO;kilogram;ethylene glycol
+noise, octave 3, day time, suburban;('octave 3', 'day time', 'suburban');joule
+Weaving, carbon cloth;GLO;kilogram;Weaving, carbon cloth
+market for iodine;GLO;kilogram;iodine
+biomethane from biogas upgrading - biowaste - amine scrubbing, best - with biogenic carbon uptake, lower bound C sequestration, digestate incineration;CH;cubic meter;biomethane from biogas upgrading - biowaste - amine scrubbing, best - with biogenic carbon uptake, lower bound C sequestration, digestate incineration
+market for synthetic rubber;GLO;kilogram;synthetic rubber
+NMVOC, non-methane volatile organic compounds, unspecified origin;('air', 'low population density, long-term');kilogram
+market for polyethylene, high density, granulate;GLO;kilogram;polyethylene, high density, granulate
+treatment of waste asphalt, sanitary landfill;RoW;kilogram;waste asphalt
+Butane;('air',);kilogram
+market for maize seed, for sowing;GLO;kilogram;maize seed, for sowing
+Stack;GLO;kilowatt;Stack
+market for flat glass, coated;RER;kilogram;flat glass, coated
+electronics production, for control units;RER;kilogram;electronics, for control units
+Catalyst layer;GLO;kilowatt;Catalyst layer
+market for polyurethane, flexible foam;RER;kilogram;polyurethane, flexible foam
+End plate;GLO;kilowatt;End plate
+Propane;('air',);kilogram
+market for quicklime, milled, packed;RER;kilogram;quicklime, milled, packed
+heat production, natural gas, at industrial furnace low-NOx >100kW;RoW;megajoule;heat, district or industrial, natural gas
+Fischer Tropsch reactor and upgrading plant, construction;RER;unit;Fischer Tropsch reactor and upgrading plant, construction
+market for glass fibre;GLO;kilogram;glass fibre
+Ammonia;('air', 'urban air close to ground');kilogram
+market for waste rubber, unspecified;RoW;kilogram;waste rubber, unspecified
+market for acrylonitrile-butadiene-styrene copolymer;GLO;kilogram;acrylonitrile-butadiene-styrene copolymer
+market for water, deionised;Europe without Switzerland;kilogram;water, deionised
+methane, from electrochemical methanation, with carbon from atmospheric CO2 capture;RER;kilogram;methane, from electrochemical methanation
+market for acrylic acid;RoW;kilogram;acrylic acid
+Fuel tank, compressed hydrogen gas, 700bar;GLO;kilogram;Fuel tank, compressed hydrogen gas, 700bar
+market for printed wiring board, through-hole mounted, unspecified, Pb free;GLO;kilogram;printed wiring board, through-hole mounted, unspecified, Pb free
+market for tap water;RoW;kilogram;tap water
+noise, octave 8, day time, suburban;('octave 8', 'day time', 'suburban');joule
+lignite mine operation;RER;kilogram;lignite
+Biodiesel from cooking oil;RER;kilogram;Biodiesel from cooking oil
+market group for electricity, low voltage;EUR;kilowatt hour;electricity, low voltage
+Zinc, ion;('water', 'surface water');kilogram
+market for lubricating oil;RoW;kilogram;lubricating oil
+cobalt production;GLO;kilogram;cobalt
+aluminium hydroxide production;CN;kilogram;aluminium hydroxide
+market for butadiene;RER;kilogram;butadiene
+market for nickel, 99.5%;GLO;kilogram;nickel, 99.5%
+market for ethylene carbonate;GLO;kilogram;ethylene carbonate
+treatment of waste mineral oil, hazardous waste incineration;RoW;kilogram;waste mineral oil
+reinforcing steel production;RoW;kilogram;reinforcing steel
+treatment of wastewater, average, capacity 1E9l/year;CH;cubic meter;wastewater, average
+phenolic resin production;RoW;kilogram;phenolic resin
+electricity production, hard coal;DE;kilowatt hour;electricity, high voltage
+Silicon;('water', 'surface water');kilogram
+Sulfur dioxide;('air',);kilogram
+steel production, chromium steel 18/8, hot rolled;RoW;kilogram;steel, chromium steel 18/8, hot rolled
+market for precious metal refinery;GLO;unit;precious metal refinery
+market for transformer, high voltage use;GLO;kilogram;transformer, high voltage use
+storage module, high pressure, at fuelling station;GLO;unit;storage module, high pressure, at fuelling station
+market for diesel, burned in building machine;GLO;megajoule;diesel, burned in building machine
+market for lubricating oil;RER;kilogram;lubricating oil
+market for manual dismantling of used electric passenger car;GLO;unit;manual dismantling of used electric passenger car
+market for nitrogen fertiliser, as N;GLO;kilogram;nitrogen fertiliser, as N
+copper production, blister-copper;RER;kilogram;copper, blister-copper
+market for carbon black;GLO;kilogram;carbon black
+market for electronic component, passive, unspecified;GLO;kilogram;electronic component, passive, unspecified
+Particulates, < 2.5 um;('air', 'low population density, long-term');kilogram
+market for ammonium sulfate, as N;GLO;kilogram;ammonium sulfate, as N
+Separator, LFP;JP;kilogram;Separator, LFP
+aluminium production, primary, ingot;IAI Area, EU27 & EFTA;kilogram;aluminium, primary, ingot
+market for chemical factory, organics;GLO;unit;chemical factory, organics
+Carbon monoxide, non-fossil;('air',);kilogram
+transport, pipeline, supercritical CO2, 200km w/o recompression;RER;ton kilometer;transport, pipeline, supercritical CO2, 200km w/o recompression
+hydrogen peroxide production, product in 50% solution state;RER;kilogram;hydrogen peroxide, without water, in 50% solution state
+market for polypropylene, granulate;GLO;kilogram;polypropylene, granulate
+algae harvesting| dry algae production;RER;kilogram;algae harvesting| dry algae production
+market for inverter, for electric passenger car;GLO;kilogram;inverter, for electric passenger car
+glass fibre reinforced plastic production, polyamide, injection moulded;RER;kilogram;glass fibre reinforced plastic, polyamide, injection moulded
+Thermal pad;GLO;kilogram;Thermal pad
+market for steel, low-alloyed, hot rolled;GLO;kilogram;steel, low-alloyed, hot rolled
+Carbon dioxide, fossil;('air',);kilogram
+cement production, Portland;CH;kilogram;cement, Portland
+market for gypsum fibreboard;GLO;kilogram;gypsum fibreboard
+Propionic acid;('air',);kilogram
+Negative electrode paste;GLO;kilogram;Negative electrode paste
+market for chemical factory;GLO;kilogram;chemical factory
+heat exchanger, carbon dioxide capture process;RER;unit;heat exchanger, carbon dioxide capture process
+End-busbar aluminum;GLO;kilogram;End-busbar aluminum
+market for silicon, electronics grade;GLO;kilogram;silicon, electronics grade
+Essential BoP;GLO;kilogram;Essential BoP
+treatment of biowaste by anaerobic digestion, with biogenic carbon uptake, lower bound C sequestration, digestate incineration;CH;cubic meter;treatment of biowaste by anaerobic digestion, with biogenic carbon uptake, lower bound C sequestration, digestate incineration
+market group for electricity, medium voltage;World;kilowatt hour;electricity, medium voltage
+chemical factory construction, organics;RoW;unit;chemical factory, organics
+Module fasteners;GLO;kilogram;Module fasteners
+market for power distribution unit, for electric passenger car;GLO;kilogram;power distribution unit, for electric passenger car
+production of 2 wt-% potassium iodide solution;RER;kilogram;production of 2 wt-% potassium iodide solution
+PAH, polycyclic aromatic hydrocarbons;('air', 'non-urban air or from high stacks');kilogram
+diesel, burned in building machine;GLO;megajoule;diesel, burned in building machine
+Calcium, ion;('water', 'surface water');kilogram
+transmission network construction, long-distance;UCTE;kilometer;transmission network, long-distance
+transport, freight, lorry 16-32 metric ton, EURO5;RER;ton kilometer;transport, freight, lorry 16-32 metric ton, EURO5
+market for stone wool, packed;GLO;kilogram;stone wool, packed
 market for polyphenylene sulfide;GLO;kilogram;polyphenylene sulfide
-treatment of scrap steel, inert material landfill;CH;kilogram;scrap steel
+Chromium, ion;('water', 'surface water');kilogram
+Hydrogen chloride;('air', 'non-urban air or from high stacks');kilogram
+Benzene;('air',);kilogram
+Lower retention;GLO;kilogram;Lower retention
+Pipe fitting;GLO;kilogram;Pipe fitting
+Tray lid;GLO;kilogram;Tray lid
+Carbon monoxide, fossil;('air', 'urban air close to ground');kilogram
+market group for diesel;RER;kilogram;diesel
+drilling, deep borehole/m;RER;meter;drilling, deep borehole/m
+Battery tray;GLO;kilogram;Battery tray
+NMVOC, non-methane volatile organic compounds, unspecified origin;('air',);kilogram
+metal coating facility construction;RoW;unit;metal coating facility
+Barium;('water', 'surface water');kilogram
+noise, octave 8, day time, urban;('octave 8', 'day time', 'urban');joule
+Anode current collector, NCA;JP;kilogram;Anode current collector, NCA
+noise, octave 8, day time, rural;('octave 8', 'day time', 'rural');joule
+Formaldehyde;('air',);kilogram
+market for metal working, average for metal product manufacturing;GLO;kilogram;metal working, average for metal product manufacturing
+NCA electrode material (LiNi0.8Co0.15Al0.05O2);JP;kilogram;NCA electrode material (LiNi0.8Co0.15Al0.05O2)
+Outer frame;GLO;kilogram;Outer frame
+noise, octave 5, day time, suburban;('octave 5', 'day time', 'suburban');joule
+market for polyvinylchloride, suspension polymerised;GLO;kilogram;polyvinylchloride, suspension polymerised
+nitric acid production, product in 50% solution state;RER;kilogram;nitric acid, without water, in 50% solution state
+Biodiesel from algae;RER;kilogram;Biodiesel from algae
+market for heat, from steam, in chemical industry;RoW;megajoule;heat, from steam, in chemical industry
+Particulates, > 10 um;('air', 'non-urban air or from high stacks');kilogram
+market for sodium hydroxide, without water, in 50% solution state;GLO;kilogram;sodium hydroxide, without water, in 50% solution state
+Carbon monoxide, fossil;('air',);kilogram
+treatment of inert waste, inert material landfill;CH;kilogram;inert waste, for final disposal
+electricity production, deep geothermal;DE;kilowatt hour;electricity, high voltage
+Cathode;GLO;kilogram;Cathode
+Battery cell, NMC;GLO;kilogram;Battery cell
+Ammonia;('air',);kilogram
+synthetic rubber production;RER;kilogram;synthetic rubber
+Water, cooling, unspecified natural origin;('natural resource', 'in water');cubic meter
+Maize cultivation, drying and storage {RER} | Maize production Europe | Alloc Rec, U;RER;megajoule;Maize cultivation, drying and storage {RER} | Maize production Europe | Alloc Rec, U
+Hydrogen refuelling station, SMR;GLO;unit;Hydrogen refuelling station, SMR
+market for road;GLO;meter-year;road
+noise, octave 2, day time, suburban;('octave 2', 'day time', 'suburban');joule
+market for sheet rolling, chromium steel;GLO;kilogram;sheet rolling, chromium steel
+Ethanol from sugarbeet;RER;kilogram;Ethanol from sugarbeet
+Dinitrogen monoxide;('air',);kilogram
+Dinitrogen monoxide;('air', 'non-urban air or from high stacks');kilogram
+market for electric motor, electric passenger car;GLO;kilogram;electric motor, electric passenger car
+market for graphite;GLO;kilogram;graphite
+market for aluminium alloy, AlLi;GLO;kilogram;aluminium alloy, AlLi
+market for natural gas, from medium pressure network (0.1-1 bar), at service station;GLO;kilogram;natural gas, from medium pressure network (0.1-1 bar), at service station
+market for transport, freight, lorry 16-32 metric ton, EURO5;RoW;ton kilometer;transport, freight, lorry 16-32 metric ton, EURO5
+Pentane;('air',);kilogram
+sheet rolling, steel;RoW;kilogram;sheet rolling, steel
+Carbon monoxide, fossil;('air', 'non-urban air or from high stacks');kilogram
+market for styrene;GLO;kilogram;styrene
+Cathode current collector, NCA;JP;kilogram;Cathode current collector, NCA
+Methane, fossil;('air', 'low population density, long-term');kilogram
+market for metal working, average for aluminium product manufacturing;GLO;kilogram;metal working, average for aluminium product manufacturing
+market for transport, freight, sea, tanker for petroleum;GLO;ton kilometer;transport, freight, sea, tanker for petroleum
+graphite production;RoW;kilogram;graphite
+transport, helicopter;GLO;hour;transport, helicopter
+market for magnesium oxide;GLO;kilogram;magnesium oxide
+Transformation, from forest, unspecified;('natural resource', 'land');square meter
+drawing of pipe, steel;RER;kilogram;drawing of pipe, steel
+Hydrogen, gaseous, 700 bar, from coal gasification, at H2 fuelling station;RER;kilogram;Hydrogen, gaseous, 700 bar, from coal gasification, at H2 fuelling station
+market for soap;GLO;kilogram;soap
+market group for natural gas, high pressure;Europe without Switzerland;cubic meter;natural gas, high pressure
+noise, octave 6, day time, suburban;('octave 6', 'day time', 'suburban');joule
+Particulates, < 2.5 um;('air', 'non-urban air or from high stacks');kilogram
+glass fibre reinforced plastic production, polyamide, injection moulded;RoW;kilogram;glass fibre reinforced plastic, polyamide, injection moulded
+Carbon monoxide, fossil;('air', 'low population density, long-term');kilogram
 Boron;('water', 'surface water');kilogram
 PEM electrolyzer, ACDC Converter;GLO;unit;PEM electrolyzer, ACDC Converter
-container, with pipes and fittings, for diaphragm compressor;GLO;unit;container, with pipes and fittings, for diaphragm compressor
-graphite production;RoW;kilogram;graphite
-Hydrocarbons, aromatic;('water', 'surface water');kilogram
-market for road;GLO;meter-year;road
-market for metal working, average for metal product manufacturing;GLO;kilogram;metal working, average for metal product manufacturing
-market for sodium persulfate;GLO;kilogram;sodium persulfate
-Sulfate;('water',);kilogram
-Hydrogen refuelling station, SMR;GLO;unit;Hydrogen refuelling station, SMR
-market for potassium fertiliser, as K2O;GLO;kilogram;potassium fertiliser, as K2O
-market for tap water;RoW;kilogram;tap water
-market for polyvinylfluoride;GLO;kilogram;polyvinylfluoride
-noise, octave 3, day time, rural;('octave 3', 'day time', 'rural');joule
-market for heat, district or industrial, other than natural gas;Europe without Switzerland;megajoule;heat, district or industrial, other than natural gas
-Fluoride;('water', 'surface water');kilogram
-hydrogen peroxide production, product in 50% solution state;RER;kilogram;hydrogen peroxide, without water, in 50% solution state
 MTG production facility, construction;RER;unit;MTG production facility, construction
+Iron, ion;('water', 'surface water');kilogram
+noise, octave 2, day time, urban;('octave 2', 'day time', 'urban');joule
+operation, computer, desktop, with liquid crystal display, active mode;CH;hour;operation, computer, desktop, with liquid crystal display, active mode
+heat production, natural gas, at industrial furnace low-NOx >100kW;Europe without Switzerland;megajoule;heat, district or industrial, natural gas
+Dinitrogen monoxide;('air', 'urban air close to ground');kilogram
+heat production, natural gas, at industrial furnace >100kW;RoW;megajoule;heat, district or industrial, natural gas
+router, internet;CH;unit;router, internet
+water production, deionised;Europe without Switzerland;kilogram;water, deionised
+Heat, waste;('air',);megajoule
+market for used powertrain from electric passenger car, manual dismantling;GLO;kilogram;used powertrain from electric passenger car, manual dismantling
+Acetaldehyde;('air',);kilogram
+lime production, milled, packed;CH;kilogram;lime, packed
+market for sodium persulfate;GLO;kilogram;sodium persulfate
+Battery BoP;GLO;kilogram;Battery BoP
+market for styrene butadiene rubber (SBR);RER;kilogram;styrene butadiene rubber (SBR)
+market for hard coal;Europe, without Russia and Turkey;kilogram;hard coal
+market for aluminium casting facility;GLO;unit;aluminium casting facility
+Selective coating, sputtering;GLO;square meter;Selective coating, sputtering
+Sodium, ion;('water', 'surface water');kilogram
+reinforcing steel production;RER;kilogram;reinforcing steel
+COD, Chemical Oxygen Demand;('water', 'surface water');kilogram
+ethylene glycol production;RoW;kilogram;ethylene glycol
+market for magnesium sulfate;GLO;kilogram;magnesium sulfate
+Syngas, RWGS, Production;RER;kilogram;Syngas, RWGS, Production
+treatment of scrap steel, inert material landfill;CH;kilogram;scrap steel
+market for aluminium alloy, AlMg3;GLO;kilogram;aluminium alloy, AlMg3
+market for dolomite;RER;kilogram;dolomite
+production of nickle-based catalyst for methanation;RER;kilogram;production of nickle-based catalyst for methanation
+market for anodising, aluminium sheet;GLO;square meter;anodising, aluminium sheet
+Hydrogen sulfide;('air',);kilogram
+High voltage system;GLO;kilogram;High voltage system
 Magnesium;('water', 'surface water');kilogram
-BOD5, Biological Oxygen Demand;('water', 'surface water');kilogram
-market for water, deionised;RoW;kilogram;water, deionised
-diaphragm compressor module, high pressure;GLO;unit;diaphragm compressor module, high pressure
-steel production, chromium steel 18/8, hot rolled;RoW;kilogram;steel, chromium steel 18/8, hot rolled
+glass fibre reinforced plastic production, polyester resin, hand lay-up;RER;kilogram;glass fibre reinforced plastic, polyester resin, hand lay-up
+market group for light fuel oil;RER;kilogram;light fuel oil
+metal working, average for chromium steel product manufacturing;RoW;kilogram;metal working, average for chromium steel product manufacturing
+market for transport, freight, lorry, unspecified;RER;ton kilometer;transport, freight, lorry, unspecified
+market for diethanolamine;GLO;kilogram;diethanolamine
+Phosphate;('water',);kilogram
+Aluminium;('water', 'surface water');kilogram
+COD, Chemical Oxygen Demand;('water',);kilogram
+market for heat, district or industrial, natural gas;Europe without Switzerland;megajoule;heat, district or industrial, natural gas
+market for metal working, average for copper product manufacturing;GLO;kilogram;metal working, average for copper product manufacturing
+market for casting, brass;GLO;kilogram;casting, brass
+Anode paste, NCA;JP;kilogram;Anode paste, NCA
+Water, well, in ground;('natural resource', 'in water');cubic meter
+ethylene glycol production;RER;kilogram;ethylene glycol
+steel production, electric, low-alloyed;RER;kilogram;steel, low-alloyed
+Sohio process;RoW;kilogram;acrylonitrile
+market for aluminium, wrought alloy;GLO;kilogram;aluminium, wrought alloy
+lithium hydroxide production;GLO;kilogram;lithium hydroxide
+market for pump, 40W;GLO;unit;pump, 40W
+IBIS;GLO;kilogram;IBIS
+noise, octave 6, day time, rural;('octave 6', 'day time', 'rural');joule
+heat production, natural gas, at boiler condensing modulating >100kW;Europe without Switzerland;megajoule;heat, district or industrial, natural gas
+Lead;('air', 'non-urban air or from high stacks');kilogram
+market for carbon monoxide;RER;kilogram;carbon monoxide
+air separation, cryogenic;RoW;kilogram;oxygen, liquid
+market for internal combustion engine, passenger car;GLO;kilogram;internal combustion engine, for passenger car
+market for water, deionised;CH;kilogram;water, deionised
+PEM electrolyzer, Balance of Plant;GLO;unit;PEM electrolyzer, Balance of Plant
+market for display, liquid crystal, 17 inches;GLO;unit;display, liquid crystal, 17 inches
+Clamps and fasteners;GLO;kilogram;Clamps and fasteners
+Hydrocarbons, aromatic;('water', 'surface water');kilogram
+Multilayer pouch;GLO;kilogram;Multilayer pouch
+Hydrogen, gaseous, 25 bar, from electrolysis;RER;kilogram;Hydrogen, gaseous, 25 bar, from electrolysis
+Battery retention;GLO;kilogram;Battery retention
+Phosphorus;('water', 'surface water');kilogram
+Cooling system;GLO;kilogram;Cooling system
+steel production, converter, low-alloyed;RER;kilogram;steel, low-alloyed
+market for diesel;Europe without Switzerland;kilogram;diesel
+carbon dioxide capture system;RER;unit;carbon dioxide capture system
+PEM electrolyzer, Operation and Maintenance;RER;hour;PEM electrolyzer, Operation and Maintenance
+noise, octave 1, day time, suburban;('octave 1', 'day time', 'suburban');joule
+activated bentonite production;DE;kilogram;activated bentonite
+Membrane;GLO;kilowatt;Membrane
+Fluoride;('water', 'surface water');kilogram
+market for molybdenum trioxide;GLO;kilogram;molybdenum trioxide
+market for steel, chromium steel 18/8;GLO;kilogram;steel, chromium steel 18/8
+pipeline, supercritical CO2/km;RER;kilometer;pipeline, supercritical CO2/km
+MEA hot pressing;GLO;kilogram;MEA hot pressing
+market for cyclohexane;GLO;kilogram;cyclohexane
+Sulfur dioxide;('air', 'low population density, long-term');kilogram
+Battery cell, NCA;GLO;kilogram;Battery cell
+market for lithium hydroxide;GLO;kilogram;lithium hydroxide
+Bipolar plate;GLO;kilowatt;Bipolar plate
+Manifolds;GLO;kilogram;Manifolds
+Cathode paste, LFP;JP;kilogram;Cathode paste, LFP
+market for anode, graphite, for lithium-ion battery;GLO;kilogram;anode, graphite, for lithium-ion battery
+market for soil pH raising agent, as CaCO3;GLO;kilogram;soil pH raising agent, as CaCO3
+epichlorohydrin production from allyl chloride;RoW;kilogram;epichlorohydrin
+market for cast iron;GLO;kilogram;cast iron
+market for sugar beet seed, for sowing;GLO;kilogram;sugar beet seed, for sowing
+Methane, non-fossil;('air',);kilogram
+treatment of drilling waste, residual material landfill;CH;kilogram;drilling waste
+market for electric connector, wire clamp;GLO;kilogram;electric connector, wire clamp
+argon production, liquid;RoW;kilogram;argon, liquid
+market for potassium sulfate, as K2O;GLO;kilogram;potassium sulfate, as K2O
+market for aluminium scrap, new;RER;kilogram;aluminium scrap, new
+Sulfur hexafluoride;('air',);kilogram
+noise, octave 7, day time, urban;('octave 7', 'day time', 'urban');joule
+market for phosphoric acid, industrial grade, without water, in 85% solution state;GLO;kilogram;phosphoric acid, industrial grade, without water, in 85% solution state
+Cobalt sulfate;GLO;kilogram;Cobalt sulfate
+Carbon dioxide, non-fossil;('air',);kilogram
+noise, octave 1, day time, rural;('octave 1', 'day time', 'rural');joule
+treatment of waste gypsum, inert material landfill;Europe without Switzerland;kilogram;waste gypsum
+market for sheet rolling, aluminium;GLO;kilogram;sheet rolling, aluminium
+electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted;DE;kilowatt hour;electricity, low voltage
+market for welding, arc, steel;GLO;meter;welding, arc, steel
+computer production, desktop, without screen;GLO;unit;computer, desktop, without screen
+Cell container;GLO;kilogram;Cell container
+Ammonia;('air', 'low population density, long-term');kilogram
+Anode;GLO;kilogram;Anode
+Nitrogen oxides;('air', 'low population density, long-term');kilogram
+AOX, Adsorbable Organic Halogen as Cl;('water', 'surface water');kilogram
+Anode paste, LFP;JP;kilogram;Anode paste, LFP
+Sulfur;('water', 'surface water');kilogram
+Lithium iron phosphate [LiFePO4];JP;kilogram;Lithium iron phosphate [LiFePO4]
+market for calcium chloride;RER;kilogram;calcium chloride
+Module packaging;GLO;kilogram;Module packaging
+market for integrated circuit, logic type;GLO;kilogram;integrated circuit, logic type
+epoxy resin production, liquid;RoW;kilogram;epoxy resin, liquid
+Ethanol from forest residues;RER;kilogram;Ethanol from forest residues
+DOC, Dissolved Organic Carbon;('water', 'surface water');kilogram
+market for manual dismantling of used passenger car with internal combustion engine;GLO;unit;manual dismantling of used passenger car with internal combustion engine
+tube insulation production, elastomere;RoW;kilogram;tube insulation, elastomere
+market for blow moulding;GLO;kilogram;blow moulding
+noise, octave 4, day time, urban;('octave 4', 'day time', 'urban');joule
+anode production, graphite, for lithium-ion battery;RoW;kilogram;anode, graphite, for lithium-ion battery
+sheet rolling, chromium steel;RoW;kilogram;sheet rolling, chromium steel
+Strontium;('water', 'surface water');kilogram
+NMVOC, non-methane volatile organic compounds, unspecified origin;('air', 'non-urban air or from high stacks');kilogram
+packaging box factory construction;RoW;unit;packaging box factory
+Benzene;('air', 'non-urban air or from high stacks');kilogram
+gravel production, crushed;RoW;kilogram;gravel, crushed
+Module lid;GLO;kilogram;Module lid
+Textile, carbon cloth;GLO;kilogram;Textile, carbon cloth
+Toluene;('air',);kilogram
+Positive current collector Al;GLO;kilogram;Positive current collector Al
+Sulfur dioxide;('air', 'urban air close to ground');kilogram
+electricity production, oil;DE;kilowatt hour;electricity, high voltage
+noise, octave 4, day time, rural;('octave 4', 'day time', 'rural');joule
+Iron, ion;('water',);kilogram
+TOC, Total Organic Carbon;('water', 'surface water');kilogram
+cooling unit, carbon dioxide capture process;RER;unit;cooling unit, carbon dioxide capture process
+woodchips from forestry residues;RER;megajoule;woodchips from forestry residues
+market for packaging film, low density polyethylene;GLO;kilogram;packaging film, low density polyethylene
+polyethylene production, low density, granulate;RoW;kilogram;polyethylene, low density, granulate
+Arsenic, ion;('water', 'surface water');kilogram
+heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014;DE;kilowatt hour;electricity, high voltage
+noise, octave 3, day time, urban;('octave 3', 'day time', 'urban');joule
+Cathode paste, NCA;JP;kilogram;Cathode paste, NCA
+Particulates, < 2.5 um;('air',);kilogram
+market for sodium chloride, powder;GLO;kilogram;sodium chloride, powder
+market for aluminium, cast alloy;GLO;kilogram;aluminium, cast alloy
+Carbon dioxide, fossil;('air', 'non-urban air or from high stacks');kilogram
+market for pesticide, unspecified;GLO;kilogram;pesticide, unspecified
+SMR BM, HT+LT, with digestate incineration, 26 bar;CH;megajoule;Hydrogen, gaseous, 26 bar
+market for converter, for electric passenger car;GLO;kilogram;converter, for electric passenger car
+Benzo(a)pyrene;('air',);kilogram
+nickel mine operation, sulfidic ore;GLO;kilogram;nickel, 99.5%
+Occupation, industrial area;('natural resource', 'land');square meter-year
+Ozone;('air',);kilogram
+maintenance, passenger car;RER;unit;passenger car maintenance
+Lead;('air', 'low population density, long-term');kilogram
+Radiator;GLO;kilogram;Radiator
+market for soda ash, light, crystalline, heptahydrate;GLO;kilogram;soda ash, light, crystalline, heptahydrate
+frequency converter, for diaphragm compressor;GLO;unit;frequency converter, for diaphragm compressor
+Straw bales | baling of straw;RER;megajoule;Straw bales | baling of straw
+market for reinforcing steel;GLO;kilogram;reinforcing steel
+market for sulfur hexafluoride, liquid;RER;kilogram;sulfur hexafluoride, liquid
+noise, octave 5, day time, urban;('octave 5', 'day time', 'urban');joule
+SMR NG, 700 bar;CH;kilogram;SMR NG, 700 bar
+market for nitrogen, liquid;RoW;kilogram;nitrogen, liquid
 noise, octave 7, day time, rural;('octave 7', 'day time', 'rural');joule
-treatment of biowaste by anaerobic digestion, with biogenic carbon uptake, lower bound C sequestration, digestate incineration;CH;cubic meter;treatment of biowaste by anaerobic digestion, with biogenic carbon uptake, lower bound C sequestration, digestate incineration
-noise, octave 2, day time, rural;('octave 2', 'day time', 'rural');joule
-market for sodium hydroxide, without water, in 50% solution state;GLO;kilogram;sodium hydroxide, without water, in 50% solution state
-market for transport, freight, lorry >32 metric ton, EURO3;RoW;ton kilometer;transport, freight, lorry >32 metric ton, EURO3
-biogas upgrading - sewage sludge - amine scrubbing - best;CH;kilogram;biogas upgrading - sewage sludge - amine scrubbing - best
-Particulates, > 10 um;('air', 'non-urban air or from high stacks');kilogram
-Chromium, ion;('water', 'surface water');kilogram
-RWGS tank construction;GLO;unit;RWGS tank construction
+transmission network construction, electricity, high voltage;CH;kilometer;transmission network, electricity, high voltage
+Benzene;('air', 'urban air close to ground');kilogram
+polyethylene production, high density, granulate;RER;kilogram;polyethylene, high density, granulate
+market for zeolite, powder;GLO;kilogram;zeolite, powder
+Water, unspecified natural origin;('natural resource', 'in water');cubic meter
+market for tap water;Europe without Switzerland;kilogram;tap water
+market for metal working factory;GLO;unit;metal working factory
+Carbon dioxide, in air;('natural resource', 'in air');kilogram
+Electrolyte;GLO;kilogram;Electrolyte
+Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant;RER;kilogram;Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant
+electricity production, nuclear, pressure water reactor;DE;kilowatt hour;electricity, high voltage
+market for injection moulding;GLO;kilogram;injection moulding
+Chloride;('water', 'surface water');kilogram
+Inner frame;GLO;kilogram;Inner frame
