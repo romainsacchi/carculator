@@ -696,11 +696,10 @@ class InventoryCalculation:
         arr = self.A[0, : -self.number_of_cars, -self.number_of_cars :].sum(axis=1)
         ind = np.nonzero(arr)[0]
 
-        new_arr = np.float32(
-            np.zeros((self.A.shape[1], self.B.shape[1], len(self.scope["year"])))
-        )
+        new_arr = np.zeros((self.A.shape[1], self.B.shape[1], len(self.scope["year"])))
 
-        f = np.float32(np.zeros((np.shape(self.A)[1])))
+
+        f = np.zeros((np.shape(self.A)[1]))
 
         for y in self.scope["year"]:
             if self.scenario != "static":
@@ -712,7 +711,7 @@ class InventoryCalculation:
             for a in ind:
                 f[:] = 0
                 f[a] = 1
-                X = np.float32(sparse.linalg.spsolve(self.A[0], f.T))
+                X = sparse.linalg.spsolve(self.A[0], f.T)
                 C = X * B
                 new_arr[a, :, self.scope["year"].index(y)] = C.sum(axis=1)
 
@@ -720,9 +719,9 @@ class InventoryCalculation:
             len(self.scope["year"]), B.shape[0], 1, 1, self.A.shape[-1]
         )
 
-        a = np.float32(self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1))
+        a = self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1)
 
-        arr = np.float32(ne.evaluate("a * new_arr * -1"))
+        arr = ne.evaluate("a * new_arr * -1")
 
         arr = arr.transpose(1, 3, 0, 4, 2)
         arr = arr[:, :, :, self.split_indices, :].sum(axis=4)
@@ -756,7 +755,7 @@ class InventoryCalculation:
                 )
             results /= results.sel(parameter="reference")
 
-        return results.astype("float32")
+        return results
 
     def add_additional_activities(self):
         # Add as many rows and columns as cars to consider
