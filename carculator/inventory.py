@@ -103,8 +103,44 @@ class InventoryCalculation:
     If none is given, the electricity mix corresponding to the country specified in `country` will be selected.
     If no country is specified, Europe applies.
 
-    The `alternative petrol share` key contains an array with shares of alternative petrol fuel for each year, to create a custom blend.
+    The `primary` and `secondary` fuel keys contain an array with shares of alternative petrol fuel for each year, to create a custom blend.
     If none is provided, a blend provided by the Integrated Assessment model REMIND is used, which will depend on the REMIND energy scenario selected.
+
+    Here is a list of available fuel pathways:
+
+
+    Hydrogen technologies
+    --------------------
+    electrolysis
+    smr - natural gas
+    smr - natural gas with CCS
+    smr - biogas
+    smr - biogas with CCS
+    coal gasification
+    wood gasification
+    wood gasification with CCS
+
+    Natural gas technologies
+    ------------------------
+    cng
+    biogas
+    syngas
+
+    Diesel technologies
+    -------------------
+    diesel
+    biodiesel - algae
+    biodiesel - cooking oil
+    synthetic diesel
+
+    Petrol technologies
+    -------------------
+    petrol
+    bioethanol - wheat straw
+    bioethanol - maize starch
+    bioethanol - sugarbeet
+    bioethanol - forest residues
+    synthetic gasoline
 
     :ivar array: array from the CarModel class
     :vartype array: CarModel.array
@@ -696,10 +732,10 @@ class InventoryCalculation:
         arr = self.A[0, : -self.number_of_cars, -self.number_of_cars :].sum(axis=1)
         ind = np.nonzero(arr)[0]
 
-        new_arr = np.zeros((self.A.shape[1], self.B.shape[1], len(self.scope["year"])))
+        new_arr = np.float16(np.zeros((self.A.shape[1], self.B.shape[1], len(self.scope["year"]))))
 
 
-        f = np.zeros((np.shape(self.A)[1]))
+        f = np.float16(np.zeros((np.shape(self.A)[1])))
 
         for y in self.scope["year"]:
             if self.scenario != "static":
@@ -711,7 +747,7 @@ class InventoryCalculation:
             for a in ind:
                 f[:] = 0
                 f[a] = 1
-                X = sparse.linalg.spsolve(self.A[0], f.T)
+                X = np.float16(sparse.linalg.spsolve(self.A[0], f.T))
                 C = X * B
                 new_arr[a, :, self.scope["year"].index(y)] = C.sum(axis=1)
 
@@ -719,9 +755,9 @@ class InventoryCalculation:
             len(self.scope["year"]), B.shape[0], 1, 1, self.A.shape[-1]
         )
 
-        a = self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1)
+        a = np.float16(self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1))
 
-        arr = ne.evaluate("a * new_arr * -1")
+        arr = np.float16(ne.evaluate("a * new_arr * -1"))
 
         arr = arr.transpose(1, 3, 0, 4, 2)
         arr = arr[:, :, :, self.split_indices, :].sum(axis=4)
@@ -755,7 +791,7 @@ class InventoryCalculation:
                 )
             results /= results.sel(parameter="reference")
 
-        return results
+        return results.astype("float16")
 
     def add_additional_activities(self):
         # Add as many rows and columns as cars to consider
@@ -2251,6 +2287,18 @@ class InventoryCalculation:
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar, from coal gasification, at H2 fuelling station",
                 ),
+                "wood gasification": (
+                    "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at H2 fuelling station",
+                    "CH",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar",
+                ),
+                "wood gasification with CCS": (
+                    "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at H2 fuelling station",
+                    "CH",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar",
+                )
             }
 
             # Primary fuel share
