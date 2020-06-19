@@ -3891,6 +3891,87 @@
     "unit": "kg/kWh",
     "year": 2040
   },
+  "219-2-2000-storage lifetime kilometers": {
+    "amount": 200000,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 200000,
+    "maximum": 350000,
+    "minimum": 100000,
+    "name": "battery lifetime kilometers",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kWh",
+    "year": 2000
+  },
+  "219-3-2010-storage lifetime kilometers": {
+    "amount": 200000,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 200000,
+    "maximum": 350000,
+    "minimum": 100000,
+    "name": "battery lifetime kilometers",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kWh",
+    "year": 2010
+  },
+  "219-4-2020-storage lifetime kilometers": {
+    "amount": 200000,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 200000,
+    "maximum": 350000,
+    "minimum": 100000,
+    "name": "battery lifetime kilometers",
+    "powertrain": [
+      "ICEV-p",
+      "ICEV-d",
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large",
+      "Lower medium",
+      "Medium",
+      "Mini",
+      "SUV",
+      "Small",
+      "Van"
+    ],
+    "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Own assumption",
+    "uncertainty_type": 5,
+    "unit": "kg/kWh",
+    "year": 2017
+  },
   "219-2040-storage lifetime kilometers": {
     "amount": 200000,
     "category": "Energy Storage",
