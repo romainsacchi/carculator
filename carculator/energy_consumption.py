@@ -202,7 +202,7 @@ class EnergyConsumptionModel:
         # Motor power in kW, other power in watts
 
         recuperated_power = ne.evaluate(
-            "where(tv < (-1000 * mp), (-1000 * mp) ,where(tv>0, 0, tv)) * re"
+            "where(tv < (-1000 * mp), (-1000 * mp), where(tv>0, 0, tv)) * re"
         )
         # braking_power = pd.w - recuperated_power
 

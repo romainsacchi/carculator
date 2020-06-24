@@ -114,6 +114,22 @@ class ExportInventory:
                 "kilowatt hour",
                 "electricity, low voltage",
             ),
+
+        }
+
+        self.map_ecoinvent_remind= {
+            (
+                "biogas upgrading - sewage sludge - amine scrubbing - best",
+                "CH",
+                "kilogram",
+                "biogas upgrading - sewage sludge - amine scrubbing - best",
+            ): (
+                "biogas upgrading - sewage sludge - amine scrubbing - best",
+                "RER",
+                "kilogram",
+                "biogas upgrading - sewage sludge - amine scrubbing - best",
+            ),
+
         }
 
         self.map_36_to_35 = {
@@ -354,8 +370,6 @@ class ExportInventory:
             "Steam, for chemical processes, at plant": 1/2.257, # 2.257 MJ/kg steam @ ambient pressure
             "Natural gas, from high pressure network (1-5 bar), at service station": 0.842,
             "Disposal, passenger car": 1/1600
-
-
         }
 
         list_act = []
@@ -394,6 +408,15 @@ class ExportInventory:
                     and tuple_output[0] in activities_to_be_removed
                 ):
                     break
+
+                if ecoinvent_compatibility == False:
+                    tuple_output = self.map_ecoinvent_remind.get(
+                        tuple_output, tuple_output
+                    )
+                    tuple_input = self.map_ecoinvent_remind.get(
+                        tuple_input, tuple_input
+                    )
+
 
                 if ecoinvent_compatibility == True:
 

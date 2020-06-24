@@ -2,17 +2,8 @@ split;category;search by;search for
 components;direct;name;market for tyre wear emissions, passenger car
 components;direct;name;market for road wear emissions, passenger car
 components;direct;name;market for brake wear emissions, passenger car
-components;energy chain;name;Diesel production, Fischer Tropsch process
-components;energy chain;name;Gasoline production
-components;energy chain;name;market for petrol
-components;energy chain;name;market for diesel
-components;energy chain;name;market for natural gas, from high pressure network (1-5 bar), at service station
-components;energy chain;name;hydrogen, gaseous, 700 bar
-components;energy chain;name;biogas
-components;energy chain;name;ethanol
-components;energy chain;name;biodiesel
-components;energy chain;name;methane, from electrochemical
-components;energy chain;name;electricity market for fuel preparation
+components;energy chain;name;fuel supply
+components;energy chain;name;electricity supply
 components;maintenance;name;maintenance, passenger car
 components;glider;name;market for glider
 components;glider;name;glider lightweighting
