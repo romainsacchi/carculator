@@ -195,16 +195,10 @@ class InventoryCalculation:
             x: i for i, x in enumerate(list(self.array.powertrain.values), 0)
         }
 
-        self.inputs = self.get_dict_input()
-
-        self.bs = BackgroundSystemModel()
-        self.country = self.get_country_of_use(background_configuration)
-        self.add_additional_activities()
-        self.rev_inputs = self.get_rev_dict_input()
-        self.A = self.get_A_matrix()
-        self.mix = self.define_electricity_mix_for_fuel_prep()
-        self.fuel_blends = {}
-        self.define_fuel_blends(background_configuration)
+        if not background_configuration is None:
+            self.background_configuration = background_configuration
+        else:
+            self.background_configuration = {}
 
         if "energy storage" not in self.background_configuration:
             self.background_configuration["energy storage"] = {
@@ -231,6 +225,16 @@ class InventoryCalculation:
                     self.background_configuration["energy storage"]["electric"][
                         "type"
                     ] = "NMC"
+
+        self.inputs = self.get_dict_input()
+        self.bs = BackgroundSystemModel()
+        self.country = self.get_country_of_use()
+        self.add_additional_activities()
+        self.rev_inputs = self.get_rev_dict_input()
+        self.A = self.get_A_matrix()
+        self.mix = self.define_electricity_mix_for_fuel_prep()
+        self.fuel_blends = {}
+        self.define_fuel_blends()
 
         self.index_cng = [self.inputs[i] for i in self.inputs if "ICEV-g" in i[0]]
         self.index_combustion_wo_cng = [
@@ -1355,12 +1359,7 @@ class InventoryCalculation:
         )
         return fp
 
-    def get_country_of_use(self, background_configuration):
-
-        if background_configuration is None:
-            self.background_configuration = {"country": "RER"}
-        else:
-            self.background_configuration = background_configuration
+    def get_country_of_use(self):
 
         if "country" not in self.background_configuration:
             self.background_configuration["country"] = "RER"
@@ -1819,7 +1818,7 @@ class InventoryCalculation:
         )
         return share_biofuel
 
-    def find_fuel_shares(self, background_configuration, fuel_type):
+    def find_fuel_shares(self, fuel_type):
 
         default_fuels = {
             "petrol": {"primary": "petrol", "secondary": "bioethanol - wheat straw"},
@@ -1828,20 +1827,20 @@ class InventoryCalculation:
             "hydrogen": {"primary": "electrolysis", "secondary": "smr - natural gas"},
         }
 
-        if "fuel blend" in background_configuration:
-            if fuel_type in background_configuration["fuel blend"]:
-                primary = background_configuration["fuel blend"][fuel_type][
+        if "fuel blend" in self.background_configuration:
+            if fuel_type in self.background_configuration["fuel blend"]:
+                primary = self.background_configuration["fuel blend"][fuel_type][
                     "primary fuel"
                 ]["type"]
 
                 try:
-                    secondary = background_configuration["fuel blend"][fuel_type][
+                    secondary = self.background_configuration["fuel blend"][fuel_type][
                         "secondary fuel"
                     ]["type"]
                 except:
                     secondary = default_fuels[fuel_type]["secondary"]
 
-                primary_share = background_configuration["fuel blend"][fuel_type][
+                primary_share = self.background_configuration["fuel blend"][fuel_type][
                     "primary fuel"
                 ]["share"]
                 secondary_share = 1 - np.array(primary_share)
@@ -1859,7 +1858,7 @@ class InventoryCalculation:
 
         return (primary, secondary, primary_share, secondary_share)
 
-    def define_fuel_blends(self, background_configuration):
+    def define_fuel_blends(self):
         """
         This function defines fuel blends from what is passed in `background_configuration`.
         :return:
@@ -1867,9 +1866,7 @@ class InventoryCalculation:
 
         if {"ICEV-p", "HEV-p", "PHEV-p"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "petrol"
-            primary, secondary, primary_share, secondary_share = self.find_fuel_shares(
-                background_configuration, fuel_type
-            )
+            primary, secondary, primary_share, secondary_share = self.find_fuel_shares(fuel_type)
             self.create_fuel_markets(
                 fuel_type, primary, secondary, primary_share, secondary_share
             )
@@ -1880,9 +1877,7 @@ class InventoryCalculation:
 
         if {"ICEV-d", "HEV-d", "PHEV-d"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "diesel"
-            primary, secondary, primary_share, secondary_share = self.find_fuel_shares(
-                background_configuration, fuel_type
-            )
+            primary, secondary, primary_share, secondary_share = self.find_fuel_shares(fuel_type)
             self.create_fuel_markets(
                 fuel_type, primary, secondary, primary_share, secondary_share
             )
@@ -1893,9 +1888,7 @@ class InventoryCalculation:
 
         if {"ICEV-g"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "cng"
-            primary, secondary, primary_share, secondary_share = self.find_fuel_shares(
-                background_configuration, fuel_type
-            )
+            primary, secondary, primary_share, secondary_share = self.find_fuel_shares(fuel_type)
             self.create_fuel_markets(
                 fuel_type, primary, secondary, primary_share, secondary_share
             )
@@ -1906,9 +1899,7 @@ class InventoryCalculation:
 
         if {"FCEV"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "hydrogen"
-            primary, secondary, primary_share, secondary_share = self.find_fuel_shares(
-                background_configuration, fuel_type
-            )
+            primary, secondary, primary_share, secondary_share = self.find_fuel_shares(fuel_type)
             self.create_fuel_markets(
                 fuel_type, primary, secondary, primary_share, secondary_share
             )
