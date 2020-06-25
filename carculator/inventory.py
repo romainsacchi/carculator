@@ -928,7 +928,7 @@ class InventoryCalculation:
                         "electricity supply for electric vehicles, " + str(y),
                         self.country,
                         "kilowatt hour",
-                        "electricity, low voltage",
+                        "electricity, low voltage, for battery electric vehicles",
                     )
                 ] = maximum
 
@@ -950,7 +950,7 @@ class InventoryCalculation:
                         "origin"
                     ],
                     "kilowatt hour",
-                    "electricity, low voltage",
+                    "electricity, low voltage, for energy storage production",
                 )
             ] = maximum
 

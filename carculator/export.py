@@ -417,6 +417,11 @@ class ExportInventory:
                         tuple_input, tuple_input
                     )
 
+                if (ecoinvent_compatibility == False
+                    and tuple_output[0].startswith("fuel supply")
+                    and tuple_input[0].startswith("electricity market")):
+                    continue
+
 
                 if ecoinvent_compatibility == True:
 
