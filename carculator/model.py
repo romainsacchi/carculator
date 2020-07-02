@@ -111,7 +111,7 @@ class CarModel:
         else:
             return super().__getattr__(key)
 
-    def set_all(self):
+    def set_all(self, drop_hybrids=True):
         """
         This method runs a series of other methods to obtain the tank-to-wheel energy requirement, efficiency
         of the car, costs, etc.
@@ -157,7 +157,8 @@ class CarModel:
         self.set_hot_emissions()
         self.set_noise_emissions()
         self.create_PHEV()
-        self.drop_hybrid()
+        if drop_hybrids==True:
+            self.drop_hybrid()
 
     def adjust_cost(self):
         """
@@ -169,7 +170,7 @@ class CarModel:
         n_iterations = self.array.shape[-1]
         n_year = len(self.array.year.values)
 
-        # If uncertainty is not considered, teh cost factor equals 1.
+        # If uncertainty is not considered, the cost factor equals 1.
         # Otherwise, a variability of +/-30% is added.
 
         if n_iterations == 1:
@@ -227,6 +228,26 @@ class CarModel:
             (5.92e160 * np.exp(-.1819 * self.array.year.values) + 26.76) * cost_factor,
             (1, 1, n_year, n_iterations),
         )
+
+    def adjust_fuel_mass(self):
+        """
+        This method adjusts the fuel mass over the years, to correct for the linear
+        interpolation between years.
+
+        """
+
+        n_iterations = self.array.shape[-1]
+        n_year = len(self.array.year.values)
+
+
+        # Correction of hydrogen mass
+        self.array.loc[:, ["FCEV"], "fuel mass", :, :] = np.reshape(
+            (1.078e58 * np.exp(-6.32e-2 * self.array.year.values) + 3.43e2),
+            (1, 1, n_year, n_iterations),
+        )
+
+        # Correction of CNG mass
+
 
     def drop_hybrid(self):
         """
@@ -466,7 +487,6 @@ class CarModel:
             cpm["electric utility factor"] = (
                 1 - np.exp(-0.01147 * cpm["range"])
             ) ** 1.186185
-
 
     def create_PHEV(self):
         """ PHEV-p/d is the range-weighted average between PHEV-c-p/PHEV-c-d and PHEV-e.

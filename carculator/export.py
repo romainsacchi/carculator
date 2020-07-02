@@ -316,7 +316,7 @@ class ExportInventory:
             "Biodiesel from algae",
             "Maize cultivation, drying and storage {RER} | Maize production Europe | Alloc Rec, U",
             "Fischer Tropsch reactor and upgrading plant, construction",
-            "Methanol Synthesis",
+            #"Methanol Synthesis",
             "Walls and foundations, for hydrogen refuelling station",
             "container, with pipes and fittings, for diaphragm compressor",
             "RWGS tank construction",
@@ -329,17 +329,18 @@ class ExportInventory:
             "Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station",
             "transformer and rectifier unit, for electrolyzer",
             "PEM electrolyzer, ACDC Converter",
-            "Hydrogen, gaseous, 25 bar, from electrolysis",
+            #"Hydrogen, gaseous, 25 bar, from electrolysis",
             "carbon dioxide, captured from atmosphere",
             "PEM electrolyzer, Balance of Plant",
-            "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
+            #"Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
             "Sabatier reaction methanation unit",
-            "Diesel production, Fischer Tropsch process",
-            "Syngas, RWGS, Production",
+            #"Diesel production, synthetic, Fischer Tropsch process",
+            #"Gasoline production, synthetic, from methanol",
+            #"Syngas, RWGS, Production",
             "PEM electrolyzer, Stack",
             "hot water tank, carbon dioxide capture process",
             "cooling unit, carbon dioxide capture process",
-            "methane, from electrochemical methanation, with carbon from atmospheric CO2 capture",
+            #"Methane production, synthetic, from electrochemical methanation",
             "diaphragm compressor module, high pressure",
             "carbon dioxide capture system",
             "Hydrogen dispenser, for gaseous hydrogen",
@@ -348,7 +349,7 @@ class ExportInventory:
             "Disposal, hydrogen fuelling station",
             "production of 2 wt-% potassium iodide solution",
             "production of nickle-based catalyst for methanation",
-            "Methanol distillation",
+            #"Methanol distillation",
             "wiring and tubing, carbon dioxide capture process",
             "control panel, carbon dioxide capture process",
             "adsorption and desorption unit, carbon dioxide capture process",
@@ -417,10 +418,10 @@ class ExportInventory:
                         tuple_input, tuple_input
                     )
 
-                if (ecoinvent_compatibility == False
-                    and tuple_output[0].startswith("fuel supply")
-                    and tuple_input[0].startswith("electricity market")):
-                    continue
+                #if (ecoinvent_compatibility == False
+                #    and tuple_output[0].startswith("fuel supply")
+                #    and tuple_input[0].startswith("electricity market")):
+                #    continue
 
 
                 if ecoinvent_compatibility == True:

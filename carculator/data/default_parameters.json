@@ -4317,100 +4317,113 @@
     "unit": "W/kg",
     "year": 2040
   },
-  "230-2017-fuel mass": {
-    "amount": 18,
+  "230-2017-fuel mass-Mini": {
+    "amount": 30,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 18,
-    "maximum": 20,
-    "minimum": 15,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-p"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2017
-  },
-  "231-2040-fuel mass": {
-    "amount": 12.6,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 12.6,
-    "maximum": 14,
-    "minimum": 10.5,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-p"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2040
-  },
-  "232-2017-fuel mass": {
-    "amount": 28,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 28,
-    "maximum": 30,
+    "loc": 30,
+    "maximum": 35,
     "minimum": 25,
     "name": "fuel mass",
     "powertrain": [
-      "ICEV-p"
+      "ICEV-p", "ICEV-d", "PHEV-c-d", "PHEV-c-p"
     ],
     "sizes": [
-      "Lower medium",
-      "Medium"
+      "Mini"
     ],
-    "source": "Own assumption, Calibration result",
+    "source": "Own assumption, Calibration result with Car2db",
     "uncertainty_type": 5,
     "unit": "kg",
     "year": 2017
   },
-  "233-2040-fuel mass": {
-    "amount": 19.599999999999998,
+  "230-2017-fuel mass-Small": {
+    "amount": 35,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 19.599999999999998,
-    "maximum": 21,
-    "minimum": 17.5,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-p"
-    ],
-    "sizes": [
-      "Lower medium",
-      "Medium"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2040
-  },
-  "234-2017-fuel mass": {
-    "amount": 33,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 33,
-    "maximum": 35,
+    "loc": 35,
+    "maximum": 40,
     "minimum": 30,
     "name": "fuel mass",
     "powertrain": [
-      "ICEV-p"
+      "ICEV-p", "ICEV-d", "PHEV-c-d", "PHEV-c-p"
     ],
     "sizes": [
-      "Large",
-      "Van",
+      "Small"
+    ],
+    "source": "Own assumption, Calibration result with Car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-Lower-medium": {
+    "amount": 45,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 45,
+    "maximum": 50,
+    "minimum": 40,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-p", "ICEV-d", "PHEV-c-d", "PHEV-c-p"
+    ],
+    "sizes": [
+      "Lower medium"
+    ],
+    "source": "Own assumption, Calibration result with Car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-Medium": {
+    "amount": 52,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 52,
+    "maximum": 55,
+    "minimum": 48,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-p", "ICEV-d", "PHEV-c-d", "PHEV-c-p"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-Large": {
+    "amount": 52,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 52,
+    "maximum": 55,
+    "minimum": 50,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-p", "ICEV-d", "PHEV-c-d", "PHEV-c-p"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-SUV": {
+    "amount": 52,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 52,
+    "maximum": 55,
+    "minimum": 48,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-p", "ICEV-d", "PHEV-c-d", "PHEV-c-p"
+    ],
+    "sizes": [
       "SUV"
     ],
     "source": "Own assumption, Calibration result",
@@ -4418,68 +4431,83 @@
     "unit": "kg",
     "year": 2017
   },
-  "235-2040-fuel mass": {
-    "amount": 23.099999999999998,
+  "230-2017-fuel mass-Van": {
+    "amount": 45,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 23.099999999999998,
-    "maximum": 24.5,
-    "minimum": 21,
+    "loc": 45,
+    "maximum": 50,
+    "minimum": 40,
     "name": "fuel mass",
     "powertrain": [
-      "ICEV-p"
+      "ICEV-p", "ICEV-d", "PHEV-c-d", "PHEV-c-p"
     ],
     "sizes": [
-      "Large",
-      "Van",
-      "SUV"
+      "Van"
     ],
     "source": "Own assumption, Calibration result",
     "uncertainty_type": 5,
     "unit": "kg",
-    "year": 2040
+    "year": 2017
   },
-  "236-2017-fuel mass": {
-    "amount": 18,
+  "230-2017-fuel mass-Mini-HEV": {
+    "amount": 17,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 18,
+    "loc": 17,
     "maximum": 20,
     "minimum": 15,
     "name": "fuel mass",
     "powertrain": [
-      "ICEV-d"
+      "HEV-p", "HEV-d"
     ],
     "sizes": [
-      "Mini",
-      "Small"
+      "Mini"
     ],
-    "source": "Own assumption, Calibration result",
+    "source": "Own assumption, Calibration result with Car2db",
     "uncertainty_type": 5,
     "unit": "kg",
     "year": 2017
   },
-  "237-2040-fuel mass": {
-    "amount": 12.6,
+  "230-2017-fuel mass-Small-HEV": {
+    "amount": 20,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 12.6,
-    "maximum": 14,
-    "minimum": 10.5,
+    "loc": 20,
+    "maximum": 23,
+    "minimum": 18,
     "name": "fuel mass",
     "powertrain": [
-      "ICEV-d"
+      "HEV-p", "HEV-d"
     ],
     "sizes": [
-      "Mini",
       "Small"
     ],
-    "source": "Own assumption, Calibration result",
+    "source": "Own assumption, Calibration result with Car2db",
     "uncertainty_type": 5,
     "unit": "kg",
-    "year": 2040
+    "year": 2017
   },
-  "238-2017-fuel mass": {
+  "230-2017-fuel mass-Lower-medium-HEV": {
+    "amount": 25,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 25,
+    "maximum": 28,
+    "minimum": 22,
+    "name": "fuel mass",
+    "powertrain": [
+      "HEV-p", "HEV-d"
+    ],
+    "sizes": [
+      "Lower medium"
+    ],
+    "source": "Own assumption, Calibration result with Car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-Medium-HEV": {
     "amount": 28,
     "category": "Energy Storage",
     "kind": "distribution",
@@ -4488,10 +4516,9 @@
     "minimum": 25,
     "name": "fuel mass",
     "powertrain": [
-      "ICEV-d"
+      "HEV-p", "HEV-d"
     ],
     "sizes": [
-      "Lower medium",
       "Medium"
     ],
     "source": "Own assumption, Calibration result",
@@ -4499,26 +4526,996 @@
     "unit": "kg",
     "year": 2017
   },
-  "239-2040-fuel mass": {
-    "amount": 19.599999999999998,
+  "230-2017-fuel mass-Large-HEV": {
+    "amount": 30,
     "category": "Energy Storage",
     "kind": "distribution",
-    "loc": 19.599999999999998,
-    "maximum": 21,
-    "minimum": 17.5,
+    "loc": 30,
+    "maximum": 28,
+    "minimum": 32,
     "name": "fuel mass",
     "powertrain": [
-      "ICEV-d"
+      "HEV-p", "HEV-d"
     ],
     "sizes": [
-      "Lower medium",
+      "Large"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-SUV-HEV": {
+    "amount": 28,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 28,
+    "maximum": 30,
+    "minimum": 26,
+    "name": "fuel mass",
+    "powertrain": [
+      "HEV-p", "HEV-d"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-Van-HEV": {
+    "amount": 25,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 25,
+    "maximum": 28,
+    "minimum": 22,
+    "name": "fuel mass",
+    "powertrain": [
+      "HEV-p", "HEV-d"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-Mini-ICEV-g": {
+    "amount": 13,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 13,
+    "maximum": 10,
+    "minimum": 15,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Mini"
+    ],
+    "source": "Own assumption, Calibration result with Car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-Small-ICEV-g": {
+    "amount": 16,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 16,
+    "maximum": 18,
+    "minimum": 14,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "source": "Own assumption, Calibration result with Car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-Lower-medium-ICEV-g": {
+    "amount": 18,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 18,
+    "maximum": 20,
+    "minimum": 16,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Lower medium"
+    ],
+    "source": "Own assumption, Calibration result with Car2db",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-Medium-ICEV-g": {
+    "amount": 20,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 20,
+    "maximum": 23,
+    "minimum": 18,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
       "Medium"
     ],
     "source": "Own assumption, Calibration result",
     "uncertainty_type": 5,
     "unit": "kg",
-    "year": 2040
+    "year": 2017
   },
+  "230-2017-fuel mass-Large-ICEV-g": {
+    "amount": 26,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 26,
+    "maximum": 28,
+    "minimum": 22,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-SUV-ICEV-g": {
+    "amount": 26,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 26,
+    "maximum": 28,
+    "minimum": 22,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "230-2017-fuel mass-Van-ICEV-g": {
+    "amount": 26,
+    "category": "Energy Storage",
+    "kind": "distribution",
+    "loc": 26,
+    "maximum": 28,
+    "minimum": 22,
+    "name": "fuel mass",
+    "powertrain": [
+      "ICEV-g"
+    ],
+    "sizes": [
+      "Van"
+    ],
+    "source": "Own assumption, Calibration result",
+    "uncertainty_type": 5,
+    "unit": "kg",
+    "year": 2017
+  },
+  "240-2017-fuel mass-FCEV-Mini":{
+      "amount":4,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":4,
+      "maximum":4.5,
+      "minimum":3.5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2017
+   },
+  "240-2017-fuel mass-FCEV-Small":{
+      "amount":4.2,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":4.2,
+      "maximum":4.5,
+      "minimum":4,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2017
+   },
+  "240-2017-fuel mass-FCEV-Lower-medium":{
+      "amount":4.5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":4.5,
+      "maximum":5,
+      "minimum":4,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2017
+   },
+  "240-2017-fuel mass-FCEV-Medium":{
+      "amount":5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":5,
+      "maximum":6,
+      "minimum":4,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2017
+   },
+  "240-2017-fuel mass-FCEV-Large":{
+      "amount":6,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":6,
+      "maximum":7,
+      "minimum":5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2017
+   },
+  "240-2017-fuel mass-FCEV-Van":{
+      "amount":6,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":6,
+      "maximum":7,
+      "minimum":5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2017
+   },
+  "240-2017-fuel mass-FCEV-SUV":{
+      "amount":6,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":6,
+      "maximum":7,
+      "minimum":5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2017
+   },
+  "240-2040-fuel mass-ICEVpd-Mini":{
+      "amount":20,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":20,
+      "maximum":23,
+      "minimum":19,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d", "ICEV-p"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVpd-Small":{
+      "amount":23,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":23,
+      "maximum":25,
+      "minimum":21,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d", "ICEV-p"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVpd-Lower-medium":{
+      "amount":29,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":29,
+      "maximum":32,
+      "minimum":28,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d", "ICEV-p"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVpd-Medium":{
+      "amount":34,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":34,
+      "maximum":38,
+      "minimum":32,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d", "ICEV-p"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVpd-Large":{
+      "amount":34,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":34,
+      "maximum":38,
+      "minimum":32,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d", "ICEV-p"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVpd-Van":{
+      "amount":29,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":29,
+      "maximum":33,
+      "minimum":27,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d", "ICEV-p"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVpd-SUV":{
+      "amount":34,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":34,
+      "maximum":38,
+      "minimum":32,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d", "ICEV-p"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+
+  "240-2040-fuel mass-HEVpd-Mini":{
+      "amount":13.5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":13.5,
+      "maximum":16,
+      "minimum":12,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-HEVpd-Small":{
+      "amount":16,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":16,
+      "maximum":18,
+      "minimum":14,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-HEVpd-Lower-medium":{
+      "amount":20,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":20,
+      "maximum":22,
+      "minimum":18,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-HEVpd-Medium":{
+      "amount":22.5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":22.5,
+      "maximum":25,
+      "minimum":20,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-HEVpd-Large":{
+      "amount":24,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":24,
+      "maximum":26,
+      "minimum":22,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-HEVpd-Van":{
+      "amount":20,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":20,
+      "maximum":22,
+      "minimum":18,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-HEVpd-SUV":{
+      "amount":22.5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":22.5,
+      "maximum":25,
+      "minimum":21,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-PHEVpd-Mini":{
+      "amount":41,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":41,
+      "maximum":38,
+      "minimum":45,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-PHEVpd-Small":{
+      "amount":46,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":46,
+      "maximum":50,
+      "minimum":40,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-PHEVpd-Lower-medium":{
+      "amount":57,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":57,
+      "maximum":65,
+      "minimum":50,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-PHEVpd-Medium":{
+      "amount":74,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":74,
+      "maximum":80,
+      "minimum":70,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-PHEVpd-Large":{
+      "amount":82,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":82,
+      "maximum":85,
+      "minimum":80,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-PHEVpd-Van":{
+      "amount":68,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":68,
+      "maximum":75,
+      "minimum":65,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-PHEVpd-SUV":{
+      "amount":79,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":79,
+      "maximum":85,
+      "minimum":75,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVg-Mini":{
+      "amount":8,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":8,
+      "maximum":10,
+      "minimum":7,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVg-Small":{
+      "amount":9.5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":9.5,
+      "maximum":12,
+      "minimum":8,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVg-Lower-medium":{
+      "amount":11,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":11,
+      "maximum":13,
+      "minimum":9,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVg-Medium":{
+      "amount":12,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":12,
+      "maximum":14,
+      "minimum":10,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVg-Large":{
+      "amount":15.5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":15.5,
+      "maximum":18,
+      "minimum":14,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVg-Van":{
+      "amount":15.5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":15.5,
+      "maximum":17,
+      "minimum":13,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-ICEVg-SUV":{
+      "amount":15.5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":15.5,
+      "maximum":18,
+      "minimum":13,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-FCEV-Mini":{
+      "amount":4,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":4,
+      "maximum":4.5,
+      "minimum":3.5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-FCEV-Small":{
+      "amount":4.2,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":4.2,
+      "maximum":4.5,
+      "minimum":4,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-FCEV-Lower-medium":{
+      "amount":4.5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":4.5,
+      "maximum":5,
+      "minimum":4,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-FCEV-Medium":{
+      "amount":5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":5,
+      "maximum":6,
+      "minimum":4,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-FCEV-Large":{
+      "amount":6,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":6,
+      "maximum":7,
+      "minimum":5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-FCEV-Van":{
+      "amount":6,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":6,
+      "maximum":7,
+      "minimum":5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+  "240-2040-fuel mass-FCEV-SUV":{
+      "amount":6,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":6,
+      "maximum":7,
+      "minimum":5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2040
+   },
+
   "24-2017-power to mass ratio": {
     "amount": 65,
     "category": "Glider",
@@ -4547,216 +5544,8 @@
     "unit": "W/kg",
     "year": 2017
   },
-  "240-2017-fuel mass": {
-    "amount": 33,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 33,
-    "maximum": 35,
-    "minimum": 30,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2017
-  },
-  "241-2040-fuel mass": {
-    "amount": 23.099999999999998,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 23.099999999999998,
-    "maximum": 24.5,
-    "minimum": 21,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2040
-  },
-  "242-2017-fuel mass": {
-    "amount": 13,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 13,
-    "maximum": 15,
-    "minimum": 10,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2017
-  },
-  "243-2040-fuel mass": {
-    "amount": 9.1,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 9.1,
-    "maximum": 10.5,
-    "minimum": 7,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2040
-  },
-  "244-2017-fuel mass": {
-    "amount": 23,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 23,
-    "maximum": 25,
-    "minimum": 20,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Lower medium",
-      "Medium"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2017
-  },
-  "245-2040-fuel mass": {
-    "amount": 16.099999999999998,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 16.099999999999998,
-    "maximum": 17.5,
-    "minimum": 14,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Lower medium",
-      "Medium"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2040
-  },
-  "246-2017-fuel mass": {
-    "amount": 28,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 28,
-    "maximum": 30,
-    "minimum": 25,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2017
-  },
-  "247-2040-fuel mass": {
-    "amount": 19.599999999999998,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 19.599999999999998,
-    "maximum": 21,
-    "minimum": 17.5,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2040
-  },
-  "248-2017-fuel mass": {
-    "amount": 13,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 13,
-    "maximum": 15,
-    "minimum": 10,
-    "name": "fuel mass",
-    "powertrain": [
-      "HEV-p",
-      "HEV-d",
-      "PHEV-c-p",
-      "PHEV-c-d"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2017
-  },
-  "249-2040-fuel mass": {
-    "amount": 9.1,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 9.1,
-    "maximum": 10.5,
-    "minimum": 7,
-    "name": "fuel mass",
-    "powertrain": [
-      "HEV-p",
-      "HEV-d",
-      "PHEV-c-p",
-      "PHEV-c-d"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2040
-  },
+
+
   "25-2040-power to mass ratio": {
     "amount": 65,
     "category": "Glider",
@@ -4785,222 +5574,8 @@
     "unit": "W/kg",
     "year": 2040
   },
-  "250-2017-fuel mass": {
-    "amount": 23,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 23,
-    "maximum": 25,
-    "minimum": 20,
-    "name": "fuel mass",
-    "powertrain": [
-      "HEV-p",
-      "HEV-d",
-      "PHEV-c-p",
-      "PHEV-c-d"
-    ],
-    "sizes": [
-      "Lower medium",
-      "Medium"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2017
-  },
-  "251-2040-fuel mass": {
-    "amount": 16.099999999999998,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 16.099999999999998,
-    "maximum": 17.5,
-    "minimum": 14,
-    "name": "fuel mass",
-    "powertrain": [
-      "HEV-p",
-      "HEV-d",
-      "PHEV-c-p",
-      "PHEV-c-d"
-    ],
-    "sizes": [
-      "Lower medium",
-      "Medium"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2040
-  },
-  "252-2017-fuel mass": {
-    "amount": 28,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 28,
-    "maximum": 30,
-    "minimum": 25,
-    "name": "fuel mass",
-    "powertrain": [
-      "HEV-p",
-      "HEV-d",
-      "PHEV-c-p",
-      "PHEV-c-d"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2017
-  },
-  "253-2040-fuel mass": {
-    "amount": 19.599999999999998,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 19.599999999999998,
-    "maximum": 21,
-    "minimum": 17.5,
-    "name": "fuel mass",
-    "powertrain": [
-      "HEV-p",
-      "HEV-d",
-      "PHEV-c-p",
-      "PHEV-c-d"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2040
-  },
-  "254-2017-fuel mass": {
-    "amount": 4,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 4,
-    "maximum": 5,
-    "minimum": 3,
-    "name": "fuel mass",
-    "powertrain": [
-      "FCEV"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2017
-  },
-  "255-2040-fuel mass": {
-    "amount": 3.2,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 3.2,
-    "maximum": 4,
-    "minimum": 2.4000000000000004,
-    "name": "fuel mass",
-    "powertrain": [
-      "FCEV"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2040
-  },
-  "256-2017-fuel mass": {
-    "amount": 5,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 5,
-    "maximum": 6,
-    "minimum": 4,
-    "name": "fuel mass",
-    "powertrain": [
-      "FCEV"
-    ],
-    "sizes": [
-      "Lower medium",
-      "Medium"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2017
-  },
-  "257-2040-fuel mass": {
-    "amount": 4,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 4,
-    "maximum": 4.800000000000001,
-    "minimum": 3.2,
-    "name": "fuel mass",
-    "powertrain": [
-      "FCEV"
-    ],
-    "sizes": [
-      "Lower medium",
-      "Medium"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2040
-  },
-  "258-2017-fuel mass": {
-    "amount": 6,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 6,
-    "maximum": 7,
-    "minimum": 5,
-    "name": "fuel mass",
-    "powertrain": [
-      "FCEV"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2017
-  },
-  "259-2040-fuel mass": {
-    "amount": 4.800000000000001,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 4.800000000000001,
-    "maximum": 5.6000000000000005,
-    "minimum": 4,
-    "name": "fuel mass",
-    "powertrain": [
-      "FCEV"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2040
-  },
+
+
   "26-2017-power to mass ratio": {
     "amount": 70,
     "category": "Glider",
@@ -11711,107 +12286,748 @@
     "unit": "kg",
     "year": 2010
   },
-  "230-2010-fuel mass": {
-    "amount": 18,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 18,
-    "maximum": 20,
-    "minimum": 15,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-p"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "232-2010-fuel mass": {
-    "amount": 28,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 28,
-    "maximum": 30,
-    "minimum": 25,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-p"
-    ],
-    "sizes": [
-      "Lower medium",
-      "Medium"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "234-2010-fuel mass": {
-    "amount": 33,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 33,
-    "maximum": 35,
-    "minimum": 30,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-p"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "236-2010-fuel mass": {
-    "amount": 18,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 18,
-    "maximum": 20,
-    "minimum": 15,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "238-2010-fuel mass": {
-    "amount": 28,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 28,
-    "maximum": 30,
-    "minimum": 25,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Lower medium",
-      "Medium"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
+  "240-2010-fuel mass-ICEVp-Mini":{
+      "amount":32.5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":32.5,
+      "maximum":35,
+      "minimum":30,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-p"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVd-Mini":{
+      "amount":30,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":30,
+      "maximum":33,
+      "minimum":27,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVp-Small":{
+      "amount":38,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":38,
+      "maximum":40,
+      "minimum":35,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-p"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVd-Small":{
+      "amount":36,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":36,
+      "maximum":39,
+      "minimum":33,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVp-Lower-medium":{
+      "amount":51,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":51,
+      "maximum":53,
+      "minimum":48,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-p"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVd-Lower-medium":{
+      "amount":45,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":45,
+      "maximum":48,
+      "minimum":43,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVpd-Medium":{
+      "amount":55,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":55,
+      "maximum":60,
+      "minimum":50,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d", "ICEV-p"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVp-Large":{
+      "amount":61,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":61,
+      "maximum":63,
+      "minimum":58,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-p"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVd-Large":{
+      "amount":55,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":55,
+      "maximum":60,
+      "minimum":50,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVpd-Van":{
+      "amount":50,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":50,
+      "maximum":55,
+      "minimum":45,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d", "ICEV-p"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVpd-SUV":{
+      "amount":55,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":55,
+      "maximum":60,
+      "minimum":50,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d", "ICEV-p"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+
+  "240-2010-fuel mass-HEVpd-Mini":{
+      "amount":18,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":18,
+      "maximum":20,
+      "minimum":16,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-HEVpd-Small":{
+      "amount":22,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":22,
+      "maximum":24,
+      "minimum":20,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-HEVpd-Lower-medium":{
+      "amount":28,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":28,
+      "maximum":30,
+      "minimum":25,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-HEVpd-Medium":{
+      "amount":32,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":32,
+      "maximum":34,
+      "minimum":30,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-HEVpd-Large":{
+      "amount":35,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":35,
+      "maximum":37,
+      "minimum":33,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-HEVpd-Van":{
+      "amount":28,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":28,
+      "maximum":30,
+      "minimum":26,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-HEVpd-SUV":{
+      "amount":32,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":32,
+      "maximum":34,
+      "minimum":30,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-PHEVpd-Mini":{
+      "amount":24,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":24,
+      "maximum":26,
+      "minimum":22,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-PHEVpd-Small":{
+      "amount":28,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":28,
+      "maximum":30,
+      "minimum":26,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-PHEVpd-Lower-medium":{
+      "amount":38,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":38,
+      "maximum":40,
+      "minimum":36,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-PHEVpd-Medium":{
+      "amount":42,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":42,
+      "maximum":44,
+      "minimum":40,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-PHEVpd-Large":{
+      "amount":43,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":43,
+      "maximum":46,
+      "minimum":42,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-PHEVpd-Van":{
+      "amount":36,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":36,
+      "maximum":40,
+      "minimum":35,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-PHEVpd-SUV":{
+      "amount":42,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":42,
+      "maximum":45,
+      "minimum":40,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVg-Mini":{
+      "amount":14,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":14,
+      "maximum":16,
+      "minimum":12,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVg-Small":{
+      "amount":17,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":17,
+      "maximum":19,
+      "minimum":15,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVg-Lower-medium":{
+      "amount":20,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":20,
+      "maximum":22,
+      "minimum":18,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVg-Medium":{
+      "amount":22,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":22,
+      "maximum":24,
+      "minimum":20,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVg-Large":{
+      "amount":31,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":31,
+      "maximum":33,
+      "minimum":29,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVg-Van":{
+      "amount":28,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":28,
+      "maximum":30,
+      "minimum":26,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-ICEVg-SUV":{
+      "amount":32,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":32,
+      "maximum":34,
+      "minimum":30,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-FCEV-Mini":{
+      "amount":4,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":4,
+      "maximum":4.5,
+      "minimum":3.5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-FCEV-Small":{
+      "amount":4.2,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":4.2,
+      "maximum":4.5,
+      "minimum":4,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-FCEV-Lower-medium":{
+      "amount":4.5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":4.5,
+      "maximum":5,
+      "minimum":4,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-FCEV-Medium":{
+      "amount":5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":5,
+      "maximum":6,
+      "minimum":4,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-FCEV-Large":{
+      "amount":6,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":6,
+      "maximum":7,
+      "minimum":5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-FCEV-Van":{
+      "amount":6,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":6,
+      "maximum":7,
+      "minimum":5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
+  "240-2010-fuel mass-FCEV-SUV":{
+      "amount":6,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":6,
+      "maximum":7,
+      "minimum":5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2010
+   },
   "24-2010-power to mass ratio": {
     "amount": 65,
     "category": "Glider",
@@ -11838,219 +13054,6 @@
     "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
     "uncertainty_type": 5,
     "unit": "W/kg",
-    "year": 2010
-  },
-  "240-2010-fuel mass": {
-    "amount": 33,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 33,
-    "maximum": 35,
-    "minimum": 30,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-d"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "242-2010-fuel mass": {
-    "amount": 13,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 13,
-    "maximum": 15,
-    "minimum": 10,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "244-2010-fuel mass": {
-    "amount": 23,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 23,
-    "maximum": 25,
-    "minimum": 20,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Lower medium",
-      "Medium"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "246-2010-fuel mass": {
-    "amount": 28,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 28,
-    "maximum": 30,
-    "minimum": 25,
-    "name": "fuel mass",
-    "powertrain": [
-      "ICEV-g"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "248-2010-fuel mass": {
-    "amount": 13,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 13,
-    "maximum": 15,
-    "minimum": 10,
-    "name": "fuel mass",
-    "powertrain": [
-      "HEV-p",
-      "HEV-d",
-      "PHEV-c-p",
-      "PHEV-c-d"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "250-2010-fuel mass": {
-    "amount": 23,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 23,
-    "maximum": 25,
-    "minimum": 20,
-    "name": "fuel mass",
-    "powertrain": [
-      "HEV-p",
-      "HEV-d",
-      "PHEV-c-p",
-      "PHEV-c-d"
-    ],
-    "sizes": [
-      "Lower medium",
-      "Medium"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "252-2010-fuel mass": {
-    "amount": 28,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 28,
-    "maximum": 30,
-    "minimum": 25,
-    "name": "fuel mass",
-    "powertrain": [
-      "HEV-p",
-      "HEV-d",
-      "PHEV-c-p",
-      "PHEV-c-d"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "254-2010-fuel mass": {
-    "amount": 4,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 4,
-    "maximum": 5,
-    "minimum": 3,
-    "name": "fuel mass",
-    "powertrain": [
-      "FCEV"
-    ],
-    "sizes": [
-      "Mini",
-      "Small"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "256-2010-fuel mass": {
-    "amount": 5,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 5,
-    "maximum": 6,
-    "minimum": 4,
-    "name": "fuel mass",
-    "powertrain": [
-      "FCEV"
-    ],
-    "sizes": [
-      "Lower medium",
-      "Medium"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
-    "year": 2010
-  },
-  "258-2010-fuel mass": {
-    "amount": 6,
-    "category": "Energy Storage",
-    "kind": "distribution",
-    "loc": 6,
-    "maximum": 7,
-    "minimum": 5,
-    "name": "fuel mass",
-    "powertrain": [
-      "FCEV"
-    ],
-    "sizes": [
-      "Large",
-      "Van",
-      "SUV"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": "kg",
     "year": 2010
   },
   "26-2010-power to mass ratio": {
@@ -16491,107 +17494,6 @@
       "unit":"kg",
       "year":2000
    },
-   "230-2000-fuel mass":{
-      "amount":18,
-      "category":"Energy Storage",
-      "kind":"distribution",
-      "loc":18,
-      "maximum":20,
-      "minimum":15,
-      "name":"fuel mass",
-      "powertrain":[
-         "ICEV-p"
-      ],
-      "sizes":[
-         "Mini",
-         "Small"
-      ],
-      "source":"Own assumption, Calibration result",
-      "uncertainty_type":5,
-      "unit":"kg",
-      "year":2000
-   },
-   "232-2000-fuel mass":{
-      "amount":28,
-      "category":"Energy Storage",
-      "kind":"distribution",
-      "loc":28,
-      "maximum":30,
-      "minimum":25,
-      "name":"fuel mass",
-      "powertrain":[
-         "ICEV-p"
-      ],
-      "sizes":[
-         "Lower medium",
-         "Medium"
-      ],
-      "source":"Own assumption, Calibration result",
-      "uncertainty_type":5,
-      "unit":"kg",
-      "year":2000
-   },
-   "234-2000-fuel mass":{
-      "amount":33,
-      "category":"Energy Storage",
-      "kind":"distribution",
-      "loc":33,
-      "maximum":35,
-      "minimum":30,
-      "name":"fuel mass",
-      "powertrain":[
-         "ICEV-p"
-      ],
-      "sizes":[
-         "Large",
-         "Van",
-         "SUV"
-      ],
-      "source":"Own assumption, Calibration result",
-      "uncertainty_type":5,
-      "unit":"kg",
-      "year":2000
-   },
-   "236-2000-fuel mass":{
-      "amount":18,
-      "category":"Energy Storage",
-      "kind":"distribution",
-      "loc":18,
-      "maximum":20,
-      "minimum":15,
-      "name":"fuel mass",
-      "powertrain":[
-         "ICEV-d"
-      ],
-      "sizes":[
-         "Mini",
-         "Small"
-      ],
-      "source":"Own assumption, Calibration result",
-      "uncertainty_type":5,
-      "unit":"kg",
-      "year":2000
-   },
-   "238-2000-fuel mass":{
-      "amount":28,
-      "category":"Energy Storage",
-      "kind":"distribution",
-      "loc":28,
-      "maximum":30,
-      "minimum":25,
-      "name":"fuel mass",
-      "powertrain":[
-         "ICEV-d"
-      ],
-      "sizes":[
-         "Lower medium",
-         "Medium"
-      ],
-      "source":"Own assumption, Calibration result",
-      "uncertainty_type":5,
-      "unit":"kg",
-      "year":2000
-   },
    "24-2000-power to mass ratio":{
       "amount":65,
       "category":"Glider",
@@ -16620,40 +17522,56 @@
       "unit":"W/kg",
       "year":2000
    },
-   "240-2000-fuel mass":{
-      "amount":33,
+   "240-2000-fuel mass-ICEVpd-Mini":{
+      "amount":34,
       "category":"Energy Storage",
       "kind":"distribution",
-      "loc":33,
-      "maximum":35,
-      "minimum":30,
+      "loc":34,
+      "maximum":36,
+      "minimum":32,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d", "ICEV-p"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVp-Small":{
+      "amount":46,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":46,
+      "maximum":50,
+      "minimum":40,
+      "name":"fuel mass",
+      "powertrain":[
+      "ICEV-p"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVd-Small":{
+      "amount":42,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":42,
+      "maximum":44,
+      "minimum":38,
       "name":"fuel mass",
       "powertrain":[
          "ICEV-d"
       ],
       "sizes":[
-         "Large",
-         "Van",
-         "SUV"
-      ],
-      "source":"Own assumption, Calibration result",
-      "uncertainty_type":5,
-      "unit":"kg",
-      "year":2000
-   },
-   "242-2000-fuel mass":{
-      "amount":13,
-      "category":"Energy Storage",
-      "kind":"distribution",
-      "loc":13,
-      "maximum":15,
-      "minimum":10,
-      "name":"fuel mass",
-      "powertrain":[
-         "ICEV-g"
-      ],
-      "sizes":[
-         "Mini",
          "Small"
       ],
       "source":"Own assumption, Calibration result",
@@ -16661,19 +17579,56 @@
       "unit":"kg",
       "year":2000
    },
-   "244-2000-fuel mass":{
-      "amount":23,
+  "240-2000-fuel mass-ICEVp-Lower-medium":{
+      "amount":60,
       "category":"Energy Storage",
       "kind":"distribution",
-      "loc":23,
-      "maximum":25,
-      "minimum":20,
+      "loc":60,
+      "maximum":65,
+      "minimum":55,
       "name":"fuel mass",
       "powertrain":[
-         "ICEV-g"
+       "ICEV-p"
       ],
       "sizes":[
-         "Lower medium",
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVd-Lower-medium":{
+      "amount":52,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":52,
+      "maximum":54,
+      "minimum":46,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVd-Medium":{
+      "amount":60,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":60,
+      "maximum":64,
+      "minimum":56,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d"
+      ],
+      "sizes":[
          "Medium"
       ],
       "source":"Own assumption, Calibration result",
@@ -16681,20 +17636,94 @@
       "unit":"kg",
       "year":2000
    },
-   "246-2000-fuel mass":{
-      "amount":28,
+  "240-2000-fuel mass-ICEVp-Medium":{
+      "amount":70,
       "category":"Energy Storage",
       "kind":"distribution",
-      "loc":28,
-      "maximum":30,
-      "minimum":25,
+      "loc":60,
+      "maximum":75,
+      "minimum":65,
       "name":"fuel mass",
       "powertrain":[
-         "ICEV-g"
+        "ICEV-p"
       ],
       "sizes":[
-         "Large",
-         "Van",
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVd-Large":{
+      "amount":64,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":64,
+      "maximum":68,
+      "minimum":62,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVp-Large":{
+      "amount":72,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":72,
+      "maximum":75,
+      "minimum":65,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-p"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVpd-Van":{
+      "amount":60,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":60,
+      "maximum":64,
+      "minimum":56,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d", "ICEV-p"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVd-SUV":{
+      "amount":62,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":62,
+      "maximum":64,
+      "minimum":56,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-d"
+      ],
+      "sizes":[
          "SUV"
       ],
       "source":"Own assumption, Calibration result",
@@ -16702,22 +17731,57 @@
       "unit":"kg",
       "year":2000
    },
-   "248-2000-fuel mass":{
-      "amount":13,
+  "240-2000-fuel mass-ICEVp-SUV":{
+      "amount":70,
       "category":"Energy Storage",
       "kind":"distribution",
-      "loc":13,
-      "maximum":15,
-      "minimum":10,
+      "loc":70,
+      "maximum":75,
+      "minimum":65,
       "name":"fuel mass",
       "powertrain":[
-         "HEV-p",
-         "HEV-d",
-         "PHEV-c-p",
-         "PHEV-c-d"
+       "ICEV-p"
       ],
       "sizes":[
-         "Mini",
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+
+  "240-2000-fuel mass-HEVpd-Mini":{
+      "amount":22,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":22,
+      "maximum":24,
+      "minimum":18,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-HEVpd-Small":{
+      "amount":26,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":26,
+      "maximum":28,
+      "minimum":24,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
          "Small"
       ],
       "source":"Own assumption, Calibration result",
@@ -16725,22 +17789,37 @@
       "unit":"kg",
       "year":2000
    },
-   "250-2000-fuel mass":{
-      "amount":23,
+  "240-2000-fuel mass-HEVpd-Lower-medium":{
+      "amount":31,
       "category":"Energy Storage",
       "kind":"distribution",
-      "loc":23,
-      "maximum":25,
-      "minimum":20,
+      "loc":31,
+      "maximum":34,
+      "minimum":28,
       "name":"fuel mass",
       "powertrain":[
-         "HEV-p",
-         "HEV-d",
-         "PHEV-c-p",
-         "PHEV-c-d"
+         "HEV-d", "HEV-p"
       ],
       "sizes":[
-         "Lower medium",
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-HEVpd-Medium":{
+      "amount":37,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":37,
+      "maximum":40,
+      "minimum":35,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
          "Medium"
       ],
       "source":"Own assumption, Calibration result",
@@ -16748,23 +17827,56 @@
       "unit":"kg",
       "year":2000
    },
-   "252-2000-fuel mass":{
-      "amount":28,
+  "240-2000-fuel mass-HEVpd-Large":{
+      "amount":40,
       "category":"Energy Storage",
       "kind":"distribution",
-      "loc":28,
-      "maximum":30,
-      "minimum":25,
+      "loc":40,
+      "maximum":43,
+      "minimum":37,
       "name":"fuel mass",
       "powertrain":[
-         "HEV-p",
-         "HEV-d",
-         "PHEV-c-p",
-         "PHEV-c-d"
+         "HEV-d", "HEV-p"
       ],
       "sizes":[
-         "Large",
-         "Van",
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-HEVpd-Van":{
+      "amount":32,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":32,
+      "maximum":34,
+      "minimum":30,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-HEVpd-SUV":{
+      "amount":39,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":39,
+      "maximum":41,
+      "minimum":37,
+      "name":"fuel mass",
+      "powertrain":[
+         "HEV-d", "HEV-p"
+      ],
+      "sizes":[
          "SUV"
       ],
       "source":"Own assumption, Calibration result",
@@ -16772,19 +17884,303 @@
       "unit":"kg",
       "year":2000
    },
-   "254-2000-fuel mass":{
+  "240-2000-fuel mass-PHEVpd-Mini":{
+      "amount":27,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":27,
+      "maximum":30,
+      "minimum":25,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-PHEVpd-Small":{
+      "amount":32,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":32,
+      "maximum":34,
+      "minimum":30,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-PHEVpd-Lower-medium":{
+      "amount":44,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":44,
+      "maximum":46,
+      "minimum":42,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-PHEVpd-Medium":{
+      "amount":48,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":48,
+      "maximum":50,
+      "minimum":46,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-PHEVpd-Large":{
+      "amount":48,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":48,
+      "maximum":50,
+      "minimum":46,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-PHEVpd-Van":{
+      "amount":41,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":41,
+      "maximum":45,
+      "minimum":38,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-PHEVpd-SUV":{
+      "amount":48,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":48,
+      "maximum":50,
+      "minimum":46,
+      "name":"fuel mass",
+      "powertrain":[
+         "PHEV-c-d", "PHEV-c-p"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVg-Mini":{
+      "amount":17,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":17,
+      "maximum":19,
+      "minimum":15,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVg-Small":{
+      "amount":20,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":20,
+      "maximum":22,
+      "minimum":18,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Small"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVg-Lower-medium":{
+      "amount":23,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":23,
+      "maximum":26,
+      "minimum":20,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVg-Medium":{
+      "amount":25,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":25,
+      "maximum":27,
+      "minimum":23,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVg-Large":{
+      "amount":35,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":35,
+      "maximum":37,
+      "minimum":33,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVg-Van":{
+      "amount":34,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":34,
+      "maximum":37,
+      "minimum":31,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-ICEVg-SUV":{
+      "amount":36,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":36,
+      "maximum":39,
+      "minimum":33,
+      "name":"fuel mass",
+      "powertrain":[
+         "ICEV-g"
+      ],
+      "sizes":[
+         "SUV"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-FCEV-Mini":{
       "amount":4,
       "category":"Energy Storage",
       "kind":"distribution",
       "loc":4,
-      "maximum":5,
-      "minimum":3,
+      "maximum":4.5,
+      "minimum":3.5,
       "name":"fuel mass",
       "powertrain":[
          "FCEV"
       ],
       "sizes":[
-         "Mini",
+         "Mini"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-FCEV-Small":{
+      "amount":4.2,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":4.2,
+      "maximum":4.5,
+      "minimum":4,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
          "Small"
       ],
       "source":"Own assumption, Calibration result",
@@ -16792,7 +18188,26 @@
       "unit":"kg",
       "year":2000
    },
-   "256-2000-fuel mass":{
+  "240-2000-fuel mass-FCEV-Lower-medium":{
+      "amount":4.5,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":4.5,
+      "maximum":5,
+      "minimum":4,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Lower medium"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-FCEV-Medium":{
       "amount":5,
       "category":"Energy Storage",
       "kind":"distribution",
@@ -16804,7 +18219,6 @@
          "FCEV"
       ],
       "sizes":[
-         "Lower medium",
          "Medium"
       ],
       "source":"Own assumption, Calibration result",
@@ -16812,7 +18226,7 @@
       "unit":"kg",
       "year":2000
    },
-   "258-2000-fuel mass":{
+  "240-2000-fuel mass-FCEV-Large":{
       "amount":6,
       "category":"Energy Storage",
       "kind":"distribution",
@@ -16824,8 +18238,44 @@
          "FCEV"
       ],
       "sizes":[
-         "Large",
-         "Van",
+         "Large"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-FCEV-Van":{
+      "amount":6,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":6,
+      "maximum":7,
+      "minimum":5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
+         "Van"
+      ],
+      "source":"Own assumption, Calibration result",
+      "uncertainty_type":5,
+      "unit":"kg",
+      "year":2000
+   },
+  "240-2000-fuel mass-FCEV-SUV":{
+      "amount":6,
+      "category":"Energy Storage",
+      "kind":"distribution",
+      "loc":6,
+      "maximum":7,
+      "minimum":5,
+      "name":"fuel mass",
+      "powertrain":[
+         "FCEV"
+      ],
+      "sizes":[
          "SUV"
       ],
       "source":"Own assumption, Calibration result",
@@ -16833,6 +18283,7 @@
       "unit":"kg",
       "year":2000
    },
+
    "26-2000-power to mass ratio":{
       "amount":70,
       "category":"Glider",
