@@ -2908,6 +2908,152 @@ class InventoryCalculation:
                     * -1
                 ).T
 
+                # Heavy metals emissions from conventional diesel
+                # Emission factors from Spielmann et al., Transport Services Data v.2 (2007)
+                # Cadmium, 0.01 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[("Cadmium", ("air","urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 1e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Copper, 1.7 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[("Copper", ("air","urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 1.7e-6
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Chromium, 0.05 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[("Chromium", ("air","urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 5.0e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Nickel, 0.07 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[("Nickel", ("air","urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 7.0e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Selenium, 0.01 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[("Selenium", ("air","urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 1.0e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Zinc, 1 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[("Zinc", ("air","urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 1.0e-6
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Lead, 1.1e-7 mg/kg diesel
+                # self.A[
+                #     :,
+                #     self.inputs[("Lead", ("air", "urban air close to ground"), "kilogram")],
+                #     ind_A,
+                # ] = (
+                #     (
+                #          (
+                #             array[self.array_inputs["fuel mass"], :, ind_array]
+                #             * share
+                #         ) * 1.1e-13
+                #     )
+                #     / array[self.array_inputs["range"], :, ind_array]
+                #     * -1
+                # ).T
+
+                # Mercury, 0.00002 mg/kg diesel
+                # self.A[
+                #     :,
+                #     self.inputs[("Mercury", ("air", "urban air close to ground"), "kilogram")],
+                #     ind_A,
+                # ] = (
+                #     (
+                #          (
+                #             array[self.array_inputs["fuel mass"], :, ind_array]
+                #             * share
+                #         ) * 2.0e-11
+                #     )
+                #     / array[self.array_inputs["range"], :, ind_array]
+                #     * -1
+                # ).T
+
+                # Chromium VI, 0.0001 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[("Chromium VI", ("air", "urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 1.0e-10
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
         if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV-p"]]:
             index = self.get_index_vehicle_from_array(["ICEV-p", "HEV-p", "PHEV-p"])
 
@@ -2968,7 +3114,7 @@ class InventoryCalculation:
                     * -1
                 ).T
 
-                # Fuel-based emissions from conventional petrol, CO2
+                # Fuel-based CO2 emission from conventional petrol
                 if self.fuel_blends["petrol"]["primary"]["type"] == "petrol":
                     share = self.fuel_blends["petrol"]["primary"]["share"][
                         self.scope["year"].index(y)
@@ -2991,6 +3137,151 @@ class InventoryCalculation:
                             array[self.array_inputs["fuel mass"], :, ind_array]
                             * share
                         )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Heavy metals emissions from conventional petrol
+                # Cadmium, 0.01 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[("Cadmium", ("air","urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 1e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Copper, 1.7 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[("Copper", ("air","urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 1.7e-6
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Chromium, 0.05 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[("Chromium", ("air","urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 5.0e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Nickel, 0.07 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[("Nickel", ("air","urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 7.0e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Selenium, 0.01 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[("Selenium", ("air","urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 1.0e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Zinc, 1 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[("Zinc", ("air","urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 1.0e-6
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Lead, 0.002 mg/kg gasoline
+                # self.A[
+                #     :,
+                #     self.inputs[("Lead", ("air", "urban air close to ground"), "kilogram")],
+                #     ind_A,
+                # ] = (
+                #     (
+                #          (
+                #             array[self.array_inputs["fuel mass"], :, ind_array]
+                #             * share
+                #         ) * 2.0e-9
+                #     )
+                #     / array[self.array_inputs["range"], :, ind_array]
+                #     * -1
+                # ).T
+
+                # Mercury, 0.00007 mg/kg gasoline
+                # self.A[
+                #     :,
+                #     self.inputs[("Mercury", ("air", "urban air close to ground"), "kilogram")],
+                #     ind_A,
+                # ] = (
+                #     (
+                #          (
+                #             array[self.array_inputs["fuel mass"], :, ind_array]
+                #             * share
+                #         ) * 7.0e-11
+                #     )
+                #     / array[self.array_inputs["range"], :, ind_array]
+                #     * -1
+                # ).T
+
+                # Chromium VI, 0.0001 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[("Chromium VI", ("air", "urban air close to ground"), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                         (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share
+                        ) * 1.0e-10
                     )
                     / array[self.array_inputs["range"], :, ind_array]
                     * -1
@@ -3040,6 +3331,13 @@ class InventoryCalculation:
             self.inputs[("market for road", "GLO", "meter-year", "road")],
             -self.number_of_cars :,
         ] = (5.37e-7 * array[self.array_inputs["driving mass"], :] * -1)
+
+        # Infrastructure maintenance
+        self.A[
+            :,
+            self.inputs[("market for road maintenance", "RER", "meter-year", "road maintenance")],
+            -self.number_of_cars :,
+        ] = 1.29e-3 * -1
 
         # Exhaust emissions
         # Non-fuel based emissions
