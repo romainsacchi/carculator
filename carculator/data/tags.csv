@@ -17,6 +17,7 @@ Battery management system;energy storage
 Battery packaging;energy storage
 Battery retention;energy storage
 Battery tray;energy storage
+Benzene;direct
 Bimetallic busbars and washers;energy storage
 Biodiesel from algae;energy chain
 Biodiesel from cooking oil;energy chain
@@ -65,7 +66,7 @@ Disposal, hydrogen fuelling station;energy chain
 distribution network construction, electricity, low voltage;energy chain
 drawing of pipe, steel;energy storage
 drilling, deep borehole/m;energy chain
-electricity market for energy storage production;energy chain
+electricity market for energy storage production;energy storage
 electricity market for fuel preparation;energy chain
 electricity production, deep geothermal;energy chain
 electricity production, hard coal;energy chain
@@ -178,6 +179,10 @@ market group for diesel;energy chain
 market group for electricity, high voltage;energy chain
 market group for electricity, low voltage;energy chain
 market group for electricity, medium voltage;energy chain
+market for electric motor, electric passenger car;powertrain
+market for power distribution unit, for electric passenger car;energy storage
+market for internal combustion engine, passenger car;powertrain
+market for converter, for electric passenger car;energy storage
 MEA hot pressing;energy storage
 Membrane;energy storage
 Mercury;direct
@@ -244,6 +249,7 @@ Refined Waste Cooking Oil {RER} | Refining of waste cooking oil Europe | Alloc R
 RWGS tank construction;energy chain
 Sabatier reaction methanation unit;energy chain
 Selective coating, sputtering;energy storage
+Selenium;direct
 Separator;energy storage
 Separator, LFP;energy storage
 Separator, NCA;energy storage
