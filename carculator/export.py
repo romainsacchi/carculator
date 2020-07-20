@@ -116,7 +116,6 @@ class ExportInventory:
             ),
 
         }
-
         self.map_ecoinvent_remind= {
             (
                 "biogas upgrading - sewage sludge - amine scrubbing - best",
@@ -131,8 +130,13 @@ class ExportInventory:
             ),
 
         }
-
         self.map_36_to_35 = {
+            ("market for water, completely softened", "RER", "kilogram", "water, completely softened"): (
+                "market for water, completely softened, from decarbonised water, at user",
+                "GLO",
+                "kilogram",
+                "water, completely softened, from decarbonised water, at user",
+            ),
             ("market for nylon 6", "RoW", "kilogram", "nylon 6"): (
                 "market for nylon 6",
                 "GLO",
@@ -206,6 +210,12 @@ class ExportInventory:
                 "kilogram",
                 "water, deionised, from tap water, at user",
             ),
+            ("water production, deionised", "Europe without Switzerland", "kilogram", "water, deionised"): (
+                "market for water, deionised, from tap water, at user",
+                "CH",
+                "kilogram",
+                "water, deionised, from tap water, at user",
+            ),
             (
                 "market for styrene butadiene rubber (SBR)",
                 "RER",
@@ -246,15 +256,49 @@ class ExportInventory:
                 "kilogram",
                 "water, ultrapure",
             ),
+            ("market for water, ultrapure", "RER", "kilogram", "water, ultrapure"): (
+                "market for water, ultrapure",
+                "GLO",
+                "kilogram",
+                "water, ultrapure",
+            ),
             ("market for concrete block", "DE", "kilogram", "concrete block"): (
                 "market for concrete block",
                 "GLO",
                 "kilogram",
                 "concrete block",
             ),
+            ("market for road maintenance", "RER", "meter-year", "road maintenance"): (
+                "market for road maintenance",
+                "GLO",
+                "meter-year",
+                "road maintenance",
+            ),
         }
-
         self.map_36_to_uvek = self.load_mapping_36_to_uvek()
+        self.tags = self.load_tags()
+
+    def load_tags(self):
+        """Loads dictionary of tags for further use in BW2"""
+
+        filename = "tags.csv"
+        filepath = DATA_DIR / filename
+        if not filepath.is_file():
+            raise FileNotFoundError(
+                "The dictionary of tags could not be found."
+            )
+        with open(filepath) as f:
+            csv_list = [
+                [val.strip() for val in r.split(";")] for r in f.readlines()
+            ]
+        data = csv_list
+
+        dict_tags = {}
+        for row in data:
+            name, tag = row
+            dict_tags[name] = tag
+
+        return dict_tags
 
     def load_mapping_36_to_uvek(self):
         """Load mapping dictionary between ecoinvent 3.6 and UVEK"""
@@ -278,7 +322,6 @@ class ExportInventory:
             dict_uvek[(name, ref_prod, unit, location)] = (uvek_name, uvek_ref_prod, uvek_unit, uvek_loc)
 
         return dict_uvek
-
 
     def write_lci(self, presamples, ecoinvent_compatibility, ecoinvent_version):
         """
@@ -484,6 +527,13 @@ class ExportInventory:
                     #    amount = np.median(self.array[:, row, col])
                     #    uncertainty = self.best_fit_distribution(self.array[:, row, col] * -1)
 
+                # Look for a tag, if any
+                tag = [self.tags[t] for t in list(self.tags.keys()) if t in tuple_input[0]]
+                if len(tag)>0:
+                    tag = tag[0]
+                else:
+                    tag = "other"
+
                 # If reference product
                 if tuple_output == tuple_input:
                     list_exc.append(
@@ -498,6 +548,7 @@ class ExportInventory:
                         }
                     )
                     list_exc[-1].update(uncertainty)
+
                 # If not, if input is technosphere exchange
                 elif len(tuple_input) > 3:
                     list_exc.append(
@@ -509,9 +560,11 @@ class ExportInventory:
                             "type": "technosphere",
                             "location": tuple_input[1],
                             "reference product": tuple_input[3],
+                            "tag":tag
                         }
                     )
                     list_exc[-1].update(uncertainty)
+
                 # If not, then input is biosphere exchange
                 else:
                     list_exc.append(
@@ -522,10 +575,20 @@ class ExportInventory:
                             "unit": tuple_input[2],
                             "type": "biosphere",
                             "categories": tuple_input[1],
+                            "tag":tag
                         }
                     )
                     list_exc[-1].update(uncertainty)
+
             else:
+
+                # Look for a tag, if any
+                tag = [self.tags[t] for t in list(self.tags.keys()) if t in tuple_output[0]]
+                if len(tag)>0:
+                    tag = tag[0]
+                else:
+                    tag = "other"
+
                 list_act.append(
                     {
                         "production amount": 1,
@@ -537,6 +600,7 @@ class ExportInventory:
                         "reference product": tuple_output[3],
                         "type": "process",
                         "code": str(uuid.uuid1()),
+                        "tag":tag
                     }
                 )
         if presamples:
