@@ -179,7 +179,11 @@ class InventoryCalculation:
             year=self.scope["year"],
             size=self.scope["size"],
         )
+
+
+
         self.array = array.stack(desired=["size", "powertrain", "year"])
+
         self.iterations = len(array.value.values)
 
         self.number_of_cars = (
@@ -235,6 +239,7 @@ class InventoryCalculation:
         self.mix = self.define_electricity_mix_for_fuel_prep()
         self.fuel_blends = {}
         self.define_fuel_blends()
+        self.set_actual_range()
 
         self.index_cng = [self.inputs[i] for i in self.inputs if "ICEV-g" in i[0]]
         self.index_combustion_wo_cng = [
@@ -1858,11 +1863,77 @@ class InventoryCalculation:
 
         return (primary, secondary, primary_share, secondary_share)
 
+
+    def set_actual_range(self):
+        """
+        Set the actual range considering the blend.
+        Liquid bio-fuels typically have a lower calorific value. Hence, the need to recalculate
+        the vehicle range.
+        Modifies parameter `range` of `array` in place
+        :return:
+        """
+
+        if {"ICEV-p", "HEV-p", "PHEV-p"}.intersection(set(self.scope["powertrain"])):
+            for y in self.scope['year']:
+
+                share_primary = self.fuel_blends['petrol']['primary']['share'][self.scope['year'].index(y)]
+                lhv_primary = self.fuel_blends['petrol']['primary']['lhv']
+                share_secondary = self.fuel_blends['petrol']['secondary']['share'][self.scope['year'].index(y)]
+                lhv_secondary = self.fuel_blends['petrol']['secondary']['lhv']
+                index = self.get_index_vehicle_from_array(["ICEV-p", "HEV-p", "PHEV-p"], y, method='and')
+
+
+
+                self.array.values[self.array_inputs["range"], :, index] = ((
+                    self.array.values[self.array_inputs["fuel mass"], :, index] *
+                        share_primary * lhv_primary
+                )+
+                                (
+                                        self.array.values[self.array_inputs["fuel mass"], :, index] *
+                                        share_secondary * lhv_secondary
+                                )) * 1000 / self.array.values[self.array_inputs["TtW energy"], :, index]
+
+        if {"ICEV-d", "HEV-d", "PHEV-d"}.intersection(set(self.scope["powertrain"])):
+            for y in self.scope['year']:
+                share_primary = self.fuel_blends['diesel']['primary']['share'][self.scope['year'].index(y)]
+                lhv_primary = self.fuel_blends['diesel']['primary']['lhv']
+                share_secondary = self.fuel_blends['diesel']['secondary']['share'][self.scope['year'].index(y)]
+                lhv_secondary = self.fuel_blends['diesel']['secondary']['lhv']
+                index = self.get_index_vehicle_from_array(["ICEV-d", "PHEV-d", "HEV-d"], y, method='and')
+
+                self.array.values[self.array_inputs["range"], :, index] = ((
+                                                                                   self.array.values[
+                                                                                   self.array_inputs["fuel mass"], :,
+                                                                                   index] *
+                                                                                   share_primary * lhv_primary
+                                                                           ) +
+                                                                           (
+                                                                                   self.array.values[
+                                                                                   self.array_inputs["fuel mass"], :,
+                                                                                   index] *
+                                                                                   share_secondary * lhv_secondary
+                                                                           )) * 1000 / self.array.values[
+                                                                                self.array_inputs["TtW energy"], :,
+                                                                                index]
+
     def define_fuel_blends(self):
         """
         This function defines fuel blends from what is passed in `background_configuration`.
         :return:
         """
+
+        fuels_lhv = {
+            'petrol': 42.4,
+            'bioethanol - wheat straw': 26.8,
+            'bioethanol - maize starch': 26.8,
+            'bioethanol - sugarbeet': 26.8,
+            'bioethanol - forest residues': 26.8,
+            'synthetic gasoline': 42.4,
+            'diesel': 42.8,
+            'biodiesel - cooking oil': 31.7,
+            'biodiesel - algae': 31.7,
+            'synthetic diesel': 42.8,
+        }
 
         if {"ICEV-p", "HEV-p", "PHEV-p"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "petrol"
@@ -1871,8 +1942,8 @@ class InventoryCalculation:
                 fuel_type, primary, secondary, primary_share, secondary_share
             )
             self.fuel_blends[fuel_type] = {
-                "primary": {"type": primary, "share": primary_share},
-                "secondary": {"type": secondary, "share": secondary_share},
+                "primary": {"type": primary, "share": primary_share, 'lhv': fuels_lhv[primary]},
+                "secondary": {"type": secondary, "share": secondary_share, 'lhv': fuels_lhv[secondary]},
             }
 
         if {"ICEV-d", "HEV-d", "PHEV-d"}.intersection(set(self.scope["powertrain"])):
@@ -1882,8 +1953,8 @@ class InventoryCalculation:
                 fuel_type, primary, secondary, primary_share, secondary_share
             )
             self.fuel_blends[fuel_type] = {
-                "primary": {"type": primary, "share": primary_share},
-                "secondary": {"type": secondary, "share": secondary_share},
+                "primary": {"type": primary, "share": primary_share, 'lhv': fuels_lhv[primary]},
+                "secondary": {"type": secondary, "share": secondary_share, 'lhv': fuels_lhv[secondary]},
             }
 
         if {"ICEV-g"}.intersection(set(self.scope["powertrain"])):
