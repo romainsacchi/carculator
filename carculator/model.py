@@ -176,7 +176,7 @@ class CarModel:
         if n_iterations == 1:
             cost_factor = 1
         else:
-            if 'reference' in self.array.value.values:
+            if 'reference' in self.array.value.values.tolist():
                 cost_factor = np.ones((n_iterations, 1))
             else:
                 cost_factor = np.random.triangular(.7, 1, 1.3, (n_iterations, 1))

@@ -337,7 +337,7 @@ class ExportInventory:
         """
 
         # List of activities that are already part of the REMIND-ecoinvent database.
-        # They should not appear in the exported inventories, otherwise they will be duplicate
+        # They should not appear in the exported inventories, otherwise they will be duplicates
         activities_to_be_removed = [
             "algae cultivation | algae broth production",
             "algae harvesting| dry algae production",
@@ -410,6 +410,10 @@ class ExportInventory:
             "market for soda ash, light, crystalline, heptahydrate",
         ]
 
+        ei35_activities_to_remove = [
+            "latex production"
+        ]
+
         uvek_multiplication_factors = {
             "Steam, for chemical processes, at plant": 1/2.257, # 2.257 MJ/kg steam @ ambient pressure
             "Natural gas, from high pressure network (1-5 bar), at service station": 0.842,
@@ -461,12 +465,6 @@ class ExportInventory:
                         tuple_input, tuple_input
                     )
 
-                #if (ecoinvent_compatibility == False
-                #    and tuple_output[0].startswith("fuel supply")
-                #    and tuple_input[0].startswith("electricity market")):
-                #    continue
-
-
                 if ecoinvent_compatibility == True:
 
                     tuple_output = self.map_remind_ecoinvent.get(
@@ -480,6 +478,12 @@ class ExportInventory:
                         tuple_output = self.map_36_to_35.get(tuple_output, tuple_output)
                         tuple_input = self.map_36_to_35.get(tuple_input, tuple_input)
 
+                        if tuple_output[0] in ei35_activities_to_remove:
+                            continue
+
+                        if tuple_input[0] in ei35_activities_to_remove:
+                            continue
+
                     if ecoinvent_version == "uvek":
 
                         tuple_output = self.map_36_to_uvek.get(tuple_output, tuple_output)
@@ -489,7 +493,6 @@ class ExportInventory:
                         else:
                             tuple_input = self.map_36_to_uvek.get(tuple_input, tuple_input)
 
-                        #print(tuple_input[0])
                         if tuple_input[0] in uvek_multiplication_factors:
                             mult_factor = uvek_multiplication_factors[tuple_input[0]]
 
