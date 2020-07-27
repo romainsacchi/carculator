@@ -156,7 +156,7 @@ class InventoryCalculation:
     """
 
     def __init__(
-        self, array, scope=None, background_configuration=None, scenario="SSP2-Base"
+        self, array, scope=None, background_configuration=None, scenario="SSP2-Base", method="recipe"
     ):
 
         if scope is None:
@@ -624,6 +624,8 @@ class InventoryCalculation:
 
         self.list_cat, self.split_indices = self.get_split_indices()
 
+        self.method = method
+
         # Load the B matrix
         self.B = self.get_B_matrix()
 
@@ -638,12 +640,10 @@ class InventoryCalculation:
         """
         return self.temp_array.sel(parameter=key)
 
-    def get_results_table(self, method, level, split, sensitivity=False):
+    def get_results_table(self,  split, sensitivity=False):
         """
         Format an xarray.DataArray array to receive the results.
 
-        :param method: impact assessment method. Only "ReCiPe" method available at the moment.
-        :param level: "midpoint" or "endpoint" impact assessment level. Only "midpoint" available at the moment.
         :param split: "components" or "impact categories". Split by impact categories only applicable when "endpoint" level is applied.
         :return: xarrray.DataArray
         """
@@ -676,7 +676,7 @@ class InventoryCalculation:
                     )
                 ),
                 coords=[
-                    dict_impact_cat[method][level],
+                    dict_impact_cat[self.method]["midpoint"],
                     self.scope["size"],
                     self.scope["powertrain"],
                     self.scope["year"],
@@ -706,7 +706,7 @@ class InventoryCalculation:
                     )
                 ),
                 coords=[
-                    dict_impact_cat[method][level],
+                    dict_impact_cat[self.method]["midpoint"],
                     self.scope["size"],
                     self.scope["powertrain"],
                     self.scope["year"],
@@ -783,11 +783,11 @@ class InventoryCalculation:
         return list(d.keys()), list_ind
 
     def calculate_impacts(
-        self, method="recipe", level="midpoint", split="components", sensitivity=False
+        self, split="components", sensitivity=False
     ):
 
         # Prepare an array to store the results
-        results = self.get_results_table(method, level, split, sensitivity=sensitivity)
+        results = self.get_results_table(split, sensitivity=sensitivity)
 
         # Create electricity and fuel market datasets
         self.create_electricity_market_for_fuel_prep()
@@ -1027,18 +1027,23 @@ class InventoryCalculation:
         per unit of activity. Its length column-wise equals the length of the A matrix row-wise.
         Its length row-wise equals the number of impact assessment methods.
 
-        :param method: only "recipe" available at the moment.
+        :param method: only "recipe" and "ilcd" available at the moment.
         :param level: only "midpoint" available at the moment.
         :return: an array with impact values per unit of activity for each method.
         :rtype: numpy.ndarray
 
         """
 
-        list_file_names = glob.glob(
-            str(REMIND_FILES_DIR) + "/*{}*.csv".format(self.scenario)
-        )
-
-        B = np.zeros((len(list_file_names), 21, len(self.inputs)))
+        if self.method == "recipe":
+            list_file_names = glob.glob(
+                str(REMIND_FILES_DIR) + "/*recipe*{}*.csv".format(self.scenario)
+            )
+            B = np.zeros((len(list_file_names), 21, len(self.inputs)))
+        else:
+            list_file_names = glob.glob(
+                str(REMIND_FILES_DIR) + "/*ilcd*{}*.csv".format(self.scenario)
+            )
+            B = np.zeros((len(list_file_names), 19, len(self.inputs)))
 
         for f in list_file_names:
             initial_B = np.genfromtxt(f, delimiter=";")
@@ -1054,7 +1059,7 @@ class InventoryCalculation:
                 B,
                 coords=[
                     [2005, 2010, 2020, 2030, 2040, 2050],
-                    self.get_dict_impact_categories()["recipe"]["midpoint"],
+                    self.get_dict_impact_categories()[self.method]["midpoint"],
                     list(self.inputs.keys()),
                 ],
                 dims=["year", "category", "activity"],
@@ -1064,7 +1069,7 @@ class InventoryCalculation:
                 B,
                 coords=[
                     [2020],
-                    self.get_dict_impact_categories()["recipe"]["midpoint"],
+                    self.get_dict_impact_categories()[self.method]["midpoint"],
                     list(self.inputs.keys()),
                 ],
                 dims=["year", "category", "activity"],
@@ -1481,23 +1486,45 @@ class InventoryCalculation:
         for y in self.scope["year"]:
 
             if self.scenario == "static":
-                co2_intensity_tech = (
-                    self.B.sel(
-                        category="climate change",
-                        year=2020,
-                        activity=list(self.elec_map.values()),
-                    ).values
-                    * losses_to_low
-                ) * 1000
+                if self.method == "recipe":
+                    co2_intensity_tech = (
+                        self.B.sel(
+                            category="climate change",
+                            year=2020,
+                            activity=list(self.elec_map.values()),
+                        ).values
+                        * losses_to_low
+                    ) * 1000
+                else:
+                    co2_intensity_tech = (
+                        self.B.sel(
+                            category="climate change - climate change fossil",
+                            year=2020,
+                            activity=list(self.elec_map.values()),
+                        ).values
+                        * losses_to_low
+                    ) * 1000
+
             else:
-                co2_intensity_tech = (
-                    self.B.sel(
-                        category="climate change", activity=list(self.elec_map.values())
-                    )
-                    .interp(year=y, kwargs={"fill_value": "extrapolate"})
-                    .values
-                    * losses_to_low
-                ) * 1000
+                if self.method == "recipe":
+                    co2_intensity_tech = (
+                        self.B.sel(
+                            category="climate change", activity=list(self.elec_map.values())
+                        )
+                        .interp(year=y, kwargs={"fill_value": "extrapolate"})
+                        .values
+                        * losses_to_low
+                    ) * 1000
+                else:
+                    co2_intensity_tech = (
+                        self.B.sel(
+                            category="climate change - climate change fossil", activity=list(self.elec_map.values())
+                        )
+                        .interp(year=y, kwargs={"fill_value": "extrapolate"})
+                        .values
+                        * losses_to_low
+                    ) * 1000
+
 
             sum_renew = (
                 self.mix[self.scope["year"].index(y)][0]
