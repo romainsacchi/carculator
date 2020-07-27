@@ -4531,8 +4531,8 @@
     "category": "Energy Storage",
     "kind": "distribution",
     "loc": 30,
-    "maximum": 28,
-    "minimum": 32,
+    "maximum": 32,
+    "minimum": 28,
     "name": "fuel mass",
     "powertrain": [
       "HEV-p", "HEV-d"
@@ -4588,8 +4588,8 @@
     "category": "Energy Storage",
     "kind": "distribution",
     "loc": 13,
-    "maximum": 10,
-    "minimum": 15,
+    "maximum": 15,
+    "minimum": 10,
     "name": "fuel mass",
     "powertrain": [
       "ICEV-g"
@@ -5121,8 +5121,8 @@
       "category":"Energy Storage",
       "kind":"distribution",
       "loc":41,
-      "maximum":38,
-      "minimum":45,
+      "maximum":45,
+      "minimum":38,
       "name":"fuel mass",
       "powertrain":[
          "PHEV-c-d", "PHEV-c-p"
@@ -17640,7 +17640,7 @@
       "amount":70,
       "category":"Energy Storage",
       "kind":"distribution",
-      "loc":60,
+      "loc":70,
       "maximum":75,
       "minimum":65,
       "name":"fuel mass",
