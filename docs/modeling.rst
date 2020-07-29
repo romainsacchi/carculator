@@ -429,9 +429,9 @@ In the case of battery electric vehicles and hybrid vehicles, things are similar
 
 The following lower heating values (LHV) for the liquid and gaseous fuels, in Mj/kg, are used:
 
-* gasoline: 42.4
-* diesel: 48
-* compressed gas: 55.5
+* conventional gasoline: 42.4
+* conventioanl diesel: 42.8
+* compressed natural gas: 55.5
 * hydrogen: 120
 
 Those can be changed by modifying the value of the ``LHV fuel MJ per kg`` in ``array`` before passing it to ``CarModel``.
@@ -444,6 +444,7 @@ For example, we can decrease the LHV of diesel::
                                                                                         (2040, 'loc'): 44
                                                                                         }
     modify_xarray_from_custom_parameters(dict_param, array)
+
 
 How can I override the tank-to-wheel efficiency?
 ------------------------------------------------
@@ -496,16 +497,76 @@ calculated ``TtW energy`` value (in kilojoules). Here is an example for a diesel
                   size="Medium")] = 2800
 
 
+Fuel blends
+***********
+
+The user can define fuel blends. The following fuel types are available, along with their lower heating value (in MJ/kg)
+and CO2 emission factor (kg CO2/kg fuel.
+
+Hydrogen technologies (LHV: 120 MJ/kg)
+......................................
+
+* 'electrolysis'
+* 'smr - natural gas'
+* 'smr - natural gas with CCS'
+* 'smr - biogas'
+* 'smr - biogas with CCS'
+* 'coal gasification'
+* 'wood gasification'
+* 'wood gasification with CCS'
+
+Natural gas technologies
+------------------------
+
+* 'cng' (55.5 MJ/kg, 2.65 kg CO2/kg CNG)
+* 'biogas' (55.5 MJ/kg, 2.65 kg CO2/kg CNG)
+* 'syngas' (55.5 MJ/kg, 2.65 kg CO2/kg CNG)
+
+Diesel technologies
+-------------------
+
+* 'diesel' (42.8 MJ/kg, 3.14 kg CO2/kg)
+* 'biodiesel - algae' (31.7 MJ/kg, 2.85 kg CO2/kg)
+* 'biodiesel - cooking oil' (31.7 MJ/kg, 2.85 kg CO2/kg)
+* 'synthetic diesel' (43.3 MJ/kg, 3.14 kg CO2/kg)
+
+Petrol technologies
+-------------------
+
+* 'petrol' (42.4 MJ/kg, 3.18 kg CO2/kg)
+* 'bioethanol - wheat straw' (26.8 MJ/kg, 1.91 kg CO2/kg)
+* 'bioethanol - maize starch' (26.8 MJ/kg, 1.91 kg CO2/kg)
+* 'bioethanol - sugarbeet' (26.8 MJ/kg, 1.91 kg CO2/kg)
+* 'bioethanol - forest residues' (26.8 MJ/kg, 1.91 kg CO2/kg)
+* 'synthetic gasoline' (19 MJ/kg, 1.6 kg CO2/kg)
+
+Once the fuel blend is defined, the range is calculated once again, now considering the new energy amount stored in the tank.
+Therefore, a car solely running on bio-ethanol will have a reduced range, increasing the fuel consumption and emissions
+related to the growing of crops and supply of fuel. The tailpipe CO2 emissions may not necessarily increase as biofuels
+have generally lower CO2 emission factors.
+
+It is important to note that CO2 emissions of biogenic origin from biofuels are characterized with a similar Global Warming Potential factor
+as those for conventional fossil fuels. However, CO2 uptake is considered during biomass growth.
 
 Fuel-related direct emissions
 *****************************
 
-Only carbon dioxide emissions are calculated based on the fuel consumption:
+Carbon dioxide emissions from fuel combustion are calculated based on the fuel blend defined by the user (see above).
 
-    carbon dioxide emission [kg/km] = ``CO2 per kg fuel`` [kg/kg] x ``fuel mass`` [kg] x share_fossil_co2 / ``range`` [km]
+    carbon dioxide emission [kg/km] = CO2_fuel x ``fuel mass`` [kg] x share_fuel / ``range`` [km]
 
-`share_fossil_co2` is the share of the CO2 resulting from the fuel combustion that is of fossil nature.
-This is conditioned by the type of fuel the user selects later on.
+This is calculated for every fuel type found in the blend (primary and secondary fuel).
+
+Other emissions based on fuel combustion are considered, from Spielmann et al., Transport Services Data v.2 (2007).
+However those only apply when conventional diesel or conventional gasoline is burnt:
+
+* Cadmium
+* Chromium and Chromium VI
+* Copper
+* Nickel
+* Selenium
+* Zinc
+
 
 Hot pollutants emissions
 ************************

@@ -9,7 +9,6 @@ Submodules
 
 """
 
-
 __all__ = (
     "CarInputParameters",
     "fill_xarray_from_input_parameters",
@@ -23,7 +22,7 @@ __all__ = (
     "ExportInventory",
     "InternalNoiseModel"
 )
-__version__ = (1, 1, 6)
+__version__ = (1, 1, 7)
 
 from pathlib import Path
 

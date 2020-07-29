@@ -1706,7 +1706,7 @@ class InventoryCalculation:
 
     def create_electricity_market_for_battery_production(self):
         """
-        This funciton fills in the dataset that contains the electricity mix used for manufacturing battery cells
+        This function fills in the column in `self.A` concerned with the electricity mix used for manufacturing battery cells
         :return:
         """
 
@@ -1923,10 +1923,9 @@ class InventoryCalculation:
     def set_actual_range(self):
         """
         Set the actual range considering the blend.
-        Liquid bio-fuels typically have a lower calorific value. Hence, the need to recalculate
+        Liquid bio-fuels and synthetic fuels typically have a lower calorific value. Hence, the need to recalculate
         the vehicle range.
         Modifies parameter `range` of `array` in place
-        :return:
         """
 
         if {"ICEV-p", "HEV-p", "PHEV-p"}.intersection(set(self.scope["powertrain"])):
@@ -1995,6 +1994,8 @@ class InventoryCalculation:
     def define_fuel_blends(self):
         """
         This function defines fuel blends from what is passed in `background_configuration`.
+        It populates a dictionary `self.fuel_blends` that contains the respective shares, lower heating values
+        and CO2 emission factors of the fuels used.
         :return:
         """
 
@@ -2121,7 +2122,8 @@ class InventoryCalculation:
         secondary_share=None,
     ):
         """
-        This function creates markets for fuel, considering a given blend, a given fuel type and a given year
+        This function creates markets for fuel, considering a given blend, a given fuel type and a given year.
+        It also adds separate electricity input in case hydrogen from electrolysis is needed somewhere in the fuel supply chain.
         :return:
         """
         d_fuels = {
@@ -2999,9 +3001,12 @@ class InventoryCalculation:
                     * -1
                 ).T
 
+                # Fuel-based emissions from CNG, CO2
+                # The share and CO2 emissions factor of CNG is retrieved, if used
+
                 share_fossil = 0
                 CO2_fossil  = 0
-                # Fuel-based emissions from CNG, CO2
+
                 if self.fuel_blends["cng"]["primary"]["type"] == "cng":
                     share_fossil += self.fuel_blends["cng"]["primary"]["share"][
                         self.scope["year"].index(y)
@@ -3026,7 +3031,8 @@ class InventoryCalculation:
                 ).T
 
                 # Fuel-based CO2 emission from alternative petrol
-                # In this case, the CO2 flow originates biomass
+                # The share of non-fossil gas in the blend is retrieved
+                # As well as the CO2 emission factor of the fuel
 
                 share_non_fossil = 0
                 CO2_non_fossil = 0
@@ -3148,6 +3154,8 @@ class InventoryCalculation:
                 CO2_non_fossil = 0
 
                 # Fuel-based CO2 emission from alternative petrol
+                # The share of non-fossil fuel in the blend is retrieved
+                # As well as the CO2 emission factor of the fuel
                 if self.fuel_blends["diesel"]["primary"]["type"] != "diesel":
                     share_non_fossil += self.fuel_blends["diesel"]["primary"]["share"][
                         self.scope["year"].index(y)
@@ -3383,6 +3391,8 @@ class InventoryCalculation:
                 CO2_non_fossil = 0
 
                 # Fuel-based CO2 emission from alternative petrol
+                # The share of non-fossil fuel in the blend is retrieved
+                # As well as the CO2 emission factor of the fuel
                 if self.fuel_blends["petrol"]["primary"]["type"] != "petrol":
                     share_non_fossil += self.fuel_blends["petrol"]["primary"]["share"][
                         self.scope["year"].index(y)
