@@ -359,7 +359,6 @@ class ExportInventory:
             "Biodiesel from algae",
             "Maize cultivation, drying and storage {RER} | Maize production Europe | Alloc Rec, U",
             "Fischer Tropsch reactor and upgrading plant, construction",
-            #"Methanol Synthesis",
             "Walls and foundations, for hydrogen refuelling station",
             "container, with pipes and fittings, for diaphragm compressor",
             "RWGS tank construction",
@@ -372,18 +371,12 @@ class ExportInventory:
             "Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station",
             "transformer and rectifier unit, for electrolyzer",
             "PEM electrolyzer, ACDC Converter",
-            #"Hydrogen, gaseous, 25 bar, from electrolysis",
             "carbon dioxide, captured from atmosphere",
             "PEM electrolyzer, Balance of Plant",
-            #"Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
             "Sabatier reaction methanation unit",
-            #"Diesel production, synthetic, Fischer Tropsch process",
-            #"Gasoline production, synthetic, from methanol",
-            #"Syngas, RWGS, Production",
             "PEM electrolyzer, Stack",
             "hot water tank, carbon dioxide capture process",
             "cooling unit, carbon dioxide capture process",
-            #"Methane production, synthetic, from electrochemical methanation",
             "diaphragm compressor module, high pressure",
             "carbon dioxide capture system",
             "Hydrogen dispenser, for gaseous hydrogen",
@@ -392,13 +385,32 @@ class ExportInventory:
             "Disposal, hydrogen fuelling station",
             "production of 2 wt-% potassium iodide solution",
             "production of nickle-based catalyst for methanation",
-            #"Methanol distillation",
             "wiring and tubing, carbon dioxide capture process",
             "control panel, carbon dioxide capture process",
             "adsorption and desorption unit, carbon dioxide capture process",
             "Buffer tank",
             "frequency converter, for diaphragm compressor",
-            'Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant'
+            'Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant',
+            'Methanol distillation',
+            'CO2 storage/at H2 production plant, pre, pipeline 200km, storage 1000m',
+            'Syngas, RWGS, Production',
+            'softwood forestry, mixed species, sustainable forest management, CF = -1',
+            'hardwood forestry, mixed species, sustainable forest management, CF = -1',
+            'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant',
+            'market for wood chips, wet, measured as dry mass, CF = -1',
+            'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station',
+            'Hydrogen, gaseous, 25 bar, from electrolysis',
+            'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at H2 fuelling station',
+            'SMR BM, HT+LT, + CCS (MDEA), 98 (average), digestate incineration, 26 bar',
+            'Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station',
+            'SMR NG + CCS (MDEA), 98 (average), 25 bar',
+            'SMR BM, HT+LT, with digestate incineration, 26 bar',
+            'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at H2 fuelling station',
+            'Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station',
+            'Hydrogen, gaseous, 700 bar, from SMR NG w CCS, at H2 fuelling station',
+            'SMR NG + CCS (MDEA), 98 (average), 700 bar',
+            'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass, at gasification plant',
+            'Methanol Synthesis'
         ]
 
         uvek_activities_to_remove = [
@@ -686,6 +698,7 @@ class ExportInventory:
                                 "categories",
                                 "type",
                                 "reference product",
+                                "tag"
                             ],
                         )
                     )
@@ -701,6 +714,7 @@ class ExportInventory:
                                 "::".join(e.get("categories", ())),
                                 e["type"],
                                 e.get("reference product"),
+                                e.get("tag", "other")
                             ]
                         )
                 else:

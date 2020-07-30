@@ -3149,7 +3149,6 @@ class InventoryCalculation:
                         * -1
                 ).T
 
-
                 share_non_fossil = 0
                 CO2_non_fossil = 0
 
@@ -3179,6 +3178,7 @@ class InventoryCalculation:
                         / array[self.array_inputs["range"], :, ind_array]
                         * -1
                 ).T
+
 
                 # Heavy metals emissions from conventional diesel
                 # Emission factors from Spielmann et al., Transport Services Data v.2 (2007)
