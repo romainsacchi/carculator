@@ -2005,7 +2005,7 @@ class InventoryCalculation:
             "bioethanol - maize starch": 26.8,
             "bioethanol - sugarbeet": 26.8,
             "bioethanol - forest residues": 26.8,
-            "synthetic gasoline": 19,
+            "synthetic gasoline": 42.4,
             "diesel": 42.8,
             "biodiesel - cooking oil": 31.7,
             "biodiesel - algae": 31.7,
@@ -2021,11 +2021,11 @@ class InventoryCalculation:
             "bioethanol - maize starch": 1.91,
             "bioethanol - sugarbeet": 1.91,
             "bioethanol - forest residues": 1.91,
-            "synthetic gasoline": 1.595,
+            "synthetic gasoline": 3.18,
             "diesel": 3.14,
             "biodiesel - cooking oil": 2.85,
             "biodiesel - algae": 2.85,
-            "synthetic diesel": 3.14,
+            "synthetic diesel": 3.16,
             "cng": 2.65,
             "biogas": 2.65,
             "syngas": 2.65
@@ -2260,7 +2260,7 @@ class InventoryCalculation:
                     "kilogram",
                     "Diesel, synthetic",
                 ),
-                "additional electricity": 58 * 0.251,
+                "additional electricity": 58 * 0.2875,
             },
             "petrol": {
                 "name": (
@@ -2314,7 +2314,7 @@ class InventoryCalculation:
                     "kilogram",
                     "Gasoline, synthetic",
                 ),
-                "additional electricity": 58 * 0.331,
+                "additional electricity": 58 * 0.328,
             },
         }
 

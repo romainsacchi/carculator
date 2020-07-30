@@ -528,7 +528,7 @@ Diesel technologies
 * 'diesel' (42.8 MJ/kg, 3.14 kg CO2/kg)
 * 'biodiesel - algae' (31.7 MJ/kg, 2.85 kg CO2/kg)
 * 'biodiesel - cooking oil' (31.7 MJ/kg, 2.85 kg CO2/kg)
-* 'synthetic diesel' (43.3 MJ/kg, 3.14 kg CO2/kg)
+* 'synthetic diesel' (43.3 MJ/kg, 3.16 kg CO2/kg)
 
 Petrol technologies
 -------------------
@@ -538,7 +538,7 @@ Petrol technologies
 * 'bioethanol - maize starch' (26.8 MJ/kg, 1.91 kg CO2/kg)
 * 'bioethanol - sugarbeet' (26.8 MJ/kg, 1.91 kg CO2/kg)
 * 'bioethanol - forest residues' (26.8 MJ/kg, 1.91 kg CO2/kg)
-* 'synthetic gasoline' (19 MJ/kg, 1.6 kg CO2/kg)
+* 'synthetic gasoline' (42.4 MJ/kg, 3.18 kg CO2/kg)
 
 Once the fuel blend is defined, the range is calculated once again, now considering the new energy amount stored in the tank.
 Therefore, a car solely running on bio-ethanol will have a reduced range, increasing the fuel consumption and emissions
