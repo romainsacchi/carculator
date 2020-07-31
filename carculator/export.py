@@ -410,7 +410,9 @@ class ExportInventory:
             'Hydrogen, gaseous, 700 bar, from SMR NG w CCS, at H2 fuelling station',
             'SMR NG + CCS (MDEA), 98 (average), 700 bar',
             'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass, at gasification plant',
-            'Methanol Synthesis'
+            'Methanol Synthesis',
+            'Diesel production, synthetic, Fischer Tropsch process',
+            'Gasoline production, synthetic, from methanol'
         ]
 
         uvek_activities_to_remove = [
