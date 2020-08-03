@@ -156,7 +156,7 @@ class InventoryCalculation:
     """
 
     def __init__(
-        self, array, scope=None, background_configuration=None, scenario="SSP2-Base", method="recipe"
+        self, array, scope=None, background_configuration=None, scenario="SSP2-Base", method="recipe", method_type="midpoint"
     ):
 
         if scope is None:
@@ -630,6 +630,13 @@ class InventoryCalculation:
 
         self.method = method
 
+        if self.method == "recipe":
+            self.method_type = method_type
+        else:
+            self.method_type = "midpoint"
+
+        self.impact_categories = self.get_dict_impact_categories()
+
         # Load the B matrix
         self.B = self.get_B_matrix()
 
@@ -654,7 +661,8 @@ class InventoryCalculation:
 
         if split == "components":
             cat = [
-                "direct",
+                "direct - exhaust",
+                "direct - non-exhaust",
                 "energy chain",
                 "maintenance",
                 "glider",
@@ -664,7 +672,7 @@ class InventoryCalculation:
                 "road",
             ]
 
-        dict_impact_cat = self.get_dict_impact_categories()
+        dict_impact_cat = list(self.impact_categories.keys())
 
         if sensitivity == False:
 
@@ -680,7 +688,7 @@ class InventoryCalculation:
                     )
                 ),
                 coords=[
-                    dict_impact_cat[self.method]["midpoint"],
+                    dict_impact_cat,
                     self.scope["size"],
                     self.scope["powertrain"],
                     self.scope["year"],
@@ -710,7 +718,7 @@ class InventoryCalculation:
                     )
                 ),
                 coords=[
-                    dict_impact_cat[self.method]["midpoint"],
+                    dict_impact_cat,
                     self.scope["size"],
                     self.scope["powertrain"],
                     self.scope["year"],
@@ -760,6 +768,40 @@ class InventoryCalculation:
         d = {}
         l = []
 
+        d['direct - exhaust'] = []
+        d['direct - exhaust'].append(
+            self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")]
+        )
+        d['direct - exhaust'].append(
+            self.inputs[("Carbon dioxide, from soil or biomass stock", ("air",), "kilogram")]
+        )
+        d['direct - exhaust'].append(
+            self.inputs[("Cadmium", ("air", "urban air close to ground"), "kilogram")]
+        )
+        d['direct - exhaust'].append(
+            self.inputs[("Copper", ("air", "urban air close to ground"), "kilogram")]
+        )
+        d['direct - exhaust'].append(
+            self.inputs[("Chromium", ("air", "urban air close to ground"), "kilogram")]
+        )
+        d['direct - exhaust'].append(
+            self.inputs[("Nickel", ("air", "urban air close to ground"), "kilogram")]
+        )
+        d['direct - exhaust'].append(
+            self.inputs[("Selenium", ("air", "urban air close to ground"), "kilogram")]
+        )
+        d['direct - exhaust'].append(
+            self.inputs[("Zinc", ("air", "urban air close to ground"), "kilogram")]
+        )
+        d['direct - exhaust'].append(
+            self.inputs[("Chromium VI", ("air", "urban air close to ground"), "kilogram")]
+        )
+        d['direct - exhaust'].extend(self.index_emissions)
+        d['direct - exhaust'].extend(self.index_noise)
+
+        l.append(d['direct - exhaust'])
+
+
         for cat in csv_dict["components"]:
             d[cat] = list(
                 flatten(
@@ -769,39 +811,9 @@ class InventoryCalculation:
                     ]
                 )
             )
-
-            if cat == "direct":
-                d[cat].append(
-                    self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")]
-                )
-                d[cat].append(
-                    self.inputs[("Carbon dioxide, from soil or biomass stock", ("air",), "kilogram")]
-                )
-                d[cat].append(
-                    self.inputs[("Cadmium", ("air", "urban air close to ground"), "kilogram")]
-                )
-                d[cat].append(
-                    self.inputs[("Copper", ("air", "urban air close to ground"), "kilogram")]
-                )
-                d[cat].append(
-                    self.inputs[("Chromium", ("air", "urban air close to ground"), "kilogram")]
-                )
-                d[cat].append(
-                    self.inputs[("Nickel", ("air", "urban air close to ground"), "kilogram")]
-                )
-                d[cat].append(
-                    self.inputs[("Selenium", ("air", "urban air close to ground"), "kilogram")]
-                )
-                d[cat].append(
-                    self.inputs[("Zinc", ("air", "urban air close to ground"), "kilogram")]
-                )
-                d[cat].append(
-                    self.inputs[("Chromium VI", ("air", "urban air close to ground"), "kilogram")]
-                )
-                d[cat].extend(self.index_emissions)
-                d[cat].extend(self.index_noise)
-
             l.append(d[cat])
+
+
 
         list_ind = [d[x] for x in d]
         maxLen = max(map(len, list_ind))
@@ -830,11 +842,11 @@ class InventoryCalculation:
         arr = self.A[0, : -self.number_of_cars, -self.number_of_cars :].sum(axis=1)
         ind = np.nonzero(arr)[0]
 
-        new_arr = np.float16(
+        new_arr = np.float32(
             np.zeros((self.A.shape[1], self.B.shape[1], len(self.scope["year"])))
         )
 
-        f = np.float16(np.zeros((np.shape(self.A)[1])))
+        f = np.float32(np.zeros((np.shape(self.A)[1])))
 
         for y in self.scope["year"]:
             if self.scenario != "static":
@@ -845,7 +857,7 @@ class InventoryCalculation:
             for a in ind:
                 f[:] = 0
                 f[a] = 1
-                X = np.float16(sparse.linalg.spsolve(self.A[0], f.T))
+                X = np.float32(sparse.linalg.spsolve(self.A[0], f.T))
                 C = X * B
                 new_arr[a, :, self.scope["year"].index(y)] = C.sum(axis=1)
 
@@ -853,9 +865,9 @@ class InventoryCalculation:
             len(self.scope["year"]), B.shape[0], 1, 1, self.A.shape[-1]
         )
 
-        a = np.float16(self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1))
+        a = np.float32(self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1))
 
-        arr = np.float16(ne.evaluate("a * new_arr * -1"))
+        arr = np.float32(ne.evaluate("a * new_arr * -1"))
 
         arr = arr.transpose(1, 3, 0, 4, 2)
         arr = arr[:, :, :, self.split_indices, :].sum(axis=4)
@@ -889,7 +901,7 @@ class InventoryCalculation:
                 )
             results /= results.sel(parameter="reference")
 
-        return results.astype("float16")
+        return results.astype("float32")
 
     def add_additional_activities(self):
         # Add as many rows and columns as cars to consider
@@ -1062,10 +1074,17 @@ class InventoryCalculation:
         """
 
         if self.method == "recipe":
-            list_file_names = glob.glob(
-                str(REMIND_FILES_DIR) + "/*recipe*{}*.csv".format(self.scenario)
-            )
-            B = np.zeros((len(list_file_names), 21, len(self.inputs)))
+            if self.method_type == "midpoint":
+                list_file_names = glob.glob(
+                    str(REMIND_FILES_DIR) + "/*recipe_midpoint*{}*.csv".format(self.scenario)
+                )
+                B = np.zeros((len(list_file_names), 21, len(self.inputs)))
+            else:
+                list_file_names = glob.glob(
+                    str(REMIND_FILES_DIR) + "/*recipe_endpoint*{}*.csv".format(self.scenario)
+                )
+                B = np.zeros((len(list_file_names), 3, len(self.inputs)))
+
         else:
             list_file_names = glob.glob(
                 str(REMIND_FILES_DIR) + "/*ilcd*{}*.csv".format(self.scenario)
@@ -1081,12 +1100,14 @@ class InventoryCalculation:
 
             B[list_file_names.index(f), :, :] = new_B
 
+        list_impact_categories = list(self.impact_categories.keys())
+
         if self.scenario != "static":
             response = xr.DataArray(
                 B,
                 coords=[
                     [2005, 2010, 2020, 2030, 2040, 2050],
-                    self.get_dict_impact_categories()[self.method]["midpoint"],
+                    list_impact_categories,
                     list(self.inputs.keys()),
                 ],
                 dims=["year", "category", "activity"],
@@ -1096,7 +1117,7 @@ class InventoryCalculation:
                 B,
                 coords=[
                     [2020],
-                    self.get_dict_impact_categories()[self.method]["midpoint"],
+                    list_impact_categories,
                     list(self.inputs.keys()),
                 ],
                 dims=["year", "category", "activity"],
@@ -1188,7 +1209,13 @@ class InventoryCalculation:
         with open(filepath) as f:
             input_dict = csv.reader(f, delimiter=";")
             for row in input_dict:
-                csv_dict[row[0]] = {row[1]: [x.strip() for x in row[2:]]}
+                if row[0] == self.method and row[3] == self.method_type:
+                    csv_dict[row[2]] = {'method':row[1],
+                                        'category':row[2],
+                                        'type':row[3],
+                                        'abbreviation':row[4],
+                                        'unit':row[5],
+                                        'source':row[6]}
 
         return csv_dict
 
@@ -1522,14 +1549,17 @@ class InventoryCalculation:
 
             if self.scenario == "static":
                 if self.method == "recipe":
-                    co2_intensity_tech = (
-                        self.B.sel(
-                            category="climate change",
-                            year=2020,
-                            activity=list(self.elec_map.values()),
-                        ).values
-                        * losses_to_low
-                    ) * 1000
+                    if self.method_type == "midpoint":
+                        co2_intensity_tech = (
+                            self.B.sel(
+                                category="climate change",
+                                year=2020,
+                                activity=list(self.elec_map.values()),
+                            ).values
+                            * losses_to_low
+                        ) * 1000
+                    else:
+                        co2_intensity_tech = 0
                 else:
                     co2_intensity_tech = (
                         self.B.sel(
@@ -1542,14 +1572,17 @@ class InventoryCalculation:
 
             else:
                 if self.method == "recipe":
-                    co2_intensity_tech = (
-                        self.B.sel(
-                            category="climate change", activity=list(self.elec_map.values())
-                        )
-                        .interp(year=y, kwargs={"fill_value": "extrapolate"})
-                        .values
-                        * losses_to_low
-                    ) * 1000
+                    if self.method_type == "midpoint":
+                        co2_intensity_tech = (
+                            self.B.sel(
+                                category="climate change", activity=list(self.elec_map.values())
+                            )
+                            .interp(year=y, kwargs={"fill_value": "extrapolate"})
+                            .values
+                            * losses_to_low
+                        ) * 1000
+                    else:
+                        co2_intensity_tech = 0
                 else:
                     co2_intensity_tech = (
                         self.B.sel(

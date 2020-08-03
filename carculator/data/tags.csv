@@ -1,7 +1,7 @@
 ﻿adsorption and desorption unit, carbon dioxide capture process;energy chain
 algae cultivation | algae broth production;energy chain
 algae harvesting| dry algae production;energy chain
-Ammonia;direct
+Ammonia;direct - exhaust
 Ancillary BoP;energy storage
 Anode;energy storage
 Anode current collector, LFP;energy storage
@@ -17,7 +17,7 @@ Battery management system;energy storage
 Battery packaging;energy storage
 Battery retention;energy storage
 Battery tray;energy storage
-Benzene;direct
+Benzene;direct - exhaust
 Bimetallic busbars and washers;energy storage
 Biodiesel from algae;energy chain
 Biodiesel from cooking oil;energy chain
@@ -25,18 +25,18 @@ biogas upgrading - sewage sludge - amine scrubbing - best;energy chain
 biomethane from biogas upgrading - biowaste - amine scrubbing, best - with biogenic carbon uptake, lower bound C sequestration, digestate incineration;energy chain
 Bipolar plate;energy storage
 Buffer tank;energy chain
-Cadmium;direct
+Cadmium;direct - exhaust
 carbon black production;energy storage
 carbon dioxide capture system;energy chain
 carbon dioxide, captured from atmosphere;energy chain
-Carbon dioxide, fossil;direct
+Carbon dioxide, fossil;direct - exhaust
 Carbon dioxide, from soil or biomass stock;energy chain
 Carbon dioxide, in air;energy chain
-Carbon dioxide, non-fossil;direct
+Carbon dioxide, non-fossil;direct - exhaust
 Carbon dioxide, to soil or biomass stock;energy chain
 Carbon fibre, from acrylonitrile;energy storage
-Carbon monoxide, fossil;direct
-Carbon monoxide, non-fossil;direct
+Carbon monoxide, fossil;direct - exhaust
+Carbon monoxide, non-fossil;direct - exhaust
 Catalyst layer;energy storage
 Cathode;energy storage
 Cathode current collector, LFP;energy storage
@@ -44,8 +44,8 @@ Cathode current collector, NCA;energy storage
 Cathode paste, LFP;energy storage
 Cathode paste, NCA;energy storage
 Cell container;energy storage
-Chromium;direct
-Chromium VI;direct
+Chromium;direct - exhaust
+Chromium VI;direct - exhaust
 Clamps and fasteners;energy storage
 CO2 storage/at H2 production plant, pre, pipeline 200km, storage 1000m;energy chain
 Coating and curing, general manufacturing;energy storage
@@ -61,7 +61,7 @@ diaphragms, for diaphragm compressor;energy chain
 Diesel production, synthetic, Fischer Tropsch process;energy chain
 diesel, burned in building machine;energy chain
 diesel, burned in diesel-electric generating set, 18.5kW;energy chain
-Dinitrogen monoxide;direct
+Dinitrogen monoxide;direct - exhaust
 Disposal, hydrogen fuelling station;energy chain
 distribution network construction, electricity, low voltage;energy chain
 drawing of pipe, steel;energy storage
@@ -114,7 +114,7 @@ heat exchanger, carbon dioxide capture process;energy chain
 Heat transfer plate;energy storage
 High voltage system;energy storage
 hot water tank, carbon dioxide capture process;energy chain
-Hydrocarbons, aromatic;direct
+Hydrocarbons, aromatic;direct - exhaust
 Hydrogen chloride;energy chain
 Hydrogen dispenser, for gaseous hydrogen;energy chain
 hydrogen peroxide production, product in 50% solution state;energy chain
@@ -136,7 +136,7 @@ IBIS;energy storage
 IBIS fasteners;energy storage
 injection moulding;energy storage
 Inner frame;energy storage
-Lead;direct
+Lead;direct - exhaust
 lithium hydroxide production;energy storage
 Lithium iron phosphate LiFePO4;energy storage
 Lithium, ion;energy storage
@@ -145,7 +145,7 @@ Lower retention;energy storage
 maintenance, passenger car;maintenance
 Maize cultivation, drying and storage {RER} | Maize production Europe | Alloc Rec, U;energy chain
 Manifolds;energy storage
-market for brake wear emissions, passenger car;direct
+market for brake wear emissions, passenger car;direct - non-exhaust
 market for carbon black;energy storage
 market for charger, electric passenger car;energy storage
 market for cobalt;energy storage
@@ -169,10 +169,10 @@ market for petrol, low-sulfur;energy chain
 market for platinum;energy storage
 market for road;road
 market for road maintenance;road
-market for road wear emissions, passenger car;direct
+market for road wear emissions, passenger car;direct - non-exhaust
 market for styrene butadiene rubber (SBR);energy storage
 market for sugar beet seed, for sowing;energy chain
-market for tyre wear emissions, passenger car;direct
+market for tyre wear emissions, passenger car;direct - non-exhaust
 market for used powertrain from electric passenger car, manual dismantling;EoL
 market for used vegetable cooking oil;energy chain
 market group for diesel;energy chain
@@ -185,10 +185,10 @@ market for internal combustion engine, passenger car;powertrain
 market for converter, for electric passenger car;energy storage
 MEA hot pressing;energy storage
 Membrane;energy storage
-Mercury;direct
+Mercury;direct - exhaust
 Methane production, synthetic, from electrochemical methanation;energy chain
-Methane, fossil;direct
-Methane, fossil;direct
+Methane, fossil;direct - exhaust
+Methane, fossil;direct - exhaust
 Methane, non-fossil;energy chain
 Methanol distillation;energy chain
 Methanol Synthesis;energy chain
@@ -201,39 +201,39 @@ NCA electrode material (LiNi0.8Co0.15Al0.05O2);energy storage
 Negative current collector Cu;energy storage
 Negative electrode paste;energy storage
 Ni1/3Co1/3Mn1/3(OH)2;energy storage
-Nickel;direct
+Nickel;direct - exhaust
 nickel mine operation, sulfidic ore;energy storage
-Nitrogen oxides;direct
-NMVOC, non-methane volatile organic compounds, unspecified origin;direct
-noise, octave 1, day time, rural;direct
-noise, octave 1, day time, suburban;direct
-noise, octave 1, day time, urban;direct
-noise, octave 2, day time, rural;direct
-noise, octave 2, day time, suburban;direct
-noise, octave 2, day time, urban;direct
-noise, octave 3, day time, rural;direct
-noise, octave 3, day time, suburban;direct
-noise, octave 3, day time, urban;direct
-noise, octave 4, day time, rural;direct
-noise, octave 4, day time, suburban;direct
-noise, octave 4, day time, urban;direct
-noise, octave 5, day time, rural;direct
-noise, octave 5, day time, suburban;direct
-noise, octave 5, day time, urban;direct
-noise, octave 6, day time, rural;direct
-noise, octave 6, day time, suburban;direct
-noise, octave 6, day time, urban;direct
-noise, octave 7, day time, rural;direct
-noise, octave 7, day time, suburban;direct
-noise, octave 7, day time, urban;direct
-noise, octave 8, day time, rural;direct
-noise, octave 8, day time, suburban;direct
-noise, octave 8, day time, urban;direct
+Nitrogen oxides;direct - exhaust
+NMVOC, non-methane volatile organic compounds, unspecified origin;direct - exhaust
+noise, octave 1, day time, rural;direct - exhaust
+noise, octave 1, day time, suburban;direct - exhaust
+noise, octave 1, day time, urban;direct - exhaust
+noise, octave 2, day time, rural;direct - exhaust
+noise, octave 2, day time, suburban;direct - exhaust
+noise, octave 2, day time, urban;direct - exhaust
+noise, octave 3, day time, rural;direct - exhaust
+noise, octave 3, day time, suburban;direct - exhaust
+noise, octave 3, day time, urban;direct - exhaust
+noise, octave 4, day time, rural;direct - exhaust
+noise, octave 4, day time, suburban;direct - exhaust
+noise, octave 4, day time, urban;direct - exhaust
+noise, octave 5, day time, rural;direct - exhaust
+noise, octave 5, day time, suburban;direct - exhaust
+noise, octave 5, day time, urban;direct - exhaust
+noise, octave 6, day time, rural;direct - exhaust
+noise, octave 6, day time, suburban;direct - exhaust
+noise, octave 6, day time, urban;direct - exhaust
+noise, octave 7, day time, rural;direct - exhaust
+noise, octave 7, day time, suburban;direct - exhaust
+noise, octave 7, day time, urban;direct - exhaust
+noise, octave 8, day time, rural;direct - exhaust
+noise, octave 8, day time, suburban;direct - exhaust
+noise, octave 8, day time, urban;direct - exhaust
 Outer frame;energy storage
-Ozone;direct
-PAH, polycyclic aromatic hydrocarbons;direct
-Particulates, < 2.5 um;direct
-Particulates, > 10 um;direct
+Ozone;direct - exhaust
+PAH, polycyclic aromatic hydrocarbons;direct - exhaust
+Particulates, < 2.5 um;direct - exhaust
+Particulates, > 10 um;direct - exhaust
 PEM electrolyzer, ACDC Converter;energy chain
 PEM electrolyzer, Balance of Plant;energy chain
 PEM electrolyzer, Operation and Maintenance;energy chain
@@ -250,7 +250,7 @@ Refined Waste Cooking Oil {RER} | Refining of waste cooking oil Europe | Alloc R
 RWGS tank construction;energy chain
 Sabatier reaction methanation unit;energy chain
 Selective coating, sputtering;energy storage
-Selenium;direct
+Selenium;direct - exhaust
 Separator;energy storage
 Separator, LFP;energy storage
 Separator, NCA;energy storage
@@ -269,7 +269,7 @@ Strap retention;energy storage
 Straw bales | baling of straw;energy chain
 straw pellets;energy chain
 Sugar beet cultivation {RER} | sugar beet production Europe | Alloc Rec, U;energy chain
-Sulfur dioxide;direct
+Sulfur dioxide;direct - exhaust
 Syngas, RWGS, Production;energy chain
 synthetic gas factory construction;energy chain
 Tab Aluminum;energy storage
@@ -297,62 +297,4 @@ woodchips from forestry residues;energy chain
 yarding and processing, mobile cable yarder on truck;energy chain
 yarding, mobile cable yarder on trailer;energy chain
 yarding, sled yarder;energy chain
-Zinc;direct
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
-;
+Zinc;direct - exhaust
