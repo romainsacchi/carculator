@@ -651,7 +651,7 @@ class InventoryCalculation:
         """
         return self.temp_array.sel(parameter=key)
 
-    def get_results_table(self,  split, sensitivity=False):
+    def get_results_table(self, split, sensitivity=False):
         """
         Format an xarray.DataArray array to receive the results.
 
@@ -1547,52 +1547,28 @@ class InventoryCalculation:
 
         for y in self.scope["year"]:
 
-            if self.scenario == "static":
-                if self.method == "recipe":
-                    if self.method_type == "midpoint":
-                        co2_intensity_tech = (
-                            self.B.sel(
-                                category="climate change",
-                                year=2020,
-                                activity=list(self.elec_map.values()),
-                            ).values
-                            * losses_to_low
-                        ) * 1000
-                    else:
-                        co2_intensity_tech = 0
-                else:
+            co2_intensity_tech = 0
+            category_name = "climate change" if self.method == "recipe" else "climate change - climate change total"
+
+            if self.method_type == "midpoint":
+                if self.scenario == "static":
                     co2_intensity_tech = (
                         self.B.sel(
-                            category="climate change - climate change fossil",
+                            category=category_name,
                             year=2020,
                             activity=list(self.elec_map.values()),
                         ).values
                         * losses_to_low
                     ) * 1000
-
-            else:
-                if self.method == "recipe":
-                    if self.method_type == "midpoint":
-                        co2_intensity_tech = (
-                            self.B.sel(
-                                category="climate change", activity=list(self.elec_map.values())
-                            )
-                            .interp(year=y, kwargs={"fill_value": "extrapolate"})
-                            .values
-                            * losses_to_low
-                        ) * 1000
-                    else:
-                        co2_intensity_tech = 0
                 else:
                     co2_intensity_tech = (
                         self.B.sel(
-                            category="climate change - climate change fossil", activity=list(self.elec_map.values())
+                            category=category_name, activity=list(self.elec_map.values())
                         )
                         .interp(year=y, kwargs={"fill_value": "extrapolate"})
                         .values
                         * losses_to_low
                     ) * 1000
-
 
             sum_renew = (
                 self.mix[self.scope["year"].index(y)][0]
