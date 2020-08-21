@@ -3569,6 +3569,21 @@ class InventoryCalculation:
             ],
             -self.number_of_cars :,
         ] = (array[self.array_inputs["driving mass"], :] * 6e-08)
+
+        # Brake wear emissions
+        # BEVs only emit 20% of what a combustion engine vehicle emit according to
+        # https://link.springer.com/article/10.1007/s11367-014-0792-4
+        ind_A = [
+                    self.inputs[i]
+                    for i in self.inputs
+                    if "Passenger" in i[0]
+                    and any(x in i[0] for x in ["ICEV-d", "ICEV-p", "ICEV-g"])
+                ]
+
+        index = self.get_index_vehicle_from_array(
+            ["ICEV-d", "ICEV-p", "ICEV-g"]
+        )
+
         self.A[
             :,
             self.inputs[
@@ -3579,8 +3594,32 @@ class InventoryCalculation:
                     "brake wear emissions, passenger car",
                 )
             ],
-            -self.number_of_cars :,
-        ] = (array[self.array_inputs["driving mass"], :] * 5e-09)
+            ind_A
+        ] = (array[self.array_inputs["driving mass"], :, index].T * 5e-09)
+
+        ind_A = [
+                    self.inputs[i]
+                    for i in self.inputs
+                    if "Passenger" in i[0]
+                    and any(x in i[0] for x in ["BEV", "FCEV", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"])
+                ]
+
+        index = self.get_index_vehicle_from_array(
+            ["BEV", "FCEV", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"]
+        )
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for brake wear emissions, passenger car",
+                    "GLO",
+                    "kilogram",
+                    "brake wear emissions, passenger car",
+                )
+            ],
+            ind_A
+        ] = (array[self.array_inputs["driving mass"], :, index].T * 5e-09 * .2)
 
         # Infrastructure
         self.A[
