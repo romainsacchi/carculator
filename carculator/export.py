@@ -562,6 +562,7 @@ class ExportInventory:
                             "type": "production",
                             "location": tuple_output[1],
                             "reference product": tuple_output[3],
+                            "tag":tag
                         }
                     )
                     list_exc[-1].update(uncertainty)
