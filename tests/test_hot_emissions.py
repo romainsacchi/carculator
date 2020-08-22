@@ -16,7 +16,7 @@ def test_wrong_powertrain():
 
 def test_output_emissions():
     hem = HotEmissionsModel(dc, dc_name)
-    em = hem.get_emissions_per_powertrain("diesel", euro_class=6)
+    em = hem.get_emissions_per_powertrain("diesel", euro_class=6.3)
 
     # Carbon monoxide emission, diesel
     assert em[:, 3:6, :, :].sum() > 0.000013
@@ -30,7 +30,7 @@ def test_output_emissions():
     assert em[:, 6:9, :, :].sum() < 8e-5
 
     hem = HotEmissionsModel(dc, dc_name)
-    em = hem.get_emissions_per_powertrain("petrol", euro_class=6)
+    em = hem.get_emissions_per_powertrain("petrol", euro_class=6.3)
 
     # Carbon monoxide emission, petrol
     assert em[:, 3:6, :, :].sum() > 2.5e-4
@@ -38,7 +38,7 @@ def test_output_emissions():
 
     # Particulate matter emission, petrol
     assert em[:, 9:12, :, :].sum() > 9.3e-7
-    assert em[:, 9:12, :, :].sum() < 9.4e-7
+    assert em[:, 9:12, :, :].sum() < 9.9e-7
 
     # Euro-6d NOx emission limit, petrol
     assert em[:, 6:9, :, :].sum() < 6e-5
