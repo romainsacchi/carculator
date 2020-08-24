@@ -1008,10 +1008,16 @@ class InventoryCalculation:
                         euro_class = "EURO-3"
                     if 2006 <= y < 2011:
                         euro_class = "EURO-4"
-                    if 2001 <= y < 2015:
+                    if 2011 <= y < 2015:
                         euro_class = "EURO-5"
-                    if y >= 2015:
-                        euro_class = "EURO-6"
+                    if 2015 <= y < 2017:
+                        euro_class = "EURO-6ab"
+                    if 2017 <= y < 2019:
+                        euro_class = "EURO-6c"
+                    if 2019 <= y < 2020:
+                        euro_class = "EURO-6d-TEMP"
+                    if y >= 2020:
+                        euro_class = "EURO-6d"
 
                     name = (
                         "Passenger car, "
