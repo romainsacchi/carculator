@@ -111,19 +111,27 @@ class InventoryCalculation:
 
     Hydrogen technologies
     --------------------
-    electrolysis
-    smr - natural gas
-    smr - natural gas with CCS
-    smr - biogas
-    smr - biogas with CCS
-    coal gasification
-    wood gasification
-    wood gasification with CCS
+    "electrolysis"
+    "smr - natural gas"
+    "smr - natural gas with CCS"
+    "smr - biogas"
+    "smr - biogas with CCS"
+    "coal gasification"
+    "wood gasification"
+    "wood gasification with CCS"
+    "wood gasification with EF"
+    "wood gasification with EF with CCS"
+    "atr - natural gas"
+    "atr - natural gas with CCS"
+    "atr - biogas"
+    "atr - biogas with CCS"
+
 
     Natural gas technologies
     ------------------------
     cng
-    biogas
+    biogas - sewage sludge
+    biogas - biowaste
     syngas
 
     Diesel technologies
@@ -156,7 +164,13 @@ class InventoryCalculation:
     """
 
     def __init__(
-        self, array, scope=None, background_configuration=None, scenario="SSP2-Base", method="recipe", method_type="midpoint"
+        self,
+        array,
+        scope=None,
+        background_configuration=None,
+        scenario="SSP2-Base",
+        method="recipe",
+        method_type="midpoint",
     ):
 
         if scope is None:
@@ -431,7 +445,6 @@ class InventoryCalculation:
                 ("air", "urban air close to ground"),
                 "kilogram",
             ): "Dinitrogen oxide direct emissions, urban",
-
         }
 
         self.index_emissions = [
@@ -768,39 +781,42 @@ class InventoryCalculation:
         d = {}
         l = []
 
-        d['direct - exhaust'] = []
-        d['direct - exhaust'].append(
+        d["direct - exhaust"] = []
+        d["direct - exhaust"].append(
             self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")]
         )
-        d['direct - exhaust'].append(
-            self.inputs[("Carbon dioxide, from soil or biomass stock", ("air",), "kilogram")]
+        d["direct - exhaust"].append(
+            self.inputs[
+                ("Carbon dioxide, from soil or biomass stock", ("air",), "kilogram")
+            ]
         )
-        d['direct - exhaust'].append(
+        d["direct - exhaust"].append(
             self.inputs[("Cadmium", ("air", "urban air close to ground"), "kilogram")]
         )
-        d['direct - exhaust'].append(
+        d["direct - exhaust"].append(
             self.inputs[("Copper", ("air", "urban air close to ground"), "kilogram")]
         )
-        d['direct - exhaust'].append(
+        d["direct - exhaust"].append(
             self.inputs[("Chromium", ("air", "urban air close to ground"), "kilogram")]
         )
-        d['direct - exhaust'].append(
+        d["direct - exhaust"].append(
             self.inputs[("Nickel", ("air", "urban air close to ground"), "kilogram")]
         )
-        d['direct - exhaust'].append(
+        d["direct - exhaust"].append(
             self.inputs[("Selenium", ("air", "urban air close to ground"), "kilogram")]
         )
-        d['direct - exhaust'].append(
+        d["direct - exhaust"].append(
             self.inputs[("Zinc", ("air", "urban air close to ground"), "kilogram")]
         )
-        d['direct - exhaust'].append(
-            self.inputs[("Chromium VI", ("air", "urban air close to ground"), "kilogram")]
+        d["direct - exhaust"].append(
+            self.inputs[
+                ("Chromium VI", ("air", "urban air close to ground"), "kilogram")
+            ]
         )
-        d['direct - exhaust'].extend(self.index_emissions)
-        d['direct - exhaust'].extend(self.index_noise)
+        d["direct - exhaust"].extend(self.index_emissions)
+        d["direct - exhaust"].extend(self.index_noise)
 
-        l.append(d['direct - exhaust'])
-
+        l.append(d["direct - exhaust"])
 
         for cat in csv_dict["components"]:
             d[cat] = list(
@@ -813,8 +829,6 @@ class InventoryCalculation:
             )
             l.append(d[cat])
 
-
-
         list_ind = [d[x] for x in d]
         maxLen = max(map(len, list_ind))
         for row in list_ind:
@@ -822,9 +836,7 @@ class InventoryCalculation:
                 row.extend([len(self.inputs) - 1])
         return list(d.keys()), list_ind
 
-    def calculate_impacts(
-        self, split="components", sensitivity=False
-    ):
+    def calculate_impacts(self, split="components", sensitivity=False):
 
         # Prepare an array to store the results
         results = self.get_results_table(split, sensitivity=sensitivity)
@@ -1082,12 +1094,14 @@ class InventoryCalculation:
         if self.method == "recipe":
             if self.method_type == "midpoint":
                 list_file_names = glob.glob(
-                    str(REMIND_FILES_DIR) + "/*recipe_midpoint*{}*.csv".format(self.scenario)
+                    str(REMIND_FILES_DIR)
+                    + "/*recipe_midpoint*{}*.csv".format(self.scenario)
                 )
                 B = np.zeros((len(list_file_names), 21, len(self.inputs)))
             else:
                 list_file_names = glob.glob(
-                    str(REMIND_FILES_DIR) + "/*recipe_endpoint*{}*.csv".format(self.scenario)
+                    str(REMIND_FILES_DIR)
+                    + "/*recipe_endpoint*{}*.csv".format(self.scenario)
                 )
                 B = np.zeros((len(list_file_names), 3, len(self.inputs)))
 
@@ -1121,11 +1135,7 @@ class InventoryCalculation:
         else:
             response = xr.DataArray(
                 B,
-                coords=[
-                    [2020],
-                    list_impact_categories,
-                    list(self.inputs.keys()),
-                ],
+                coords=[[2020], list_impact_categories, list(self.inputs.keys()),],
                 dims=["year", "category", "activity"],
             )
 
@@ -1216,12 +1226,14 @@ class InventoryCalculation:
             input_dict = csv.reader(f, delimiter=";")
             for row in input_dict:
                 if row[0] == self.method and row[3] == self.method_type:
-                    csv_dict[row[2]] = {'method':row[1],
-                                        'category':row[2],
-                                        'type':row[3],
-                                        'abbreviation':row[4],
-                                        'unit':row[5],
-                                        'source':row[6]}
+                    csv_dict[row[2]] = {
+                        "method": row[1],
+                        "category": row[2],
+                        "type": row[3],
+                        "abbreviation": row[4],
+                        "unit": row[5],
+                        "source": row[6],
+                    }
 
         return csv_dict
 
@@ -1554,7 +1566,11 @@ class InventoryCalculation:
         for y in self.scope["year"]:
 
             co2_intensity_tech = 0
-            category_name = "climate change" if self.method == "recipe" else "climate change - climate change total"
+            category_name = (
+                "climate change"
+                if self.method == "recipe"
+                else "climate change - climate change total"
+            )
 
             if self.method_type == "midpoint":
                 if self.scenario == "static":
@@ -1569,7 +1585,8 @@ class InventoryCalculation:
                 else:
                     co2_intensity_tech = (
                         self.B.sel(
-                            category=category_name, activity=list(self.elec_map.values())
+                            category=category_name,
+                            activity=list(self.elec_map.values()),
                         )
                         .interp(year=y, kwargs={"fill_value": "extrapolate"})
                         .values
@@ -1898,10 +1915,10 @@ class InventoryCalculation:
     def find_fuel_shares(self, fuel_type):
 
         default_fuels = {
-            "petrol": {"primary": "petrol", "secondary": "bioethanol - wheat straw"},
-            "diesel": {"primary": "diesel", "secondary": "biodiesel - cooking oil"},
-            "cng": {"primary": "cng", "secondary": "biogas"},
-            "hydrogen": {"primary": "electrolysis", "secondary": "smr - natural gas"},
+            "petrol": {"primary": "petrol", "secondary": "bioethanol - wheat straw", "third": "bioethanol - maize starch"},
+            "diesel": {"primary": "diesel", "secondary": "biodiesel - cooking oil", "third": "biodiesel - algae"},
+            "cng": {"primary": "cng", "secondary": "biogas - sewage sludge", "third": "biogas - biowaste"},
+            "hydrogen": {"primary": "electrolysis", "secondary": "smr - natural gas", "third": "atr - natural gas"},
         }
 
         if "fuel blend" in self.background_configuration:
@@ -1915,7 +1932,10 @@ class InventoryCalculation:
                         "secondary fuel"
                     ]["type"]
                 except:
-                    secondary = default_fuels[fuel_type]["secondary"]
+                    if default_fuels[fuel_type]["secondary"] != primary:
+                        secondary = default_fuels[fuel_type]["secondary"]
+                    else:
+                        secondary = default_fuels[fuel_type]["third"]
 
                 primary_share = self.background_configuration["fuel blend"][fuel_type][
                     "primary fuel"
@@ -2026,8 +2046,9 @@ class InventoryCalculation:
             "biodiesel - algae": 31.7,
             "synthetic diesel": 43.3,
             "cng": 55.5,
-            "biogas": 55.5,
-            "syngas": 55.5
+            "biogas - sewage sludge": 55.5,
+            "biogas - biowaste": 55.5*.657,
+            "syngas": 55.5,
         }
 
         fuels_CO2 = {
@@ -2042,8 +2063,9 @@ class InventoryCalculation:
             "biodiesel - algae": 2.85,
             "synthetic diesel": 3.16,
             "cng": 2.65,
-            "biogas": 2.65,
-            "syngas": 2.65
+            "biogas - sewage sludge": 2.65,
+            "biogas - biowaste": 2.65,
+            "syngas": 2.65,
         }
 
         if {"ICEV-p", "HEV-p", "PHEV-p"}.intersection(set(self.scope["powertrain"])):
@@ -2101,14 +2123,18 @@ class InventoryCalculation:
                 fuel_type, primary, secondary, primary_share, secondary_share
             )
             self.fuel_blends[fuel_type] = {
-                "primary": {"type": primary,
-                            "share": primary_share,
-                            "lhv": fuels_lhv[primary],
-                            "CO2": fuels_CO2[primary]},
-                "secondary": {"type": secondary,
-                              "share": secondary_share,
-                              "lhv": fuels_lhv[primary],
-                              "CO2": fuels_CO2[primary]},
+                "primary": {
+                    "type": primary,
+                    "share": primary_share,
+                    "lhv": fuels_lhv[primary],
+                    "CO2": fuels_CO2[primary],
+                },
+                "secondary": {
+                    "type": secondary,
+                    "share": secondary_share,
+                    "lhv": fuels_lhv[primary],
+                    "CO2": fuels_CO2[primary],
+                },
             }
 
         if {"FCEV"}.intersection(set(self.scope["powertrain"])):
@@ -2141,31 +2167,32 @@ class InventoryCalculation:
         It also adds separate electricity input in case hydrogen from electrolysis is needed somewhere in the fuel supply chain.
         :return:
         """
+
         d_fuels = {
             "electrolysis": {
                 "name": (
                     "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
                     "RER",
                     "kilogram",
-                    "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar",
                 ),
                 "additional electricity": 58,
             },
             "smr - natural gas": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from SMR of NG, at H2 fuelling station",
                     "RER",
                     "kilogram",
-                    "Hydrogen, gaseous, 700 bar, from SMR NG w/o CCS, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar",
                 ),
                 "additional electricity": 0,
             },
             "smr - natural gas with CCS": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from SMR NG w CCS, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from SMR of NG, with CCS, at H2 fuelling station",
                     "RER",
                     "kilogram",
-                    "Hydrogen, gaseous, 700 bar, from SMR NG w CCS, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar",
                 ),
                 "additional electricity": 0,
             },
@@ -2174,7 +2201,7 @@ class InventoryCalculation:
                     "Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station",
                     "RER",
                     "kilogram",
-                    "Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar",
                 ),
                 "additional electricity": 0,
             },
@@ -2183,7 +2210,7 @@ class InventoryCalculation:
                     "Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station",
                     "RER",
                     "kilogram",
-                    "Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar",
                 ),
                 "additional electricity": 0,
             },
@@ -2192,7 +2219,7 @@ class InventoryCalculation:
                     "Hydrogen, gaseous, 700 bar, from coal gasification, at H2 fuelling station",
                     "RER",
                     "kilogram",
-                    "Hydrogen, gaseous, 700 bar, from coal gasification, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar",
                 ),
                 "additional electricity": 0,
             },
@@ -2214,6 +2241,60 @@ class InventoryCalculation:
                 ),
                 "additional electricity": 0,
             },
+            "wood gasification with EF": {
+                "name": (
+                    "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling station",
+                    "CH",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar",
+                ),
+                "additional electricity": 0,
+            },
+            "wood gasification with EF with CCS": {
+                "name": (
+                    "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling station",
+                    "CH",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar",
+                ),
+                "additional electricity": 0,
+            },
+            "atr - natural gas": {
+                "name": (
+                    "Hydrogen, gaseous, 700 bar, ATR of NG, at H2 fuelling station",
+                    "RER",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar",
+                ),
+                "additional electricity": 0,
+            },
+            "atr - natural gas with CCS": {
+                "name": (
+                    "Hydrogen, gaseous, 700 bar, ATR of NG, with CCS, at H2 fuelling station",
+                    "RER",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar",
+                ),
+                "additional electricity": 0,
+            },
+            "atr - biogas": {
+                "name": (
+                    "Hydrogen, gaseous, 700 bar, from ATR of biogas, at H2 fuelling station",
+                    "RER",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar",
+                ),
+                "additional electricity": 0,
+            },
+            "atr - biogas with CCS": {
+                "name": (
+                    "Hydrogen, gaseous, 700 bar, from ATR of biogas with CCS, at H2 fuelling station",
+                    "RER",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar",
+                ),
+                "additional electricity": 0,
+            },
             "cng": {
                 "name": (
                     "market for natural gas, from high pressure network (1-5 bar), at service station",
@@ -2223,13 +2304,20 @@ class InventoryCalculation:
                 ),
                 "additional electricity": 0,
             },
-            "biogas": {
+            "biogas - sewage sludge": {
                 "name": (
                     "biogas upgrading - sewage sludge - amine scrubbing - best",
                     "CH",
                     "kilogram",
                     "biogas upgrading - sewage sludge - amine scrubbing - best",
                 ),
+                "additional electricity": 0,
+            },
+            "biogas - biowaste": {
+                "name": ('biomethane from biogas upgrading - biowaste - amine scrubbing, best - with biogenic carbon uptake, lower bound C sequestration, digestate incineration',
+                      'CH',
+                      'cubic meter',
+                      'biomethane'),
                 "additional electricity": 0,
             },
             "syngas": {
@@ -3020,7 +3108,7 @@ class InventoryCalculation:
                 # The share and CO2 emissions factor of CNG is retrieved, if used
 
                 share_fossil = 0
-                CO2_fossil  = 0
+                CO2_fossil = 0
 
                 if self.fuel_blends["cng"]["primary"]["type"] == "cng":
                     share_fossil += self.fuel_blends["cng"]["primary"]["share"][
@@ -3034,13 +3122,14 @@ class InventoryCalculation:
                     ]
                     CO2_fossil = self.fuel_blends["cng"]["primary"]["CO2"]
 
-
                 self.A[
                     :,
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
                 ] = (
-                        array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil * CO2_fossil
+                    array[self.array_inputs["fuel mass"], :, ind_array]
+                    * share_fossil
+                    * CO2_fossil
                     / array[self.array_inputs["range"], :, ind_array]
                     * -1
                 ).T
@@ -3065,15 +3154,25 @@ class InventoryCalculation:
                     CO2_non_fossil = self.fuel_blends["cng"]["secondary"]["CO2"]
 
                 self.A[
-                :,
-                self.inputs[("Carbon dioxide, from soil or biomass stock", ("air",), "kilogram")],
-                ind_A,
-                ] = (
+                    :,
+                    self.inputs[
                         (
-                            (array[self.array_inputs["fuel mass"], :, ind_array] * share_non_fossil * CO2_non_fossil)
+                            "Carbon dioxide, from soil or biomass stock",
+                            ("air",),
+                            "kilogram",
                         )
-                        / array[self.array_inputs["range"], :, ind_array]
-                        * -1
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_non_fossil
+                            * CO2_non_fossil
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
                 ).T
 
         if [i for i in self.scope["powertrain"] if i in ["ICEV-d", "PHEV-d", "HEV-d"]]:
@@ -3153,15 +3252,19 @@ class InventoryCalculation:
                     CO2_fossil = self.fuel_blends["diesel"]["secondary"]["CO2"]
 
                 self.A[
-                :,
-                self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
-                ind_A,
+                    :,
+                    self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
+                    ind_A,
                 ] = (
+                    (
                         (
-                            (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil * CO2_fossil)
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                            * CO2_fossil
                         )
-                        / array[self.array_inputs["range"], :, ind_array]
-                        * -1
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
                 ).T
 
                 share_non_fossil = 0
@@ -3177,23 +3280,32 @@ class InventoryCalculation:
                     CO2_non_fossil = self.fuel_blends["diesel"]["primary"]["CO2"]
 
                 if self.fuel_blends["diesel"]["secondary"]["type"] != "diesel":
-                    share_non_fossil += self.fuel_blends["diesel"]["secondary"]["share"][
-                        self.scope["year"].index(y)
-                    ]
+                    share_non_fossil += self.fuel_blends["diesel"]["secondary"][
+                        "share"
+                    ][self.scope["year"].index(y)]
                     CO2_non_fossil = self.fuel_blends["diesel"]["secondary"]["CO2"]
 
                 self.A[
-                :,
-                self.inputs[("Carbon dioxide, from soil or biomass stock", ("air",), "kilogram")],
-                ind_A,
-                ] = (
+                    :,
+                    self.inputs[
                         (
-                            (array[self.array_inputs["fuel mass"], :, ind_array] * share_non_fossil * CO2_non_fossil)
+                            "Carbon dioxide, from soil or biomass stock",
+                            ("air",),
+                            "kilogram",
                         )
-                        / array[self.array_inputs["range"], :, ind_array]
-                        * -1
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_non_fossil
+                            * CO2_non_fossil
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
                 ).T
-
 
                 # Heavy metals emissions from conventional diesel
                 # Emission factors from Spielmann et al., Transport Services Data v.2 (2007)
@@ -3206,7 +3318,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 1e-8
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3222,7 +3337,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 1.7e-6
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3238,7 +3356,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 5.0e-8
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3254,7 +3375,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 7.0e-8
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3270,7 +3394,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 1.0e-8
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3286,7 +3413,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 1.0e-6
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3306,7 +3436,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 1.0e-10
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3396,7 +3529,11 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil * CO2_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                            * CO2_fossil
+                        )
                     )
                     / array[self.array_inputs["range"], :, ind_array]
                     * -1
@@ -3415,22 +3552,31 @@ class InventoryCalculation:
                     CO2_non_fossil = self.fuel_blends["petrol"]["primary"]["CO2"]
 
                 if self.fuel_blends["petrol"]["secondary"]["type"] != "petrol":
-                    share_non_fossil += self.fuel_blends["petrol"]["secondary"]["share"][
-                        self.scope["year"].index(y)
-                    ]
+                    share_non_fossil += self.fuel_blends["petrol"]["secondary"][
+                        "share"
+                    ][self.scope["year"].index(y)]
                     CO2_non_fossil = self.fuel_blends["petrol"]["secondary"]["CO2"]
 
-
                 self.A[
-                :,
-                self.inputs[("Carbon dioxide, from soil or biomass stock", ("air",), "kilogram")],
-                ind_A,
-                ] = (
+                    :,
+                    self.inputs[
                         (
-                            (array[self.array_inputs["fuel mass"], :, ind_array] * share_non_fossil * CO2_non_fossil)
+                            "Carbon dioxide, from soil or biomass stock",
+                            ("air",),
+                            "kilogram",
                         )
-                        / array[self.array_inputs["range"], :, ind_array]
-                        * -1
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_non_fossil
+                            * CO2_non_fossil
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
                 ).T
 
                 # Heavy metals emissions from conventional petrol
@@ -3443,7 +3589,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 1e-8
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3459,7 +3608,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 1.7e-6
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3475,7 +3627,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 5.0e-8
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3491,7 +3646,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 7.0e-8
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3507,7 +3665,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 1.0e-8
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3523,7 +3684,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 1.0e-6
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3543,7 +3707,10 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     (
-                        (array[self.array_inputs["fuel mass"], :, ind_array] * share_fossil)
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
                         * 1.0e-10
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3580,15 +3747,13 @@ class InventoryCalculation:
         # BEVs only emit 20% of what a combustion engine vehicle emit according to
         # https://link.springer.com/article/10.1007/s11367-014-0792-4
         ind_A = [
-                    self.inputs[i]
-                    for i in self.inputs
-                    if "Passenger" in i[0]
-                    and any(x in i[0] for x in ["ICEV-d", "ICEV-p", "ICEV-g"])
-                ]
+            self.inputs[i]
+            for i in self.inputs
+            if "Passenger" in i[0]
+            and any(x in i[0] for x in ["ICEV-d", "ICEV-p", "ICEV-g"])
+        ]
 
-        index = self.get_index_vehicle_from_array(
-            ["ICEV-d", "ICEV-p", "ICEV-g"]
-        )
+        index = self.get_index_vehicle_from_array(["ICEV-d", "ICEV-p", "ICEV-g"])
 
         self.A[
             :,
@@ -3600,15 +3765,17 @@ class InventoryCalculation:
                     "brake wear emissions, passenger car",
                 )
             ],
-            ind_A
+            ind_A,
         ] = (array[self.array_inputs["driving mass"], :, index].T * 5e-09)
 
         ind_A = [
-                    self.inputs[i]
-                    for i in self.inputs
-                    if "Passenger" in i[0]
-                    and any(x in i[0] for x in ["BEV", "FCEV", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"])
-                ]
+            self.inputs[i]
+            for i in self.inputs
+            if "Passenger" in i[0]
+            and any(
+                x in i[0] for x in ["BEV", "FCEV", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"]
+            )
+        ]
 
         index = self.get_index_vehicle_from_array(
             ["BEV", "FCEV", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"]
@@ -3624,8 +3791,8 @@ class InventoryCalculation:
                     "brake wear emissions, passenger car",
                 )
             ],
-            ind_A
-        ] = (array[self.array_inputs["driving mass"], :, index].T * 5e-09 * .2)
+            ind_A,
+        ] = (array[self.array_inputs["driving mass"], :, index].T * 5e-09 * 0.2)
 
         # Infrastructure
         self.A[

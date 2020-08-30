@@ -932,6 +932,11 @@ class CarModel:
             :, "ICEV-g", "emission factor", :
         ]
 
+        # Emissions are scaled to the combustion power share
+        self.array.loc[:, :, list_direct_emissions, :] *= self.array.loc[
+                                                                 :, :, "combustion power share", :
+                                                                 ]
+
     def set_noise_emissions(self):
         """
         Calculate noise emissions based on ``driving cycle``.
