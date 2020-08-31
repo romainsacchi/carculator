@@ -323,7 +323,7 @@ class ExportInventory:
 
         return dict_uvek
 
-    def write_lci(self, presamples, ecoinvent_compatibility, ecoinvent_version):
+    def write_lci(self, presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities=None):
         """
         Return the inventory as a dictionary
         If if there several values for one exchange, uncertainty information is generated.
@@ -396,8 +396,6 @@ class ExportInventory:
             'hardwood forestry, mixed species, sustainable forest management, CF = -1',
             'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant',
             'market for wood chips, wet, measured as dry mass, CF = -1',
-            'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station',
-            'Hydrogen, gaseous, 25 bar, from electrolysis',
             'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at H2 fuelling station',
             'SMR BM, HT+LT, + CCS (MDEA), 98 (average), digestate incineration, 26 bar',
             'Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station',
@@ -440,6 +438,9 @@ class ExportInventory:
             'treatment of biowaste by anaerobic digestion, with biogenic carbon uptake, lower bound C sequestration, digestate incineration',
             'Crude Palm Oil extraction from FFBs {RER} |oil mill|'
         ]
+
+        if isinstance(forbidden_activities, list):
+            activities_to_be_removed.extend(forbidden_activities)
 
         uvek_activities_to_remove = [
             "market for activated carbon, granular",
@@ -658,7 +659,8 @@ class ExportInventory:
         ecoinvent_compatibility,
         ecoinvent_version,
         software_compatibility,
-        filename=None
+        filename=None,
+        forbidden_activities=None
     ):
         """
         Export an Excel file that can be consumed by the software defined in `software_compatibility`.
@@ -699,7 +701,7 @@ class ExportInventory:
                 os.makedirs(directory)
             filepath_export = os.path.join(directory, safe_name)
 
-        list_act = self.write_lci(False, ecoinvent_compatibility, ecoinvent_version)
+        list_act = self.write_lci(False, ecoinvent_compatibility, ecoinvent_version, forbidden_activities)
 
         if software_compatibility == "brightway2":
             data = []

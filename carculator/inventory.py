@@ -1307,6 +1307,7 @@ class InventoryCalculation:
         ecoinvent_compatibility=True,
         ecoinvent_version="3.6",
         db_name="carculator db",
+        forbidden_activities=None
     ):
         """
         Export the inventory as a dictionary. Also return a list of arrays that contain pre-sampled random values if
@@ -1328,11 +1329,11 @@ class InventoryCalculation:
         if presamples == True:
             lci, array = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
-            ).write_lci(presamples, ecoinvent_compatibility, ecoinvent_version)
+            ).write_lci(presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities)
             return (lci, array)
         else:
             lci = ExportInventory(self.A, self.rev_inputs, db_name=db_name).write_lci(
-                presamples, ecoinvent_compatibility, ecoinvent_version
+                presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities
             )
             return lci
 
@@ -1342,6 +1343,7 @@ class InventoryCalculation:
         ecoinvent_compatibility=True,
         ecoinvent_version="3.6",
         db_name="carculator db",
+        forbidden_activities=None
     ):
         """
         Export the inventory as a `brightway2` bw2io.importers.base_lci.LCIImporter object
@@ -1382,12 +1384,12 @@ class InventoryCalculation:
         if presamples == True:
             lci, array = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
-            ).write_lci_to_bw(presamples, ecoinvent_compatibility, ecoinvent_version)
+            ).write_lci_to_bw(presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities)
             return (lci, array)
         else:
             lci = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
-            ).write_lci_to_bw(presamples, ecoinvent_compatibility, ecoinvent_version)
+            ).write_lci_to_bw(presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities)
             return lci
 
     def export_lci_to_excel(
@@ -1397,6 +1399,7 @@ class InventoryCalculation:
         ecoinvent_version="3.6",
         software_compatibility="brightway2",
         filename=None,
+        forbidden_activities=None
     ):
         """
         Export the inventory as an Excel file (if the destination software is Brightway2) or a CSV file (if the destination software is Simapro) file.
@@ -1441,6 +1444,7 @@ class InventoryCalculation:
             ecoinvent_version,
             software_compatibility,
             filename,
+            forbidden_activities
         )
         return fp
 
