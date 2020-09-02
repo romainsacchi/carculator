@@ -224,10 +224,10 @@ class CarModel:
             "combustion powertrain cost per kW",
             :,
             :,
-        ] = np.reshape(
+        ] = np.clip(np.reshape(
             (5.92e160 * np.exp(-.1819 * self.array.year.values) + 26.76) * cost_factor,
             (1, 1, n_year, n_iterations),
-        )
+        ), None, 100)
 
     def adjust_fuel_mass(self):
         """

@@ -389,9 +389,9 @@ class ExportInventory:
             "Buffer tank",
             "frequency converter, for diaphragm compressor",
             'Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant',
-            'Methanol distillation',
+            #'Methanol distillation',
             'CO2 storage/at H2 production plant, pre, pipeline 200km, storage 1000m',
-            'Syngas, RWGS, Production',
+            #'Syngas, RWGS, Production',
             'softwood forestry, mixed species, sustainable forest management, CF = -1',
             'hardwood forestry, mixed species, sustainable forest management, CF = -1',
             'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant',
@@ -405,9 +405,9 @@ class ExportInventory:
             'Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station',
             'SMR NG + CCS (MDEA), 98 (average), 700 bar',
             'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass, at gasification plant',
-            'Methanol Synthesis',
-            'Diesel production, synthetic, Fischer Tropsch process',
-            'Gasoline production, synthetic, from methanol',
+            #'Methanol Synthesis',
+            #'Diesel production, synthetic, Fischer Tropsch process',
+            #'Gasoline production, synthetic, from methanol',
             'Crude vegetable oil | oil mill: extraction of vegetable oil from rapeseed | Alloc Rec, U',
             'biomethane from biogas upgrading - biowaste - amine scrubbing, best - with biogenic carbon uptake, lower bound C sequestration, digestate incineration',
             'Plant oil from crude oil | refining of vegetable oil from oil palm|',
@@ -1090,7 +1090,7 @@ class ExportInventory:
 
         return filepath_export
 
-    def write_lci_to_bw(self, presamples, ecoinvent_compatibility, ecoinvent_version):
+    def write_lci_to_bw(self, presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities):
         """
         Return a LCIImporter object with the inventory as `data` attribute.
 
@@ -1099,14 +1099,14 @@ class ExportInventory:
         """
         if presamples == True:
             data, array = self.write_lci(
-                presamples, ecoinvent_compatibility, ecoinvent_version
+                presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities
             )
             i = bw2io.importers.base_lci.LCIImporter(self.db_name)
             i.data = data
             return (i, array)
         else:
             data = self.write_lci(
-                presamples, ecoinvent_compatibility, ecoinvent_version
+                presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities
             )
             i = bw2io.importers.base_lci.LCIImporter(self.db_name)
             i.data = data
