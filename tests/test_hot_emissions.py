@@ -24,7 +24,7 @@ def test_output_emissions():
 
     # Particulate matter emission, diesel
     assert em[:, 9:12, :, :].sum() > 3.7e-7
-    assert em[:, 9:12, :, :].sum() < 3.8e-7
+    assert em[:, 9:12, :, :].sum() < 4.5e-7
 
     # Euro-6d NOx emission limit, diesel
     assert em[:, 6:9, :, :].sum() < 8e-5
