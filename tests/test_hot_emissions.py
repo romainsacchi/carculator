@@ -34,7 +34,7 @@ def test_output_emissions():
 
     # Carbon monoxide emission, petrol
     assert em[:, 3:6, :, :].sum() > 2.5e-4
-    assert em[:, 3:6, :, :].sum() < 3e-4
+    assert em[:, 3:6, :, :].sum() < 3.5e-4
 
     # Particulate matter emission, petrol
     assert em[:, 9:12, :, :].sum() > 9.3e-7
