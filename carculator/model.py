@@ -59,6 +59,7 @@ class CarModel:
         else:
             self.ecm = EnergyConsumptionModel(cycle=cycle, gradient=gradient)
 
+
     def __call__(self, key):
         """
         This method fixes a dimension of the `array` attribute given a powertrain technology selected.
@@ -760,9 +761,6 @@ class CarModel:
             "Lead direct emissions, urban",
             "Lead direct emissions, suburban",
             "Lead direct emissions, rural",
-            "Sulfur dioxide direct emissions, urban",
-            "Sulfur dioxide direct emissions, suburban",
-            "Sulfur dioxide direct emissions, rural",
             "Dinitrogen oxide direct emissions, urban",
             "Dinitrogen oxide direct emissions, suburban",
             "Dinitrogen oxide direct emissions, rural",

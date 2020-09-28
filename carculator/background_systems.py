@@ -18,6 +18,7 @@ class BackgroundSystemModel:
         self.losses = self.get_electricity_losses()
         self.region_map = self.get_region_mapping()
         self.biofuel = self.get_biofuel_share()
+        self.sulfur = self.get_sulfur_content_in_fuel()
 
     def get_electricity_losses(self):
         """
@@ -135,3 +136,44 @@ class BackgroundSystemModel:
                 ]
                 array.loc[dict(region=r, scenario=s, value=0)] = val
         return array
+
+    def get_sulfur_content_in_fuel(self):
+        """
+        Retrieve sulfur content per kg of petrol and diesel.
+        For CH, DE, FR, AU and SE, the concentration values come from HBEFA 4.1, from 1909 to 2020 (extrapolated to 2050).
+
+        For the other countries, values come from
+        Miller, J. D., & Jin, L. (2019). Global progress toward soot-free diesel vehicles in 2019.
+        International Council on Clean Transportation.
+        https://www.theicct.org/publications/global-progress-toward-soot-free-diesel-vehicles-2019
+
+        There is an assumption made: countries that have high-sulfur content fuels (above 50 ppm in 2019) are assumed to
+        improve over time to reach 50 ppm by 2050.
+
+        :param country: Country to return the sulfur concentration for.
+        :type country: str. 2-digit ISO country code.
+        :return: An axarray with 'country' and 'year' as dimensions
+        :rtype: xarray.core.dataarray.DataArray
+        """
+        filename = "S_concentration_fuel.csv"
+        filepath = DATA_DIR / filename
+
+        if not filepath.is_file():
+            raise FileNotFoundError(
+                "The CSV file that contains sulfur concentration values could not be found."
+            )
+        df = pd.read_csv(filepath, sep=";")
+        df = df.groupby(["country", "year"]).sum().unstack()
+        df.loc[:,("diesel", 1990)] = df["diesel"].max(1)
+        df.loc[:,("petrol", 1990)] = df["petrol"].max(1)
+
+        df.loc[df[("diesel", 2019)]>50/1e6,("diesel", 2050)] = 50/1e6
+        df.loc[df[("petrol", 2019)]>50/1e6,("petrol", 2050)] = 50/1e6
+        df.loc[:,("diesel", 2050)] = df["diesel"].min(1)
+        df.loc[:,("petrol", 2050)] = df["petrol"].min(1)
+
+        df = df.interpolate(axis=1)
+        df = df.unstack().reset_index()
+        df = df.rename(columns={"level_0":"fuel"})
+        arr = df.groupby(["country", "year", "fuel"]).sum()[0].to_xarray()
+        return arr

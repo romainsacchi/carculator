@@ -99,7 +99,7 @@ class HotEmissionsModel:
 
         
 
-        em_arr = np.zeros((len(self.cycle), 11))
+        em_arr = np.zeros((len(self.cycle), 10))
 
         if powertrain_type == "diesel":
             if euro_class == 0:
@@ -129,16 +129,12 @@ class HotEmissionsModel:
                 ) + (0.105 * (start_per_day * 365 / 12000))
                 # Pb
                 # No Pb!
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "1.217e-09 * c ** 3 - 1.429e-07 * c ** 2 + 3.727e-06 * c + 0.001266"
-                ) + (0.0015 * (start_per_day * 365 / 12000))
                 # N2O
-                em_arr[:, 8] = 0
+                em_arr[:, 7] = 0
                 # NH3
-                em_arr[:, 9] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "-4.636e-09 * c ** 3 + 2.072e-06 * c ** 2 - 0.0002708 * c + 0.01227"
                 ) + (0.0018 * (start_per_day * 365 / 12000))
 
@@ -169,16 +165,12 @@ class HotEmissionsModel:
                 ) + (0.0678 * (start_per_day * 365 / 12000))
                 # Pb
                 # No Pb!
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "9.654e-10 * c ** 3 - 9.593e-08 * c ** 2 + 1.732e-07 * c + 0.001224"
-                ) + (0.0013 * (start_per_day * 365 / 12000))
                 # N2O
-                em_arr[:, 8] = 0.004 + (0.0035 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.004 + (0.0035 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "-1.407e-09 * c ** 3 + 4.672e-07 * c ** 2 - 5.473e-05 * c + 0.00291"
                 ) + (0.00116 * (start_per_day * 365 / 12000))
 
@@ -209,16 +201,12 @@ class HotEmissionsModel:
                 ) + (0.03778 * (start_per_day * 365 / 12000))
                 # Pb
                 # No Pb!
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "8.34e-10 * c ** 3 - 6.866e-08 * c ** 2 - 2.463e-06 * c + 0.001338"
-                ) + (0.001377 * (start_per_day * 365 / 12000))
                 # N2O
-                em_arr[:, 8] = 0.006 + (0.0055 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.006 + (0.0055 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "-9.779e-10 * c ** 3 + 3.232e-07 * c ** 2 - 3.76e-05 * c + 0.001865"
                 ) + (0.06 * (start_per_day * 365 / 12000))
             if euro_class == 3:
@@ -248,16 +236,12 @@ class HotEmissionsModel:
                 ) + (0.0213 * (start_per_day * 365 / 12000))
                 # Pb
                 # No Pb!
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "6.276e-10 * c ** 3 - 5.211e-08 * c ** 2 - 1.748e-06 * c + 0.001136"
-                ) + (0.001186 * (start_per_day * 365 / 12000))
                 # N2O
-                em_arr[:, 8] = 0.004 + (0.005092 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.004 + (0.005092 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "-1.131e-10 * c ** 3 + 6.889e-08 * c ** 2 - 1.111e-05 * c + 0.000791"
                 ) + (0.000396 * (start_per_day * 365 / 12000))
             if euro_class == 4:
@@ -287,16 +271,12 @@ class HotEmissionsModel:
                 ) + (0.0098 * (start_per_day * 365 / 12000))
                 # Pb
                 # No Pb!
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "4.21e-10 * c ** 3 - 5.317e-09 * c ** 2 - 5.653e-06 * c + 0.001271"
-                ) + (0.001223 * (start_per_day * 365 / 12000))
                 # N2O
-                em_arr[:, 8] = 0.0035 + (0.005 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.0035 + (0.005 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "-9.106e-11 * c ** 3 + 3.198e-08 * c ** 2 - 3.777e-06 * c + 0.0002095"
                 ) + (9.26e-5 * (start_per_day * 365 / 12000))
             if euro_class == 5:
@@ -326,16 +306,12 @@ class HotEmissionsModel:
                 )
                 # Pb
                 # No Pb!
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "3.508e-10 * c ** 3 + 1.216e-08 * c ** 2 - 7.032e-06 * c + 0.001306"
-                ) + (0.0011 * (start_per_day * 365 / 12000))
                 # N2O
-                em_arr[:, 8] = 0.008 + (0.0074 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.008 + (0.0074 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.002 + (1.44e-4 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.002 + (1.44e-4 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "-8.782e-11 * c ** 3 + 3.059e-08 * c ** 2 - 3.761e-06 * c + 0.0001954"
                 ) + (6.66e-5 * (start_per_day * 365 / 12000))
 
@@ -369,17 +345,12 @@ class HotEmissionsModel:
 
                 # Pb
                 # No Pb!
-
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "3.993e-10 * c ** 3 - 7.997e-09 * c ** 2 - 5.447e-06 * c + 0.001213"
-                ) + (0.0011 * (start_per_day * 365 / 12000))
                 # N2O
-                em_arr[:, 8] = 0.01 + (0.012 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.01 + (0.012 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.006 + (0.007 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.006 + (0.007 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "2.525e-10 * c ** 3 - 4.873e-08 * c ** 2 + 2.399e-06 * c + 0.0001"
                 ) + (1.43e-4 * (start_per_day * 365 / 12000))
 
@@ -412,17 +383,12 @@ class HotEmissionsModel:
                 ) + (0.00135 * (start_per_day * 365 / 12000))
                 # Pb
                 # No Pb!
-
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "3.612e-10 * c ** 3 - 5.179e-09 * c ** 2 - 5.282e-06 * c + 0.001133"
-                ) + (0.00105 * (start_per_day * 365 / 12000))
                 # N2O
-                em_arr[:, 8] = 0.01 + (0.01173 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.01 + (0.01173 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.006 + (0.0069 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.006 + (0.0069 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "7.713e-11 * c ** 3 - 1.519e-08 * c ** 2 + 9.757e-07 * c + 6.621e-05"
                 ) + (1.08e-4 * (start_per_day * 365 / 12000))
 
@@ -460,18 +426,12 @@ class HotEmissionsModel:
 
                 # Pb
                 # No Pb!
-
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "3.238e-10 * c **3 + 2.633e-09 * c ** 2  - 5.843e-06 * c + 0.001135"
-                ) + (0.00103 * (start_per_day * 365 / 12000))
-
                 # N2O
-                em_arr[:, 8] = 0.01 + (0.01173 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.01 + (0.01173 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.006 + (0.0069 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.006 + (0.0069 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "1.501e-12 * c **3 - 1.026e-09 * c ** 2  + 4.152e-07 * c + 4.603e-05"
                 ) + (8.93e-5 * (start_per_day * 365 / 12000))
 
@@ -509,19 +469,14 @@ class HotEmissionsModel:
 
                 # Pb
                 # No Pb!
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "2.631e-10 * c ** 3 + 1.122e-08 * c ** 2 - 6.082e-06 * c + 0.001071"
-                ) + (9.55e-4 * (start_per_day * 365 / 12000))
-
                 # N2O
-                em_arr[:, 8] = 0.014 + (0.01173 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.014 + (0.01173 * (start_per_day * 365 / 12000))
 
                 # NH3
-                em_arr[:, 9] = 0.006 + (0.0069 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.006 + (0.0069 * (start_per_day * 365 / 12000))
 
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "1.136e-11 * c ** 3 - 3.124e-09 * c ** 2 + 4.998e-07 * c + 3.844e-05"
                 ) + (7.86e-5 * (start_per_day * 365 / 12000))
 
@@ -562,17 +517,12 @@ class HotEmissionsModel:
                     "7.335e-12 * c ** 3 + 5.838e-09 * c ** 2 - 8.995e-07 * c + 8.89e-05"
                 ) + (7.2e-5 * (start_per_day * 365 / 12000))
 
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "1.161e-10 * c ** 3 + 9.242e-08 * c ** 2 - 1.424e-05 * c + 0.001407"
-                ) + (0.00114 * (start_per_day * 365 / 12000))
-
                 # N2O
-                em_arr[:, 8] = 0.08 + (0.0073 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.08 + (0.0073 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.04 + (0.002 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.04 + (0.002 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "-9.501e-08 * c ** 3 + 2.991e-05 * c ** 2 - 0.003171 * c + 0.1403"
                 ) + (0.0534 * (start_per_day * 365 / 12000))
 
@@ -611,17 +561,12 @@ class HotEmissionsModel:
                     "3.472e-13 * c ** 3 + 8.382e-09 * c ** 2 - 1.168e-06 * c + 9.978e-05"
                 ) + (7.46e-5 * (start_per_day * 365 / 12000))
 
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "5.495e-12 * c ** 3 + 1.327e-07 * c ** 2 - 1.85e-05 * c + 0.001579"
-                ) + (0.00118 * (start_per_day * 365 / 12000))
-
                 # N2O
-                em_arr[:, 8] = 0.01 + (0.0099 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.01 + (0.0099 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.12 + (0.0955 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.12 + (0.0955 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "3.677e-08 * c ** 3 - 8.152e-06 * c ** 2 + 0.0005568 * c - 0.0004184"
                 ) + (0.0148 * (start_per_day * 365 / 12000))
 
@@ -654,16 +599,13 @@ class HotEmissionsModel:
                 em_arr[:, 6] = ne.evaluate(
                     "-8.2e-12 * c ** 3 + 1.092e-08 * c ** 2 - 1.428e-06 * c + 0.0001095"
                 ) + (7.7e-5 * (start_per_day * 365 / 12000))
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-1.298e-10 * c ** 3 + 1.729e-07 * c ** 2 - 2.26e-05 * c + 0.001734"
-                ) + (0.00122 * (start_per_day * 365 / 12000))
+
                 # N2O
-                em_arr[:, 8] = 0.004 + (0.0049 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.004 + (0.0049 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.12 + (0.123 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.12 + (0.123 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "-3.312e-09 * c ** 3 + 9.31e-07 * c ** 2 - 6.351e-05 * c + 0.00473"
                 ) + (0.00547 * (start_per_day * 365 / 12000))
 
@@ -695,16 +637,12 @@ class HotEmissionsModel:
                 em_arr[:, 6] = ne.evaluate(
                     "-9.606e-12 * c ** 3 + 1.045e-08 * c ** 2 - 1.348e-06 * c + 0.0001014"
                 ) + (7.04e-5 * (start_per_day * 365 / 12000))
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-1.521e-10 * c ** 3 + 1.655e-07 * c ** 2 - 2.133e-05 * c + 0.001606"
-                ) + (1.11e-3 * (start_per_day * 365 / 12000))
                 # N2O
-                em_arr[:, 8] = 2.5e-3 + (4.5e-5 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 2.5e-3 + (4.5e-5 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.05 + (0.037 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.05 + (0.037 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "8.935e-09 * c ** 3 - 1.755e-06 * c ** 2 + 0.0001222 * c - 0.001336"
                 ) + (0.00237 * (start_per_day * 365 / 12000))
             if euro_class == 4:
@@ -735,16 +673,12 @@ class HotEmissionsModel:
                 em_arr[:, 6] = ne.evaluate(
                     "-2.227e-11 * c ** 3 + 1.322e-08 * c ** 2 - 1.55e-06 * c + 0.0001023"
                 ) + (6.58e-5 * (start_per_day * 365 / 12000))
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-3.525e-10 * c ** 3 + 2.092e-07 * c ** 2 - 2.453e-05 * c + 0.001619"
-                ) + (0.00104 * (start_per_day * 365 / 12000))
                 # N2O
-                em_arr[:, 8] = 1.0e-3 + (5.72e-4 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 1.0e-3 + (5.72e-4 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.04 + (0.037 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.04 + (0.037 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "8.594e-10 * c ** 3 - 1.688e-07 * c ** 2 + 1.022e-05 * c - 0.0001428"
                 ) + (7.12e-5 * (start_per_day * 365 / 12000))
 
@@ -783,17 +717,12 @@ class HotEmissionsModel:
                     "-2.028e-11 * c ** 3 + 1.193e-08 * c ** 2 - 1.411e-06 * c + 9.467e-05"
                 ) + (5.98e-5 * (start_per_day * 365 / 12000))
 
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-3.21e-10 * c ** 3 + 1.889e-07 * c ** 2 - 2.234e-05 * c + 0.001499"
-                ) + (9.47e-4 * (start_per_day * 365 / 12000))
-
                 # N2O
-                em_arr[:, 8] = 8.5e-4 + (5.72e-4 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 8.5e-4 + (5.72e-4 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.019 + (0.016 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.019 + (0.016 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "-6.38e-10 * c ** 3 + 1.259e-07 * c ** 2 - 7.827e-06 * c + 9.119e-05"
                 ) + (8.95e-5 * (start_per_day * 365 / 12000))
 
@@ -826,16 +755,13 @@ class HotEmissionsModel:
                 em_arr[:, 6] = ne.evaluate(
                     "-2.745e-11 * c ** 3 + 1.268e-08 * c ** 2 - 1.436e-06 * c + 9.009e-05"
                 ) + (5.33e-05 * (start_per_day * 365 / 12000))
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-4.344e-10 * c ** 3 + 2.007e-07 * c ** 2 - 2.273e-05 * c + 0.001426"
-                ) + (8.44e-04 * (start_per_day * 365 / 12000))
+
                 # N2O
-                em_arr[:, 8] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "1.861e-10 * c ** 3 - 3.288e-08 * c ** 2 + 1.836e-06 * c + 1.005e-05"
                 ) + (6.04e-05 * (start_per_day * 365 / 12000))
 
@@ -868,16 +794,13 @@ class HotEmissionsModel:
                 em_arr[:, 6] = ne.evaluate(
                     "-2.561e-11 * c ** 3 + 1.161e-08 * c ** 2 - 1.309e-06 * c + 8.137e-05"
                 ) + (4.77e-05 * (start_per_day * 365 / 12000))
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-4.053e-10 * c ** 3 + 1.837e-07 * c ** 2 - 2.073e-05 * c + 0.001288"
-                ) + (7.55e-04 * (start_per_day * 365 / 12000))
+
                 # N2O
-                em_arr[:, 8] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "7.335e-11 * c ** 3 - 1.343e-08 * c ** 2 + 8.808e-07 * c - 8.577e-06"
                 ) + (1.98e-05 * (start_per_day * 365 / 12000))
 
@@ -910,16 +833,13 @@ class HotEmissionsModel:
                 em_arr[:, 6] = ne.evaluate(
                     "-2.405e-11 * c ** 3 + 1.101e-08 * c ** 2 - 1.246e-06 * c + 7.88e-05"
                 ) + (4.67e-05 * (start_per_day * 365 / 12000))
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-3.808e-10 * c ** 3 + 1.743e-07 * c ** 2 - 1.972e-05 * c + 0.001247"
-                ) + (7.40e-04 * (start_per_day * 365 / 12000))
+
                 # N2O
-                em_arr[:, 8] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.017 + (1.88e-02 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.017 + (1.88e-02 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "-7.731e-11 * c ** 3 + 2.908e-08 * c ** 2 - 2.415e-06 * c + 8.536e-05"
                 ) + (5.42e-05 * (start_per_day * 365 / 12000))
 
@@ -952,16 +872,13 @@ class HotEmissionsModel:
                 em_arr[:, 6] = ne.evaluate(
                     "-1.843e-11 * c ** 3 + 8.969e-09 * c ** 2 - 1.026e-06 * c + 6.87e-05"
                 ) + (4.26e-05 * (start_per_day * 365 / 12000))
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-2.917e-10 * c ** 3 + 1.42e-07 * c ** 2 - 1.625e-05 * c + 0.001087"
-                ) + (6.74e-04 * (start_per_day * 365 / 12000))
+
                 # N2O
-                em_arr[:, 8] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "-1.092e-10 * c ** 3 + 3.665e-08 * c ** 2 - 2.973e-06 * c + 9.515e-05"
                 ) + (5.05e-05 * (start_per_day * 365 / 12000))
 
@@ -997,16 +914,13 @@ class HotEmissionsModel:
                 em_arr[:, 6] = ne.evaluate(
                     "-3.679e-12 * c ** 3 + 4.9e-09 * c ** 2 - 6.404e-07 * c + 4.914e-05"
                 )
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-5.823e-11 * c ** 3 + 7.756e-08 * c ** 2 - 1.014e-05 * c + 0.0007778"
-                )
+
                 # N2O
-                em_arr[:, 8] = 0.002 + (0.000572766 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 0.002 + (0.000572766 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.075 + (0.037029848 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.075 + (0.037029848 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "-1.656e-09 * c ** 3 + 4.655e-07 * c ** 2 - 3.176e-05 * c + 0.002365"
                 )
 
@@ -1041,17 +955,13 @@ class HotEmissionsModel:
                 em_arr[:, 6] = ne.evaluate(
                     "-4.803e-12 * c ** 3 + 5.227e-09 * c ** 2 - 6.738e-07 * c + 5.072e-05"
                 )
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-7.603e-11 * c ** 3 + 8.274e-08 * c ** 2 - 1.067e-05 * c + 0.0008028"
-                )
 
                 # N2O
-                em_arr[:, 8] = 2.5e-4 + (0.000572766 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 2.5e-4 + (0.000572766 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.03 + (0.037029848 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.03 + (0.037029848 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "4.468e-09 * c ** 3 - 8.776e-07 * c ** 2 + 6.108e-05 * c - 0.0006682"
                 )
             if euro_class == 4:
@@ -1086,16 +996,13 @@ class HotEmissionsModel:
                 em_arr[:, 6] = ne.evaluate(
                     "-9.752e-12 * c ** 3 + 5.948e-09 * c ** 2 - 7.025e-07 * c + 4.688e-05"
                 )
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-1.544e-10 * c ** 3 + 9.415e-08 * c ** 2 - 1.112e-05 * c + 0.0007421"
-                )
+
                 # N2O
-                em_arr[:, 8] = 2.5e-4 + (0.000572766 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 2.5e-4 + (0.000572766 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.03 + (0.037029848 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.03 + (0.037029848 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "4.326e-10 * c ** 3 - 8.507e-08 * c ** 2 + 5.158e-06 * c - 7.231e-05"
                 )
 
@@ -1130,16 +1037,13 @@ class HotEmissionsModel:
                 em_arr[:, 6] = ne.evaluate(
                     "-9.722e-12 * c ** 3 + 5.618e-09 * c ** 2 - 6.622e-07 * c + 4.414e-05"
                 )
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-1.539e-10 * c ** 3 + 8.892e-08 * c ** 2 - 1.048e-05 * c + 0.0006987"
-                )
+
                 # N2O
-                em_arr[:, 8] = 8.5e-4 + (0.000572766 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 8.5e-4 + (0.000572766 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.019 + (0.016007606 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.019 + (0.016007606 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "3.216e-10 * c ** 3 - 6.349e-08 * c ** 2 + 3.948e-06 * c - 4.585e-05"
                 )
 
@@ -1174,16 +1078,13 @@ class HotEmissionsModel:
                 em_arr[:, 6] = ne.evaluate(
                     "-1.38e-11 * c ** 3 + 6.464e-09 * c ** 2 - 7.366e-07 * c + 4.665e-05"
                 )
-                # SO2
-                em_arr[:, 7] = ne.evaluate(
-                    "-2.185e-10 * c ** 3 + 1.023e-07 * c ** 2 - 1.166e-05 * c + 0.0007384"
-                )
+
                 # N2O
-                em_arr[:, 8] = 8.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
+                em_arr[:, 7] = 8.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 9] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
+                em_arr[:, 8] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 10] = ne.evaluate(
+                em_arr[:, 9] = ne.evaluate(
                     "9.493e-11 * c ** 3 - 1.694e-08 * c ** 2 + 9.587e-07 * c + 4.34e-06"
                 )
 
@@ -1209,7 +1110,7 @@ class HotEmissionsModel:
                 urban /= 1000  # going from grams to kg
 
             else:
-                urban = np.zeros((11))
+                urban = np.zeros((10))
 
             if "suburban start" in self.cycle_environment[self.cycle_name]:
                 start = self.cycle_environment[self.cycle_name]["suburban start"]
@@ -1221,7 +1122,7 @@ class HotEmissionsModel:
                 suburban /= 1000  # going from grams to kg
 
             else:
-                suburban = np.zeros((11))
+                suburban = np.zeros((10))
 
             if "rural start" in self.cycle_environment[self.cycle_name]:
                 start = self.cycle_environment[self.cycle_name]["rural start"]
@@ -1231,7 +1132,7 @@ class HotEmissionsModel:
                 rural /= 1000  # going from grams to kg
 
             else:
-                rural = np.zeros((11))
+                rural = np.zeros((10))
 
         else:
             distance = self.cycle.sum() / 3600
@@ -1255,6 +1156,6 @@ class HotEmissionsModel:
 
         return (
             np.hstack(
-                (urban.reshape(11, -1), suburban.reshape(11, -1), rural.reshape(11, -1))
+                (urban.reshape(10, -1), suburban.reshape(10, -1), rural.reshape(10, -1))
             )
-        ).reshape(1, 33, 1, 1)
+        ).reshape(1, 30, 1, 1)

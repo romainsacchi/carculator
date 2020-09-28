@@ -356,11 +356,6 @@ class InventoryCalculation:
                 "kilogram",
             ): "Ammonia direct emissions, rural",
             (
-                "Sulfur dioxide",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Sulfur dioxide direct emissions, rural",
-            (
                 "NMVOC, non-methane volatile organic compounds, unspecified origin",
                 ("air", "low population density, long-term"),
                 "kilogram",
@@ -370,11 +365,6 @@ class InventoryCalculation:
                 ("air", "urban air close to ground"),
                 "kilogram",
             ): "Particulate matters direct emissions, urban",
-            (
-                "Sulfur dioxide",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Sulfur dioxide direct emissions, urban",
             (
                 "Dinitrogen monoxide",
                 ("air", "non-urban air or from high stacks"),
@@ -405,11 +395,6 @@ class InventoryCalculation:
                 ("air", "low population density, long-term"),
                 "kilogram",
             ): "Particulate matters direct emissions, rural",
-            (
-                "Sulfur dioxide",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Sulfur dioxide direct emissions, suburban",
             (
                 "Benzene",
                 ("air", "low population density, long-term"),
@@ -1514,9 +1499,15 @@ class InventoryCalculation:
                 .mean(axis=0)
             ]
 
+            if self.country not in self.bs.electricity_mix.country.values:
+                print("The electricity mix for {} could not be found. Average European electricity mix is used instead.".format(self.country))
+                country = "RER"
+            else:
+                country = self.country
+
             mix = [
                 self.bs.electricity_mix.sel(
-                    country=self.country,
+                    country=country,
                     variable=[
                         "Hydro",
                         "Nuclear",
@@ -1538,7 +1529,7 @@ class InventoryCalculation:
                 .values
                 if y + use_year[self.scope["year"].index(y)] <= 2050
                 else self.bs.electricity_mix.sel(
-                    country=self.country,
+                    country=country,
                     variable=[
                         "Hydro",
                         "Nuclear",
@@ -1597,13 +1588,8 @@ class InventoryCalculation:
                         * losses_to_low
                     ) * 1000
 
-            sum_renew = (
-                self.mix[self.scope["year"].index(y)][0]
-                + self.mix[self.scope["year"].index(y)][3]
-                + self.mix[self.scope["year"].index(y)][4]
-                + self.mix[self.scope["year"].index(y)][5]
-                + self.mix[self.scope["year"].index(y)][8]
-            )
+        sum_renew = [np.sum([self.mix[x][i] for i in [0,3,4,5,8]]) for x in range(0, len(self.mix))]
+
         return sum_renew, co2_intensity_tech
 
     def create_electricity_market_for_fuel_prep(self):
@@ -2051,7 +2037,7 @@ class InventoryCalculation:
             "synthetic diesel": 43.3,
             "cng": 55.5,
             "biogas - sewage sludge": 55.5,
-            "biogas - biowaste": 55.5*.657,
+            "biogas - biowaste": 55.5,
             "syngas": 55.5,
         }
 
@@ -2318,9 +2304,9 @@ class InventoryCalculation:
                 "additional electricity": 0,
             },
             "biogas - biowaste": {
-                "name": ('biomethane from biogas upgrading - biowaste - amine scrubbing, best - with biogenic carbon uptake, lower bound C sequestration, digestate incineration',
+                "name": ('biomethane from biogas upgrading - biowaste - amine scrubbing',
                       'CH',
-                      'cubic meter',
+                      'kilogram',
                       'biomethane'),
                 "additional electricity": 0,
             },
@@ -2932,8 +2918,9 @@ class InventoryCalculation:
             * -1
         ).T
 
+        sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
+
         for y in self.scope["year"]:
-            sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
 
             if self.scope["year"].index(y) + 1 == len(self.scope["year"]):
                 end_str = "\n * "
@@ -2944,7 +2931,7 @@ class InventoryCalculation:
                 "in "
                 + str(y)
                 + ", % of renewable: "
-                + str(np.round(sum_renew * 100, 0))
+                + str(np.round(sum_renew[self.scope["year"].index(y)] * 100, 0))
                 + "%"
                 + ", GHG intensity per kWh: "
                 + str(
@@ -3138,7 +3125,7 @@ class InventoryCalculation:
                     * -1
                 ).T
 
-                # Fuel-based CO2 emission from alternative petrol
+                # Fuel-based CO2 emission from alternative CNG
                 # The share of non-fossil gas in the blend is retrieved
                 # As well as the CO2 emission factor of the fuel
 
@@ -3242,7 +3229,7 @@ class InventoryCalculation:
 
                 share_fossil = 0
                 CO2_fossil = 0
-                # Fuel-based CO2 emission from conventional petrol
+                # Fuel-based CO2 emission from conventional diesel
                 if self.fuel_blends["diesel"]["primary"]["type"] == "diesel":
                     share_fossil += self.fuel_blends["diesel"]["primary"]["share"][
                         self.scope["year"].index(y)
@@ -3265,6 +3252,31 @@ class InventoryCalculation:
                             array[self.array_inputs["fuel mass"], :, ind_array]
                             * share_fossil
                             * CO2_fossil
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Fuel-based SO2 emissions
+                # Sulfur concentration value for a given country, a given year, as concentration ratio
+                if self.country in self.bs.sulfur.country.values:
+                    sulfur_concentration = self.bs.sulfur.sel(country=self.country, year=y, fuel="diesel").sum().values
+                else:
+                    # if we do not have the sulfur concentration for the required country, we pick Europe
+                    print("The sulfur content for diesel fuel in {} could not be found. European average sulfur content is used instead.".format(self.country))
+                    sulfur_concentration = self.bs.sulfur.sel(country="RER", year=y, fuel="diesel").sum().values
+
+                self.A[
+                    :,
+                    self.inputs[("Sulfur dioxide", ("air",), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil # assumes sulfur only present in conventional diesel
+                            * sulfur_concentration * (64/32) # molar mass of SO2/molar mass of O2
                         )
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3537,6 +3549,32 @@ class InventoryCalculation:
                             array[self.array_inputs["fuel mass"], :, ind_array]
                             * share_fossil
                             * CO2_fossil
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Fuel-based SO2 emissions
+                # Sulfur concentration value for a given country, a given year, as a concentration ratio
+
+                if self.country in self.bs.sulfur.country.values:
+                    sulfur_concentration = self.bs.sulfur.sel(country=self.country, year=y, fuel="petrol").sum().values
+                else:
+                    # if we do not have the sulfur concentration for the required country, we pick Europe
+                    print("The sulfur content for gasoline fuel in {} could not be found. European average sulfur content is used instead.".format(self.country))
+                    sulfur_concentration = self.bs.sulfur.sel(country="RER", year=y, fuel="petrol").sum().values
+
+                self.A[
+                    :,
+                    self.inputs[("Sulfur dioxide", ("air",), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil # assumes sulfur only present in conventional diesel
+                            * sulfur_concentration * (64/32) # molar mass of SO2/molar mass of O2
                         )
                     )
                     / array[self.array_inputs["range"], :, ind_array]
