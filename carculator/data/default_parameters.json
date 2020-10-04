@@ -20633,6 +20633,110 @@
       "uncertainty_type":5,
       "unit":"unitless",
       "year":2000
-   }
+   },
+  "109-2000--CNG pump-to-tank leakage": {
+        "amount": 0.004,
+        "category": "Energy Storage",
+        "powertrain": [
+            "ICEV-g"
+        ],
+        "sizes": [
+           "Large",
+           "Lower medium",
+           "Medium",
+           "Mini",
+           "SUV",
+           "Small",
+           "Van"
+        ],
+        "year": 2000,
+        "name": "CNG pump-to-tank leakage",
+        "unit": "unitless",
+        "source": "https://iopscience.iop.org/article/10.1088/2516-1083/ab56af/pdf",
+        "comment": "Leakage represented as a fraction of CNG input.\nIncludes leakage from Delivery, Station tank, Continuous leaks at stations, Fuelling nozzle, Vehicle fuel tank and Vehicle manual vent.",
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "loc": 0.004,
+        "minimum": 0.001,
+        "maximum": 0.093
+    },
+  "109-2010--CNG pump-to-tank leakage": {
+        "amount": 0.004,
+        "category": "Energy Storage",
+        "powertrain": [
+            "ICEV-g"
+        ],
+        "sizes": [
+           "Large",
+           "Lower medium",
+           "Medium",
+           "Mini",
+           "SUV",
+           "Small",
+           "Van"
+        ],
+        "year": 2010,
+        "name": "CNG pump-to-tank leakage",
+        "unit": "unitless",
+        "source": "https://iopscience.iop.org/article/10.1088/2516-1083/ab56af/pdf",
+        "comment": "Leakage represented as a fraction of CNG input.\nIncludes leakage from Delivery, Station tank, Continuous leaks at stations, Fuelling nozzle, Vehicle fuel tank and Vehicle manual vent.",
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "loc": 0.004,
+        "minimum": 0.001,
+        "maximum": 0.093
+    },
+  "109-2017--CNG pump-to-tank leakage": {
+        "amount": 0.004,
+        "category": "Energy Storage",
+        "powertrain": [
+            "ICEV-g"
+        ],
+        "sizes": [
+           "Large",
+           "Lower medium",
+           "Medium",
+           "Mini",
+           "SUV",
+           "Small",
+           "Van"
+        ],
+        "year": 2017,
+        "name": "CNG pump-to-tank leakage",
+        "unit": "unitless",
+        "source": "https://iopscience.iop.org/article/10.1088/2516-1083/ab56af/pdf",
+        "comment": "Leakage represented as a fraction of CNG input.\nIncludes leakage from Delivery, Station tank, Continuous leaks at stations, Fuelling nozzle, Vehicle fuel tank and Vehicle manual vent.",
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "loc": 0.004,
+        "minimum": 0.001,
+        "maximum": 0.093
+    },
+  "109-2040--CNG pump-to-tank leakage": {
+        "amount": 0.004,
+        "category": "Energy Storage",
+        "powertrain": [
+            "ICEV-g"
+        ],
+        "sizes": [
+           "Large",
+           "Lower medium",
+           "Medium",
+           "Mini",
+           "SUV",
+           "Small",
+           "Van"
+        ],
+        "year": 2040,
+        "name": "CNG pump-to-tank leakage",
+        "unit": "unitless",
+        "source": "https://iopscience.iop.org/article/10.1088/2516-1083/ab56af/pdf",
+        "comment": "Leakage represented as a fraction of CNG input.\nIncludes leakage from Delivery, Station tank, Continuous leaks at stations, Fuelling nozzle, Vehicle fuel tank and Vehicle manual vent.",
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "loc": 0.004,
+        "minimum": 0.001,
+        "maximum": 0.093
+    }
 }
 

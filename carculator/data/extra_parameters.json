@@ -149,5 +149,17 @@
   "noise, octave 1, day time, urban",
   "noise, octave 8, day time, rural",
   "Lead direct emissions, suburban",
-  "internal noise"
+  "internal noise",
+  "Toluene direct emissions, urban",
+  "Toluene direct emissions, suburban",
+  "Toluene direct emissions, rural",
+  "Xylene direct emissions, urban",
+  "Xylene direct emissions, suburban",
+  "Xylene direct emissions, rural",
+  "Formaldehyde direct emissions, urban",
+  "Formaldehyde direct emissions, suburban",
+  "Formaldehyde direct emissions, rural",
+  "Acetaldehyde direct emissions, urban",
+  "Acetaldehyde direct emissions, suburban",
+  "Acetaldehyde direct emissions, rural"
 ]

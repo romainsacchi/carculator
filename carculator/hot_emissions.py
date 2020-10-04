@@ -99,7 +99,7 @@ class HotEmissionsModel:
 
         
 
-        em_arr = np.zeros((len(self.cycle), 10))
+        em_arr = np.zeros((len(self.cycle), 14))
 
         if powertrain_type == "diesel":
             if euro_class == 0:
@@ -124,17 +124,28 @@ class HotEmissionsModel:
                     "-6.663e-09 * c ** 3 + 2.978e-06 * c ** 2 - 0.0003892 * c + 0.01764"
                 ) + (0.0026 * (start_per_day * 365 / 12000))
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
-                    "-2.71e-07 * c ** 3 + 0.0001211 * c ** 2 - 0.01583 * c + 0.7172"
-                ) + (0.105 * (start_per_day * 365 / 12000))
+                # minus identified species below (toluene, xylene, formaldehyde and acetaldehyde)
+                nmhc = ne.evaluate(
+                    "(-2.71e-07 * c ** 3 + 0.0001211 * c ** 2 - 0.01583 * c + 0.7172) + (0.105 * (start_per_day * 365 / 12000))")
+
+                em_arr[:, 5] = nmhc * (1 - .2063)
+                # Toluene
+                em_arr[:, 6] = nmhc * .0058
+                # Xylene
+                em_arr[:, 7] = nmhc * .0158
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .12
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0647
+
                 # Pb
                 # No Pb!
                 # N2O
-                em_arr[:, 7] = 0
+                em_arr[:, 11] = 0
                 # NH3
-                em_arr[:, 8] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "-4.636e-09 * c ** 3 + 2.072e-06 * c ** 2 - 0.0002708 * c + 0.01227"
                 ) + (0.0018 * (start_per_day * 365 / 12000))
 
@@ -159,18 +170,30 @@ class HotEmissionsModel:
                 em_arr[:, 4] = ne.evaluate(
                     "-2.022e-09 * c ** 3 + 6.715e-07 * c ** 2 - 7.866e-05 * c + 0.004182"
                 ) + (0.0017 * (start_per_day * 365 / 12000))
+
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
-                    "-8.223e-08 * c ** 3 + 2.731e-05 * c ** 2 - 0.003199 * c + 0.1701"
-                ) + (0.0678 * (start_per_day * 365 / 12000))
+                nmhc = ne.evaluate(
+                    "(-8.223e-08 * c ** 3 + 2.731e-05 * c ** 2 - 0.003199 * c + 0.1701) + (0.0678 * (start_per_day * 365 / 12000))")
+
+                em_arr[:, 5] = nmhc * (1 - .2063)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .0058
+                # Xylene
+                em_arr[:, 7] = nmhc * .0158
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .12
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0647
+
                 # Pb
                 # No Pb!
                 # N2O
-                em_arr[:, 7] = 0.004 + (0.0035 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.004 + (0.0035 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "-1.407e-09 * c ** 3 + 4.672e-07 * c ** 2 - 5.473e-05 * c + 0.00291"
                 ) + (0.00116 * (start_per_day * 365 / 12000))
 
@@ -196,19 +219,31 @@ class HotEmissionsModel:
                     "-2.928e-09 * c ** 3 + 9.675e-07 * c ** 2 - 0.0001126 * c + 0.005583"
                 ) + (0.002 * (start_per_day * 365 / 12000))
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
-                    "-5.563e-08 * c ** 3 + 1.838e-05 * c ** 2 - 0.002139 * c + 0.1061"
-                ) + (0.03778 * (start_per_day * 365 / 12000))
+                nmhc = ne.evaluate(
+                    "(-5.563e-08 * c ** 3 + 1.838e-05 * c ** 2 - 0.002139 * c + 0.1061) + (0.03778 * (start_per_day * 365 / 12000))")
+
+                em_arr[:, 5] = nmhc * (1 - .2063)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .0058
+                # Xylene
+                em_arr[:, 7] = nmhc * .0158
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .12
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0647
+
                 # Pb
                 # No Pb!
                 # N2O
-                em_arr[:, 7] = 0.006 + (0.0055 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.006 + (0.0055 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "-9.779e-10 * c ** 3 + 3.232e-07 * c ** 2 - 3.76e-05 * c + 0.001865"
                 ) + (0.06 * (start_per_day * 365 / 12000))
+
             if euro_class == 3:
                 # HC
                 em_arr[:, 0] = ne.evaluate(
@@ -231,19 +266,31 @@ class HotEmissionsModel:
                     "-6.771e-10 * c ** 3 + 4.125e-07 * c ** 2 - 6.655e-05 * c + 0.004737"
                 ) + (0.0024 * (start_per_day * 365 / 12000))
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
-                    "-6.094e-09 * c ** 3 + 3.713e-06 * c ** 2 - 0.000599 * c + 0.04263"
-                ) + (0.0213 * (start_per_day * 365 / 12000))
+                nmhc = ne.evaluate(
+                    "(-6.094e-09 * c ** 3 + 3.713e-06 * c ** 2 - 0.000599 * c + 0.04263) + (0.0213 * (start_per_day * 365 / 12000))")
+
+                em_arr[:, 5] = nmhc * (1- .2063)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .0058
+                # Xylene
+                em_arr[:, 7] = nmhc * .0158
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .12
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0647
+
                 # Pb
                 # No Pb!
                 # N2O
-                em_arr[:, 7] = 0.004 + (0.005092 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.004 + (0.005092 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "-1.131e-10 * c ** 3 + 6.889e-08 * c ** 2 - 1.111e-05 * c + 0.000791"
                 ) + (0.000396 * (start_per_day * 365 / 12000))
+
             if euro_class == 4:
                 # HC
                 em_arr[:, 0] = ne.evaluate(
@@ -265,20 +312,33 @@ class HotEmissionsModel:
                 em_arr[:, 4] = ne.evaluate(
                     "-1.707e-09 * c ** 3 + 5.996e-07 * c ** 2 - 7.082e-05 * c + 0.003928"
                 ) + (0.001736 * (start_per_day * 365 / 12000))
+
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
-                    "-9.675e-09 * c ** 3 + 3.398e-06 * c ** 2 - 0.0004013 * c + 0.02226"
-                ) + (0.0098 * (start_per_day * 365 / 12000))
+                nmhc = ne.evaluate(
+                    "(-9.675e-09 * c ** 3 + 3.398e-06 * c ** 2 - 0.0004013 * c + 0.02226) + (0.0098 * (start_per_day * 365 / 12000))")
+
+                em_arr[:, 5] = nmhc * (1- .2063)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .0058
+                # Xylene
+                em_arr[:, 7] = nmhc * .0158
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .12
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0647
+
                 # Pb
                 # No Pb!
                 # N2O
-                em_arr[:, 7] = 0.0035 + (0.005 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.0035 + (0.005 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.001 + (0.001 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "-9.106e-11 * c ** 3 + 3.198e-08 * c ** 2 - 3.777e-06 * c + 0.0002095"
                 ) + (9.26e-5 * (start_per_day * 365 / 12000))
+
             if euro_class == 5:
                 # HC
                 em_arr[:, 0] = ne.evaluate(
@@ -300,18 +360,29 @@ class HotEmissionsModel:
                 em_arr[:, 4] = ne.evaluate(
                     "-6.586e-09 * c ** 3 + 2.295e-06 * c ** 2 - 0.0002821 * c + 0.01465"
                 ) + (0.005 * (start_per_day * 365 / 12000))
+
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
-                    "-4.391e-09 * c ** 3 + 1.53e-06 * c ** 2 - 0.0001881 * c + 0.009768"
-                )
+                nmhc = ne.evaluate(
+                    "(-4.391e-09 * c ** 3 + 1.53e-06 * c ** 2 - 0.0001881 * c + 0.009768)")
+                em_arr[:, 5] = nmhc * (1 - .2063)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .0058
+                # Xylene
+                em_arr[:, 7] = nmhc * .0158
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .12
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0647
+
                 # Pb
                 # No Pb!
                 # N2O
-                em_arr[:, 7] = 0.008 + (0.0074 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.008 + (0.0074 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.002 + (1.44e-4 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.002 + (1.44e-4 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "-8.782e-11 * c ** 3 + 3.059e-08 * c ** 2 - 3.761e-06 * c + 0.0001954"
                 ) + (6.66e-5 * (start_per_day * 365 / 12000))
 
@@ -338,19 +409,30 @@ class HotEmissionsModel:
                 em_arr[:, 4] = ne.evaluate(
                     "2.84e-08 * c ** 3 - 5.482e-06 * c ** 2 + 0.0002699 * c + 0.01125"
                 ) + (0.016 * (start_per_day * 365 / 12000))
+
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
-                    "3.156e-09 * c ** 3 - 6.092e-07 * c ** 2 + 2.999e-05 * c + 0.00125"
-                ) + (0.0018 * (start_per_day * 365 / 12000))
+                nmhc = ne.evaluate(
+                    "(3.156e-09 * c ** 3 - 6.092e-07 * c ** 2 + 2.999e-05 * c + 0.00125) + (0.0018 * (start_per_day * 365 / 12000))")
+
+                em_arr[:, 5] = nmhc * (1 - .2063)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .0058
+                # Xylene
+                em_arr[:, 7] = nmhc * .0158
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .12
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0647
 
                 # Pb
                 # No Pb!
                 # N2O
-                em_arr[:, 7] = 0.01 + (0.012 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.01 + (0.012 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.006 + (0.007 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.006 + (0.007 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "2.525e-10 * c ** 3 - 4.873e-08 * c ** 2 + 2.399e-06 * c + 0.0001"
                 ) + (1.43e-4 * (start_per_day * 365 / 12000))
 
@@ -377,18 +459,30 @@ class HotEmissionsModel:
                 em_arr[:, 4] = ne.evaluate(
                     "8.677e-09 * c ** 3 - 1.709e-06 * c ** 2 + 0.0001098 * c + 0.007448"
                 ) + (0.01217 * (start_per_day * 365 / 12000))
+
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
-                    "9.641e-10 * c ** 3 - 1.899e-07 * c ** 2 + 1.22e-05 * c + 0.0008276"
-                ) + (0.00135 * (start_per_day * 365 / 12000))
+                nmhc = ne.evaluate(
+                    "(9.641e-10 * c ** 3 - 1.899e-07 * c ** 2 + 1.22e-05 * c + 0.0008276) + (0.00135 * (start_per_day * 365 / 12000))")
+
+                em_arr[:, 5] = nmhc * (1 - .2063)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .0058
+                # Xylene
+                em_arr[:, 7] = nmhc * .0158
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .12
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0647
+
                 # Pb
                 # No Pb!
                 # N2O
-                em_arr[:, 7] = 0.01 + (0.01173 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.01 + (0.01173 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.006 + (0.0069 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.006 + (0.0069 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "7.713e-11 * c ** 3 - 1.519e-08 * c ** 2 + 9.757e-07 * c + 6.621e-05"
                 ) + (1.08e-4 * (start_per_day * 365 / 12000))
 
@@ -420,18 +514,29 @@ class HotEmissionsModel:
                 ) + (0.01 * (start_per_day * 365 / 12000))
 
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
-                    "1.876e-11 * c **3 - 1.283e-08 * c ** 2  + 5.19e-06 * c + 0.0005754"
-                ) + (0.00112 * (start_per_day * 365 / 12000))
+                nmhc = ne.evaluate(
+                    "(1.876e-11 * c **3 - 1.283e-08 * c ** 2  + 5.19e-06 * c + 0.0005754) + (0.00112 * (start_per_day * 365 / 12000))")
+
+                em_arr[:, 5] = nmhc * (1 - .2063)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .0058
+                # Xylene
+                em_arr[:, 7] = nmhc * .0158
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .12
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0647
+
 
                 # Pb
                 # No Pb!
                 # N2O
-                em_arr[:, 7] = 0.01 + (0.01173 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.01 + (0.01173 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.006 + (0.0069 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.006 + (0.0069 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "1.501e-12 * c **3 - 1.026e-09 * c ** 2  + 4.152e-07 * c + 4.603e-05"
                 ) + (8.93e-5 * (start_per_day * 365 / 12000))
 
@@ -463,20 +568,30 @@ class HotEmissionsModel:
                 ) + (0.0088 * (start_per_day * 365 / 12000))
 
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
-                    "1.42e-10 * c ** 3 - 3.905e-08 * c ** 2 + 6.247e-06 * c + 0.0004804"
-                ) + (9.83e-4 * (start_per_day * 365 / 12000))
+                nmhc = ne.evaluate(
+                    "(1.42e-10 * c ** 3 - 3.905e-08 * c ** 2 + 6.247e-06 * c + 0.0004804) + (9.83e-4 * (start_per_day * 365 / 12000))")
+                em_arr[:, 5] = nmhc * (1 - .2063)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .0058
+                # Xylene
+                em_arr[:, 7] = nmhc * .0158
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .12
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0647
+
 
                 # Pb
                 # No Pb!
                 # N2O
-                em_arr[:, 7] = 0.014 + (0.01173 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.014 + (0.01173 * (start_per_day * 365 / 12000))
 
                 # NH3
-                em_arr[:, 8] = 0.006 + (0.0069 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.006 + (0.0069 * (start_per_day * 365 / 12000))
 
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "1.136e-11 * c ** 3 - 3.124e-09 * c ** 2 + 4.998e-07 * c + 3.844e-05"
                 ) + (7.86e-5 * (start_per_day * 365 / 12000))
 
@@ -508,21 +623,32 @@ class HotEmissionsModel:
                     "-7.567e-08 * c ** 3 + 2.369e-05 * c ** 2 - 0.002499 * c + 0.1095"
                 ) + (0.0414 * (start_per_day * 365 / 12000))
 
-                # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
+                # total NMHC: hot emissions + running losses + soak + diurnal emissions
+                nmhc = ne.evaluate(
                     "(-2.321e-06 * c ** 3 + 0.0007152 * c ** 2 - 0.07431 * c + 3.166) + ((1.177 * start_per_day * 365) / 12000) + 0.002332 + ((0.04411241 * stops_per_day * 365) / 12000) + ((4.855452538 * 365) / 12000)")
 
+                # NMHC minus identified species
+                em_arr[:, 5] = nmhc * (1 - .4131)
+                # Toluene
+                em_arr[:, 6] = nmhc * .2145
+                # Xylene
+                em_arr[:, 7] = nmhc * .1741
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .017
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0075
+
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "7.335e-12 * c ** 3 + 5.838e-09 * c ** 2 - 8.995e-07 * c + 8.89e-05"
                 ) + (7.2e-5 * (start_per_day * 365 / 12000))
 
                 # N2O
-                em_arr[:, 7] = 0.08 + (0.0073 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.08 + (0.0073 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.04 + (0.002 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.04 + (0.002 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "-9.501e-08 * c ** 3 + 2.991e-05 * c ** 2 - 0.003171 * c + 0.1403"
                 ) + (0.0534 * (start_per_day * 365 / 12000))
 
@@ -553,20 +679,31 @@ class HotEmissionsModel:
                 ) + (0.0096 * (start_per_day * 365 / 12000))
 
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
+                nmhc = ne.evaluate(
                     "(2.605e-07 * c ** 3 - 5.775e-05 * c ** 2 + 0.003944 * c - 0.002964) + ((0.105 * start_per_day * 365) / 12000) + 0.002332 + ((0.04411241 * stops_per_day * 365) / 12000) + ((1.117 * 365) / 12000)")
 
+                # NMHC minus identified species
+                em_arr[:, 5] = nmhc * (1 - .4131)
+                # Toluene
+                em_arr[:, 6] = nmhc * .2145
+                # Xylene
+                em_arr[:, 7] = nmhc * .1741
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .017
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0075
+
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "3.472e-13 * c ** 3 + 8.382e-09 * c ** 2 - 1.168e-06 * c + 9.978e-05"
                 ) + (7.46e-5 * (start_per_day * 365 / 12000))
 
                 # N2O
-                em_arr[:, 7] = 0.01 + (0.0099 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.01 + (0.0099 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.12 + (0.0955 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.12 + (0.0955 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "3.677e-08 * c ** 3 - 8.152e-06 * c ** 2 + 0.0005568 * c - 0.0004184"
                 ) + (0.0148 * (start_per_day * 365 / 12000))
 
@@ -593,19 +730,31 @@ class HotEmissionsModel:
                     "-5.123e-09 * c ** 3 + 1.44e-06 * c ** 2 - 9.824e-05 * c + 0.007316"
                 ) + (0.0085 * (start_per_day * 365 / 12000))
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
+                nmhc = ne.evaluate(
                     "(-2.049e-08 * c ** 3 + 5.76e-06 * c ** 2 - 0.000393 * c + 0.02926) + ((0.034 * start_per_day * 365) / 12000) + 0.002332 + ((0.04411241 * stops_per_day * 365) / 12000) + ((1.06 * 365) / 12000)")
+
+                em_arr[:, 5] = nmhc * (1 - .4131)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .2145
+                # Xylene
+                em_arr[:, 7] = nmhc * .1741
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .017
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0075
+
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-8.2e-12 * c ** 3 + 1.092e-08 * c ** 2 - 1.428e-06 * c + 0.0001095"
                 ) + (7.7e-5 * (start_per_day * 365 / 12000))
 
                 # N2O
-                em_arr[:, 7] = 0.004 + (0.0049 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.004 + (0.0049 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.12 + (0.123 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.12 + (0.123 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "-3.312e-09 * c ** 3 + 9.31e-07 * c ** 2 - 6.351e-05 * c + 0.00473"
                 ) + (0.00547 * (start_per_day * 365 / 12000))
 
@@ -631,20 +780,32 @@ class HotEmissionsModel:
                     "2.073e-08 * c ** 3 - 4.072e-06 * c ** 2 + 0.0002834 * c - 0.003101"
                 ) + (0.0055 * (start_per_day * 365 / 12000))
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
+                nmhc = ne.evaluate(
                     "(4.837e-08 * c ** 3 - 9.502e-06 * c ** 2 + 0.0006613 * c - 0.007235) + ((0.01286 * start_per_day * 365) / 12000) + 0.002332 + ((0.04411241 * stops_per_day * 365) / 12000) + ((1.13 * 365) / 12000)")
+                em_arr[:, 5] = nmhc * (1 - .4131)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .2145
+                # Xylene
+                em_arr[:, 7] = nmhc * .1741
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .017
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0075
+
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-9.606e-12 * c ** 3 + 1.045e-08 * c ** 2 - 1.348e-06 * c + 0.0001014"
                 ) + (7.04e-5 * (start_per_day * 365 / 12000))
                 # N2O
-                em_arr[:, 7] = 2.5e-3 + (4.5e-5 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 2.5e-3 + (4.5e-5 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.05 + (0.037 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.05 + (0.037 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "8.935e-09 * c ** 3 - 1.755e-06 * c ** 2 + 0.0001222 * c - 0.001336"
                 ) + (0.00237 * (start_per_day * 365 / 12000))
+
             if euro_class == 4:
                 # HC
                 em_arr[:, 0] = ne.evaluate(
@@ -667,18 +828,29 @@ class HotEmissionsModel:
                     "3.437e-08 * c ** 3 - 6.753e-06 * c ** 2 + 0.0004088 * c - 0.005713"
                 ) + (0.00285 * (start_per_day * 365 / 12000))
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
+                nmhc = ne.evaluate(
                     "(5.156e-08 * c ** 3 - 1.013e-05 * c ** 2 + 0.0006132 * c - 0.008569) + ((0.00427 * start_per_day * 365) / 12000) + 0.002332 + ((0.04411241 * stops_per_day * 365) / 12000) + ((1.074 * 365) / 12000)")
+                em_arr[:, 5] = nmhc * (1 - .4131)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .2145
+                # Xylene
+                em_arr[:, 7] = nmhc * .1741
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .017
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0075
+
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-2.227e-11 * c ** 3 + 1.322e-08 * c ** 2 - 1.55e-06 * c + 0.0001023"
                 ) + (6.58e-5 * (start_per_day * 365 / 12000))
                 # N2O
-                em_arr[:, 7] = 1.0e-3 + (5.72e-4 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 1.0e-3 + (5.72e-4 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.04 + (0.037 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.04 + (0.037 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "8.594e-10 * c ** 3 - 1.688e-07 * c ** 2 + 1.022e-05 * c - 0.0001428"
                 ) + (7.12e-5 * (start_per_day * 365 / 12000))
 
@@ -709,20 +881,30 @@ class HotEmissionsModel:
                 ) + (0.00358 * (start_per_day * 365 / 12000))
 
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
+                nmhc = ne.evaluate(
                     "(3.828e-08 * c ** 3 - 7.756e-06 * c ** 2 + 0.0004696 * c - 0.005471) + ((0.00537 * start_per_day * 365) / 12000) + 0.002332 + ((0.04411241 * stops_per_day * 365) / 12000) + ((1.038 * 365) / 12000)")
+                em_arr[:, 5] = nmhc * (1 - .4131)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .2145
+                # Xylene
+                em_arr[:, 7] = nmhc * .1741
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .017
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0075
 
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-2.028e-11 * c ** 3 + 1.193e-08 * c ** 2 - 1.411e-06 * c + 9.467e-05"
                 ) + (5.98e-5 * (start_per_day * 365 / 12000))
 
                 # N2O
-                em_arr[:, 7] = 8.5e-4 + (5.72e-4 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 8.5e-4 + (5.72e-4 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.019 + (0.016 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.019 + (0.016 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 12] = ne.evaluate(
                     "-6.38e-10 * c ** 3 + 1.259e-07 * c ** 2 - 7.827e-06 * c + 9.119e-05"
                 ) + (8.95e-5 * (start_per_day * 365 / 12000))
 
@@ -749,19 +931,31 @@ class HotEmissionsModel:
                     "7.443e-09 * c ** 3 - 1.315e-06 * c ** 2 + 7.344e-05 * c + 0.0004021"
                 ) + (2.42e-03 * (start_per_day * 365 / 12000))
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
+                nmhc = ne.evaluate(
                     "(1.116e-08 * c ** 3 - 1.973e-06 * c ** 2 + 0.0001102 * c + 0.0006032) + ((3.62e-03 * start_per_day * 365) / 12000) + 0.002332 + ((0.04411241 * stops_per_day * 365) / 12000) + ((1.0 * 365) / 12000)")
+
+                em_arr[:, 5] = nmhc * (1 - .4131)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .2145
+                # Xylene
+                em_arr[:, 7] = nmhc * .1741
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .017
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0075
+
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-2.745e-11 * c ** 3 + 1.268e-08 * c ** 2 - 1.436e-06 * c + 9.009e-05"
                 ) + (5.33e-05 * (start_per_day * 365 / 12000))
 
                 # N2O
-                em_arr[:, 7] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "1.861e-10 * c ** 3 - 3.288e-08 * c ** 2 + 1.836e-06 * c + 1.005e-05"
                 ) + (6.04e-05 * (start_per_day * 365 / 12000))
 
@@ -788,19 +982,30 @@ class HotEmissionsModel:
                     "2.934e-09 * c ** 3 - 5.373e-07 * c ** 2 + 3.523e-05 * c - 0.0003431"
                 ) + (7.91e-04 * (start_per_day * 365 / 12000))
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
+                nmhc = ne.evaluate(
                     "(4.401e-09 * c ** 3 - 8.06e-07 * c ** 2 + 5.285e-05 * c - 0.0005146) + ((1.19e-03 * start_per_day * 365) / 12000) + 0.002332 + ((0.04411241 * stops_per_day * 365) / 12000) + ((.956 * 365) / 12000)")
+                em_arr[:, 5] = nmhc * (1 - .4131)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .2145
+                # Xylene
+                em_arr[:, 7] = nmhc * .1741
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .017
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0075
+
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-2.561e-11 * c ** 3 + 1.161e-08 * c ** 2 - 1.309e-06 * c + 8.137e-05"
                 ) + (4.77e-05 * (start_per_day * 365 / 12000))
 
                 # N2O
-                em_arr[:, 7] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "7.335e-11 * c ** 3 - 1.343e-08 * c ** 2 + 8.808e-07 * c - 8.577e-06"
                 ) + (1.98e-05 * (start_per_day * 365 / 12000))
 
@@ -827,19 +1032,30 @@ class HotEmissionsModel:
                     "-3.093e-09 * c ** 3 + 1.163e-06 * c ** 2 - 9.659e-05 * c + 0.003414"
                 ) + (2.17e-03 * (start_per_day * 365 / 12000))
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
+                nmhc = ne.evaluate(
                     "(-4.639e-09 * c ** 3 + 1.745e-06 * c ** 2 - 0.0001449 * c + 0.005121) + ((3.25e-03 * start_per_day * 365) / 12000) + 0.002332 + ((0.04411241 * stops_per_day * 365) / 12000) + ((.93 * 365) / 12000)")
+                em_arr[:, 5] = nmhc * (1 - .4131)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .2145
+                # Xylene
+                em_arr[:, 7] = nmhc * .1741
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .017
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0075
+
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-2.405e-11 * c ** 3 + 1.101e-08 * c ** 2 - 1.246e-06 * c + 7.88e-05"
                 ) + (4.67e-05 * (start_per_day * 365 / 12000))
 
                 # N2O
-                em_arr[:, 7] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.017 + (1.88e-02 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.017 + (1.88e-02 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "-7.731e-11 * c ** 3 + 2.908e-08 * c ** 2 - 2.415e-06 * c + 8.536e-05"
                 ) + (5.42e-05 * (start_per_day * 365 / 12000))
 
@@ -866,19 +1082,30 @@ class HotEmissionsModel:
                     "-4.369e-09 * c ** 3 + 1.466e-06 * c ** 2 - 0.0001189 * c + 0.003806"
                 ) + (2.02e-03 * (start_per_day * 365 / 12000))
                 # NMHC: hot emissions + running losses + soak + diurnal emissions
-                em_arr[:, 5] = ne.evaluate(
+                nmhc = ne.evaluate(
                     "(-6.554e-09 * c ** 3 + 2.199e-06 * c ** 2 - 0.0001784 * c + 0.005709) + ((3.03e-03 * start_per_day * 365) / 12000) + 0.002332 + ((0.04411241 * stops_per_day * 365) / 12000) + ((.91 * 365) / 12000)")
+                em_arr[:, 5] = nmhc * (1 - .4131)
+
+                # Toluene
+                em_arr[:, 6] = nmhc * .2145
+                # Xylene
+                em_arr[:, 7] = nmhc * .1741
+                # Formaldehyde
+                em_arr[:, 8] = nmhc * .017
+                # Acetaldehyde
+                em_arr[:, 9] = nmhc * .0075
+
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-1.843e-11 * c ** 3 + 8.969e-09 * c ** 2 - 1.026e-06 * c + 6.87e-05"
                 ) + (4.26e-05 * (start_per_day * 365 / 12000))
 
                 # N2O
-                em_arr[:, 7] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 2.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "-1.092e-10 * c ** 3 + 3.665e-08 * c ** 2 - 2.973e-06 * c + 9.515e-05"
                 ) + (5.05e-05 * (start_per_day * 365 / 12000))
 
@@ -910,17 +1137,19 @@ class HotEmissionsModel:
                 em_arr[:, 5] = ne.evaluate(
                     "-1.281e-08 * c ** 3 + 3.6e-06 * c ** 2 - 0.0002456 * c + 0.01829"
                 ) + (0.008456588 * (start_per_day * 365 / 12000))
+
+
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-3.679e-12 * c ** 3 + 4.9e-09 * c ** 2 - 6.404e-07 * c + 4.914e-05"
                 )
 
                 # N2O
-                em_arr[:, 7] = 0.002 + (0.000572766 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 0.002 + (0.000572766 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.075 + (0.037029848 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.075 + (0.037029848 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "-1.656e-09 * c ** 3 + 4.655e-07 * c ** 2 - 3.176e-05 * c + 0.002365"
                 )
 
@@ -952,16 +1181,16 @@ class HotEmissionsModel:
                     "2.695e-08 * c ** 3 - 5.294e-06 * c ** 2 + 0.0003684 * c - 0.004031"
                 ) + (0.001470268 * (start_per_day * 365 / 12000))
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-4.803e-12 * c ** 3 + 5.227e-09 * c ** 2 - 6.738e-07 * c + 5.072e-05"
                 )
 
                 # N2O
-                em_arr[:, 7] = 2.5e-4 + (0.000572766 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 2.5e-4 + (0.000572766 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.03 + (0.037029848 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.03 + (0.037029848 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "4.468e-09 * c ** 3 - 8.776e-07 * c ** 2 + 6.108e-05 * c - 0.0006682"
                 )
             if euro_class == 4:
@@ -993,16 +1222,16 @@ class HotEmissionsModel:
                     "2.302e-08 * c ** 3 - 4.17e-06 * c ** 2 + 0.0002302 * c - 0.001097"
                 ) + (0.00388492 * (start_per_day * 365 / 12000))
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-9.752e-12 * c ** 3 + 5.948e-09 * c ** 2 - 7.025e-07 * c + 4.688e-05"
                 )
 
                 # N2O
-                em_arr[:, 7] = 2.5e-4 + (0.000572766 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 2.5e-4 + (0.000572766 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.03 + (0.037029848 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.03 + (0.037029848 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "4.326e-10 * c ** 3 - 8.507e-08 * c ** 2 + 5.158e-06 * c - 7.231e-05"
                 )
 
@@ -1034,16 +1263,16 @@ class HotEmissionsModel:
                     "1.59e-08 * c ** 3 - 2.653e-06 * c ** 2 + 0.000134 * c + 0.001487"
                 ) + (0.004853803 * (start_per_day * 365 / 12000))
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-9.722e-12 * c ** 3 + 5.618e-09 * c ** 2 - 6.622e-07 * c + 4.414e-05"
                 )
 
                 # N2O
-                em_arr[:, 7] = 8.5e-4 + (0.000572766 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 8.5e-4 + (0.000572766 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.019 + (0.016007606 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.019 + (0.016007606 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "3.216e-10 * c ** 3 - 6.349e-08 * c ** 2 + 3.948e-06 * c - 4.585e-05"
                 )
 
@@ -1075,16 +1304,16 @@ class HotEmissionsModel:
                     "9.338e-09 * c ** 3 - 1.872e-06 * c ** 2 + 0.0001175 * c - 9.78e-05"
                 ) + (1.74e-03 * (start_per_day * 365 / 12000))
                 # Pb
-                em_arr[:, 6] = ne.evaluate(
+                em_arr[:, 10] = ne.evaluate(
                     "-1.38e-11 * c ** 3 + 6.464e-09 * c ** 2 - 7.366e-07 * c + 4.665e-05"
                 )
 
                 # N2O
-                em_arr[:, 7] = 8.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
+                em_arr[:, 11] = 8.5e-4 + (5.73e-04 * (start_per_day * 365 / 12000))
                 # NH3
-                em_arr[:, 8] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
+                em_arr[:, 12] = 0.019 + (1.88e-02 * (start_per_day * 365 / 12000))
                 # Benzene
-                em_arr[:, 9] = ne.evaluate(
+                em_arr[:, 13] = ne.evaluate(
                     "9.493e-11 * c ** 3 - 1.694e-08 * c ** 2 + 9.587e-07 * c + 4.34e-06"
                 )
 
@@ -1110,7 +1339,7 @@ class HotEmissionsModel:
                 urban /= 1000  # going from grams to kg
 
             else:
-                urban = np.zeros((10))
+                urban = np.zeros((14))
 
             if "suburban start" in self.cycle_environment[self.cycle_name]:
                 start = self.cycle_environment[self.cycle_name]["suburban start"]
@@ -1122,7 +1351,7 @@ class HotEmissionsModel:
                 suburban /= 1000  # going from grams to kg
 
             else:
-                suburban = np.zeros((10))
+                suburban = np.zeros((14))
 
             if "rural start" in self.cycle_environment[self.cycle_name]:
                 start = self.cycle_environment[self.cycle_name]["rural start"]
@@ -1132,7 +1361,7 @@ class HotEmissionsModel:
                 rural /= 1000  # going from grams to kg
 
             else:
-                rural = np.zeros((10))
+                rural = np.zeros((14))
 
         else:
             distance = self.cycle.sum() / 3600
@@ -1156,6 +1385,6 @@ class HotEmissionsModel:
 
         return (
             np.hstack(
-                (urban.reshape(10, -1), suburban.reshape(10, -1), rural.reshape(10, -1))
+                (urban.reshape(14, -1), suburban.reshape(14, -1), rural.reshape(14, -1))
             )
-        ).reshape(1, 30, 1, 1)
+        ).reshape(1, 42, 1, 1)

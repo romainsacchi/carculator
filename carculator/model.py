@@ -758,6 +758,18 @@ class CarModel:
             "NMVOC direct emissions, urban",
             "NMVOC direct emissions, suburban",
             "NMVOC direct emissions, rural",
+            "Toluene direct emissions, urban",
+            "Toluene direct emissions, suburban",
+            "Toluene direct emissions, rural",
+            "Xylene direct emissions, urban",
+            "Xylene direct emissions, suburban",
+            "Xylene direct emissions, rural",
+            "Formaldehyde direct emissions, urban",
+            "Formaldehyde direct emissions, suburban",
+            "Formaldehyde direct emissions, rural",
+            "Acetaldehyde direct emissions, urban",
+            "Acetaldehyde direct emissions, suburban",
+            "Acetaldehyde direct emissions, rural",
             "Lead direct emissions, urban",
             "Lead direct emissions, suburban",
             "Lead direct emissions, rural",
@@ -770,6 +782,7 @@ class CarModel:
             "Benzene direct emissions, urban",
             "Benzene direct emissions, suburban",
             "Benzene direct emissions, rural",
+
         ]
 
         # Year index for EURO 6-d pollution class, starts in 2020

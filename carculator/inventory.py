@@ -263,6 +263,11 @@ class InventoryCalculation:
             )
         ]
         self.index_diesel = [self.inputs[i] for i in self.inputs if "ICEV-d" in i[0]]
+        self.index_all_diesel = [
+            self.inputs[i]
+            for i in self.inputs
+            if any(ele in i[0] for ele in ["ICEV-d", "HEV-d", "PHEV-d"])
+        ]
         self.index_all_petrol = [
             self.inputs[i]
             for i in self.inputs
@@ -305,11 +310,6 @@ class InventoryCalculation:
                 ("air", "urban air close to ground"),
                 "kilogram",
             ): "NMVOC direct emissions, urban",
-            (
-                "PAH, polycyclic aromatic hydrocarbons",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Hydrocarbons direct emissions, urban",
             (
                 "Dinitrogen monoxide",
                 ("air", "low population density, long-term"),
@@ -416,20 +416,70 @@ class InventoryCalculation:
                 "kilogram",
             ): "Benzene direct emissions, urban",
             (
-                "PAH, polycyclic aromatic hydrocarbons",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Hydrocarbons direct emissions, rural",
-            (
-                "PAH, polycyclic aromatic hydrocarbons",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Hydrocarbons direct emissions, suburban",
-            (
                 "Dinitrogen monoxide",
                 ("air", "urban air close to ground"),
                 "kilogram",
             ): "Dinitrogen oxide direct emissions, urban",
+            (
+                "Toluene",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Toluene direct emissions, urban",
+            (
+                "Toluene",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Toluene direct emissions, suburban",
+            (
+                "Toluene",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Toluene direct emissions, rural",
+            (
+                "Xylene",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Xylene direct emissions, urban",
+            (
+                "Xylene",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Xylene direct emissions, suburban",
+            (
+                "Xylene",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Xylene direct emissions, rural",
+            (
+                "Formaldehyde",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Formaldehyde direct emissions, urban",
+            (
+                "Formaldehyde",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Formaldehyde direct emissions, suburban",
+            (
+                "Formaldehyde",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Formaldehyde direct emissions, rural",
+            (
+                "Acetaldehyde",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Acetaldehyde direct emissions, urban",
+            (
+                "Acetaldehyde",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Acetaldehyde direct emissions, suburban",
+            (
+                "Acetaldehyde",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Acetaldehyde direct emissions, rural",
         }
 
         self.index_emissions = [
@@ -773,6 +823,11 @@ class InventoryCalculation:
         d["direct - exhaust"].append(
             self.inputs[
                 ("Carbon dioxide, from soil or biomass stock", ("air",), "kilogram")
+            ]
+        )
+        d["direct - exhaust"].append(
+            self.inputs[
+                ("Methane, fossil", ("air",), "kilogram")
             ]
         )
         d["direct - exhaust"].append(
@@ -3081,6 +3136,7 @@ class InventoryCalculation:
                     x for x in self.get_index_vehicle_from_array(y) if x in index
                 ]
 
+                # Supply of gas, including 4% of gas input as pump-to-tank leakage
                 self.A[
                     :,
                     [
@@ -3090,8 +3146,22 @@ class InventoryCalculation:
                     ],
                     ind_A,
                 ] = (
-                    (array[self.array_inputs["fuel mass"], :, ind_array])
-                    / array[self.array_inputs["range"], :, ind_array]
+                    (array[self.array_inputs["fuel mass"], :, ind_array]
+                    / array[self.array_inputs["range"], :, ind_array])
+                    * (1 + array[self.array_inputs["CNG pump-to-tank leakage"], :, ind_array])
+                    * -1
+                ).T
+
+                # Gas leakage to air
+
+                self.A[
+                    :,
+                    self.inputs[("Methane, fossil", ("air",), "kilogram")],
+                    ind_A,
+                ] = (
+                    (array[self.array_inputs["fuel mass"], :, ind_array]
+                    / array[self.array_inputs["range"], :, ind_array])
+                    * array[self.array_inputs["CNG pump-to-tank leakage"], :, ind_array]
                     * -1
                 ).T
 
