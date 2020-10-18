@@ -5,7 +5,7 @@ from .background_systems import BackgroundSystemModel
 from .export import ExportInventory
 from inspect import currentframe, getframeinfo
 from pathlib import Path
-from scipy import linalg
+from scipy import sparse
 import csv
 import itertools
 import numexpr as ne
@@ -909,7 +909,7 @@ class InventoryCalculation:
             for a in ind:
                 f[:] = 0
                 f[a] = 1
-                X = np.float32(linalg.solve(self.A[0], f.T))
+                X = np.float32(sparse.linalg.spsolve(self.A[0], f.T))
                 C = X * B
                 new_arr[a, :, self.scope["year"].index(y)] = C.sum(axis=1)
 
