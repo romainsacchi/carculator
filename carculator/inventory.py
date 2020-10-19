@@ -11,6 +11,7 @@ import itertools
 import numexpr as ne
 import numpy as np
 import xarray as xr
+import pandas as pd
 
 REMIND_FILES_DIR = DATA_DIR / "IAM"
 
@@ -178,15 +179,59 @@ class InventoryCalculation:
             scope["size"] = array.coords["size"].values.tolist()
             scope["powertrain"] = array.coords["powertrain"].values.tolist()
             scope["year"] = array.coords["year"].values.tolist()
+            scope["fu"] = {"unit": "vkm", "quantity": 1}
         else:
             scope["size"] = scope.get("size", array.coords["size"].values.tolist())
             scope["powertrain"] = scope.get(
                 "powertrain", array.coords["powertrain"].values.tolist()
             )
             scope["year"] = scope.get("year", array.coords["year"].values.tolist())
+            scope["fu"] = scope.get("fu",
+                                    {"unit": "vkm",
+                                     "quantity": 1}
+                                    )
+
+            if "unit" not in scope["fu"]:
+                scope["fu"]["unit"] = "vkm"
+            else:
+                if scope["fu"]["unit"] not in ["vkm", "pkm"]:
+                    raise NameError("Incorrect specification of functional unit. Must be 'vkm' or 'pkm'.")
+
+
+            if "quantity" not in scope["fu"]:
+                scope["fu"]["quantity"] = 1
+            else:
+                try:
+                    float(scope["fu"]["quantity"])
+                except ValueError:
+                    raise ValueError("Incorrect quantity for the functional unit defined.")
 
         self.scope = scope
         self.scenario = scenario
+
+        # Check if a fleet composition is specified
+        if "fleet" in self.scope["fu"]:
+            # check if a path is provided
+            if isinstance(self.scope["fu"]["fleet"], str):
+                fp = Path(self.scope["fu"]["fleet"])
+
+                if not fp.is_file():
+                    raise FileNotFoundError(
+                        "The CSV file that contains fleet composition could not be found."
+                    )
+
+                if fp.suffix != '.csv':
+                    raise TypeError("A CSV file is expected to build the fleet composition.")
+
+                self.fleet = self.build_fleet_array(fp)
+
+            else:
+                raise TypeError(
+                    "The format used to specify fleet compositions is not valid."
+                    "A file path that points to a CSV file is expected."
+                )
+        else:
+            self.fleet = None
 
         array = array.sel(
             powertrain=self.scope["powertrain"],
@@ -699,6 +744,55 @@ class InventoryCalculation:
         """
         return self.temp_array.sel(parameter=key)
 
+    def build_fleet_array(self, fp):
+        """
+        Receives a file path that points to a CSV file that contains the fleet composition
+        Checks that the fleet composition array is valid.
+
+        Specifically:
+
+        * the years specified in the fleet must be present in scope["year"]
+        * the powertrains specified in the fleet must be present in scope["powertrain"]
+        * the sizes specified in the fleet must be present in scope["size"]
+        * the sum for each year-powertrain-size set must equal 1
+
+        :param fp: filepath to an array that contains fleet composition
+        :type fp: str
+        :return array: fleet composition array
+        :rtype array: xarray.DataArray
+        """
+        arr = pd.read_csv(
+            fp,
+            delimiter=";",
+            header=0,
+            index_col=[0, 1, 2]
+        )
+        arr = arr.fillna(0)
+        arr.columns = [int(c) for c in arr.columns]
+        array = arr.to_xarray()
+        array = array.rename({"level_0": "powertrain",
+                              "level_1": "size",
+                              "level_2": "vintage_year"})
+
+        if not set(list(array.data_vars)).issubset(self.scope["year"]):
+            raise ValueError("The fleet years differ from {}".format(self.scope["year"]))
+
+        if set(self.scope["year"]) != set(array.coords["vintage_year"].values.tolist()):
+            raise ValueError("The list of vintage years differ from {}.".format(self.scope["year"]))
+
+        if set(array.coords["powertrain"].values.tolist()) != set(self.scope["powertrain"]):
+            raise ValueError("The fleet powertrain list differs from {}".format(self.scope["powertrain"]))
+
+        if set(array.coords["size"].values.tolist()) != set(self.scope["size"]):
+            raise ValueError("The fleet size list differs from {}".format(self.scope["size"]))
+
+        try:
+            assert np.allclose(array.sum(dim=["vintage_year", "powertrain", "size"]).to_array(), np.ones_like(array.sum().to_array()))
+        except AssertionError:
+            raise AssertionError("The sums of vehicle shares year-wise are not equal to 1.")
+
+        return array.to_array().fillna(0)
+
     def get_results_table(self, split, sensitivity=False):
         """
         Format an xarray.DataArray array to receive the results.
@@ -722,13 +816,18 @@ class InventoryCalculation:
 
         dict_impact_cat = list(self.impact_categories.keys())
 
+        sizes = self.scope["size"]
+
+        if isinstance(self.fleet, xr.core.dataarray.DataArray):
+            sizes += ["fleet average"]
+
         if sensitivity == False:
 
             response = xr.DataArray(
                 np.zeros(
                     (
                         self.B.shape[1],
-                        len(self.scope["size"]),
+                        len(sizes),
                         len(self.scope["powertrain"]),
                         len(self.scope["year"]),
                         len(cat),
@@ -737,7 +836,7 @@ class InventoryCalculation:
                 ),
                 coords=[
                     dict_impact_cat,
-                    self.scope["size"],
+                    sizes,
                     self.scope["powertrain"],
                     self.scope["year"],
                     cat,
@@ -759,7 +858,7 @@ class InventoryCalculation:
                 np.zeros(
                     (
                         self.B.shape[1],
-                        len(self.scope["size"]),
+                        len(sizes),
                         len(self.scope["powertrain"]),
                         len(self.scope["year"]),
                         self.iterations,
@@ -767,7 +866,7 @@ class InventoryCalculation:
                 ),
                 coords=[
                     dict_impact_cat,
-                    self.scope["size"],
+                    sizes,
                     self.scope["powertrain"],
                     self.scope["year"],
                     params,
@@ -890,9 +989,15 @@ class InventoryCalculation:
         # Fill in the A matrix with car parameters
         self.set_inputs_in_A_matrix(self.array.values)
 
-        # Collect indices of activities contributing to the first level
-        arr = self.A[0, : -self.number_of_cars, -self.number_of_cars :].sum(axis=1)
-        ind = np.nonzero(arr)[0]
+        # Add rows for fleet vehicles, if any
+        if isinstance(self.fleet, xr.core.dataarray.DataArray):
+            self.build_fleet_vehicles()
+
+            # Update number of cars
+            self.number_of_cars += len(self.scope["year"]) * len(self.scope["powertrain"])
+
+            # Update B matrix
+            self.B = self.get_B_matrix()
 
         new_arr = np.float32(
             np.zeros((self.A.shape[1], self.B.shape[1], len(self.scope["year"])))
@@ -900,60 +1005,48 @@ class InventoryCalculation:
 
         f = np.float32(np.zeros((np.shape(self.A)[1])))
 
-        for y in self.scope["year"]:
+        for y, year in enumerate(self.scope["year"]):
             if self.scenario != "static":
-                B = self.B.interp(year=y, kwargs={"fill_value": "extrapolate"}).values
+                B = self.B.interp(year=year, kwargs={"fill_value": "extrapolate"}).values
             else:
                 B = self.B[0].values
+
+            # Collect indices of activities contributing to the first level for year `y`
+            ind_cars = [self.inputs[i] for i in self.inputs if str(year) in i[0] and "Passenger" in i[0]]
+            arr = self.A[0, :-self.number_of_cars, ind_cars].sum(axis=0)
+            ind = np.nonzero(arr)[0]
 
             for a in ind:
                 f[:] = 0
                 f[a] = 1
                 X = np.float32(sparse.linalg.spsolve(self.A[0], f.T))
-                C = X * B
-                new_arr[a, :, self.scope["year"].index(y)] = C.sum(axis=1)
+                C = np.float32(X * B)
+                new_arr[a, :, y] = C.sum(axis=1)
 
-        new_arr = new_arr.T.reshape(
-            len(self.scope["year"]), B.shape[0], 1, 1, self.A.shape[-1]
+
+        shape = (
+            self.iterations,
+            len(self.scope["size"]),
+            len(self.scope["powertrain"]),
+            len(self.scope["year"]),
+            self.A.shape[1],
         )
 
-        a = np.float32(self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1))
+        arr = (self.A[:, :, -self.number_of_cars:].transpose(0,2,1).reshape(shape) * new_arr.transpose(1,2,0)[:, None, None, None, ...] *-1)
+        arr = arr[..., self.split_indices].sum(axis=-1)
 
-        arr = np.float32(ne.evaluate("a * new_arr * -1"))
+        results[...] = arr.transpose(0, 2, 3, 4, 5, 1)
 
-        arr = arr.transpose(1, 3, 0, 4, 2)
-        arr = arr[:, :, :, self.split_indices, :].sum(axis=4)
-
-        if not sensitivity:
-            for y in range(0, len(self.scope["year"])):
-                results[:, :, :, y, :, :] = arr[
-                    :, y :: len(self.scope["year"]), y, :, :
-                ].reshape(
-                    (
-                        B.shape[0],
-                        len(self.scope["size"]),
-                        len(self.scope["powertrain"]),
-                        len(results.impact.values),
-                        self.iterations,
-                    )
-                )
-        else:
-            for y in range(0, len(self.scope["year"])):
-                results[:, :, :, y, :] = (
-                    arr[:, y :: len(self.scope["year"]), y, :]
-                    .sum(axis=2)
-                    .reshape(
-                        (
-                            B.shape[0],
-                            len(self.scope["size"]),
-                            len(self.scope["powertrain"]),
-                            self.iterations,
-                        )
-                    )
-                )
+        if sensitivity:
             results /= results.sel(parameter="reference")
 
-        return results.astype("float32")
+        # If the FU is in passenger-km, we normalize the results by the number of passengers
+        if self.scope["fu"]["unit"] == "vkm":
+            load_factor = 1
+        else:
+            load_factor = self.array[self.array_inputs["average passengers"]].mean()
+
+        return results.astype("float32") / load_factor * int(self.scope["fu"]["quantity"])
 
     def add_additional_activities(self):
         # Add as many rows and columns as cars to consider
@@ -1116,7 +1209,65 @@ class InventoryCalculation:
 
         # Resize the matrix to fit the number of iterations in `array`
         new_A = np.resize(new_A, (self.array.shape[1], new_A.shape[0], new_A.shape[1]))
-        return new_A
+        return new_A.astype("float32")
+
+    def build_fleet_vehicles(self):
+
+        # additional cars
+        n_cars = len(self.scope["year"]) * len(self.scope["powertrain"])
+        self.A = np.pad(self.A, ((0, 0), (0, n_cars), (0, n_cars)))
+
+        maximum = max(self.inputs.values())
+
+        for pt in self.scope["powertrain"]:
+            for y in self.scope["year"]:
+
+                # share of the powertrain that year, all sizes
+                share_pt = self.fleet.sel(powertrain=pt, variable=y).sum().values
+
+
+
+                name = (
+                    "Passenger car, fleet average, "
+                    + pt
+                    + ", "
+                    + str(y)
+                )
+
+                maximum += 1
+
+                self.inputs[
+                    (
+                        name,
+                        self.background_configuration["country"],
+                        "kilometer",
+                        "transport, passenger car, fleet average",
+                    )
+                ] = maximum
+
+                self.A[:, maximum, maximum] = 1
+
+
+                if share_pt > 0:
+                    for s in self.fleet.coords["size"].values:
+                        for vin_year in self.scope["year"]:
+                            fleet_share = self.fleet.sel(powertrain=pt, vintage_year=vin_year, size=s, variable=y).sum().values / share_pt
+
+                            if fleet_share > 0:
+
+                                car_index = [self.inputs[i] for i in self.inputs
+                                     if all([item in i[0] for item in [pt, str(vin_year), s]])][0]
+                                car_inputs = self.A[:,
+                                                    :car_index - 1,
+                                                    car_index
+                                             ] * fleet_share
+
+                                self.A[
+                                    :,
+                                    :car_index - 1
+                                    ,
+                                    maximum
+                                ] += car_inputs
 
     def get_B_matrix(self):
         """
@@ -1510,49 +1661,18 @@ class InventoryCalculation:
         if "custom electricity mix" in self.background_configuration:
             # If a special electricity mix is specified, we use it
             mix = self.background_configuration["custom electricity mix"]
+
         else:
-            use_year = [
-                int(i)
-                for i in (
-                    self.array.values[
-                        self.array_inputs["lifetime kilometers"],
-                        :,
-                        self.get_index_vehicle_from_array(
-                            [
-                                "BEV",
-                                "FCEV",
-                                "PHEV-p",
-                                "PHEV-d",
-                                "ICEV-p",
-                                "ICEV-d",
-                                "HEV-p",
-                                "HEV-d",
-                                "ICEV-g",
-                            ]
-                        ),
-                    ]
-                    / self.array.values[
-                        self.array_inputs["kilometers per year"],
-                        :,
-                        self.get_index_vehicle_from_array(
-                            [
-                                "BEV",
-                                "FCEV",
-                                "PHEV-p",
-                                "PHEV-d",
-                                "ICEV-p",
-                                "ICEV-d",
-                                "HEV-p",
-                                "HEV-d",
-                                "ICEV-g",
-                            ]
-                        ),
-                    ]
-                )
-                .mean(axis=1)
-                .reshape(-1, len(self.scope["year"]))
-                .mean(axis=0)
-            ]
+            use_year = (self.array.values[
+                        self.array_inputs["lifetime kilometers"]
+                    ]/ self.array.values[
+                        self.array_inputs["kilometers per year"]
+                    ]).reshape(
+                self.iterations,
+                len(self.scope["powertrain"]),
+                len(self.scope["size"]),
+                len(self.scope["year"]),
+            ).mean(axis=(0, 1, 2))
 
             if self.country not in self.bs.electricity_mix.country.values:
                 print("The electricity mix for {} could not be found. Average European electricity mix is used instead.".format(self.country))
@@ -1577,12 +1697,12 @@ class InventoryCalculation:
                     ],
                 )
                 .interp(
-                    year=np.arange(y, y + use_year[self.scope["year"].index(y)]),
+                    year=np.arange(year, year + use_year[y]),
                     kwargs={"fill_value": "extrapolate"},
                 )
                 .mean(axis=0)
                 .values
-                if y + use_year[self.scope["year"].index(y)] <= 2050
+                if y + use_year[y] <= 2050
                 else self.bs.electricity_mix.sel(
                     country=country,
                     variable=[
@@ -1598,10 +1718,10 @@ class InventoryCalculation:
                         "Waste",
                     ],
                 )
-                .interp(year=np.arange(y, 2051), kwargs={"fill_value": "extrapolate"})
+                .interp(year=np.arange(year, 2051), kwargs={"fill_value": "extrapolate"})
                 .mean(axis=0)
                 .values
-                for y in self.scope["year"]
+                for y, year in enumerate(self.scope["year"])
             ]
         return mix
 
@@ -2271,7 +2391,7 @@ class InventoryCalculation:
             "wood gasification": {
                 "name": (
                     "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at H2 fuelling station",
-                    "CH",
+                    "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
                 ),
@@ -2280,13 +2400,49 @@ class InventoryCalculation:
             "wood gasification with CCS": {
                 "name": (
                     "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at H2 fuelling station",
-                    "CH",
+                    "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
                 ),
                 "additional electricity": 0,
             },
             "wood gasification with EF": {
+                "name": (
+                    "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling plant",
+                    "RER",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar",
+                ),
+                "additional electricity": 0,
+            },
+            "wood gasification with EF with CCS": {
+                "name": (
+                    "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling plant",
+                    "RER",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar",
+                ),
+                "additional electricity": 0,
+            },
+            "wood gasification (Swiss forest)": {
+                "name": (
+                    "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at H2 fuelling station",
+                    "CH",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar",
+                ),
+                "additional electricity": 0,
+            },
+            "wood gasification with CCS (Swiss forest)": {
+                "name": (
+                    "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at H2 fuelling station",
+                    "CH",
+                    "kilogram",
+                    "Hydrogen, gaseous, 700 bar",
+                ),
+                "additional electricity": 0,
+            },
+            "wood gasification with EF (Swiss forest)": {
                 "name": (
                     "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling station",
                     "CH",
@@ -2295,7 +2451,7 @@ class InventoryCalculation:
                 ),
                 "additional electricity": 0,
             },
-            "wood gasification with EF with CCS": {
+            "wood gasification with EF with CCS (Swiss forest)": {
                 "name": (
                     "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling station",
                     "CH",
@@ -2519,7 +2675,7 @@ class InventoryCalculation:
                 ][0]
                 self.A[:, electricity_mix_index, electricity_market_index] = -1
 
-    def set_inputs_in_A_matrix(self, array):
+    def set_inputs_in_A_matrix(self, array, fu="vkm"):
         """
         Fill-in the A matrix. Does not return anything. Modifies in place.
         Shape of the A matrix (values, products, activities).
