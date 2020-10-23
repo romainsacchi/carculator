@@ -8,3 +8,4 @@ xlrd
 pytest
 numexpr
 bw2io
+pycountry
