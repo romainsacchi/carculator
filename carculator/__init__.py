@@ -20,9 +20,12 @@ __all__ = (
     "InventoryCalculation",
     "BackgroundSystemModel",
     "ExportInventory",
-    "InternalNoiseModel"
+    "InternalNoiseModel",
+    "create_fleet_composition_from_REMIND_file",
+    "extract_electricity_mix_from_REMIND_file",
+    "extract_biofuel_shares_from_REMIND"
 )
-__version__ = (1, 2, 6)
+__version__ = (1, 2, 7)
 
 from pathlib import Path
 
@@ -42,3 +45,5 @@ from .model import CarModel
 from .inventory import InventoryCalculation
 from .background_systems import BackgroundSystemModel
 from .export import ExportInventory
+from .utils import (create_fleet_composition_from_REMIND_file, extract_electricity_mix_from_REMIND_file,
+                    extract_biofuel_shares_from_REMIND)

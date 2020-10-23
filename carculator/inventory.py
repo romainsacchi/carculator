@@ -187,17 +187,15 @@ class InventoryCalculation:
                 "powertrain", array.coords["powertrain"].values.tolist()
             )
             scope["year"] = scope.get("year", array.coords["year"].values.tolist())
-            scope["fu"] = scope.get("fu",
-                                    {"unit": "vkm",
-                                     "quantity": 1}
-                                    )
+            scope["fu"] = scope.get("fu", {"unit": "vkm", "quantity": 1})
 
             if "unit" not in scope["fu"]:
                 scope["fu"]["unit"] = "vkm"
             else:
                 if scope["fu"]["unit"] not in ["vkm", "pkm"]:
-                    raise NameError("Incorrect specification of functional unit. Must be 'vkm' or 'pkm'.")
-
+                    raise NameError(
+                        "Incorrect specification of functional unit. Must be 'vkm' or 'pkm'."
+                    )
 
             if "quantity" not in scope["fu"]:
                 scope["fu"]["quantity"] = 1
@@ -205,7 +203,9 @@ class InventoryCalculation:
                 try:
                     float(scope["fu"]["quantity"])
                 except ValueError:
-                    raise ValueError("Incorrect quantity for the functional unit defined.")
+                    raise ValueError(
+                        "Incorrect quantity for the functional unit defined."
+                    )
 
         self.scope = scope
         self.scenario = scenario
@@ -221,16 +221,22 @@ class InventoryCalculation:
                         "The CSV file that contains fleet composition could not be found."
                     )
 
-                if fp.suffix != '.csv':
-                    raise TypeError("A CSV file is expected to build the fleet composition.")
+                if fp.suffix != ".csv":
+                    raise TypeError(
+                        "A CSV file is expected to build the fleet composition."
+                    )
 
                 self.fleet = self.build_fleet_array(fp)
 
             else:
-                raise TypeError(
-                    "The format used to specify fleet compositions is not valid."
-                    "A file path that points to a CSV file is expected."
-                )
+                if isinstance(self.scope["fu"]["fleet"], xr.DataArray):
+                    self.fleet = self.scope["fu"]["fleet"]
+                else:
+                    raise TypeError(
+                        "The format used to specify fleet compositions is not valid."
+                        "A file path that points to a CSV file is expected. "
+                        "Or an array of type xarray.DataArray."
+                    )
         else:
             self.fleet = None
 
@@ -716,6 +722,36 @@ class InventoryCalculation:
                 "kilowatt hour",
                 "electricity, for reuse in municipal waste incineration only",
             ),
+            "Biomass CCS": (
+                "electricity production, at BIGCC power plant 450MW, pre, pipeline 200km, storage 1000m",
+                "RER",
+                "kilowatt hour",
+                "electricity, high voltage",
+            ),
+            "Coal CCS": (
+                "electricity production, at power plant/hard coal, post, pipeline 200km, storage 1000m",
+                "RER",
+                "kilowatt hour",
+                "electricity, high voltage",
+            ),
+            "Gas CCS": (
+                "electricity production, at power plant/natural gas, post, pipeline 200km, storage 1000m",
+                "RER",
+                "kilowatt hour",
+                "electricity, high voltage",
+            ),
+            "Biogas CCS": (
+                "electricity production, at power plant/biogas, post, pipeline 200km, storage 1000m",
+                "RER",
+                "kilowatt hour",
+                "electricity, high voltage",
+            ),
+            "Wood CCS": (
+                "electricity production, at wood burning power plant 20 MW, truck 25km, post, pipeline 200km, storage 1000m",
+                "RER",
+                "kilowatt hour",
+                "electricity, high voltage",
+            ),
         }
 
         self.index_noise = [self.inputs[i] for i in self.map_noise_emissions.keys()]
@@ -762,12 +798,7 @@ class InventoryCalculation:
         :return array: fleet composition array
         :rtype array: xarray.DataArray
         """
-        arr = pd.read_csv(
-            fp,
-            delimiter=";",
-            header=0,
-            index_col=[0, 1, 2]
-        )
+        arr = pd.read_csv(fp, delimiter=";", header=0, index_col=[0, 1, 2])
         arr = arr.fillna(0)
         arr.columns = [int(c) for c in arr.columns]
 
@@ -780,25 +811,37 @@ class InventoryCalculation:
             arr.loc[row] = 0
 
         array = arr.to_xarray()
-        array = array.rename({"level_0": "powertrain",
-                              "level_1": "size",
-                              "level_2": "vintage_year"})
+        array = array.rename(
+            {"level_0": "powertrain", "level_1": "size", "level_2": "vintage_year"}
+        )
 
         if not set(list(array.data_vars)).issubset(self.scope["year"]):
-            raise ValueError("The fleet years differ from {}".format(self.scope["year"]))
+            raise ValueError(
+                "The fleet years differ from {}".format(self.scope["year"])
+            )
 
         if set(self.scope["year"]) != set(array.coords["vintage_year"].values.tolist()):
-            raise ValueError("The list of vintage years differ from {}.".format(self.scope["year"]))
+            raise ValueError(
+                "The list of vintage years differ from {}.".format(self.scope["year"])
+            )
 
-        if not set(array.coords["powertrain"].values.tolist()).issubset(self.scope["powertrain"]):
-            raise ValueError("The fleet powertrain list differs from {}".format(self.scope["powertrain"]))
+        if not set(array.coords["powertrain"].values.tolist()).issubset(
+            self.scope["powertrain"]
+        ):
+            raise ValueError(
+                "The fleet powertrain list differs from {}".format(
+                    self.scope["powertrain"]
+                )
+            )
 
         if not set(array.coords["size"].values.tolist()).issubset(self.scope["size"]):
-            raise ValueError("The fleet size list differs from {}".format(self.scope["size"]))
+            raise ValueError(
+                "The fleet size list differs from {}".format(self.scope["size"])
+            )
 
-        #try:
+        # try:
         #    assert np.allclose(array.sum(dim=["vintage_year", "powertrain", "size"]).to_array(), np.ones_like(array.sum().to_array()))
-        #except AssertionError:
+        # except AssertionError:
         #    raise AssertionError("The sums of vehicle shares year-wise are not equal to 1.")
 
         return array.to_array().fillna(0)
@@ -935,9 +978,7 @@ class InventoryCalculation:
             ]
         )
         d["direct - exhaust"].append(
-            self.inputs[
-                ("Methane, fossil", ("air",), "kilogram")
-            ]
+            self.inputs[("Methane, fossil", ("air",), "kilogram")]
         )
         d["direct - exhaust"].append(
             self.inputs[("Cadmium", ("air", "urban air close to ground"), "kilogram")]
@@ -1004,7 +1045,12 @@ class InventoryCalculation:
             self.build_fleet_vehicles()
 
             # Update number of cars
-            self.number_of_cars += len(self.scope["year"]) * len(self.scope["powertrain"])
+            self.number_of_cars += len(self.scope["year"]) * len(
+                self.scope["powertrain"]
+            )
+
+            # Update dictionary
+            self.get_rev_dict_input()
 
             # Update B matrix
             self.B = self.get_B_matrix()
@@ -1015,23 +1061,27 @@ class InventoryCalculation:
 
         f = np.float32(np.zeros((np.shape(self.A)[1])))
 
-        for y, year in enumerate(self.scope["year"]):
-            if self.scenario != "static":
-                B = self.B.interp(year=year, kwargs={"fill_value": "extrapolate"}).values
+        # Collect indices of activities contributing to the first level for year `y`
+        ind_cars = [self.inputs[i] for i in self.inputs if "Passenger" in i[0]]
+        arr = self.A[0, : -self.number_of_cars, ind_cars].sum(axis=0)
+        ind = np.nonzero(arr)[0]
+
+        if self.scenario != "static":
+            B = self.B.interp(
+                year=self.scope["year"], kwargs={"fill_value": "extrapolate"}
+            ).values
+        else:
+            B = self.B[0].values
+
+        for a in ind:
+            f[:] = 0
+            f[a] = 1
+            X = np.float32(sparse.linalg.spsolve(self.A[0], f.T))
+
+            if self.scenario == "static":
+                new_arr[a] = np.float32(X * B).sum(axis=-1).T[..., None]
             else:
-                B = self.B[0].values
-
-            # Collect indices of activities contributing to the first level for year `y`
-            ind_cars = [self.inputs[i] for i in self.inputs if str(year) in i[0] and "Passenger" in i[0]]
-            arr = self.A[0, :-self.number_of_cars, ind_cars].sum(axis=0)
-            ind = np.nonzero(arr)[0]
-
-            for a in ind:
-                f[:] = 0
-                f[a] = 1
-                X = np.float32(sparse.linalg.spsolve(self.A[0], f.T))
-                C = np.float32(X * B)
-                new_arr[a, :, y] = C.sum(axis=1)
+                new_arr[a] = np.float32(X * B).sum(axis=-1).T
 
         shape = (
             self.iterations,
@@ -1041,7 +1091,11 @@ class InventoryCalculation:
             self.A.shape[1],
         )
 
-        arr = (self.A[:, :, -self.number_of_cars:].transpose(0,2,1).reshape(shape) * new_arr.transpose(1,2,0)[:, None, None, None, ...] *-1)
+        arr = (
+            self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1).reshape(shape)
+            * new_arr.transpose(1, 2, 0)[:, None, None, None, ...]
+            * -1
+        )
         arr = arr[..., self.split_indices].sum(axis=-1)
 
         results[...] = arr.transpose(0, 2, 3, 4, 5, 1)
@@ -1054,14 +1108,21 @@ class InventoryCalculation:
             load_factor = 1
         else:
 
-            load_factor = np.resize(self.array[self.array_inputs["average passengers"]].values, (1,
-                                                                                      len(self.scope["size"]),
-                                                                                      len(self.scope["powertrain"]),
-                                                                                      len(self.scope["year"]),
-                                                                                             1,
-                                                                                             1))
+            load_factor = np.resize(
+                self.array[self.array_inputs["average passengers"]].values,
+                (
+                    1,
+                    len(self.scope["size"]),
+                    len(self.scope["powertrain"]),
+                    len(self.scope["year"]),
+                    1,
+                    1,
+                ),
+            )
 
-        return results.astype("float32") / load_factor * int(self.scope["fu"]["quantity"])
+        return (
+            results.astype("float32") / load_factor * int(self.scope["fu"]["quantity"])
+        )
 
     def add_additional_activities(self):
         # Add as many rows and columns as cars to consider
@@ -1190,11 +1251,16 @@ class InventoryCalculation:
                         + euro_class
                     )
 
+                    if self.scope["fu"]["unit"] == "vkm":
+                        unit = "kilometer"
+                    if self.scope["fu"]["unit"] == "pkm":
+                        unit = "person kilometer"
+
                     self.inputs[
                         (
                             name,
                             self.background_configuration["country"],
-                            "kilometer",
+                            unit,
                             "transport, passenger car, " + euro_class,
                         )
                     ] = maximum
@@ -1241,47 +1307,110 @@ class InventoryCalculation:
                 # share of the powertrain that year, all sizes
                 share_pt = self.fleet.sel(powertrain=pt, variable=y).sum().values
 
-                name = (
-                    "Passenger car, fleet average, "
-                    + pt
-                    + ", "
-                    + str(y)
-                )
+                name = "Passenger car, fleet average, " + pt + ", " + str(y)
 
                 maximum += 1
+
+                if self.scope["fu"]["unit"] == "vkm":
+                    unit = "kilometer"
+                if self.scope["fu"]["unit"] == "pkm":
+                    unit = "person kilometer"
 
                 self.inputs[
                     (
                         name,
                         self.background_configuration["country"],
-                        "kilometer",
+                        unit,
                         "transport, passenger car, fleet average",
                     )
                 ] = maximum
 
                 self.A[:, maximum, maximum] = 1
 
-
                 if share_pt > 0:
                     for s in self.fleet.coords["size"].values:
                         for vin_year in self.scope["year"]:
-                            fleet_share = self.fleet.sel(powertrain=pt, vintage_year=vin_year, size=s, variable=y).sum().values / share_pt
+                            fleet_share = (
+                                self.fleet.sel(
+                                    powertrain=pt,
+                                    vintage_year=vin_year,
+                                    size=s,
+                                    variable=y,
+                                )
+                                .sum()
+                                .values
+                                / share_pt
+                            )
 
                             if fleet_share > 0:
 
-                                car_index = [self.inputs[i] for i in self.inputs
-                                     if all([item in i[0] for item in [pt, str(vin_year), s]])][0]
-                                car_inputs = self.A[:,
-                                                    :car_index - 1,
-                                                    car_index
-                                             ] * fleet_share
+                                car_index = [
+                                    self.inputs[i]
+                                    for i in self.inputs
+                                    if all(
+                                        [
+                                            item in i[0]
+                                            for item in [pt, str(vin_year), s]
+                                        ]
+                                    )
+                                ][0]
+                                car_inputs = (
+                                    self.A[:, : car_index - 1, car_index] * fleet_share
+                                )
 
-                                self.A[
-                                    :,
-                                    :car_index - 1
-                                    ,
-                                    maximum
-                                ] += car_inputs
+                                self.A[:, : car_index - 1, maximum] += car_inputs
+
+                    # Fuel and electricity supply must be from the fleet year, not the vintage year
+
+                    d_map_fuel = {
+                        "ICEV-p": "gasoline",
+                        "ICEV-d": "diesel",
+                        "ICEV-g": "gas",
+                        "HEV-p": "gasoline",
+                        "HEV-d": "diesel",
+                        "PHEV-p": "gasoline",
+                        "PHEV-d": "diesel",
+                        "BEV": "electric",
+                        "FCEV": "hydrogen",
+                    }
+
+                    ind_supply = [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if "supply for " + d_map_fuel[pt] + " vehicles, " in i[0]
+                    ]
+                    amount_fuel = self.A[:, ind_supply, maximum].sum(axis=1)
+
+                    # zero out initial fuel inputs
+                    self.A[:, ind_supply, maximum] = 0
+
+                    # set saved amount to current fuel supply provider
+                    current_provider = [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if "supply for " + d_map_fuel[pt] + " vehicles, " + str(y)
+                        in i[0]
+                    ]
+                    self.A[:, current_provider, maximum] = amount_fuel
+
+                    if pt in ["PHEV-p", "PHEV-d"]:
+                        ind_supply = [
+                            self.inputs[i]
+                            for i in self.inputs
+                            if "supply for electric vehicles, " in i[0]
+                        ]
+                        amount_fuel = self.A[:, ind_supply, maximum].sum(axis=1)
+
+                        # zero out initial fuel inputs
+                        self.A[:, ind_supply, maximum] = 0
+
+                        # set saved amount to current fuel supply provider
+                        current_provider = [
+                            self.inputs[i]
+                            for i in self.inputs
+                            if "supply for electric vehicles, " + str(y) in i[0]
+                        ]
+                        self.A[:, current_provider, maximum] = amount_fuel
 
     def get_B_matrix(self):
         """
@@ -1316,14 +1445,14 @@ class InventoryCalculation:
             )
             B = np.zeros((len(list_file_names), 19, len(self.inputs)))
 
-        for f in list_file_names:
-            initial_B = np.genfromtxt(f, delimiter=";")
+        for f, fp in enumerate(list_file_names):
+            initial_B = np.genfromtxt(fp, delimiter=";")
 
             new_B = np.zeros((np.shape(initial_B)[0], len(self.inputs),))
 
             new_B[0 : np.shape(initial_B)[0], 0 : np.shape(initial_B)[1]] = initial_B
 
-            B[list_file_names.index(f), :, :] = new_B
+            B[f, :, :] = new_B
 
         list_impact_categories = list(self.impact_categories.keys())
 
@@ -1467,21 +1596,21 @@ class InventoryCalculation:
             if not isinstance(items_to_look_for_also, list):
                 items_to_look_for_also = [items_to_look_for_also]
 
-        list_vehicles = self.array.desired.values.tolist()
+        list_vehicles = self.array.desired.values
 
         if method == "or":
             return [
-                list_vehicles.index(c)
-                for c in list_vehicles
-                if set(items_to_look_for).intersection(c)
+                c
+                for c, v in enumerate(list_vehicles)
+                if set(items_to_look_for).intersection(v)
             ]
 
         if method == "and":
             return [
-                list_vehicles.index(c)
-                for c in list_vehicles
-                if set(items_to_look_for).intersection(c)
-                and set(items_to_look_for_also).intersection(c)
+                c
+                for c, v in enumerate(list_vehicles)
+                if set(items_to_look_for).intersection(v)
+                and set(items_to_look_for_also).intersection(v)
             ]
 
     def get_index_of_flows(self, items_to_look_for, search_by="name"):
@@ -1512,7 +1641,7 @@ class InventoryCalculation:
         ecoinvent_compatibility=True,
         ecoinvent_version="3.6",
         db_name="carculator db",
-        forbidden_activities=None
+        forbidden_activities=None,
     ):
         """
         Export the inventory as a dictionary. Also return a list of arrays that contain pre-sampled random values if
@@ -1531,14 +1660,36 @@ class InventoryCalculation:
         self.create_electricity_market_for_battery_production()
 
         self.set_inputs_in_A_matrix(self.array.values)
+
+        # Add rows for fleet vehicles, if any
+        if isinstance(self.fleet, xr.core.dataarray.DataArray):
+            print("Building fleet average vehicles...")
+            self.build_fleet_vehicles()
+
+            # Update dictionary
+            self.rev_inputs = self.get_rev_dict_input()
+
+            # Update number of cars
+            self.number_of_cars += len(self.scope["year"]) * len(
+                self.scope["powertrain"]
+            )
+
         if presamples == True:
             lci, array = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
-            ).write_lci(presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities)
+            ).write_lci(
+                presamples,
+                ecoinvent_compatibility,
+                ecoinvent_version,
+                forbidden_activities,
+            )
             return (lci, array)
         else:
             lci = ExportInventory(self.A, self.rev_inputs, db_name=db_name).write_lci(
-                presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities
+                presamples,
+                ecoinvent_compatibility,
+                ecoinvent_version,
+                forbidden_activities,
             )
             return lci
 
@@ -1548,7 +1699,7 @@ class InventoryCalculation:
         ecoinvent_compatibility=True,
         ecoinvent_version="3.6",
         db_name="carculator db",
-        forbidden_activities=None
+        forbidden_activities=None,
     ):
         """
         Export the inventory as a `brightway2` bw2io.importers.base_lci.LCIImporter object
@@ -1586,15 +1737,38 @@ class InventoryCalculation:
 
         self.set_inputs_in_A_matrix(self.array.values)
 
+        # Add rows for fleet vehicles, if any
+        if isinstance(self.fleet, xr.core.dataarray.DataArray):
+            print("Building fleet average vehicles...")
+            self.build_fleet_vehicles()
+
+            # Update dictionary
+            self.rev_inputs = self.get_rev_dict_input()
+
+            # Update number of cars
+            self.number_of_cars += len(self.scope["year"]) * len(
+                self.scope["powertrain"]
+            )
+
         if presamples == True:
             lci, array = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
-            ).write_lci_to_bw(presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities)
+            ).write_lci_to_bw(
+                presamples,
+                ecoinvent_compatibility,
+                ecoinvent_version,
+                forbidden_activities,
+            )
             return (lci, array)
         else:
             lci = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
-            ).write_lci_to_bw(presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities)
+            ).write_lci_to_bw(
+                presamples,
+                ecoinvent_compatibility,
+                ecoinvent_version,
+                forbidden_activities,
+            )
             return lci
 
     def export_lci_to_excel(
@@ -1604,7 +1778,7 @@ class InventoryCalculation:
         ecoinvent_version="3.6",
         software_compatibility="brightway2",
         filename=None,
-        forbidden_activities=None
+        forbidden_activities=None,
     ):
         """
         Export the inventory as an Excel file (if the destination software is Brightway2) or a CSV file (if the destination software is Simapro) file.
@@ -1641,6 +1815,20 @@ class InventoryCalculation:
         self.create_electricity_market_for_battery_production()
 
         self.set_inputs_in_A_matrix(self.array.values)
+
+        # Add rows for fleet vehicles, if any
+        if isinstance(self.fleet, xr.core.dataarray.DataArray):
+            print("Building fleet average vehicles...")
+            self.build_fleet_vehicles()
+
+            # Update dictionary
+            self.rev_inputs = self.get_rev_dict_input()
+
+            # Update number of cars
+            self.number_of_cars += len(self.scope["year"]) * len(
+                self.scope["powertrain"]
+            )
+
         fp = ExportInventory(
             self.A, self.rev_inputs, db_name=filename or "carculator db"
         ).write_lci_to_excel(
@@ -1649,7 +1837,7 @@ class InventoryCalculation:
             ecoinvent_version,
             software_compatibility,
             filename,
-            forbidden_activities
+            forbidden_activities,
         )
         return fp
 
@@ -1677,19 +1865,26 @@ class InventoryCalculation:
             mix = self.background_configuration["custom electricity mix"]
 
         else:
-            use_year = (self.array.values[
-                        self.array_inputs["lifetime kilometers"]
-                    ]/ self.array.values[
-                        self.array_inputs["kilometers per year"]
-                    ]).reshape(
-                self.iterations,
-                len(self.scope["powertrain"]),
-                len(self.scope["size"]),
-                len(self.scope["year"]),
-            ).mean(axis=(0, 1, 2))
+            use_year = (
+                (
+                    self.array.values[self.array_inputs["lifetime kilometers"]]
+                    / self.array.values[self.array_inputs["kilometers per year"]]
+                )
+                .reshape(
+                    self.iterations,
+                    len(self.scope["powertrain"]),
+                    len(self.scope["size"]),
+                    len(self.scope["year"]),
+                )
+                .mean(axis=(0, 1, 2))
+            )
 
             if self.country not in self.bs.electricity_mix.country.values:
-                print("The electricity mix for {} could not be found. Average European electricity mix is used instead.".format(self.country))
+                print(
+                    "The electricity mix for {} could not be found. Average European electricity mix is used instead.".format(
+                        self.country
+                    )
+                )
                 country = "RER"
             else:
                 country = self.country
@@ -1708,6 +1903,11 @@ class InventoryCalculation:
                         "Oil",
                         "Geothermal",
                         "Waste",
+                        "Biogas CCS",
+                        "Biomass CCS",
+                        "Coal CCS",
+                        "Gas CCS",
+                        "Wood CCS",
                     ],
                 )
                 .interp(
@@ -1730,9 +1930,16 @@ class InventoryCalculation:
                         "Oil",
                         "Geothermal",
                         "Waste",
+                        "Biogas CCS",
+                        "Biomass CCS",
+                        "Coal CCS",
+                        "Gas CCS",
+                        "Wood CCS",
                     ],
                 )
-                .interp(year=np.arange(year, 2051), kwargs={"fill_value": "extrapolate"})
+                .interp(
+                    year=np.arange(year, 2051), kwargs={"fill_value": "extrapolate"}
+                )
                 .mean(axis=0)
                 .values
                 for y, year in enumerate(self.scope["year"])
@@ -1777,7 +1984,10 @@ class InventoryCalculation:
                         * losses_to_low
                     ) * 1000
 
-        sum_renew = [np.sum([self.mix[x][i] for i in [0,3,4,5,8]]) for x in range(0, len(self.mix))]
+        sum_renew = [
+            np.sum([self.mix[x][i] for i in [0, 3, 4, 5, 8]])
+            for x in range(0, len(self.mix))
+        ]
 
         return sum_renew, co2_intensity_tech
 
@@ -1793,8 +2003,8 @@ class InventoryCalculation:
             losses_to_low = float(self.bs.losses["RER"]["LV"])
 
         # Fill the electricity markets for battery charging and hydrogen production
-        for y in self.scope["year"]:
-            m = np.array(self.mix[self.scope["year"].index(y)]).reshape(-1, 10, 1)
+        for y, year in enumerate(self.scope["year"]):
+            m = np.array(self.mix[y]).reshape(-1, 15, 1)
             # Add electricity technology shares
             self.A[
                 np.ix_(
@@ -1803,7 +2013,7 @@ class InventoryCalculation:
                     [
                         self.inputs[i]
                         for i in self.inputs
-                        if str(y) in i[0]
+                        if str(year) in i[0]
                         and "electricity market for fuel preparation" in i[0]
                     ],
                 )
@@ -1823,7 +2033,7 @@ class InventoryCalculation:
                 [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "electricity market for fuel preparation" in i[0]
                 ],
             ] = (6.58e-9 * -1 * losses_to_low)
@@ -1841,7 +2051,7 @@ class InventoryCalculation:
                 [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "electricity market for fuel preparation" in i[0]
                 ],
             ] = (1.86e-8 * -1 * losses_to_low)
@@ -1859,7 +2069,7 @@ class InventoryCalculation:
                 [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "electricity market for fuel preparation" in i[0]
                 ],
             ] = (3.17e-10 * -1 * losses_to_low)
@@ -1878,7 +2088,7 @@ class InventoryCalculation:
                 [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "electricity market for fuel preparation" in i[0]
                 ],
             ] = (8.74e-8 * -1 * losses_to_low)
@@ -1897,7 +2107,7 @@ class InventoryCalculation:
                 [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "electricity market for fuel preparation" in i[0]
                 ],
             ] = ((5.4e-8 + 2.99e-9) * -1 * losses_to_low)
@@ -1910,7 +2120,7 @@ class InventoryCalculation:
                 [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "electricity market for fuel preparation" in i[0]
                 ],
             ] = ((5.4e-8 + 2.99e-9) * -1 * losses_to_low)
@@ -1947,6 +2157,11 @@ class InventoryCalculation:
                     "Oil",
                     "Geothermal",
                     "Waste",
+                    "Biogas CCS",
+                    "Biomass CCS",
+                    "Coal CCS",
+                    "Gas CCS",
+                    "Wood CCS",
                 ],
             )
             .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
@@ -1954,10 +2169,8 @@ class InventoryCalculation:
         )
 
         # Fill the electricity markets for battery production
-        for y in self.scope["year"]:
-            m = np.array(
-                mix_battery_manufacturing[self.scope["year"].index(y)]
-            ).reshape(-1, 10, 1)
+        for y, year in enumerate(self.scope["year"]):
+            m = np.array(mix_battery_manufacturing[y]).reshape(-1, 15, 1)
 
             self.A[
                 np.ix_(
@@ -1966,7 +2179,7 @@ class InventoryCalculation:
                     [
                         self.inputs[i]
                         for i in self.inputs
-                        if str(y) in i[0]
+                        if str(year) in i[0]
                         and "electricity market for energy storage production" in i[0]
                     ],
                 )
@@ -1986,7 +2199,7 @@ class InventoryCalculation:
                 [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "electricity market for energy storage production" in i[0]
                 ],
             ] = (6.58e-9 * -1 * losses_to_low)
@@ -2004,7 +2217,7 @@ class InventoryCalculation:
                 [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "electricity market for energy storage production" in i[0]
                 ],
             ] = (1.86e-8 * -1 * losses_to_low)
@@ -2022,7 +2235,7 @@ class InventoryCalculation:
                 [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "electricity market for energy storage production" in i[0]
                 ],
             ] = (3.17e-10 * -1 * losses_to_low)
@@ -2041,7 +2254,7 @@ class InventoryCalculation:
                 [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "electricity market for energy storage production" in i[0]
                 ],
             ] = (8.74e-8 * -1 * losses_to_low)
@@ -2060,7 +2273,7 @@ class InventoryCalculation:
                 [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "electricity market for energy storage production" in i[0]
                 ],
             ] = ((5.4e-8 + 2.99e-9) * -1 * losses_to_low)
@@ -2073,13 +2286,20 @@ class InventoryCalculation:
                 [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "electricity market for energy storage production" in i[0]
                 ],
             ] = ((5.4e-8 + 2.99e-9) * -1 * losses_to_low)
 
     def get_share_biofuel(self):
-        region = self.bs.region_map[self.country]["RegionCode"]
+        try:
+            region = self.bs.region_map[self.country]["RegionCode"]
+        except KeyError:
+            print(
+                "Could not find biofuel share information for the region/country specified. "
+                "Will use European biofuel share instead."
+            )
+            region = "EUR"
         scenario = self.scenario if self.scenario != "static" else "SSP2-Base"
 
         share_biofuel = (
@@ -2094,10 +2314,26 @@ class InventoryCalculation:
     def find_fuel_shares(self, fuel_type):
 
         default_fuels = {
-            "petrol": {"primary": "petrol", "secondary": "bioethanol - wheat straw", "third": "bioethanol - maize starch"},
-            "diesel": {"primary": "diesel", "secondary": "biodiesel - cooking oil", "third": "biodiesel - algae"},
-            "cng": {"primary": "cng", "secondary": "biogas - sewage sludge", "third": "biogas - biowaste"},
-            "hydrogen": {"primary": "electrolysis", "secondary": "smr - natural gas", "third": "atr - natural gas"},
+            "petrol": {
+                "primary": "petrol",
+                "secondary": "bioethanol - wheat straw",
+                "third": "bioethanol - maize starch",
+            },
+            "diesel": {
+                "primary": "diesel",
+                "secondary": "biodiesel - cooking oil",
+                "third": "biodiesel - algae",
+            },
+            "cng": {
+                "primary": "cng",
+                "secondary": "biogas - sewage sludge",
+                "third": "biogas - biowaste",
+            },
+            "hydrogen": {
+                "primary": "electrolysis",
+                "secondary": "smr - natural gas",
+                "third": "atr - natural gas",
+            },
         }
 
         if "fuel blend" in self.background_configuration:
@@ -2143,18 +2379,14 @@ class InventoryCalculation:
         """
 
         if {"ICEV-p", "HEV-p", "PHEV-p"}.intersection(set(self.scope["powertrain"])):
-            for y in self.scope["year"]:
+            for y, year in enumerate(self.scope["year"]):
 
-                share_primary = self.fuel_blends["petrol"]["primary"]["share"][
-                    self.scope["year"].index(y)
-                ]
+                share_primary = self.fuel_blends["petrol"]["primary"]["share"][y]
                 lhv_primary = self.fuel_blends["petrol"]["primary"]["lhv"]
-                share_secondary = self.fuel_blends["petrol"]["secondary"]["share"][
-                    self.scope["year"].index(y)
-                ]
+                share_secondary = self.fuel_blends["petrol"]["secondary"]["share"][y]
                 lhv_secondary = self.fuel_blends["petrol"]["secondary"]["lhv"]
                 index = self.get_index_vehicle_from_array(
-                    ["ICEV-p", "HEV-p", "PHEV-p"], y, method="and"
+                    ["ICEV-p", "HEV-p", "PHEV-p"], year, method="and"
                 )
 
                 self.array.values[self.array_inputs["range"], :, index] = (
@@ -2175,17 +2407,13 @@ class InventoryCalculation:
                 )
 
         if {"ICEV-d", "HEV-d", "PHEV-d"}.intersection(set(self.scope["powertrain"])):
-            for y in self.scope["year"]:
-                share_primary = self.fuel_blends["diesel"]["primary"]["share"][
-                    self.scope["year"].index(y)
-                ]
+            for y, year in enumerate(self.scope["year"]):
+                share_primary = self.fuel_blends["diesel"]["primary"]["share"][y]
                 lhv_primary = self.fuel_blends["diesel"]["primary"]["lhv"]
-                share_secondary = self.fuel_blends["diesel"]["secondary"]["share"][
-                    self.scope["year"].index(y)
-                ]
+                share_secondary = self.fuel_blends["diesel"]["secondary"]["share"][y]
                 lhv_secondary = self.fuel_blends["diesel"]["secondary"]["lhv"]
                 index = self.get_index_vehicle_from_array(
-                    ["ICEV-d", "PHEV-d", "HEV-d"], y, method="and"
+                    ["ICEV-d", "PHEV-d", "HEV-d"], year, method="and"
                 )
 
                 self.array.values[self.array_inputs["range"], :, index] = (
@@ -2529,10 +2757,12 @@ class InventoryCalculation:
                 "additional electricity": 0,
             },
             "biogas - biowaste": {
-                "name": ('biomethane from biogas upgrading - biowaste - amine scrubbing',
-                      'CH',
-                      'kilogram',
-                      'biomethane'),
+                "name": (
+                    "biomethane from biogas upgrading - biowaste - amine scrubbing",
+                    "CH",
+                    "kilogram",
+                    "biomethane",
+                ),
                 "additional electricity": 0,
             },
             "syngas": {
@@ -2645,47 +2875,44 @@ class InventoryCalculation:
         }
 
         if fuel_type != "electricity":
-            for y in self.scope["year"]:
-                dataset_name = d_dataset_name[fuel_type] + str(y)
+            for y, year in enumerate(self.scope["year"]):
+                dataset_name = d_dataset_name[fuel_type] + str(year)
                 fuel_market_index = [
                     self.inputs[i] for i in self.inputs if i[0] == dataset_name
                 ][0]
                 primary_fuel_activity_index = self.inputs[d_fuels[primary]["name"]]
                 secondary_fuel_activity_index = self.inputs[d_fuels[secondary]["name"]]
                 self.A[:, primary_fuel_activity_index, fuel_market_index] = (
-                    -1 * primary_share[self.scope["year"].index(y)]
+                    -1 * primary_share[y]
                 )
                 self.A[:, secondary_fuel_activity_index, fuel_market_index] = (
-                    -1 * secondary_share[self.scope["year"].index(y)]
+                    -1 * secondary_share[y]
                 )
 
                 additional_electricity = (
-                    d_fuels[primary]["additional electricity"]
-                    * primary_share[self.scope["year"].index(y)]
-                ) + (
-                    d_fuels[secondary]["additional electricity"]
-                    * secondary_share[self.scope["year"].index(y)]
-                )
+                    d_fuels[primary]["additional electricity"] * primary_share[y]
+                ) + (d_fuels[secondary]["additional electricity"] * secondary_share[y])
 
                 if additional_electricity > 0:
                     electricity_mix_index = [
                         self.inputs[i]
                         for i in self.inputs
-                        if i[0] == "electricity market for fuel preparation, " + str(y)
+                        if i[0]
+                        == "electricity market for fuel preparation, " + str(year)
                     ][0]
                     self.A[:, electricity_mix_index, fuel_market_index] = (
                         -1 * additional_electricity
                     )
         else:
-            for y in self.scope["year"]:
-                dataset_name = d_dataset_name[fuel_type] + str(y)
+            for year in self.scope["year"]:
+                dataset_name = d_dataset_name[fuel_type] + str(year)
                 electricity_market_index = [
                     self.inputs[i] for i in self.inputs if i[0] == dataset_name
                 ][0]
                 electricity_mix_index = [
                     self.inputs[i]
                     for i in self.inputs
-                    if i[0] == "electricity market for fuel preparation, " + str(y)
+                    if i[0] == "electricity market for fuel preparation, " + str(year)
                 ][0]
                 self.A[:, electricity_mix_index, electricity_market_index] = -1
 
@@ -3145,27 +3372,21 @@ class InventoryCalculation:
 
         sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
 
-        for y in self.scope["year"]:
+        for y, year in enumerate(self.scope["year"]):
 
-            if self.scope["year"].index(y) + 1 == len(self.scope["year"]):
+            if y + 1 == len(self.scope["year"]):
                 end_str = "\n * "
             else:
                 end_str = "\n \t * "
 
             print(
                 "in "
-                + str(y)
+                + str(year)
                 + ", % of renewable: "
-                + str(np.round(sum_renew[self.scope["year"].index(y)] * 100, 0))
+                + str(np.round(sum_renew[y] * 100, 0))
                 + "%"
                 + ", GHG intensity per kWh: "
-                + str(
-                    int(
-                        np.sum(
-                            co2_intensity_tech * self.mix[self.scope["year"].index(y)]
-                        )
-                    )
-                )
+                + str(int(np.sum(co2_intensity_tech * self.mix[y])))
                 + " g. CO2-eq.",
                 end=end_str,
             )
@@ -3214,21 +3435,18 @@ class InventoryCalculation:
                 ),
                 end="\n \t * ",
             )
-            for y in self.scope["year"]:
-                if self.scope["year"].index(y) + 1 == len(self.scope["year"]):
+            for y, year in enumerate(self.scope["year"]):
+                if y + 1 == len(self.scope["year"]):
                     end_str = "\n * "
                 else:
                     end_str = "\n \t * "
                 print(
                     "in "
-                    + str(y)
+                    + str(year)
                     + " _________________________________________ "
                     + str(
                         np.round(
-                            self.fuel_blends["hydrogen"]["secondary"]["share"][
-                                self.scope["year"].index(y)
-                            ]
-                            * 100,
+                            self.fuel_blends["hydrogen"]["secondary"]["share"][y] * 100,
                             0,
                         )
                     )
@@ -3236,15 +3454,15 @@ class InventoryCalculation:
                     end=end_str,
                 )
 
-            # Primary fuel share
-            for y in self.scope["year"]:
+                # Primary fuel share
+
                 ind_A = [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0] and "Passenger" in i[0] and "FCEV" in i[0]
+                    if str(year) in i[0] and "Passenger" in i[0] and "FCEV" in i[0]
                 ]
                 ind_array = [
-                    x for x in self.get_index_vehicle_from_array(y) if x in index
+                    x for x in self.get_index_vehicle_from_array(year) if x in index
                 ]
 
                 self.A[
@@ -3252,7 +3470,7 @@ class InventoryCalculation:
                     [
                         self.inputs[i]
                         for i in self.inputs
-                        if str(y) in i[0]
+                        if str(year) in i[0]
                         and "fuel supply for hydrogen vehicles" in i[0]
                     ],
                     ind_A,
@@ -3273,37 +3491,33 @@ class InventoryCalculation:
                 end="\n \t * ",
             )
 
-            for y in self.scope["year"]:
-                if self.scope["year"].index(y) + 1 == len(self.scope["year"]):
+            for y, year in enumerate(self.scope["year"]):
+                if y + 1 == len(self.scope["year"]):
                     end_str = "\n * "
                 else:
                     end_str = "\n \t * "
                 print(
                     "in "
-                    + str(y)
+                    + str(year)
                     + " _________________________________________ "
                     + str(
                         np.round(
-                            self.fuel_blends["cng"]["secondary"]["share"][
-                                self.scope["year"].index(y)
-                            ]
-                            * 100,
-                            0,
+                            self.fuel_blends["cng"]["secondary"]["share"][y] * 100, 0,
                         )
                     )
                     + "%",
                     end=end_str,
                 )
 
-            # Primary fuel share
-            for y in self.scope["year"]:
+                # Primary fuel share
+
                 ind_A = [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0] and "Passenger" in i[0] and "ICEV-g" in i[0]
+                    if str(year) in i[0] and "Passenger" in i[0] and "ICEV-g" in i[0]
                 ]
                 ind_array = [
-                    x for x in self.get_index_vehicle_from_array(y) if x in index
+                    x for x in self.get_index_vehicle_from_array(year) if x in index
                 ]
 
                 # Supply of gas, including 4% of gas input as pump-to-tank leakage
@@ -3312,25 +3526,32 @@ class InventoryCalculation:
                     [
                         self.inputs[i]
                         for i in self.inputs
-                        if str(y) in i[0] and "fuel supply for gas vehicles" in i[0]
+                        if str(year) in i[0] and "fuel supply for gas vehicles" in i[0]
                     ],
                     ind_A,
                 ] = (
-                    (array[self.array_inputs["fuel mass"], :, ind_array]
-                    / array[self.array_inputs["range"], :, ind_array])
-                    * (1 + array[self.array_inputs["CNG pump-to-tank leakage"], :, ind_array])
+                    (
+                        array[self.array_inputs["fuel mass"], :, ind_array]
+                        / array[self.array_inputs["range"], :, ind_array]
+                    )
+                    * (
+                        1
+                        + array[
+                            self.array_inputs["CNG pump-to-tank leakage"], :, ind_array
+                        ]
+                    )
                     * -1
                 ).T
 
                 # Gas leakage to air
 
                 self.A[
-                    :,
-                    self.inputs[("Methane, fossil", ("air",), "kilogram")],
-                    ind_A,
+                    :, self.inputs[("Methane, fossil", ("air",), "kilogram")], ind_A,
                 ] = (
-                    (array[self.array_inputs["fuel mass"], :, ind_array]
-                    / array[self.array_inputs["range"], :, ind_array])
+                    (
+                        array[self.array_inputs["fuel mass"], :, ind_array]
+                        / array[self.array_inputs["range"], :, ind_array]
+                    )
                     * array[self.array_inputs["CNG pump-to-tank leakage"], :, ind_array]
                     * -1
                 ).T
@@ -3342,15 +3563,11 @@ class InventoryCalculation:
                 CO2_fossil = 0
 
                 if self.fuel_blends["cng"]["primary"]["type"] == "cng":
-                    share_fossil += self.fuel_blends["cng"]["primary"]["share"][
-                        self.scope["year"].index(y)
-                    ]
+                    share_fossil += self.fuel_blends["cng"]["primary"]["share"][y]
                     CO2_fossil = self.fuel_blends["cng"]["primary"]["CO2"]
 
                 if self.fuel_blends["cng"]["secondary"]["type"] == "cng":
-                    share_fossil += self.fuel_blends["cng"]["secondary"]["share"][
-                        self.scope["year"].index(y)
-                    ]
+                    share_fossil += self.fuel_blends["cng"]["secondary"]["share"][y]
                     CO2_fossil = self.fuel_blends["cng"]["primary"]["CO2"]
 
                 self.A[
@@ -3373,15 +3590,11 @@ class InventoryCalculation:
                 CO2_non_fossil = 0
 
                 if self.fuel_blends["cng"]["primary"]["type"] != "cng":
-                    share_non_fossil += self.fuel_blends["cng"]["primary"]["share"][
-                        self.scope["year"].index(y)
-                    ]
+                    share_non_fossil += self.fuel_blends["cng"]["primary"]["share"][y]
                     CO2_non_fossil = self.fuel_blends["cng"]["primary"]["CO2"]
 
                 if self.fuel_blends["cng"]["secondary"]["type"] != "cng":
-                    share_non_fossil += self.fuel_blends["cng"]["secondary"]["share"][
-                        self.scope["year"].index(y)
-                    ]
+                    share_non_fossil += self.fuel_blends["cng"]["secondary"]["share"][y]
                     CO2_non_fossil = self.fuel_blends["cng"]["secondary"]["CO2"]
 
                 self.A[
@@ -3417,21 +3630,18 @@ class InventoryCalculation:
                 end="\n \t * ",
             )
 
-            for y in self.scope["year"]:
-                if self.scope["year"].index(y) + 1 == len(self.scope["year"]):
+            for y, year in enumerate(self.scope["year"]):
+                if y + 1 == len(self.scope["year"]):
                     end_str = "\n * "
                 else:
                     end_str = "\n \t * "
                 print(
                     "in "
-                    + str(y)
+                    + str(year)
                     + " _________________________________________ "
                     + str(
                         np.round(
-                            self.fuel_blends["diesel"]["secondary"]["share"][
-                                self.scope["year"].index(y)
-                            ]
-                            * 100,
+                            self.fuel_blends["diesel"]["secondary"]["share"][y] * 100,
                             0,
                         )
                     )
@@ -3439,17 +3649,16 @@ class InventoryCalculation:
                     end=end_str,
                 )
 
-            for y in self.scope["year"]:
                 ind_A = [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "Passenger" in i[0]
                     and any(x in i[0] for x in ["ICEV-d", "PHEV-d", "HEV-d"])
                 ]
 
                 ind_array = [
-                    x for x in self.get_index_vehicle_from_array(y) if x in index
+                    x for x in self.get_index_vehicle_from_array(year) if x in index
                 ]
 
                 # Fuel supply
@@ -3458,7 +3667,8 @@ class InventoryCalculation:
                     [
                         self.inputs[i]
                         for i in self.inputs
-                        if str(y) in i[0] and "fuel supply for diesel vehicles" in i[0]
+                        if str(year) in i[0]
+                        and "fuel supply for diesel vehicles" in i[0]
                     ],
                     ind_A,
                 ] = (
@@ -3471,15 +3681,11 @@ class InventoryCalculation:
                 CO2_fossil = 0
                 # Fuel-based CO2 emission from conventional diesel
                 if self.fuel_blends["diesel"]["primary"]["type"] == "diesel":
-                    share_fossil += self.fuel_blends["diesel"]["primary"]["share"][
-                        self.scope["year"].index(y)
-                    ]
+                    share_fossil += self.fuel_blends["diesel"]["primary"]["share"][y]
                     CO2_fossil = self.fuel_blends["diesel"]["primary"]["CO2"]
 
                 if self.fuel_blends["diesel"]["secondary"]["type"] == "diesel":
-                    share_fossil += self.fuel_blends["diesel"]["secondary"]["share"][
-                        self.scope["year"].index(y)
-                    ]
+                    share_fossil += self.fuel_blends["diesel"]["secondary"]["share"][y]
                     CO2_fossil = self.fuel_blends["diesel"]["secondary"]["CO2"]
 
                 self.A[
@@ -3501,22 +3707,64 @@ class InventoryCalculation:
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as concentration ratio
                 if self.country in self.bs.sulfur.country.values:
-                    sulfur_concentration = self.bs.sulfur.sel(country=self.country, year=y, fuel="diesel").sum().values
+                    sulfur_concentration = (
+                        self.bs.sulfur.sel(
+                            country=self.country, year=year, fuel="diesel"
+                        )
+                        .sum()
+                        .values
+                    )
                 else:
-                    # if we do not have the sulfur concentration for the required country, we pick Europe
-                    print("The sulfur content for diesel fuel in {} could not be found. European average sulfur content is used instead.".format(self.country))
-                    sulfur_concentration = self.bs.sulfur.sel(country="RER", year=y, fuel="diesel").sum().values
+                    d_map_regions = {
+                        "CAZ": "CA",
+                        "CHA": "CN",
+                        "EUR": "FR",
+                        "IND": "IN",
+                        "JPN": "JP",
+                        "LAM": "BR",
+                        "MEA": "EG",
+                        "NEU": "CH",
+                        "OAS": "TH",
+                        "REF": "RU",
+                        "SSA": "ZA",
+                        "USA": "US",
+                        "World": "RER",
+                    }
+
+                    if self.country in d_map_regions:
+
+                        sulfur_concentration = (
+                            self.bs.sulfur.sel(
+                                country=d_map_regions[self.country],
+                                year=year,
+                                fuel="diesel",
+                            )
+                            .sum()
+                            .values
+                        )
+                    else:
+
+                        # if we do not have the sulfur concentration for the required country, we pick Europe
+                        print(
+                            "The sulfur content for diesel fuel in {} could not be found. European average sulfur content is used instead.".format(
+                                self.country
+                            )
+                        )
+                        sulfur_concentration = (
+                            self.bs.sulfur.sel(country="RER", year=year, fuel="diesel")
+                            .sum()
+                            .values
+                        )
 
                 self.A[
-                    :,
-                    self.inputs[("Sulfur dioxide", ("air",), "kilogram")],
-                    ind_A,
+                    :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
                 ] = (
                     (
                         (
                             array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil # assumes sulfur only present in conventional diesel
-                            * sulfur_concentration * (64/32) # molar mass of SO2/molar mass of O2
+                            * share_fossil  # assumes sulfur only present in conventional diesel
+                            * sulfur_concentration
+                            * (64 / 32)  # molar mass of SO2/molar mass of O2
                         )
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3531,14 +3779,14 @@ class InventoryCalculation:
                 # As well as the CO2 emission factor of the fuel
                 if self.fuel_blends["diesel"]["primary"]["type"] != "diesel":
                     share_non_fossil += self.fuel_blends["diesel"]["primary"]["share"][
-                        self.scope["year"].index(y)
+                        y
                     ]
                     CO2_non_fossil = self.fuel_blends["diesel"]["primary"]["CO2"]
 
                 if self.fuel_blends["diesel"]["secondary"]["type"] != "diesel":
                     share_non_fossil += self.fuel_blends["diesel"]["secondary"][
                         "share"
-                    ][self.scope["year"].index(y)]
+                    ][y]
                     CO2_non_fossil = self.fuel_blends["diesel"]["secondary"]["CO2"]
 
                 self.A[
@@ -3713,21 +3961,18 @@ class InventoryCalculation:
                 end="\n \t * ",
             )
 
-            for y in self.scope["year"]:
-                if self.scope["year"].index(y) + 1 == len(self.scope["year"]):
+            for y, year in enumerate(self.scope["year"]):
+                if y + 1 == len(self.scope["year"]):
                     end_str = "\n * "
                 else:
                     end_str = "\n \t * "
                 print(
                     "in "
-                    + str(y)
+                    + str(year)
                     + " _________________________________________ "
                     + str(
                         np.round(
-                            self.fuel_blends["petrol"]["secondary"]["share"][
-                                self.scope["year"].index(y)
-                            ]
-                            * 100,
+                            self.fuel_blends["petrol"]["secondary"]["share"][y] * 100,
                             0,
                         )
                     )
@@ -3735,16 +3980,16 @@ class InventoryCalculation:
                     end=end_str,
                 )
 
-            for y in self.scope["year"]:
+            for y, year in enumerate(self.scope["year"]):
                 ind_A = [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(y) in i[0]
+                    if str(year) in i[0]
                     and "Passenger" in i[0]
                     and any(x in i[0] for x in ["ICEV-p", "HEV-p", "PHEV-p"])
                 ]
                 ind_array = [
-                    x for x in self.get_index_vehicle_from_array(y) if x in index
+                    x for x in self.get_index_vehicle_from_array(year) if x in index
                 ]
 
                 # Fuel supply
@@ -3753,7 +3998,7 @@ class InventoryCalculation:
                     [
                         self.inputs[i]
                         for i in self.inputs
-                        if str(y) in i[0]
+                        if str(year) in i[0]
                         and "fuel supply for gasoline vehicles" in i[0]
                     ],
                     ind_A,
@@ -3768,15 +4013,11 @@ class InventoryCalculation:
 
                 # Fuel-based CO2 emission from conventional petrol
                 if self.fuel_blends["petrol"]["primary"]["type"] == "petrol":
-                    share_fossil += self.fuel_blends["petrol"]["primary"]["share"][
-                        self.scope["year"].index(y)
-                    ]
+                    share_fossil += self.fuel_blends["petrol"]["primary"]["share"][y]
                     CO2_fossil = self.fuel_blends["petrol"]["primary"]["CO2"]
 
                 if self.fuel_blends["petrol"]["secondary"]["type"] == "petrol":
-                    share_fossil += self.fuel_blends["petrol"]["secondary"]["share"][
-                        self.scope["year"].index(y)
-                    ]
+                    share_fossil += self.fuel_blends["petrol"]["secondary"]["share"][y]
                     CO2_fossil = self.fuel_blends["petrol"]["secondary"]["CO2"]
 
                 self.A[
@@ -3799,22 +4040,63 @@ class InventoryCalculation:
                 # Sulfur concentration value for a given country, a given year, as a concentration ratio
 
                 if self.country in self.bs.sulfur.country.values:
-                    sulfur_concentration = self.bs.sulfur.sel(country=self.country, year=y, fuel="petrol").sum().values
+                    sulfur_concentration = (
+                        self.bs.sulfur.sel(
+                            country=self.country, year=year, fuel="petrol"
+                        )
+                        .sum()
+                        .values
+                    )
                 else:
-                    # if we do not have the sulfur concentration for the required country, we pick Europe
-                    print("The sulfur content for gasoline fuel in {} could not be found. European average sulfur content is used instead.".format(self.country))
-                    sulfur_concentration = self.bs.sulfur.sel(country="RER", year=y, fuel="petrol").sum().values
+                    d_map_regions = {
+                        "CAZ": "CA",
+                        "CHA": "CN",
+                        "EUR": "FR",
+                        "IND": "IN",
+                        "JPN": "JP",
+                        "LAM": "BR",
+                        "MEA": "EG",
+                        "NEU": "CH",
+                        "OAS": "TH",
+                        "REF": "RU",
+                        "SSA": "ZA",
+                        "USA": "US",
+                        "World": "RER",
+                    }
+
+                    if self.country in d_map_regions:
+
+                        sulfur_concentration = (
+                            self.bs.sulfur.sel(
+                                country=d_map_regions[self.country],
+                                year=year,
+                                fuel="diesel",
+                            )
+                            .sum()
+                            .values
+                        )
+                    else:
+                        # if we do not have the sulfur concentration for the required country, we pick Europe
+                        print(
+                            "The sulfur content for gasoline fuel in {} could not be found. European average sulfur content is used instead.".format(
+                                self.country
+                            )
+                        )
+                        sulfur_concentration = (
+                            self.bs.sulfur.sel(country="RER", year=year, fuel="petrol")
+                            .sum()
+                            .values
+                        )
 
                 self.A[
-                    :,
-                    self.inputs[("Sulfur dioxide", ("air",), "kilogram")],
-                    ind_A,
+                    :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
                 ] = (
                     (
                         (
                             array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil # assumes sulfur only present in conventional diesel
-                            * sulfur_concentration * (64/32) # molar mass of SO2/molar mass of O2
+                            * share_fossil  # assumes sulfur only present in conventional diesel
+                            * sulfur_concentration
+                            * (64 / 32)  # molar mass of SO2/molar mass of O2
                         )
                     )
                     / array[self.array_inputs["range"], :, ind_array]
@@ -3828,15 +4110,13 @@ class InventoryCalculation:
                 # The share of non-fossil fuel in the blend is retrieved
                 # As well as the CO2 emission factor of the fuel
                 if self.fuel_blends["petrol"]["primary"]["type"] != "petrol":
-                    share_non_fossil += self.fuel_blends["petrol"]["primary"]["share"][
-                        self.scope["year"].index(y)
-                    ]
+                    share_non_fossil += self.fuel_blends["petrol"]["primary"]["share"][y]
                     CO2_non_fossil = self.fuel_blends["petrol"]["primary"]["CO2"]
 
                 if self.fuel_blends["petrol"]["secondary"]["type"] != "petrol":
                     share_non_fossil += self.fuel_blends["petrol"]["secondary"][
                         "share"
-                    ][self.scope["year"].index(y)]
+                    ][y]
                     CO2_non_fossil = self.fuel_blends["petrol"]["secondary"]["CO2"]
 
                 self.A[

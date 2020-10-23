@@ -492,10 +492,7 @@ class ExportInventory:
                 mult_factor = 1
 
                 # If ecoinvent_compatibility==False and the activity name is part of the list
-                if (
-                    ecoinvent_compatibility == False
-                    and tuple_output[0] in activities_to_be_removed
-                ):
+                if tuple_output[0] in activities_to_be_removed:
                     break
 
                 if ecoinvent_compatibility == False:
