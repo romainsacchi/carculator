@@ -1061,7 +1061,7 @@ class InventoryCalculation:
 
         f = np.float32(np.zeros((np.shape(self.A)[1])))
 
-        # Collect indices of activities contributing to the first level for year `y`
+        # Collect indices of activities contributing to the first level
         ind_cars = [self.inputs[i] for i in self.inputs if "Passenger" in i[0]]
         arr = self.A[0, : -self.number_of_cars, ind_cars].sum(axis=0)
         ind = np.nonzero(arr)[0]
@@ -4394,4 +4394,34 @@ class InventoryCalculation:
             ]
             * -1
         ).transpose([1, 0, 2])
+
+        # Emissions of air conditioner refrigerant r134a
+        # Leakage assumed to amount to 53g according to
+        # https://ec.europa.eu/clima/sites/clima/files/eccp/docs/leakage_rates_final_report_en.pdf
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "Ethane, 1,1,1,2-tetrafluoro-, HFC-134a",
+                    ("air",),
+                    "kilogram"
+                )
+            ],
+            -self.number_of_cars:
+        ] = .053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for refrigerant R134a",
+                    "GLO",
+                    "kilogram",
+                    "refrigerant R134a"
+                )
+            ],
+            -self.number_of_cars:
+        ] = .053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
+
         print("*********************************************************************")

@@ -49,13 +49,11 @@ def extract_biofuel_shares_from_REMIND(fp, remind_region, years):
 
     new_df = pd.concat([df_liquids, df_gas])
     new_df["Variable"] = new_df["Variable"].map(d_map_fuels)
-
     new_df.columns = (
         new_df.columns[:3].tolist() + new_df.columns[3:].astype(int).tolist()
     )
 
     new_df = new_df.rename(columns={"Variable": "fuel_type"})
-
     new_df = new_df.groupby("fuel_type").sum()
 
     return new_df.to_xarray().to_array().interp(variable=years)
@@ -82,16 +80,13 @@ def extract_electricity_mix_from_REMIND_file(fp, remind_region, years):
     df = pd.read_csv(fp, delimiter=";", index_col=["Region", "Variable", "Unit"]).drop(
         columns=["Model", "Scenario"]
     )
+
     df = df.reset_index()
     df = df.loc[df["Region"] == remind_region]
     df = df.loc[:, : str(2050)]
-
     df = df.loc[df["Variable"].isin(electricity_markets.values())]
-
     df["Variable"] = df["Variable"].map(rev_tech)
-
     df.columns = df.columns[:3].tolist() + df.columns[3:].astype(int).tolist()
-
     df.iloc[:, 3:] /= df.iloc[:, 3:].sum(axis=0)
 
     d_var = {
