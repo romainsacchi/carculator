@@ -1092,7 +1092,7 @@ class InventoryCalculation:
         )
 
         arr = (
-            self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1).reshape(shape)
+            self.A[:, :, -self.number_of_cars:].transpose(0, 2, 1).reshape(shape)
             * new_arr.transpose(1, 2, 0)[:, None, None, None, ...]
             * -1
         )
@@ -1954,35 +1954,31 @@ class InventoryCalculation:
             # If losses for the country are not found, assume EU average
             losses_to_low = float(self.bs.losses["RER"]["LV"])
 
-        for y in self.scope["year"]:
+        category_name = (
+            "climate change"
+            if self.method == "recipe"
+            else "climate change - climate change total"
+        )
 
-            co2_intensity_tech = 0
-            category_name = (
-                "climate change"
-                if self.method == "recipe"
-                else "climate change - climate change total"
-            )
 
-            if self.method_type == "midpoint":
-                if self.scenario == "static":
-                    co2_intensity_tech = (
-                        self.B.sel(
-                            category=category_name,
-                            year=2020,
-                            activity=list(self.elec_map.values()),
-                        ).values
-                        * losses_to_low
-                    ) * 1000
-                else:
-                    co2_intensity_tech = (
-                        self.B.sel(
-                            category=category_name,
-                            activity=list(self.elec_map.values()),
-                        )
-                        .interp(year=y, kwargs={"fill_value": "extrapolate"})
-                        .values
-                        * losses_to_low
-                    ) * 1000
+        if self.method_type != "endpoint":
+            if self.scenario != "static":
+                year = self.scope["year"]
+                co2_intensity_tech = (
+                         self.B.sel(category=category_name, activity=list(self.elec_map.values()), )
+                         .interp(year=year, kwargs={"fill_value": "extrapolate"})
+                         .values
+                         * losses_to_low
+                 ) * 1000
+            else:
+                year = 2020
+                co2_intensity_tech = np.resize((
+                self.B.sel(category=category_name, activity=list(self.elec_map.values()), year=year)
+                .values
+                * losses_to_low
+                * 1000), (len(self.scope["year"]), 15))
+        else:
+            co2_intensity_tech = np.zeroes((len(self.scope["year"]), 15))
 
         sum_renew = [
             np.sum([self.mix[x][i] for i in [0, 3, 4, 5, 8]])
@@ -2740,10 +2736,10 @@ class InventoryCalculation:
             },
             "cng": {
                 "name": (
-                    "market for natural gas, from high pressure network (1-5 bar), at service station",
+                    "market for natural gas, high pressure, vehicle grade",
                     "GLO",
                     "kilogram",
-                    "natural gas, from high pressure network (1-5 bar), at service station",
+                    "natural gas, high pressure, vehicle grade",
                 ),
                 "additional electricity": 0,
             },
@@ -3386,10 +3382,11 @@ class InventoryCalculation:
                 + str(np.round(sum_renew[y] * 100, 0))
                 + "%"
                 + ", GHG intensity per kWh: "
-                + str(int(np.sum(co2_intensity_tech * self.mix[y])))
+                + str(int(np.sum(co2_intensity_tech[y] * self.mix[y])))
                 + " g. CO2-eq.",
                 end=end_str,
             )
+
 
         if any(
             True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in self.scope["powertrain"]

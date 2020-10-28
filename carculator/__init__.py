@@ -25,7 +25,7 @@ __all__ = (
     "extract_electricity_mix_from_REMIND_file",
     "extract_biofuel_shares_from_REMIND"
 )
-__version__ = (1, 2, 8)
+__version__ = (1, 2, 9)
 
 from pathlib import Path
 

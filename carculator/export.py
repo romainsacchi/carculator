@@ -14,6 +14,77 @@ import csv
 from . import DATA_DIR, __version__
 
 
+def load_mapping_37_to_36():
+    """Load mapping dictionary between ecoinvent 3.7 and 3.6"""
+
+    # Load the matching dictionary
+    filename = "ei37_to_ei36.csv"
+    filepath = DATA_DIR / filename
+    if not filepath.is_file():
+        raise FileNotFoundError(
+            "The dictionary of activities flows match between ecoinvent 3.7 and 3.6 could not be found."
+        )
+    with open(filepath) as f:
+        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+    (_, _, *header), *data = csv_list
+
+    dict_ei36 = {}
+    for row in data:
+        (
+            name,
+            location,
+            unit,
+            ref_prod,
+            name_36,
+            location_36,
+            unit_36,
+            ref_prod_36,
+        ) = row
+        dict_ei36[(name, location, unit, ref_prod)] = (
+            name_36,
+            location_36,
+            unit_36,
+            ref_prod_36,
+        )
+
+    return dict_ei36
+
+
+def load_mapping_37_to_35():
+    """Load mapping dictionary between ecoinvent 3.7 and 3.5"""
+
+    # Load the matching dictionary
+    filename = "ei37_to_ei35.csv"
+    filepath = DATA_DIR / filename
+    if not filepath.is_file():
+        raise FileNotFoundError(
+            "The dictionary of activities flows match between ecoinvent 3.7 and 3.5 could not be found."
+        )
+    with open(filepath) as f:
+        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+    (_, _, *header), *data = csv_list
+
+    dict_ei35 = {}
+    for row in data:
+        (
+            name,
+            location,
+            unit,
+            ref_prod,
+            name_35,
+            location_35,
+            unit_35,
+            ref_prod_35,
+        ) = row
+        dict_ei35[(name, location, unit, ref_prod)] = (
+            name_35,
+            location_35,
+            unit_35,
+            ref_prod_35,
+        )
+
+    return dict_ei35
+
 class ExportInventory:
     """
     Export the inventory to various formats
@@ -130,151 +201,8 @@ class ExportInventory:
             ),
 
         }
-        self.map_36_to_35 = {
-            ("market for water, completely softened", "RER", "kilogram", "water, completely softened"): (
-                "market for water, completely softened, from decarbonised water, at user",
-                "GLO",
-                "kilogram",
-                "water, completely softened, from decarbonised water, at user",
-            ),
-            ("market for nylon 6", "RoW", "kilogram", "nylon 6"): (
-                "market for nylon 6",
-                "GLO",
-                "kilogram",
-                "nylon 6",
-            ),
-            (
-                "market for aluminium oxide, metallurgical",
-                "IAI Area, EU27 & EFTA",
-                "kilogram",
-                "aluminium oxide, metallurgical",
-            ): ("market for aluminium oxide", "GLO", "kilogram", "aluminium oxide"),
-            (
-                "market for flat glass, coated",
-                "RER",
-                "kilogram",
-                "flat glass, coated",
-            ): (
-                "market for flat glass, coated",
-                "GLO",
-                "kilogram",
-                "flat glass, coated",
-            ),
-            (
-                "market for water, decarbonised",
-                "RoW",
-                "kilogram",
-                "water, decarbonised",
-            ): (
-                "market for water, decarbonised, at user",
-                "GLO",
-                "kilogram",
-                "water, decarbonised, at user",
-            ),
-            (
-                "market for water, decarbonised",
-                "DE",
-                "kilogram",
-                "water, decarbonised",
-            ): (
-                "market for water, decarbonised, at user",
-                "GLO",
-                "kilogram",
-                "water, decarbonised, at user",
-            ),
-            (
-                "market for transport, freight, sea, tanker for petroleum",
-                "GLO",
-                "ton kilometer",
-                "transport, freight, sea, tanker for petroleum",
-            ): (
-                "market for transport, freight, sea, transoceanic tanker",
-                "GLO",
-                "ton kilometer",
-                "transport, freight, sea, transoceanic tanker",
-            ),
-            (
-                "market for transport, freight, sea, tanker for liquid goods other than petroleum and liquefied natural gas",
-                "GLO",
-                "ton kilometer",
-                "transport, freight, sea, tanker for liquid goods other than petroleum and liquefied natural gas",
-            ): (
-                "market for transport, freight, sea, transoceanic tanker",
-                "GLO",
-                "ton kilometer",
-                "transport, freight, sea, transoceanic tanker",
-            ),
-            ("market for water, deionised", "CH", "kilogram", "water, deionised"): (
-                "market for water, deionised, from tap water, at user",
-                "CH",
-                "kilogram",
-                "water, deionised, from tap water, at user",
-            ),
-            ("water production, deionised", "Europe without Switzerland", "kilogram", "water, deionised"): (
-                "market for water, deionised, from tap water, at user",
-                "CH",
-                "kilogram",
-                "water, deionised, from tap water, at user",
-            ),
-            (
-                "market for styrene butadiene rubber (SBR)",
-                "RER",
-                "kilogram",
-                "styrene butadiene rubber (SBR)",
-            ): ("latex production", "RER", "kilogram", "latex"),
-            (
-                "market for water, deionised",
-                "Europe without Switzerland",
-                "kilogram",
-                "water, deionised",
-            ): (
-                "market for water, deionised, from tap water, at user",
-                "Europe without Switzerland",
-                "kilogram",
-                "water, deionised, from tap water, at user",
-            ),
-            ("market for water, deionised", "RoW", "kilogram", "water, deionised",): (
-                "market for water, deionised, from tap water, at user",
-                "RoW",
-                "kilogram",
-                "water, deionised, from tap water, at user",
-            ),
-            (
-                "market for flat glass, uncoated",
-                "RER",
-                "kilogram",
-                "flat glass, uncoated",
-            ): (
-                "market for flat glass, uncoated",
-                "GLO",
-                "kilogram",
-                "flat glass, uncoated",
-            ),
-            ("market for water, ultrapure", "RoW", "kilogram", "water, ultrapure"): (
-                "market for water, ultrapure",
-                "GLO",
-                "kilogram",
-                "water, ultrapure",
-            ),
-            ("market for water, ultrapure", "RER", "kilogram", "water, ultrapure"): (
-                "market for water, ultrapure",
-                "GLO",
-                "kilogram",
-                "water, ultrapure",
-            ),
-            ("market for concrete block", "DE", "kilogram", "concrete block"): (
-                "market for concrete block",
-                "GLO",
-                "kilogram",
-                "concrete block",
-            ),
-            ("market for road maintenance", "RER", "meter-year", "road maintenance"): (
-                "market for road maintenance",
-                "GLO",
-                "meter-year",
-                "road maintenance",
-            ),
-        }
+        self.map_37_to_36 = load_mapping_37_to_36()
+        self.map_37_to_35 = load_mapping_37_to_35()
         self.map_36_to_uvek = self.load_mapping_36_to_uvek()
         self.tags = self.load_tags()
 
@@ -322,6 +250,8 @@ class ExportInventory:
             dict_uvek[(name, ref_prod, unit, location)] = (uvek_name, uvek_ref_prod, uvek_unit, uvek_loc)
 
         return dict_uvek
+
+
 
     def write_lci(self, presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities=None):
         """
@@ -436,7 +366,23 @@ class ExportInventory:
             'Biodiesel from palm oil',
             'Hydrogen, gaseous, 700 bar, from SMR of NG, at H2 fuelling station',
             'treatment of biowaste by anaerobic digestion, with biogenic carbon uptake, lower bound C sequestration, digestate incineration',
-            'Crude Palm Oil extraction from FFBs {RER} |oil mill|'
+            'Crude Palm Oil extraction from FFBs {RER} |oil mill|',
+            'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling plant',
+            'hardwood forestry, birch, sustainable forest management_CF = -1',
+            'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station',
+            'Diesel production, synthetic, Fischer Tropsch process',
+            'softwood forestry, pine, sustainable forest management_CF = -1',
+            'softwood forestry, spruce, sustainable forest management_CF = -1',
+            'Hydrogen, gaseous, 25 bar, from electrolysis',
+            'Methanol distillation',
+            'softwood forestry, spruce, sustainable forest management_CF = -1',
+            'hardwood forestry, oak, sustainable forest management_CF = -1',
+            'softwood forestry, pine, sustainable forest management_CF = -1',
+            'Gasoline production, synthetic, from methanol',
+            'Methanol Synthesis',
+            'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling plant',
+            'hardwood forestry, beech, sustainable forest management_CF = -1',
+            'Syngas, RWGS, Production'
         ]
 
         if isinstance(forbidden_activities, list):
@@ -492,7 +438,7 @@ class ExportInventory:
                 mult_factor = 1
 
                 # If ecoinvent_compatibility==False and the activity name is part of the list
-                if tuple_output[0] in activities_to_be_removed:
+                if tuple_output[0] in activities_to_be_removed and not ecoinvent_compatibility:
                     break
 
                 if ecoinvent_compatibility == False:
@@ -512,9 +458,13 @@ class ExportInventory:
                         tuple_input, tuple_input
                     )
 
+                    if ecoinvent_version == "3.6":
+                        tuple_output = self.map_37_to_36.get(tuple_output, tuple_output)
+                        tuple_input = self.map_37_to_36.get(tuple_input, tuple_input)
+
                     if ecoinvent_version == "3.5":
-                        tuple_output = self.map_36_to_35.get(tuple_output, tuple_output)
-                        tuple_input = self.map_36_to_35.get(tuple_input, tuple_input)
+                        tuple_output = self.map_37_to_35.get(tuple_output, tuple_output)
+                        tuple_input = self.map_37_to_35.get(tuple_input, tuple_input)
 
                         if tuple_output[0] in ei35_activities_to_remove:
                             continue
@@ -545,6 +495,7 @@ class ExportInventory:
                     # Several values, but all the same, so no uncertainty
                     amount = self.array[0, row, col]  * mult_factor
                     uncertainty = [("uncertainty type", 1)]
+
                 else:
                     # Uncertainty
                     if presamples == True:
