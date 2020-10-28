@@ -1639,7 +1639,7 @@ class InventoryCalculation:
         self,
         presamples=True,
         ecoinvent_compatibility=True,
-        ecoinvent_version="3.6",
+        ecoinvent_version="3.7",
         db_name="carculator db",
         forbidden_activities=None,
     ):
@@ -1697,7 +1697,7 @@ class InventoryCalculation:
         self,
         presamples=True,
         ecoinvent_compatibility=True,
-        ecoinvent_version="3.6",
+        ecoinvent_version="3.7",
         db_name="carculator db",
         forbidden_activities=None,
     ):
@@ -1775,7 +1775,7 @@ class InventoryCalculation:
         self,
         directory=None,
         ecoinvent_compatibility=True,
-        ecoinvent_version="3.6",
+        ecoinvent_version="3.7",
         software_compatibility="brightway2",
         filename=None,
         forbidden_activities=None,
@@ -2332,26 +2332,51 @@ class InventoryCalculation:
             },
         }
 
+        tertiary = None
+        tertiary_share = None
+
         if "fuel blend" in self.background_configuration:
             if fuel_type in self.background_configuration["fuel blend"]:
                 primary = self.background_configuration["fuel blend"][fuel_type][
                     "primary fuel"
                 ]["type"]
 
-                try:
+                if "secondary fuel" in self.background_configuration["fuel blend"][fuel_type]:
                     secondary = self.background_configuration["fuel blend"][fuel_type][
                         "secondary fuel"
                     ]["type"]
-                except:
+                else:
+
                     if default_fuels[fuel_type]["secondary"] != primary:
                         secondary = default_fuels[fuel_type]["secondary"]
+                        self.background_configuration["fuel blend"][fuel_type][
+                            "secondary fuel"] = {"type": secondary}
                     else:
                         secondary = default_fuels[fuel_type]["third"]
+                        self.background_configuration["fuel blend"][fuel_type][
+                            "secondary fuel"]= {"type": secondary}
+
+                if "tertiary fuel" in self.background_configuration["fuel blend"][fuel_type]:
+                    tertiary = self.background_configuration["fuel blend"][fuel_type]["tertiary fuel"]["type"]
 
                 primary_share = self.background_configuration["fuel blend"][fuel_type][
                     "primary fuel"
                 ]["share"]
-                secondary_share = 1 - np.array(primary_share)
+
+                if "share" not in self.background_configuration["fuel blend"][fuel_type][
+                            "secondary fuel"
+                        ]:
+                    secondary_share = 1 - np.asarray(primary_share)
+                else:
+                    secondary_share = self.background_configuration["fuel blend"][fuel_type][
+                        "secondary fuel"
+                    ]["share"]
+
+                if tertiary:
+                    tertiary_share = self.background_configuration["fuel blend"][fuel_type][
+                    "tertiary fuel"
+                ]["share"]
+
 
             else:
                 primary = default_fuels[fuel_type]["primary"]
@@ -2364,7 +2389,7 @@ class InventoryCalculation:
             secondary_share = self.get_share_biofuel()
             primary_share = 1 - np.array(secondary_share)
 
-        return (primary, secondary, primary_share, secondary_share)
+        return (primary, secondary, primary_share, secondary_share, tertiary, tertiary_share)
 
     def set_actual_range(self):
         """
@@ -2473,11 +2498,11 @@ class InventoryCalculation:
 
         if {"ICEV-p", "HEV-p", "PHEV-p"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "petrol"
-            primary, secondary, primary_share, secondary_share = self.find_fuel_shares(
+            primary, secondary, primary_share, secondary_share, tertiary, tertiary_share = self.find_fuel_shares(
                 fuel_type
             )
             self.create_fuel_markets(
-                fuel_type, primary, secondary, primary_share, secondary_share
+                fuel_type, primary, secondary, tertiary, primary_share, secondary_share, tertiary_share
             )
             self.fuel_blends[fuel_type] = {
                 "primary": {
@@ -2491,16 +2516,25 @@ class InventoryCalculation:
                     "share": secondary_share,
                     "lhv": fuels_lhv[secondary],
                     "CO2": fuels_CO2[secondary],
-                },
+                }
             }
+
+            if tertiary:
+                self.fuel_blends[fuel_type]["tertiary"] = {
+                    "type": tertiary,
+                    "share": tertiary_share,
+                    "lhv": fuels_lhv[tertiary],
+                    "CO2": fuels_CO2[tertiary],
+                }
+
 
         if {"ICEV-d", "HEV-d", "PHEV-d"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "diesel"
-            primary, secondary, primary_share, secondary_share = self.find_fuel_shares(
+            primary, secondary, primary_share, secondary_share, tertiary, tertiary_share = self.find_fuel_shares(
                 fuel_type
             )
             self.create_fuel_markets(
-                fuel_type, primary, secondary, primary_share, secondary_share
+                fuel_type, primary, secondary, tertiary, primary_share, secondary_share, tertiary_share
             )
             self.fuel_blends[fuel_type] = {
                 "primary": {
@@ -2517,13 +2551,21 @@ class InventoryCalculation:
                 },
             }
 
+            if tertiary:
+                self.fuel_blends[fuel_type]["tertiary"] = {
+                    "type": tertiary,
+                    "share": tertiary_share,
+                    "lhv": fuels_lhv[tertiary],
+                    "CO2": fuels_CO2[tertiary],
+                }
+
         if {"ICEV-g"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "cng"
-            primary, secondary, primary_share, secondary_share = self.find_fuel_shares(
+            primary, secondary, primary_share, secondary_share, tertiary, tertiary_share = self.find_fuel_shares(
                 fuel_type
             )
             self.create_fuel_markets(
-                fuel_type, primary, secondary, primary_share, secondary_share
+                fuel_type, primary, secondary, tertiary, primary_share, secondary_share, tertiary_share
             )
             self.fuel_blends[fuel_type] = {
                 "primary": {
@@ -2540,18 +2582,32 @@ class InventoryCalculation:
                 },
             }
 
+            if tertiary:
+                self.fuel_blends[fuel_type]["tertiary"] = {
+                    "type": tertiary,
+                    "share": tertiary_share,
+                    "lhv": fuels_lhv[tertiary],
+                    "CO2": fuels_CO2[tertiary],
+                }
+
         if {"FCEV"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "hydrogen"
-            primary, secondary, primary_share, secondary_share = self.find_fuel_shares(
+            primary, secondary, primary_share, secondary_share, tertiary, tertiary_share = self.find_fuel_shares(
                 fuel_type
             )
             self.create_fuel_markets(
-                fuel_type, primary, secondary, primary_share, secondary_share
+                fuel_type, primary, secondary, tertiary, primary_share, secondary_share, tertiary_share
             )
             self.fuel_blends[fuel_type] = {
                 "primary": {"type": primary, "share": primary_share},
                 "secondary": {"type": secondary, "share": secondary_share},
             }
+
+            if tertiary:
+                self.fuel_blends[fuel_type]["tertiary"] = {
+                    "type": tertiary,
+                    "share": tertiary_share
+                }
 
         if {"BEV", "PHEV-p", "PHEV-d"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "electricity"
@@ -2562,8 +2618,10 @@ class InventoryCalculation:
         fuel_type,
         primary=None,
         secondary=None,
+        tertiary=None,
         primary_share=None,
         secondary_share=None,
+        tertiary_share=None
     ):
         """
         This function creates markets for fuel, considering a given blend, a given fuel type and a given year.
@@ -2878,6 +2936,7 @@ class InventoryCalculation:
                 ][0]
                 primary_fuel_activity_index = self.inputs[d_fuels[primary]["name"]]
                 secondary_fuel_activity_index = self.inputs[d_fuels[secondary]["name"]]
+
                 self.A[:, primary_fuel_activity_index, fuel_market_index] = (
                     -1 * primary_share[y]
                 )
@@ -2886,8 +2945,18 @@ class InventoryCalculation:
                 )
 
                 additional_electricity = (
-                    d_fuels[primary]["additional electricity"] * primary_share[y]
-                ) + (d_fuels[secondary]["additional electricity"] * secondary_share[y])
+                        d_fuels[primary]["additional electricity"] * primary_share[y]
+                        + d_fuels[secondary]["additional electricity"] * secondary_share[y]
+                        )
+
+                if tertiary:
+                    tertiary_fuel_activity_index = self.inputs[d_fuels[tertiary]["name"]]
+                    self.A[:, tertiary_fuel_activity_index, fuel_market_index] = (
+                        -1 * tertiary_share[y]
+                    )
+                    additional_electricity += d_fuels[tertiary]["additional electricity"] * tertiary_share[y]
+
+
 
                 if additional_electricity > 0:
                     electricity_mix_index = [
@@ -3425,33 +3494,71 @@ class InventoryCalculation:
 
             index = self.get_index_vehicle_from_array("FCEV")
 
-            print(
-                "{} is completed by {}.".format(
-                    self.fuel_blends["hydrogen"]["primary"]["type"],
-                    self.fuel_blends["hydrogen"]["secondary"]["type"],
-                ),
-                end="\n \t * ",
-            )
+            if "tertiary" in self.fuel_blends["hydrogen"]:
+                print(
+                    "{} is completed by {} and {}.".format(
+                        self.fuel_blends["hydrogen"]["primary"]["type"],
+                        self.fuel_blends["hydrogen"]["secondary"]["type"],
+                        self.fuel_blends["hydrogen"]["tertiary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
+            else:
+
+                print(
+                    "{} is completed by {}.".format(
+                        self.fuel_blends["hydrogen"]["primary"]["type"],
+                        self.fuel_blends["hydrogen"]["secondary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
             for y, year in enumerate(self.scope["year"]):
                 if y + 1 == len(self.scope["year"]):
                     end_str = "\n * "
                 else:
                     end_str = "\n \t * "
-                print(
-                    "in "
-                    + str(year)
-                    + " _________________________________________ "
-                    + str(
-                        np.round(
-                            self.fuel_blends["hydrogen"]["secondary"]["share"][y] * 100,
-                            0,
-                        )
-                    )
-                    + "%",
-                    end=end_str,
-                )
 
-                # Primary fuel share
+                if "tertiary" in self.fuel_blends["hydrogen"]:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["hydrogen"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%"
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["hydrogen"]["tertiary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
+                else:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________________________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["hydrogen"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
+
+
+                # Fuel supply
 
                 ind_A = [
                     self.inputs[i]
@@ -3480,31 +3587,68 @@ class InventoryCalculation:
         if "ICEV-g" in self.scope["powertrain"]:
             index = self.get_index_vehicle_from_array("ICEV-g")
 
-            print(
-                "{} is completed by {}.".format(
-                    self.fuel_blends["cng"]["primary"]["type"],
-                    self.fuel_blends["cng"]["secondary"]["type"],
-                ),
-                end="\n \t * ",
-            )
+            if "tertiary" in self.fuel_blends["cng"]:
+                print(
+                    "{} is completed by {} and {}.".format(
+                        self.fuel_blends["cng"]["primary"]["type"],
+                        self.fuel_blends["cng"]["secondary"]["type"],
+                        self.fuel_blends["cng"]["tertiary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
+            else:
+
+                print(
+                    "{} is completed by {}.".format(
+                        self.fuel_blends["cng"]["primary"]["type"],
+                        self.fuel_blends["cng"]["secondary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
 
             for y, year in enumerate(self.scope["year"]):
                 if y + 1 == len(self.scope["year"]):
                     end_str = "\n * "
                 else:
                     end_str = "\n \t * "
-                print(
-                    "in "
-                    + str(year)
-                    + " _________________________________________ "
-                    + str(
-                        np.round(
-                            self.fuel_blends["cng"]["secondary"]["share"][y] * 100, 0,
+
+                if "tertiary" in self.fuel_blends["cng"]:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["cng"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
                         )
+                        + "%"
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["cng"]["tertiary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
                     )
-                    + "%",
-                    end=end_str,
-                )
+                else:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________________________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["cng"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
 
                 # Primary fuel share
 
@@ -3565,7 +3709,12 @@ class InventoryCalculation:
 
                 if self.fuel_blends["cng"]["secondary"]["type"] == "cng":
                     share_fossil += self.fuel_blends["cng"]["secondary"]["share"][y]
-                    CO2_fossil = self.fuel_blends["cng"]["primary"]["CO2"]
+                    CO2_fossil = self.fuel_blends["cng"]["secondary"]["CO2"]
+
+                if "tertiary" in self.fuel_blends["cng"]:
+                    if self.fuel_blends["cng"]["tertiary"]["type"] == "cng":
+                        share_fossil += self.fuel_blends["cng"]["tertiary"]["share"][y]
+                        CO2_fossil = self.fuel_blends["cng"]["tertiary"]["CO2"]
 
                 self.A[
                     :,
@@ -3594,6 +3743,11 @@ class InventoryCalculation:
                     share_non_fossil += self.fuel_blends["cng"]["secondary"]["share"][y]
                     CO2_non_fossil = self.fuel_blends["cng"]["secondary"]["CO2"]
 
+                if "tertiary" in self.fuel_blends["cng"]:
+                    if self.fuel_blends["cng"]["tertiary"]["type"] != "cng":
+                        share_non_fossil += self.fuel_blends["cng"]["tertiary"]["share"][y]
+                        CO2_non_fossil = self.fuel_blends["cng"]["tertiary"]["CO2"]
+
                 self.A[
                     :,
                     self.inputs[
@@ -3619,32 +3773,68 @@ class InventoryCalculation:
         if [i for i in self.scope["powertrain"] if i in ["ICEV-d", "PHEV-d", "HEV-d"]]:
             index = self.get_index_vehicle_from_array(["ICEV-d", "PHEV-d", "HEV-d"])
 
-            print(
-                "{} is completed by {}.".format(
-                    self.fuel_blends["diesel"]["primary"]["type"],
-                    self.fuel_blends["diesel"]["secondary"]["type"],
-                ),
-                end="\n \t * ",
-            )
+            if "tertiary" in self.fuel_blends["diesel"]:
+                print(
+                    "{} is completed by {} and {}.".format(
+                        self.fuel_blends["diesel"]["primary"]["type"],
+                        self.fuel_blends["diesel"]["secondary"]["type"],
+                        self.fuel_blends["diesel"]["tertiary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
+            else:
+
+                print(
+                    "{} is completed by {}.".format(
+                        self.fuel_blends["diesel"]["primary"]["type"],
+                        self.fuel_blends["diesel"]["secondary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
 
             for y, year in enumerate(self.scope["year"]):
                 if y + 1 == len(self.scope["year"]):
                     end_str = "\n * "
                 else:
                     end_str = "\n \t * "
-                print(
-                    "in "
-                    + str(year)
-                    + " _________________________________________ "
-                    + str(
-                        np.round(
-                            self.fuel_blends["diesel"]["secondary"]["share"][y] * 100,
-                            0,
+
+                if "tertiary" in self.fuel_blends["diesel"]:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["diesel"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
                         )
+                        + "%"
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["diesel"]["tertiary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
                     )
-                    + "%",
-                    end=end_str,
-                )
+                else:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________________________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["diesel"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
 
                 ind_A = [
                     self.inputs[i]
@@ -3684,6 +3874,11 @@ class InventoryCalculation:
                 if self.fuel_blends["diesel"]["secondary"]["type"] == "diesel":
                     share_fossil += self.fuel_blends["diesel"]["secondary"]["share"][y]
                     CO2_fossil = self.fuel_blends["diesel"]["secondary"]["CO2"]
+
+                if "tertiary" in self.fuel_blends["diesel"]:
+                    if self.fuel_blends["diesel"]["tertiary"]["type"] == "diesel":
+                        share_fossil += self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                        CO2_fossil = self.fuel_blends["diesel"]["tertiary"]["CO2"]
 
                 self.A[
                     :,
@@ -3785,6 +3980,11 @@ class InventoryCalculation:
                         "share"
                     ][y]
                     CO2_non_fossil = self.fuel_blends["diesel"]["secondary"]["CO2"]
+
+                if "tertiary" in self.fuel_blends["diesel"]:
+                    if self.fuel_blends["diesel"]["tertiary"]["type"] != "diesel":
+                        share_non_fossil += self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                        CO2_non_fossil = self.fuel_blends["diesel"]["tertiary"]["CO2"]
 
                 self.A[
                     :,
@@ -3950,32 +4150,68 @@ class InventoryCalculation:
         if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV-p"]]:
             index = self.get_index_vehicle_from_array(["ICEV-p", "HEV-p", "PHEV-p"])
 
-            print(
-                "{} is completed by {}.".format(
-                    self.fuel_blends["petrol"]["primary"]["type"],
-                    self.fuel_blends["petrol"]["secondary"]["type"],
-                ),
-                end="\n \t * ",
-            )
+            if "tertiary" in self.fuel_blends["petrol"]:
+                print(
+                    "{} is completed by {} and {}.".format(
+                        self.fuel_blends["petrol"]["primary"]["type"],
+                        self.fuel_blends["petrol"]["secondary"]["type"],
+                        self.fuel_blends["petrol"]["tertiary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
+            else:
+
+                print(
+                    "{} is completed by {}.".format(
+                        self.fuel_blends["petrol"]["primary"]["type"],
+                        self.fuel_blends["petrol"]["secondary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
 
             for y, year in enumerate(self.scope["year"]):
                 if y + 1 == len(self.scope["year"]):
                     end_str = "\n * "
                 else:
                     end_str = "\n \t * "
-                print(
-                    "in "
-                    + str(year)
-                    + " _________________________________________ "
-                    + str(
-                        np.round(
-                            self.fuel_blends["petrol"]["secondary"]["share"][y] * 100,
-                            0,
+
+                if "tertiary" in self.fuel_blends["petrol"]:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["petrol"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
                         )
+                        + "%"
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["petrol"]["tertiary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
                     )
-                    + "%",
-                    end=end_str,
-                )
+                else:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________________________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["petrol"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
 
             for y, year in enumerate(self.scope["year"]):
                 ind_A = [
@@ -4016,6 +4252,11 @@ class InventoryCalculation:
                 if self.fuel_blends["petrol"]["secondary"]["type"] == "petrol":
                     share_fossil += self.fuel_blends["petrol"]["secondary"]["share"][y]
                     CO2_fossil = self.fuel_blends["petrol"]["secondary"]["CO2"]
+
+                if "tertiary" in self.fuel_blends["petrol"]:
+                    if self.fuel_blends["petrol"]["tertiary"]["type"] == "petrol":
+                        share_fossil += self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                        CO2_fossil = self.fuel_blends["petrol"]["tertiary"]["CO2"]
 
                 self.A[
                     :,
@@ -4115,6 +4356,11 @@ class InventoryCalculation:
                         "share"
                     ][y]
                     CO2_non_fossil = self.fuel_blends["petrol"]["secondary"]["CO2"]
+
+                if "tertiary" in self.fuel_blends["petrol"]:
+                    if self.fuel_blends["petrol"]["tertiary"]["type"] != "petrol":
+                        share_non_fossil += self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                        CO2_non_fossil = self.fuel_blends["petrol"]["tertiary"]["CO2"]
 
                 self.A[
                     :,

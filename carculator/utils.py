@@ -30,7 +30,7 @@ def extract_biofuel_shares_from_REMIND(fp, remind_region, years):
     df = df.loc[df["Region"] == remind_region]
     df = df.loc[:, : str(2050)]
     df["Variable"] = df["Variable"].str.replace("|", "-")
-    var = ["FE-Transport-Liquids-Oil", "FE-Transport-Liquids-Biomass"]
+    var = ["FE-Transport-Liquids-Oil", "FE-Transport-Liquids-Biomass", "FE-Transport-Liquids-Hydrogen"]
 
     df_liquids = df.loc[df["Variable"].isin(var), :]
     df_liquids.iloc[:, 3:] /= df_liquids.iloc[:, 3:].sum(axis=0)
@@ -43,6 +43,7 @@ def extract_biofuel_shares_from_REMIND(fp, remind_region, years):
     d_map_fuels = {
         "FE-Transport-Liquids-Oil": "liquid - fossil",
         "FE-Transport-Liquids-Biomass": "liquid - biomass",
+        "FE-Transport-Liquids-Hydrogen": "liquid - synfuel",
         "FE-Transport-Gases-Non-Biomass": "gas - fossil",
         "FE-Transport-Gases-Biomass": "gas - biomass",
     }
