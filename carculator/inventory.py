@@ -101,6 +101,11 @@ class InventoryCalculation:
         - [7]: oil
         - [8]: geothermal
         - [9]: waste incineration
+        - [10]: biogas with CCS
+        - [11]: biomass with CCS
+        - [12]: coal with CCS
+        - [13]: natural gas with CCS
+        - [14]: wood with CCS
 
     If none is given, the electricity mix corresponding to the country specified in `country` will be selected.
     If no country is specified, Europe applies.
