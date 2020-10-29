@@ -9,6 +9,7 @@ pd.options.mode.chained_assignment = None
 
 REGION_MAPPING_FILEPATH = DATA_DIR / "regionmappingH12.csv"
 REMIND_ELEC_MARKETS = DATA_DIR / "remind_electricity_markets.csv"
+IEA_DIESEL_SHARE = DATA_DIR / "diesel_share_oecd.csv"
 
 
 def extract_biofuel_shares_from_REMIND(fp, remind_region, years):
@@ -142,7 +143,6 @@ def extract_electricity_mix_from_REMIND_file(fp, remind_region, years):
 
     return df.to_xarray().to_array().interp(variable=years).values
 
-
 def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020):
     """
     This function creates a consumable fleet composition array from a CSV file.
@@ -157,6 +157,17 @@ def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020
     :return: fleet composition array
     :rtype: xarray.DataArray
     """
+
+    # Load diesel shares from IEA on OECD countries
+    share_diesel = pd.read_csv(IEA_DIESEL_SHARE,
+                               sep=";", usecols=range(1, 10), index_col=[0])
+    share_diesel.columns = [int(c) for c in share_diesel.columns]
+    shares = pd.concat([
+        share_diesel,
+        pd.DataFrame(columns=range(2019, 2051)),
+        pd.DataFrame(columns=range(2000, 2011))])
+    shares = shares.T.fillna(method="ffill")
+    shares = shares.fillna(method="bfill")
 
     # Read the fleet composition CSV file
     df = pd.read_csv(fp, delimiter=",")
@@ -206,9 +217,9 @@ def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020
     d_map_tech = {
         "BEV": "BEV",
         "FCEV": "FCEV",
-        "Hybrid Electric": "PHEV-p",
-        "Hybrid Liquids": "HEV-p",
-        "Liquids": "ICEV-p",
+        "Hybrid Electric": "PHEV",
+        "Hybrid Liquids": "HEV",
+        "Liquids": "ICEV",
         "NG": "ICEV-g",
     }
 
@@ -218,32 +229,49 @@ def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020
     # Clean up
     df["variable"] = df["variable"].str.replace(r"\D", "").astype(int)
 
+    # Rename `variable`, since it is a built-in name used by `xarray`
+    df = df.rename(columns={"variable": "vintage_year"})
+    df = df.loc[df["year"] == fleet_year]
+    df = df.loc[df["REMIND_region"] == remind_region]
+
+    # Associate diesel shares
+    def get_diesel_factor(row):
+
+        if row["iso_2"] in shares.columns:
+            return float(shares.loc[row["vintage_year"], row["iso_2"]])
+        else:
+            return 0
+
+    df["diesel_factor"] = df.apply(get_diesel_factor, axis=1)
+
+    new_df_p = df.loc[df["powertrain"].isin(("HEV", "PHEV", "ICEV"))]
+    new_df_p.loc[:, "powertrain"] += "-p"
+    new_df_p.loc[:, "vintage_demand_vkm"] *= (1 - new_df_p.loc[:, "diesel_factor"])
+    new_df_d = df.loc[df["powertrain"].isin(("HEV", "PHEV", "ICEV"))]
+    new_df_d.loc[:, "powertrain"] += "-d"
+    new_df_d.loc[:, "vintage_demand_vkm"] *= new_df_p.loc[:, "diesel_factor"]
+
+    df = pd.concat([df, new_df_p, new_df_d])
+    df = df.loc[~df["powertrain"].isin(("HEV", "PHEV", "ICEV"))]
+
     # Filter out unecessary columns
     df = df[
         [
-            "REMIND_region",
             "powertrain",
             "size",
             "year",
-            "variable",
+            "vintage_year",
             "vintage_demand_vkm",
         ]
     ]
-
-    # Rename `variable`, since it is a built-in name used by `xarray`
-    df = df.rename(columns={"variable": "vintage_year"})
-    df = df.loc[df["year"]==fleet_year]
 
     if len(df)==0:
         raise ValueError("This fleet year is not available.")
 
     # Turn the dataframe into a pivot table and filter out unwanted REMIND regions
     df = df.pivot_table(
-        index=["REMIND_region", "powertrain", "size", "vintage_year"], columns=["year"]
+        index=["powertrain", "size", "vintage_year"], columns=["year"]
     )["vintage_demand_vkm"]
-    df = df.loc[(remind_region)]
-
-
 
     # The table needs to be square: so we add powertrain-size-vintage_year combinations and set their value to 0
     new_cols = [
