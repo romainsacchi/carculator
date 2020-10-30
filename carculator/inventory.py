@@ -30,10 +30,10 @@ class InventoryCalculation:
                         'powertrain':['BEV', 'FCEV', 'ICEV-p'],
                     }
         bc = {'country':'CH', # considers electricity network losses for Switzerland
-              'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0], # in this case, 100% hydropower for the first year
-                                          [0,1,0,0,0,0,0,0,0,0],
-                                          [0,0,1,0,0,0,0,0,0,0],
-                                          [0,0,0,1,0,0,0,0,0,0],
+              'custom electricity mix' : [[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                                          [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                                          [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],
+                                          [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
                                          ], # in this case, 100% nuclear for the second year
               'fuel blend':{
                   'cng':{ #specify fuel bland for compressed gas
@@ -1067,7 +1067,7 @@ class InventoryCalculation:
         f = np.float32(np.zeros((np.shape(self.A)[1])))
 
         # Collect indices of activities contributing to the first level
-        ind_cars = [self.inputs[i] for i in self.inputs if "Passenger" in i[0]]
+        ind_cars = [self.inputs[i] for i in self.inputs if "transport, passenger" in i[0]]
         arr = self.A[0, : -self.number_of_cars, ind_cars].sum(axis=0)
         ind = np.nonzero(arr)[0]
 
@@ -1246,7 +1246,7 @@ class InventoryCalculation:
                         euro_class = "EURO-6d"
 
                     name = (
-                        "Passenger car, "
+                        "transport, passenger car, "
                         + pt
                         + ", "
                         + s
@@ -1267,6 +1267,59 @@ class InventoryCalculation:
                             self.background_configuration["country"],
                             unit,
                             "transport, passenger car, " + euro_class,
+                        )
+                    ] = maximum
+
+    def add_additional_activities_for_export(self):
+        # Add as many rows and columns as cars to consider
+        # Also add additional columns and rows for electricity markets
+        # for fuel preparation and energy battery production
+
+        maximum = max(self.inputs.values())
+
+        for s in self.scope["size"]:
+            for pt in self.scope["powertrain"]:
+                for y in self.scope["year"]:
+                    maximum += 1
+
+                    if y < 1993:
+                        euro_class = "EURO-0"
+                    if 1993 <= y < 1997:
+                        euro_class = "EURO-1"
+                    if 1997 <= y < 2001:
+                        euro_class = "EURO-2"
+                    if 2001 <= y < 2006:
+                        euro_class = "EURO-3"
+                    if 2006 <= y < 2011:
+                        euro_class = "EURO-4"
+                    if 2011 <= y < 2015:
+                        euro_class = "EURO-5"
+                    if 2015 <= y < 2017:
+                        euro_class = "EURO-6ab"
+                    if 2017 <= y < 2019:
+                        euro_class = "EURO-6c"
+                    if 2019 <= y < 2020:
+                        euro_class = "EURO-6d-TEMP"
+                    if y >= 2020:
+                        euro_class = "EURO-6d"
+
+                    name = (
+                        "Passenger car, "
+                        + pt
+                        + ", "
+                        + s
+                        + ", "
+                        + str(y)
+                        + ", "
+                        + euro_class
+                    )
+
+                    self.inputs[
+                        (
+                            name,
+                            self.background_configuration["country"],
+                            "unit",
+                            "Passenger car, " + euro_class,
                         )
                     ] = maximum
 
@@ -1312,7 +1365,7 @@ class InventoryCalculation:
                 # share of the powertrain that year, all sizes
                 share_pt = self.fleet.sel(powertrain=pt, variable=y).sum().values
 
-                name = "Passenger car, fleet average, " + pt + ", " + str(y)
+                name = "transport, passenger car, fleet average, " + pt + ", " + str(y)
 
                 maximum += 1
 
@@ -1658,13 +1711,35 @@ class InventoryCalculation:
         :return: inventory, and optionally, list of arrays containing pre-sampled values.
         :rtype: list
         """
+
+        self.inputs = self.get_dict_input()
+        self.bs = BackgroundSystemModel()
+        self.country = self.get_country_of_use()
+        self.add_additional_activities()
+        self.rev_inputs = self.get_rev_dict_input()
+        self.A = self.get_A_matrix()
+
+        # add vehicles datasets
+        self.add_additional_activities_for_export()
+
+        # Update dictionary
+        self.rev_inputs = self.get_rev_dict_input()
+
+        # resize A matrix
+        self.A = self.get_A_matrix()
+
         # Create electricity and fuel market datasets
         self.create_electricity_market_for_fuel_prep()
 
         # Create electricity market dataset for battery production
         self.create_electricity_market_for_battery_production()
 
-        self.set_inputs_in_A_matrix(self.array.values)
+        # Create fuel markets
+        self.fuel_blends = {}
+        self.define_fuel_blends()
+        self.set_actual_range()
+
+        self.set_inputs_in_A_matrix_for_export(self.array.values)
 
         # Add rows for fleet vehicles, if any
         if isinstance(self.fleet, xr.core.dataarray.DataArray):
@@ -1734,13 +1809,35 @@ class InventoryCalculation:
         :return: LCIImport object that can be directly registered in a `brightway2` project.
         :rtype: bw2io.importers.base_lci.LCIImporter
         """
+
+        self.inputs = self.get_dict_input()
+        self.bs = BackgroundSystemModel()
+        self.country = self.get_country_of_use()
+        self.add_additional_activities()
+        self.rev_inputs = self.get_rev_dict_input()
+        self.A = self.get_A_matrix()
+
+        # add vehicles datasets
+        self.add_additional_activities_for_export()
+
+        # Update dictionary
+        self.rev_inputs = self.get_rev_dict_input()
+
+        # resize A matrix
+        self.A = self.get_A_matrix()
+
         # Create electricity and fuel market datasets
         self.create_electricity_market_for_fuel_prep()
 
         # Create electricity market dataset for battery production
         self.create_electricity_market_for_battery_production()
 
-        self.set_inputs_in_A_matrix(self.array.values)
+        # Create fuel markets
+        self.fuel_blends = {}
+        self.define_fuel_blends()
+        self.set_actual_range()
+
+        self.set_inputs_in_A_matrix_for_export(self.array.values)
 
         # Add rows for fleet vehicles, if any
         if isinstance(self.fleet, xr.core.dataarray.DataArray):
@@ -1813,13 +1910,34 @@ class InventoryCalculation:
             ecoinvent_compatibility = True
             ecoinvent_version = "3.5"
 
+        self.inputs = self.get_dict_input()
+        self.bs = BackgroundSystemModel()
+        self.country = self.get_country_of_use()
+        self.add_additional_activities()
+        self.rev_inputs = self.get_rev_dict_input()
+        self.A = self.get_A_matrix()
+
+        # add vehicles datasets
+        self.add_additional_activities_for_export()
+
+        # Update dictionary
+        self.rev_inputs = self.get_rev_dict_input()
+
+        # resize A matrix
+        self.A = self.get_A_matrix()
+
         # Create electricity and fuel market datasets
         self.create_electricity_market_for_fuel_prep()
+
+        # Create fuel markets
+        self.fuel_blends = {}
+        self.define_fuel_blends()
+        self.set_actual_range()
 
         # Create electricity market dataset for battery production
         self.create_electricity_market_for_battery_production()
 
-        self.set_inputs_in_A_matrix(self.array.values)
+        self.set_inputs_in_A_matrix_for_export(self.array.values)
 
         # Add rows for fleet vehicles, if any
         if isinstance(self.fleet, xr.core.dataarray.DataArray):
@@ -2986,7 +3104,7 @@ class InventoryCalculation:
                 ][0]
                 self.A[:, electricity_mix_index, electricity_market_index] = -1
 
-    def set_inputs_in_A_matrix(self, array, fu="vkm"):
+    def set_inputs_in_A_matrix(self, array):
         """
         Fill-in the A matrix. Does not return anything. Modifies in place.
         Shape of the A matrix (values, products, activities).
@@ -3335,7 +3453,7 @@ class InventoryCalculation:
                     [
                         self.inputs[i]
                         for i in self.inputs
-                        if str(y) in i[0] and "Passenger" in i[0]
+                        if str(y) in i[0] and "transport, passenger" in i[0]
                     ],
                 )
             ] = (
@@ -3348,7 +3466,7 @@ class InventoryCalculation:
                     [
                         self.inputs[i]
                         for i in self.inputs
-                        if str(y) in i[0] and "Passenger" in i[0]
+                        if str(y) in i[0] and "transport, passenger" in i[0]
                     ],
                 ]
             ).reshape(
@@ -3483,7 +3601,7 @@ class InventoryCalculation:
                             self.inputs[i]
                             for i in self.inputs
                             if str(y) in i[0]
-                            and "Passenger" in i[0]
+                            and "transport, passenger" in i[0]
                             and any(
                                 True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in i[0]
                             )
@@ -3568,7 +3686,7 @@ class InventoryCalculation:
                 ind_A = [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(year) in i[0] and "Passenger" in i[0] and "FCEV" in i[0]
+                    if str(year) in i[0] and "transport, passenger" in i[0] and "FCEV" in i[0]
                 ]
                 ind_array = [
                     x for x in self.get_index_vehicle_from_array(year) if x in index
@@ -3660,7 +3778,7 @@ class InventoryCalculation:
                 ind_A = [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(year) in i[0] and "Passenger" in i[0] and "ICEV-g" in i[0]
+                    if str(year) in i[0] and "transport, passenger" in i[0] and "ICEV-g" in i[0]
                 ]
                 ind_array = [
                     x for x in self.get_index_vehicle_from_array(year) if x in index
@@ -3845,7 +3963,7 @@ class InventoryCalculation:
                     self.inputs[i]
                     for i in self.inputs
                     if str(year) in i[0]
-                    and "Passenger" in i[0]
+                    and "transport, passenger" in i[0]
                     and any(x in i[0] for x in ["ICEV-d", "PHEV-d", "HEV-d"])
                 ]
 
@@ -4223,7 +4341,7 @@ class InventoryCalculation:
                     self.inputs[i]
                     for i in self.inputs
                     if str(year) in i[0]
-                    and "Passenger" in i[0]
+                    and "transport, passenger" in i[0]
                     and any(x in i[0] for x in ["ICEV-p", "HEV-p", "PHEV-p"])
                 ]
                 ind_array = [
@@ -4559,7 +4677,7 @@ class InventoryCalculation:
         ind_A = [
             self.inputs[i]
             for i in self.inputs
-            if "Passenger" in i[0]
+            if "transport, passenger" in i[0]
             and any(x in i[0] for x in ["ICEV-d", "ICEV-p", "ICEV-g"])
         ]
 
@@ -4581,7 +4699,7 @@ class InventoryCalculation:
         ind_A = [
             self.inputs[i]
             for i in self.inputs
-            if "Passenger" in i[0]
+            if "transport, passenger" in i[0]
             and any(
                 x in i[0] for x in ["BEV", "FCEV", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"]
             )
@@ -4670,6 +4788,1815 @@ class InventoryCalculation:
                 )
             ],
             -self.number_of_cars:
+        ] = .053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
+
+        print("*********************************************************************")
+
+    def set_inputs_in_A_matrix_for_export(self, array):
+        """
+        Fill-in the A matrix. Does not return anything. Modifies in place.
+        Shape of the A matrix (values, products, activities).
+
+        :param array: :attr:`array` from :class:`CarModel` class
+        """
+
+        # Glider
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for glider, passenger car",
+                    "GLO",
+                    "kilogram",
+                    "glider, passenger car",
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ],
+        ] = (
+            (array[self.array_inputs["glider base mass"], :])
+            * -1
+        )
+
+        self.A[
+            :,
+            self.inputs[
+                ("Glider lightweighting", "GLO", "kilogram", "Glider lightweighting")
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            (
+                array[self.array_inputs["lightweighting"], :]
+                * array[self.array_inputs["glider base mass"], :]
+            )
+            * -1
+        )
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "maintenance, passenger car",
+                    "RER",
+                    "unit",
+                    "passenger car maintenance",
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "transport, passenger car" in i[0]
+            ]
+        ] = (array[self.array_inputs["curb mass"], :] / 1240 / 150000 * -1)
+
+        # Glider EoL
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for manual dismantling of used electric passenger car",
+                    "GLO",
+                    "unit",
+                    "manual dismantling of used electric passenger car",
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            array[self.array_inputs["curb mass"], :]
+            * (1 - array[self.array_inputs["combustion power share"], :])
+            * -1
+        )
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for manual dismantling of used passenger car with internal combustion engine",
+                    "GLO",
+                    "unit",
+                    "manual dismantling of used passenger car with internal combustion engine",
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            array[self.array_inputs["curb mass"], :]
+            * array[self.array_inputs["combustion power share"], :]
+            * -1
+        )
+
+        # Powertrain components
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for charger, electric passenger car",
+                    "GLO",
+                    "kilogram",
+                    "charger, electric passenger car",
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            array[self.array_inputs["charger mass"], :]
+            * -1
+        )
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for converter, for electric passenger car",
+                    "GLO",
+                    "kilogram",
+                    "converter, for electric passenger car",
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            array[self.array_inputs["converter mass"], :]
+            * -1
+        )
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for electric motor, electric passenger car",
+                    "GLO",
+                    "kilogram",
+                    "electric motor, electric passenger car",
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            array[self.array_inputs["electric engine mass"], :]
+            * -1
+        )
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for inverter, for electric passenger car",
+                    "GLO",
+                    "kilogram",
+                    "inverter, for electric passenger car",
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            array[self.array_inputs["inverter mass"], :]
+            * -1
+        )
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for power distribution unit, for electric passenger car",
+                    "GLO",
+                    "kilogram",
+                    "power distribution unit, for electric passenger car",
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            array[self.array_inputs["power distribution unit mass"], :]
+            * -1
+        )
+
+        l_elec_pt = [
+            "charger mass",
+            "converter mass",
+            "inverter mass",
+            "power distribution unit mass",
+            "electric engine mass",
+            "fuel cell stack mass",
+            "fuel cell ancillary BoP mass",
+            "fuel cell essential BoP mass",
+            "battery cell mass",
+            "battery BoP mass",
+        ]
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for used powertrain from electric passenger car, manual dismantling",
+                    "GLO",
+                    "kilogram",
+                    "used powertrain from electric passenger car, manual dismantling",
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            array[[self.array_inputs[l] for l in l_elec_pt], :].sum(axis=0)
+        )
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for internal combustion engine, passenger car",
+                    "GLO",
+                    "kilogram",
+                    "internal combustion engine, for passenger car",
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            (
+                array[
+                    [
+                        self.array_inputs[l]
+                        for l in ["combustion engine mass", "powertrain mass"]
+                    ],
+                    :,
+                ].sum(axis=0)
+            )
+            * -1
+        )
+
+        self.A[
+            :,
+            self.inputs[("Ancillary BoP", "GLO", "kilogram", "Ancillary BoP")],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            array[self.array_inputs["fuel cell ancillary BoP mass"], :]
+            * -1
+        )
+
+        self.A[
+            :,
+            self.inputs[("Essential BoP", "GLO", "kilogram", "Essential BoP")],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            array[self.array_inputs["fuel cell essential BoP mass"], :]
+            * -1
+        )
+
+        self.A[
+            :,
+            self.inputs[("Stack", "GLO", "kilowatt", "Stack")],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            array[self.array_inputs["fuel cell stack mass"], :]
+            * -1
+        )
+
+        # Start of printout
+
+        print(
+            "****************** IMPORTANT BACKGROUND PARAMETERS ******************",
+            end="\n * ",
+        )
+
+        # Energy storage
+
+        print(
+            "The country of use is " + self.country, end="\n * ",
+        )
+
+        battery_tech = self.background_configuration["energy storage"]["electric"][
+            "type"
+        ]
+        battery_origin = self.background_configuration["energy storage"]["electric"][
+            "origin"
+        ]
+
+        print(
+            "Power and energy batteries produced in "
+            + battery_origin
+            + " using "
+            + battery_tech
+            + " chemistry.",
+            end="\n * ",
+        )
+
+        # Use the NMC inventory of Schmidt et al. 2019
+        self.A[
+            :,
+            self.inputs[("Battery BoP", "GLO", "kilogram", "Battery BoP")],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "Passenger car" in i[0]
+            ]
+        ] = (
+            (
+                array[self.array_inputs["battery BoP mass"], :]
+                * (1 + array[self.array_inputs["battery lifetime replacements"], :])
+            )
+            * -1
+        )
+
+        battery_cell_label = (
+            "Battery cell, " + battery_tech,
+            "GLO",
+            "kilogram",
+            "Battery cell",
+        )
+
+        self.A[:,
+               self.inputs[battery_cell_label],
+                [
+                    self.inputs[i]
+                    for i in self.inputs
+                    if "Passenger car" in i[0]
+                ]
+        ] = (
+            (
+                array[self.array_inputs["battery cell mass"], :]
+                * (1 + array[self.array_inputs["fuel cell lifetime replacements"], :])
+            )
+            * -1
+        )
+
+        # Set an input of electricity, given the country of manufacture
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market group for electricity, medium voltage",
+                    "World",
+                    "kilowatt hour",
+                    "electricity, medium voltage",
+                )
+            ],
+            self.inputs[battery_cell_label],
+        ] = 0
+
+        for y in self.scope["year"]:
+            index = self.get_index_vehicle_from_array(y)
+
+            self.A[
+                np.ix_(
+                    np.arange(self.iterations),
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0]
+                        and "electricity market for energy storage production" in i[0]
+                    ],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0] and "Passenger car" in i[0]
+                    ],
+                )
+            ] = (
+                array[
+                    self.array_inputs["battery cell production electricity"], :, index
+                ].T
+                * self.A[
+                    :,
+                    self.inputs[battery_cell_label],
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(y) in i[0] and "Passenger car" in i[0]
+                    ],
+                ]
+            ).reshape(
+                self.iterations, 1, -1
+            )
+
+        index_A = [
+            self.inputs[c]
+            for c in self.inputs
+            if any(
+                ele in c[0]
+                for ele in ["ICEV-d", "ICEV-p", "HEV-p", "PHEV-p", "PHEV-d", "HEV-d"]
+            ) and "Passenger car" in c[0]
+        ]
+        index = self.get_index_vehicle_from_array(
+            ["ICEV-d", "ICEV-p", "HEV-p", "PHEV-p", "PHEV-d", "HEV-d"]
+        )
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "polyethylene production, high density, granulate",
+                    "RER",
+                    "kilogram",
+                    "polyethylene, high density, granulate",
+                )
+            ],
+            index_A,
+        ] = (
+            array[self.array_inputs["fuel tank mass"], :, index]
+            * -1
+        ).T
+
+        index_A = [
+            self.inputs[c]
+            for c in self.inputs
+            if "ICEV-g" in c[0] and "Passenger car" in c[0]
+        ]
+
+        index = self.get_index_vehicle_from_array("ICEV-g")
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "glass fibre reinforced plastic production, polyamide, injection moulded",
+                    "RER",
+                    "kilogram",
+                    "glass fibre reinforced plastic, polyamide, injection moulded",
+                )
+            ],
+            index_A,
+        ] = (
+            array[self.array_inputs["fuel tank mass"], :, index]
+            * -1
+        ).T
+
+        if "hydrogen" in self.background_configuration["energy storage"]:
+            # If a customization dict is passed
+            hydro_tank_technology = self.background_configuration["energy storage"][
+                "hydrogen"
+            ]["type"]
+        else:
+            hydro_tank_technology = "carbon fiber"
+
+        dict_tank_map = {
+            "carbon fiber": (
+                "Fuel tank, compressed hydrogen gas, 700bar",
+                "GLO",
+                "kilogram",
+                "Fuel tank, compressed hydrogen gas, 700bar",
+            ),
+            "hdpe": (
+                "Fuel tank, compressed hydrogen gas, 700bar, with HDPE liner",
+                "RER",
+                "kilogram",
+                "Hydrogen tank",
+            ),
+            "aluminium": (
+                "Fuel tank, compressed hydrogen gas, 700bar, with aluminium liner",
+                "RER",
+                "kilogram",
+                "Hydrogen tank",
+            ),
+        }
+
+        index_A = [
+            self.inputs[c]
+            for c in self.inputs
+            if "FCEV" in c[0] and "Passenger car" in c[0]
+        ]
+
+        index = self.get_index_vehicle_from_array("FCEV")
+        self.A[
+            :, self.inputs[dict_tank_map[hydro_tank_technology]], index_A
+        ] = (
+            array[self.array_inputs["fuel tank mass"], :, index]
+            * -1
+        ).T
+
+
+        # END of vehicle building
+
+        self.A[
+            :,
+            [self.inputs[c]
+            for c in self.inputs
+            if "Passenger car" in c[0]],
+            [self.inputs[c] for c in self.inputs
+             if "transport, passenger car" in c[0]]
+            ] = -1/ array[self.array_inputs["lifetime kilometers"]]
+
+        sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
+
+        for y, year in enumerate(self.scope["year"]):
+
+            if y + 1 == len(self.scope["year"]):
+                end_str = "\n * "
+            else:
+                end_str = "\n \t * "
+
+            print(
+                "in "
+                + str(year)
+                + ", % of renewable: "
+                + str(np.round(sum_renew[y] * 100, 0))
+                + "%"
+                + ", GHG intensity per kWh: "
+                + str(int(np.sum(co2_intensity_tech[y] * self.mix[y])))
+                + " g. CO2-eq.",
+                end=end_str,
+            )
+
+
+        if any(
+            True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in self.scope["powertrain"]
+        ):
+            for y in self.scope["year"]:
+                index = self.get_index_vehicle_from_array(
+                    ["BEV", "PHEV-p", "PHEV-d"], y, method="and"
+                )
+
+                self.A[
+                    np.ix_(
+                        np.arange(self.iterations),
+                        [
+                            self.inputs[i]
+                            for i in self.inputs
+                            if str(y) in i[0]
+                            and "electricity supply for electric vehicles" in i[0]
+                        ],
+                        [
+                            self.inputs[i]
+                            for i in self.inputs
+                            if str(y) in i[0]
+                            and "transport, passenger" in i[0]
+                            and any(
+                                True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in i[0]
+                            )
+                        ],
+                    )
+                ] = (
+                    array[self.array_inputs["electricity consumption"], :, index] * -1
+                ).T.reshape(
+                    self.iterations, 1, -1
+                )
+
+        if "FCEV" in self.scope["powertrain"]:
+
+            index = self.get_index_vehicle_from_array("FCEV")
+
+            if "tertiary" in self.fuel_blends["hydrogen"]:
+                print(
+                    "{} is completed by {} and {}.".format(
+                        self.fuel_blends["hydrogen"]["primary"]["type"],
+                        self.fuel_blends["hydrogen"]["secondary"]["type"],
+                        self.fuel_blends["hydrogen"]["tertiary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
+            else:
+
+                print(
+                    "{} is completed by {}.".format(
+                        self.fuel_blends["hydrogen"]["primary"]["type"],
+                        self.fuel_blends["hydrogen"]["secondary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
+            for y, year in enumerate(self.scope["year"]):
+                if y + 1 == len(self.scope["year"]):
+                    end_str = "\n * "
+                else:
+                    end_str = "\n \t * "
+
+                if "tertiary" in self.fuel_blends["hydrogen"]:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["hydrogen"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%"
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["hydrogen"]["tertiary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
+                else:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________________________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["hydrogen"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
+
+
+                # Fuel supply
+
+                ind_A = [
+                    self.inputs[i]
+                    for i in self.inputs
+                    if str(year) in i[0] and "transport, passenger" in i[0] and "FCEV" in i[0]
+                ]
+                ind_array = [
+                    x for x in self.get_index_vehicle_from_array(year) if x in index
+                ]
+
+                self.A[
+                    :,
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(year) in i[0]
+                        and "fuel supply for hydrogen vehicles" in i[0]
+                    ],
+                    ind_A,
+                ] = (
+                    array[self.array_inputs["fuel mass"], :, ind_array]
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+        if "ICEV-g" in self.scope["powertrain"]:
+            index = self.get_index_vehicle_from_array("ICEV-g")
+
+            if "tertiary" in self.fuel_blends["cng"]:
+                print(
+                    "{} is completed by {} and {}.".format(
+                        self.fuel_blends["cng"]["primary"]["type"],
+                        self.fuel_blends["cng"]["secondary"]["type"],
+                        self.fuel_blends["cng"]["tertiary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
+            else:
+
+                print(
+                    "{} is completed by {}.".format(
+                        self.fuel_blends["cng"]["primary"]["type"],
+                        self.fuel_blends["cng"]["secondary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
+            for y, year in enumerate(self.scope["year"]):
+                if y + 1 == len(self.scope["year"]):
+                    end_str = "\n * "
+                else:
+                    end_str = "\n \t * "
+
+                if "tertiary" in self.fuel_blends["cng"]:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["cng"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%"
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["cng"]["tertiary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
+                else:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________________________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["cng"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
+
+                # Primary fuel share
+
+                ind_A = [
+                    self.inputs[i]
+                    for i in self.inputs
+                    if str(year) in i[0] and "transport, passenger" in i[0] and "ICEV-g" in i[0]
+                ]
+                ind_array = [
+                    x for x in self.get_index_vehicle_from_array(year) if x in index
+                ]
+
+                # Supply of gas, including 4% of gas input as pump-to-tank leakage
+                self.A[
+                    :,
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(year) in i[0] and "fuel supply for gas vehicles" in i[0]
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        array[self.array_inputs["fuel mass"], :, ind_array]
+                        / array[self.array_inputs["range"], :, ind_array]
+                    )
+                    * (
+                        1
+                        + array[
+                            self.array_inputs["CNG pump-to-tank leakage"], :, ind_array
+                        ]
+                    )
+                    * -1
+                ).T
+
+                # Gas leakage to air
+
+                self.A[
+                    :, self.inputs[("Methane, fossil", ("air",), "kilogram")], ind_A,
+                ] = (
+                    (
+                        array[self.array_inputs["fuel mass"], :, ind_array]
+                        / array[self.array_inputs["range"], :, ind_array]
+                    )
+                    * array[self.array_inputs["CNG pump-to-tank leakage"], :, ind_array]
+                    * -1
+                ).T
+
+                # Fuel-based emissions from CNG, CO2
+                # The share and CO2 emissions factor of CNG is retrieved, if used
+
+                share_fossil = 0
+                CO2_fossil = 0
+
+                if self.fuel_blends["cng"]["primary"]["type"] == "cng":
+                    share_fossil += self.fuel_blends["cng"]["primary"]["share"][y]
+                    CO2_fossil = self.fuel_blends["cng"]["primary"]["CO2"]
+
+                if self.fuel_blends["cng"]["secondary"]["type"] == "cng":
+                    share_fossil += self.fuel_blends["cng"]["secondary"]["share"][y]
+                    CO2_fossil = self.fuel_blends["cng"]["secondary"]["CO2"]
+
+                if "tertiary" in self.fuel_blends["cng"]:
+                    if self.fuel_blends["cng"]["tertiary"]["type"] == "cng":
+                        share_fossil += self.fuel_blends["cng"]["tertiary"]["share"][y]
+                        CO2_fossil = self.fuel_blends["cng"]["tertiary"]["CO2"]
+
+                self.A[
+                    :,
+                    self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
+                    ind_A,
+                ] = (
+                    array[self.array_inputs["fuel mass"], :, ind_array]
+                    * share_fossil
+                    * CO2_fossil
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Fuel-based CO2 emission from alternative CNG
+                # The share of non-fossil gas in the blend is retrieved
+                # As well as the CO2 emission factor of the fuel
+
+                share_non_fossil = 0
+                CO2_non_fossil = 0
+
+                if self.fuel_blends["cng"]["primary"]["type"] != "cng":
+                    share_non_fossil += self.fuel_blends["cng"]["primary"]["share"][y]
+                    CO2_non_fossil = self.fuel_blends["cng"]["primary"]["CO2"]
+
+                if self.fuel_blends["cng"]["secondary"]["type"] != "cng":
+                    share_non_fossil += self.fuel_blends["cng"]["secondary"]["share"][y]
+                    CO2_non_fossil = self.fuel_blends["cng"]["secondary"]["CO2"]
+
+                if "tertiary" in self.fuel_blends["cng"]:
+                    if self.fuel_blends["cng"]["tertiary"]["type"] != "cng":
+                        share_non_fossil += self.fuel_blends["cng"]["tertiary"]["share"][y]
+                        CO2_non_fossil = self.fuel_blends["cng"]["tertiary"]["CO2"]
+
+                self.A[
+                    :,
+                    self.inputs[
+                        (
+                            "Carbon dioxide, from soil or biomass stock",
+                            ("air",),
+                            "kilogram",
+                        )
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_non_fossil
+                            * CO2_non_fossil
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+        if [i for i in self.scope["powertrain"] if i in ["ICEV-d", "PHEV-d", "HEV-d"]]:
+            index = self.get_index_vehicle_from_array(["ICEV-d", "PHEV-d", "HEV-d"])
+
+            if "tertiary" in self.fuel_blends["diesel"]:
+                print(
+                    "{} is completed by {} and {}.".format(
+                        self.fuel_blends["diesel"]["primary"]["type"],
+                        self.fuel_blends["diesel"]["secondary"]["type"],
+                        self.fuel_blends["diesel"]["tertiary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
+            else:
+
+                print(
+                    "{} is completed by {}.".format(
+                        self.fuel_blends["diesel"]["primary"]["type"],
+                        self.fuel_blends["diesel"]["secondary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
+            for y, year in enumerate(self.scope["year"]):
+                if y + 1 == len(self.scope["year"]):
+                    end_str = "\n * "
+                else:
+                    end_str = "\n \t * "
+
+                if "tertiary" in self.fuel_blends["diesel"]:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["diesel"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%"
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["diesel"]["tertiary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
+                else:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________________________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["diesel"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
+
+                ind_A = [
+                    self.inputs[i]
+                    for i in self.inputs
+                    if str(year) in i[0]
+                    and "transport, passenger car" in i[0]
+                    and any(x in i[0] for x in ["ICEV-d", "PHEV-d", "HEV-d"])
+                ]
+
+                ind_array = [
+                    x for x in self.get_index_vehicle_from_array(year) if x in index
+                ]
+
+                # Fuel supply
+                self.A[
+                    :,
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(year) in i[0]
+                        and "fuel supply for diesel vehicles" in i[0]
+                    ],
+                    ind_A,
+                ] = (
+                    (array[self.array_inputs["fuel mass"], :, ind_array])
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                share_fossil = 0
+                CO2_fossil = 0
+                # Fuel-based CO2 emission from conventional diesel
+                if self.fuel_blends["diesel"]["primary"]["type"] == "diesel":
+                    share_fossil += self.fuel_blends["diesel"]["primary"]["share"][y]
+                    CO2_fossil = self.fuel_blends["diesel"]["primary"]["CO2"]
+
+                if self.fuel_blends["diesel"]["secondary"]["type"] == "diesel":
+                    share_fossil += self.fuel_blends["diesel"]["secondary"]["share"][y]
+                    CO2_fossil = self.fuel_blends["diesel"]["secondary"]["CO2"]
+
+                if "tertiary" in self.fuel_blends["diesel"]:
+                    if self.fuel_blends["diesel"]["tertiary"]["type"] == "diesel":
+                        share_fossil += self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                        CO2_fossil = self.fuel_blends["diesel"]["tertiary"]["CO2"]
+
+                self.A[
+                    :,
+                    self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                            * CO2_fossil
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Fuel-based SO2 emissions
+                # Sulfur concentration value for a given country, a given year, as concentration ratio
+                if self.country in self.bs.sulfur.country.values:
+                    sulfur_concentration = (
+                        self.bs.sulfur.sel(
+                            country=self.country, year=year, fuel="diesel"
+                        )
+                        .sum()
+                        .values
+                    )
+                else:
+                    d_map_regions = {
+                        "CAZ": "CA",
+                        "CHA": "CN",
+                        "EUR": "FR",
+                        "IND": "IN",
+                        "JPN": "JP",
+                        "LAM": "BR",
+                        "MEA": "EG",
+                        "NEU": "CH",
+                        "OAS": "TH",
+                        "REF": "RU",
+                        "SSA": "ZA",
+                        "USA": "US",
+                        "World": "RER",
+                    }
+
+                    if self.country in d_map_regions:
+
+                        sulfur_concentration = (
+                            self.bs.sulfur.sel(
+                                country=d_map_regions[self.country],
+                                year=year,
+                                fuel="diesel",
+                            )
+                            .sum()
+                            .values
+                        )
+                    else:
+
+                        # if we do not have the sulfur concentration for the required country, we pick Europe
+                        print(
+                            "The sulfur content for diesel fuel in {} could not be found. European average sulfur content is used instead.".format(
+                                self.country
+                            )
+                        )
+                        sulfur_concentration = (
+                            self.bs.sulfur.sel(country="RER", year=year, fuel="diesel")
+                            .sum()
+                            .values
+                        )
+
+                self.A[
+                    :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil  # assumes sulfur only present in conventional diesel
+                            * sulfur_concentration
+                            * (64 / 32)  # molar mass of SO2/molar mass of O2
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                share_non_fossil = 0
+                CO2_non_fossil = 0
+
+                # Fuel-based CO2 emission from alternative petrol
+                # The share of non-fossil fuel in the blend is retrieved
+                # As well as the CO2 emission factor of the fuel
+                if self.fuel_blends["diesel"]["primary"]["type"] != "diesel":
+                    share_non_fossil += self.fuel_blends["diesel"]["primary"]["share"][
+                        y
+                    ]
+                    CO2_non_fossil = self.fuel_blends["diesel"]["primary"]["CO2"]
+
+                if self.fuel_blends["diesel"]["secondary"]["type"] != "diesel":
+                    share_non_fossil += self.fuel_blends["diesel"]["secondary"][
+                        "share"
+                    ][y]
+                    CO2_non_fossil = self.fuel_blends["diesel"]["secondary"]["CO2"]
+
+                if "tertiary" in self.fuel_blends["diesel"]:
+                    if self.fuel_blends["diesel"]["tertiary"]["type"] != "diesel":
+                        share_non_fossil += self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                        CO2_non_fossil = self.fuel_blends["diesel"]["tertiary"]["CO2"]
+
+                self.A[
+                    :,
+                    self.inputs[
+                        (
+                            "Carbon dioxide, from soil or biomass stock",
+                            ("air",),
+                            "kilogram",
+                        )
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_non_fossil
+                            * CO2_non_fossil
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Heavy metals emissions from conventional diesel
+                # Emission factors from Spielmann et al., Transport Services Data v.2 (2007)
+                # Cadmium, 0.01 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[
+                        ("Cadmium", ("air", "urban air close to ground"), "kilogram")
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 1e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Copper, 1.7 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[
+                        ("Copper", ("air", "urban air close to ground"), "kilogram")
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 1.7e-6
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Chromium, 0.05 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[
+                        ("Chromium", ("air", "urban air close to ground"), "kilogram")
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 5.0e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Nickel, 0.07 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[
+                        ("Nickel", ("air", "urban air close to ground"), "kilogram")
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 7.0e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Selenium, 0.01 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[
+                        ("Selenium", ("air", "urban air close to ground"), "kilogram")
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 1.0e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Zinc, 1 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[
+                        ("Zinc", ("air", "urban air close to ground"), "kilogram")
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 1.0e-6
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Chromium VI, 0.0001 mg/kg diesel
+                self.A[
+                    :,
+                    self.inputs[
+                        (
+                            "Chromium VI",
+                            ("air", "urban air close to ground"),
+                            "kilogram",
+                        )
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 1.0e-10
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+        if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV-p"]]:
+            index = self.get_index_vehicle_from_array(["ICEV-p", "HEV-p", "PHEV-p"])
+
+            if "tertiary" in self.fuel_blends["petrol"]:
+                print(
+                    "{} is completed by {} and {}.".format(
+                        self.fuel_blends["petrol"]["primary"]["type"],
+                        self.fuel_blends["petrol"]["secondary"]["type"],
+                        self.fuel_blends["petrol"]["tertiary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
+            else:
+
+                print(
+                    "{} is completed by {}.".format(
+                        self.fuel_blends["petrol"]["primary"]["type"],
+                        self.fuel_blends["petrol"]["secondary"]["type"],
+                    ),
+                    end="\n \t * ",
+                )
+
+            for y, year in enumerate(self.scope["year"]):
+                if y + 1 == len(self.scope["year"]):
+                    end_str = "\n * "
+                else:
+                    end_str = "\n \t * "
+
+                if "tertiary" in self.fuel_blends["petrol"]:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["petrol"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%"
+                        + " _________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["petrol"]["tertiary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
+                else:
+                    print(
+                        "in "
+                        + str(year)
+                        + " _________________________________________ "
+                        + str(
+                            np.round(
+                                self.fuel_blends["petrol"]["secondary"]["share"][y] * 100,
+                                0,
+                            )
+                        )
+                        + "%",
+                        end=end_str,
+                    )
+
+            for y, year in enumerate(self.scope["year"]):
+                ind_A = [
+                    self.inputs[i]
+                    for i in self.inputs
+                    if str(year) in i[0]
+                    and "transport, passenger" in i[0]
+                    and any(x in i[0] for x in ["ICEV-p", "HEV-p", "PHEV-p"])
+                ]
+                ind_array = [
+                    x for x in self.get_index_vehicle_from_array(year) if x in index
+                ]
+
+                # Fuel supply
+                self.A[
+                    :,
+                    [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if str(year) in i[0]
+                        and "fuel supply for gasoline vehicles" in i[0]
+                    ],
+                    ind_A,
+                ] = (
+                    (array[self.array_inputs["fuel mass"], :, ind_array])
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                share_fossil = 0
+                CO2_fossil = 0
+
+                # Fuel-based CO2 emission from conventional petrol
+                if self.fuel_blends["petrol"]["primary"]["type"] == "petrol":
+                    share_fossil += self.fuel_blends["petrol"]["primary"]["share"][y]
+                    CO2_fossil = self.fuel_blends["petrol"]["primary"]["CO2"]
+
+                if self.fuel_blends["petrol"]["secondary"]["type"] == "petrol":
+                    share_fossil += self.fuel_blends["petrol"]["secondary"]["share"][y]
+                    CO2_fossil = self.fuel_blends["petrol"]["secondary"]["CO2"]
+
+                if "tertiary" in self.fuel_blends["petrol"]:
+                    if self.fuel_blends["petrol"]["tertiary"]["type"] == "petrol":
+                        share_fossil += self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                        CO2_fossil = self.fuel_blends["petrol"]["tertiary"]["CO2"]
+
+                self.A[
+                    :,
+                    self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                            * CO2_fossil
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Fuel-based SO2 emissions
+                # Sulfur concentration value for a given country, a given year, as a concentration ratio
+
+                if self.country in self.bs.sulfur.country.values:
+                    sulfur_concentration = (
+                        self.bs.sulfur.sel(
+                            country=self.country, year=year, fuel="petrol"
+                        )
+                        .sum()
+                        .values
+                    )
+                else:
+                    d_map_regions = {
+                        "CAZ": "CA",
+                        "CHA": "CN",
+                        "EUR": "FR",
+                        "IND": "IN",
+                        "JPN": "JP",
+                        "LAM": "BR",
+                        "MEA": "EG",
+                        "NEU": "CH",
+                        "OAS": "TH",
+                        "REF": "RU",
+                        "SSA": "ZA",
+                        "USA": "US",
+                        "World": "RER",
+                    }
+
+                    if self.country in d_map_regions:
+
+                        sulfur_concentration = (
+                            self.bs.sulfur.sel(
+                                country=d_map_regions[self.country],
+                                year=year,
+                                fuel="diesel",
+                            )
+                            .sum()
+                            .values
+                        )
+                    else:
+                        # if we do not have the sulfur concentration for the required country, we pick Europe
+                        print(
+                            "The sulfur content for gasoline fuel in {} could not be found. European average sulfur content is used instead.".format(
+                                self.country
+                            )
+                        )
+                        sulfur_concentration = (
+                            self.bs.sulfur.sel(country="RER", year=year, fuel="petrol")
+                            .sum()
+                            .values
+                        )
+
+                self.A[
+                    :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil  # assumes sulfur only present in conventional diesel
+                            * sulfur_concentration
+                            * (64 / 32)  # molar mass of SO2/molar mass of O2
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                share_non_fossil = 0
+                CO2_non_fossil = 0
+
+                # Fuel-based CO2 emission from alternative petrol
+                # The share of non-fossil fuel in the blend is retrieved
+                # As well as the CO2 emission factor of the fuel
+                if self.fuel_blends["petrol"]["primary"]["type"] != "petrol":
+                    share_non_fossil += self.fuel_blends["petrol"]["primary"]["share"][y]
+                    CO2_non_fossil = self.fuel_blends["petrol"]["primary"]["CO2"]
+
+                if self.fuel_blends["petrol"]["secondary"]["type"] != "petrol":
+                    share_non_fossil += self.fuel_blends["petrol"]["secondary"][
+                        "share"
+                    ][y]
+                    CO2_non_fossil = self.fuel_blends["petrol"]["secondary"]["CO2"]
+
+                if "tertiary" in self.fuel_blends["petrol"]:
+                    if self.fuel_blends["petrol"]["tertiary"]["type"] != "petrol":
+                        share_non_fossil += self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                        CO2_non_fossil = self.fuel_blends["petrol"]["tertiary"]["CO2"]
+
+                self.A[
+                    :,
+                    self.inputs[
+                        (
+                            "Carbon dioxide, from soil or biomass stock",
+                            ("air",),
+                            "kilogram",
+                        )
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_non_fossil
+                            * CO2_non_fossil
+                        )
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Heavy metals emissions from conventional petrol
+                # Cadmium, 0.01 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[
+                        ("Cadmium", ("air", "urban air close to ground"), "kilogram")
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 1e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Copper, 1.7 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[
+                        ("Copper", ("air", "urban air close to ground"), "kilogram")
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 1.7e-6
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Chromium, 0.05 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[
+                        ("Chromium", ("air", "urban air close to ground"), "kilogram")
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 5.0e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Nickel, 0.07 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[
+                        ("Nickel", ("air", "urban air close to ground"), "kilogram")
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 7.0e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Selenium, 0.01 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[
+                        ("Selenium", ("air", "urban air close to ground"), "kilogram")
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 1.0e-8
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Zinc, 1 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[
+                        ("Zinc", ("air", "urban air close to ground"), "kilogram")
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 1.0e-6
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+                # Chromium VI, 0.0001 mg/kg gasoline
+                self.A[
+                    :,
+                    self.inputs[
+                        (
+                            "Chromium VI",
+                            ("air", "urban air close to ground"),
+                            "kilogram",
+                        )
+                    ],
+                    ind_A,
+                ] = (
+                    (
+                        (
+                            array[self.array_inputs["fuel mass"], :, ind_array]
+                            * share_fossil
+                        )
+                        * 1.0e-10
+                    )
+                    / array[self.array_inputs["range"], :, ind_array]
+                    * -1
+                ).T
+
+        # Non-exhaust emissions
+        ind_A = [
+            self.inputs[i]
+            for i in self.inputs
+            if "transport, passenger" in i[0]
+        ]
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for road wear emissions, passenger car",
+                    "GLO",
+                    "kilogram",
+                    "road wear emissions, passenger car",
+                )
+            ],
+            ind_A
+        ] = (array[self.array_inputs["driving mass"], :] * 1e-08)
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for tyre wear emissions, passenger car",
+                    "GLO",
+                    "kilogram",
+                    "tyre wear emissions, passenger car",
+                )
+            ],
+            ind_A
+        ] = (array[self.array_inputs["driving mass"], :] * 6e-08)
+
+        # Brake wear emissions
+        # BEVs only emit 20% of what a combustion engine vehicle emit according to
+        # https://link.springer.com/article/10.1007/s11367-014-0792-4
+        ind_A = [
+            self.inputs[i]
+            for i in self.inputs
+            if "transport, passenger" in i[0]
+            and any(x in i[0] for x in ["ICEV-d", "ICEV-p", "ICEV-g"])
+        ]
+
+        index = self.get_index_vehicle_from_array(["ICEV-d", "ICEV-p", "ICEV-g"])
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for brake wear emissions, passenger car",
+                    "GLO",
+                    "kilogram",
+                    "brake wear emissions, passenger car",
+                )
+            ],
+            ind_A,
+        ] = (array[self.array_inputs["driving mass"], :, index].T * 5e-09)
+
+        ind_A = [
+            self.inputs[i]
+            for i in self.inputs
+            if "transport, passenger" in i[0]
+            and any(
+                x in i[0] for x in ["BEV", "FCEV", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"]
+            )
+        ]
+
+        index = self.get_index_vehicle_from_array(
+            ["BEV", "FCEV", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"]
+        )
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for brake wear emissions, passenger car",
+                    "GLO",
+                    "kilogram",
+                    "brake wear emissions, passenger car",
+                )
+            ],
+            ind_A,
+        ] = (array[self.array_inputs["driving mass"], :, index].T * 5e-09 * 0.2)
+
+        # Infrastructure
+        self.A[
+            :,
+            self.inputs[("market for road", "GLO", "meter-year", "road")],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "transport, passenger car" in i[0]
+            ]
+        ] = (5.37e-7 * array[self.array_inputs["driving mass"], :]
+             * -1)
+
+        # Infrastructure maintenance
+        self.A[
+            :,
+            self.inputs[
+                ("market for road maintenance", "RER", "meter-year", "road maintenance")
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "transport, passenger car" in i[0]
+            ]
+        ] = (1.29e-3
+             * -1)
+
+        # Exhaust emissions
+        # Non-fuel based emissions
+
+        self.A[
+            np.ix_(
+                np.arange(self.iterations),
+                self.index_emissions,
+                [
+                    self.inputs[i]
+                    for i in self.inputs
+                    if "transport, passenger car" in i[0]
+                ]
+            )
+        ] = (
+            array[
+                [
+                    self.array_inputs[self.map_non_fuel_emissions[self.rev_inputs[x]]]
+                    for x in self.index_emissions
+                ]
+            ]
+            * -1
+        ).transpose([1, 0, 2])
+
+        # Noise emissions
+        self.A[
+            np.ix_(
+                np.arange(self.iterations),
+                self.index_noise,
+                [
+                    self.inputs[i]
+                    for i in self.inputs
+                    if "transport, passenger car" in i[0]
+                ]
+            )
+        ] = (
+            array[
+                [
+                    self.array_inputs[self.map_noise_emissions[self.rev_inputs[x]]]
+                    for x in self.index_noise
+                ]
+            ]
+            * -1
+        ).transpose([1, 0, 2])
+
+        # Emissions of air conditioner refrigerant r134a
+        # Leakage assumed to amount to 53g according to
+        # https://ec.europa.eu/clima/sites/clima/files/eccp/docs/leakage_rates_final_report_en.pdf
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "Ethane, 1,1,1,2-tetrafluoro-, HFC-134a",
+                    ("air",),
+                    "kilogram"
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "transport, passenger car" in i[0]
+            ]
+        ] = .053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
+
+        self.A[
+            :,
+            self.inputs[
+                (
+                    "market for refrigerant R134a",
+                    "GLO",
+                    "kilogram",
+                    "refrigerant R134a"
+                )
+            ],
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if "transport, passenger car" in i[0]
+            ]
         ] = .053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
 
         print("*********************************************************************")
