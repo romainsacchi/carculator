@@ -1700,6 +1700,7 @@ class InventoryCalculation:
         ecoinvent_version="3.7",
         db_name="carculator db",
         forbidden_activities=None,
+        create_vehicle_datasets=True
     ):
         """
         Export the inventory as a dictionary. Also return a list of arrays that contain pre-sampled random values if
@@ -1708,6 +1709,7 @@ class InventoryCalculation:
         :param presamples: boolean.
         :param ecoinvent_compatibility: bool. If True, compatible with ecoinvent. If False, compatible with REMIND-ecoinvent.
         :param ecoinvent_version: str. "3.5", "3.6" or "uvek"
+        :param create_vehicle_datasets: bool. Whether vehicles datasets should be created too.
         :return: inventory, and optionally, list of arrays containing pre-sampled values.
         :rtype: list
         """
@@ -1719,27 +1721,45 @@ class InventoryCalculation:
         self.rev_inputs = self.get_rev_dict_input()
         self.A = self.get_A_matrix()
 
-        # add vehicles datasets
-        self.add_additional_activities_for_export()
+        if create_vehicle_datasets:
 
-        # Update dictionary
-        self.rev_inputs = self.get_rev_dict_input()
+            # add vehicles datasets
+            self.add_additional_activities_for_export()
 
-        # resize A matrix
-        self.A = self.get_A_matrix()
+            # Update dictionary
+            self.rev_inputs = self.get_rev_dict_input()
 
-        # Create electricity and fuel market datasets
-        self.create_electricity_market_for_fuel_prep()
+            # resize A matrix
+            self.A = self.get_A_matrix()
 
-        # Create electricity market dataset for battery production
-        self.create_electricity_market_for_battery_production()
+            # Create electricity and fuel market datasets
+            self.create_electricity_market_for_fuel_prep()
 
-        # Create fuel markets
-        self.fuel_blends = {}
-        self.define_fuel_blends()
-        self.set_actual_range()
+            # Create electricity market dataset for battery production
+            self.create_electricity_market_for_battery_production()
 
-        self.set_inputs_in_A_matrix_for_export(self.array.values)
+            # Create fuel markets
+            self.fuel_blends = {}
+            self.define_fuel_blends()
+            self.set_actual_range()
+
+            self.set_inputs_in_A_matrix_for_export(self.array.values)
+
+        else:
+
+            # Create electricity and fuel market datasets
+            self.create_electricity_market_for_fuel_prep()
+
+            # Create electricity market dataset for battery production
+            self.create_electricity_market_for_battery_production()
+
+            # Create fuel markets
+            self.fuel_blends = {}
+            self.define_fuel_blends()
+            self.set_actual_range()
+
+            self.set_inputs_in_A_matrix(self.array.values)
+
 
         # Add rows for fleet vehicles, if any
         if isinstance(self.fleet, xr.core.dataarray.DataArray):
@@ -1780,6 +1800,7 @@ class InventoryCalculation:
         ecoinvent_version="3.7",
         db_name="carculator db",
         forbidden_activities=None,
+        create_vehicle_datasets=True
     ):
         """
         Export the inventory as a `brightway2` bw2io.importers.base_lci.LCIImporter object
@@ -1817,27 +1838,44 @@ class InventoryCalculation:
         self.rev_inputs = self.get_rev_dict_input()
         self.A = self.get_A_matrix()
 
-        # add vehicles datasets
-        self.add_additional_activities_for_export()
+        if create_vehicle_datasets:
 
-        # Update dictionary
-        self.rev_inputs = self.get_rev_dict_input()
+            # add vehicles datasets
+            self.add_additional_activities_for_export()
 
-        # resize A matrix
-        self.A = self.get_A_matrix()
+            # Update dictionary
+            self.rev_inputs = self.get_rev_dict_input()
 
-        # Create electricity and fuel market datasets
-        self.create_electricity_market_for_fuel_prep()
+            # resize A matrix
+            self.A = self.get_A_matrix()
 
-        # Create electricity market dataset for battery production
-        self.create_electricity_market_for_battery_production()
+            # Create electricity and fuel market datasets
+            self.create_electricity_market_for_fuel_prep()
 
-        # Create fuel markets
-        self.fuel_blends = {}
-        self.define_fuel_blends()
-        self.set_actual_range()
+            # Create electricity market dataset for battery production
+            self.create_electricity_market_for_battery_production()
 
-        self.set_inputs_in_A_matrix_for_export(self.array.values)
+            # Create fuel markets
+            self.fuel_blends = {}
+            self.define_fuel_blends()
+            self.set_actual_range()
+
+            self.set_inputs_in_A_matrix_for_export(self.array.values)
+
+        else:
+
+            # Create electricity and fuel market datasets
+            self.create_electricity_market_for_fuel_prep()
+
+            # Create electricity market dataset for battery production
+            self.create_electricity_market_for_battery_production()
+
+            # Create fuel markets
+            self.fuel_blends = {}
+            self.define_fuel_blends()
+            self.set_actual_range()
+
+            self.set_inputs_in_A_matrix(self.array.values)
 
         # Add rows for fleet vehicles, if any
         if isinstance(self.fleet, xr.core.dataarray.DataArray):
@@ -1881,6 +1919,7 @@ class InventoryCalculation:
         software_compatibility="brightway2",
         filename=None,
         forbidden_activities=None,
+        create_vehicle_datasets=True
     ):
         """
         Export the inventory as an Excel file (if the destination software is Brightway2) or a CSV file (if the destination software is Simapro) file.
@@ -1917,27 +1956,44 @@ class InventoryCalculation:
         self.rev_inputs = self.get_rev_dict_input()
         self.A = self.get_A_matrix()
 
-        # add vehicles datasets
-        self.add_additional_activities_for_export()
+        if create_vehicle_datasets:
 
-        # Update dictionary
-        self.rev_inputs = self.get_rev_dict_input()
+            # add vehicles datasets
+            self.add_additional_activities_for_export()
 
-        # resize A matrix
-        self.A = self.get_A_matrix()
+            # Update dictionary
+            self.rev_inputs = self.get_rev_dict_input()
 
-        # Create electricity and fuel market datasets
-        self.create_electricity_market_for_fuel_prep()
+            # resize A matrix
+            self.A = self.get_A_matrix()
 
-        # Create fuel markets
-        self.fuel_blends = {}
-        self.define_fuel_blends()
-        self.set_actual_range()
+            # Create electricity and fuel market datasets
+            self.create_electricity_market_for_fuel_prep()
 
-        # Create electricity market dataset for battery production
-        self.create_electricity_market_for_battery_production()
+            # Create fuel markets
+            self.fuel_blends = {}
+            self.define_fuel_blends()
+            self.set_actual_range()
 
-        self.set_inputs_in_A_matrix_for_export(self.array.values)
+            # Create electricity market dataset for battery production
+            self.create_electricity_market_for_battery_production()
+
+            self.set_inputs_in_A_matrix_for_export(self.array.values)
+
+        else:
+
+            # Create electricity and fuel market datasets
+            self.create_electricity_market_for_fuel_prep()
+
+            # Create electricity market dataset for battery production
+            self.create_electricity_market_for_battery_production()
+
+            # Create fuel markets
+            self.fuel_blends = {}
+            self.define_fuel_blends()
+            self.set_actual_range()
+
+            self.set_inputs_in_A_matrix(self.array.values)
 
         # Add rows for fleet vehicles, if any
         if isinstance(self.fleet, xr.core.dataarray.DataArray):
@@ -4672,7 +4728,7 @@ class InventoryCalculation:
         ] = (array[self.array_inputs["driving mass"], :] * 6e-08)
 
         # Brake wear emissions
-        # BEVs only emit 20% of what a combustion engine vehicle emit according to
+        # BEVs only emit 20% of what a combustion engine vehicle emits according to
         # https://link.springer.com/article/10.1007/s11367-014-0792-4
         ind_A = [
             self.inputs[i]
