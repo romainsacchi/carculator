@@ -101,8 +101,8 @@ class InventoryCalculation:
         - [7]: oil
         - [8]: geothermal
         - [9]: waste incineration
-        - [10]: biogas with CCS
-        - [11]: biomass with CCS
+        - [10]: biomass with CCS
+        - [11]: biogas with CCS
         - [12]: coal with CCS
         - [13]: natural gas with CCS
         - [14]: wood with CCS
@@ -3416,7 +3416,7 @@ class InventoryCalculation:
             self.inputs[("Stack", "GLO", "kilowatt", "Stack")],
             -self.number_of_cars :,
         ] = (
-            array[self.array_inputs["fuel cell stack mass"], :]
+            array[self.array_inputs["fuel cell stack mass"], :] / 0.51
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1
         )
