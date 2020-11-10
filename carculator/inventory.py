@@ -3397,6 +3397,7 @@ class InventoryCalculation:
             -self.number_of_cars :,
         ] = (
             array[self.array_inputs["fuel cell ancillary BoP mass"], :]
+            * (1 + array[self.array_inputs["fuel cell lifetime replacements"], :])
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1
         )
@@ -3407,6 +3408,7 @@ class InventoryCalculation:
             -self.number_of_cars :,
         ] = (
             array[self.array_inputs["fuel cell essential BoP mass"], :]
+            * (1 + array[self.array_inputs["fuel cell lifetime replacements"], :])
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1
         )
@@ -3417,6 +3419,7 @@ class InventoryCalculation:
             -self.number_of_cars :,
         ] = (
             array[self.array_inputs["fuel cell stack mass"], :] / 0.51
+            * (1 + array[self.array_inputs["fuel cell lifetime replacements"], :])
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1
         )
