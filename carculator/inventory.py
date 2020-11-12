@@ -3477,7 +3477,7 @@ class InventoryCalculation:
         self.A[:, self.inputs[battery_cell_label], -self.number_of_cars :,] = (
             (
                 array[self.array_inputs["battery cell mass"], :]
-                * (1 + array[self.array_inputs["fuel cell lifetime replacements"], :])
+                * (1 + array[self.array_inputs["battery lifetime replacements"], :])
             )
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1

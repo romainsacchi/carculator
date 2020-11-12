@@ -288,18 +288,53 @@ class CarModel:
         as to move the car. The sum is stored under the parameter label "TtW energy" in :attr:`self.array`.
 
         """
-        aux_energy = self.ecm.aux_energy_per_km(self["auxiliary power demand"])
 
-        for pt in self.pure_combustion:
-            with self(pt) as cpm:
-                aux_energy.loc[{"powertrain": pt}] /= cpm["engine efficiency"]
-        for pt in self.fuel_cell:
-            with self(pt) as cpm:
-                aux_energy.loc[{"powertrain": pt}] /= cpm["fuel cell system efficiency"]
+        self.energy = xr.DataArray(
+            np.zeros(
+                (
+                    len(self.array.coords["size"]),
+                    len(self.array.coords["powertrain"]),
+                    3,
+                    len(self.array.coords["year"]),
+                    len(self.array.coords["value"]),
+                    self.ecm.cycle.shape[0],
+                )
+            ).astype("float32"),
+            coords=[
+                self.array.coords["size"],
+                self.array.coords["powertrain"],
+                [
+                    "auxiliary energy",
+                    "motive energy",
+                    "recuperated energy"
+                ],
+                self.array.coords["year"],
+                self.array.coords["value"],
+                np.arange(self.ecm.cycle.shape[0]),
+            ],
+            dims=["size", "powertrain", "parameter", "year", "value", "second"],
+        )
 
-        self["auxiliary energy"] = aux_energy
+        self.energy.loc[dict(parameter="auxiliary energy")] = (self["auxiliary power demand"].values[..., None] / 1000)
 
-        motive_energy = self.ecm.motive_energy_per_km(
+        self.energy.loc[dict(parameter="auxiliary energy",
+                             powertrain=["ICEV-d", "ICEV-p", "ICEV-g",
+                                            "PHEV-c-d", "PHEV-c-p",
+                                            "HEV-p", "HEV-d"])]\
+            /= self.array.loc[dict(parameter="engine efficiency",
+                              powertrain=["ICEV-d", "ICEV-p", "ICEV-g",
+                                          "PHEV-c-d", "PHEV-c-p",
+                                          "HEV-p", "HEV-d"]
+                              )].values[..., None]
+
+        self.energy.loc[dict(parameter="auxiliary energy",
+                             powertrain="FCEV")] \
+            /= self.array.sel(parameter="fuel cell system efficiency",
+                              powertrain="FCEV"
+                              ).values[..., None]
+
+
+        motive_energy, recuperated_energy, distance = self.ecm.motive_energy_per_km(
             driving_mass=self["driving mass"],
             rr_coef=self["rolling resistance coefficient"],
             drag_coef=self["aerodynamic drag coefficient"],
@@ -307,10 +342,28 @@ class CarModel:
             ttw_efficiency=self["TtW efficiency"],
             recuperation_efficiency=self["recuperation efficiency"],
             motor_power=self["electric power"],
-        ).sum(axis=-1)
+        )
 
-        self.motive_energy = motive_energy
-        self["TtW energy"] = aux_energy + motive_energy
+        self.energy.loc[dict(parameter="motive energy")] = np.clip(motive_energy / 1000,
+                                                                   0,
+                                                                   None)
+
+        self.energy.loc[dict(parameter="motive energy")] /= self["TtW efficiency"]
+
+        self.energy.loc[dict(parameter="recuperated energy")] = np.clip(recuperated_energy / 1000,
+                                                                   self["power"].values[..., None] * -1,
+                                                                    0)
+
+        self.energy.loc[dict(parameter="recuperated energy")] *= self["recuperation efficiency"].values[..., None]
+
+        self["auxiliary energy"] = (
+            self.energy.sel(parameter="auxiliary energy").sum(dim="second").T / distance
+        ).T
+
+        self["TtW energy"] = (
+            self.energy.sel(parameter=["motive energy", "auxiliary energy", "recuperated energy"])\
+                .sum(dim=["second", "parameter"]).T / distance
+        ).T
 
     def set_fuel_cell_parameters(self):
         """
@@ -741,212 +794,99 @@ class CarModel:
 
         list_direct_emissions = [
             "Hydrocarbons direct emissions, urban",
-            "Hydrocarbons direct emissions, suburban",
-            "Hydrocarbons direct emissions, rural",
             "Carbon monoxide direct emissions, urban",
-            "Carbon monoxide direct emissions, suburban",
-            "Carbon monoxide direct emissions, rural",
             "Nitrogen oxides direct emissions, urban",
-            "Nitrogen oxides direct emissions, suburban",
-            "Nitrogen oxides direct emissions, rural",
             "Particulate matters direct emissions, urban",
-            "Particulate matters direct emissions, suburban",
-            "Particulate matters direct emissions, rural",
             "Methane direct emissions, urban",
-            "Methane direct emissions, suburban",
-            "Methane direct emissions, rural",
             "NMVOC direct emissions, urban",
-            "NMVOC direct emissions, suburban",
-            "NMVOC direct emissions, rural",
-            "Toluene direct emissions, urban",
-            "Toluene direct emissions, suburban",
-            "Toluene direct emissions, rural",
-            "Xylene direct emissions, urban",
-            "Xylene direct emissions, suburban",
-            "Xylene direct emissions, rural",
-            "Formaldehyde direct emissions, urban",
-            "Formaldehyde direct emissions, suburban",
-            "Formaldehyde direct emissions, rural",
-            "Acetaldehyde direct emissions, urban",
-            "Acetaldehyde direct emissions, suburban",
-            "Acetaldehyde direct emissions, rural",
-            "Lead direct emissions, urban",
-            "Lead direct emissions, suburban",
-            "Lead direct emissions, rural",
             "Dinitrogen oxide direct emissions, urban",
-            "Dinitrogen oxide direct emissions, suburban",
-            "Dinitrogen oxide direct emissions, rural",
             "Ammonia direct emissions, urban",
-            "Ammonia direct emissions, suburban",
-            "Ammonia direct emissions, rural",
+            "Lead direct emissions, urban",
             "Benzene direct emissions, urban",
+            "Toluene direct emissions, urban",
+            "Xylene direct emissions, urban",
+            "Formaldehyde direct emissions, urban",
+            "Acetaldehyde direct emissions, urban",
+
+            "Hydrocarbons direct emissions, suburban",
+            "Carbon monoxide direct emissions, suburban",
+            "Nitrogen oxides direct emissions, suburban",
+            "Particulate matters direct emissions, suburban",
+            "Methane direct emissions, suburban",
+            "NMVOC direct emissions, suburban",
+            "Dinitrogen oxide direct emissions, suburban",
+            "Ammonia direct emissions, suburban",
+            "Lead direct emissions, suburban",
             "Benzene direct emissions, suburban",
+            "Toluene direct emissions, suburban",
+            "Xylene direct emissions, suburban",
+            "Formaldehyde direct emissions, suburban",
+            "Acetaldehyde direct emissions, suburban",
+
+            "Hydrocarbons direct emissions, rural",
+            "Carbon monoxide direct emissions, rural",
+            "Nitrogen oxides direct emissions, rural",
+            "Particulate matters direct emissions, rural",
+            "Methane direct emissions, rural",
+            "NMVOC direct emissions, rural",
+            "Dinitrogen oxide direct emissions, rural",
+            "Ammonia direct emissions, rural",
+            "Lead direct emissions, rural",
             "Benzene direct emissions, rural",
+            "Toluene direct emissions, rural",
+            "Xylene direct emissions, rural",
+            "Formaldehyde direct emissions, rural",
+            "Acetaldehyde direct emissions, rural",
 
         ]
 
-        # Year index for EURO 6-d pollution class, starts in 2020
+        l_y = []
+        for y in self.array.year.values:
+
+            if 1997 <= y < 2001:
+                l_y.append(2)
+            if 2001 <= y < 2006:
+                l_y.append(3)
+            if 2006 <= y < 2011:
+                l_y.append(4)
+            if 2011 <= y < 2015:
+                l_y.append(5)
+            if 2015 <= y < 2017:
+                l_y.append(6.0)
+            if 2017 <= y < 2019:
+                l_y.append(6.1)
+            if 2019 <= y < 2020:
+                l_y.append(6.2)
+            if y >= 2020:
+                l_y.append(6.3)
+
+        l_pt = []
+        for pt in self.array.powertrain.values:
+            if pt in ["ICEV-d", "PHEV-c-d", "HEV-d", "PHEV-d"]:
+                l_pt.append("ICEV-d")
+            if pt in ["ICEV-p", "PHEV-c-p", "HEV-p", "PHEV-p"]:
+                l_pt.append("ICEV-p")
+            if pt == "ICEV-g":
+                l_pt.append("ICEV-g")
+
         self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        y >= 2020]
-        ] = hem.get_emissions_per_powertrain("diesel", euro_class=6.3)
+            dict(
+                powertrain=[pt for pt in self.array.powertrain.values if pt not in ["FCEV", "BEV", "PHEV-e"]],
+                parameter=list_direct_emissions,
+            )
+        ] = hem.get_hot_emissions(
+            powertrain_type=l_pt,
+            euro_class=l_y,
+            energy_consumption=self.energy.sel(
+                powertrain=[pt for pt in self.array.powertrain.values if pt not in ["FCEV", "BEV", "PHEV-e"]],
+                parameter=["motive energy", "auxiliary energy", "recuperated energy"]
+            ).sum(dim="parameter"),
+            yearly_km = self.array.sel(parameter="kilometers per year",
+                                       powertrain=[pt for pt in self.array.powertrain.values
+                                                   if pt not in ["FCEV", "BEV", "PHEV-e"]])
+        )
 
-        # Year index for EURO 6-d-TEMP pollution class, starts in 2019, ends before 2020
-        self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2019 <= y < 2020]
-        ] = hem.get_emissions_per_powertrain("diesel", euro_class=6.2)
 
-        # Year index for EURO 6-c pollution class, starts in 2017, ends in 2018
-        self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2017 <= y < 2019]
-        ] = hem.get_emissions_per_powertrain("diesel", euro_class=6.1)
-
-        # Year index for EURO 6-ab pollution class, starts in 2015, ends in 2017
-        self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2015 <= y < 2017]
-        ] = hem.get_emissions_per_powertrain("diesel", euro_class=6.0)
-
-        # Year index for EURO 5 pollution class, starts in 2011, ends in 2014
-        self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2011 <= y < 2015]
-        ] = hem.get_emissions_per_powertrain("diesel", euro_class=5)
-
-        # Year index for EURO 4 pollution class, starts in 2006, ends in 2010
-        self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2006 <= y < 2011]
-        ] = hem.get_emissions_per_powertrain("diesel", euro_class=4)
-
-        # Year index for EURO 3 pollution class, starts in 2001, ends in 2005
-        self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2001 <= y < 2006]
-        ] = hem.get_emissions_per_powertrain("diesel", euro_class=3)
-
-        # Year index for EURO 2 pollution class, starts in 1997, ends in 2000
-        self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        1997 <= y < 2001]
-        ] = hem.get_emissions_per_powertrain("diesel", euro_class=2)
-
-        # Year index for EURO 1 pollution class, starts in 1993, ends in 1996
-        self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        1993 <= y < 1997]
-        ] = hem.get_emissions_per_powertrain("diesel", euro_class=1)
-
-        # Year index for EURO 0 pollution class, ends in 1992
-        self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, [y for y in self.array.year.values if y < 1993]
-        ] = hem.get_emissions_per_powertrain("diesel", euro_class=0)
-
-        # Applies an emission factor, useful for sensitivity purpose
-        self.array.loc[
-            :, ["ICEV-d", "PHEV-c-d", "HEV-d"], list_direct_emissions, :
-        ] *= self.array.loc[:, ["ICEV-d", "PHEV-c-d", "HEV-d"], "emission factor", :]
-
-        # Year index for EURO 6-d pollution class, starts in 2020
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        y >= 2020]
-        ] = hem.get_emissions_per_powertrain("petrol", euro_class=6.3)
-
-        # Year index for EURO 6-d-TEMP pollution class, starts in 2019, ends in 2020
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2019 <= y < 2020]
-        ] = hem.get_emissions_per_powertrain("petrol", euro_class=6.2)
-
-        # Year index for EURO 6-c pollution class, starts in 2017, ends in 2018
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2017 <= y < 2019]
-        ] = hem.get_emissions_per_powertrain("petrol", euro_class=6.1)
-
-        # Year index for EURO 6-ab pollution class, starts in 2015, ends in 2017
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2015 <= y < 2017]
-        ] = hem.get_emissions_per_powertrain("petrol", euro_class=6.0)
-
-        # Year index for EURO 5 pollution class, starts in 2011, ends in 2014
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2011 <= y < 2015]
-        ] = hem.get_emissions_per_powertrain("petrol", euro_class=5)
-
-        # Year index for EURO 4 pollution class, starts in 2006, ends in 2010
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2006 <= y < 2011]
-        ] = hem.get_emissions_per_powertrain("petrol", euro_class=4)
-
-        # Year index for EURO 3 pollution class, starts in 2001, ends in 2005
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        2001 <= y < 2006]
-        ] = hem.get_emissions_per_powertrain("petrol", euro_class=3)
-
-        # Year index for EURO 2 pollution class, starts in 1997, ends in 2000
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        1997 <= y < 2001]
-        ] = hem.get_emissions_per_powertrain("petrol", euro_class=2)
-
-        # Year index for EURO 1 pollution class, starts in 1993, ends in 1996
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if
-                                                                        1993 <= y < 1997]
-        ] = hem.get_emissions_per_powertrain("petrol", euro_class=1)
-
-        # Year index for EURO 0 pollution class, starts ends in 1992
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, [y for y in self.array.year.values if y < 1993]
-        ] = hem.get_emissions_per_powertrain("petrol", euro_class=0)
-
-        # Applies an emission factor, useful for sensitivity purpose
-        self.array.loc[
-            :, ["ICEV-p", "HEV-p", "PHEV-c-p"], list_direct_emissions, :
-        ] *= self.array.loc[:, ["ICEV-p", "HEV-p", "PHEV-c-p"], "emission factor", :]
-
-        # Year index for EURO 6 pollution class, starts in 2015
-        self.array.loc[
-            :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if y>=2015]
-        ] = hem.get_emissions_per_powertrain("CNG", euro_class=6)
-
-        # Year index for EURO 5 pollution class, starts in 2011, ends in 2014
-        self.array.loc[
-            :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if 2011 <= y < 2015]
-        ] = hem.get_emissions_per_powertrain("CNG", euro_class=5)
-
-        # Year index for EURO 4 pollution class, starts in 2006, ends in 2010
-        self.array.loc[
-            :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if 2006 <= y < 2011]
-        ] = hem.get_emissions_per_powertrain("CNG", euro_class=4)
-
-        # Year index for EURO 3 pollution class, starts in 2001, ends in 2005
-        self.array.loc[
-            :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if 2001 <= y < 2006]
-        ] = hem.get_emissions_per_powertrain("CNG", euro_class=3)
-
-        # Year index for EURO 2 pollution class, ends in 2000
-        self.array.loc[
-            :, "ICEV-g", list_direct_emissions, [y for y in self.array.year.values if y < 2001]
-        ] = hem.get_emissions_per_powertrain("CNG", euro_class=2)
-
-        # Applies an emission factor, useful for sensitivity purpose
-        self.array.loc[:, "ICEV-g", list_direct_emissions, :] *= self.array.loc[
-            :, "ICEV-g", "emission factor", :
-        ]
-
-        # Emissions are scaled to the combustion power share
-        self.array.loc[:, :, list_direct_emissions, :] *= self.array.loc[
-                                                                 :, :, "combustion power share", :
-                                                                 ]
 
     def set_noise_emissions(self):
         """
