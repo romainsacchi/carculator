@@ -113,6 +113,9 @@ class HotEmissionsModel:
         :rtype: numpy.array
         """
 
+        # Check if the powertrains passed are valid
+        if set(powertrain_type).intersection(set(["FCEV", "BEV", "PHEV-e"])):
+            raise TypeError("Wrong powertrain!")
 
         hot_emissions = self.hot.sel(
             powertrain=powertrain_type,
