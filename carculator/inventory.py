@@ -39,11 +39,15 @@ class InventoryCalculation:
                   'cng':{ #specify fuel bland for compressed gas
                         'primary fuel':{
                             'type':'biogas',
-                            'share':[0.9, 0.8, 0.7, 0.6] # shares per year. Must total 1 for each year.
+                            'share':[0.9, 0.8, 0.7, 0.6], # shares per year. Must total 1 for each year.
+                            'origin':'FR' # can specify a location. The geographically closest dataset will be chosen.
                             },
                         'secondary fuel':{
                             'type':'syngas',
-                            'share': [0.1, 0.2, 0.3, 0.4]
+                            'share': [0.1, 0.2, 0.3, 0.4],
+                            'origin': can specify a location. In case of synthetic fuel, the electricity mix is adjusted
+                            # to the location. If not location is specified, it is assumed that synfuels are
+                            # locally produced (i.e., same location as country of use).
                             }
                         },
                  'diesel':{
@@ -2792,6 +2796,68 @@ class InventoryCalculation:
             fuel_type = "electricity"
             self.create_fuel_markets(fuel_type)
 
+    def remove_electricity_for_synfuels(self):
+        """
+        Removes the electricity providers for the manufacture of synthetic fuel, which comprises the following datasets:
+
+         - Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station
+         - Diesel production, synthetic, Fischer Tropsch process
+         - Syngas, RWGS, Production
+         - Gasoline production, synthetic, from methanol
+         - Methanol Synthesis
+         - carbon dioxide, captured from atmosphere
+         - biogas upgrading - sewage sludge - amine scrubbing - best
+
+        to add it separately in the fuel market dataset.
+
+        Does not return anything. Modifies self.A in place.
+
+        """
+
+        list_fuels = [
+            "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
+            "Hydrogen, gaseous, 700 bar, ATR of NG, at H2 fuelling station",
+            "Hydrogen, gaseous, 700 bar, ATR of NG, with CCS, at H2 fuelling station",
+            "Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station",
+            "Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station",
+            "Hydrogen, gaseous, 700 bar, from ATR of biogas, at H2 fuelling station",
+            "Hydrogen, gaseous, 700 bar, from ATR of biogas with CCS, at H2 fuelling station",
+            "CO2 storage/at H2 production plant, pre, pipeline 200km, storage 1000m",
+            "Hydrogen, gaseous, 700 bar, from coal gasification, at H2 fuelling station",
+            "Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant",
+            "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at H2 fuelling station",
+            "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at H2 fuelling station",
+            "Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant",
+            "Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass, at gasification plant",
+            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling station",
+            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at gasification plant",
+            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling station",
+            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at gasification plant",
+            "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at H2 fuelling station",
+            "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at H2 fuelling station",
+            "Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant",
+            "Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass, at gasification plant",
+            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling plant",
+            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at gasification plant",
+            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling plant",
+            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at gasification plant",
+            "biomethane from biogas upgrading - biowaste - amine scrubbing",
+            "biogas upgrading - sewage sludge - amine scrubbing - best"
+            "SMR NG + CCS (MDEA), 98 (average), 700 bar",
+            "SMR NG, 700 bar",
+            "Diesel production, synthetic, Fischer Tropsch process",
+            "Syngas, RWGS, Production",
+            "Gasoline production, synthetic, from methanol",
+            "Methanol Synthesis",
+            "carbon dioxide, captured from atmosphere",
+        ]
+
+        fuels_ind = [f for f in self.inputs if f[0] in list_fuels]
+        elec_inputs = [e for e in self.inputs if e[2] == "kilowatt hour"]
+
+        self.A[:, elec_inputs, fuels_ind] = 0
+
+
     def create_fuel_markets(
         self,
         fuel_type,
@@ -3106,6 +3172,9 @@ class InventoryCalculation:
             "hydrogen": "fuel supply for hydrogen vehicles, ",
             "electricity": "electricity supply for electric vehicles, ",
         }
+
+        # Zero out the electricity input in synfuels
+        #self.remove_electricity_for_synfuels()
 
         if fuel_type != "electricity":
             for y, year in enumerate(self.scope["year"]):
