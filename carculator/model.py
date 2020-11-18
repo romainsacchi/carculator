@@ -843,6 +843,10 @@ class CarModel:
         l_y = []
         for y in self.array.year.values:
 
+            if y < 1993:
+                l_y.append(0)
+            if 1993 <= y < 1997:
+                l_y.append(1)
             if 1997 <= y < 2001:
                 l_y.append(2)
             if 2001 <= y < 2006:
