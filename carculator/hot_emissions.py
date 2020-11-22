@@ -142,6 +142,7 @@ class HotEmissionsModel:
         # the fitting of emissions function of energy consumption is described in the notebook
         # `HBEFA trucks.ipynb` in the folder `dev`.
 
+
         hot = hot_emissions.sel(variable="a").values[:, None, :, :, None, None] * energy_consumption.values
 
         non_hot_emissions = self.non_hot.sel(

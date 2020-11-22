@@ -356,6 +356,9 @@ class CarModel:
 
         self.energy.loc[dict(parameter="recuperated energy")] *= self["recuperation efficiency"].values[..., None]
 
+        self.energy = self.energy.fillna(0)
+        self.energy *= np.isfinite(self.energy)
+
         self["auxiliary energy"] = (
             self.energy.sel(parameter="auxiliary energy").sum(dim="second").T / distance
         ).T
