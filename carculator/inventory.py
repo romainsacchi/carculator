@@ -2589,6 +2589,14 @@ class InventoryCalculation:
                 lhv_primary = self.fuel_blends["petrol"]["primary"]["lhv"]
                 share_secondary = self.fuel_blends["petrol"]["secondary"]["share"][y]
                 lhv_secondary = self.fuel_blends["petrol"]["secondary"]["lhv"]
+
+                if "tertiary" in self.fuel_blends["petrol"]:
+                    share_tertiary = self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                    lhv_tertiary = self.fuel_blends["petrol"]["tertiary"]["lhv"]
+                else:
+                    share_tertiary = 0
+                    lhv_tertiary = 0
+
                 index = self.get_index_vehicle_from_array(
                     ["ICEV-p", "HEV-p", "PHEV-p"], year, method="and"
                 )
@@ -2605,6 +2613,11 @@ class InventoryCalculation:
                             * share_secondary
                             * lhv_secondary
                         )
+                        + (
+                            self.array.values[self.array_inputs["fuel mass"], :, index]
+                            * share_tertiary
+                            * lhv_tertiary
+                        )
                     )
                     * 1000
                     / self.array.values[self.array_inputs["TtW energy"], :, index]
@@ -2616,6 +2629,15 @@ class InventoryCalculation:
                 lhv_primary = self.fuel_blends["diesel"]["primary"]["lhv"]
                 share_secondary = self.fuel_blends["diesel"]["secondary"]["share"][y]
                 lhv_secondary = self.fuel_blends["diesel"]["secondary"]["lhv"]
+
+                if "tertiary" in self.fuel_blends["diesel"]:
+                    share_tertiary = self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                    lhv_tertiary = self.fuel_blends["diesel"]["tertiary"]["lhv"]
+                else:
+                    share_tertiary = 0
+                    lhv_tertiary = 0
+
+                
                 index = self.get_index_vehicle_from_array(
                     ["ICEV-d", "PHEV-d", "HEV-d"], year, method="and"
                 )
@@ -2631,6 +2653,11 @@ class InventoryCalculation:
                             self.array.values[self.array_inputs["fuel mass"], :, index]
                             * share_secondary
                             * lhv_secondary
+                        )
+                        + (
+                                self.array.values[self.array_inputs["fuel mass"], :, index]
+                                * share_tertiary
+                                * lhv_tertiary
                         )
                     )
                     * 1000

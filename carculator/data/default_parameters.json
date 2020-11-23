@@ -9876,7 +9876,7 @@
     "year": 2040
   },
   "100-2017-lower_heating_value_fuel": {
-    "amount": 42.88,
+    "amount": 42.8,
     "category": "Powertrain",
     "kind": "distribution",
     "loc": 42.8,

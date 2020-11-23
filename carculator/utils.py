@@ -3,6 +3,7 @@ import pycountry
 from . import DATA_DIR
 import itertools
 import csv
+import numpy as np
 import xarray
 
 pd.options.mode.chained_assignment = None
@@ -12,7 +13,7 @@ REMIND_ELEC_MARKETS = DATA_DIR / "remind_electricity_markets.csv"
 IEA_DIESEL_SHARE = DATA_DIR / "diesel_share_oecd.csv"
 
 
-def extract_biofuel_shares_from_REMIND(fp, remind_region, years):
+def extract_biofuel_shares_from_REMIND(fp, remind_region, years, allocate_all_synfuel=False):
     """
     This function extracts biofuel shares from a REMIND file provided.
 
@@ -21,6 +22,8 @@ def extract_biofuel_shares_from_REMIND(fp, remind_region, years):
     :param remind_region: REMIND region for which to extract the biofuel shares
     :type remind_region: str
     :param years: the list of years for which to extract biofuel shares
+    :param allocate_all_synfuel: Temporary workaround. If True, then all synfuel in the transport sector
+    is allocated to passenger cars.
     :return: a dictionary that contains fuel types as keys and lists of fuel shares as values
     """
 
@@ -31,10 +34,37 @@ def extract_biofuel_shares_from_REMIND(fp, remind_region, years):
     df = df.loc[df["Region"] == remind_region]
     df = df.loc[:, : str(2050)]
     df["Variable"] = df["Variable"].str.replace("|", "-")
-    var = ["FE-Transport-Liquids-Oil", "FE-Transport-Liquids-Biomass", "FE-Transport-Liquids-Hydrogen"]
 
-    df_liquids = df.loc[df["Variable"].isin(var), :]
-    df_liquids.iloc[:, 3:] /= df_liquids.iloc[:, 3:].sum(axis=0)
+    if allocate_all_synfuel:
+
+        # get shares of synthetic fuel
+        df_total = df.loc[df["Variable"] == "FE-Transport-Pass-Road-LDV-Liquids"]
+        df_total.index = df.loc[df["Variable"] == "SE-Liquids-Hydrogen"].index
+        share = np.clip(
+            (df.loc[df["Variable"] == "SE-Liquids-Hydrogen", "2005":].divide(
+                df_total.loc[:, "2005":], axis=0)
+            ).values,
+            0, 1)
+
+        var = ["FE-Transport-Liquids-Oil",
+               "FE-Transport-Liquids-Biomass"]
+
+        df_liquids = df.loc[df["Variable"].isin(var), :]
+        df_liquids.iloc[:, 3:] /= df_liquids.iloc[:, 3:].sum(axis=0)
+
+        df_liquids.loc[:, "2005":] *= (1 - share)
+        to_append = [remind_region, "FE-Transport-Liquids-Hydrogen", "EJ/yr"] + share[0].tolist()
+        a_series = pd.Series(to_append, index=df_liquids.columns)
+        df_liquids = df_liquids.append(a_series, ignore_index=True)
+
+    else:
+
+        var = ["FE-Transport-Liquids-Oil",
+               "FE-Transport-Liquids-Biomass",
+               "FE-Transport-Liquids-Hydrogen"]
+
+        df_liquids = df.loc[df["Variable"].isin(var), :]
+        df_liquids.iloc[:, 3:] /= df_liquids.iloc[:, 3:].sum(axis=0)
 
     var = ["FE-Transport-Gases-Non-Biomass", "FE-Transport-Gases-Biomass"]
 
