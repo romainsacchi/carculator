@@ -876,6 +876,7 @@ class CarModel:
             if pt == "ICEV-g":
                 l_pt.append("ICEV-g")
 
+
         self.array.loc[
             dict(
                 powertrain=[pt for pt in self.array.powertrain.values if pt not in ["FCEV", "BEV", "PHEV-e"]],

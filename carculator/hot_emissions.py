@@ -74,7 +74,7 @@ class HotEmissionsModel:
                 "suburban start": 995,
                 "suburban stop": 2077,
                 "rural start": 2078,
-                "rural stop": 3146,
+                "rural stop": 3144,
             },
             "NEDC": {
                 "urban start": 0,
@@ -295,8 +295,24 @@ class HotEmissionsModel:
             else:
                 rural_start, rural_stop = [0, 0]
 
-        urban = final_emissions.sel(second=range(urban_start, urban_stop)).sum(axis=-1) / distance
-        suburban = final_emissions.sel(second=range(suburban_start, suburban_stop)).sum(axis=-1) / distance
-        rural = final_emissions.sel(second=range(rural_start, rural_stop)).sum(axis=-1) / distance
+            urban = final_emissions.sel(second=range(urban_start, urban_stop)).sum(axis=-1) / distance
+            suburban = final_emissions.sel(second=range(suburban_start, suburban_stop)).sum(axis=-1) / distance
+            rural = final_emissions.sel(second=range(rural_start, rural_stop)).sum(axis=-1) / distance
+
+
+        else:
+            urban = final_emissions.where(self.cycle <=50).sum(axis=-1) / distance
+            suburban = final_emissions.where((self.cycle >50)&(self.cycle <=80)).sum(axis=-1) / distance
+            rural = final_emissions.where(self.cycle >80).sum(axis=-1) / distance
+
+
+        urban *= np.isfinite(urban)
+        suburban *= np.isfinite(suburban)
+        rural *= np.isfinite(rural)
+
+        urban = urban.fillna(0)
+        suburban = suburban.fillna(0)
+        rural = rural.fillna(0)
+
 
         return np.vstack((urban, suburban, rural)).transpose(1, 2, 0, 3, 4) / 1000

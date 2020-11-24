@@ -71,7 +71,7 @@ class NoiseEmissionsModel:
                 "suburban start": 995,
                 "suburban stop": 2077,
                 "rural start": 2078,
-                "rural stop": 3146,
+                "rural stop": 3144,
             },
             "NEDC": {
                 "urban start": 0,
