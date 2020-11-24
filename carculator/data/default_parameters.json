@@ -941,7 +941,9 @@
     "powertrain": [
       "ICEV-p",
       "ICEV-d",
-      "ICEV-g"
+      "ICEV-g",
+      "PHEV-c-d",
+      "PHEV-c-p"
     ],
     "sizes": [
       "Large",
@@ -967,7 +969,9 @@
     "powertrain": [
       "ICEV-p",
       "ICEV-d",
-      "ICEV-g"
+      "ICEV-g",
+      "PHEV-c-d",
+      "PHEV-c-p"
     ],
     "sizes": [
       "Large",
@@ -983,62 +987,7 @@
     "unit": null,
     "year": 2040
   },
-  "128-2017-combustion power share": {
-    "amount": 0.4,
-    "category": "Powertrain",
-    "comment": "Share of total vehicle power provided by combustion (versus battery)",
-    "kind": "distribution",
-    "loc": 0.4,
-    "maximum": 0.5,
-    "minimum": 0.35,
-    "name": "combustion power share",
-    "powertrain": [
-      "PHEV-c-p",
-      "PHEV-c-d",
-      "PHEV-e"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": null,
-    "year": 2017
-  },
-  "129-2040-combustion power share": {
-    "amount": 0.4,
-    "category": "Powertrain",
-    "comment": "Share of total vehicle power provided by combustion (versus battery)",
-    "kind": "distribution",
-    "loc": 0.4,
-    "maximum": 0.5,
-    "minimum": 0.35,
-    "name": "combustion power share",
-    "powertrain": [
-      "PHEV-c-p",
-      "PHEV-c-d",
-      "PHEV-e"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
-    "unit": null,
-    "year": 2040
-  },
+
   "13-2040-glider base mass": {
     "amount": 1500,
     "category": "Glider",
@@ -10681,7 +10630,9 @@
     "powertrain": [
       "ICEV-p",
       "ICEV-d",
-      "ICEV-g"
+      "ICEV-g",
+      "PHEV-c-d",
+      "PHEV-c-p"
     ],
     "sizes": [
       "Large",
@@ -10694,34 +10645,6 @@
     ],
     "source": "Own assumption, Calibration result",
     "uncertainty_type": 1,
-    "unit": null,
-    "year": 2010
-  },
-  "128-2010-combustion power share": {
-    "amount": 0.4,
-    "category": "Powertrain",
-    "comment": "Share of total vehicle power provided by combustion (versus battery)",
-    "kind": "distribution",
-    "loc": 0.4,
-    "maximum": 0.5,
-    "minimum": 0.35,
-    "name": "combustion power share",
-    "powertrain": [
-      "PHEV-c-p",
-      "PHEV-c-d",
-      "PHEV-e"
-    ],
-    "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
-      "Van"
-    ],
-    "source": "Own assumption, Calibration result",
-    "uncertainty_type": 5,
     "unit": null,
     "year": 2010
   },
@@ -15890,7 +15813,9 @@
       "powertrain":[
          "ICEV-p",
          "ICEV-d",
-         "ICEV-g"
+         "ICEV-g",
+        "PHEV-c-d",
+        "PHEV-c-p"
       ],
       "sizes":[
          "Large",
@@ -15903,34 +15828,6 @@
       ],
       "source":"Own assumption, Calibration result",
       "uncertainty_type":1,
-      "unit":null,
-      "year":2000
-   },
-   "128-2000-combustion power share":{
-      "amount":0.4,
-      "category":"Powertrain",
-      "comment":"Share of total vehicle power provided by combustion (versus battery)",
-      "kind":"distribution",
-      "loc":0.4,
-      "maximum":0.5,
-      "minimum":0.35,
-      "name":"combustion power share",
-      "powertrain":[
-         "PHEV-c-p",
-         "PHEV-c-d",
-         "PHEV-e"
-      ],
-      "sizes":[
-         "Large",
-         "Lower medium",
-         "Medium",
-         "Mini",
-         "SUV",
-         "Small",
-         "Van"
-      ],
-      "source":"Own assumption, Calibration result",
-      "uncertainty_type":5,
       "unit":null,
       "year":2000
    },

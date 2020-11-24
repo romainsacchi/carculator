@@ -563,6 +563,27 @@ class CarModel:
             * (1 - self.array.loc[:, "PHEV-e", "electric utility factor", :, :])
         )
 
+
+        self.energy.loc[dict(parameter=["motive energy",
+                                        "auxiliary energy",
+                                        "recuperated energy"],
+                             powertrain=["PHEV-p", "PHEV-d"])] = \
+            (self.array.loc[dict(parameter="electric utility factor",
+                                 powertrain=["PHEV-e"])] *
+             self.energy.loc[dict(parameter=["motive energy",
+                                             "auxiliary energy",
+                                             "recuperated energy"],
+                                  powertrain=["PHEV-e"])]
+             ).values.transpose(0, 1, 4, 2, 3, 5)\
+            + (
+                    (1 - self.array.loc[dict(parameter="electric utility factor",
+                                 powertrain="PHEV-e")]) *
+             self.energy.loc[dict(parameter=["motive energy",
+                                             "auxiliary energy",
+                                             "recuperated energy"],
+                                  powertrain=["PHEV-c-p", "PHEV-c-d"])]
+             ).values.transpose(0, 3, 4, 1, 2, 5)
+
     def set_battery_properties(self):
         pt_list = ["ICEV-p", "HEV-p", "HEV-d", "ICEV-g", "ICEV-d"]
         self.array.loc[:, pt_list, "battery power"] = self.array.loc[
