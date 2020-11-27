@@ -162,7 +162,7 @@ class HotEmissionsModel:
             ],
         ).transpose("Component", "powertrain", "euro_class", "type")
 
-        start_per_day = 2.35
+        start_per_day = 3
 
         # Cold start and soak emissions are defined per start and stop
         # Therefore, we need to normalize per km

@@ -90,7 +90,6 @@ def extract_biofuel_shares_from_REMIND(fp, remind_region, years, allocate_all_sy
 
     return new_df.to_xarray().to_array().interp(variable=years)
 
-
 def extract_electricity_mix_from_REMIND_file(fp, remind_region, years):
     """
     This function extracts electricity mixes from a REMIND file provided.
@@ -173,7 +172,7 @@ def extract_electricity_mix_from_REMIND_file(fp, remind_region, years):
 
     return df.to_xarray().to_array().interp(variable=years).values
 
-def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020):
+def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020, normalized=True):
     """
     This function creates a consumable fleet composition array from a CSV file.
     The array returned is consumed by `InventoryCalculation`.
@@ -220,6 +219,8 @@ def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020
     d_iso_2_remind = get_iso_2_to_REMIND_map()
     df["REMIND_region"] = df["iso_2"].map(d_iso_2_remind)
 
+
+
     # Filter out rows for which no REMIND region equivalence can be found.
     if len(df.loc[df["REMIND_region"].isnull(), "iso_2"].unique()) > 0:
         print(
@@ -264,6 +265,8 @@ def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020
     df = df.loc[df["year"] == fleet_year]
     df = df.loc[df["REMIND_region"] == remind_region]
 
+
+
     # Associate diesel shares
     def get_diesel_factor(row):
 
@@ -284,6 +287,8 @@ def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020
     df = pd.concat([df, new_df_p, new_df_d])
     df = df.loc[~df["powertrain"].isin(("HEV", "PHEV", "ICEV"))]
 
+
+
     # Filter out unecessary columns
     df = df[
         [
@@ -298,10 +303,34 @@ def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020
     if len(df)==0:
         raise ValueError("This fleet year is not available.")
 
-    # Turn the dataframe into a pivot table and filter out unwanted REMIND regions
+
+    # Distribute the transport demand of 2010 to anterior years
+
+    distr_km = {
+        2010: .25,
+        2009: .15,
+        2008: .15,
+        2007: .15,
+        2006: .15,
+        2005: .15
+    }
+
+    new_df = pd.DataFrame()
+    for y in range(2010, 2004, -1):
+        temp_df = df.loc[df["vintage_year"] == 2010]
+        temp_df["vintage_year"] = y
+        temp_df["vintage_demand_vkm"] *= distr_km[y]
+        new_df = pd.concat([new_df, temp_df])
+
+    df = df.loc[df["vintage_year"] != 2010]
+
+    df = pd.concat([df, new_df])
+
+    # Turn the dataframe into a pivot table
     df = df.pivot_table(
-        index=["powertrain", "size", "vintage_year"], columns=["year"]
+        index=["powertrain", "size", "vintage_year"], columns=["year"], aggfunc=np.sum
     )["vintage_demand_vkm"]
+
 
     # The table needs to be square: so we add powertrain-size-vintage_year combinations and set their value to 0
     new_cols = [
@@ -319,8 +348,9 @@ def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020
     for row in [i for i in list(itertools.product(*a)) if i not in df.index]:
         df.loc[row] = 0
 
-    # The vkm values are normalized to 1, year-wise
-    df /= df.sum(axis=0)
+    if normalized:
+        # The vkm values are normalized to 1, year-wise
+        df /= df.sum(axis=0)
 
     # xarray.DataArray is returned
     return df.to_xarray().fillna(0).to_array()

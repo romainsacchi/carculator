@@ -563,6 +563,11 @@ class CarModel:
             * (1 - self.array.loc[:, "PHEV-e", "electric utility factor", :, :])
         )
 
+        self.array.loc[dict(parameter="electric utility factor",
+                            powertrain=["PHEV-p", "PHEV-d"])] = \
+            self.array.loc[dict(parameter="electric utility factor",
+                                powertrain=["PHEV-e"])].values
+
 
         self.energy.loc[dict(parameter=["motive energy",
                                         "auxiliary energy",

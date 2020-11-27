@@ -22,6 +22,7 @@ recipe;Additional indicator;non-renewable primary energy;midpoint;NRPE;megajoule
 recipe;ReCiPe 2008 Endpoint (H, A) V1.13;Ecosystems;endpoint;;species.lost;https://www.rivm.nl/documenten/6recipe111
 recipe;ReCiPe 2008 Endpoint (H, A) V1.13;Human health;endpoint;;DALY;https://www.rivm.nl/documenten/6recipe111
 recipe;ReCiPe 2008 Endpoint (H, A) V1.13;Resources;endpoint;;USD;https://www.rivm.nl/documenten/6recipe111
+recipe;Cucurachi et al. 2019;Noise;endpoint;;DALY;https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837
 ilcd;ILCD 2.0 2018 midpoint;ecosystem quality - freshwater ecotoxicity;midpoint;;CTUe;https://eplca.jrc.ec.europa.eu/permalink/supporting_Information_final.pdf
 ilcd;ILCD 2.0 2018 midpoint;human health - non-carcinogenic effects;midpoint;;CTUh;https://eplca.jrc.ec.europa.eu/permalink/supporting_Information_final.pdf
 ilcd;ILCD 2.0 2018 midpoint;human health - carcinogenic effects;midpoint;;CTUh;https://eplca.jrc.ec.europa.eu/permalink/supporting_Information_final.pdf
