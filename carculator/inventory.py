@@ -1351,6 +1351,7 @@ class InventoryCalculation:
         new_A[0 : np.shape(initial_A)[0], 0 : np.shape(initial_A)[0]] = initial_A
 
         # Resize the matrix to fit the number of iterations in `array`
+        
         new_A = np.resize(new_A, (self.array.shape[1], new_A.shape[0], new_A.shape[1]))
         return new_A.astype("float32")
 
@@ -2127,7 +2128,7 @@ class InventoryCalculation:
                 .values
                 for y, year in enumerate(self.scope["year"])
             ]
-        return mix
+        return np.clip(mix, 0, 1)/np.clip(mix, 0, 1).sum(axis=1)[:, None]
 
     def define_renewable_rate_in_mix(self):
 

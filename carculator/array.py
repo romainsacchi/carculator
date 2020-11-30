@@ -5,7 +5,7 @@ import stats_arrays as sa
 import xarray as xr
 
 
-def fill_xarray_from_input_parameters(cip, sensitivity=False):
+def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
 
     """Create an `xarray` labeled array from the sampled input parameters.
 
@@ -17,6 +17,7 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False):
 
 
     :param cip: Instance of the :class:`CarInputParameters` class in :mod:`car_input_parameters`.
+    :param scope: a dictionary to narrow down the scope of vehicles to consider
     :returns: `tuple`, `xarray.DataArray`
     - tuple (`size_dict`, `powertrain_dict`, `parameter_dict`, `year_dict`)
     - array
@@ -30,27 +31,58 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False):
 
     """
 
+    if scope is None:
+        scope = {
+            "size": cip.sizes,
+            "powertrain": cip.powertrains,
+            "year": cip.years
+        }
+    else:
+        if "size" not in scope:
+            scope["size"] = cip.sizes
+        if "powertrain" not in scope:
+            scope["powertrain"] = cip.powertrains
+        if "year" not in scope:
+            scope["year"] = cip.years
+
+
     # Check whether the argument passed is a cip object
     if not isinstance(cip, c_i_p):
         raise TypeError(
             "The argument passed is not an object of the CarInputParameter class"
         )
+
+    if any(s for s in scope["size"] if s not in cip.sizes):
+        raise ValueError(
+            "One of the size types is not valid."
+        )
+
+    if any(y for y in scope["year"] if y not in cip.years):
+        raise ValueError(
+            "One of the years defined is not valid."
+        )
+
+    if any(pt for pt in scope["powertrain"] if pt not in cip.powertrains):
+        raise ValueError(
+            "One of the powertrain types is not valid."
+        )
+
     if sensitivity == False:
         array = xr.DataArray(
             np.zeros(
                 (
-                    len(cip.sizes),
-                    len(cip.powertrains),
+                    len(scope["size"]),
+                    len(scope["powertrain"]),
                     len(cip.parameters),
-                    len(cip.years),
+                    len(scope["year"]),
                     cip.iterations or 1,
                 )
             ),
             coords=[
-                cip.sizes,
-                cip.powertrains,
+                scope["size"],
+                scope["powertrain"],
                 cip.parameters,
-                cip.years,
+                scope["year"],
                 np.arange(cip.iterations or 1),
             ],
             dims=["size", "powertrain", "parameter", "year", "value"],
@@ -61,35 +93,62 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False):
         array = xr.DataArray(
             np.zeros(
                 (
-                    len(cip.sizes),
-                    len(cip.powertrains),
+                    len(scope["size"]),
+                    len(scope["powertrain"]),
                     len(cip.parameters),
-                    len(cip.years),
+                    len(scope["year"]),
                     len(params),
                 )
             ),
-            coords=[cip.sizes, cip.powertrains, cip.parameters, cip.years, params,],
+            coords=[cip.sizes, cip.powertrains, cip.parameters, cip.years, params],
             dims=["size", "powertrain", "parameter", "year", "value"],
         )
 
-    size_dict = {k: i for i, k in enumerate(cip.sizes)}
-    powertrain_dict = {k: i for i, k in enumerate(cip.powertrains)}
-    year_dict = {k: i for i, k in enumerate(cip.years)}
+    size_dict = {k: i for i, k in enumerate(scope["year"])}
+    powertrain_dict = {k: i for i, k in enumerate(scope["powertrain"])}
+    year_dict = {k: i for i, k in enumerate(scope["year"])}
     parameter_dict = {k: i for i, k in enumerate(cip.parameters)}
 
     if sensitivity == False:
+
         for param in cip:
-            array.loc[
-                dict(
-                    powertrain=cip.metadata[param]["powertrain"],
-                    size=cip.metadata[param]["sizes"],
-                    year=cip.metadata[param]["year"],
-                    parameter=cip.metadata[param]["name"],
-                )
-            ] = cip.values[param]
+
+            pwt = set(cip.metadata[param]["powertrain"]) if isinstance(cip.metadata[param]["powertrain"], list) \
+                    else set([cip.metadata[param]["powertrain"]])
+
+            size = set(cip.metadata[param]["sizes"]) if isinstance(cip.metadata[param]["sizes"], list) \
+                    else set([cip.metadata[param]["sizes"]])
+
+            year = set(cip.metadata[param]["year"]) if isinstance(cip.metadata[param]["year"], list) \
+                    else set([cip.metadata[param]["year"]])
+
+            if pwt.intersection(scope["powertrain"]) \
+                and size.intersection(scope["size"]) \
+                and year.intersection(scope["year"]):
+
+                array.loc[
+                    dict(
+                        powertrain=[p for p in pwt
+                                    if p in scope["powertrain"]],
+                        size=[s for s in size
+                                if s in scope["size"]],
+                        year=[y for y in year
+                                if y in scope["year"]],
+                        parameter=cip.metadata[param]["name"],
+                    )
+                ] = cip.values[param]
     else:
         for param in cip.input_parameters:
             names = [n for n in cip.metadata if cip.metadata[n]['name'] == param]
+
+            pwt = set(cip.metadata[param]["powertrain"]) if isinstance(cip.metadata[param]["powertrain"], list) \
+                else set([cip.metadata[param]["powertrain"]])
+
+            size = set(cip.metadata[param]["sizes"]) if isinstance(cip.metadata[param]["sizes"], list) \
+                else set([cip.metadata[param]["sizes"]])
+
+            year = set(cip.metadata[param]["year"]) if isinstance(cip.metadata[param]["year"], list) \
+                else set([cip.metadata[param]["year"]])
 
             for name in names:
                 vals = [cip.values[name] for _ in range(0, len(cip.input_parameters) + 1)]
@@ -97,9 +156,12 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False):
 
                 array.loc[
                     dict(
-                        powertrain=cip.metadata[name]["powertrain"],
-                        size=cip.metadata[name]["sizes"],
-                        year=cip.metadata[name]["year"],
+                        powertrain=[p for p in pwt
+                                    if p in scope["powertrain"]],
+                        size=[s for s in size
+                              if s in scope["size"]],
+                        year=[y for y in year
+                              if y in scope["year"]],
                         parameter=cip.metadata[name]["name"],
                     )
                 ] = vals

@@ -183,13 +183,15 @@ class CarModel:
                 cost_factor = np.random.triangular(.7, 1, 1.3, (n_iterations, 1))
 
         # Correction of hydrogen tank cost, per kg
-        self.array.loc[:, ["FCEV"], "fuel tank cost per kg", :, :] = np.reshape(
+        self.array.loc[:, [pt for pt in ["FCEV"]
+             if pt in self.array.coords["powertrain"].values], "fuel tank cost per kg", :, :] = np.reshape(
             (1.078e58 * np.exp(-6.32e-2 * self.array.year.values) + 3.43e2) * cost_factor,
             (1, 1, n_year, n_iterations),
         )
 
         # Correction of fuel cell stack cost, per kW
-        self.array.loc[:, ["FCEV"], "fuel cell cost per kW", :, :] = np.reshape(
+        self.array.loc[:, [pt for pt in ["FCEV"]
+             if pt in self.array.coords["powertrain"].values], "fuel cell cost per kW", :, :] = np.reshape(
             (3.15e66 * np.exp(-7.35e-2 * self.array.year.values) + 2.39e1) * cost_factor,
             (1, 1, n_year, n_iterations),
         )
@@ -197,7 +199,9 @@ class CarModel:
         # Correction of energy battery system cost, per kWh
         self.array.loc[
             :,
-            ["BEV", "PHEV-e", "PHEV-c-p", "PHEV-c-d"],
+            [pt for pt in ["BEV", "PHEV-e", "PHEV-c-p", "PHEV-c-d"]
+             if pt in self.array.coords["powertrain"].values]
+            ,
             "energy battery cost per kWh",
             :,
             :,
@@ -209,7 +213,8 @@ class CarModel:
         # Correction of power battery system cost, per kW
         self.array.loc[
             :,
-            ["ICEV-p","ICEV-d","ICEV-g","PHEV-c-p","PHEV-c-d", "FCEV", "HEV-p", "HEV-d"],
+            [pt for pt in ["ICEV-p","ICEV-d","ICEV-g","PHEV-c-p","PHEV-c-d", "FCEV", "HEV-p", "HEV-d"]
+                if pt in self.array.coords["powertrain"].values],
             "power battery cost per kW",
             :,
             :,
@@ -221,7 +226,9 @@ class CarModel:
         # Correction of combustion powertrain cost for ICEV-g
         self.array.loc[
             :,
-            ["ICEV-g"],
+        [pt for pt in ["ICEV-g"]
+         if pt in self.array.coords["powertrain"].values]
+        ,
             "combustion powertrain cost per kW",
             :,
             :,
@@ -242,7 +249,8 @@ class CarModel:
 
 
         # Correction of hydrogen mass
-        self.array.loc[:, ["FCEV"], "fuel mass", :, :] = np.reshape(
+        self.array.loc[:, [pt for pt in ["FCEV"]
+                if pt in self.array.coords["powertrain"].values], "fuel mass", :, :] = np.reshape(
             (1.078e58 * np.exp(-6.32e-2 * self.array.year.values) + 3.43e2),
             (1, 1, n_year, n_iterations),
         )
@@ -257,8 +265,7 @@ class CarModel:
         :returns: Does not return anything. Modifies ``self.array`` in place.
         """
         self.array = self.array.sel(
-            powertrain=[
-                "ICEV-p",
+            powertrain=[pt for pt in ["ICEV-p",
                 "ICEV-d",
                 "ICEV-g",
                 "PHEV-p",
@@ -266,8 +273,8 @@ class CarModel:
                 "FCEV",
                 "BEV",
                 "HEV-p",
-                "HEV-d",
-            ]
+                "HEV-d",]
+                if pt in self.array.coords["powertrain"].values]
         )
 
     def set_electricity_consumption(self):
@@ -277,10 +284,11 @@ class CarModel:
         """
 
         for pt in self.electric:
-            with self(pt) as cpm:
-                cpm["electricity consumption"] = (
-                    cpm["TtW energy"] / cpm["battery charge efficiency"]
-                ) / 3600
+            if pt in self.array.coords["powertrain"].values:
+                with self(pt) as cpm:
+                    cpm["electricity consumption"] = (
+                        cpm["TtW energy"] / cpm["battery charge efficiency"]
+                    ) / 3600
 
     def calculate_ttw_energy(self):
         """
@@ -318,19 +326,29 @@ class CarModel:
         self.energy.loc[dict(parameter="auxiliary energy")] = (self["auxiliary power demand"].values[..., None] / 1000)
 
         self.energy.loc[dict(parameter="auxiliary energy",
-                             powertrain=["ICEV-d", "ICEV-p", "ICEV-g",
-                                            "PHEV-c-d", "PHEV-c-p",
-                                            "HEV-p", "HEV-d"])]\
-            /= self.array.loc[dict(parameter="engine efficiency",
-                              powertrain=["ICEV-d", "ICEV-p", "ICEV-g",
+                             powertrain=[pt for pt in
+                                         ["ICEV-d", "ICEV-p", "ICEV-g",
                                           "PHEV-c-d", "PHEV-c-p",
                                           "HEV-p", "HEV-d"]
+                                            if pt in self.array.coords["powertrain"].values]
+                             )]\
+            /= self.array.loc[dict(parameter="engine efficiency",
+                              powertrain=[pt for pt in
+                                          ["ICEV-d", "ICEV-p", "ICEV-g",
+                                           "PHEV-c-d", "PHEV-c-p",
+                                           "HEV-p", "HEV-d"]
+                                            if pt in self.array.coords["powertrain"].values]
                               )].values[..., None]
 
         self.energy.loc[dict(parameter="auxiliary energy",
-                             powertrain="FCEV")] \
+                             powertrain=[pt for pt in
+                                          ["FCEV"]
+                                            if pt in self.array.coords["powertrain"].values]
+                             )] \
             /= self.array.sel(parameter="fuel cell system efficiency",
-                              powertrain="FCEV"
+                              powertrain=[pt for pt in
+                                          ["FCEV"]
+                                            if pt in self.array.coords["powertrain"].values]
                               ).values[..., None]
 
 
@@ -374,49 +392,50 @@ class CarModel:
         Must be called after :meth:`.set_power_parameters`.
         """
         for pt in self.fuel_cell:
-            with self(pt):
-                self["fuel cell system efficiency"] = (
-                    self["fuel cell stack efficiency"]
-                    / self["fuel cell own consumption"]
-                )
-                self["fuel cell power share"] = self["fuel cell power share"].clip(
-                    min=0, max=1
-                )
-                self["fuel cell power"] = (
-                    self["power"]
-                    * self["fuel cell power share"]
-                    * self["fuel cell own consumption"]
-                )
-                # our basic fuel cell mass is based on a car fuel cell with 800 mW/cm2 and 0.51 kg/kW
-                self["fuel cell stack mass"] = (
-                    0.51
-                    * self["fuel cell power"]
-                    * (800
-                    / self["fuel cell power area density"])
-                )
-                self["fuel cell ancillary BoP mass"] = (
-                    self["fuel cell power"]
-                    * self["fuel cell ancillary BoP mass per power"]
-                )
-                self["fuel cell essential BoP mass"] = (
-                    self["fuel cell power"]
-                    * self["fuel cell essential BoP mass per power"]
-                )
+            if pt in self.array.coords["powertrain"].values:
+                with self(pt):
+                    self["fuel cell system efficiency"] = (
+                        self["fuel cell stack efficiency"]
+                        / self["fuel cell own consumption"]
+                    )
+                    self["fuel cell power share"] = self["fuel cell power share"].clip(
+                        min=0, max=1
+                    )
+                    self["fuel cell power"] = (
+                        self["power"]
+                        * self["fuel cell power share"]
+                        * self["fuel cell own consumption"]
+                    )
+                    # our basic fuel cell mass is based on a car fuel cell with 800 mW/cm2 and 0.51 kg/kW
+                    self["fuel cell stack mass"] = (
+                        0.51
+                        * self["fuel cell power"]
+                        * (800
+                        / self["fuel cell power area density"])
+                    )
+                    self["fuel cell ancillary BoP mass"] = (
+                        self["fuel cell power"]
+                        * self["fuel cell ancillary BoP mass per power"]
+                    )
+                    self["fuel cell essential BoP mass"] = (
+                        self["fuel cell power"]
+                        * self["fuel cell essential BoP mass per power"]
+                    )
 
-                self["battery power"] = self["fuel cell power"] * (
-                    1 - self["fuel cell power share"]
-                )
-                self["battery cell mass"] = (
-                    self["battery power"] / self["battery cell power density"]
-                )
-                self["battery BoP mass"] = self["battery cell mass"] * (
-                    1 - self["battery cell mass share"]
-                )
+                    self["battery power"] = self["fuel cell power"] * (
+                        1 - self["fuel cell power share"]
+                    )
+                    self["battery cell mass"] = (
+                        self["battery power"] / self["battery cell power density"]
+                    )
+                    self["battery BoP mass"] = self["battery cell mass"] * (
+                        1 - self["battery cell mass share"]
+                    )
 
-                self["oxidation energy stored"] = self["fuel mass"] * 120 / 3.6  # kWh
-                self["fuel tank mass"] = (
-                    self["oxidation energy stored"] * self["H2 tank mass per energy"]
-                )
+                    self["oxidation energy stored"] = self["fuel mass"] * 120 / 3.6  # kWh
+                    self["fuel tank mass"] = (
+                        self["oxidation energy stored"] * self["H2 tank mass per energy"]
+                    )
 
     def set_auxiliaries(self):
         """
@@ -540,57 +559,60 @@ class CarModel:
         )
 
     def set_electric_utility_factor(self):
-        with self("PHEV-e") as cpm:
-            cpm["electric utility factor"] = (
-                1 - np.exp(-0.01147 * cpm["range"])
-            ) ** 1.186185
+        if "PHEV-e" in self.array.coords["powertrain"].values:
+            with self("PHEV-e") as cpm:
+                cpm["electric utility factor"] = (
+                    1 - np.exp(-0.01147 * cpm["range"])
+                ) ** 1.186185
 
     def create_PHEV(self):
         """ PHEV-p/d is the range-weighted average between PHEV-c-p/PHEV-c-d and PHEV-e.
         """
-        self.array.loc[:, "PHEV-d", :, :, :] = (
-            self.array.loc[:, "PHEV-e", :, :, :]
-            * self.array.loc[:, "PHEV-e", "electric utility factor", :, :]
-        ) + (
-            self.array.loc[:, "PHEV-c-d", :, :, :]
-            * (1 - self.array.loc[:, "PHEV-e", "electric utility factor", :, :])
-        )
-        self.array.loc[:, "PHEV-p", :, :, :] = (
-            self.array.loc[:, "PHEV-e", :, :, :]
-            * self.array.loc[:, "PHEV-e", "electric utility factor", :, :]
-        ) + (
-            self.array.loc[:, "PHEV-c-p", :, :, :]
-            * (1 - self.array.loc[:, "PHEV-e", "electric utility factor", :, :])
-        )
+        if "PHEV-e" in self.array.coords["powertrain"].values:
+            self.array.loc[:, "PHEV-d", :, :, :] = (
+                self.array.loc[:, "PHEV-e", :, :, :]
+                * self.array.loc[:, "PHEV-e", "electric utility factor", :, :]
+            ) + (
+                self.array.loc[:, "PHEV-c-d", :, :, :]
+                * (1 - self.array.loc[:, "PHEV-e", "electric utility factor", :, :])
+            )
+            self.array.loc[:, "PHEV-p", :, :, :] = (
+                self.array.loc[:, "PHEV-e", :, :, :]
+                * self.array.loc[:, "PHEV-e", "electric utility factor", :, :]
+            ) + (
+                self.array.loc[:, "PHEV-c-p", :, :, :]
+                * (1 - self.array.loc[:, "PHEV-e", "electric utility factor", :, :])
+            )
 
-        self.array.loc[dict(parameter="electric utility factor",
-                            powertrain=["PHEV-p", "PHEV-d"])] = \
             self.array.loc[dict(parameter="electric utility factor",
-                                powertrain=["PHEV-e"])].values
+                                powertrain=["PHEV-p", "PHEV-d"])] = \
+                self.array.loc[dict(parameter="electric utility factor",
+                                    powertrain=["PHEV-e"])].values
 
 
-        self.energy.loc[dict(parameter=["motive energy",
-                                        "auxiliary energy",
-                                        "recuperated energy"],
-                             powertrain=["PHEV-p", "PHEV-d"])] = \
-            (self.array.loc[dict(parameter="electric utility factor",
-                                 powertrain=["PHEV-e"])] *
-             self.energy.loc[dict(parameter=["motive energy",
-                                             "auxiliary energy",
-                                             "recuperated energy"],
-                                  powertrain=["PHEV-e"])]
-             ).values.transpose(0, 1, 4, 2, 3, 5)\
-            + (
-                    (1 - self.array.loc[dict(parameter="electric utility factor",
-                                 powertrain="PHEV-e")]) *
-             self.energy.loc[dict(parameter=["motive energy",
-                                             "auxiliary energy",
-                                             "recuperated energy"],
-                                  powertrain=["PHEV-c-p", "PHEV-c-d"])]
-             ).values.transpose(0, 3, 4, 1, 2, 5)
+            self.energy.loc[dict(parameter=["motive energy",
+                                            "auxiliary energy",
+                                            "recuperated energy"],
+                                 powertrain=["PHEV-p", "PHEV-d"])] = \
+                (self.array.loc[dict(parameter="electric utility factor",
+                                     powertrain=["PHEV-e"])] *
+                 self.energy.loc[dict(parameter=["motive energy",
+                                                 "auxiliary energy",
+                                                 "recuperated energy"],
+                                      powertrain=["PHEV-e"])]
+                 ).values.transpose(0, 1, 4, 2, 3, 5)\
+                + (
+                        (1 - self.array.loc[dict(parameter="electric utility factor",
+                                     powertrain="PHEV-e")]) *
+                 self.energy.loc[dict(parameter=["motive energy",
+                                                 "auxiliary energy",
+                                                 "recuperated energy"],
+                                      powertrain=["PHEV-c-p", "PHEV-c-d"])]
+                 ).values.transpose(0, 3, 4, 1, 2, 5)
 
     def set_battery_properties(self):
-        pt_list = ["ICEV-p", "HEV-p", "HEV-d", "ICEV-g", "ICEV-d"]
+        pt_list = [pt for pt in ["ICEV-p", "HEV-p", "HEV-d", "ICEV-g", "ICEV-d"]
+                    if pt in self.array.coords["powertrain"].values]
         self.array.loc[:, pt_list, "battery power"] = self.array.loc[
             :, pt_list, "electric power"
         ]
@@ -607,7 +629,9 @@ class CarModel:
             :, pt_list, "battery cell mass",
         ] * (1 - self.array.loc[:, pt_list, "battery cell mass share", :, :])
 
-        list_pt_el = ["BEV", "PHEV-c-p", "PHEV-c-d", "PHEV-e"]
+        list_pt_el = [pt for pt in ["BEV", "PHEV-c-p", "PHEV-c-d", "PHEV-e"]
+                    if pt in self.array.coords["powertrain"].values]
+
         self.array.loc[:, list_pt_el, "battery cell mass"] = (
             self.array.loc[:, list_pt_el, "energy battery mass"]
             * self.array.loc[:, list_pt_el, "battery cell mass share"]
@@ -619,7 +643,7 @@ class CarModel:
 
     def set_range(self):
 
-        list_pt = [
+        list_pt = [pt for pt in [
             "ICEV-p",
             "HEV-p",
             "HEV-d",
@@ -629,25 +653,32 @@ class CarModel:
             "ICEV-g",
             "FCEV",
         ]
+                    if pt in self.array.coords["powertrain"].values]
+
+        list_pt_el = [pt for pt in ["BEV", "PHEV-e"]
+                   if pt in self.array.coords["powertrain"].values]
+
         fuel_mass = self.array.loc[:, list_pt, "fuel mass"]
         lhv = self.array.loc[:, list_pt, "LHV fuel MJ per kg"]
 
-        energy_stored = self.array.loc[:, ["BEV", "PHEV-e"], "electric energy stored"]
-        battery_DoD = self.array.loc[:, ["BEV", "PHEV-e"], "battery DoD"]
+        energy_stored = self.array.loc[:, list_pt_el, "electric energy stored"]
+        battery_DoD = self.array.loc[:, list_pt_el, "battery DoD"]
 
-        TtW_el = self.array.loc[:, ["BEV", "PHEV-e"], "TtW energy"]
+        TtW_el = self.array.loc[:, list_pt_el, "TtW energy"]
         TtW = self.array.loc[:, list_pt, "TtW energy"]
 
         self.array.loc[:, list_pt, "range"] = ne.evaluate(
             "(fuel_mass * lhv * 1000) / TtW"
         )
-        self.array.loc[:, ["BEV", "PHEV-e"], "range"] = ne.evaluate(
+        self.array.loc[:, list_pt_el, "range"] = ne.evaluate(
             "(energy_stored * battery_DoD * 3.6 * 1000) / TtW_el"
         )
 
     def set_energy_stored_properties(self):
 
-        list_combustion = ["ICEV-p", "HEV-p", "HEV-d", "PHEV-c-p", "PHEV-c-d", "ICEV-d"]
+        list_combustion = [pt for pt in ["ICEV-p", "HEV-p", "HEV-d", "PHEV-c-p", "PHEV-c-d", "ICEV-d"]
+                    if pt in self.array.coords["powertrain"].values]
+
         self.array.loc[:, list_combustion, "oxidation energy stored"] = (
             self.array.loc[:, list_combustion, "fuel mass"]
             * self.array.loc[:, list_combustion, "LHV fuel MJ per kg"]
@@ -658,35 +689,38 @@ class CarModel:
             * self.array.loc[:, list_combustion, "fuel tank mass per energy"]
         )
 
-        self.array.loc[:, "ICEV-g", "oxidation energy stored"] = (
-            self.array.loc[:, "ICEV-g", "fuel mass"]
-            * self.array.loc[:, "ICEV-g", "LHV fuel MJ per kg"]
-            / 3.6
-        )
+        if "ICEV-g" in self.array.coords["powertrain"].values:
+            self.array.loc[:, "ICEV-g", "oxidation energy stored"] = (
+                self.array.loc[:, "ICEV-g", "fuel mass"]
+                * self.array.loc[:, "ICEV-g", "LHV fuel MJ per kg"]
+                / 3.6
+            )
 
-        self.array.loc[:, "ICEV-g", "fuel tank mass"] = (
-            self.array.loc[:, "ICEV-g", "oxidation energy stored"]
-            * self.array.loc[:, "ICEV-g", "CNG tank mass slope"]
-            + self.array.loc[:, "ICEV-g", "CNG tank mass intercept"]
-        )
+            self.array.loc[:, "ICEV-g", "fuel tank mass"] = (
+                self.array.loc[:, "ICEV-g", "oxidation energy stored"]
+                * self.array.loc[:, "ICEV-g", "CNG tank mass slope"]
+                + self.array.loc[:, "ICEV-g", "CNG tank mass intercept"]
+            )
 
         for pt in self.battery:
-            with self(pt) as cpm:
-                cpm["electric energy stored"] = (
-                    cpm["battery cell mass"] * cpm["battery cell energy density"]
-                )
+            if pt in self.array.coords["powertrain"].values:
+                with self(pt) as cpm:
+                    cpm["electric energy stored"] = (
+                        cpm["battery cell mass"] * cpm["battery cell energy density"]
+                    )
 
         for pt in self.electric_hybrid:
-            with self(pt) as cpm:
-                cpm["electric energy stored"] = (
-                    cpm["battery cell mass"] * cpm["battery cell energy density"]
-                )
-                cpm["fuel tank mass"] = (
-                    cpm["fuel mass"]
-                    * cpm["LHV fuel MJ per kg"]
-                    / 3.6
-                    * cpm["fuel tank mass per energy"]
-                )
+            if pt in self.array.coords["powertrain"].values:
+                with self(pt) as cpm:
+                    cpm["electric energy stored"] = (
+                        cpm["battery cell mass"] * cpm["battery cell energy density"]
+                    )
+                    cpm["fuel tank mass"] = (
+                        cpm["fuel mass"]
+                        * cpm["LHV fuel MJ per kg"]
+                        / 3.6
+                        * cpm["fuel tank mass per energy"]
+                    )
 
         # kWh electricity/kg battery cell
         self["battery cell production energy electricity share"] = self[
@@ -733,8 +767,9 @@ class CarModel:
 
         # For battery, need to divide cost of electricity in battery by efficiency of charging
         for pt in self.battery:
-            with self(pt):
-                self["energy cost"] /= self["battery charge efficiency"]
+            if pt in self.array.coords["powertrain"].values:
+                with self(pt):
+                    self["energy cost"] /= self["battery charge efficiency"]
 
         self["component replacement cost"] = (
             self["energy battery cost"] * self["battery lifetime replacements"]
@@ -962,17 +997,27 @@ class CarModel:
             "noise, octave 8, day time, rural",
         ]
 
+
+
         self.array.loc[
-            :, list(self.combustion), list_noise_emissions, :, :
+            :, [pt for pt in list(self.combustion)
+                if pt in self.array.coords["powertrain"].values],
+            list_noise_emissions, :, :
         ] = nem.get_sound_power_per_compartment("combustion").reshape((24, 1, 1))
+
         self.array.loc[
-            :, list(self.electric), list_noise_emissions, :, :
+            :, [pt for pt in list(self.electric)
+                if pt in self.array.coords["powertrain"].values], list_noise_emissions, :, :
         ] = nem.get_sound_power_per_compartment("electric").reshape((24, 1, 1))
+
         self.array.loc[
-            :, list(self.fuel_cell), list_noise_emissions, :, :
+            :, [pt for pt in list(self.fuel_cell)
+                if pt in self.array.coords["powertrain"].values], list_noise_emissions, :, :
         ] = nem.get_sound_power_per_compartment("electric").reshape((24, 1, 1))
+
         self.array.loc[
-            :, ["HEV-p", "HEV-d"], list_noise_emissions, :, :
+            :, [pt for pt in ["HEV-p", "HEV-d"]
+                if pt in self.array.coords["powertrain"].values], list_noise_emissions, :, :
         ] = nem.get_sound_power_per_compartment("hybrid").reshape((24, 1, 1))
 
     def calculate_cost_impacts(self, sensitivity=False, scope=None):
