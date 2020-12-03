@@ -582,7 +582,7 @@ class CarModel:
         """ PHEV-p/d is the range-weighted average between PHEV-c-p/PHEV-c-d and PHEV-e.
         """
 
-        if "PHEV-e" in self.array.coords["powertrain"].values:
+        if "PHEV-d" in self.array.coords["powertrain"].values:
 
             self.array.loc[:, "PHEV-d", :, :, :] = (
                 self.array.loc[:, "PHEV-e", :, :, :]
@@ -591,6 +591,33 @@ class CarModel:
                 self.array.loc[:, "PHEV-c-d", :, :, :]
                 * (1 - self.array.loc[:, "PHEV-e", "electric utility factor", :, :])
             )
+
+            self.array.loc[dict(parameter="electric utility factor",
+                                powertrain=["PHEV-d"])] = \
+                self.array.loc[dict(parameter="electric utility factor",
+                                    powertrain=["PHEV-e"])].values
+
+            self.energy.loc[dict(parameter=["motive energy",
+                                            "auxiliary energy",
+                                            "recuperated energy"],
+                                 powertrain=["PHEV-d"])] = \
+                (self.array.loc[dict(parameter="electric utility factor",
+                                     powertrain=["PHEV-e"])] *
+                 self.energy.loc[dict(parameter=["motive energy",
+                                                 "auxiliary energy",
+                                                 "recuperated energy"],
+                                      powertrain=["PHEV-e"])]
+                 ).values.transpose(0, 1, 4, 2, 3, 5) \
+                + (
+                        (1 - self.array.loc[dict(parameter="electric utility factor",
+                                                 powertrain="PHEV-e")]) *
+                        self.energy.loc[dict(parameter=["motive energy",
+                                                        "auxiliary energy",
+                                                        "recuperated energy"],
+                                             powertrain=["PHEV-c-d"])]
+                ).values.transpose(0, 3, 4, 1, 2, 5)
+
+        if "PHEV-p" in self.array.coords["powertrain"].values:
 
             self.array.loc[:, "PHEV-p", :, :, :] = (
                 self.array.loc[:, "PHEV-e", :, :, :]
@@ -601,7 +628,7 @@ class CarModel:
             )
 
             self.array.loc[dict(parameter="electric utility factor",
-                                powertrain=["PHEV-p", "PHEV-d"])] = \
+                                powertrain=["PHEV-p"])] = \
                 self.array.loc[dict(parameter="electric utility factor",
                                     powertrain=["PHEV-e"])].values
 
@@ -609,7 +636,7 @@ class CarModel:
             self.energy.loc[dict(parameter=["motive energy",
                                             "auxiliary energy",
                                             "recuperated energy"],
-                                 powertrain=["PHEV-p", "PHEV-d"])] = \
+                                 powertrain=["PHEV-p"])] = \
                 (self.array.loc[dict(parameter="electric utility factor",
                                      powertrain=["PHEV-e"])] *
                  self.energy.loc[dict(parameter=["motive energy",
@@ -623,7 +650,7 @@ class CarModel:
                  self.energy.loc[dict(parameter=["motive energy",
                                                  "auxiliary energy",
                                                  "recuperated energy"],
-                                      powertrain=["PHEV-c-p", "PHEV-c-d"])]
+                                      powertrain=["PHEV-c-p"])]
                  ).values.transpose(0, 3, 4, 1, 2, 5)
 
     def set_battery_properties(self):

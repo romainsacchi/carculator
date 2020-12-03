@@ -45,6 +45,18 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
         if "year" not in scope:
             scope["year"] = cip.years
 
+    # Make sure to include PHEV-e and PHEV-c-p/d if
+    # PHEV-d or PHEV-p are listed
+
+    if "PHEV-p" in scope["powertrain"]:
+        for pt in ["PHEV-e", "PHEV-c-p"]:
+            if pt not in scope["powertrain"]:
+                scope["powertrain"].append(pt)
+
+    if "PHEV-d" in scope["powertrain"]:
+        for pt in ["PHEV-e", "PHEV-c-d"]:
+            if pt not in scope["powertrain"]:
+                scope["powertrain"].append(pt)
 
     # Check whether the argument passed is a cip object
     if not isinstance(cip, c_i_p):
