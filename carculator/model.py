@@ -1082,12 +1082,7 @@ class CarModel:
             scope["size"] = self.array.coords["size"].values.tolist()
             scope["powertrain"] = self.array.coords["powertrain"].values.tolist()
             scope["year"] = self.array.coords["year"].values.tolist()
-        else:
-            scope["size"] = scope.get("size", self.array.coords["size"].values.tolist())
-            scope["powertrain"] = scope.get(
-                "powertrain", self.array.coords["powertrain"].values.tolist()
-            )
-            scope["year"] = scope.get("year", self.array.coords["year"].values.tolist())
+       
 
         list_cost_cat = ["purchase", "maintenance", "component replacement", "energy", "total"]
 
