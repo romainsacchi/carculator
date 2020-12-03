@@ -112,7 +112,7 @@ class CarModel:
         else:
             return super().__getattr__(key)
 
-    def set_all(self, drop_hybrids=True):
+    def set_all(self, drop_hybrids=True, electric_utility_factor=None):
         """
         This method runs a series of other methods to obtain the tank-to-wheel energy requirement, efficiency
         of the car, costs, etc.
@@ -122,6 +122,12 @@ class CarModel:
         `combustion engine mass` and `electric engine mass`, and `power` is a function of `curb_mass`.
         The current solution is to loop through the methods until the increment in driving mass is
         inferior to 0.1%.
+
+        :param drop_hybrids: boolean. True by default. If False, the underlying vehicles used to build plugin-hybrid
+                vehicles remain present in the array.
+        :param electric_utility_factor: array. If an array is passed, its values are used to override the
+                electric utility factor for plugin hybrid vehicles. If not, this factor is calculated using a relation
+                described in `set_electric_utility_factor()`
 
         :returns: Does not return anything. Modifies ``self.array`` in place.
 
@@ -152,7 +158,7 @@ class CarModel:
         self.calculate_ttw_energy()
         self.adjust_cost()
         self.set_range()
-        self.set_electric_utility_factor()
+        self.set_electric_utility_factor(electric_utility_factor)
         self.set_electricity_consumption()
         self.set_costs()
         self.set_hot_emissions()
@@ -558,17 +564,26 @@ class CarModel:
             + self["powertrain fixed mass"]
         )
 
-    def set_electric_utility_factor(self):
+    def set_electric_utility_factor(self, uf=None):
+        """ Set the electric utility factor according to a study from Plötz et al. 2017
+            which correlated the share of km driven in electric-mode to the capacity of the battery.
+            The argument `uf` is used to override this relation, if needed.
+            `uf` must be a ratio between 0 and 1, for each."""
         if "PHEV-e" in self.array.coords["powertrain"].values:
             with self("PHEV-e") as cpm:
-                cpm["electric utility factor"] = (
-                    1 - np.exp(-0.01147 * cpm["range"])
-                ) ** 1.186185
+                if uf is None:
+                    cpm["electric utility factor"] = (
+                        1 - np.exp(-0.01147 * cpm["range"])
+                    ) ** 1.186185
+                else:
+                    cpm["electric utility factor"] = np.array(uf).reshape([1, -1, 1])
 
     def create_PHEV(self):
         """ PHEV-p/d is the range-weighted average between PHEV-c-p/PHEV-c-d and PHEV-e.
         """
+
         if "PHEV-e" in self.array.coords["powertrain"].values:
+
             self.array.loc[:, "PHEV-d", :, :, :] = (
                 self.array.loc[:, "PHEV-e", :, :, :]
                 * self.array.loc[:, "PHEV-e", "electric utility factor", :, :]
@@ -576,6 +591,7 @@ class CarModel:
                 self.array.loc[:, "PHEV-c-d", :, :, :]
                 * (1 - self.array.loc[:, "PHEV-e", "electric utility factor", :, :])
             )
+
             self.array.loc[:, "PHEV-p", :, :, :] = (
                 self.array.loc[:, "PHEV-e", :, :, :]
                 * self.array.loc[:, "PHEV-e", "electric utility factor", :, :]
