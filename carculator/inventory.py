@@ -2128,6 +2128,7 @@ class InventoryCalculation:
                 .values
                 for y, year in enumerate(self.scope["year"])
             ]
+
         return np.clip(mix, 0, 1)/np.clip(mix, 0, 1).sum(axis=1)[:, None]
 
     def define_renewable_rate_in_mix(self):

@@ -88,7 +88,11 @@ def extract_biofuel_shares_from_REMIND(fp, remind_region, years, allocate_all_sy
     new_df = new_df.rename(columns={"Variable": "fuel_type"})
     new_df = new_df.groupby("fuel_type").sum()
 
-    return new_df.to_xarray().to_array().interp(variable=years)
+    arr = new_df.to_xarray().to_array().interp(variable=years, kwargs={"fill_value": "extrapolate"})
+
+    arr = np.clip(arr, 0, 1)
+
+    return arr
 
 def extract_electricity_mix_from_REMIND_file(fp, remind_region, years):
     """
@@ -170,7 +174,11 @@ def extract_electricity_mix_from_REMIND_file(fp, remind_region, years):
 
     df = df.groupby("Variable").sum().loc[list_tech]
 
-    return df.to_xarray().to_array().interp(variable=years).values
+    arr = df.to_xarray().to_array().interp(variable=years, kwargs={"fill_value": "extrapolate"}).values
+
+    arr = np.clip(arr, 0, 1)
+
+    return arr
 
 def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020, normalized=True):
     """
@@ -307,16 +315,29 @@ def create_fleet_composition_from_REMIND_file(fp, remind_region, fleet_year=2020
     # Distribute the transport demand of 2010 to anterior years
 
     distr_km = {
-        2010: .25,
+        # EURO 4 - 60%
+        2010: .15,
         2009: .15,
-        2008: .15,
-        2007: .15,
-        2006: .15,
-        2005: .15
+        2008: .10,
+        2007: .10,
+        2006: .10,
+        # EURO 3 - 25%
+        2005: .05,
+        2004: .05,
+        2003: .05,
+        2002: .05,
+        2001: .05,
+        # EURO 2 - 10%
+        2000: .025,
+        1999: .025,
+        1998: .025,
+        1997: .025,
+        # EURO 1 - 5%
+        1996: .05
     }
 
     new_df = pd.DataFrame()
-    for y in range(2010, 2004, -1):
+    for y in range(2010, 1995, -1):
         temp_df = df.loc[df["vintage_year"] == 2010]
         temp_df["vintage_year"] = y
         temp_df["vintage_demand_vkm"] *= distr_km[y]
