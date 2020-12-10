@@ -262,7 +262,7 @@ Tank-to-wheel energy consumption
 The `tank-to-wheel` energy consumption is the sum of:
 
 * the `motive energy` needed to move the vehicle over 1 km
-* the `auxilliary` energy needed to operate onboard equipment as well as to provide heating and cooling over 1 km
+* the `auxilliary` energy needed to operate on-board equipment as well as to provide heating and cooling over 1 km
 
 Motive energy
 -------------
@@ -348,6 +348,10 @@ How can I add a road gradient?
 
 By default, the vehicles are compared based on a driving cycle on a flat road.
 
+It is however possible to pass a gradient series (which must provide a gradient degree for each second of
+the driving cycle) to the energy model::
+
+    cm = CarModel(arr, gradient=gradient)
 
 
 Auxilliary energy
@@ -557,6 +561,17 @@ Carbon dioxide emissions from fuel combustion are calculated based on the fuel b
 
 This is calculated for every fuel type found in the blend (primary and secondary fuel).
 
+Sulfur dioxide emissions are calculated based on the fuel consumption and the sulfur content of the fuel. The sulfur
+content of the fuel is defined for over 90 countries. It is assumed that countries which currently have a fuel with
+a high sulfur content will have it down to 50 ppm by 2050. The past and current sulfur content in fuels for European
+countries in provided by the `Handbook Emission Factors for Road Transport <https://www.hbefa.net/e/index.html>`_.
+For other countries, it is provided by `Xier et al. 2020 <https://doi.org/10.1007/s11783-016-0859-5>`_.
+
+This maps shows the sulfur content the model considers in 2020 for on-road diesel fuel.
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/diesel_sulfur_map.png
+    :width: 900
+    :alt: Sulfur content in on-road diesel fuel in 2020
+
 Other emissions based on fuel combustion are considered, from Spielmann et al., Transport Services Data v.2 (2007).
 However those only apply when conventional diesel or conventional gasoline is burnt:
 
@@ -584,18 +599,23 @@ Hot pollutants emissions
 * Dinitrogen oxide
 * Ammonia
 * Benzene
+* Xylene
+* Toluene
+* Formaldehyde
+* Acetyldehyde
 
-It does so by correlating the emission of a substance at a given speed and the speed given for each second of the driving cycle.
 
-The emission of substances function of the speed level is sourced from the
+It does so by correlating the emission of a substance with teh fuel consumption of the vehiclea for each second of the driving cycle.
+
+The emission of substances function of the fuel consumption is sourced from the
 `Handbook Emission Factors for Road Transport <https://www.hbefa.net/e/index.html>`_ for vehicles of various emission
 standards (from Euro-0 to Euro-6d).
 
-Here is such correlation plotted for gasoline-run vehicles with a Euro-6d emission standard:
+Here is such correlation (g of pollutant emitted versus MJ of energy consumed) plotted for diesel-run vehicles:
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/hbefa_petrol_euro6d.png
     :width: 900
-    :alt: Substance emission versus speed, petrol, Euro-6d
+    :alt: Substance emission versus energy consumption, diesel
 
 Given the years selected, the corresponding emission factors are chosen:
 
@@ -605,7 +625,11 @@ Given the years selected, the corresponding emission factors are chosen:
 * between 2001 and 2005: Euro-3
 * between 2006 and 2010: Euro-4
 * between 2011 and 2014: Euro-5
-* above 2015: Euro-6
+* between 2015 and 2017: Euro-6-ab
+* between 2017 and 2019: Euro-6-c
+* between 2019 and 2020: Euro-6-d-temp
+* 2020 and beyond: Euro-6-d
+
 
 Emissions are summed over the duration of the driving cycle. Furthermore, some driving cycles have distinct parts
 corresponding to different driving environments: urban, suburban, highway, etc. These driving environments are used
@@ -627,7 +651,7 @@ driven to obtain the noise power par km driven (joules/km), for each octave.
 
 Noise emissions are further compartmented into urban, sub-urban and rural geographical environments based on speed
 intervals given by the driving cycle.
-The study from  `Cucurachi et al. 2014 <https://www.ncbi.nlm.nih.gov/pubmed/24035845>`_ is used to characterize noise
+The study from `Cucurachi et al. 2014 <https://www.ncbi.nlm.nih.gov/pubmed/24035845>`_ is used to characterize noise
 emissions against midpoint and endpoint indicators, expressed in Person-Pascal-second and DALYs, respectively.
 
 Overall, propulsion noise emissions dominate in urban environments, thereby justifying the use of electric cars in that
@@ -636,6 +660,8 @@ regard. In sub-urban and rural environments, rolling noise emissions dominate ab
 It is important to note that although **carculator** differentiates noise coefficients by powertrain
 (internal combustion engine, electric and hybrid), it is not possible to differentiate them by size class.
 Therefore, the noise produced by a `small` vehicle will be similar to that produced by a `large` vehicle.
+
+Finally, the noise coefficients used correspond to day time exposure only.
 
 
 Vehicle inventory
