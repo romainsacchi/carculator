@@ -4531,11 +4531,11 @@ class InventoryCalculation:
                 # Fuel-based CO2 emission from conventional petrol
                 if self.fuel_blends["petrol"]["primary"]["type"] == "petrol":
                     share_fossil += self.fuel_blends["petrol"]["primary"]["share"][y]
-                    CO2_fossil = self.fuel_blends["petrol"]["primary"]["CO2"]
+                    CO2_fossil += self.fuel_blends["petrol"]["primary"]["CO2"]
 
                 if self.fuel_blends["petrol"]["secondary"]["type"] == "petrol":
                     share_fossil += self.fuel_blends["petrol"]["secondary"]["share"][y]
-                    CO2_fossil = self.fuel_blends["petrol"]["secondary"]["CO2"]
+                    CO2_fossil += self.fuel_blends["petrol"]["secondary"]["CO2"]
 
                 if "tertiary" in self.fuel_blends["petrol"]:
                     if self.fuel_blends["petrol"]["tertiary"]["type"] == "petrol":

@@ -116,7 +116,7 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
             dims=["size", "powertrain", "parameter", "year", "value"],
         )
 
-    size_dict = {k: i for i, k in enumerate(scope["year"])}
+    size_dict = {k: i for i, k in enumerate(scope["size"])}
     powertrain_dict = {k: i for i, k in enumerate(scope["powertrain"])}
     year_dict = {k: i for i, k in enumerate(scope["year"])}
     parameter_dict = {k: i for i, k in enumerate(cip.parameters)}
