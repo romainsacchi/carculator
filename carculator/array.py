@@ -31,6 +31,12 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
 
     """
 
+    # Check whether the argument passed is a cip object
+    if not isinstance(cip, c_i_p):
+        raise TypeError(
+            "The argument passed is not an object of the CarInputParameter class"
+        )
+
     if scope is None:
         scope = {
             "size": cip.sizes,
@@ -58,11 +64,7 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
             if pt not in scope["powertrain"]:
                 scope["powertrain"].append(pt)
 
-    # Check whether the argument passed is a cip object
-    if not isinstance(cip, c_i_p):
-        raise TypeError(
-            "The argument passed is not an object of the CarInputParameter class"
-        )
+
 
     if any(s for s in scope["size"] if s not in cip.sizes):
         raise ValueError(
