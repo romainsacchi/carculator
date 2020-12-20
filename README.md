@@ -64,16 +64,16 @@ In the research field of mobility, LCA is widely used to investigate the superio
 ``carculator`` is at an early stage of development and is subject to continuous change and improvement.
 Three ways of installing ``carculator`` are suggested.
 
-We recommend the installation on **Python 3.7**.
+We recommend the installation on **Python 3.7 or above**.
 
-### Installation of a stable release (1.0.0) from Pypi
+### Installation of the latest version, using conda
+
+    conda install -c romainsacchi carculator
+
+### Installation of a stable release (1.3.1) from Pypi
 
     pip install carculator
     
-### Installation of a development version from GitHub
-
-    pip install git+https://github.com/romainsacchi/carculator.git
-
 
 ## Usage
 
