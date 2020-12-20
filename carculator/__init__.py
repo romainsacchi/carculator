@@ -22,8 +22,8 @@ __all__ = (
     "ExportInventory",
     "InternalNoiseModel",
     "create_fleet_composition_from_REMIND_file",
-    "extract_electricity_mix_from_REMIND_file",
-    "extract_biofuel_shares_from_REMIND"
+    "extract_electricity_mix_from_IAM_file",
+    "extract_biofuel_shares_from_IAM"
 )
 __version__ = (1, 3, 0)
 
@@ -45,5 +45,5 @@ from .model import CarModel
 from .inventory import InventoryCalculation
 from .background_systems import BackgroundSystemModel
 from .export import ExportInventory
-from .utils import (create_fleet_composition_from_REMIND_file, extract_electricity_mix_from_REMIND_file,
-                    extract_biofuel_shares_from_REMIND)
+from .utils import (create_fleet_composition_from_REMIND_file, extract_electricity_mix_from_IAM_file,
+                    extract_biofuel_shares_from_IAM)

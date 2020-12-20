@@ -1,5 +1,4 @@
 from . import DATA_DIR
-import sys
 import glob
 from .background_systems import BackgroundSystemModel
 from .export import ExportInventory
@@ -7,12 +6,11 @@ from inspect import currentframe, getframeinfo
 from pathlib import Path
 from scipy import sparse
 import csv
-import itertools
-import numexpr as ne
+from .utils import build_fleet_array
 import numpy as np
 import xarray as xr
-import pandas as pd
 import itertools
+from .geomap import Geomap
 
 REMIND_FILES_DIR = DATA_DIR / "IAM"
 
@@ -218,12 +216,30 @@ class InventoryCalculation:
 
         self.scope = scope
         self.scenario = scenario
+        self.geo = Geomap()
 
         # Check if a fleet composition is specified
         if "fleet" in self.scope["fu"]:
-            # check if a path is provided
-            if isinstance(self.scope["fu"]["fleet"], str):
-                fp = Path(self.scope["fu"]["fleet"])
+
+            if isinstance(self.scope["fu"]["fleet"], xr.DataArray):
+                self.fleet = self.scope["fu"]["fleet"]
+            else:
+
+                # check if a path as string is provided
+                if isinstance(self.scope["fu"]["fleet"], str):
+                    fp = Path(self.scope["fu"]["fleet"])
+
+                # check if instance of pathlib is provided instead
+                elif isinstance(self.scope["fu"]["fleet"], Path):
+                    fp = self.scope["fu"]["fleet"]
+
+                else:
+                    raise TypeError(
+                        "The format used to specify fleet compositions is not valid."
+                        "A file path that points to a CSV file is expected. "
+                        "Or an array of type xarray.DataArray."
+                    )
+
 
                 if not fp.is_file():
                     raise FileNotFoundError(
@@ -235,17 +251,8 @@ class InventoryCalculation:
                         "A CSV file is expected to build the fleet composition."
                     )
 
-                self.fleet = self.build_fleet_array(fp)
+                self.fleet = build_fleet_array(fp, self.scope)
 
-            else:
-                if isinstance(self.scope["fu"]["fleet"], xr.DataArray):
-                    self.fleet = self.scope["fu"]["fleet"]
-                else:
-                    raise TypeError(
-                        "The format used to specify fleet compositions is not valid."
-                        "A file path that points to a CSV file is expected. "
-                        "Or an array of type xarray.DataArray."
-                    )
         else:
             self.fleet = None
 
@@ -790,70 +797,7 @@ class InventoryCalculation:
         """
         return self.temp_array.sel(parameter=key)
 
-    def build_fleet_array(self, fp):
-        """
-        Receives a file path that points to a CSV file that contains the fleet composition
-        Checks that the fleet composition array is valid.
 
-        Specifically:
-
-        * the years specified in the fleet must be present in scope["year"]
-        * the powertrains specified in the fleet must be present in scope["powertrain"]
-        * the sizes specified in the fleet must be present in scope["size"]
-        * the sum for each year-powertrain-size set must equal 1
-
-        :param fp: filepath to an array that contains fleet composition
-        :type fp: str
-        :return array: fleet composition array
-        :rtype array: xarray.DataArray
-        """
-        arr = pd.read_csv(fp, delimiter=";", header=0, index_col=[0, 1, 2])
-        arr = arr.fillna(0)
-        arr.columns = [int(c) for c in arr.columns]
-
-        new_cols = [c for c in self.scope["year"] if c not in arr.columns]
-        arr[new_cols] = pd.DataFrame([[0] * len(new_cols)], index=arr.index)
-
-        a = [self.scope["powertrain"]] + [self.scope["size"]] + [self.scope["year"]]
-
-        for row in [i for i in list(itertools.product(*a)) if i not in arr.index]:
-            arr.loc[row] = 0
-
-        array = arr.to_xarray()
-        array = array.rename(
-            {"level_0": "powertrain", "level_1": "size", "level_2": "vintage_year"}
-        )
-
-        if not set(list(array.data_vars)).issubset(self.scope["year"]):
-            raise ValueError(
-                "The fleet years differ from {}".format(self.scope["year"])
-            )
-
-        if set(self.scope["year"]) != set(array.coords["vintage_year"].values.tolist()):
-            raise ValueError(
-                "The list of vintage years differ from {}.".format(self.scope["year"])
-            )
-
-        if not set(array.coords["powertrain"].values.tolist()).issubset(
-            self.scope["powertrain"]
-        ):
-            raise ValueError(
-                "The fleet powertrain list differs from {}".format(
-                    self.scope["powertrain"]
-                )
-            )
-
-        if not set(array.coords["size"].values.tolist()).issubset(self.scope["size"]):
-            raise ValueError(
-                "The fleet size list differs from {}".format(self.scope["size"])
-            )
-
-        # try:
-        #    assert np.allclose(array.sum(dim=["vintage_year", "powertrain", "size"]).to_array(), np.ones_like(array.sum().to_array()))
-        # except AssertionError:
-        #    raise AssertionError("The sums of vehicle shares year-wise are not equal to 1.")
-
-        return array.to_array().fillna(0)
 
     def get_results_table(self, split, sensitivity=False):
         """
@@ -1676,6 +1620,14 @@ class InventoryCalculation:
                 and set(items_to_look_for_also).intersection(v)
             ]
 
+    def remove_electricity_input_in_fuel_supply_datasets(self):
+        """
+        If the inventories are exported and are meant to link with a database
+        that already has datasets for synthetic fuels, we need to remove the electricity
+        input in the fuel supply dataset, otherwise, there'd be double accounting.
+        :return:
+        """
+
     def get_index_of_flows(self, items_to_look_for, search_by="name"):
         """
         Return list of row/column indices of self.A of labels that contain the string defined in `items_to_look_for`.
@@ -1714,7 +1666,7 @@ class InventoryCalculation:
         :param presamples: boolean.
         :param ecoinvent_compatibility: bool. If True, compatible with ecoinvent. If False, compatible with REMIND-ecoinvent.
         :param ecoinvent_version: str. "3.5", "3.6" or "uvek"
-        :param create_vehicle_datasets: bool. Whether vehicles datasets should be created too.
+        :param create_vehicle_datasets: bool. Whether vehicles datasets (as structured in ecoinvent) should be created too.
         :return: inventory, and optionally, list of arrays containing pre-sampled values.
         :rtype: list
         """
@@ -2844,48 +2796,70 @@ class InventoryCalculation:
         """
 
         list_fuels = [
-            "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
-            "Hydrogen, gaseous, 700 bar, ATR of NG, at H2 fuelling station",
-            "Hydrogen, gaseous, 700 bar, ATR of NG, with CCS, at H2 fuelling station",
-            "Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station",
-            "Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station",
-            "Hydrogen, gaseous, 700 bar, from ATR of biogas, at H2 fuelling station",
-            "Hydrogen, gaseous, 700 bar, from ATR of biogas with CCS, at H2 fuelling station",
-            "CO2 storage/at H2 production plant, pre, pipeline 200km, storage 1000m",
-            "Hydrogen, gaseous, 700 bar, from coal gasification, at H2 fuelling station",
-            "Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant",
-            "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at H2 fuelling station",
-            "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at H2 fuelling station",
-            "Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant",
-            "Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass, at gasification plant",
-            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling station",
-            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at gasification plant",
-            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling station",
-            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at gasification plant",
-            "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at H2 fuelling station",
-            "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at H2 fuelling station",
-            "Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant",
-            "Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass, at gasification plant",
-            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling plant",
-            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at gasification plant",
-            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling plant",
-            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at gasification plant",
-            "biomethane from biogas upgrading - biowaste - amine scrubbing",
-            "biogas upgrading - sewage sludge - amine scrubbing - best"
-            "SMR NG + CCS (MDEA), 98 (average), 700 bar",
-            "SMR NG, 700 bar",
+            "Hydrogen, gaseous, 700 bar",
+            "Hydrogen, gaseous, 25 bar, from electrolysis",
+            "Gasoline production, synthetic, from methanol",
             "Diesel production, synthetic, Fischer Tropsch process",
             "Syngas, RWGS, Production",
-            "Gasoline production, synthetic, from methanol",
-            "Methanol Synthesis",
-            "carbon dioxide, captured from atmosphere",
         ]
 
-        fuels_ind = [f for f in self.inputs if f[0] in list_fuels]
+        fuels_ind = [f for f in self.inputs if any(x in f[0] for x in list_fuels)]
         elec_inputs = [e for e in self.inputs if e[2] == "kilowatt hour"]
 
         self.A[:, elec_inputs, fuels_ind] = 0
 
+
+    def get_sulfur_content(self, location, fuel, year):
+        """
+        Return the sulfur content in the fuel.
+        If a region is passed, the average sulfur content over
+        the countries the region contains is returned.
+        :param location: str. A country or region ISO code
+        :param fuel: str. "diesel" or "gasoline
+        :return: float. Sulfur content in ppm.
+        """
+
+        if location in self.bs.sulfur.country.values:
+            sulfur_concentration = (
+                self.bs.sulfur.sel(
+                    country=location, year=year, fuel=fuel
+                )
+                    .sum()
+                    .values
+            )
+        else:
+            # If the geography is in fact a region,
+            # we need to calculate hte average sulfur content
+            # across the region
+
+            list_countries = self.geo.iam_to_ecoinvent_location(self.country)
+            list_countries = [c for c in list_countries
+                              if c in self.bs.sulfur.country.values]
+            if len(list_countries) > 1:
+
+                sulfur_concentration = (
+                    self.bs.sulfur.sel(
+                        country=list_countries,
+                        year=year,
+                        fuel=fuel,
+                    )
+                        .mean()
+                        .values
+                )
+            else:
+
+                # if we do not have the sulfur concentration for the required country, we pick Europe
+                print(
+                    "The sulfur content for {} fuel in {} could not be found. European average sulfur content is used instead.".format(
+                        fuel, location
+                    )
+                )
+                sulfur_concentration = (
+                    self.bs.sulfur.sel(country="RER", year=year, fuel=fuel)
+                        .sum()
+                        .values
+                )
+        return sulfur_concentration
 
     def create_fuel_markets(
         self,
@@ -2911,7 +2885,7 @@ class InventoryCalculation:
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
                 ),
-                "additional electricity": 58,
+                "additional electricity": 58 + 3.2,
             },
             "smr - natural gas": {
                 "name": (
@@ -2920,7 +2894,7 @@ class InventoryCalculation:
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
                 ),
-                "additional electricity": 0,
+                "additional electricity": 3.2,
             },
             "smr - natural gas with CCS": {
                 "name": (
@@ -2929,7 +2903,7 @@ class InventoryCalculation:
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
                 ),
-                "additional electricity": 0,
+                "additional electricity": 3.2,
             },
             "smr - biogas": {
                 "name": (
@@ -2938,7 +2912,7 @@ class InventoryCalculation:
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
                 ),
-                "additional electricity": 0,
+                "additional electricity": 3.2,
             },
             "smr - biogas with CCS": {
                 "name": (
@@ -2947,7 +2921,7 @@ class InventoryCalculation:
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
                 ),
-                "additional electricity": 0,
+                "additional electricity": 3.2,
             },
             "coal gasification": {
                 "name": (
@@ -2956,7 +2930,7 @@ class InventoryCalculation:
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
                 ),
-                "additional electricity": 0,
+                "additional electricity": 3.2,
             },
             "wood gasification": {
                 "name": (
@@ -2965,7 +2939,7 @@ class InventoryCalculation:
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
                 ),
-                "additional electricity": 0,
+                "additional electricity": 3.2,
             },
             "wood gasification with CCS": {
                 "name": (
@@ -2974,7 +2948,7 @@ class InventoryCalculation:
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
                 ),
-                "additional electricity": 0,
+                "additional electricity": 3.2,
             },
             "wood gasification with EF": {
                 "name": (
@@ -2983,7 +2957,7 @@ class InventoryCalculation:
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
                 ),
-                "additional electricity": 0,
+                "additional electricity": 3.2,
             },
             "wood gasification with EF with CCS": {
                 "name": (
@@ -4180,55 +4154,8 @@ class InventoryCalculation:
 
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as concentration ratio
-                if self.country in self.bs.sulfur.country.values:
-                    sulfur_concentration = (
-                        self.bs.sulfur.sel(
-                            country=self.country, year=year, fuel="diesel"
-                        )
-                        .sum()
-                        .values
-                    )
-                else:
-                    d_map_regions = {
-                        "CAZ": "CA",
-                        "CHA": "CN",
-                        "EUR": "FR",
-                        "IND": "IN",
-                        "JPN": "JP",
-                        "LAM": "BR",
-                        "MEA": "EG",
-                        "NEU": "CH",
-                        "OAS": "TH",
-                        "REF": "RU",
-                        "SSA": "ZA",
-                        "USA": "US",
-                        "World": "RER",
-                    }
 
-                    if self.country in d_map_regions:
-
-                        sulfur_concentration = (
-                            self.bs.sulfur.sel(
-                                country=d_map_regions[self.country],
-                                year=year,
-                                fuel="diesel",
-                            )
-                            .sum()
-                            .values
-                        )
-                    else:
-
-                        # if we do not have the sulfur concentration for the required country, we pick Europe
-                        print(
-                            "The sulfur content for diesel fuel in {} could not be found. European average sulfur content is used instead.".format(
-                                self.country
-                            )
-                        )
-                        sulfur_concentration = (
-                            self.bs.sulfur.sel(country="RER", year=year, fuel="diesel")
-                            .sum()
-                            .values
-                        )
+                sulfur_concentration = self.get_sulfur_content(self.country, "diesel", year)
 
                 self.A[
                     :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
@@ -4561,54 +4488,7 @@ class InventoryCalculation:
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as a concentration ratio
 
-                if self.country in self.bs.sulfur.country.values:
-                    sulfur_concentration = (
-                        self.bs.sulfur.sel(
-                            country=self.country, year=year, fuel="petrol"
-                        )
-                        .sum()
-                        .values
-                    )
-                else:
-                    d_map_regions = {
-                        "CAZ": "CA",
-                        "CHA": "CN",
-                        "EUR": "FR",
-                        "IND": "IN",
-                        "JPN": "JP",
-                        "LAM": "BR",
-                        "MEA": "EG",
-                        "NEU": "CH",
-                        "OAS": "TH",
-                        "REF": "RU",
-                        "SSA": "ZA",
-                        "USA": "US",
-                        "World": "RER",
-                    }
-
-                    if self.country in d_map_regions:
-
-                        sulfur_concentration = (
-                            self.bs.sulfur.sel(
-                                country=d_map_regions[self.country],
-                                year=year,
-                                fuel="diesel",
-                            )
-                            .sum()
-                            .values
-                        )
-                    else:
-                        # if we do not have the sulfur concentration for the required country, we pick Europe
-                        print(
-                            "The sulfur content for gasoline fuel in {} could not be found. European average sulfur content is used instead.".format(
-                                self.country
-                            )
-                        )
-                        sulfur_concentration = (
-                            self.bs.sulfur.sel(country="RER", year=year, fuel="petrol")
-                            .sum()
-                            .values
-                        )
+                sulfur_concentration = self.get_sulfur_content(self.country, "petrol", year)
 
                 self.A[
                     :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,

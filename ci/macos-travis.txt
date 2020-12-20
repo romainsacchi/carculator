@@ -9,3 +9,4 @@ pytest
 numexpr
 bw2io
 pycountry
+wurst
