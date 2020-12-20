@@ -27,7 +27,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="carculator",
-    version="1.3.0",
+    version="1.3.1",
     packages=packages,
     author="Romain Sacchi <romain.sacchi@psi.ch>, Chris Mutel <christopher.mutel@psi.ch>",
     license=open("LICENSE").read(),
@@ -43,6 +43,8 @@ setup(
         "pytest",
         "numexpr",
         "bw2io",
+        "pycountry",
+        "wurst"
     ],
     url="https://github.com/romainsacchi/carculator",
     description="Prospective environmental and economic life cycle assessment of vehicles made blazing fast",
