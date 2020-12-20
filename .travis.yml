@@ -15,12 +15,17 @@ before_install:
   https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
   bash miniconda.sh -b -p $HOME/miniconda; export PATH="$HOME/miniconda/bin:$PATH";
   hash -r; conda config --set always_yes yes --set changeps1 no; conda config --append
-  channels conda-forge; conda config --append channels cmutel; conda update conda;
+  channels conda-forge;
+  conda config --append channels cmutel;
+  conda config --append channels haasad;
+  conda config --append channels konstantinstadler;
+  conda update conda;
+  conda config --set channel_priority strict;
   conda info -a; echo $(python --version);
   fi
 install:
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then conda create -n test-environment python=$TRAVIS_PYTHON_VERSION
-  pandas xarray xlrd numpy coveralls klausen numexpr bw2io pycountry wurst;
+  pandas xarray==0.16.2 xlrd==1.2.0 numpy==1.19.4 coveralls klausen==0.1.1 numexpr bw2io==0.7.12 pycountry==20.7.3 wurst==0.2.2;
   source activate test-environment;
   pip3 install -e .;
   pip3 install pytest;
