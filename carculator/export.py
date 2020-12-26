@@ -251,8 +251,6 @@ class ExportInventory:
 
         return dict_uvek
 
-
-
     def write_lci(self, presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities=None):
         """
         Return the inventory as a dictionary
@@ -760,22 +758,36 @@ class ExportInventory:
             dict_tech = {}
             for row in data:
                 name, location, simapro_name = row
-                dict_tech[(name, location)] = simapro_name
+                simapro_name = simapro_name.split("|")[:2]
+                dict_tech[(name, location)] = ("|").join(simapro_name)
 
             headers = [
+
+                "{SimaPro 9.1.1.1}",
+                "{processes}",
+                "{Project: carculator import" + f"{datetime.datetime.today():%d.%m.%Y}" + "}",
+                "{CSV Format version: 9.0.0}",
                 "{CSV separator: Semicolon}",
-                "{CSV Format version: 7.0.0}",
                 "{Decimal separator: .}",
-                "{Date separator: /}",
-                "{Short date format: dd/MM/yyyy}",
+                "{Date separator: .}",
+                "{Short date format: dd.MM.yyyy}",
+                "{Export platform IDs: No}",
+                "{Skip empty fields: No}",
+                "{Convert expressions to constants: No}",
+                "{Selection: Selection(1)}",
+                "{Related objects(system descriptions, substances, units, etc.): Yes}",
+                "{Include sub product stages and processes: Yes}",
             ]
 
             fields = [
                 "Process",
                 "Category type",
+                "Type",
+                "Process name",
                 "Time Period",
                 "Geography",
                 "Technology",
+                "Comment",
                 "Representativeness",
                 "Multiple output allocation",
                 "Substitution allocation",
@@ -783,13 +795,17 @@ class ExportInventory:
                 "Capital goods",
                 "Date",
                 "Boundary with nature",
+                "Infrastructure",
                 "Record",
                 "Generator",
                 "Literature references",
                 "External documents",
+                "Comment",
                 "Collection method",
                 "Data treatment",
                 "Verification",
+                "System description",
+                "Allocation rules",
                 "Products",
                 "Materials/fuels",
                 "Resources",
@@ -810,15 +826,16 @@ class ExportInventory:
                 "kilowatt hour": "kWh",
                 "kilometer": "km",
                 "ton kilometer": "tkm",
-                "megajoule": "mj",
-                "unit": "unit",
+                "megajoule": "MJ",
+                "unit": "p",
                 "square meter": "m2",
-                "kilowatt": "kW",
-                "hour": "h",
+                "kilowatt": "p",
+                "hour": "hr",
                 "square meter-year": "m2a",
                 "meter": "m",
                 "vehicle-kilometer": "vkm",
-                "meter-year": "ma",
+                "person-kilometer": "personkm",
+                "meter-year": "my",
             }
 
             with open(filepath_export, "w", newline="") as csvFile:
@@ -827,11 +844,24 @@ class ExportInventory:
                     writer.writerow([item])
                 writer.writerow([])
 
+                list_own_datasets = []
+
+                database = "carculator import (" + f"{datetime.datetime.today():%d.%m.%Y}" + ")"
+
+                for a in list_act:
+                    list_own_datasets.append(
+                        a["name"].capitalize()
+                        + " {"
+                        + a.get("location", "GLO")
+                        + "}"
+                    )
+
+
                 for a in list_act:
                     for item in fields:
                         writer.writerow([item])
 
-                        if item == "Process":
+                        if item == "Process name":
                             name = (
                                 a["name"].capitalize()
                                 + " {"
@@ -839,6 +869,16 @@ class ExportInventory:
                                 + "}"
                                 + "| Cut-off, U"
                             )
+                            writer.writerow([name])
+
+                        if item == "Type":
+                            writer.writerow(["Unit process"])
+
+                        if item == "Comment":
+                            writer.writerow(self.fetch_comment(e["name"]))
+
+                        if item == "Category type":
+                            name = "transport"
                             writer.writerow([name])
 
                         if item == "Generator":
@@ -849,39 +889,37 @@ class ExportInventory:
 
                         if item == "Time Period":
                             writer.writerow(
-                                [
-                                    "Between 2010 and 2020. Extrapolated to the selected years."
-                                ]
+                                ["Between 2010 and 2020. Extrapolated to the selected years."]
                             )
 
                         if item == "Date":
-                            writer.writerow([str(datetime.date.today())])
+                            writer.writerow([f"{datetime.datetime.today():%d.%m.%Y}"])
 
-                        if item == "Cut off rules":
-                            writer.writerow(["100:0 - polluter pays-principle."])
+                        if item in ("Cut off rules",
+                                    "Multiple output allocation",
+                                    "Substitution allocation",
+                                    "Capital goods",
+                                    "Technology",
+                                    "Representativeness",
+                                    "Boundary with nature"):
+                            writer.writerow(["Unspecified"])
 
-                        if item == "Multiple output allocation":
-                            writer.writerow(["No"])
-
-                        if item == "Substitution allocation":
-                            writer.writerow(["No"])
-
-                        if item == "Capital goods":
-                            writer.writerow(
-                                [
-                                    "Included when relevant (e.g., factory and machinery.)"
-                                ]
-                            )
-
-                        if item == "Literature references":
-                            writer.writerow(
-                                [
-                                    "Sacchi, R. et al., 2020, Renewable and Sustainable Energy Reviews (in review), https://www.psi.ch/en/ta/preprint"
-                                ]
-                            )
+                        if item == "Infrastructure":
+                            writer.writerow(["Yes"])
 
                         if item == "External documents":
                             writer.writerow(["https://carculator.psi.ch"])
+
+                        if item in ("System description"):
+                            writer.writerow(["carculator"])
+
+                        if item in ("Allocation rules"):
+                            writer.writerow(["In the instance of joint-production, allocation of process burden based on"
+                                             "economic relative revenue of each co-product."])
+
+
+                        if item == "Literature references":
+                            writer.writerow(["Sacchi et al. 2020"])
 
                         if item == "Collection method":
                             writer.writerow(
@@ -897,7 +935,7 @@ class ExportInventory:
                             for e in a["exchanges"]:
                                 if e["type"] == "production":
                                     name = (
-                                        e["reference product"].capitalize()
+                                        e["name"].capitalize()
                                         + " {"
                                         + e.get("location", "GLO")
                                         + "}"
@@ -913,37 +951,70 @@ class ExportInventory:
                                             1.0,
                                             "100%",
                                             "not defined",
-                                            a["database"],
+                                            database,
                                         ]
                                     )
 
                         if item == "Materials/fuels":
                             for e in a["exchanges"]:
-                                if (
-                                    e["type"] == "technosphere"
-                                    and "waste" not in e["name"]
-                                ):
-                                    name = (
-                                        e["reference product"].capitalize()
-                                        + " {"
-                                        + e.get("location", "GLO")
-                                        + "}"
-                                        + "| Cut-off, U"
-                                    )
+                                if e["type"] == "technosphere":
+                                    if not any(i in e["name"].lower()
+                                               for i in ("waste", "emissions", "treatment", "scrap",
+                                                         "used powertrain")):
 
-                                    writer.writerow(
-                                        [
-                                            dict_tech.get(
-                                                (e["name"], e["location"]), name
-                                            ),
-                                            simapro_units[e["unit"]],
-                                            e["amount"],
-                                            "undefined",
-                                            0,
-                                            0,
-                                            0,
-                                        ]
-                                    )
+
+                                        if ecoinvent_version == "3.6":
+                                            (e["name"], e["location"], e["unit"], e["reference product"]) = self.map_37_to_36.get(
+                                                (e["name"], e["location"], e["unit"], e["reference product"]),
+                                                (e["name"], e["location"], e["unit"], e["reference product"])
+                                            )
+                                        if ecoinvent_version == "3.5":
+                                            (e["name"], e["location"], e["unit"], e["reference product"]) = self.map_37_to_35.get(
+                                                (e["name"], e["location"], e["unit"], e["reference product"]),
+                                                (e["name"], e["location"], e["unit"], e["reference product"])
+                                            )
+
+                                        name = (
+                                                e["name"].capitalize()
+                                                + " {"
+                                                + e.get("location", "GLO")
+                                                + "}"
+                                        )
+
+                                        if name not in list_own_datasets:
+                                            name = (
+                                                    e["reference product"].capitalize()
+                                                    + " {"
+                                                    + e.get("location", "GLO")
+                                                    + "}"
+                                            )
+
+
+                                            if "market" in e["name"]:
+                                                name += "| market for " + e["reference product"].lower() + " "
+                                            if "market group" in e["name"]:
+                                                name += "| market group for " + e["reference product"].lower() + " "
+
+                                            if "production" in e["name"]:
+                                                if len(e["reference product"].split(", ")) > 1:
+                                                    name += ("| " + e["reference product"].split(", ")[0] + " production, "
+                                                             + e["reference product"].split(", ")[1] + " ")
+                                                else:
+                                                    name += "| " + e["reference product"] + "production "
+
+                                        writer.writerow(
+                                            [
+                                                dict_tech.get(
+                                                    (e["name"], e["location"]), name
+                                                )+"| Cut-off, U",
+                                                simapro_units[e["unit"]],
+                                                "{:.3E}".format(e["amount"]),
+                                                "undefined",
+                                                0,
+                                                0,
+                                                0,
+                                            ]
+                                        )
 
                         if item == "Resources":
                             for e in a["exchanges"]:
@@ -953,9 +1024,10 @@ class ExportInventory:
                                 ):
                                     writer.writerow(
                                         [
-                                            dict_bio.get(e["name"]),
+                                            dict_bio[e["name"]],
+                                            "",
                                             simapro_units[e["unit"]],
-                                            e["amount"],
+                                            "{:.3E}".format(e["amount"]),
                                             "undefined",
                                             0,
                                             0,
@@ -972,8 +1044,9 @@ class ExportInventory:
                                     writer.writerow(
                                         [
                                             dict_bio.get(e["name"], e["name"]),
+                                            "",
                                             simapro_units[e["unit"]],
-                                            e["amount"],
+                                            "{:.3E}".format(e["amount"]),
                                             "undefined",
                                             0,
                                             0,
@@ -987,11 +1060,16 @@ class ExportInventory:
                                     e["type"] == "biosphere"
                                     and e["categories"][0] == "water"
                                 ):
+                                    if e["name"].lower() == "water":
+                                        e["unit"] = "kilogram"
+                                        e["amount"] /= 1000
+
                                     writer.writerow(
                                         [
                                             dict_bio.get(e["name"], e["name"]),
+                                            "",
                                             simapro_units[e["unit"]],
-                                            e["amount"],
+                                            "{:.3E}".format(e["amount"]),
                                             "undefined",
                                             0,
                                             0,
@@ -1008,8 +1086,9 @@ class ExportInventory:
                                     writer.writerow(
                                         [
                                             dict_bio.get(e["name"], e["name"]),
+                                            "",
                                             simapro_units[e["unit"]],
-                                            e["amount"],
+                                            "{:.3E}".format(e["amount"]),
                                             "undefined",
                                             0,
                                             0,
@@ -1017,14 +1096,40 @@ class ExportInventory:
                                         ]
                                     )
 
-                        if item == "Final waste flows":
+                        if item == "Waste to treatment":
                             for e in a["exchanges"]:
-                                if e["type"] == "technosphere" and "waste" in e["name"]:
+                                if e["type"] == "technosphere"\
+                                        and any(i.lower() in e["name"].lower()
+                                                for i in (" waste ",
+                                                          "emissions",
+                                                          "treatment",
+                                                          "scrap",
+                                                          "used powertrain",
+                                                          "municipal solid waste")
+                                                )\
+                                        and not any(i.lower() in e["name"].lower()
+                                                for i in ("anaerobic",
+                                                          "cooking")
+                                                ):
+
+                                    if ecoinvent_version == "3.6":
+                                        (e["name"], e["location"], e["unit"], e["reference product"]) = self.map_37_to_36.get(
+                                            (e["name"], e["location"], e["unit"], e["reference product"]),
+                                            (e["name"], e["location"], e["unit"], e["reference product"])
+                                        )
+                                    if ecoinvent_version == "3.5":
+                                        (e["name"], e["location"], e["unit"], e["reference product"]) = self.map_37_to_35.get(
+                                            (e["name"], e["location"], e["unit"], e["reference product"]),
+                                            (e["name"], e["location"], e["unit"], e["reference product"])
+                                        )
+
                                     writer.writerow(
                                         [
-                                            dict_bio.get(e["name"], e["name"]),
+                                            dict_tech.get(
+                                                (e["name"], e["location"])
+                                            ) + "| Cut-off, U",
                                             simapro_units[e["unit"]],
-                                            e["amount"],
+                                            "{:.3E}".format(e["amount"]),
                                             "undefined",
                                             0,
                                             0,
@@ -1033,6 +1138,64 @@ class ExportInventory:
                                     )
 
                         writer.writerow([])
+
+                #System description
+                writer.writerow(["System description"])
+                writer.writerow([])
+                writer.writerow(["Name"])
+                writer.writerow(["carculator"])
+                writer.writerow([])
+                writer.writerow(["Category"])
+                writer.writerow(["transport"])
+                writer.writerow([])
+                writer.writerow(["Description"])
+                writer.writerow(["Prospective life cycle assessment model for passenger cars developed by PSI"])
+                writer.writerow([])
+                writer.writerow(["Cut-off rules"])
+                writer.writerow(["All environmentally-relevant flows are included, as far as the authors knowledge permits."
+                                 "Also, residual material (e.g., biomass residue) and energy (e.g., waste heat) "
+                                 "come free of burden, except for the necessary steps to make it reusable"
+                                 " (transport, conditioning, etc.)."
+                                 ])
+                writer.writerow([])
+                writer.writerow(["Energy model"])
+                writer.writerow(["The energy consumption of vehicles calculated based on a physics model, including "
+                                 "inertia, rolling resistance, aerodynamic drag, road gradient, etc."])
+                writer.writerow([])
+                writer.writerow(["Transport model"])
+                writer.writerow(["Based on Sacchi et al. 2020 (in review)"])
+                writer.writerow([])
+                writer.writerow(["Allocation rules"])
+                writer.writerow(["The system modeling is attributional. In the instance of joint-production, the allocation of "
+                                 "burden between co-products is generally based on the relative economic revenue of "
+                                 "each product, to align with the underlying database ecoinvent cut-off."])
+                writer.writerow(["End"])
+                writer.writerow([])
+
+                # Literature reference
+                writer.writerow(["Literature reference"])
+                writer.writerow([])
+                writer.writerow(["Name"])
+                writer.writerow(["Sacchi et al. 2020"])
+                writer.writerow([])
+                writer.writerow(["Documentation link"])
+                writer.writerow(["https://www.psi.ch/en/ta/preprint"])
+                writer.writerow([])
+                writer.writerow(["Comment"])
+                writer.writerow(["Pre-print available at: https://www.psi.ch/en/media/57994/download"])
+                writer.writerow([])
+                writer.writerow(["Category"])
+                writer.writerow(["carculator"])
+                writer.writerow([])
+                writer.writerow(["Description"])
+                description = "carculator: an open-source tool for prospective environmental and " \
+                              "economic life cycle assessment of vehicles. When, Where and How can battery-electric " \
+                              "vehicles help reduce greenhouse gas emissions?\n"
+                description += "Romain Sacchi, Christian Bauer and Brian L. Cox\n"
+                description += "Submitted to Environmental Science and Technology on November 17th, 2020"
+
+                writer.writerow([description])
+
 
             csvFile.close()
 
@@ -1221,3 +1384,19 @@ class ExportInventory:
             pdf = pd.Series(y, x)
 
             return pdf
+
+    def fetch_comment(self, name):
+
+        source, description, special_remarks = d_comment[name]
+
+        source_formatted = "Originally published in: " + source
+        description_formatted = "This dataset describes " + description
+
+        if len(special_remarks)>0:
+            special_remarks_formatted = "it is important to note the following: " + special_remarks
+        else:
+            special_remarks_formatted = ""
+
+        return list(source_formatted + description_formatted + special_remarks_formatted)
+
+        return

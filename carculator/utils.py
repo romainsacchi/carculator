@@ -5,6 +5,7 @@ import itertools
 import csv
 import numpy as np
 from pathlib import Path
+import bisect
 
 pd.options.mode.chained_assignment = None
 
@@ -79,14 +80,43 @@ def extract_biofuel_shares_from_IAM(
             ]
 
             df_liquids = df.loc[df["Variable"].isin(var), :]
+
+
+            if len(df_liquids) == 0:
+                df_liquids = pd.DataFrame(0,
+                                          columns=["Region", "Variable", "Unit"] + [str(i) for i in list(range(2005, 2050, 5))],
+                                          index=range(len(var))
+                                          )
+                df_liquids["Region"] = IAM_region
+                df_liquids["Variable"] = var
+                df_liquids["Unit"] = "EJ/yr"
+
+                # Set 100% fossil if missing data
+                df_liquids.iloc[0, 3:] = 1
+
             df_liquids.iloc[:, 3:] /= df_liquids.iloc[:, 3:].sum(axis=0)
 
 
 
-        var = ["FE-Transport-Gases-Non-Biomass", "FE-Transport-Gases-Biomass"]
+        var = [
+            "FE-Transport-Gases-Non-Biomass",
+            "FE-Transport-Gases-Biomass"
+            ]
 
         df_gas = df.loc[df["Variable"].isin(var), :]
         df_gas.iloc[:, 3:] /= df_gas.iloc[:, 3:].sum(axis=0)
+
+        if len(df_gas) == 0:
+            df_gas = pd.DataFrame(0,
+                                      columns=["Region", "Variable", "Unit"] + [str(i) for i in list(range(2005, 2050, 5))],
+                                      index=range(0, len(var))
+                                      )
+            df_gas["Region"] = IAM_region
+            df_gas["Variable"] = var
+            df_gas["Unit"] = "EJ/yr"
+
+            # Set 100% fossil if missing data
+            df_gas.iloc[0, 3:] = 1
 
         d_map_fuels = {
             "FE-Transport-Liquids-Oil": "liquid - fossil",
@@ -98,23 +128,48 @@ def extract_biofuel_shares_from_IAM(
 
     if model == "image":
         var = [
-            "Final Energy|Transportation|Freight|Liquids|Oil",
+            "Final Energy-Transportation-Freight-Liquids-Oil",
             "Final Energy-Transportation-Freight-Liquids-Biomass",
         ]
 
         df_liquids = df.loc[df["Variable"].isin(var), :]
+
+        if len(df_liquids) == 0:
+            df_liquids = pd.DataFrame(0,
+                                      columns=["Region", "Variable", "Unit"] + [str(i) for i in list(range(2005, 2050, 5))],
+                                      index=range(len(var))
+                                      )
+            df_liquids["Region"] = IAM_region
+            df_liquids["Variable"] = var
+            df_liquids["Unit"] = "EJ/yr"
+
+            # Set 100% fossil if missing data
+            df_liquids.iloc[0, 3:] = 1
+
         df_liquids.iloc[:, 3:] /= df_liquids.iloc[:, 3:].sum(axis=0)
 
-        var = ["Final Energy|Transportation|Freight|Gases"]
+        var = ["Final Energy-Transportation-Freight-Gases"]
         df_gas = df.loc[df["Variable"].isin(var), :]
+
+        if len(df_gas) == 0:
+            df_gas = pd.DataFrame(0,
+                                      columns=["Region", "Variable", "Unit"] + [str(i) for i in list(range(2005, 2050, 5))],
+                                      index=range(len(var))
+                                      )
+            df_gas["Region"] = IAM_region
+            df_gas["Variable"] = var
+            df_gas["Unit"] = "EJ/yr"
+
+            # Set 100% fossil if missing data
+            df_gas.iloc[0, 3:] = 1
+
         df_gas.iloc[:, 3:] /= df_gas.iloc[:, 3:].sum(axis=0)
 
         d_map_fuels = {
-            "Final Energy|Transportation|Freight|Liquids|Oil": "liquid - fossil",
+            "Final Energy-Transportation-Freight-Liquids-Oil": "liquid - fossil",
             "Final Energy-Transportation-Freight-Liquids-Biomass": "liquid - biomass",
-            "Final Energy|Transportation|Freight|Gases": "gas - fossil",
+            "Final Energy-Transportation-Freight-Gases": "gas - fossil",
         }
-
 
     new_df = pd.concat([df_liquids, df_gas])
     new_df["Variable"] = new_df["Variable"].map(d_map_fuels)
@@ -132,7 +187,6 @@ def extract_biofuel_shares_from_IAM(
     )
 
     arr = np.clip(arr, 0, 1)
-
     return arr
 
 
@@ -377,7 +431,18 @@ def create_fleet_composition_from_REMIND_file(
 
     # Rename `variable`, since it is a built-in name used by `xarray`
     df = df.rename(columns={"variable": "vintage_year"})
-    df = df.loc[df["year"] == fleet_year]
+
+    # Check if we have a fleet composition for the fleet year requested
+    if len(df.loc[df["year"] == fleet_year]) == 0:
+        # Find the nearest smallest year instead
+        list_years = df["year"].unique()
+        index = bisect.bisect(list_years, fleet_year)
+        substitute_year = list_years[index-1]
+        print("Fleet information for {} is not available. We'll use {} instead.".format(fleet_year, substitute_year))
+        df = df.loc[df["year"] == substitute_year]
+    else:
+        df = df.loc[df["year"] == fleet_year]
+
     df = df.loc[df["REMIND_region"] == remind_region]
 
     # Associate diesel shares
@@ -387,6 +452,7 @@ def create_fleet_composition_from_REMIND_file(
             return float(shares.loc[row["vintage_year"], row["iso_2"]])
         else:
             return 0
+
 
     df["diesel_factor"] = df.apply(get_diesel_factor, axis=1)
 
