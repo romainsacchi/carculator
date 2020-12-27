@@ -185,6 +185,17 @@ class ExportInventory:
                 "kilowatt hour",
                 "electricity, low voltage",
             ),
+            (
+                "cement production, Portland",
+                "EUR",
+                "kilogram",
+                "cement, Portland",
+            ): (
+                "cement production, Portland",
+                "CH",
+                "kilogram",
+                "cement, Portland",
+            ),
 
         }
         self.map_ecoinvent_remind= {

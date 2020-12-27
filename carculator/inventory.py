@@ -240,7 +240,6 @@ class InventoryCalculation:
                         "Or an array of type xarray.DataArray."
                     )
 
-
                 if not fp.is_file():
                     raise FileNotFoundError(
                         "The CSV file that contains fleet composition could not be found."
@@ -310,6 +309,8 @@ class InventoryCalculation:
                         "type"
                     ] = "NMC"
 
+
+
         self.inputs = self.get_dict_input()
         self.bs = BackgroundSystemModel()
         self.country = self.get_country_of_use()
@@ -321,6 +322,15 @@ class InventoryCalculation:
         self.fuel_dictionary = self.create_fuel_dictionary()
         self.define_fuel_blends()
         self.set_actual_range()
+
+        if "direct air capture" in self.background_configuration:
+            if "heat source" in self.background_configuration["direct air capture"]:
+                heat_source = self.background_configuration["direct air capture"][
+                    "heat source"
+                ]
+
+                if heat_source != "waste heat":
+                    self.select_heat_supplier(heat_source)
 
         self.index_cng = [self.inputs[i] for i in self.inputs if "ICEV-g" in i[0]]
         self.index_combustion_wo_cng = [
@@ -798,8 +808,6 @@ class InventoryCalculation:
         """
         return self.temp_array.sel(parameter=key)
 
-
-
     def get_results_table(self, split, sensitivity=False):
         """
         Format an xarray.DataArray array to receive the results.
@@ -1016,7 +1024,9 @@ class InventoryCalculation:
         f = np.float32(np.zeros((np.shape(self.A)[1])))
 
         # Collect indices of activities contributing to the first level
-        ind_cars = [self.inputs[i] for i in self.inputs if "transport, passenger" in i[0]]
+        ind_cars = [
+            self.inputs[i] for i in self.inputs if "transport, passenger" in i[0]
+        ]
         arr = self.A[0, : -self.number_of_cars, ind_cars].sum(axis=0)
         ind = np.nonzero(arr)[0]
 
@@ -1046,7 +1056,7 @@ class InventoryCalculation:
         )
 
         arr = (
-            self.A[:, :, -self.number_of_cars:].transpose(0, 2, 1).reshape(shape)
+            self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1).reshape(shape)
             * new_arr.transpose(1, 2, 0)[:, None, None, None, ...]
             * -1
         )
@@ -1296,7 +1306,7 @@ class InventoryCalculation:
         new_A[0 : np.shape(initial_A)[0], 0 : np.shape(initial_A)[0]] = initial_A
 
         # Resize the matrix to fit the number of iterations in `array`
-        
+
         new_A = np.resize(new_A, (self.array.shape[1], new_A.shape[0], new_A.shape[1]))
         return new_A.astype("float32")
 
@@ -1621,7 +1631,6 @@ class InventoryCalculation:
                 and set(items_to_look_for_also).intersection(v)
             ]
 
-
     def get_index_of_flows(self, items_to_look_for, search_by="name"):
         """
         Return list of row/column indices of self.A of labels that contain the string defined in `items_to_look_for`.
@@ -1651,7 +1660,7 @@ class InventoryCalculation:
         ecoinvent_version="3.7",
         db_name="carculator db",
         forbidden_activities=None,
-        create_vehicle_datasets=True
+        create_vehicle_datasets=True,
     ):
         """
         Export the inventory as a dictionary. Also return a list of arrays that contain pre-sampled random values if
@@ -1711,7 +1720,6 @@ class InventoryCalculation:
 
             self.set_inputs_in_A_matrix(self.array.values)
 
-
         # Add rows for fleet vehicles, if any
         if isinstance(self.fleet, xr.core.dataarray.DataArray):
             print("Building fleet average vehicles...")
@@ -1729,10 +1737,13 @@ class InventoryCalculation:
         # we need to remove the additional electricity input
         # in the fuel market datasets
         if not ecoinvent_compatibility:
-            fuel_markets = [self.inputs[a] for a in self.inputs if "fuel market for" in a[0]]
-            electricity_inputs = [self.inputs[a] for a in self.inputs if "electricity market for" in a[0]]
+            fuel_markets = [
+                self.inputs[a] for a in self.inputs if "fuel market for" in a[0]
+            ]
+            electricity_inputs = [
+                self.inputs[a] for a in self.inputs if "electricity market for" in a[0]
+            ]
             self.A[np.ix_(range(self.A.shape[0], electricity_inputs, fuel_markets))] = 0
-
 
         if presamples == True:
             lci, array = ExportInventory(
@@ -1760,7 +1771,7 @@ class InventoryCalculation:
         ecoinvent_version="3.7",
         db_name="carculator db",
         forbidden_activities=None,
-        create_vehicle_datasets=True
+        create_vehicle_datasets=True,
     ):
         """
         Export the inventory as a `brightway2` bw2io.importers.base_lci.LCIImporter object
@@ -1854,8 +1865,12 @@ class InventoryCalculation:
         # we need to remove the additional electricity input
         # in the fuel market datasets
         if not ecoinvent_compatibility:
-            fuel_markets = [self.inputs[a] for a in self.inputs if "fuel market for" in a[0]]
-            electricity_inputs = [self.inputs[a] for a in self.inputs if "electricity market for" in a[0]]
+            fuel_markets = [
+                self.inputs[a] for a in self.inputs if "fuel market for" in a[0]
+            ]
+            electricity_inputs = [
+                self.inputs[a] for a in self.inputs if "electricity market for" in a[0]
+            ]
             self.A[np.ix_(range(self.A.shape[0], electricity_inputs, fuel_markets))] = 0
 
         if presamples == True:
@@ -1887,7 +1902,7 @@ class InventoryCalculation:
         software_compatibility="brightway2",
         filename=None,
         forbidden_activities=None,
-        create_vehicle_datasets=True
+        create_vehicle_datasets=True,
     ):
         """
         Export the inventory as an Excel file (if the destination software is Brightway2) or a CSV file (if the destination software is Simapro) file.
@@ -1979,10 +1994,13 @@ class InventoryCalculation:
         # we need to remove the additional electricity input
         # in the fuel market datasets
         if not ecoinvent_compatibility:
-            fuel_markets = [self.inputs[a] for a in self.inputs if "fuel market for" in a[0]]
-            electricity_inputs = [self.inputs[a] for a in self.inputs if "electricity market for" in a[0]]
+            fuel_markets = [
+                self.inputs[a] for a in self.inputs if "fuel market for" in a[0]
+            ]
+            electricity_inputs = [
+                self.inputs[a] for a in self.inputs if "electricity market for" in a[0]
+            ]
             self.A[np.ix_(range(self.A.shape[0], electricity_inputs, fuel_markets))] = 0
-
 
         fp = ExportInventory(
             self.A, self.rev_inputs, db_name=filename or "carculator db"
@@ -2100,7 +2118,7 @@ class InventoryCalculation:
                 for y, year in enumerate(self.scope["year"])
             ]
 
-        return np.clip(mix, 0, 1)/np.clip(mix, 0, 1).sum(axis=1)[:, None]
+        return np.clip(mix, 0, 1) / np.clip(mix, 0, 1).sum(axis=1)[:, None]
 
     def define_renewable_rate_in_mix(self):
 
@@ -2116,23 +2134,31 @@ class InventoryCalculation:
             else "climate change - climate change total"
         )
 
-
         if self.method_type != "endpoint":
             if self.scenario != "static":
                 year = self.scope["year"]
                 co2_intensity_tech = (
-                         self.B.sel(category=category_name, activity=list(self.elec_map.values()), )
-                         .interp(year=year, kwargs={"fill_value": "extrapolate"})
-                         .values
-                         * losses_to_low
-                 ) * 1000
+                    self.B.sel(
+                        category=category_name, activity=list(self.elec_map.values()),
+                    )
+                    .interp(year=year, kwargs={"fill_value": "extrapolate"})
+                    .values
+                    * losses_to_low
+                ) * 1000
             else:
                 year = 2020
-                co2_intensity_tech = np.resize((
-                self.B.sel(category=category_name, activity=list(self.elec_map.values()), year=year)
-                .values
-                * losses_to_low
-                * 1000), (len(self.scope["year"]), 15))
+                co2_intensity_tech = np.resize(
+                    (
+                        self.B.sel(
+                            category=category_name,
+                            activity=list(self.elec_map.values()),
+                            year=year,
+                        ).values
+                        * losses_to_low
+                        * 1000
+                    ),
+                    (len(self.scope["year"]), 15),
+                )
         else:
             co2_intensity_tech = np.zeros((len(self.scope["year"]), 15))
 
@@ -2323,7 +2349,6 @@ class InventoryCalculation:
             mix_battery_manufacturing = self.mix
             losses_to_low = 1.1
 
-
         # Fill the electricity markets for battery production
         for y, year in enumerate(self.scope["year"]):
             m = np.array(mix_battery_manufacturing[y]).reshape(-1, 15, 1)
@@ -2501,7 +2526,10 @@ class InventoryCalculation:
                     "primary fuel"
                 ]["type"]
 
-                if "secondary fuel" in self.background_configuration["fuel blend"][fuel_type]:
+                if (
+                    "secondary fuel"
+                    in self.background_configuration["fuel blend"][fuel_type]
+                ):
                     secondary = self.background_configuration["fuel blend"][fuel_type][
                         "secondary fuel"
                     ]["type"]
@@ -2510,33 +2538,42 @@ class InventoryCalculation:
                     if default_fuels[fuel_type]["secondary"] != primary:
                         secondary = default_fuels[fuel_type]["secondary"]
                         self.background_configuration["fuel blend"][fuel_type][
-                            "secondary fuel"] = {"type": secondary}
+                            "secondary fuel"
+                        ] = {"type": secondary}
                     else:
                         secondary = default_fuels[fuel_type]["third"]
                         self.background_configuration["fuel blend"][fuel_type][
-                            "secondary fuel"]= {"type": secondary}
+                            "secondary fuel"
+                        ] = {"type": secondary}
 
-                if "tertiary fuel" in self.background_configuration["fuel blend"][fuel_type]:
-                    tertiary = self.background_configuration["fuel blend"][fuel_type]["tertiary fuel"]["type"]
+                if (
+                    "tertiary fuel"
+                    in self.background_configuration["fuel blend"][fuel_type]
+                ):
+                    tertiary = self.background_configuration["fuel blend"][fuel_type][
+                        "tertiary fuel"
+                    ]["type"]
 
                 primary_share = self.background_configuration["fuel blend"][fuel_type][
                     "primary fuel"
                 ]["share"]
 
-                if "share" not in self.background_configuration["fuel blend"][fuel_type][
-                            "secondary fuel"
-                        ]:
+                if (
+                    "share"
+                    not in self.background_configuration["fuel blend"][fuel_type][
+                        "secondary fuel"
+                    ]
+                ):
                     secondary_share = 1 - np.asarray(primary_share)
                 else:
-                    secondary_share = self.background_configuration["fuel blend"][fuel_type][
-                        "secondary fuel"
-                    ]["share"]
+                    secondary_share = self.background_configuration["fuel blend"][
+                        fuel_type
+                    ]["secondary fuel"]["share"]
 
                 if tertiary:
-                    tertiary_share = self.background_configuration["fuel blend"][fuel_type][
-                    "tertiary fuel"
-                ]["share"]
-
+                    tertiary_share = self.background_configuration["fuel blend"][
+                        fuel_type
+                    ]["tertiary fuel"]["share"]
 
             else:
                 primary = default_fuels[fuel_type]["primary"]
@@ -2549,7 +2586,14 @@ class InventoryCalculation:
             secondary_share = self.get_share_biofuel()
             primary_share = 1 - np.array(secondary_share)
 
-        return (primary, secondary, primary_share, secondary_share, tertiary, tertiary_share)
+        return (
+            primary,
+            secondary,
+            primary_share,
+            secondary_share,
+            tertiary,
+            tertiary_share,
+        )
 
     def set_actual_range(self):
         """
@@ -2614,7 +2658,6 @@ class InventoryCalculation:
                     share_tertiary = 0
                     lhv_tertiary = 0
 
-
                 index = self.get_index_vehicle_from_array(
                     ["ICEV-d", "PHEV-d", "HEV-d"], year, method="and"
                 )
@@ -2632,9 +2675,9 @@ class InventoryCalculation:
                             * lhv_secondary
                         )
                         + (
-                                self.array.values[self.array_inputs["fuel mass"], :, index]
-                                * share_tertiary
-                                * lhv_tertiary
+                            self.array.values[self.array_inputs["fuel mass"], :, index]
+                            * share_tertiary
+                            * lhv_tertiary
                         )
                     )
                     * 1000
@@ -2685,11 +2728,22 @@ class InventoryCalculation:
 
         if {"ICEV-p", "HEV-p", "PHEV-p"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "petrol"
-            primary, secondary, primary_share, secondary_share, tertiary, tertiary_share = self.find_fuel_shares(
-                fuel_type
-            )
+            (
+                primary,
+                secondary,
+                primary_share,
+                secondary_share,
+                tertiary,
+                tertiary_share,
+            ) = self.find_fuel_shares(fuel_type)
             self.create_fuel_markets(
-                fuel_type, primary, secondary, tertiary, primary_share, secondary_share, tertiary_share
+                fuel_type,
+                primary,
+                secondary,
+                tertiary,
+                primary_share,
+                secondary_share,
+                tertiary_share,
             )
             self.fuel_blends[fuel_type] = {
                 "primary": {
@@ -2703,7 +2757,7 @@ class InventoryCalculation:
                     "share": secondary_share,
                     "lhv": fuels_lhv[secondary],
                     "CO2": fuels_CO2[secondary],
-                }
+                },
             }
 
             if tertiary:
@@ -2714,14 +2768,24 @@ class InventoryCalculation:
                     "CO2": fuels_CO2[tertiary],
                 }
 
-
         if {"ICEV-d", "HEV-d", "PHEV-d"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "diesel"
-            primary, secondary, primary_share, secondary_share, tertiary, tertiary_share = self.find_fuel_shares(
-                fuel_type
-            )
+            (
+                primary,
+                secondary,
+                primary_share,
+                secondary_share,
+                tertiary,
+                tertiary_share,
+            ) = self.find_fuel_shares(fuel_type)
             self.create_fuel_markets(
-                fuel_type, primary, secondary, tertiary, primary_share, secondary_share, tertiary_share
+                fuel_type,
+                primary,
+                secondary,
+                tertiary,
+                primary_share,
+                secondary_share,
+                tertiary_share,
             )
             self.fuel_blends[fuel_type] = {
                 "primary": {
@@ -2748,11 +2812,22 @@ class InventoryCalculation:
 
         if {"ICEV-g"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "cng"
-            primary, secondary, primary_share, secondary_share, tertiary, tertiary_share = self.find_fuel_shares(
-                fuel_type
-            )
+            (
+                primary,
+                secondary,
+                primary_share,
+                secondary_share,
+                tertiary,
+                tertiary_share,
+            ) = self.find_fuel_shares(fuel_type)
             self.create_fuel_markets(
-                fuel_type, primary, secondary, tertiary, primary_share, secondary_share, tertiary_share
+                fuel_type,
+                primary,
+                secondary,
+                tertiary,
+                primary_share,
+                secondary_share,
+                tertiary_share,
             )
             self.fuel_blends[fuel_type] = {
                 "primary": {
@@ -2779,11 +2854,22 @@ class InventoryCalculation:
 
         if {"FCEV"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "hydrogen"
-            primary, secondary, primary_share, secondary_share, tertiary, tertiary_share = self.find_fuel_shares(
-                fuel_type
-            )
+            (
+                primary,
+                secondary,
+                primary_share,
+                secondary_share,
+                tertiary,
+                tertiary_share,
+            ) = self.find_fuel_shares(fuel_type)
             self.create_fuel_markets(
-                fuel_type, primary, secondary, tertiary, primary_share, secondary_share, tertiary_share
+                fuel_type,
+                primary,
+                secondary,
+                tertiary,
+                primary_share,
+                secondary_share,
+                tertiary_share,
             )
             self.fuel_blends[fuel_type] = {
                 "primary": {"type": primary, "share": primary_share},
@@ -2793,7 +2879,7 @@ class InventoryCalculation:
             if tertiary:
                 self.fuel_blends[fuel_type]["tertiary"] = {
                     "type": tertiary,
-                    "share": tertiary_share
+                    "share": tertiary_share,
                 }
 
         if {"BEV", "PHEV-p", "PHEV-d"}.intersection(set(self.scope["powertrain"])):
@@ -2812,11 +2898,7 @@ class InventoryCalculation:
 
         if location in self.bs.sulfur.country.values:
             sulfur_concentration = (
-                self.bs.sulfur.sel(
-                    country=location, year=year, fuel=fuel
-                )
-                    .sum()
-                    .values
+                self.bs.sulfur.sel(country=location, year=year, fuel=fuel).sum().values
             )
         else:
             # If the geography is in fact a region,
@@ -2824,18 +2906,15 @@ class InventoryCalculation:
             # across the region
 
             list_countries = self.geo.iam_to_ecoinvent_location(self.country)
-            list_countries = [c for c in list_countries
-                              if c in self.bs.sulfur.country.values]
+            list_countries = [
+                c for c in list_countries if c in self.bs.sulfur.country.values
+            ]
             if len(list_countries) > 1:
 
                 sulfur_concentration = (
-                    self.bs.sulfur.sel(
-                        country=list_countries,
-                        year=year,
-                        fuel=fuel,
-                    )
-                        .mean()
-                        .values
+                    self.bs.sulfur.sel(country=list_countries, year=year, fuel=fuel,)
+                    .mean()
+                    .values
                 )
             else:
 
@@ -2846,9 +2925,7 @@ class InventoryCalculation:
                     )
                 )
                 sulfur_concentration = (
-                    self.bs.sulfur.sel(country="RER", year=year, fuel=fuel)
-                        .sum()
-                        .values
+                    self.bs.sulfur.sel(country="RER", year=year, fuel=fuel).sum().values
                 )
         return sulfur_concentration
 
@@ -3114,24 +3191,24 @@ class InventoryCalculation:
         }
 
         for d in d_fuels:
-            if any(i in d_fuels[d]["name"][0].lower() for i in ("synthetic", "hydrogen", "ethanol",
-                                                                "biodiesel")):
+            if any(
+                i in d_fuels[d]["name"][0].lower()
+                for i in ("synthetic", "hydrogen", "ethanol", "biodiesel")
+            ):
                 d_fuels[d]["additional electricity"] = self.find_inputs(
-                    "kilowatt hour",
-                    d_fuels[d]["name"][0],
-                    "unit"
+                    "kilowatt hour", d_fuels[d]["name"][0], "unit"
                 )
             else:
                 d_fuels[d]["additional electricity"] = 0
 
         for d in d_fuels:
-            if any(i in d_fuels[d]["name"][0].lower() for i in ("synthetic", "hydrogen", "bio")):
+            if any(
+                i in d_fuels[d]["name"][0].lower()
+                for i in ("synthetic", "hydrogen", "bio")
+            ):
                 self.find_inputs(
-                    "kilowatt hour",
-                    d_fuels[d]["name"][0],
-                    "unit", zero_out_input=True
+                    "kilowatt hour", d_fuels[d]["name"][0], "unit", zero_out_input=True
                 )
-
 
         return d_fuels
 
@@ -3143,15 +3220,13 @@ class InventoryCalculation:
         tertiary=None,
         primary_share=None,
         secondary_share=None,
-        tertiary_share=None
+        tertiary_share=None,
     ):
         """
         This function creates markets for fuel, considering a given blend, a given fuel type and a given year.
         It also adds separate electricity input in case hydrogen from electrolysis is needed somewhere in the fuel supply chain.
         :return:
         """
-
-
 
         d_dataset_name = {
             "petrol": "fuel supply for gasoline vehicles, ",
@@ -3161,15 +3236,18 @@ class InventoryCalculation:
             "electricity": "electricity supply for electric vehicles, ",
         }
 
-
         if fuel_type != "electricity":
             for y, year in enumerate(self.scope["year"]):
                 dataset_name = d_dataset_name[fuel_type] + str(year)
                 fuel_market_index = [
                     self.inputs[i] for i in self.inputs if i[0] == dataset_name
                 ][0]
-                primary_fuel_activity_index = self.inputs[self.fuel_dictionary[primary]["name"]]
-                secondary_fuel_activity_index = self.inputs[self.fuel_dictionary[secondary]["name"]]
+                primary_fuel_activity_index = self.inputs[
+                    self.fuel_dictionary[primary]["name"]
+                ]
+                secondary_fuel_activity_index = self.inputs[
+                    self.fuel_dictionary[secondary]["name"]
+                ]
 
                 self.A[:, primary_fuel_activity_index, fuel_market_index] = (
                     -1 * primary_share[y]
@@ -3179,18 +3257,23 @@ class InventoryCalculation:
                 )
 
                 additional_electricity = (
-                        self.fuel_dictionary[primary]["additional electricity"] * primary_share[y]
-                        + self.fuel_dictionary[secondary]["additional electricity"] * secondary_share[y]
-                        )
+                    self.fuel_dictionary[primary]["additional electricity"]
+                    * primary_share[y]
+                    + self.fuel_dictionary[secondary]["additional electricity"]
+                    * secondary_share[y]
+                )
 
                 if tertiary:
-                    tertiary_fuel_activity_index = self.inputs[self.fuel_dictionary[tertiary]["name"]]
+                    tertiary_fuel_activity_index = self.inputs[
+                        self.fuel_dictionary[tertiary]["name"]
+                    ]
                     self.A[:, tertiary_fuel_activity_index, fuel_market_index] = (
                         -1 * tertiary_share[y]
                     )
-                    additional_electricity += self.fuel_dictionary[tertiary]["additional electricity"] * tertiary_share[y]
-
-
+                    additional_electricity += (
+                        self.fuel_dictionary[tertiary]["additional electricity"]
+                        * tertiary_share[y]
+                    )
 
                 if additional_electricity > 0:
                     electricity_mix_index = [
@@ -3215,7 +3298,9 @@ class InventoryCalculation:
                 ][0]
                 self.A[:, electricity_mix_index, electricity_market_index] = -1
 
-    def find_inputs(self, value_in, value_out, find_input_by="name", zero_out_input=False):
+    def find_inputs(
+        self, value_in, value_out, find_input_by="name", zero_out_input=False
+    ):
         """
         Finds the exchange inputs to a specified functional unit
         :param find_input_by: can be 'name' or 'unit'
@@ -3228,8 +3313,12 @@ class InventoryCalculation:
         if isinstance(value_out, str):
             value_out = [value_out]
 
-        index_output = [self.inputs[i] for val in value_out for i in self.inputs
-                        if val.lower() in i[0].lower()]
+        index_output = [
+            self.inputs[i]
+            for val in value_out
+            for i in self.inputs
+            if val.lower() in i[0].lower()
+        ]
 
         f = np.float32(np.zeros((np.shape(self.A)[1])))
 
@@ -3240,15 +3329,20 @@ class InventoryCalculation:
         ind_inputs = np.nonzero(X)[0]
 
         if find_input_by == "name":
-            ins = [i for i in ind_inputs
-                    if value_in.lower() in self.rev_inputs[i][0].lower()]
+            ins = [
+                i
+                for i in ind_inputs
+                if value_in.lower() in self.rev_inputs[i][0].lower()
+            ]
 
         if find_input_by == "unit":
-            ins = [i for i in ind_inputs
-                    if value_in.lower() in self.rev_inputs[i][2].lower()]
+            ins = [
+                i
+                for i in ind_inputs
+                if value_in.lower() in self.rev_inputs[i][2].lower()
+            ]
 
-        outs = [i for i in ind_inputs
-                if i not in ins]
+        outs = [i for i in ind_inputs if i not in ins]
 
         sum_supplied = X[ins].sum()
 
@@ -3516,7 +3610,8 @@ class InventoryCalculation:
             self.inputs[("Stack", "GLO", "kilowatt", "Stack")],
             -self.number_of_cars :,
         ] = (
-            array[self.array_inputs["fuel cell stack mass"], :] / 0.51
+            array[self.array_inputs["fuel cell stack mass"], :]
+            / 0.51
             * (1 + array[self.array_inputs["fuel cell lifetime replacements"], :])
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1
@@ -3736,7 +3831,6 @@ class InventoryCalculation:
                 end=end_str,
             )
 
-
         if any(
             True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in self.scope["powertrain"]
         ):
@@ -3807,7 +3901,8 @@ class InventoryCalculation:
                         + " _________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["hydrogen"]["secondary"]["share"][y] * 100,
+                                self.fuel_blends["hydrogen"]["secondary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -3815,7 +3910,8 @@ class InventoryCalculation:
                         + " _________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["hydrogen"]["tertiary"]["share"][y] * 100,
+                                self.fuel_blends["hydrogen"]["tertiary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -3829,7 +3925,8 @@ class InventoryCalculation:
                         + " _________________________________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["hydrogen"]["secondary"]["share"][y] * 100,
+                                self.fuel_blends["hydrogen"]["secondary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -3837,13 +3934,14 @@ class InventoryCalculation:
                         end=end_str,
                     )
 
-
                 # Fuel supply
 
                 ind_A = [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(year) in i[0] and "transport, passenger" in i[0] and "FCEV" in i[0]
+                    if str(year) in i[0]
+                    and "transport, passenger" in i[0]
+                    and "FCEV" in i[0]
                 ]
                 ind_array = [
                     x for x in self.get_index_vehicle_from_array(year) if x in index
@@ -3935,7 +4033,9 @@ class InventoryCalculation:
                 ind_A = [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(year) in i[0] and "transport, passenger" in i[0] and "ICEV-g" in i[0]
+                    if str(year) in i[0]
+                    and "transport, passenger" in i[0]
+                    and "ICEV-g" in i[0]
                 ]
                 ind_array = [
                     x for x in self.get_index_vehicle_from_array(year) if x in index
@@ -4021,14 +4121,20 @@ class InventoryCalculation:
 
                 if self.fuel_blends["cng"]["secondary"]["type"] != "cng":
                     share_non_fossil += self.fuel_blends["cng"]["secondary"]["share"][y]
-                    CO2_non_fossil += self.fuel_blends["cng"]["secondary"][
-                        "share"][y] * self.fuel_blends["cng"]["secondary"]["CO2"]
+                    CO2_non_fossil += (
+                        self.fuel_blends["cng"]["secondary"]["share"][y]
+                        * self.fuel_blends["cng"]["secondary"]["CO2"]
+                    )
 
                 if "tertiary" in self.fuel_blends["cng"]:
                     if self.fuel_blends["cng"]["tertiary"]["type"] != "cng":
-                        share_non_fossil += self.fuel_blends["cng"]["tertiary"]["share"][y]
-                        CO2_non_fossil += self.fuel_blends["cng"]["tertiary"][
-                        "share"][y] * self.fuel_blends["cng"]["tertiary"]["CO2"]
+                        share_non_fossil += self.fuel_blends["cng"]["tertiary"][
+                            "share"
+                        ][y]
+                        CO2_non_fossil += (
+                            self.fuel_blends["cng"]["tertiary"]["share"][y]
+                            * self.fuel_blends["cng"]["tertiary"]["CO2"]
+                        )
 
                 self.A[
                     :,
@@ -4088,7 +4194,8 @@ class InventoryCalculation:
                         + " _________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["diesel"]["secondary"]["share"][y] * 100,
+                                self.fuel_blends["diesel"]["secondary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -4096,7 +4203,8 @@ class InventoryCalculation:
                         + " _________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["diesel"]["tertiary"]["share"][y] * 100,
+                                self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -4110,7 +4218,8 @@ class InventoryCalculation:
                         + " _________________________________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["diesel"]["secondary"]["share"][y] * 100,
+                                self.fuel_blends["diesel"]["secondary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -4159,7 +4268,9 @@ class InventoryCalculation:
 
                 if "tertiary" in self.fuel_blends["diesel"]:
                     if self.fuel_blends["diesel"]["tertiary"]["type"] == "diesel":
-                        share_fossil += self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                        share_fossil += self.fuel_blends["diesel"]["tertiary"]["share"][
+                            y
+                        ]
                         CO2_fossil = self.fuel_blends["diesel"]["tertiary"]["CO2"]
 
                 self.A[
@@ -4181,7 +4292,9 @@ class InventoryCalculation:
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as concentration ratio
 
-                sulfur_concentration = self.get_sulfur_content(self.country, "diesel", year)
+                sulfur_concentration = self.get_sulfur_content(
+                    self.country, "diesel", year
+                )
 
                 self.A[
                     :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
@@ -4214,14 +4327,20 @@ class InventoryCalculation:
                     share_non_fossil += self.fuel_blends["diesel"]["secondary"][
                         "share"
                     ][y]
-                    CO2_non_fossil += self.fuel_blends["diesel"]["secondary"][
-                        "share"][y] * self.fuel_blends["diesel"]["secondary"]["CO2"]
+                    CO2_non_fossil += (
+                        self.fuel_blends["diesel"]["secondary"]["share"][y]
+                        * self.fuel_blends["diesel"]["secondary"]["CO2"]
+                    )
 
                 if "tertiary" in self.fuel_blends["diesel"]:
                     if self.fuel_blends["diesel"]["tertiary"]["type"] != "diesel":
-                        share_non_fossil += self.fuel_blends["diesel"]["tertiary"]["share"][y]
-                        CO2_non_fossil += self.fuel_blends["diesel"]["tertiary"][
-                        "share"][y] * self.fuel_blends["diesel"]["tertiary"]["CO2"]
+                        share_non_fossil += self.fuel_blends["diesel"]["tertiary"][
+                            "share"
+                        ][y]
+                        CO2_non_fossil += (
+                            self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                            * self.fuel_blends["diesel"]["tertiary"]["CO2"]
+                        )
 
                 self.A[
                     :,
@@ -4420,7 +4539,8 @@ class InventoryCalculation:
                         + " _________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["petrol"]["secondary"]["share"][y] * 100,
+                                self.fuel_blends["petrol"]["secondary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -4428,7 +4548,8 @@ class InventoryCalculation:
                         + " _________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["petrol"]["tertiary"]["share"][y] * 100,
+                                self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -4442,7 +4563,8 @@ class InventoryCalculation:
                         + " _________________________________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["petrol"]["secondary"]["share"][y] * 100,
+                                self.fuel_blends["petrol"]["secondary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -4492,7 +4614,9 @@ class InventoryCalculation:
 
                 if "tertiary" in self.fuel_blends["petrol"]:
                     if self.fuel_blends["petrol"]["tertiary"]["type"] == "petrol":
-                        share_fossil += self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                        share_fossil += self.fuel_blends["petrol"]["tertiary"]["share"][
+                            y
+                        ]
                         CO2_fossil = self.fuel_blends["petrol"]["tertiary"]["CO2"]
 
                 self.A[
@@ -4514,7 +4638,9 @@ class InventoryCalculation:
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as a concentration ratio
 
-                sulfur_concentration = self.get_sulfur_content(self.country, "petrol", year)
+                sulfur_concentration = self.get_sulfur_content(
+                    self.country, "petrol", year
+                )
 
                 self.A[
                     :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
@@ -4538,21 +4664,29 @@ class InventoryCalculation:
                 # The share of non-fossil fuel in the blend is retrieved
                 # As well as the CO2 emission factor of the fuel
                 if self.fuel_blends["petrol"]["primary"]["type"] != "petrol":
-                    share_non_fossil += self.fuel_blends["petrol"]["primary"]["share"][y]
+                    share_non_fossil += self.fuel_blends["petrol"]["primary"]["share"][
+                        y
+                    ]
                     CO2_non_fossil = self.fuel_blends["petrol"]["primary"]["CO2"]
 
                 if self.fuel_blends["petrol"]["secondary"]["type"] != "petrol":
                     share_non_fossil += self.fuel_blends["petrol"]["secondary"][
                         "share"
                     ][y]
-                    CO2_non_fossil += self.fuel_blends["petrol"]["secondary"][
-                        "share"][y] * self.fuel_blends["petrol"]["secondary"]["CO2"]
+                    CO2_non_fossil += (
+                        self.fuel_blends["petrol"]["secondary"]["share"][y]
+                        * self.fuel_blends["petrol"]["secondary"]["CO2"]
+                    )
 
                 if "tertiary" in self.fuel_blends["petrol"]:
                     if self.fuel_blends["petrol"]["tertiary"]["type"] != "petrol":
-                        share_non_fossil += self.fuel_blends["petrol"]["tertiary"]["share"][y]
-                        CO2_non_fossil += self.fuel_blends["petrol"]["tertiary"][
-                        "share"][y] * self.fuel_blends["petrol"]["tertiary"]["CO2"]
+                        share_non_fossil += self.fuel_blends["petrol"]["tertiary"][
+                            "share"
+                        ][y]
+                        CO2_non_fossil += (
+                            self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                            * self.fuel_blends["petrol"]["tertiary"]["CO2"]
+                        )
 
                 self.A[
                     :,
@@ -4837,27 +4971,18 @@ class InventoryCalculation:
         self.A[
             :,
             self.inputs[
-                (
-                    "Ethane, 1,1,1,2-tetrafluoro-, HFC-134a",
-                    ("air",),
-                    "kilogram"
-                )
+                ("Ethane, 1,1,1,2-tetrafluoro-, HFC-134a", ("air",), "kilogram")
             ],
-            -self.number_of_cars:
-        ] = .053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
+            -self.number_of_cars :,
+        ] = (0.053 / self.array.values[self.array_inputs["kilometers per year"]] * -1)
 
         self.A[
             :,
             self.inputs[
-                (
-                    "market for refrigerant R134a",
-                    "GLO",
-                    "kilogram",
-                    "refrigerant R134a"
-                )
+                ("market for refrigerant R134a", "GLO", "kilogram", "refrigerant R134a")
             ],
-            -self.number_of_cars:
-        ] = .053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
+            -self.number_of_cars :,
+        ] = (0.053 / self.array.values[self.array_inputs["kilometers per year"]] * -1)
 
         print("*********************************************************************")
 
@@ -4880,26 +5005,15 @@ class InventoryCalculation:
                     "glider, passenger car",
                 )
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ],
-        ] = (
-            (array[self.array_inputs["glider base mass"], :])
-            * -1
-        )
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+        ] = (array[self.array_inputs["glider base mass"], :]) * -1
 
         self.A[
             :,
             self.inputs[
                 ("Glider lightweighting", "GLO", "kilogram", "Glider lightweighting")
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
         ] = (
             (
                 array[self.array_inputs["lightweighting"], :]
@@ -4918,11 +5032,7 @@ class InventoryCalculation:
                     "passenger car maintenance",
                 )
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "transport, passenger car" in i[0]
-            ]
+            [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
         ] = (array[self.array_inputs["curb mass"], :] / 1240 / 150000 * -1)
 
         # Glider EoL
@@ -4936,11 +5046,7 @@ class InventoryCalculation:
                     "manual dismantling of used electric passenger car",
                 )
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
         ] = (
             array[self.array_inputs["curb mass"], :]
             * (1 - array[self.array_inputs["combustion power share"], :])
@@ -4957,11 +5063,7 @@ class InventoryCalculation:
                     "manual dismantling of used passenger car with internal combustion engine",
                 )
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
         ] = (
             array[self.array_inputs["curb mass"], :]
             * array[self.array_inputs["combustion power share"], :]
@@ -4979,15 +5081,8 @@ class InventoryCalculation:
                     "charger, electric passenger car",
                 )
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
-        ] = (
-            array[self.array_inputs["charger mass"], :]
-            * -1
-        )
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+        ] = (array[self.array_inputs["charger mass"], :] * -1)
 
         self.A[
             :,
@@ -4999,15 +5094,8 @@ class InventoryCalculation:
                     "converter, for electric passenger car",
                 )
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
-        ] = (
-            array[self.array_inputs["converter mass"], :]
-            * -1
-        )
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+        ] = (array[self.array_inputs["converter mass"], :] * -1)
 
         self.A[
             :,
@@ -5019,15 +5107,8 @@ class InventoryCalculation:
                     "electric motor, electric passenger car",
                 )
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
-        ] = (
-            array[self.array_inputs["electric engine mass"], :]
-            * -1
-        )
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+        ] = (array[self.array_inputs["electric engine mass"], :] * -1)
 
         self.A[
             :,
@@ -5039,15 +5120,8 @@ class InventoryCalculation:
                     "inverter, for electric passenger car",
                 )
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
-        ] = (
-            array[self.array_inputs["inverter mass"], :]
-            * -1
-        )
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+        ] = (array[self.array_inputs["inverter mass"], :] * -1)
 
         self.A[
             :,
@@ -5059,15 +5133,8 @@ class InventoryCalculation:
                     "power distribution unit, for electric passenger car",
                 )
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
-        ] = (
-            array[self.array_inputs["power distribution unit mass"], :]
-            * -1
-        )
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+        ] = (array[self.array_inputs["power distribution unit mass"], :] * -1)
 
         l_elec_pt = [
             "charger mass",
@@ -5092,14 +5159,8 @@ class InventoryCalculation:
                     "used powertrain from electric passenger car, manual dismantling",
                 )
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
-        ] = (
-            array[[self.array_inputs[l] for l in l_elec_pt], :].sum(axis=0)
-        )
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+        ] = array[[self.array_inputs[l] for l in l_elec_pt], :].sum(axis=0)
 
         self.A[
             :,
@@ -5111,11 +5172,7 @@ class InventoryCalculation:
                     "internal combustion engine, for passenger car",
                 )
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
         ] = (
             (
                 array[
@@ -5132,41 +5189,20 @@ class InventoryCalculation:
         self.A[
             :,
             self.inputs[("Ancillary BoP", "GLO", "kilogram", "Ancillary BoP")],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
-        ] = (
-            array[self.array_inputs["fuel cell ancillary BoP mass"], :]
-            * -1
-        )
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+        ] = (array[self.array_inputs["fuel cell ancillary BoP mass"], :] * -1)
 
         self.A[
             :,
             self.inputs[("Essential BoP", "GLO", "kilogram", "Essential BoP")],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
-        ] = (
-            array[self.array_inputs["fuel cell essential BoP mass"], :]
-            * -1
-        )
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+        ] = (array[self.array_inputs["fuel cell essential BoP mass"], :] * -1)
 
         self.A[
             :,
             self.inputs[("Stack", "GLO", "kilowatt", "Stack")],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
-        ] = (
-            array[self.array_inputs["fuel cell stack mass"], :]
-            * -1
-        )
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+        ] = (array[self.array_inputs["fuel cell stack mass"], :] * -1)
 
         # Start of printout
 
@@ -5201,11 +5237,7 @@ class InventoryCalculation:
         self.A[
             :,
             self.inputs[("Battery BoP", "GLO", "kilogram", "Battery BoP")],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "Passenger car" in i[0]
-            ]
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
         ] = (
             (
                 array[self.array_inputs["battery BoP mass"], :]
@@ -5221,13 +5253,10 @@ class InventoryCalculation:
             "Battery cell",
         )
 
-        self.A[:,
-               self.inputs[battery_cell_label],
-                [
-                    self.inputs[i]
-                    for i in self.inputs
-                    if "Passenger car" in i[0]
-                ]
+        self.A[
+            :,
+            self.inputs[battery_cell_label],
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
         ] = (
             (
                 array[self.array_inputs["battery cell mass"], :]
@@ -5291,7 +5320,8 @@ class InventoryCalculation:
             if any(
                 ele in c[0]
                 for ele in ["ICEV-d", "ICEV-p", "HEV-p", "PHEV-p", "PHEV-d", "HEV-d"]
-            ) and "Passenger car" in c[0]
+            )
+            and "Passenger car" in c[0]
         ]
         index = self.get_index_vehicle_from_array(
             ["ICEV-d", "ICEV-p", "HEV-p", "PHEV-p", "PHEV-d", "HEV-d"]
@@ -5308,10 +5338,7 @@ class InventoryCalculation:
                 )
             ],
             index_A,
-        ] = (
-            array[self.array_inputs["fuel tank mass"], :, index]
-            * -1
-        ).T
+        ] = (array[self.array_inputs["fuel tank mass"], :, index] * -1).T
 
         index_A = [
             self.inputs[c]
@@ -5331,10 +5358,7 @@ class InventoryCalculation:
                 )
             ],
             index_A,
-        ] = (
-            array[self.array_inputs["fuel tank mass"], :, index]
-            * -1
-        ).T
+        ] = (array[self.array_inputs["fuel tank mass"], :, index] * -1).T
 
         if "hydrogen" in self.background_configuration["energy storage"]:
             # If a customization dict is passed
@@ -5372,24 +5396,17 @@ class InventoryCalculation:
         ]
 
         index = self.get_index_vehicle_from_array("FCEV")
-        self.A[
-            :, self.inputs[dict_tank_map[hydro_tank_technology]], index_A
-        ] = (
-            array[self.array_inputs["fuel tank mass"], :, index]
-            * -1
+        self.A[:, self.inputs[dict_tank_map[hydro_tank_technology]], index_A] = (
+            array[self.array_inputs["fuel tank mass"], :, index] * -1
         ).T
-
 
         # END of vehicle building
 
         self.A[
             :,
-            [self.inputs[c]
-            for c in self.inputs
-            if "Passenger car" in c[0]],
-            [self.inputs[c] for c in self.inputs
-             if "transport, passenger car" in c[0]]
-            ] = -1/ array[self.array_inputs["lifetime kilometers"]]
+            [self.inputs[c] for c in self.inputs if "Passenger car" in c[0]],
+            [self.inputs[c] for c in self.inputs if "transport, passenger car" in c[0]],
+        ] = (-1 / array[self.array_inputs["lifetime kilometers"]])
 
         sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
 
@@ -5411,7 +5428,6 @@ class InventoryCalculation:
                 + " g. CO2-eq.",
                 end=end_str,
             )
-
 
         if any(
             True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in self.scope["powertrain"]
@@ -5483,7 +5499,8 @@ class InventoryCalculation:
                         + " _________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["hydrogen"]["secondary"]["share"][y] * 100,
+                                self.fuel_blends["hydrogen"]["secondary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -5491,7 +5508,8 @@ class InventoryCalculation:
                         + " _________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["hydrogen"]["tertiary"]["share"][y] * 100,
+                                self.fuel_blends["hydrogen"]["tertiary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -5505,7 +5523,8 @@ class InventoryCalculation:
                         + " _________________________________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["hydrogen"]["secondary"]["share"][y] * 100,
+                                self.fuel_blends["hydrogen"]["secondary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -5513,13 +5532,14 @@ class InventoryCalculation:
                         end=end_str,
                     )
 
-
                 # Fuel supply
 
                 ind_A = [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(year) in i[0] and "transport, passenger" in i[0] and "FCEV" in i[0]
+                    if str(year) in i[0]
+                    and "transport, passenger" in i[0]
+                    and "FCEV" in i[0]
                 ]
                 ind_array = [
                     x for x in self.get_index_vehicle_from_array(year) if x in index
@@ -5611,7 +5631,9 @@ class InventoryCalculation:
                 ind_A = [
                     self.inputs[i]
                     for i in self.inputs
-                    if str(year) in i[0] and "transport, passenger" in i[0] and "ICEV-g" in i[0]
+                    if str(year) in i[0]
+                    and "transport, passenger" in i[0]
+                    and "ICEV-g" in i[0]
                 ]
                 ind_array = [
                     x for x in self.get_index_vehicle_from_array(year) if x in index
@@ -5701,7 +5723,9 @@ class InventoryCalculation:
 
                 if "tertiary" in self.fuel_blends["cng"]:
                     if self.fuel_blends["cng"]["tertiary"]["type"] != "cng":
-                        share_non_fossil += self.fuel_blends["cng"]["tertiary"]["share"][y]
+                        share_non_fossil += self.fuel_blends["cng"]["tertiary"][
+                            "share"
+                        ][y]
                         CO2_non_fossil = self.fuel_blends["cng"]["tertiary"]["CO2"]
 
                 self.A[
@@ -5762,7 +5786,8 @@ class InventoryCalculation:
                         + " _________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["diesel"]["secondary"]["share"][y] * 100,
+                                self.fuel_blends["diesel"]["secondary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -5770,7 +5795,8 @@ class InventoryCalculation:
                         + " _________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["diesel"]["tertiary"]["share"][y] * 100,
+                                self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -5784,7 +5810,8 @@ class InventoryCalculation:
                         + " _________________________________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["diesel"]["secondary"]["share"][y] * 100,
+                                self.fuel_blends["diesel"]["secondary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -5833,7 +5860,9 @@ class InventoryCalculation:
 
                 if "tertiary" in self.fuel_blends["diesel"]:
                     if self.fuel_blends["diesel"]["tertiary"]["type"] == "diesel":
-                        share_fossil += self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                        share_fossil += self.fuel_blends["diesel"]["tertiary"]["share"][
+                            y
+                        ]
                         CO2_fossil = self.fuel_blends["diesel"]["tertiary"]["CO2"]
 
                 self.A[
@@ -5939,7 +5968,9 @@ class InventoryCalculation:
 
                 if "tertiary" in self.fuel_blends["diesel"]:
                     if self.fuel_blends["diesel"]["tertiary"]["type"] != "diesel":
-                        share_non_fossil += self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                        share_non_fossil += self.fuel_blends["diesel"]["tertiary"][
+                            "share"
+                        ][y]
                         CO2_non_fossil = self.fuel_blends["diesel"]["tertiary"]["CO2"]
 
                 self.A[
@@ -6139,7 +6170,8 @@ class InventoryCalculation:
                         + " _________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["petrol"]["secondary"]["share"][y] * 100,
+                                self.fuel_blends["petrol"]["secondary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -6147,7 +6179,8 @@ class InventoryCalculation:
                         + " _________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["petrol"]["tertiary"]["share"][y] * 100,
+                                self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -6161,7 +6194,8 @@ class InventoryCalculation:
                         + " _________________________________________ "
                         + str(
                             np.round(
-                                self.fuel_blends["petrol"]["secondary"]["share"][y] * 100,
+                                self.fuel_blends["petrol"]["secondary"]["share"][y]
+                                * 100,
                                 0,
                             )
                         )
@@ -6211,7 +6245,9 @@ class InventoryCalculation:
 
                 if "tertiary" in self.fuel_blends["petrol"]:
                     if self.fuel_blends["petrol"]["tertiary"]["type"] == "petrol":
-                        share_fossil += self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                        share_fossil += self.fuel_blends["petrol"]["tertiary"]["share"][
+                            y
+                        ]
                         CO2_fossil = self.fuel_blends["petrol"]["tertiary"]["CO2"]
 
                 self.A[
@@ -6304,7 +6340,9 @@ class InventoryCalculation:
                 # The share of non-fossil fuel in the blend is retrieved
                 # As well as the CO2 emission factor of the fuel
                 if self.fuel_blends["petrol"]["primary"]["type"] != "petrol":
-                    share_non_fossil += self.fuel_blends["petrol"]["primary"]["share"][y]
+                    share_non_fossil += self.fuel_blends["petrol"]["primary"]["share"][
+                        y
+                    ]
                     CO2_non_fossil = self.fuel_blends["petrol"]["primary"]["CO2"]
 
                 if self.fuel_blends["petrol"]["secondary"]["type"] != "petrol":
@@ -6315,7 +6353,9 @@ class InventoryCalculation:
 
                 if "tertiary" in self.fuel_blends["petrol"]:
                     if self.fuel_blends["petrol"]["tertiary"]["type"] != "petrol":
-                        share_non_fossil += self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                        share_non_fossil += self.fuel_blends["petrol"]["tertiary"][
+                            "share"
+                        ][y]
                         CO2_non_fossil = self.fuel_blends["petrol"]["tertiary"]["CO2"]
 
                 self.A[
@@ -6479,11 +6519,7 @@ class InventoryCalculation:
                 ).T
 
         # Non-exhaust emissions
-        ind_A = [
-            self.inputs[i]
-            for i in self.inputs
-            if "transport, passenger" in i[0]
-        ]
+        ind_A = [self.inputs[i] for i in self.inputs if "transport, passenger" in i[0]]
         self.A[
             :,
             self.inputs[
@@ -6494,7 +6530,7 @@ class InventoryCalculation:
                     "road wear emissions, passenger car",
                 )
             ],
-            ind_A
+            ind_A,
         ] = (array[self.array_inputs["driving mass"], :] * 1e-08)
 
         self.A[
@@ -6507,7 +6543,7 @@ class InventoryCalculation:
                     "tyre wear emissions, passenger car",
                 )
             ],
-            ind_A
+            ind_A,
         ] = (array[self.array_inputs["driving mass"], :] * 6e-08)
 
         # Brake wear emissions
@@ -6565,13 +6601,8 @@ class InventoryCalculation:
         self.A[
             :,
             self.inputs[("market for road", "GLO", "meter-year", "road")],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "transport, passenger car" in i[0]
-            ]
-        ] = (5.37e-7 * array[self.array_inputs["driving mass"], :]
-             * -1)
+            [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
+        ] = (5.37e-7 * array[self.array_inputs["driving mass"], :] * -1)
 
         # Infrastructure maintenance
         self.A[
@@ -6579,13 +6610,8 @@ class InventoryCalculation:
             self.inputs[
                 ("market for road maintenance", "RER", "meter-year", "road maintenance")
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "transport, passenger car" in i[0]
-            ]
-        ] = (1.29e-3
-             * -1)
+            [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
+        ] = (1.29e-3 * -1)
 
         # Exhaust emissions
         # Non-fuel based emissions
@@ -6598,7 +6624,7 @@ class InventoryCalculation:
                     self.inputs[i]
                     for i in self.inputs
                     if "transport, passenger car" in i[0]
-                ]
+                ],
             )
         ] = (
             array[
@@ -6608,7 +6634,9 @@ class InventoryCalculation:
                 ]
             ]
             * -1
-        ).transpose([1, 0, 2])
+        ).transpose(
+            [1, 0, 2]
+        )
 
         # Noise emissions
         self.A[
@@ -6619,7 +6647,7 @@ class InventoryCalculation:
                     self.inputs[i]
                     for i in self.inputs
                     if "transport, passenger car" in i[0]
-                ]
+                ],
             )
         ] = (
             array[
@@ -6629,7 +6657,9 @@ class InventoryCalculation:
                 ]
             ]
             * -1
-        ).transpose([1, 0, 2])
+        ).transpose(
+            [1, 0, 2]
+        )
 
         # Emissions of air conditioner refrigerant r134a
         # Leakage assumed to amount to 53g according to
@@ -6638,34 +6668,70 @@ class InventoryCalculation:
         self.A[
             :,
             self.inputs[
-                (
-                    "Ethane, 1,1,1,2-tetrafluoro-, HFC-134a",
-                    ("air",),
-                    "kilogram"
-                )
+                ("Ethane, 1,1,1,2-tetrafluoro-, HFC-134a", ("air",), "kilogram")
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "transport, passenger car" in i[0]
-            ]
-        ] = .053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
+            [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
+        ] = (0.053 / self.array.values[self.array_inputs["kilometers per year"]] * -1)
 
         self.A[
             :,
             self.inputs[
-                (
-                    "market for refrigerant R134a",
-                    "GLO",
-                    "kilogram",
-                    "refrigerant R134a"
-                )
+                ("market for refrigerant R134a", "GLO", "kilogram", "refrigerant R134a")
             ],
-            [
-                self.inputs[i]
-                for i in self.inputs
-                if "transport, passenger car" in i[0]
-            ]
-        ] = .053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
+            [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
+        ] = (0.053 / self.array.values[self.array_inputs["kilometers per year"]] * -1)
 
         print("*********************************************************************")
+
+    def select_heat_supplier(self, heat_supplier):
+        """
+        The heat supply is an important aspect of direct air capture.
+        Here, we can change the supplier of heat.
+        :param heat_supplier: by default "waste heat". Must be one of "waste heat", "biomass heat",
+        "natural gas heat", "market heat".
+        :type heat_supplier: str
+        :return:
+        """
+
+        d_heat_suppliers = {
+            "waste heat": (
+                "heat, from municipal waste incineration to generic market for heat district or industrial, other than natural gas",
+                "CH",
+                "megajoule",
+                "heat, district or industrial, other than natural gas",
+            ),
+            "biomass heat": (
+                "heat production, hardwood chips from forest, at furnace 1000kW, state-of-the-art 2014",
+                "CH",
+                "megajoule",
+                "heat, district or industrial, other than natural gas",
+            ),
+            "natural gas heat": (
+                "market group for heat, central or small-scale, natural gas",
+                "RER",
+                "megajoule",
+                "heat, central or small-scale, natural gas",
+            ),
+            "market heat": (
+                "market for heat, from steam, in chemical industry",
+                "RER",
+                "megajoule",
+                "heat, from steam, in chemical industry",
+            ),
+        }
+
+        air_capture = self.inputs[('carbon dioxide, captured from atmosphere',
+                      'RER',
+                      'kilogram',
+                      'carbon dioxide, captured from the atmosphere')]
+
+        all_inds = [self.inputs[i] for i in list(d_heat_suppliers.values())]
+
+        heat_amount = self.A[np.ix_(range(self.A.shape[0]), all_inds, [air_capture])].sum()
+
+        # zero out the heat input
+        self.A[np.ix_(range(self.A.shape[0]), all_inds, [air_capture])] = 0
+
+        # find index of the new supplier and set the amount
+        ind = self.inputs[d_heat_suppliers[heat_supplier]]
+        self.A[np.ix_(range(self.A.shape[0]), [ind], [air_capture])] = heat_amount
