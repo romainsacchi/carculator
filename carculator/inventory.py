@@ -1056,7 +1056,7 @@ class InventoryCalculation:
         )
 
         arr = (
-            self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1).reshape(shape)
+            self.A[:, :, -self.number_of_cars:].transpose(0, 2, 1).reshape(shape)
             * new_arr.transpose(1, 2, 0)[:, None, None, None, ...]
             * -1
         )
@@ -1449,6 +1449,7 @@ class InventoryCalculation:
                     str(REMIND_FILES_DIR)
                     + "/*recipe_midpoint*{}*.csv".format(self.scenario)
                 )
+                list_file_names = sorted(list_file_names)
                 B = np.zeros((len(list_file_names), 21, len(self.inputs)))
             else:
                 list_file_names = glob.glob(
