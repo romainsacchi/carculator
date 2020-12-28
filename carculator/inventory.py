@@ -1456,12 +1456,14 @@ class InventoryCalculation:
                     str(REMIND_FILES_DIR)
                     + "/*recipe_endpoint*{}*.csv".format(self.scenario)
                 )
+                list_file_names = sorted(list_file_names)
                 B = np.zeros((len(list_file_names), 4, len(self.inputs)))
 
         else:
             list_file_names = glob.glob(
                 str(REMIND_FILES_DIR) + "/*ilcd*{}*.csv".format(self.scenario)
             )
+            list_file_names = sorted(list_file_names)
             B = np.zeros((len(list_file_names), 19, len(self.inputs)))
 
         for f, fp in enumerate(list_file_names):
