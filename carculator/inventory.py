@@ -149,6 +149,7 @@ class InventoryCalculation:
     biodiesel - algae
     biodiesel - cooking oil
     synthetic diesel
+    synthetic diesel - energy allocation
 
     Petrol technologies
     -------------------
@@ -2712,6 +2713,7 @@ class InventoryCalculation:
             "biodiesel - cooking oil": 31.7,
             "biodiesel - algae": 31.7,
             "synthetic diesel": 43.3,
+            "synthetic diesel - energy allocation": 43.3,
             "cng": 55.5,
             "biogas - sewage sludge": 55.5,
             "biogas - biowaste": 55.5,
@@ -2729,6 +2731,7 @@ class InventoryCalculation:
             "biodiesel - cooking oil": 2.85,
             "biodiesel - algae": 2.85,
             "synthetic diesel": 3.16,
+            "synthetic diesel - energy allocation": 3.16,
             "cng": 2.65,
             "biogas - sewage sludge": 2.65,
             "biogas - biowaste": 2.65,
@@ -2943,7 +2946,7 @@ class InventoryCalculation:
         d_fuels = {
             "electrolysis": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from electrolysis, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -2951,7 +2954,7 @@ class InventoryCalculation:
             },
             "smr - natural gas": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from SMR of NG, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from SMR of NG, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -2959,7 +2962,7 @@ class InventoryCalculation:
             },
             "smr - natural gas with CCS": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from SMR of NG, with CCS, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from SMR of NG, with CCS, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -2967,7 +2970,7 @@ class InventoryCalculation:
             },
             "smr - biogas": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from SMR of biogas, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -2975,7 +2978,7 @@ class InventoryCalculation:
             },
             "smr - biogas with CCS": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -2983,7 +2986,7 @@ class InventoryCalculation:
             },
             "coal gasification": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from coal gasification, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from coal gasification, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -2991,7 +2994,7 @@ class InventoryCalculation:
             },
             "wood gasification": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -2999,7 +3002,7 @@ class InventoryCalculation:
             },
             "wood gasification with CCS": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -3007,7 +3010,7 @@ class InventoryCalculation:
             },
             "wood gasification with EF": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling plant",
+                    "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -3015,7 +3018,7 @@ class InventoryCalculation:
             },
             "wood gasification with EF with CCS": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling plant",
+                    "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -3023,7 +3026,7 @@ class InventoryCalculation:
             },
             "wood gasification (Swiss forest)": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at fuelling station",
                     "CH",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -3031,7 +3034,7 @@ class InventoryCalculation:
             },
             "wood gasification with CCS (Swiss forest)": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at fuelling station",
                     "CH",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -3055,7 +3058,7 @@ class InventoryCalculation:
             },
             "atr - natural gas": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, ATR of NG, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, ATR of NG, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -3063,7 +3066,7 @@ class InventoryCalculation:
             },
             "atr - natural gas with CCS": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, ATR of NG, with CCS, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, ATR of NG, with CCS, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -3071,7 +3074,7 @@ class InventoryCalculation:
             },
             "atr - biogas": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from ATR of biogas, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from ATR of biogas, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -3079,7 +3082,7 @@ class InventoryCalculation:
             },
             "atr - biogas with CCS": {
                 "name": (
-                    "Hydrogen, gaseous, 700 bar, from ATR of biogas with CCS, at H2 fuelling station",
+                    "Hydrogen, gaseous, 700 bar, from ATR of biogas with CCS, at fuelling station",
                     "RER",
                     "kilogram",
                     "Hydrogen, gaseous, 700 bar",
@@ -3143,7 +3146,15 @@ class InventoryCalculation:
             },
             "synthetic diesel": {
                 "name": (
-                    "Diesel production, synthetic, Fischer Tropsch process",
+                    "Diesel production, synthetic, Fischer Tropsch process, economic allocation",
+                    "RER",
+                    "kilogram",
+                    "Diesel, synthetic",
+                )
+            },
+            "synthetic diesel - energy allocation": {
+                "name": (
+                    "Diesel production, synthetic, Fischer Tropsch process, energy allocation",
                     "RER",
                     "kilogram",
                     "Diesel, synthetic",

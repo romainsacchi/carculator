@@ -49,6 +49,32 @@ def load_mapping_37_to_36():
 
     return dict_ei36
 
+def load_references():
+    """Load a dictionary with references of datasets"""
+
+    # Load the matching dictionary
+    filename = "references.csv"
+    filepath = DATA_DIR / filename
+    if not filepath.is_file():
+        raise FileNotFoundError(
+            "The dictionary of references could not be found."
+        )
+    with open(filepath) as f:
+        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+    header, *data = csv_list
+
+    dict_reference = {}
+    for row in data:
+        name, source, description, special_remark, category_1, category_2 = row
+        dict_reference[name] = {
+            "source": source,
+            "description": description,
+            "special remark": special_remark,
+            "category 1": category_1,
+            "category 2": category_2
+        }
+
+    return dict_reference
 
 def load_mapping_37_to_35():
     """Load mapping dictionary between ecoinvent 3.7 and 3.5"""
@@ -95,6 +121,7 @@ class ExportInventory:
         self.array = array
         self.indices = indices
         self.db_name = db_name
+        self.references = load_references()
         # See https://docs.brightwaylca.org/intro.html#uncertainty-type
         self.uncertainty_ID = {
             # scipy.stats distr. params --> stats.array distr. params
@@ -215,7 +242,24 @@ class ExportInventory:
         self.map_37_to_36 = load_mapping_37_to_36()
         self.map_37_to_35 = load_mapping_37_to_35()
         self.map_36_to_uvek = self.load_mapping_36_to_uvek()
+        self.map_36_to_uvek_for_simapro = self.load_mapping_36_to_uvek_for_simapro()
         self.tags = self.load_tags()
+
+    def rename_vehicles(self, indices):
+
+        d_names = {
+            "ICEV-d": "diesel",
+            "ICEV-p": "gasoline",
+            "ICEV-g": "compressed gas",
+            "HEV-p": "gasoline hybrid",
+            "HEV-d": "diesel hybrid",
+            "PHEV-p": "plugin gasoline hybrid",
+            "PHEV-d": "plugin diesel hybrid",
+            "BEV": "battery electric",
+            "FCEV": "fuel cell electric",
+        }
+
+        self.indices = {k: v for k, v in self.indices.items()}
 
     def load_tags(self):
         """Loads dictionary of tags for further use in BW2"""
@@ -257,8 +301,30 @@ class ExportInventory:
 
         dict_uvek = {}
         for row in data:
-            name, ref_prod, unit, location, uvek_name, uvek_ref_prod, uvek_unit, uvek_loc = row
+            name, location, unit, ref_prod, uvek_name, uvek_loc, uvek_unit, uvek_ref_prod, simapro_name = row
             dict_uvek[(name, ref_prod, unit, location)] = (uvek_name, uvek_ref_prod, uvek_unit, uvek_loc)
+        return dict_uvek
+
+    def load_mapping_36_to_uvek_for_simapro(self):
+        """Load mapping dictionary between ecoinvent 3.6 and UVEK for Simapro name format"""
+
+        # Load the matching dictionary between ecoinvent and Simapro biosphere flows
+        filename = "uvek_mapping.csv"
+        filepath = DATA_DIR / filename
+        if not filepath.is_file():
+            raise FileNotFoundError(
+                "The dictionary of activities flows match between ecoinvent 3.6 and UVEK could not be found."
+            )
+        with open(filepath) as f:
+            csv_list = [
+                [val.strip() for val in r.split(";")] for r in f.readlines()
+            ]
+        (_, _, *header), *data = csv_list
+
+        dict_uvek = {}
+        for row in data:
+            name, location, unit, ref_prod, uvek_name, uvek_loc, uvek_unit, uvek_ref_prod, simapro_name = row
+            dict_uvek[(name, location, unit, ref_prod)] = simapro_name
 
         return dict_uvek
 
@@ -335,13 +401,13 @@ class ExportInventory:
             'hardwood forestry, mixed species, sustainable forest management, CF = -1',
             'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant',
             'market for wood chips, wet, measured as dry mass, CF = -1',
-            'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at H2 fuelling station',
+            'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at fuelling station',
             'SMR BM, HT+LT, + CCS (MDEA), 98 (average), digestate incineration, 26 bar',
-            'Hydrogen, gaseous, 700 bar, from SMR of biogas, at H2 fuelling station',
+            'Hydrogen, gaseous, 700 bar, from SMR of biogas, at fuelling station',
             'SMR NG + CCS (MDEA), 98 (average), 25 bar',
             'SMR BM, HT+LT, with digestate incineration, 26 bar',
-            'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at H2 fuelling station',
-            'Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at H2 fuelling station',
+            'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at fuelling station',
+            'Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at fuelling station',
             'SMR NG + CCS (MDEA), 98 (average), 700 bar',
             'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass, at gasification plant',
             #'Methanol Synthesis',
@@ -354,31 +420,31 @@ class ExportInventory:
             'Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at gasification plant',
             'Ethanol from wheat grains',
             'Wheat grain cultivation, drying and storage {RER} | wheat grain production Europe | Alloc Rec, U',
-            'Hydrogen, gaseous, 700 bar, ATR of NG, with CCS, at H2 fuelling station',
+            'Hydrogen, gaseous, 700 bar, ATR of NG, with CCS, at fuelling station',
             'ATR BM + CCS (MDEA), 98 (average), with digestate incineration, 25 bar',
             'SMR NG, 25 bar',
             'Plant oil production | refining of crude vegetable oil from rapeseed| Alloc Rec, U',
             'ethanol without biogas',
             'Biodiesel from rapeseed oil',
-            'Hydrogen, gaseous, 700 bar, ATR of NG, at H2 fuelling station',
+            'Hydrogen, gaseous, 700 bar, ATR of NG, at fuelling station',
             'Waste Cooking Oil',
             'Carbon monoxide, from RWGS',
             'Oil Palm Tree Cultivation {RER} | Fresh Fruit Bunches (FFBs) production | Alloc Rec, U',
             'ATR NG, 25 bar',
             'Rapeseed cultivation {RER} | rapeseed production Europe | Alloc Rec, U',
-            'Hydrogen, gaseous, 700 bar, from ATR of biogas with CCS, at H2 fuelling station',
+            'Hydrogen, gaseous, 700 bar, from ATR of biogas with CCS, at fuelling station',
             'Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at gasification plant',
             'SMR NG, 700 bar',
-            'Hydrogen, gaseous, 700 bar, from SMR of NG, with CCS, at H2 fuelling station',
+            'Hydrogen, gaseous, 700 bar, from SMR of NG, with CCS, at fuelling station',
             'ATR NG + CCS (MDEA), 98 (average), 25 bar',
-            'Hydrogen, gaseous, 700 bar, from ATR of biogas, at H2 fuelling station',
+            'Hydrogen, gaseous, 700 bar, from ATR of biogas, at fuelling station',
             'Biodiesel from palm oil',
-            'Hydrogen, gaseous, 700 bar, from SMR of NG, at H2 fuelling station',
+            'Hydrogen, gaseous, 700 bar, from SMR of NG, at fuelling station',
             'treatment of biowaste by anaerobic digestion, with biogenic carbon uptake, lower bound C sequestration, digestate incineration',
             'Crude Palm Oil extraction from FFBs {RER} |oil mill|',
-            'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling plant',
+            'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling station',
             'hardwood forestry, birch, sustainable forest management_CF = -1',
-            'Hydrogen, gaseous, 700 bar, from electrolysis, at H2 fuelling station',
+            'Hydrogen, gaseous, 700 bar, from electrolysis, at fuelling station',
             'Diesel production, synthetic, Fischer Tropsch process',
             'softwood forestry, pine, sustainable forest management_CF = -1',
             'softwood forestry, spruce, sustainable forest management_CF = -1',
@@ -389,7 +455,7 @@ class ExportInventory:
             'softwood forestry, pine, sustainable forest management_CF = -1',
             'Gasoline production, synthetic, from methanol',
             'Methanol Synthesis',
-            'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling plant',
+            'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling station',
             'hardwood forestry, beech, sustainable forest management_CF = -1',
             'Syngas, RWGS, Production'
         ]
@@ -409,12 +475,6 @@ class ExportInventory:
         ei35_activities_to_remove = [
             "latex production"
         ]
-
-        uvek_multiplication_factors = {
-            "Steam, for chemical processes, at plant": 1/2.257, # 2.257 MJ/kg steam @ ambient pressure
-            "Natural gas, from high pressure network (1-5 bar), at service station": 0.842,
-            "Disposal, passenger car": 1/1600
-        }
 
         list_act = []
 
@@ -490,9 +550,6 @@ class ExportInventory:
                         else:
                             tuple_input = self.map_36_to_uvek.get(tuple_input, tuple_input)
 
-                        if tuple_input[0] in uvek_multiplication_factors:
-                            mult_factor = uvek_multiplication_factors[tuple_input[0]]
-
                 if len(self.array[:, row, col]) == 1:
                     # No uncertainty, only one value
                     amount = self.array[0, row, col] * mult_factor
@@ -502,7 +559,7 @@ class ExportInventory:
                     np.isclose(self.array[:, row, col], self.array[0, row, col])
                 ):
                     # Several values, but all the same, so no uncertainty
-                    amount = self.array[0, row, col]  * mult_factor
+                    amount = self.array[0, row, col] * mult_factor
                     uncertainty = [("uncertainty type", 1)]
 
                 else:
@@ -530,7 +587,7 @@ class ExportInventory:
 
                 # Look for a tag, if any
                 tag = [self.tags[t] for t in list(self.tags.keys()) if t in tuple_input[0]]
-                if len(tag)>0:
+                if len(tag) > 0:
                     tag = tag[0]
                 else:
                     tag = "other"
@@ -586,10 +643,25 @@ class ExportInventory:
 
                 # Look for a tag, if any
                 tag = [self.tags[t] for t in list(self.tags.keys()) if t in tuple_output[0]]
-                if len(tag)>0:
+                if len(tag) > 0:
                     tag = tag[0]
                 else:
                     tag = "other"
+
+                if "transport, passenger car" in tuple_output[0]:
+                    source = self.references["transport, passenger car"]["source"]
+                    description = self.references["transport, passenger car"]["description"]
+                    special_remark = self.references["transport, passenger car"]["special remark"]
+
+                elif "Passenger car" in tuple_output[0]:
+                    source = self.references["passenger car"]["source"]
+                    description = self.references["passenger car"]["description"]
+                    special_remark = self.references["passenger car"]["special remark"]
+
+                else:
+                    source = self.references[tuple_output[0]]["source"] if tuple_output[0] in self.references else ""
+                    description = self.references[tuple_output[0]]["description"] if tuple_output[0] in self.references else ""
+                    special_remark = self.references[tuple_output[0]]["special remark"] if tuple_output[0] in self.references else ""
 
                 list_act.append(
                     {
@@ -602,7 +674,10 @@ class ExportInventory:
                         "reference product": tuple_output[3],
                         "type": "process",
                         "code": str(uuid.uuid1()),
-                        "tag":tag
+                        "tag": tag,
+                        "source": source,
+                        "description": description,
+                        "special remark": special_remark,
                     }
                 )
         if presamples:
@@ -676,6 +751,9 @@ class ExportInventory:
                             ("type", "process"),
                             ("unit", k["unit"]),
                             ("worksheet name", "None"),
+                            ("source", k["source"]),
+                            ("description", k["description"]),
+                            ("special remark", k["special remark"]),
                             ["Exchanges"],
                             [
                                 "name",
@@ -800,8 +878,6 @@ class ExportInventory:
                 "Technology",
                 "Comment",
                 "Representativeness",
-                "Multiple output allocation",
-                "Substitution allocation",
                 "Cut off rules",
                 "Capital goods",
                 "Date",
@@ -818,6 +894,7 @@ class ExportInventory:
                 "System description",
                 "Allocation rules",
                 "Products",
+                "Waste treatment",
                 "Materials/fuels",
                 "Resources",
                 "Emissions to air",
@@ -857,7 +934,7 @@ class ExportInventory:
 
                 list_own_datasets = []
 
-                database = "carculator import (" + f"{datetime.datetime.today():%d.%m.%Y}" + ")"
+                database = "carculator"
 
                 for a in list_act:
                     list_own_datasets.append(
@@ -867,29 +944,92 @@ class ExportInventory:
                         + "}"
                     )
 
-
                 for a in list_act:
                     for item in fields:
+
+                        if any(i in a["name"].lower() for i in ["disposal", "treatment"]) \
+                                and item == "Products":
+                            continue
+
+                        if not any(i in a["name"].lower() for i in ["disposal", "treatment"]) \
+                                and item == "Waste treatment":
+                            continue
+
                         writer.writerow([item])
 
                         if item == "Process name":
-                            name = (
-                                a["name"].capitalize()
-                                + " {"
-                                + a.get("location", "GLO")
-                                + "}"
-                                + "| Cut-off, U"
-                            )
+
+                            if ecoinvent_version in ("3.5", "3.6"):
+                                name = (
+                                        a["name"].capitalize()
+                                        + " {"
+                                        + a.get("location", "GLO")
+                                        + "}"
+                                        + "| Cut-off, U"
+                                )
+
+                            if ecoinvent_version == "uvek":
+                                name = a["name"] + "/" + a["location"] + " U"
+
                             writer.writerow([name])
 
                         if item == "Type":
                             writer.writerow(["Unit process"])
 
                         if item == "Comment":
-                            writer.writerow(self.fetch_comment(e["name"]))
+                            if a["name"] in self.references:
+
+                                string = "Originally published in: "
+                                string += self.references[a["name"]]["source"]
+
+                                if self.references[a["name"]]["description"] != "":
+                                    string += " Description: "
+                                    string += self.references[a["name"]]["description"]
+
+                                if self.references[a["name"]]["special remark"] != "":
+                                    string += " Special remark(s): "
+                                    string += self.references[a["name"]]["special remark"]
+
+                                writer.writerow([string])
+                                string = ""
+
+                            else:
+
+                                if "transport, passenger car" in a["name"]:
+                                    key = "transport, passenger car"
+
+                                if "Passenger car" in a["name"]:
+                                    key = "passenger car"
+
+                                if "fuel supply for" in a["name"]:
+                                    key = "fuel supply"
+                                if "electricity supply for" in a["name"]:
+                                    key = "electricity supply"
+                                if "electricity market for fuel" in a["name"]:
+                                    key = "electricity market for fuel"
+                                if "electricity market for energy storage" in a["name"]:
+                                    key = "electricity market for energy storage"
+
+                                if self.references[key]["source"] != "":
+                                    string = "Originally published in: "
+                                    string += self.references[key]["source"]
+
+                                if self.references[key]["description"] != "":
+                                    string += " Description: "
+                                    string += self.references[key]["description"]
+
+                                if self.references[key]["special remark"] != "":
+                                    string += " Special remark(s): "
+                                    string += self.references[key]["special remark"]
+
+                                writer.writerow([string])
+                                string, key = ("", "")
 
                         if item == "Category type":
-                            name = "transport"
+                            if any(i in a["name"].lower() for i in ["disposal", "treatment"]):
+                                name = "waste treatment"
+                            else:
+                                name = "transport"
                             writer.writerow([name])
 
                         if item == "Generator":
@@ -907,8 +1047,6 @@ class ExportInventory:
                             writer.writerow([f"{datetime.datetime.today():%d.%m.%Y}"])
 
                         if item in ("Cut off rules",
-                                    "Multiple output allocation",
-                                    "Substitution allocation",
                                     "Capital goods",
                                     "Technology",
                                     "Representativeness",
@@ -925,9 +1063,9 @@ class ExportInventory:
                             writer.writerow(["carculator"])
 
                         if item in ("Allocation rules"):
-                            writer.writerow(["In the instance of joint-production, allocation of process burden based on"
-                                             "economic relative revenue of each co-product."])
-
+                            writer.writerow(
+                                ["In the instance of joint-production, allocation of process burden based on"
+                                 "economic relative revenue of each co-product."])
 
                         if item == "Literature references":
                             writer.writerow(["Sacchi et al. 2020"])
@@ -942,96 +1080,230 @@ class ExportInventory:
                         if item == "Verification":
                             writer.writerow(["In review. Susceptible to change."])
 
+                        if item == "Waste treatment":
+                            if ecoinvent_version in ("3.5", "3.6"):
+                                writer.writerow(
+                                    [
+                                        dict_tech.get(
+                                            (a["name"], a["location"]), name
+                                        ),
+                                        simapro_units[a["unit"]],
+                                        1.0,
+                                        "not defined",
+                                        category,
+                                    ]
+                                )
+
+                            if ecoinvent_version == "uvek":
+                                writer.writerow(
+                                    [
+                                        a["name"] + "/" + a["location"] + " U",
+                                        simapro_units[a["unit"]],
+                                        1.0,
+                                        "not defined",
+                                        category,
+                                    ])
+
                         if item == "Products":
                             for e in a["exchanges"]:
                                 if e["type"] == "production":
                                     name = (
-                                        e["name"].capitalize()
-                                        + " {"
-                                        + e.get("location", "GLO")
-                                        + "}"
-                                        + "| Cut-off, U"
+                                            e["name"].capitalize()
+                                            + " {"
+                                            + e.get("location", "GLO")
+                                            + "}"
+                                            + "| Cut-off, U"
                                     )
 
-                                    writer.writerow(
-                                        [
-                                            dict_tech.get(
-                                                (a["name"], a["location"]), name
-                                            ),
-                                            simapro_units[a["unit"]],
-                                            1.0,
-                                            "100%",
-                                            "not defined",
-                                            database,
-                                        ]
-                                    )
+                                    category = database
+
+                                    if a["name"] in self.references:
+                                        if self.references[e["name"]]["category 1"] != "":
+                                            category += r"\ ".strip() + self.references[e["name"]]["category 1"]
+
+                                        if self.references[e["name"]]["category 2"] != "":
+                                            category += r"\ ".strip() + self.references[e["name"]]["category 2"]
+                                    else:
+                                        if "transport, " in a["name"] and "kilometer" in a["unit"]:
+                                            category += r"\ ".strip() + "passenger cars" + r"\ ".strip() + "transport"
+
+                                        if "Passenger car" in a["name"]:
+                                            category += r"\ ".strip() + "passenger cars" + r"\ ".strip() + "vehicles"
+
+                                        if "ICEV" in a["name"]:
+                                            category += r"\ ".strip() + "combustion"
+
+                                        if " HEV" in a["name"]:
+                                            category += r"\ ".strip() + "hybrid"
+
+                                        if "PHEV" in a["name"]:
+                                            category += r"\ ".strip() + "hybrid plugin"
+
+                                        if any(i in a["name"] for i in ("BEV", "FCEV")):
+                                            category += r"\ ".strip() + "electric"
+
+                                        if any(i in a["name"].lower() for i in ("fuel supply for",
+                                                                                "electricity supply for",
+                                                                                "electricity market for")):
+                                            category += r"\ ".strip() + "energy mix and fuel blends"
+
+                                    if ecoinvent_version in ("3.5", "3.6"):
+                                        writer.writerow(
+                                            [
+                                                dict_tech.get(
+                                                    (a["name"], a["location"]), name
+                                                ),
+                                                simapro_units[a["unit"]],
+                                                1.0,
+                                                "100%",
+                                                "not defined",
+                                                category,
+                                            ]
+                                        )
+
+                                    if ecoinvent_version == "uvek":
+                                        writer.writerow(
+                                            [
+                                                a["name"] + "/" + a["location"] + " U",
+                                                simapro_units[a["unit"]],
+                                                1.0,
+                                                "100%",
+                                                "not defined",
+                                                category,
+                                            ])
 
                         if item == "Materials/fuels":
                             for e in a["exchanges"]:
                                 if e["type"] == "technosphere":
-                                    if not any(i in e["name"].lower()
-                                               for i in ("waste", "emissions", "treatment", "scrap",
-                                                         "used powertrain")):
+                                    if ecoinvent_version in ("3.5", "3.6"):
+                                        if not any(i.lower() in e["name"].lower()
+                                                   for i in ("waste", "emissions", "treatment", "scrap",
+                                                             "used powertrain", "disposal")) \
+                                                or any(i in e["name"]
+                                                       for i in ["from municipal waste incineration",
+                                                                 ]):
 
+                                            if ecoinvent_version == "3.6":
+                                                (e["name"], e["location"], e["unit"],
+                                                 e["reference product"]) = self.map_37_to_36.get(
+                                                    (e["name"], e["location"], e["unit"], e["reference product"]),
+                                                    (e["name"], e["location"], e["unit"], e["reference product"])
+                                                )
+                                            if ecoinvent_version == "3.5":
+                                                (e["name"], e["location"], e["unit"],
+                                                 e["reference product"]) = self.map_37_to_35.get(
+                                                    (e["name"], e["location"], e["unit"], e["reference product"]),
+                                                    (e["name"], e["location"], e["unit"], e["reference product"])
+                                                )
 
-                                        if ecoinvent_version == "3.6":
-                                            (e["name"], e["location"], e["unit"], e["reference product"]) = self.map_37_to_36.get(
-                                                (e["name"], e["location"], e["unit"], e["reference product"]),
-                                                (e["name"], e["location"], e["unit"], e["reference product"])
-                                            )
-                                        if ecoinvent_version == "3.5":
-                                            (e["name"], e["location"], e["unit"], e["reference product"]) = self.map_37_to_35.get(
-                                                (e["name"], e["location"], e["unit"], e["reference product"]),
-                                                (e["name"], e["location"], e["unit"], e["reference product"])
-                                            )
-
-                                        name = (
-                                                e["name"].capitalize()
-                                                + " {"
-                                                + e.get("location", "GLO")
-                                                + "}"
-                                        )
-
-                                        if name not in list_own_datasets:
                                             name = (
-                                                    e["reference product"].capitalize()
+                                                    e["name"].capitalize()
                                                     + " {"
                                                     + e.get("location", "GLO")
                                                     + "}"
                                             )
 
+                                            if name not in list_own_datasets:
+                                                name = (
+                                                        e["reference product"].capitalize()
+                                                        + " {"
+                                                        + e.get("location", "GLO")
+                                                        + "}"
+                                                )
 
-                                            if "market" in e["name"]:
-                                                name += "| market for " + e["reference product"].lower() + " "
-                                            if "market group" in e["name"]:
-                                                name += "| market group for " + e["reference product"].lower() + " "
+                                                if "market" in e["name"]:
+                                                    name += "| market for " + e["reference product"].lower() + " "
+                                                if "market group" in e["name"]:
+                                                    name += "| market group for " + e["reference product"].lower() + " "
 
-                                            if "production" in e["name"]:
-                                                if len(e["reference product"].split(", ")) > 1:
-                                                    name += ("| " + e["reference product"].split(", ")[0] + " production, "
-                                                             + e["reference product"].split(", ")[1] + " ")
-                                                else:
-                                                    name += "| " + e["reference product"] + "production "
+                                                if "production" in e["name"]:
+                                                    if len(e["reference product"].split(", ")) > 1:
+                                                        name += ("| " + e["reference product"].split(", ")[
+                                                            0] + " production, "
+                                                                 + e["reference product"].split(", ")[1] + " ")
 
-                                        writer.writerow(
-                                            [
-                                                dict_tech.get(
-                                                    (e["name"], e["location"]), name
-                                                )+"| Cut-off, U",
-                                                simapro_units[e["unit"]],
-                                                "{:.3E}".format(e["amount"]),
-                                                "undefined",
-                                                0,
-                                                0,
-                                                0,
-                                            ]
-                                        )
+                                            writer.writerow(
+                                                [
+                                                    dict_tech.get(
+                                                        (e["name"], e["location"]), name
+                                                    ) + "| Cut-off, U",
+                                                    simapro_units[e["unit"]],
+                                                    "{:.3E}".format(e["amount"]),
+                                                    "undefined",
+                                                    0,
+                                                    0,
+                                                    0,
+                                                ]
+                                            )
+
+                                    if ecoinvent_version == "uvek":
+                                        if not any(i.lower() in e["name"].lower()
+                                                   for i in ("waste", "emissions", "treatment", "scrap",
+                                                             "used powertrain", "disposal", "used passenger car",
+                                                             "used electric passenger car")) \
+                                                or any(i in e["name"]
+                                                       for i in ["from municipal waste incineration",
+                                                                 "aluminium scrap, new",
+                                                                 "brake wear emissions",
+                                                                 "tyre wear emissions",
+                                                                 "road wear emissions",
+                                                                 "used powertrain from electric passenger car"
+                                                                 ]):
+
+                                            if e["name"] not in [i["name"] for i in list_act]:
+
+                                                name = self.map_36_to_uvek_for_simapro[
+                                                    e["name"], e["location"], e["unit"], e["reference product"]
+                                                ]
+
+                                            else:
+                                                name = e["name"] + "/" + e["location"] + " U"
+
+                                            uvek_multiplication_factors = {
+                                                "market for heat, from steam, in chemical industry": 1 / 2.257,
+                                                "steam production, as energy carrier, in chemical industry": 1 / 2.257,
+                                                "market group for natural gas, high pressure": 0.842,
+                                                "market for natural gas, high pressure": 0.842,
+                                                "market for natural gas, high pressure, vehicle grade": 0.842,
+                                                "market for chemical factory": 1 / 12.6e6,
+                                                "market for used powertrain from electric passenger car, manual dismantling": -1
+                                            }
+
+                                            uvek_units = {
+                                                "market for chemical factory": "unit",
+                                                "market for heat, from steam, in chemical industry": "kilogram",
+                                                "steam production, as energy carrier, in chemical industry": "kilogram",
+                                                "market for manual dismantling of used electric passenger car": "kilogram",
+                                                "market group for natural gas, high pressure": "kilogram",
+                                                "market for natural gas, high pressure": "kilogram",
+                                                "market for transport, pipeline, onshore, petroleum": "kilometer",
+                                                "market for natural gas, high pressure, vehicle grade": "megajoule",
+                                            }
+
+                                            if e["name"] in uvek_multiplication_factors:
+                                                factor = uvek_multiplication_factors[e["name"]]
+                                            else:
+                                                factor = 1
+
+                                            if e["name"] in uvek_units:
+                                                e["unit"] = uvek_units[e["name"]]
+
+                                            writer.writerow(
+                                                [
+                                                    name,
+                                                    simapro_units[e["unit"]],
+                                                    "{:.3E}".format(e["amount"] * factor),
+                                                    "undefined",
+                                                    0,
+                                                    0,
+                                                    0,
+                                                ])
 
                         if item == "Resources":
                             for e in a["exchanges"]:
                                 if (
-                                    e["type"] == "biosphere"
-                                    and e["categories"][0] == "natural resource"
+                                        e["type"] == "biosphere"
+                                        and e["categories"][0] == "natural resource"
                                 ):
                                     writer.writerow(
                                         [
@@ -1049,8 +1321,8 @@ class ExportInventory:
                         if item == "Emissions to air":
                             for e in a["exchanges"]:
                                 if (
-                                    e["type"] == "biosphere"
-                                    and e["categories"][0] == "air"
+                                        e["type"] == "biosphere"
+                                        and e["categories"][0] == "air"
                                 ):
                                     writer.writerow(
                                         [
@@ -1068,8 +1340,8 @@ class ExportInventory:
                         if item == "Emissions to water":
                             for e in a["exchanges"]:
                                 if (
-                                    e["type"] == "biosphere"
-                                    and e["categories"][0] == "water"
+                                        e["type"] == "biosphere"
+                                        and e["categories"][0] == "water"
                                 ):
                                     if e["name"].lower() == "water":
                                         e["unit"] = "kilogram"
@@ -1091,8 +1363,8 @@ class ExportInventory:
                         if item == "Emissions to soil":
                             for e in a["exchanges"]:
                                 if (
-                                    e["type"] == "biosphere"
-                                    and e["categories"][0] == "soil"
+                                        e["type"] == "biosphere"
+                                        and e["categories"][0] == "soil"
                                 ):
                                     writer.writerow(
                                         [
@@ -1109,44 +1381,99 @@ class ExportInventory:
 
                         if item == "Waste to treatment":
                             for e in a["exchanges"]:
-                                if e["type"] == "technosphere"\
-                                        and any(i.lower() in e["name"].lower()
-                                                for i in (" waste ",
-                                                          "emissions",
-                                                          "treatment",
-                                                          "scrap",
-                                                          "used powertrain",
-                                                          "municipal solid waste")
-                                                )\
-                                        and not any(i.lower() in e["name"].lower()
-                                                for i in ("anaerobic",
-                                                          "cooking")
-                                                ):
+                                if e["type"] == "technosphere":
+                                    if any(i.lower() in e["name"].lower()
+                                           for i in (" waste ",
+                                                     "emissions",
+                                                     "treatment",
+                                                     "scrap",
+                                                     "used powertrain",
+                                                     "used passenger car",
+                                                     "used electric passenger car",
+                                                     "municipal solid waste",
+                                                     "disposal")
+                                           ) \
+                                            and not any(i.lower() in e["name"].lower()
+                                                        for i in ("anaerobic",
+                                                                  "cooking",
+                                                                  "heat",
+                                                                  "manual dismantling"
+                                                                  )):
 
-                                    if ecoinvent_version == "3.6":
-                                        (e["name"], e["location"], e["unit"], e["reference product"]) = self.map_37_to_36.get(
-                                            (e["name"], e["location"], e["unit"], e["reference product"]),
-                                            (e["name"], e["location"], e["unit"], e["reference product"])
-                                        )
-                                    if ecoinvent_version == "3.5":
-                                        (e["name"], e["location"], e["unit"], e["reference product"]) = self.map_37_to_35.get(
-                                            (e["name"], e["location"], e["unit"], e["reference product"]),
-                                            (e["name"], e["location"], e["unit"], e["reference product"])
-                                        )
+                                        name = ""
 
-                                    writer.writerow(
-                                        [
-                                            dict_tech.get(
-                                                (e["name"], e["location"])
-                                            ) + "| Cut-off, U",
-                                            simapro_units[e["unit"]],
-                                            "{:.3E}".format(e["amount"]),
-                                            "undefined",
-                                            0,
-                                            0,
-                                            0,
-                                        ]
-                                    )
+                                        if ecoinvent_version in ("3.5", "3.6"):
+
+                                            if ecoinvent_version == "3.6":
+                                                (e["name"], e["location"], e["unit"],
+                                                 e["reference product"]) = self.map_37_to_36.get(
+                                                    (e["name"], e["location"], e["unit"], e["reference product"]),
+                                                    (e["name"], e["location"], e["unit"], e["reference product"])
+                                                )
+                                            if ecoinvent_version == "3.5":
+                                                (e["name"], e["location"], e["unit"],
+                                                 e["reference product"]) = self.map_37_to_35.get(
+                                                    (e["name"], e["location"], e["unit"], e["reference product"]),
+                                                    (e["name"], e["location"], e["unit"], e["reference product"])
+                                                )
+
+                                            name = dict_tech.get(
+                                                (e["name"], e["location"]),
+                                                e["name"] + " {" + e["location"] + "}"
+                                            )
+
+                                            writer.writerow(
+                                                [
+                                                    name + "| Cut-off, U",
+                                                    simapro_units[e["unit"]],
+                                                    "{:.3E}".format(e["amount"]),
+                                                    "undefined",
+                                                    0,
+                                                    0,
+                                                    0,
+                                                ])
+
+                                        if ecoinvent_version == "uvek":
+
+                                            if not any(i in e["name"].lower()
+                                                       for i in [
+                                                           "brake wear",
+                                                           "tyre wear",
+                                                           "road wear",
+                                                           "aluminium scrap, new",
+                                                           "used powertrain from electric passenger car",
+                                                       ]):
+
+                                                uvek_multiplication_factors = {
+                                                    "market for manual dismantling of used electric passenger car": 1 / 1200,
+                                                    "manual dismantling of used passenger car with internal combustion engine": 1 / 1200,
+                                                    "market for manual dismantling of used passenger car with internal combustion engine": 1 / 1200,
+
+                                                }
+
+                                                if e["name"] in uvek_multiplication_factors:
+                                                    factor = uvek_multiplication_factors[e["name"]]
+                                                else:
+                                                    factor = 1
+
+                                                if e["name"] not in [i["name"] for i in list_act]:
+                                                    name = self.map_36_to_uvek_for_simapro[
+                                                        e["name"], e["location"], e["unit"], e["reference product"]
+                                                    ]
+
+                                                else:
+                                                    name = e["name"] + "/" + e["location"] + " U"
+
+                                                writer.writerow(
+                                                    [
+                                                        name,
+                                                        simapro_units[e["unit"]],
+                                                        "{:.3E}".format(e["amount"] * factor),
+                                                        "undefined",
+                                                        0,
+                                                        0,
+                                                        0,
+                                                    ])
 
                         writer.writerow([])
 
