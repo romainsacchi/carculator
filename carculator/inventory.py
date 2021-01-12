@@ -2921,13 +2921,15 @@ class InventoryCalculation:
             list_countries = [
                 c for c in list_countries if c in self.bs.sulfur.country.values
             ]
-            if len(list_countries) > 1:
+
+            if len(list_countries) > 0:
 
                 sulfur_concentration = (
                     self.bs.sulfur.sel(country=list_countries, year=year, fuel=fuel,)
                     .mean()
                     .values
                 )
+
             else:
 
                 # if we do not have the sulfur concentration for the required country, we pick Europe
@@ -5950,55 +5952,10 @@ class InventoryCalculation:
 
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as concentration ratio
-                if self.country in self.bs.sulfur.country.values:
-                    sulfur_concentration = (
-                        self.bs.sulfur.sel(
-                            country=self.country, year=year, fuel="diesel"
-                        )
-                        .sum()
-                        .values
-                    )
-                else:
-                    d_map_regions = {
-                        "CAZ": "CA",
-                        "CHA": "CN",
-                        "EUR": "FR",
-                        "IND": "IN",
-                        "JPN": "JP",
-                        "LAM": "BR",
-                        "MEA": "EG",
-                        "NEU": "CH",
-                        "OAS": "TH",
-                        "REF": "RU",
-                        "SSA": "ZA",
-                        "USA": "US",
-                        "World": "RER",
-                    }
 
-                    if self.country in d_map_regions:
-
-                        sulfur_concentration = (
-                            self.bs.sulfur.sel(
-                                country=d_map_regions[self.country],
-                                year=year,
-                                fuel="diesel",
-                            )
-                            .sum()
-                            .values
-                        )
-                    else:
-
-                        # if we do not have the sulfur concentration for the required country, we pick Europe
-                        print(
-                            "The sulfur content for diesel fuel in {} could not be found. European average sulfur content is used instead.".format(
-                                self.country
-                            )
-                        )
-                        sulfur_concentration = (
-                            self.bs.sulfur.sel(country="RER", year=year, fuel="diesel")
-                            .sum()
-                            .values
-                        )
+                sulfur_concentration = self.get_sulfur_content(
+                    self.country, "diesel", year
+                )
 
                 self.A[
                     :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
@@ -6352,56 +6309,11 @@ class InventoryCalculation:
                 ).T
 
                 # Fuel-based SO2 emissions
-                # Sulfur concentration value for a given country, a given year, as a concentration ratio
+                # Sulfur concentration value for a given country, a given year, as concentration ratio
 
-                if self.country in self.bs.sulfur.country.values:
-                    sulfur_concentration = (
-                        self.bs.sulfur.sel(
-                            country=self.country, year=year, fuel="petrol"
-                        )
-                        .sum()
-                        .values
-                    )
-                else:
-                    d_map_regions = {
-                        "CAZ": "CA",
-                        "CHA": "CN",
-                        "EUR": "FR",
-                        "IND": "IN",
-                        "JPN": "JP",
-                        "LAM": "BR",
-                        "MEA": "EG",
-                        "NEU": "CH",
-                        "OAS": "TH",
-                        "REF": "RU",
-                        "SSA": "ZA",
-                        "USA": "US",
-                        "World": "RER",
-                    }
-
-                    if self.country in d_map_regions:
-
-                        sulfur_concentration = (
-                            self.bs.sulfur.sel(
-                                country=d_map_regions[self.country],
-                                year=year,
-                                fuel="diesel",
-                            )
-                            .sum()
-                            .values
-                        )
-                    else:
-                        # if we do not have the sulfur concentration for the required country, we pick Europe
-                        print(
-                            "The sulfur content for gasoline fuel in {} could not be found. European average sulfur content is used instead.".format(
-                                self.country
-                            )
-                        )
-                        sulfur_concentration = (
-                            self.bs.sulfur.sel(country="RER", year=year, fuel="petrol")
-                            .sum()
-                            .values
-                        )
+                sulfur_concentration = self.get_sulfur_content(
+                    self.country, "petrol", year
+                )
 
                 self.A[
                     :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
