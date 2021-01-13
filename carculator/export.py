@@ -940,8 +940,6 @@ class ExportInventory:
 
                 list_own_datasets = []
 
-                database = "carculator"
-
                 for a in list_act:
                     list_own_datasets.append(
                         a["name"].capitalize()
@@ -950,15 +948,34 @@ class ExportInventory:
                         + "}"
                     )
 
+                # We loop through the activities
                 for a in list_act:
+
+                    # We fetch teh main and sub categories (sub category is in fact a path)
+                    if a["name"] in self.references:
+                        main_category = self.references[a["name"]]["category 1"]
+                        category = self.references[a["name"]]["category 2"]
+                        source = self.references[a["name"]]["source"]
+                        description = self.references[a["name"]]["description"]
+                        special_remark = self.references[a["name"]]["special remark"]
+                    else:
+                        # if we cannot find it, it's because some keys are more general
+                        key = [k for k in self.references.keys() if k in a["name"].lower()][0]
+                        main_category = self.references[key]["category 1"]
+                        category = self.references[key]["category 2"]
+                        source = self.references[key]["source"]
+                        description = self.references[key]["description"]
+                        special_remark = self.references[key]["special remark"]
+
+                    # We loop through the fields SimaPro expects to see
                     for item in fields:
 
-                        if any(i in a["name"].lower() for i in ["disposal", "treatment"]) \
-                                and item == "Products":
+                        # If it is a waste treatment activity, we skip the field `Products`
+                        if main_category == "waste treatment" and item == "Products":
                             continue
 
-                        if not any(i in a["name"].lower() for i in ["disposal", "treatment"]) \
-                                and item == "Waste treatment":
+                        # It is not a waste treatment activity, we skip the field `Waste treatment`
+                        if main_category != "waste treatment" and item == "Waste treatment":
                             continue
 
                         writer.writerow([item])
@@ -983,60 +1000,22 @@ class ExportInventory:
                             writer.writerow(["Unit process"])
 
                         if item == "Comment":
-                            if a["name"] in self.references:
 
-                                string = "Originally published in: "
-                                string += self.references[a["name"]]["source"]
+                            string = "Originally published in: "
+                            string += source
 
-                                if self.references[a["name"]]["description"] != "":
-                                    string += " Description: "
-                                    string += self.references[a["name"]]["description"]
+                            if description != "":
+                                string += " Description: "
+                                string += description
 
-                                if self.references[a["name"]]["special remark"] != "":
-                                    string += " Special remark(s): "
-                                    string += self.references[a["name"]]["special remark"]
+                            if special_remark != "":
+                                string += " Special remark(s): "
+                                string += special_remark
 
-                                writer.writerow([string])
-                                string = ""
-
-                            else:
-
-                                if "transport, passenger car" in a["name"]:
-                                    key = "transport, passenger car"
-
-                                if "Passenger car" in a["name"]:
-                                    key = "passenger car"
-
-                                if "fuel supply for" in a["name"]:
-                                    key = "fuel supply"
-                                if "electricity supply for" in a["name"]:
-                                    key = "electricity supply"
-                                if "electricity market for fuel" in a["name"]:
-                                    key = "electricity market for fuel"
-                                if "electricity market for energy storage" in a["name"]:
-                                    key = "electricity market for energy storage"
-
-                                if self.references[key]["source"] != "":
-                                    string = "Originally published in: "
-                                    string += self.references[key]["source"]
-
-                                if self.references[key]["description"] != "":
-                                    string += " Description: "
-                                    string += self.references[key]["description"]
-
-                                if self.references[key]["special remark"] != "":
-                                    string += " Special remark(s): "
-                                    string += self.references[key]["special remark"]
-
-                                writer.writerow([string])
-                                string, key = ("", "")
+                            writer.writerow([string])
 
                         if item == "Category type":
-                            if any(i in a["name"].lower() for i in ["disposal", "treatment"]):
-                                name = "waste treatment"
-                            else:
-                                name = "transport"
-                            writer.writerow([name])
+                            writer.writerow([main_category])
 
                         if item == "Generator":
                             writer.writerow(["carculator " + str(__version__)])
@@ -1121,37 +1100,6 @@ class ExportInventory:
                                             + "| Cut-off, U"
                                     )
 
-                                    category = database
-
-                                    if a["name"] in self.references:
-                                        if self.references[e["name"]]["category 1"] != "":
-                                            category += r"\ ".strip() + self.references[e["name"]]["category 1"]
-
-                                        if self.references[e["name"]]["category 2"] != "":
-                                            category += r"\ ".strip() + self.references[e["name"]]["category 2"]
-                                    else:
-                                        if "transport, " in a["name"] and "kilometer" in a["unit"]:
-                                            category += r"\ ".strip() + "passenger cars" + r"\ ".strip() + "transport"
-
-                                        if "Passenger car" in a["name"]:
-                                            category += r"\ ".strip() + "passenger cars" + r"\ ".strip() + "vehicles"
-
-                                        if "ICEV" in a["name"]:
-                                            category += r"\ ".strip() + "combustion"
-
-                                        if " HEV" in a["name"]:
-                                            category += r"\ ".strip() + "hybrid"
-
-                                        if "PHEV" in a["name"]:
-                                            category += r"\ ".strip() + "hybrid plugin"
-
-                                        if any(i in a["name"] for i in ("BEV", "FCEV")):
-                                            category += r"\ ".strip() + "electric"
-
-                                        if any(i in a["name"].lower() for i in ("fuel supply for",
-                                                                                "electricity supply for",
-                                                                                "electricity market for")):
-                                            category += r"\ ".strip() + "energy mix and fuel blends"
 
                                     if ecoinvent_version in ("3.5", "3.6"):
                                         writer.writerow(
@@ -1387,26 +1335,41 @@ class ExportInventory:
 
                         if item == "Waste to treatment":
                             for e in a["exchanges"]:
+                                is_waste = False
                                 if e["type"] == "technosphere":
-                                    if any(i.lower() in e["name"].lower()
-                                           for i in (" waste ",
-                                                     "emissions",
-                                                     "treatment",
-                                                     "scrap",
-                                                     "used powertrain",
-                                                     "used passenger car",
-                                                     "used electric passenger car",
-                                                     "municipal solid waste",
-                                                     "disposal")
-                                           ) \
-                                            and not any(i.lower() in e["name"].lower()
-                                                        for i in ("anaerobic",
-                                                                  "cooking",
-                                                                  "heat",
-                                                                  "manual dismantling"
-                                                                  )):
+
+                                    # We check if this is indeed a waste treatment activity
+                                    if e["name"] in self.references:
+                                        if self.references[e["name"]] == "waste treatment":
+                                            is_waste = True
+                                    else:
+                                        if any(i.lower() in e["name"].lower()
+                                               for i in (" waste ",
+                                                         "emissions",
+                                                         "treatment",
+                                                         "scrap",
+                                                         "used powertrain",
+                                                         "used passenger car",
+                                                         "used electric passenger car",
+                                                         "municipal solid waste",
+                                                         "disposal")
+                                               ) \
+                                                and not any(i.lower() in e["name"].lower()
+                                                            for i in ("anaerobic",
+                                                                      "cooking",
+                                                                      "heat",
+                                                                      "manual dismantling"
+                                                                      )):
+                                            is_waste = True
+
+                                    # Yes, it is a waste treatment activity
+                                    if is_waste:
 
                                         name = ""
+
+                                        # In SimaPro, waste inputs are positive numbers
+                                        if e["amount"] < 0:
+                                            e["amount"] *= -1
 
                                         if ecoinvent_version in ("3.5", "3.6"):
 
@@ -1432,7 +1395,7 @@ class ExportInventory:
                                                 [
                                                     name + "| Cut-off, U",
                                                     simapro_units[e["unit"]],
-                                                    "{:.3E}".format(e["amount"] * -1),
+                                                    "{:.3E}".format(e["amount"]),
                                                     "undefined",
                                                     0,
                                                     0,
@@ -1728,19 +1691,3 @@ class ExportInventory:
             pdf = pd.Series(y, x)
 
             return pdf
-
-    def fetch_comment(self, name):
-
-        source, description, special_remarks = d_comment[name]
-
-        source_formatted = "Originally published in: " + source
-        description_formatted = "This dataset describes " + description
-
-        if len(special_remarks)>0:
-            special_remarks_formatted = "it is important to note the following: " + special_remarks
-        else:
-            special_remarks_formatted = ""
-
-        return list(source_formatted + description_formatted + special_remarks_formatted)
-
-        return
