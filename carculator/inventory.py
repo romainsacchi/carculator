@@ -2016,13 +2016,13 @@ class InventoryCalculation:
         fp = ExportInventory(
             self.A, self.rev_inputs, db_name=filename or "carculator db"
         ).write_lci_to_excel(
-            directory,
-            ecoinvent_compatibility,
-            ecoinvent_version,
-            software_compatibility,
-            filename,
-            forbidden_activities,
-            export_format
+            directory=directory,
+            ecoinvent_compatibility=ecoinvent_compatibility,
+            ecoinvent_version=ecoinvent_version,
+            software_compatibility=software_compatibility,
+            filename=filename,
+            forbidden_activities=forbidden_activities,
+            export_format=export_format
         )
         return fp
 

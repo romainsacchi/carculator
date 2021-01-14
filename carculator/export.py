@@ -818,9 +818,9 @@ class ExportInventory:
         else:
 
             if export_format == "file":
-                with open(filepath_export, "w", newline="") as csvFile:
+                with open(filepath_export, "w", newline="", encoding='latin1') as csvFile:
                     writer = csv.writer(csvFile, delimiter=";")
-                    rows = self.format_data_for_lci_for_simapro(list_act, ecoinvent_version)
+                    rows = self.format_data_for_lci_for_simapro(data=list_act, ei_version=ecoinvent_version)
                     for row in rows:
                         writer.writerow(row)
                 csvFile.close()
@@ -828,7 +828,7 @@ class ExportInventory:
 
             if export_format == "string":
                 csvFile = io.StringIO()
-                writer = csv.writer(csvFile, "w", quoting=csv.QUOTE_NONE)
+                writer = csv.writer(csvFile, delimiter=";", quoting=csv.QUOTE_NONE)
                 rows = self.format_data_for_lci_for_simapro(list_act, ecoinvent_version)
                 for row in rows:
                     writer.writerow(row)
