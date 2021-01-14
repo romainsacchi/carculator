@@ -1214,6 +1214,9 @@ class ExportInventory:
                                                      "used powertrain", "disposal")) \
                                         or any(i in e["name"]
                                                for i in ["from municipal waste incineration",
+                                                         ])\
+                                        or any(i in e["product"]
+                                               for i in ["electricity",
                                                          ]):
 
                                     if ei_version == "3.6":
