@@ -693,10 +693,10 @@ class ExportInventory:
 
     def write_lci_to_excel(
         self,
-        directory,
         ecoinvent_compatibility,
         ecoinvent_version,
         software_compatibility,
+        directory=None,
         filename=None,
         forbidden_activities=None,
         export_format = "file"
