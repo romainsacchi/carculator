@@ -1215,7 +1215,7 @@ class ExportInventory:
                                         or any(i in e["name"]
                                                for i in ["from municipal waste incineration",
                                                          ])\
-                                        or any(i in e["product"]
+                                        or any(i.lower() in e["reference product"].lower()
                                                for i in ["electricity",
                                                          ]):
 
@@ -1442,7 +1442,7 @@ class ExportInventory:
                                                               "heat",
                                                               "manual dismantling"
                                                               ))\
-                                        and not any(i.lower() in e["product"].lower()
+                                        and not any(i.lower() in e["reference product"].lower()
                                                     for i in ["electricity"]):
                                     is_waste = True
 
