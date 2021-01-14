@@ -11,6 +11,7 @@ import uuid
 import datetime
 import json
 import csv
+import io
 from . import DATA_DIR, __version__
 
 
@@ -350,120 +351,127 @@ class ExportInventory:
         # List of activities that are already part of the REMIND-ecoinvent database.
         # They should not appear in the exported inventories, otherwise they will be duplicates
         activities_to_be_removed = [
-            "algae cultivation | algae broth production",
-            "algae harvesting| dry algae production",
-            "transport, pipeline, supercritical CO2, 200km w/o recompression",
-            "Ethanol from maize starch",
-            "Natural Gas provision (at medium pressure grid) {RER}, EU mix",
-            "woodchips from forestry residues",
-            "Ethanol from wheat straw pellets",
-            "straw pellets",
-            "Biodiesel from cooking oil",
-            "Straw bales | baling of straw",
-            "drilling, deep borehole/m",
-            "Sugar beet cultivation {RER} | sugar beet production Europe | Alloc Rec, U",
-            "Refined Waste Cooking Oil {RER} | Refining of waste cooking oil Europe | Alloc Rec, U",
-            "Ethanol from forest residues",
-            "Ethanol from sugarbeet",
-            "pipeline, supercritical CO2/km",
-            "Biodiesel from algae",
-            "Maize cultivation, drying and storage {RER} | Maize production Europe | Alloc Rec, U",
-            "Fischer Tropsch reactor and upgrading plant, construction",
-            "Walls and foundations, for hydrogen refuelling station",
-            "container, with pipes and fittings, for diaphragm compressor",
-            "RWGS tank construction",
-            "storage module, high pressure, at fuelling station",
-            "pumps, carbon dioxide capture process",
-            "PEM electrolyzer, Operation and Maintenance",
-            "heat exchanger, carbon dioxide capture process",
-            "biogas upgrading - sewage sludge - amine scrubbing - best",
-            "Hydrogen refuelling station, SMR",
-            "transformer and rectifier unit, for electrolyzer",
-            "PEM electrolyzer, ACDC Converter",
-            "carbon dioxide, captured from atmosphere",
-            "PEM electrolyzer, Balance of Plant",
-            "Sabatier reaction methanation unit",
-            "PEM electrolyzer, Stack",
-            "hot water tank, carbon dioxide capture process",
-            "cooling unit, carbon dioxide capture process",
-            "diaphragm compressor module, high pressure",
-            "carbon dioxide capture system",
-            "Hydrogen dispenser, for gaseous hydrogen",
-            "diaphragms, for diaphragm compressor",
-            "MTG production facility, construction",
-            "Disposal, hydrogen fuelling station",
-            "production of 2 wt-% potassium iodide solution",
-            "production of nickle-based catalyst for methanation",
-            "wiring and tubing, carbon dioxide capture process",
-            "control panel, carbon dioxide capture process",
-            "adsorption and desorption unit, carbon dioxide capture process",
-            "Buffer tank",
-            "frequency converter, for diaphragm compressor",
-            'Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant',
-            #'Methanol distillation',
-            'CO2 storage/at H2 production plant, pre, pipeline 200km, storage 1000m',
-            #'Syngas, RWGS, Production',
-            'softwood forestry, mixed species, sustainable forest management, CF = -1',
-            'hardwood forestry, mixed species, sustainable forest management, CF = -1',
-            'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant',
-            'market for wood chips, wet, measured as dry mass, CF = -1',
-            'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at fuelling station',
-            'SMR BM, HT+LT, + CCS (MDEA), 98 (average), digestate incineration, 26 bar',
-            'Hydrogen, gaseous, 700 bar, from SMR of biogas, at fuelling station',
-            'SMR NG + CCS (MDEA), 98 (average), 25 bar',
-            'SMR BM, HT+LT, with digestate incineration, 26 bar',
-            'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at fuelling station',
-            'Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at fuelling station',
-            'SMR NG + CCS (MDEA), 98 (average), 700 bar',
             'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass, at gasification plant',
-            #'Methanol Synthesis',
-            #'Diesel production, synthetic, Fischer Tropsch process',
-            #'Gasoline production, synthetic, from methanol',
-            'Crude vegetable oil | oil mill: extraction of vegetable oil from rapeseed | Alloc Rec, U',
-            'biomethane from biogas upgrading - biowaste - amine scrubbing, best - with biogenic carbon uptake, lower bound C sequestration, digestate incineration',
-            'Plant oil from crude oil | refining of vegetable oil from oil palm|',
-            'ATR BM, with digestate incineration, 25 bar',
-            'Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at gasification plant',
-            'Ethanol from wheat grains',
-            'Wheat grain cultivation, drying and storage {RER} | wheat grain production Europe | Alloc Rec, U',
-            'Hydrogen, gaseous, 700 bar, ATR of NG, with CCS, at fuelling station',
-            'ATR BM + CCS (MDEA), 98 (average), with digestate incineration, 25 bar',
-            'SMR NG, 25 bar',
-            'Plant oil production | refining of crude vegetable oil from rapeseed| Alloc Rec, U',
-            'ethanol without biogas',
-            'Biodiesel from rapeseed oil',
-            'Hydrogen, gaseous, 700 bar, ATR of NG, at fuelling station',
-            'Waste Cooking Oil',
-            'Carbon monoxide, from RWGS',
-            'Oil Palm Tree Cultivation {RER} | Fresh Fruit Bunches (FFBs) production | Alloc Rec, U',
-            'ATR NG, 25 bar',
-            'Rapeseed cultivation {RER} | rapeseed production Europe | Alloc Rec, U',
-            'Hydrogen, gaseous, 700 bar, from ATR of biogas with CCS, at fuelling station',
-            'Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at gasification plant',
-            'SMR NG, 700 bar',
-            'Hydrogen, gaseous, 700 bar, from SMR of NG, with CCS, at fuelling station',
-            'ATR NG + CCS (MDEA), 98 (average), 25 bar',
-            'Hydrogen, gaseous, 700 bar, from ATR of biogas, at fuelling station',
-            'Biodiesel from palm oil',
-            'Hydrogen, gaseous, 700 bar, from SMR of NG, at fuelling station',
-            'treatment of biowaste by anaerobic digestion, with biogenic carbon uptake, lower bound C sequestration, digestate incineration',
-            'Crude Palm Oil extraction from FFBs {RER} |oil mill|',
-            'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling station',
-            'hardwood forestry, birch, sustainable forest management_CF = -1',
-            'Hydrogen, gaseous, 700 bar, from electrolysis, at fuelling station',
-            'Diesel production, synthetic, Fischer Tropsch process',
-            'softwood forestry, pine, sustainable forest management_CF = -1',
-            'softwood forestry, spruce, sustainable forest management_CF = -1',
-            'Hydrogen, gaseous, 25 bar, from electrolysis',
-            'Methanol distillation',
-            'softwood forestry, spruce, sustainable forest management_CF = -1',
-            'hardwood forestry, oak, sustainable forest management_CF = -1',
-            'softwood forestry, pine, sustainable forest management_CF = -1',
-            'Gasoline production, synthetic, from methanol',
-            'Methanol Synthesis',
-            'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling station',
-            'hardwood forestry, beech, sustainable forest management_CF = -1',
-            'Syngas, RWGS, Production'
+             'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling station',
+             'hardwood forestry, oak, sustainable forest management_CF = -1',
+             'production of 2 wt-% potassium iodide solution',
+             'Hydrogen, gaseous, 700 bar, from ATR of biogas with CCS, at fuelling station',
+             'transport, pipeline, supercritical CO2, 200km w recompression',
+             'storage module, high pressure, at fuelling station',
+             'market for wood chips, wet, measured as dry mass, CF = -1',
+             'Carbon monoxide, from RWGS',
+             'Biodiesel from palm oil',
+             'Maize cultivation, drying and storage {RER} | Maize production Europe | Alloc Rec, U',
+             'diaphragm compressor module, high pressure',
+             'MTG production facility, construction',
+             'softwood forestry, pine, sustainable forest management_CF = -1',
+             'RWGS tank construction',
+             'Hydrogen, gaseous, 700 bar, from SMR of NG, at fuelling station',
+             'treatment of biowaste by anaerobic digestion, with biogenic carbon uptake, lower bound C sequestration, digestate incineration',
+             'market for wood chips, wet, measured as dry mass, CF = -1',
+             'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at fuelling station',
+             'RWGS catalyst',
+             'Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at gasification plant',
+             'control panel, carbon dioxide capture process',
+             'wiring and tubing, carbon dioxide capture process',
+             'Diesel production, synthetic, Fischer Tropsch process, energy allocation',
+             'diaphragms, for diaphragm compressor',
+             'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling station',
+             'Ethanol from forest residues',
+             'hardwood forestry, birch, sustainable forest management_CF = -1',
+             'Crude Palm Oil extraction from FFBs {RER} |oil mill|',
+             'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at fuelling station',
+             'Crude vegetable oil | oil mill: extraction of vegetable oil from rapeseed | Alloc Rec, U',
+             'Buffer tank',
+             'ATR NG + CCS (MDEA), 98 (average), 25 bar',
+             'Hydrogen, gaseous, 700 bar, ATR of NG, with CCS, at fuelling station',
+             'Plant oil from crude oil | refining of vegetable oil from oil palm|',
+             'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling station',
+             'production of nickle-based catalyst for methanation',
+             'Walls and foundations, for hydrogen refuelling station',
+             'CO2 storage/at H2 production plant, pre, pipeline 200km, storage 1000m',
+             'Hydrogen, gaseous, 700 bar, ATR of NG, at fuelling station',
+             'hot water tank, carbon dioxide capture process',
+             'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass, at gasification plant',
+             'algae cultivation | algae broth production',
+             'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at fuelling station',
+             'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant',
+             'Hydrogen, gaseous, 700 bar, from electrolysis, at fuelling station',
+             'straw pellets',
+             'Oil Palm Tree Cultivation {RER} | Fresh Fruit Bunches (FFBs) production | Alloc Rec, U',
+             'Gas-to-liquid plant construction',
+             'transformer and rectifier unit, for electrolyzer',
+             'Ethanol from wheat straw pellets',
+             'Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at gasification plant',
+             'woodchips from forestry residues',
+             'SMR NG + CCS (MDEA), 98 (average), 25 bar',
+             'pumps, carbon dioxide capture process',
+             'Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant',
+             'adsorption and desorption unit, carbon dioxide capture process',
+             'softwood forestry, mixed species, sustainable forest management, CF = -1',
+             'Methanol distillation',
+             'Hydrogen, gaseous, 700 bar, from SMR of NG, with CCS, at fuelling station',
+             'Hydrogen refuelling station, SMR',
+             'frequency converter, for diaphragm compressor',
+             'Biodiesel from cooking oil',
+             'transport, pipeline, supercritical CO2, 200km w/o recompression',
+             'Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at fuelling station',
+             'Refined Waste Cooking Oil {RER} | Refining of waste cooking oil Europe | Alloc Rec, U',
+             'ATR BM, with digestate incineration, 25 bar',
+             'PEM electrolyzer, ACDC Converter',
+             'Sabatier reaction methanation unit',
+             'Diesel production, synthetic, Fischer Tropsch process, economic allocation',
+             'SMR BM, HT+LT, + CCS (MDEA), 98 (average), digestate incineration, 26 bar',
+             'Plant oil production | refining of crude vegetable oil from rapeseed| Alloc Rec, U',
+             'ethanol without biogas',
+             'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling station',
+             'Biodiesel from rapeseed oil',
+             'Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at gasification plant',
+             'Wheat grain cultivation, drying and storage {RER} | wheat grain production Europe | Alloc Rec, U',
+             'Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant',
+             'Hydrogen, gaseous, 700 bar, from ATR of biogas, at fuelling station',
+             'algae harvesting| dry algae production',
+             'Syngas, RWGS, Production',
+             'market for wood chips, wet, measured as dry mass, CF = -1',
+             'carbon dioxide capture system',
+             'Ethanol from maize starch',
+             'softwood forestry, spruce, sustainable forest management_CF = -1',
+             'SMR NG + CCS (MDEA), 98 (average), 700 bar',
+             'PEM electrolyzer, Balance of Plant',
+             'PEM electrolyzer, Operation and Maintenance',
+             'Hydrogen, gaseous, 25 bar, from electrolysis',
+             'Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at fuelling station',
+             'carbon dioxide, captured from atmosphere',
+             'softwood forestry, pine, sustainable forest management_CF = -1',
+             'SMR NG, 700 bar',
+             'hardwood forestry, beech, sustainable forest management_CF = -1',
+             'Hydrogen, gaseous, 700 bar, from SMR of biogas, at fuelling station',
+             'Gasoline production, synthetic, from methanol',
+             'Ethanol from sugarbeet',
+             'Straw bales | baling of straw',
+             'heat exchanger, carbon dioxide capture process',
+             'PEM electrolyzer, Stack',
+             'Biodiesel from algae',
+             'Ethanol from wheat grains',
+             'SMR BM, HT+LT, with digestate incineration, 26 bar',
+             'container, with pipes and fittings, for diaphragm compressor',
+             'softwood forestry, spruce, sustainable forest management_CF = -1',
+             'Disposal, hydrogen fuelling station',
+             'SMR NG, 25 bar',
+             'Methanol Synthesis',
+             'pipeline, supercritical CO2/km',
+             'cooling unit, carbon dioxide capture process',
+             'market for wood chips, wet, measured as dry mass, CF = -1',
+             'Sugar beet cultivation {RER} | sugar beet production Europe | Alloc Rec, U',
+             'ATR BM + CCS (MDEA), 98 (average), with digestate incineration, 25 bar',
+             'Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at gasification plant',
+             'Rapeseed cultivation {RER} | rapeseed production Europe | Alloc Rec, U',
+             'drilling, deep borehole/m',
+             'hardwood forestry, mixed species, sustainable forest management, CF = -1',
+             'ATR NG, 25 bar',
+             'Fixed bed reactor for RWGS',
+             'Hydrogen dispenser, for gaseous hydrogen',
+            'biogas upgrading - sewage sludge - amine scrubbing - best'
         ]
 
         if isinstance(forbidden_activities, list):
@@ -512,19 +520,7 @@ class ExportInventory:
                 tuple_input = self.indices[row]
                 mult_factor = 1
 
-                # If ecoinvent_compatibility==False and the activity name is part of the list
-                if tuple_output[0] in activities_to_be_removed and not ecoinvent_compatibility:
-                    break
-
-                if ecoinvent_compatibility == False:
-                    tuple_output = self.map_ecoinvent_remind.get(
-                        tuple_output, tuple_output
-                    )
-                    tuple_input = self.map_ecoinvent_remind.get(
-                        tuple_input, tuple_input
-                    )
-
-                if ecoinvent_compatibility == True:
+                if ecoinvent_compatibility:
 
                     tuple_output = self.map_remind_ecoinvent.get(
                         tuple_output, tuple_output
@@ -555,6 +551,16 @@ class ExportInventory:
                             continue
                         else:
                             tuple_input = self.map_36_to_uvek.get(tuple_input, tuple_input)
+
+                else:
+
+
+                    tuple_output = self.map_ecoinvent_remind.get(
+                        tuple_output, tuple_output
+                    )
+                    tuple_input = self.map_ecoinvent_remind.get(
+                        tuple_input, tuple_input
+                    )
 
                 if len(self.array[:, row, col]) == 1:
                     # No uncertainty, only one value
@@ -609,7 +615,7 @@ class ExportInventory:
                             "type": "production",
                             "location": tuple_output[1],
                             "reference product": tuple_output[3],
-                            "tag":tag
+                            "tag": tag
                         }
                     )
                     list_exc[-1].update(uncertainty)
@@ -645,30 +651,24 @@ class ExportInventory:
                     )
                     list_exc[-1].update(uncertainty)
 
+            # Look for a tag, if any
+            tag = [self.tags[t] for t in list(self.tags.keys()) if t in tuple_output[0]]
+            if len(tag) > 0:
+                tag = tag[0]
             else:
+                tag = "other"
 
-                # Look for a tag, if any
-                tag = [self.tags[t] for t in list(self.tags.keys()) if t in tuple_output[0]]
-                if len(tag) > 0:
-                    tag = tag[0]
-                else:
-                    tag = "other"
+            if tuple_output[0] in self.references:
+                source = self.references[tuple_output[0]]["source"]
+                description = self.references[tuple_output[0]]["description"]
+                special_remark = self.references[tuple_output[0]]["special remark"]
+            else:
+                key = [k for k in self.references.keys() if k in tuple_output[0].lower()][0]
+                source = self.references[key]["source"]
+                description = self.references[key]["description"]
+                special_remark = self.references[key]["special remark"]
 
-                if "transport, passenger car" in tuple_output[0]:
-                    source = self.references["transport, passenger car"]["source"]
-                    description = self.references["transport, passenger car"]["description"]
-                    special_remark = self.references["transport, passenger car"]["special remark"]
-
-                elif "Passenger car" in tuple_output[0]:
-                    source = self.references["passenger car"]["source"]
-                    description = self.references["passenger car"]["description"]
-                    special_remark = self.references["passenger car"]["special remark"]
-
-                else:
-                    source = self.references[tuple_output[0]]["source"] if tuple_output[0] in self.references else ""
-                    description = self.references[tuple_output[0]]["description"] if tuple_output[0] in self.references else ""
-                    special_remark = self.references[tuple_output[0]]["special remark"] if tuple_output[0] in self.references else ""
-
+            if ecoinvent_compatibility or ecoinvent_compatibility == False and tuple_output[0] not in activities_to_be_removed:
                 list_act.append(
                     {
                         "production amount": 1,
@@ -698,15 +698,25 @@ class ExportInventory:
         ecoinvent_version,
         software_compatibility,
         filename=None,
-        forbidden_activities=None
+        forbidden_activities=None,
+        export_format = "file"
     ):
         """
-        Export an Excel file that can be consumed by the software defined in `software_compatibility`.
+        Export a file that can be consumed by the software defined in `software_compatibility`.
+        Alternatively, exports a string representation of the file (in case the invenotry should be downloaded
+        from a browser, for example)
 
         :param directory: str. path to export the file to.
+        :type directory: str or pathlib.Path
         :param ecoinvent_compatibility: bool. If True, the inventory is compatible with ecoinvent. If False, the inventory is compatible with REMIND-ecoinvent.
+        :type ecoinvent_compatibility: bool
         :param ecoinvent_version: str. "3.5", "3.6" or "uvek"
+        :type ecoinvent_version: str
         :param software_compatibility: str. "brightway2" or "simapro"
+        :type software_compatibility: str
+        :param format: can be "file" or "string". If "file", returns a file path where the file is stored.
+        If "string", returns a string.
+        :type format: str
         :returns: returns the file path of the exported inventory.
         :rtype: str.
         """
@@ -742,771 +752,833 @@ class ExportInventory:
         list_act = self.write_lci(False, ecoinvent_compatibility, ecoinvent_version, forbidden_activities)
 
         if software_compatibility == "brightway2":
-            data = []
-            data.extend((["Database", self.db_name], ("format", "Excel spreadsheet")))
-            data.append([])
+            data = self.format_data_for_lci_for_bw2(list_act)
 
-            for k in list_act:
-                if k.get("exchanges"):
-                    data.extend(
-                        (
-                            ["Activity", k["name"]],
-                            ("location", k["location"]),
-                            ("production amount", float(k["production amount"])),
-                            ("reference product", k.get("reference product")),
-                            ("type", "process"),
-                            ("unit", k["unit"]),
-                            ("worksheet name", "None"),
-                            ("source", k["source"]),
-                            ("description", k["description"]),
-                            ("special remark", k["special remark"]),
-                            ["Exchanges"],
-                            [
-                                "name",
-                                "amount",
-                                "database",
-                                "location",
-                                "unit",
-                                "categories",
-                                "type",
-                                "reference product",
-                                "tag"
-                            ],
-                        )
-                    )
+            if export_format == "file":
 
-                    for e in k["exchanges"]:
-                        data.append(
-                            [
-                                e["name"],
-                                float(e["amount"]),
-                                e["database"],
-                                e.get("location", "None"),
-                                e["unit"],
-                                "::".join(e.get("categories", ())),
-                                e["type"],
-                                e.get("reference product"),
-                                e.get("tag", "other")
-                            ]
-                        )
-                else:
-                    data.extend(
-                        (
-                            ["Activity", k["name"]],
-                            ("type", "biosphere"),
-                            ("unit", k["unit"]),
-                            ("worksheet name", "None"),
-                        )
-                    )
-                data.append([])
+                workbook = xlsxwriter.Workbook(filepath_export)
+                bold = workbook.add_format({"bold": True})
+                bold.set_font_size(12)
+                highlighted = {
+                    "Activity",
+                    "Database",
+                    "Exchanges",
+                    "Parameters",
+                    "Database parameters",
+                    "Project parameters",
+                }
+                frmt = lambda x: bold if row[0] in highlighted else None
+                sheet = workbook.add_worksheet(create_valid_worksheet_name("test"))
 
-            workbook = xlsxwriter.Workbook(filepath_export)
-            bold = workbook.add_format({"bold": True})
-            bold.set_font_size(12)
-            highlighted = {
-                "Activity",
-                "Database",
-                "Exchanges",
-                "Parameters",
-                "Database parameters",
-                "Project parameters",
-            }
-            frmt = lambda x: bold if row[0] in highlighted else None
+                for row_index, row in enumerate(data):
+                    for col_index, value in enumerate(row):
+                        if value is None:
+                            continue
+                        elif isinstance(value, float):
+                            sheet.write_number(row_index, col_index, value, frmt(value))
+                        else:
+                            sheet.write_string(row_index, col_index, value, frmt(value))
+                print("Inventories exported to {}.".format(filepath_export))
+                workbook.close()
 
-            sheet = workbook.add_worksheet(create_valid_worksheet_name("test"))
+            if export_format == "string":
+                output = io.BytesIO()
+                workbook = xlsxwriter.Workbook(output, {"in_memory": True})
+                bold = workbook.add_format({"bold": True})
+                bold.set_font_size(12)
+                highlighted = {
+                    "Activity",
+                    "Database",
+                    "Exchanges",
+                    "Parameters",
+                    "Database parameters",
+                    "Project parameters",
+                }
 
-            for row_index, row in enumerate(data):
-                for col_index, value in enumerate(row):
-                    if value is None:
-                        continue
-                    elif isinstance(value, float):
-                        sheet.write_number(row_index, col_index, value, frmt(value))
-                    else:
-                        sheet.write_string(row_index, col_index, value, frmt(value))
-            print("Inventories exported to {}.".format(filepath_export))
-            workbook.close()
+                frmt = lambda x: bold if row[0] in highlighted else None
+                sheet = workbook.add_worksheet("carculator export")
+
+                for row_index, row in enumerate(data):
+                    for col_index, value in enumerate(row):
+                        if value is None:
+                            continue
+                        elif isinstance(value, float):
+                            sheet.write_number(row_index, col_index, value, frmt(value))
+                        else:
+                            sheet.write_string(row_index, col_index, value, frmt(value))
+
+                workbook.close()
+                output.seek(0)
+                return output.read()
 
         else:
 
-            # Load the matching dictionary between ecoinvent and Simapro biosphere flows
-            filename = "simapro-biosphere.json"
-            filepath = DATA_DIR / filename
-            if not filepath.is_file():
-                raise FileNotFoundError(
-                    "The dictionary of biosphere flow match between ecoinvent and Simapro could not be found."
+            if export_format == "file":
+                with open(filepath_export, "w", newline="") as csvFile:
+                    writer = csv.writer(csvFile, delimiter=";")
+                    rows = self.format_data_for_lci_for_simapro(list_act, ecoinvent_version)
+                    for row in rows:
+                        writer.writerow(row)
+                csvFile.close()
+                print("Inventories exported to {}.".format(filepath_export))
+
+            if export_format == "string":
+                csvFile = io.StringIO()
+                writer = csv.writer(csvFile, quoting=csv.QUOTE_NONNUMERIC)
+                rows = self.format_data_for_lci_for_simapro(list_act, ecoinvent_version)
+                for row in rows:
+                    writer.writerow(row)
+                csvFile.seek(0)
+                return csvFile.read()
+
+    def get_simapro_biosphere(self):
+
+        # Load the matching dictionary between ecoinvent and Simapro biosphere flows
+        filename = "simapro-biosphere.json"
+        filepath = DATA_DIR / filename
+        if not filepath.is_file():
+            raise FileNotFoundError(
+                "The dictionary of biosphere flow match between ecoinvent and Simapro could not be found."
+            )
+        with open(filepath) as json_file:
+            data = json.load(json_file)
+        dict_bio = {}
+        for d in data:
+            dict_bio[d[2]] = d[1]
+
+        return dict_bio
+
+    def get_simapro_technosphere(self):
+
+        # Load the matching dictionary between ecoinvent and Simapro product flows
+        filename = "simapro-technosphere-3.5.csv"
+        filepath = DATA_DIR / filename
+        with open(filepath) as f:
+            csv_list = [
+                [val.strip() for val in r.split(";")] for r in f.readlines()
+            ]
+        (_, _, *header), *data = csv_list
+
+        dict_tech = {}
+        for row in data:
+            name, location, simapro_name = row
+            simapro_name = simapro_name.split("|")[:2]
+            dict_tech[(name, location)] = ("|").join(simapro_name)
+
+        return dict_tech
+
+    def format_data_for_lci_for_bw2(self, data):
+
+        rows = []
+        rows.extend((["Database", self.db_name], ("format", "Excel spreadsheet")))
+        rows.append([])
+
+        for k in data:
+            if k.get("exchanges"):
+                rows.extend(
+                    (
+                        ["Activity", k["name"]],
+                        ("location", k["location"]),
+                        ("production amount", float(k["production amount"])),
+                        ("reference product", k.get("reference product")),
+                        ("type", "process"),
+                        ("unit", k["unit"]),
+                        ("worksheet name", "None"),
+                        ("source", k["source"]),
+                        ("description", k["description"]),
+                        ("special remark", k["special remark"]),
+                        ["Exchanges"],
+                        [
+                            "name",
+                            "amount",
+                            "database",
+                            "location",
+                            "unit",
+                            "categories",
+                            "type",
+                            "reference product",
+                            "tag"
+                        ],
+                    )
                 )
-            with open(filepath) as json_file:
-                data = json.load(json_file)
-            dict_bio = {}
-            for d in data:
-                dict_bio[d[2]] = d[1]
 
-            # Load the matching dictionary between ecoinvent and Simapro product flows
-            filename = "simapro-technosphere-3.5.csv"
-            filepath = DATA_DIR / filename
-            with open(filepath) as f:
-                csv_list = [
-                    [val.strip() for val in r.split(";")] for r in f.readlines()
-                ]
-            (_, _, *header), *data = csv_list
+                for e in k["exchanges"]:
+                    rows.append(
+                        [
+                            e["name"],
+                            float(e["amount"]),
+                            e["database"],
+                            e.get("location", "None"),
+                            e["unit"],
+                            "::".join(e.get("categories", ())),
+                            e["type"],
+                            e.get("reference product"),
+                            e.get("tag", "other")
+                        ]
+                    )
+            else:
+                rows.extend(
+                    (
+                        ["Activity", k["name"]],
+                        ("type", "biosphere"),
+                        ("unit", k["unit"]),
+                        ("worksheet name", "None"),
+                    )
+                )
+            rows.append([])
 
-            dict_tech = {}
-            for row in data:
-                name, location, simapro_name = row
-                simapro_name = simapro_name.split("|")[:2]
-                dict_tech[(name, location)] = ("|").join(simapro_name)
+        return rows
 
-            headers = [
+    def format_data_for_lci_for_simapro(self, data, ei_version):
 
-                "{SimaPro 9.1.1.1}",
-                "{processes}",
-                "{Project: carculator import" + f"{datetime.datetime.today():%d.%m.%Y}" + "}",
-                "{CSV Format version: 9.0.0}",
-                "{CSV separator: Semicolon}",
-                "{Decimal separator: .}",
-                "{Date separator: .}",
-                "{Short date format: dd.MM.yyyy}",
-                "{Export platform IDs: No}",
-                "{Skip empty fields: No}",
-                "{Convert expressions to constants: No}",
-                "{Selection: Selection(1)}",
-                "{Related objects(system descriptions, substances, units, etc.): Yes}",
-                "{Include sub product stages and processes: Yes}",
-            ]
+        headers = [
 
-            fields = [
-                "Process",
-                "Category type",
-                "Type",
-                "Process name",
-                "Time Period",
-                "Geography",
-                "Technology",
-                "Comment",
-                "Representativeness",
-                "Cut off rules",
-                "Capital goods",
-                "Date",
-                "Boundary with nature",
-                "Infrastructure",
-                "Record",
-                "Generator",
-                "Literature references",
-                "External documents",
-                "Comment",
-                "Collection method",
-                "Data treatment",
-                "Verification",
-                "System description",
-                "Allocation rules",
-                "Products",
-                "Waste treatment",
-                "Materials/fuels",
-                "Resources",
-                "Emissions to air",
-                "Emissions to water",
-                "Emissions to soil",
-                "Final waste flows",
-                "Non material emission",
-                "Social issues",
-                "Economic issues",
-                "Waste to treatment",
-                "End",
-            ]
+            "{SimaPro 9.1.1.1}",
+            "{processes}",
+            "{Project: carculator import" + f"{datetime.datetime.today():%d.%m.%Y}" + "}",
+            "{CSV Format version: 9.0.0}",
+            "{CSV separator: Semicolon}",
+            "{Decimal separator: .}",
+            "{Date separator: .}",
+            "{Short date format: dd.MM.yyyy}",
+            "{Export platform IDs: No}",
+            "{Skip empty fields: No}",
+            "{Convert expressions to constants: No}",
+            "{Selection: Selection(1)}",
+            "{Related objects(system descriptions, substances, units, etc.): Yes}",
+            "{Include sub product stages and processes: Yes}",
+        ]
+        fields = [
+            "Process",
+            "Category type",
+            "Type",
+            "Process name",
+            "Time Period",
+            "Geography",
+            "Technology",
+            "Comment",
+            "Representativeness",
+            "Cut off rules",
+            "Capital goods",
+            "Date",
+            "Boundary with nature",
+            "Infrastructure",
+            "Record",
+            "Generator",
+            "Literature references",
+            "External documents",
+            "Comment",
+            "Collection method",
+            "Data treatment",
+            "Verification",
+            "System description",
+            "Allocation rules",
+            "Products",
+            "Waste treatment",
+            "Materials/fuels",
+            "Resources",
+            "Emissions to air",
+            "Emissions to water",
+            "Emissions to soil",
+            "Final waste flows",
+            "Non material emission",
+            "Social issues",
+            "Economic issues",
+            "Waste to treatment",
+            "End",
+        ]
+        simapro_units = {
+            "kilogram": "kg",
+            "cubic meter": "m3",
+            "kilowatt hour": "kWh",
+            "kilometer": "km",
+            "ton kilometer": "tkm",
+            "megajoule": "MJ",
+            "unit": "p",
+            "square meter": "m2",
+            "kilowatt": "p",
+            "hour": "hr",
+            "square meter-year": "m2a",
+            "meter": "m",
+            "vehicle-kilometer": "vkm",
+            "person-kilometer": "personkm",
+            "meter-year": "my",
+        }
 
-            simapro_units = {
-                "kilogram": "kg",
-                "cubic meter": "m3",
-                "kilowatt hour": "kWh",
-                "kilometer": "km",
-                "ton kilometer": "tkm",
-                "megajoule": "MJ",
-                "unit": "p",
-                "square meter": "m2",
-                "kilowatt": "p",
-                "hour": "hr",
-                "square meter-year": "m2a",
-                "meter": "m",
-                "vehicle-kilometer": "vkm",
-                "person-kilometer": "personkm",
-                "meter-year": "my",
-            }
+        dict_tech = self.get_simapro_technosphere()
+        dict_bio = self.get_simapro_biosphere()
 
-            with open(filepath_export, "w", newline="") as csvFile:
-                writer = csv.writer(csvFile, delimiter=";")
-                for item in headers:
-                    writer.writerow([item])
-                writer.writerow([])
+        rows = []
 
-                list_own_datasets = []
+        for item in headers:
+            rows.append([item])
+        rows.append([])
 
-                for a in list_act:
-                    list_own_datasets.append(
-                        a["name"].capitalize()
-                        + " {"
-                        + a.get("location", "GLO")
-                        + "}"
+        list_own_datasets = []
+
+        for a in data:
+            list_own_datasets.append(
+                a["name"].capitalize()
+                + " {"
+                + a.get("location", "GLO")
+                + "}"
+            )
+
+        # We loop through the activities
+        for a in data:
+
+            # We fetch teh main and sub categories (sub category is in fact a path)
+            if a["name"] in self.references:
+                main_category = self.references[a["name"]]["category 1"]
+                category = self.references[a["name"]]["category 2"]
+                source = self.references[a["name"]]["source"]
+                description = self.references[a["name"]]["description"]
+                special_remark = self.references[a["name"]]["special remark"]
+            else:
+                # if we cannot find it, it's because some keys are more general
+                key = [k for k in self.references.keys() if k in a["name"].lower()][0]
+                main_category = self.references[key]["category 1"]
+                category = self.references[key]["category 2"]
+                source = self.references[key]["source"]
+                description = self.references[key]["description"]
+                special_remark = self.references[key]["special remark"]
+
+            # We loop through the fields SimaPro expects to see
+            for item in fields:
+
+                # If it is a waste treatment activity, we skip the field `Products`
+                if main_category == "waste treatment" and item == "Products":
+                    continue
+
+                # It is not a waste treatment activity, we skip the field `Waste treatment`
+                if main_category != "waste treatment" and item == "Waste treatment":
+                    continue
+
+                rows.append([item])
+
+                if item == "Process name":
+
+                    if ei_version in ("3.5", "3.6"):
+                        name = (
+                                a["name"].capitalize()
+                                + " {"
+                                + a.get("location", "GLO")
+                                + "}"
+                                + "| Cut-off, U"
+                        )
+
+                    if ei_version == "uvek":
+                        name = a["name"] + "/" + a["location"] + " U"
+
+                    rows.append([name])
+
+                if item == "Type":
+                    rows.append(["Unit process"])
+
+                if item == "Comment":
+
+                    string = "Originally published in: "
+                    string += source
+
+                    if description != "":
+                        string += " Description: "
+                        string += description
+
+                    if special_remark != "":
+                        string += " Special remark(s): "
+                        string += special_remark
+
+                    rows.append([string])
+
+                if item == "Category type":
+                    rows.append([main_category])
+
+                if item == "Generator":
+                    rows.append(["carculator " + str(__version__)])
+
+                if item == "Geography":
+                    rows.append([a["location"]])
+
+                if item == "Time Period":
+                    rows.append(
+                        ["Between 2010 and 2020. Extrapolated to the selected years."]
                     )
 
-                # We loop through the activities
-                for a in list_act:
+                if item == "Date":
+                    rows.append([f"{datetime.datetime.today():%d.%m.%Y}"])
 
-                    # We fetch teh main and sub categories (sub category is in fact a path)
-                    if a["name"] in self.references:
-                        main_category = self.references[a["name"]]["category 1"]
-                        category = self.references[a["name"]]["category 2"]
-                        source = self.references[a["name"]]["source"]
-                        description = self.references[a["name"]]["description"]
-                        special_remark = self.references[a["name"]]["special remark"]
-                    else:
-                        # if we cannot find it, it's because some keys are more general
-                        key = [k for k in self.references.keys() if k in a["name"].lower()][0]
-                        main_category = self.references[key]["category 1"]
-                        category = self.references[key]["category 2"]
-                        source = self.references[key]["source"]
-                        description = self.references[key]["description"]
-                        special_remark = self.references[key]["special remark"]
+                if item in ("Cut off rules",
+                            "Capital goods",
+                            "Technology",
+                            "Representativeness",
+                            "Boundary with nature"):
+                    rows.append(["Unspecified"])
 
-                    # We loop through the fields SimaPro expects to see
-                    for item in fields:
+                if item == "Infrastructure":
+                    rows.append(["Yes"])
 
-                        # If it is a waste treatment activity, we skip the field `Products`
-                        if main_category == "waste treatment" and item == "Products":
-                            continue
+                if item == "External documents":
+                    rows.append(["https://carculator.psi.ch"])
 
-                        # It is not a waste treatment activity, we skip the field `Waste treatment`
-                        if main_category != "waste treatment" and item == "Waste treatment":
-                            continue
+                if item in ("System description"):
+                    rows.append(["carculator"])
 
-                        writer.writerow([item])
+                if item in ("Allocation rules"):
+                    rows.append(
+                        ["In the instance of joint-production, allocation of process burden based on"
+                         "economic relative revenue of each co-product."])
 
-                        if item == "Process name":
+                if item == "Literature references":
+                    rows.append(["Sacchi et al. 2020"])
 
-                            if ecoinvent_version in ("3.5", "3.6"):
-                                name = (
-                                        a["name"].capitalize()
-                                        + " {"
-                                        + a.get("location", "GLO")
-                                        + "}"
-                                        + "| Cut-off, U"
-                                )
+                if item == "Collection method":
+                    rows.append(
+                        [
+                            "Modeling and assumptions: https://carculator.readthedocs.io/en/latest/modeling.html"
+                        ]
+                    )
 
-                            if ecoinvent_version == "uvek":
-                                name = a["name"] + "/" + a["location"] + " U"
+                if item == "Verification":
+                    rows.append(["In review. Susceptible to change."])
 
-                            writer.writerow([name])
+                if item == "Waste treatment":
+                    if ei_version in ("3.5", "3.6"):
+                        rows.append(
+                            [
+                                dict_tech.get(
+                                    (a["name"], a["location"]), name
+                                ),
+                                simapro_units[a["unit"]],
+                                1.0,
+                                "not defined",
+                                category,
+                            ]
+                        )
 
-                        if item == "Type":
-                            writer.writerow(["Unit process"])
+                    if ei_version == "uvek":
+                        rows.append(
+                            [
+                                a["name"] + "/" + a["location"] + " U",
+                                simapro_units[a["unit"]],
+                                1.0,
+                                "not defined",
+                                category,
+                            ])
 
-                        if item == "Comment":
-
-                            string = "Originally published in: "
-                            string += source
-
-                            if description != "":
-                                string += " Description: "
-                                string += description
-
-                            if special_remark != "":
-                                string += " Special remark(s): "
-                                string += special_remark
-
-                            writer.writerow([string])
-
-                        if item == "Category type":
-                            writer.writerow([main_category])
-
-                        if item == "Generator":
-                            writer.writerow(["carculator " + str(__version__)])
-
-                        if item == "Geography":
-                            writer.writerow([a["location"]])
-
-                        if item == "Time Period":
-                            writer.writerow(
-                                ["Between 2010 and 2020. Extrapolated to the selected years."]
+                if item == "Products":
+                    for e in a["exchanges"]:
+                        if e["type"] == "production":
+                            name = (
+                                    e["name"].capitalize()
+                                    + " {"
+                                    + e.get("location", "GLO")
+                                    + "}"
+                                    + "| Cut-off, U"
                             )
 
-                        if item == "Date":
-                            writer.writerow([f"{datetime.datetime.today():%d.%m.%Y}"])
-
-                        if item in ("Cut off rules",
-                                    "Capital goods",
-                                    "Technology",
-                                    "Representativeness",
-                                    "Boundary with nature"):
-                            writer.writerow(["Unspecified"])
-
-                        if item == "Infrastructure":
-                            writer.writerow(["Yes"])
-
-                        if item == "External documents":
-                            writer.writerow(["https://carculator.psi.ch"])
-
-                        if item in ("System description"):
-                            writer.writerow(["carculator"])
-
-                        if item in ("Allocation rules"):
-                            writer.writerow(
-                                ["In the instance of joint-production, allocation of process burden based on"
-                                 "economic relative revenue of each co-product."])
-
-                        if item == "Literature references":
-                            writer.writerow(["Sacchi et al. 2020"])
-
-                        if item == "Collection method":
-                            writer.writerow(
-                                [
-                                    "Modeling and assumptions: https://carculator.readthedocs.io/en/latest/modeling.html"
-                                ]
-                            )
-
-                        if item == "Verification":
-                            writer.writerow(["In review. Susceptible to change."])
-
-                        if item == "Waste treatment":
-                            if ecoinvent_version in ("3.5", "3.6"):
-                                writer.writerow(
+                            if ei_version in ("3.5", "3.6"):
+                                rows.append(
                                     [
                                         dict_tech.get(
                                             (a["name"], a["location"]), name
                                         ),
                                         simapro_units[a["unit"]],
                                         1.0,
+                                        "100%",
                                         "not defined",
                                         category,
                                     ]
                                 )
 
-                            if ecoinvent_version == "uvek":
-                                writer.writerow(
+                            if ei_version == "uvek":
+                                rows.append(
                                     [
                                         a["name"] + "/" + a["location"] + " U",
                                         simapro_units[a["unit"]],
                                         1.0,
+                                        "100%",
                                         "not defined",
                                         category,
                                     ])
 
-                        if item == "Products":
-                            for e in a["exchanges"]:
-                                if e["type"] == "production":
+                if item == "Materials/fuels":
+                    for e in a["exchanges"]:
+                        if e["type"] == "technosphere":
+                            if ei_version in ("3.5", "3.6"):
+                                if not any(i.lower() in e["name"].lower()
+                                           for i in ("waste", "emissions", "treatment", "scrap",
+                                                     "used powertrain", "disposal")) \
+                                        or any(i in e["name"]
+                                               for i in ["from municipal waste incineration",
+                                                         ]):
+
+                                    if ei_version == "3.6":
+                                        (e["name"], e["location"], e["unit"],
+                                         e["reference product"]) = self.map_37_to_36.get(
+                                            (e["name"], e["location"], e["unit"], e["reference product"]),
+                                            (e["name"], e["location"], e["unit"], e["reference product"])
+                                        )
+                                    if ei_version == "3.5":
+                                        (e["name"], e["location"], e["unit"],
+                                         e["reference product"]) = self.map_37_to_35.get(
+                                            (e["name"], e["location"], e["unit"], e["reference product"]),
+                                            (e["name"], e["location"], e["unit"], e["reference product"])
+                                        )
+
                                     name = (
                                             e["name"].capitalize()
                                             + " {"
                                             + e.get("location", "GLO")
                                             + "}"
-                                            + "| Cut-off, U"
                                     )
 
-
-                                    if ecoinvent_version in ("3.5", "3.6"):
-                                        writer.writerow(
-                                            [
-                                                dict_tech.get(
-                                                    (a["name"], a["location"]), name
-                                                ),
-                                                simapro_units[a["unit"]],
-                                                1.0,
-                                                "100%",
-                                                "not defined",
-                                                category,
-                                            ]
+                                    if name not in list_own_datasets:
+                                        name = (
+                                                e["reference product"].capitalize()
+                                                + " {"
+                                                + e.get("location", "GLO")
+                                                + "}"
                                         )
 
-                                    if ecoinvent_version == "uvek":
-                                        writer.writerow(
+                                        if "market" in e["name"]:
+                                            name += "| market for " + e["reference product"].lower() + " "
+                                        if "market group" in e["name"]:
+                                            name += "| market group for " + e["reference product"].lower() + " "
+
+                                        if "production" in e["name"]:
+                                            if len(e["reference product"].split(", ")) > 1:
+                                                name += ("| " + e["reference product"].split(", ")[
+                                                    0] + " production, "
+                                                         + e["reference product"].split(", ")[1] + " ")
+
+                                    rows.append(
+                                        [
+                                            dict_tech.get(
+                                                (e["name"], e["location"]), name
+                                            ) + "| Cut-off, U",
+                                            simapro_units[e["unit"]],
+                                            "{:.3E}".format(e["amount"]),
+                                            "undefined",
+                                            0,
+                                            0,
+                                            0,
+                                        ]
+                                    )
+
+                            if ei_version == "uvek":
+                                if not any(i.lower() in e["name"].lower()
+                                           for i in ("waste", "emissions", "treatment", "scrap",
+                                                     "used powertrain", "disposal", "used passenger car",
+                                                     "used electric passenger car")) \
+                                        or any(i in e["name"]
+                                               for i in ["from municipal waste incineration",
+                                                         "aluminium scrap, new",
+                                                         "brake wear emissions",
+                                                         "tyre wear emissions",
+                                                         "road wear emissions",
+                                                         "used powertrain from electric passenger car"
+                                                         ]):
+
+                                    if e["name"] not in [i["name"] for i in data]:
+
+                                        name = self.map_36_to_uvek_for_simapro[
+                                            e["name"], e["location"], e["unit"], e["reference product"]
+                                        ]
+
+                                    else:
+                                        name = e["name"] + "/" + e["location"] + " U"
+
+                                    uvek_multiplication_factors = {
+                                        "market for heat, from steam, in chemical industry": 1 / 2.257,
+                                        "steam production, as energy carrier, in chemical industry": 1 / 2.257,
+                                        "market group for natural gas, high pressure": 0.842,
+                                        "market for natural gas, high pressure": 0.842,
+                                        "market for natural gas, high pressure, vehicle grade": 0.842,
+                                        "market for chemical factory": 1 / 12.6e6,
+                                        "market for used powertrain from electric passenger car, manual dismantling": -1
+                                    }
+
+                                    uvek_units = {
+                                        "market for chemical factory": "unit",
+                                        "market for heat, from steam, in chemical industry": "kilogram",
+                                        "steam production, as energy carrier, in chemical industry": "kilogram",
+                                        "market for manual dismantling of used electric passenger car": "kilogram",
+                                        "market group for natural gas, high pressure": "kilogram",
+                                        "market for natural gas, high pressure": "kilogram",
+                                        "market for transport, pipeline, onshore, petroleum": "kilometer",
+                                        "market for natural gas, high pressure, vehicle grade": "megajoule",
+                                    }
+
+                                    if e["name"] in uvek_multiplication_factors:
+                                        factor = uvek_multiplication_factors[e["name"]]
+                                    else:
+                                        factor = 1
+
+                                    if e["name"] in uvek_units:
+                                        e["unit"] = uvek_units[e["name"]]
+
+                                    rows.append(
+                                        [
+                                            name,
+                                            simapro_units[e["unit"]],
+                                            "{:.3E}".format(e["amount"] * factor),
+                                            "undefined",
+                                            0,
+                                            0,
+                                            0,
+                                        ])
+
+                if item == "Resources":
+                    for e in a["exchanges"]:
+                        if (
+                                e["type"] == "biosphere"
+                                and e["categories"][0] == "natural resource"
+                        ):
+                            rows.append(
+                                [
+                                    dict_bio[e["name"]],
+                                    "",
+                                    simapro_units[e["unit"]],
+                                    "{:.3E}".format(e["amount"]),
+                                    "undefined",
+                                    0,
+                                    0,
+                                    0,
+                                ]
+                            )
+
+                if item == "Emissions to air":
+                    for e in a["exchanges"]:
+                        if (
+                                e["type"] == "biosphere"
+                                and e["categories"][0] == "air"
+                        ):
+                            rows.append(
+                                [
+                                    dict_bio.get(e["name"], e["name"]),
+                                    "",
+                                    simapro_units[e["unit"]],
+                                    "{:.3E}".format(e["amount"]),
+                                    "undefined",
+                                    0,
+                                    0,
+                                    0,
+                                ]
+                            )
+
+                if item == "Emissions to water":
+                    for e in a["exchanges"]:
+                        if (
+                                e["type"] == "biosphere"
+                                and e["categories"][0] == "water"
+                        ):
+                            if e["name"].lower() == "water":
+                                e["unit"] = "kilogram"
+                                e["amount"] /= 1000
+
+                            rows.append(
+                                [
+                                    dict_bio.get(e["name"], e["name"]),
+                                    "",
+                                    simapro_units[e["unit"]],
+                                    "{:.3E}".format(e["amount"]),
+                                    "undefined",
+                                    0,
+                                    0,
+                                    0,
+                                ]
+                            )
+
+                if item == "Emissions to soil":
+                    for e in a["exchanges"]:
+                        if (
+                                e["type"] == "biosphere"
+                                and e["categories"][0] == "soil"
+                        ):
+                            rows.append(
+                                [
+                                    dict_bio.get(e["name"], e["name"]),
+                                    "",
+                                    simapro_units[e["unit"]],
+                                    "{:.3E}".format(e["amount"]),
+                                    "undefined",
+                                    0,
+                                    0,
+                                    0,
+                                ]
+                            )
+
+                if item == "Waste to treatment":
+                    for e in a["exchanges"]:
+                        is_waste = False
+                        if e["type"] == "technosphere":
+
+                            # We check if this is indeed a waste treatment activity
+                            if e["name"] in self.references:
+                                if self.references[e["name"]] == "waste treatment":
+                                    is_waste = True
+                            else:
+                                if any(i.lower() in e["name"].lower()
+                                       for i in (" waste ",
+                                                 "emissions",
+                                                 "treatment",
+                                                 "scrap",
+                                                 "used powertrain",
+                                                 "used passenger car",
+                                                 "used electric passenger car",
+                                                 "municipal solid waste",
+                                                 "disposal")
+                                       ) \
+                                        and not any(i.lower() in e["name"].lower()
+                                                    for i in ("anaerobic",
+                                                              "cooking",
+                                                              "heat",
+                                                              "manual dismantling"
+                                                              )):
+                                    is_waste = True
+
+                            # Yes, it is a waste treatment activity
+                            if is_waste:
+
+                                name = ""
+
+                                # In SimaPro, waste inputs are positive numbers
+                                if e["amount"] < 0:
+                                    e["amount"] *= -1
+
+                                if ei_version in ("3.5", "3.6"):
+
+                                    if ei_version == "3.6":
+                                        (e["name"], e["location"], e["unit"],
+                                         e["reference product"]) = self.map_37_to_36.get(
+                                            (e["name"], e["location"], e["unit"], e["reference product"]),
+                                            (e["name"], e["location"], e["unit"], e["reference product"])
+                                        )
+                                    if ei_version == "3.5":
+                                        (e["name"], e["location"], e["unit"],
+                                         e["reference product"]) = self.map_37_to_35.get(
+                                            (e["name"], e["location"], e["unit"], e["reference product"]),
+                                            (e["name"], e["location"], e["unit"], e["reference product"])
+                                        )
+
+                                    name = dict_tech.get(
+                                        (e["name"], e["location"]),
+                                        e["name"] + " {" + e["location"] + "}"
+                                    )
+
+                                    rows.append(
+                                        [
+                                            name + "| Cut-off, U",
+                                            simapro_units[e["unit"]],
+                                            "{:.3E}".format(e["amount"]),
+                                            "undefined",
+                                            0,
+                                            0,
+                                            0,
+                                        ])
+
+                                if ei_version == "uvek":
+
+                                    if not any(i in e["name"].lower()
+                                               for i in [
+                                                   "brake wear",
+                                                   "tyre wear",
+                                                   "road wear",
+                                                   "aluminium scrap, new",
+                                                   "used powertrain from electric passenger car",
+                                               ]):
+
+                                        uvek_multiplication_factors = {
+                                            "market for manual dismantling of used electric passenger car": 1 / 1200,
+                                            "manual dismantling of used passenger car with internal combustion engine": 1 / 1200,
+                                            "market for manual dismantling of used passenger car with internal combustion engine": 1 / 1200,
+
+                                        }
+
+                                        if e["name"] in uvek_multiplication_factors:
+                                            factor = uvek_multiplication_factors[e["name"]]
+                                        else:
+                                            factor = 1
+
+                                        if e["name"] not in [i["name"] for i in data]:
+                                            name = self.map_36_to_uvek_for_simapro[
+                                                e["name"], e["location"], e["unit"], e["reference product"]
+                                            ]
+
+                                        else:
+                                            name = e["name"] + "/" + e["location"] + " U"
+
+                                        rows.append(
                                             [
-                                                a["name"] + "/" + a["location"] + " U",
-                                                simapro_units[a["unit"]],
-                                                1.0,
-                                                "100%",
-                                                "not defined",
-                                                category,
+                                                name,
+                                                simapro_units[e["unit"]],
+                                                "{:.3E}".format(e["amount"] * factor),
+                                                "undefined",
+                                                0,
+                                                0,
+                                                0,
                                             ])
 
-                        if item == "Materials/fuels":
-                            for e in a["exchanges"]:
-                                if e["type"] == "technosphere":
-                                    if ecoinvent_version in ("3.5", "3.6"):
-                                        if not any(i.lower() in e["name"].lower()
-                                                   for i in ("waste", "emissions", "treatment", "scrap",
-                                                             "used powertrain", "disposal")) \
-                                                or any(i in e["name"]
-                                                       for i in ["from municipal waste incineration",
-                                                                 ]):
+                rows.append([])
 
-                                            if ecoinvent_version == "3.6":
-                                                (e["name"], e["location"], e["unit"],
-                                                 e["reference product"]) = self.map_37_to_36.get(
-                                                    (e["name"], e["location"], e["unit"], e["reference product"]),
-                                                    (e["name"], e["location"], e["unit"], e["reference product"])
-                                                )
-                                            if ecoinvent_version == "3.5":
-                                                (e["name"], e["location"], e["unit"],
-                                                 e["reference product"]) = self.map_37_to_35.get(
-                                                    (e["name"], e["location"], e["unit"], e["reference product"]),
-                                                    (e["name"], e["location"], e["unit"], e["reference product"])
-                                                )
+        # System description
+        rows.append(["System description"])
+        rows.append([])
+        rows.append(["Name"])
+        rows.append(["carculator"])
+        rows.append([])
+        rows.append(["Category"])
+        rows.append(["transport"])
+        rows.append([])
+        rows.append(["Description"])
+        rows.append(["Prospective life cycle assessment model for passenger cars developed by PSI"])
+        rows.append([])
+        rows.append(["Cut-off rules"])
+        rows.append(["All environmentally-relevant flows are included, as far as the authors knowledge permits."
+                         "Also, residual material (e.g., biomass residue) and energy (e.g., waste heat) "
+                         "come free of burden, except for the necessary steps to make it reusable"
+                         " (transport, conditioning, etc.)."
+                         ])
+        rows.append([])
+        rows.append(["Energy model"])
+        rows.append(["The energy consumption of vehicles calculated based on a physics model, including "
+                         "inertia, rolling resistance, aerodynamic drag, road gradient, etc."])
+        rows.append([])
+        rows.append(["Transport model"])
+        rows.append(["Based on Sacchi et al. 2020 (in review)"])
+        rows.append([])
+        rows.append(["Allocation rules"])
+        rows.append(["The system modeling is attributional. In the instance of joint-production, the allocation of "
+                         "burden between co-products is generally based on the relative economic revenue of "
+                         "each product, to align with the underlying database ecoinvent cut-off."])
+        rows.append(["End"])
+        rows.append([])
 
-                                            name = (
-                                                    e["name"].capitalize()
-                                                    + " {"
-                                                    + e.get("location", "GLO")
-                                                    + "}"
-                                            )
+        # Literature reference
+        rows.append(["Literature reference"])
+        rows.append([])
+        rows.append(["Name"])
+        rows.append(["Sacchi et al. 2020"])
+        rows.append([])
+        rows.append(["Documentation link"])
+        rows.append(["https://www.psi.ch/en/ta/preprint"])
+        rows.append([])
+        rows.append(["Comment"])
+        rows.append(["Pre-print available at: https://www.psi.ch/en/media/57994/download"])
+        rows.append([])
+        rows.append(["Category"])
+        rows.append(["carculator"])
+        rows.append([])
+        rows.append(["Description"])
+        description = "carculator: an open-source tool for prospective environmental and " \
+                      "economic life cycle assessment of vehicles. When, Where and How can battery-electric " \
+                      "vehicles help reduce greenhouse gas emissions?\n"
+        description += "Romain Sacchi, Christian Bauer and Brian L. Cox\n"
+        description += "Submitted to Environmental Science and Technology on November 17th, 2020"
 
-                                            if name not in list_own_datasets:
-                                                name = (
-                                                        e["reference product"].capitalize()
-                                                        + " {"
-                                                        + e.get("location", "GLO")
-                                                        + "}"
-                                                )
+        rows.append([description])
 
-                                                if "market" in e["name"]:
-                                                    name += "| market for " + e["reference product"].lower() + " "
-                                                if "market group" in e["name"]:
-                                                    name += "| market group for " + e["reference product"].lower() + " "
-
-                                                if "production" in e["name"]:
-                                                    if len(e["reference product"].split(", ")) > 1:
-                                                        name += ("| " + e["reference product"].split(", ")[
-                                                            0] + " production, "
-                                                                 + e["reference product"].split(", ")[1] + " ")
-
-                                            writer.writerow(
-                                                [
-                                                    dict_tech.get(
-                                                        (e["name"], e["location"]), name
-                                                    ) + "| Cut-off, U",
-                                                    simapro_units[e["unit"]],
-                                                    "{:.3E}".format(e["amount"]),
-                                                    "undefined",
-                                                    0,
-                                                    0,
-                                                    0,
-                                                ]
-                                            )
-
-                                    if ecoinvent_version == "uvek":
-                                        if not any(i.lower() in e["name"].lower()
-                                                   for i in ("waste", "emissions", "treatment", "scrap",
-                                                             "used powertrain", "disposal", "used passenger car",
-                                                             "used electric passenger car")) \
-                                                or any(i in e["name"]
-                                                       for i in ["from municipal waste incineration",
-                                                                 "aluminium scrap, new",
-                                                                 "brake wear emissions",
-                                                                 "tyre wear emissions",
-                                                                 "road wear emissions",
-                                                                 "used powertrain from electric passenger car"
-                                                                 ]):
-
-                                            if e["name"] not in [i["name"] for i in list_act]:
-
-                                                name = self.map_36_to_uvek_for_simapro[
-                                                    e["name"], e["location"], e["unit"], e["reference product"]
-                                                ]
-
-                                            else:
-                                                name = e["name"] + "/" + e["location"] + " U"
-
-                                            uvek_multiplication_factors = {
-                                                "market for heat, from steam, in chemical industry": 1 / 2.257,
-                                                "steam production, as energy carrier, in chemical industry": 1 / 2.257,
-                                                "market group for natural gas, high pressure": 0.842,
-                                                "market for natural gas, high pressure": 0.842,
-                                                "market for natural gas, high pressure, vehicle grade": 0.842,
-                                                "market for chemical factory": 1 / 12.6e6,
-                                                "market for used powertrain from electric passenger car, manual dismantling": -1
-                                            }
-
-                                            uvek_units = {
-                                                "market for chemical factory": "unit",
-                                                "market for heat, from steam, in chemical industry": "kilogram",
-                                                "steam production, as energy carrier, in chemical industry": "kilogram",
-                                                "market for manual dismantling of used electric passenger car": "kilogram",
-                                                "market group for natural gas, high pressure": "kilogram",
-                                                "market for natural gas, high pressure": "kilogram",
-                                                "market for transport, pipeline, onshore, petroleum": "kilometer",
-                                                "market for natural gas, high pressure, vehicle grade": "megajoule",
-                                            }
-
-                                            if e["name"] in uvek_multiplication_factors:
-                                                factor = uvek_multiplication_factors[e["name"]]
-                                            else:
-                                                factor = 1
-
-                                            if e["name"] in uvek_units:
-                                                e["unit"] = uvek_units[e["name"]]
-
-                                            writer.writerow(
-                                                [
-                                                    name,
-                                                    simapro_units[e["unit"]],
-                                                    "{:.3E}".format(e["amount"] * factor),
-                                                    "undefined",
-                                                    0,
-                                                    0,
-                                                    0,
-                                                ])
-
-                        if item == "Resources":
-                            for e in a["exchanges"]:
-                                if (
-                                        e["type"] == "biosphere"
-                                        and e["categories"][0] == "natural resource"
-                                ):
-                                    writer.writerow(
-                                        [
-                                            dict_bio[e["name"]],
-                                            "",
-                                            simapro_units[e["unit"]],
-                                            "{:.3E}".format(e["amount"]),
-                                            "undefined",
-                                            0,
-                                            0,
-                                            0,
-                                        ]
-                                    )
-
-                        if item == "Emissions to air":
-                            for e in a["exchanges"]:
-                                if (
-                                        e["type"] == "biosphere"
-                                        and e["categories"][0] == "air"
-                                ):
-                                    writer.writerow(
-                                        [
-                                            dict_bio.get(e["name"], e["name"]),
-                                            "",
-                                            simapro_units[e["unit"]],
-                                            "{:.3E}".format(e["amount"]),
-                                            "undefined",
-                                            0,
-                                            0,
-                                            0,
-                                        ]
-                                    )
-
-                        if item == "Emissions to water":
-                            for e in a["exchanges"]:
-                                if (
-                                        e["type"] == "biosphere"
-                                        and e["categories"][0] == "water"
-                                ):
-                                    if e["name"].lower() == "water":
-                                        e["unit"] = "kilogram"
-                                        e["amount"] /= 1000
-
-                                    writer.writerow(
-                                        [
-                                            dict_bio.get(e["name"], e["name"]),
-                                            "",
-                                            simapro_units[e["unit"]],
-                                            "{:.3E}".format(e["amount"]),
-                                            "undefined",
-                                            0,
-                                            0,
-                                            0,
-                                        ]
-                                    )
-
-                        if item == "Emissions to soil":
-                            for e in a["exchanges"]:
-                                if (
-                                        e["type"] == "biosphere"
-                                        and e["categories"][0] == "soil"
-                                ):
-                                    writer.writerow(
-                                        [
-                                            dict_bio.get(e["name"], e["name"]),
-                                            "",
-                                            simapro_units[e["unit"]],
-                                            "{:.3E}".format(e["amount"]),
-                                            "undefined",
-                                            0,
-                                            0,
-                                            0,
-                                        ]
-                                    )
-
-                        if item == "Waste to treatment":
-                            for e in a["exchanges"]:
-                                is_waste = False
-                                if e["type"] == "technosphere":
-
-                                    # We check if this is indeed a waste treatment activity
-                                    if e["name"] in self.references:
-                                        if self.references[e["name"]] == "waste treatment":
-                                            is_waste = True
-                                    else:
-                                        if any(i.lower() in e["name"].lower()
-                                               for i in (" waste ",
-                                                         "emissions",
-                                                         "treatment",
-                                                         "scrap",
-                                                         "used powertrain",
-                                                         "used passenger car",
-                                                         "used electric passenger car",
-                                                         "municipal solid waste",
-                                                         "disposal")
-                                               ) \
-                                                and not any(i.lower() in e["name"].lower()
-                                                            for i in ("anaerobic",
-                                                                      "cooking",
-                                                                      "heat",
-                                                                      "manual dismantling"
-                                                                      )):
-                                            is_waste = True
-
-                                    # Yes, it is a waste treatment activity
-                                    if is_waste:
-
-                                        name = ""
-
-                                        # In SimaPro, waste inputs are positive numbers
-                                        if e["amount"] < 0:
-                                            e["amount"] *= -1
-
-                                        if ecoinvent_version in ("3.5", "3.6"):
-
-                                            if ecoinvent_version == "3.6":
-                                                (e["name"], e["location"], e["unit"],
-                                                 e["reference product"]) = self.map_37_to_36.get(
-                                                    (e["name"], e["location"], e["unit"], e["reference product"]),
-                                                    (e["name"], e["location"], e["unit"], e["reference product"])
-                                                )
-                                            if ecoinvent_version == "3.5":
-                                                (e["name"], e["location"], e["unit"],
-                                                 e["reference product"]) = self.map_37_to_35.get(
-                                                    (e["name"], e["location"], e["unit"], e["reference product"]),
-                                                    (e["name"], e["location"], e["unit"], e["reference product"])
-                                                )
-
-                                            name = dict_tech.get(
-                                                (e["name"], e["location"]),
-                                                e["name"] + " {" + e["location"] + "}"
-                                            )
-
-                                            writer.writerow(
-                                                [
-                                                    name + "| Cut-off, U",
-                                                    simapro_units[e["unit"]],
-                                                    "{:.3E}".format(e["amount"]),
-                                                    "undefined",
-                                                    0,
-                                                    0,
-                                                    0,
-                                                ])
-
-                                        if ecoinvent_version == "uvek":
-
-                                            if not any(i in e["name"].lower()
-                                                       for i in [
-                                                           "brake wear",
-                                                           "tyre wear",
-                                                           "road wear",
-                                                           "aluminium scrap, new",
-                                                           "used powertrain from electric passenger car",
-                                                       ]):
-
-                                                uvek_multiplication_factors = {
-                                                    "market for manual dismantling of used electric passenger car": 1 / 1200,
-                                                    "manual dismantling of used passenger car with internal combustion engine": 1 / 1200,
-                                                    "market for manual dismantling of used passenger car with internal combustion engine": 1 / 1200,
-
-                                                }
-
-                                                if e["name"] in uvek_multiplication_factors:
-                                                    factor = uvek_multiplication_factors[e["name"]]
-                                                else:
-                                                    factor = 1
-
-                                                if e["name"] not in [i["name"] for i in list_act]:
-                                                    name = self.map_36_to_uvek_for_simapro[
-                                                        e["name"], e["location"], e["unit"], e["reference product"]
-                                                    ]
-
-                                                else:
-                                                    name = e["name"] + "/" + e["location"] + " U"
-
-                                                writer.writerow(
-                                                    [
-                                                        name,
-                                                        simapro_units[e["unit"]],
-                                                        "{:.3E}".format(e["amount"] * factor),
-                                                        "undefined",
-                                                        0,
-                                                        0,
-                                                        0,
-                                                    ])
-
-                        writer.writerow([])
-
-                #System description
-                writer.writerow(["System description"])
-                writer.writerow([])
-                writer.writerow(["Name"])
-                writer.writerow(["carculator"])
-                writer.writerow([])
-                writer.writerow(["Category"])
-                writer.writerow(["transport"])
-                writer.writerow([])
-                writer.writerow(["Description"])
-                writer.writerow(["Prospective life cycle assessment model for passenger cars developed by PSI"])
-                writer.writerow([])
-                writer.writerow(["Cut-off rules"])
-                writer.writerow(["All environmentally-relevant flows are included, as far as the authors knowledge permits."
-                                 "Also, residual material (e.g., biomass residue) and energy (e.g., waste heat) "
-                                 "come free of burden, except for the necessary steps to make it reusable"
-                                 " (transport, conditioning, etc.)."
-                                 ])
-                writer.writerow([])
-                writer.writerow(["Energy model"])
-                writer.writerow(["The energy consumption of vehicles calculated based on a physics model, including "
-                                 "inertia, rolling resistance, aerodynamic drag, road gradient, etc."])
-                writer.writerow([])
-                writer.writerow(["Transport model"])
-                writer.writerow(["Based on Sacchi et al. 2020 (in review)"])
-                writer.writerow([])
-                writer.writerow(["Allocation rules"])
-                writer.writerow(["The system modeling is attributional. In the instance of joint-production, the allocation of "
-                                 "burden between co-products is generally based on the relative economic revenue of "
-                                 "each product, to align with the underlying database ecoinvent cut-off."])
-                writer.writerow(["End"])
-                writer.writerow([])
-
-                # Literature reference
-                writer.writerow(["Literature reference"])
-                writer.writerow([])
-                writer.writerow(["Name"])
-                writer.writerow(["Sacchi et al. 2020"])
-                writer.writerow([])
-                writer.writerow(["Documentation link"])
-                writer.writerow(["https://www.psi.ch/en/ta/preprint"])
-                writer.writerow([])
-                writer.writerow(["Comment"])
-                writer.writerow(["Pre-print available at: https://www.psi.ch/en/media/57994/download"])
-                writer.writerow([])
-                writer.writerow(["Category"])
-                writer.writerow(["carculator"])
-                writer.writerow([])
-                writer.writerow(["Description"])
-                description = "carculator: an open-source tool for prospective environmental and " \
-                              "economic life cycle assessment of vehicles. When, Where and How can battery-electric " \
-                              "vehicles help reduce greenhouse gas emissions?\n"
-                description += "Romain Sacchi, Christian Bauer and Brian L. Cox\n"
-                description += "Submitted to Environmental Science and Technology on November 17th, 2020"
-
-                writer.writerow([description])
-
-
-            csvFile.close()
-
-        return filepath_export
+        return rows
 
     def write_lci_to_bw(self, presamples, ecoinvent_compatibility, ecoinvent_version, forbidden_activities):
         """

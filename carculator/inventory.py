@@ -1879,7 +1879,7 @@ class InventoryCalculation:
             electricity_inputs = [
                 self.inputs[a] for a in self.inputs if "electricity market for" in a[0]
             ]
-            self.A[np.ix_(range(self.A.shape[0], electricity_inputs, fuel_markets))] = 0
+            self.A[np.ix_(range(self.A.shape[0]), electricity_inputs, fuel_markets)] = 0
 
         if presamples == True:
             lci, array = ExportInventory(
@@ -1911,6 +1911,7 @@ class InventoryCalculation:
         filename=None,
         forbidden_activities=None,
         create_vehicle_datasets=True,
+        export_format="file"
     ):
         """
         Export the inventory as an Excel file (if the destination software is Brightway2) or a CSV file (if the destination software is Simapro) file.
@@ -2010,7 +2011,7 @@ class InventoryCalculation:
             electricity_inputs = [
                 self.inputs[a] for a in self.inputs if "electricity market for" in a[0]
             ]
-            self.A[np.ix_(range(self.A.shape[0], electricity_inputs, fuel_markets))] = 0
+            self.A[np.ix_(range(self.A.shape[0]), electricity_inputs, fuel_markets)] = 0
 
         fp = ExportInventory(
             self.A, self.rev_inputs, db_name=filename or "carculator db"
@@ -2021,6 +2022,7 @@ class InventoryCalculation:
             software_compatibility,
             filename,
             forbidden_activities,
+            export_format
         )
         return fp
 
