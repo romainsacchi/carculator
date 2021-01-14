@@ -828,7 +828,7 @@ class ExportInventory:
 
             if export_format == "string":
                 csvFile = io.StringIO()
-                writer = csv.writer(csvFile, "w")
+                writer = csv.writer(csvFile, "w", quoting=csv.QUOTE_NONE)
                 rows = self.format_data_for_lci_for_simapro(list_act, ecoinvent_version)
                 for row in rows:
                     writer.writerow(row)
