@@ -1438,7 +1438,9 @@ class ExportInventory:
                                                               "cooking",
                                                               "heat",
                                                               "manual dismantling"
-                                                              )):
+                                                              ))\
+                                        and not any(i.lower() in e["product"].lower()
+                                                    for i in ["electricity"]):
                                     is_waste = True
 
                             # Yes, it is a waste treatment activity
