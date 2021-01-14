@@ -520,6 +520,8 @@ class ExportInventory:
                 tuple_input = self.indices[row]
                 mult_factor = 1
 
+                print("ecoinvent_compatibility is {}".format(ecoinvent_compatibility))
+
                 if ecoinvent_compatibility:
 
                     tuple_output = self.map_remind_ecoinvent.get(
@@ -553,7 +555,6 @@ class ExportInventory:
                             tuple_input = self.map_36_to_uvek.get(tuple_input, tuple_input)
 
                 else:
-
 
                     tuple_output = self.map_ecoinvent_remind.get(
                         tuple_output, tuple_output
