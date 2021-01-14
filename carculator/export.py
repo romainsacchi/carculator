@@ -520,8 +520,6 @@ class ExportInventory:
                 tuple_input = self.indices[row]
                 mult_factor = 1
 
-                print("ecoinvent_compatibility is {}".format(ecoinvent_compatibility))
-
                 if ecoinvent_compatibility:
 
                     tuple_output = self.map_remind_ecoinvent.get(
@@ -830,7 +828,7 @@ class ExportInventory:
 
             if export_format == "string":
                 csvFile = io.StringIO()
-                writer = csv.writer(csvFile, "w", newline="")
+                writer = csv.writer(csvFile, "w")
                 rows = self.format_data_for_lci_for_simapro(list_act, ecoinvent_version)
                 for row in rows:
                     writer.writerow(row)
