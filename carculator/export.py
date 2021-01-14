@@ -668,7 +668,8 @@ class ExportInventory:
                 description = self.references[key]["description"]
                 special_remark = self.references[key]["special remark"]
 
-            if ecoinvent_compatibility or ecoinvent_compatibility == False and tuple_output[0] not in activities_to_be_removed:
+            if ecoinvent_compatibility or not ecoinvent_compatibility \
+                and tuple_output[0] not in activities_to_be_removed:
                 list_act.append(
                     {
                         "production amount": 1,
@@ -749,7 +750,11 @@ class ExportInventory:
                 os.makedirs(directory)
             filepath_export = os.path.join(directory, safe_name)
 
-        list_act = self.write_lci(False, ecoinvent_compatibility, ecoinvent_version, forbidden_activities)
+        list_act = self.write_lci(presamples=False,
+                                  ecoinvent_compatibility=ecoinvent_compatibility,
+                                  ecoinvent_version=ecoinvent_version,
+                                  forbidden_activities=forbidden_activities
+                                  )
 
         if software_compatibility == "brightway2":
             data = self.format_data_for_lci_for_bw2(list_act)
