@@ -54,6 +54,7 @@ In the research field of mobility, LCA is widely used to investigate the superio
 * control all the parameters sensitive to the foreground model (i.e., the vehicles) but also to the background model
 (i.e., supply of fuel, battery chemistry, etc.)
 * and easily export the vehicle models as inventories to be further imported in the [Brightway2](https://brightwaylca.org/) LCA framework
+  or the [SimaPro](https://www.simapro.com/) LCA software.
 
 ``carculator`` integrates well with the [Brightway](https://brightwaylca.org/) LCA framework.
 

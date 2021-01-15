@@ -716,11 +716,11 @@ However **carculator** does not directly use the database as is: the database an
 projections provided by the Integrated Assessment Model `REMIND <https://www.pik-potsdam.de/research/transformation-pathways/models/remind/remind>`_.
 
 REMIND provides projections for different regions in the world until 2150, following different energy scenarios,
-described `here <https://github.com/romainsacchi/rmnd-lca/blob/master/rmnd_lca/data/remind_output_files/description.md>`_.
+described `here <https://github.com/romainsacchi/premise/blob/master/premise/data/remind_output_files/description.md>`_.
 
 Projection outputs include the expected change over time in efficiency for power plants, steel making, cement production, etc.
 
-Using the Python library `rmnd_lca <https://github.com/romainsacchi/rmnd-lca/tree/master/rmnd_lca>`_, we produce a number
+Using the Python library `premise <https://github.com/romainsacchi/premise>`_, we produce a number
 of ecoinvent databases with the inclusion of REMIND projections, so that future improvements in electricity production, among others,
 propagate into the datasets involved in the vehicles' inventories.
 

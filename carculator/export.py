@@ -342,7 +342,7 @@ class ExportInventory:
         If `presamples` is True, returns the inventory as well as a `presamples` matrix.
         If `presamples` is False, returns the inventory with characterized uncertainty information.
         If `ecoinvent_compatibility` is True, the inventory is made compatible with ecoinvent. If False,
-        the inventory is compatible with the REMIND-ecoinvent hybrid database output of the `rmnd_lca` library.
+        the inventory is compatible with the REMIND-ecoinvent hybrid database output of the `premise` library.
 
         :returns: a dictionary that contains all the exchanges
         :rtype: dict

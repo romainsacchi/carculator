@@ -18,7 +18,7 @@ At the moment, the tool has a focus on passenger cars.
 It is initially based on the model developed in `Uncertain environmental footprint of current and future battery electric
 vehicles by Cox, et al (2018) <https://pubs.acs.org/doi/10.1021/acs.est.8b00261>`_.
 
-More specifically, ``carculator`` generates `Brightway2 <https://brightwaylca.org/>`_ inventories, but also directly provides characterized
+More specifically, ``carculator`` generates `Brightway2 <https://brightwaylca.org/>`_ and `SimaPro <https://simapro.com/>`_ inventories, but also directly provides characterized
 results against several midpoint indicators from the impact assessment method ReCiPe as well as life cycle cost indicators.
 
 ``carculator`` is a special in the way that it uses time- and energy-scenario-differentiated background inventories for the future,
@@ -52,7 +52,7 @@ Finally, beside being more flexible and transparent, ``carculator`` provides int
 * possibility to override any or all of the 200+ default input car parameters (e.g., number of passengers, drag coefficient) but also calculated parameters (e.g., driving mass).
 * hot pollutants emissions as a function of the driving cycle, using `HBEFA <https://www.hbefa.net/e/index.html>`_ 4.1 data, further divided between rural, suburban and urban areas
 * noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_ for inventory modelling and mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban and urban areas
-* export of inventories as an Excel file, to be used with Brightway2 or Simapro (in progress), including uncertainty information. This requires the user to have `ecoinvent 3.6 cutoff` installed on the LCA software the car inventories are exported to.
+* export of inventories as an Excel/CSV file, to be used with Brightway2 or Simapro, including uncertainty information. This requires the user to have `ecoinvent 3.6 cutoff` installed on the LCA software the car inventories are exported to.
 * export inventories directly into Brightway2, as a LCIImporter object to be registered. Additionally, when run in stochastic mode, it is possible to export arrays of pre-sampled values using the `presamples <https://pypi.org/project/presamples/>`_ library to be used together with the Monte Carlo function of Brightway2.
 * development of an online graphical user interface: `carculator online <https://carculator.psi.ch>`_
 
@@ -389,6 +389,7 @@ Inventories can be exported as:
     * a Python list of exchanges
     * a Brightway2 bw2io.importers.base_lci.LCIImporter object, ready to be imported in a Brigthway2 environment
     * an Excel file, to be imported in a Brigthway2 environment
+    * a CSV file, to be imported in SimaPro 9.x.
 
 .. code-block:: python
 
@@ -399,7 +400,8 @@ Inventories can be exported as:
     # export the inventories as a Brightway2 object
     import_object = ic.export_lci_to_bw()
     # export the inventories as an Excel file (returns the file path of the created file)
-    filepath = ic.export_lci_to_excel()
+    filepath = ic.export_lci_to_excel(software_compatibility="brightway2", ecoinvent_version="3.7")
+    filepath = ic.export_lci_to_excel(software_compatibility="simapro", ecoinvent_version="3.6")
 
 Export of inventories (stochastic)
 **********************************
@@ -425,25 +427,26 @@ The background inventory is originally a combination between ecoinvent 3.6 and o
 Outputs from PIK's REMIND are used to project expected progress in different sectors into ecoinvent. For example, the efficiency
 of electricity-producing technologies as well as the electricity mixes in the future for the main world regions
 are built upon REMIND outputs.
-The library used to create hybrid versions of the ecoinvent database from PIK's REMIND is called `rmnd_lca <https://github.com/romainsacchi/rmnd-lca>`_.
-This means that, as it is, the inventory cannot properly link to ecoinvent 3.6 unless some transformation is performed
-before. These transformations are in fact performed by default when exporting the inventory. Hence, when doing:
+The library used to create hybrid versions of the ecoinvent database from PIK's REMIND is called
+`premise <https://github.com/romainsacchi/premise>`_.
+This means that, as it is, the inventory cannot properly link to ecoinvent 3.6 or 3.7 unless some transformation is performed
+before. These transformations are in fact performed when exporting the inventory. Hence, when doing:
 
 .. code-block:: python
 
-    ic.export_lci_to_excel()
+    ic.export_lci_to_excel(ecoinvent_compatibility=True, ecoinvent_version="3.6")
 
-the resulting inventory should properly link to ecoinvent 3.6. Should you wish to export an inventory to link with a
-REMIND-modified version of ecoinvent, just export the inventory with the `ecoinvent_compatibility` argument
-set to `False`.
+the resulting inventory should properly link to the unmodified version of ecoinvent 3.6 cutoff.
+Should you wish to export an inventory to link with a IAM-modified version of ecoinvent,
+just export the inventory with the `ecoinvent_compatibility` argument set to `False`.
 
 .. code-block:: python
 
-    ic.export_lci_to_excel(ecoinvent_compatibility=False)
+    ic.export_lci_to_excel(ecoinvent_compatibility=False, ecoinvent_version="3.6")
 
-In that case, the inventory will only link to a custom ecoinvent database produced by `rmnd_lca`.
+In that case, the inventory will only link to a custom ecoinvent database produced by `premise`.
 
-But in any case, the following script should successfully import the inventory:
+But in any case, the following script should successfully import the inventory into a Brightway2 project:
 
 .. code-block:: python
 
