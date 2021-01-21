@@ -2077,6 +2077,16 @@ class InventoryCalculation:
             # If a special electricity mix is specified, we use it
             mix = self.background_configuration["custom electricity mix"]
 
+            if np.shape(mix)[0] != len(self.scope["year"]):
+                raise ValueError("The number of electricity mixes ({}) must match with the "
+                                 "number of years ({}).".format(
+                    np.shape(mix)[0], len(self.scope["year"])
+                ))
+
+            if not np.allclose(np.sum(mix, 1), np.ones(len(self.scope["year"]))):
+                raise ValueError("The sum of the electricity mix share does "
+                                 "not equal to 1 for each year.")
+
         else:
             use_year = (
                 (
