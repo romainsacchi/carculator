@@ -6487,12 +6487,12 @@
     "year": 2040
   },
   "34-2017-frontal area": {
-    "amount": 1.9,
+    "amount": 2.09,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1.9,
-    "maximum": 2.1,
-    "minimum": 1.7,
+    "loc": 2.09,
+    "maximum": 2.2,
+    "minimum": 2.0,
     "name": "frontal area",
     "powertrain": [
       "BEV",
@@ -6509,7 +6509,7 @@
     "sizes": [
       "Mini"
     ],
-    "source": "Calibration result",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": "m2",
     "year": 2017
@@ -7152,10 +7152,10 @@
     "year": 2017
   },
   "36-2017-frontal area": {
-    "amount": 2.1,
+    "amount": 2.11,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.1,
+    "loc": 2.11,
     "maximum": 2.3,
     "minimum": 1.9,
     "name": "frontal area",
@@ -7174,7 +7174,7 @@
     "sizes": [
       "Small"
     ],
-    "source": "Calibration result",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": "m2",
     "year": 2017
@@ -7765,10 +7765,10 @@
     "year": 2017
   },
   "38-2017-frontal area": {
-    "amount": 2.2,
+    "amount": 2.28,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.2,
+    "loc": 2.28,
     "maximum": 2.4,
     "minimum": 2,
     "name": "frontal area",
@@ -7787,7 +7787,7 @@
     "sizes": [
       "Lower medium"
     ],
-    "source": "Calibration result",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": "m2",
     "year": 2017
@@ -7985,10 +7985,10 @@
     "year": 2017
   },
   "40-2017-frontal area": {
-    "amount": 2.3,
+    "amount": 2.24,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.3,
+    "loc": 2.24,
     "maximum": 2.5,
     "minimum": 2.1,
     "name": "frontal area",
@@ -8007,7 +8007,7 @@
     "sizes": [
       "Medium"
     ],
-    "source": "Calibration result",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": "m2",
     "year": 2017
@@ -8063,7 +8063,7 @@
     "sizes": [
       "Large"
     ],
-    "source": "Calibration result",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": "m2",
     "year": 2017
@@ -8097,12 +8097,12 @@
     "year": 2040
   },
   "44-2017-frontal area": {
-    "amount": 2.6,
+    "amount": 4.06,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.6,
-    "maximum": 3.4,
-    "minimum": 2.5,
+    "loc": 4.06,
+    "maximum": 4.2,
+    "minimum": 3.9,
     "name": "frontal area",
     "powertrain": [
       "BEV",
@@ -8119,7 +8119,7 @@
     "sizes": [
       "Van"
     ],
-    "source": "Calibration result",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": "m2",
     "year": 2017
@@ -8153,12 +8153,12 @@
     "year": 2040
   },
   "46-2017-frontal area": {
-    "amount": 2.7,
+    "amount": 2.5,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.7,
-    "maximum": 3.4,
-    "minimum": 2.5,
+    "loc": 2.5,
+    "maximum": 3,
+    "minimum": 2.3,
     "name": "frontal area",
     "powertrain": [
       "BEV",
@@ -8175,7 +8175,7 @@
     "sizes": [
       "SUV"
     ],
-    "source": "Calibration result",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": "m2",
     "year": 2017
@@ -8355,10 +8355,10 @@
     "year": 2040
   },
   "52-2017-aerodynamic drag coefficient": {
-    "amount": 0.32,
+    "amount": 0.34,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 0.32,
+    "loc": 0.34,
     "maximum": 0.4,
     "minimum": 0.3,
     "name": "aerodynamic drag coefficient",
@@ -8383,10 +8383,10 @@
     "year": 2017
   },
   "53-2040-aerodynamic drag coefficient": {
-    "amount": 0.29,
+    "amount": 0.3,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 0.29,
+    "loc": 0.3,
     "maximum": 0.4,
     "minimum": 0.27,
     "name": "aerodynamic drag coefficient",
@@ -8411,10 +8411,10 @@
     "year": 2040
   },
   "54-2017-aerodynamic drag coefficient": {
-    "amount": 0.27,
+    "amount": 0.35,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 0.27,
+    "loc": 0.35,
     "maximum": 0.4,
     "minimum": 0.25,
     "name": "aerodynamic drag coefficient",
@@ -8433,16 +8433,16 @@
     "sizes": [
       "SUV"
     ],
-    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result, ICCT (2016)",
     "uncertainty_type": 5,
     "unit": null,
     "year": 2017
   },
   "55-2040-aerodynamic drag coefficient": {
-    "amount": 0.25,
+    "amount": 0.3,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 0.25,
+    "loc": 0.3,
     "maximum": 0.35,
     "minimum": 0.25,
     "name": "aerodynamic drag coefficient",
@@ -8466,11 +8466,11 @@
     "unit": null,
     "year": 2040
   },
-  "56-2017-rolling resistance coefficient": {
-    "amount": 0.01,
+  "56-2017-rolling resistance coefficient-Mini": {
+    "amount": 0.00997,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 0.01,
+    "loc": 0.00997,
     "maximum": 0.012,
     "minimum": 0.007,
     "name": "rolling resistance coefficient",
@@ -8487,26 +8487,188 @@
       "PHEV-e"
     ],
     "sizes": [
-      "Large",
-      "Lower medium",
-      "Medium",
-      "Mini",
-      "SUV",
-      "Small",
+      "Mini"
+    ],
+    "source": "https://theicct.org/sites/default/files/publications/ICCT_LDV-Driving-Resistances-EU_121516.pdf",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2017
+  },
+  "56-2017-rolling resistance coefficient-Small": {
+    "amount": 0.0101,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.0101,
+    "maximum": 0.012,
+    "minimum": 0.007,
+    "name": "rolling resistance coefficient",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Small"
+    ],
+    "source": "https://theicct.org/sites/default/files/publications/ICCT_LDV-Driving-Resistances-EU_121516.pdf",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2017
+  },
+  "56-2017-rolling resistance coefficient-Lower-medium": {
+    "amount": 0.00953,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.00953,
+    "maximum": 0.012,
+    "minimum": 0.007,
+    "name": "rolling resistance coefficient",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Lower medium"
+    ],
+    "source": "https://theicct.org/sites/default/files/publications/ICCT_LDV-Driving-Resistances-EU_121516.pdf",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2017
+  },
+  "56-2017-rolling resistance coefficient-Medium": {
+    "amount": 0.00969,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.00969,
+    "maximum": 0.012,
+    "minimum": 0.007,
+    "name": "rolling resistance coefficient",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Medium"
+    ],
+    "source": "https://theicct.org/sites/default/files/publications/ICCT_LDV-Driving-Resistances-EU_121516.pdf",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2017
+  },
+  "56-2017-rolling resistance coefficient-Large": {
+    "amount": 0.00963,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.00963,
+    "maximum": 0.012,
+    "minimum": 0.007,
+    "name": "rolling resistance coefficient",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "Large"
+    ],
+    "source": "https://theicct.org/sites/default/files/publications/ICCT_LDV-Driving-Resistances-EU_121516.pdf",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2017
+  },
+  "56-2017-rolling resistance coefficient-SUV": {
+    "amount": 0.00944,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.00944,
+    "maximum": 0.012,
+    "minimum": 0.007,
+    "name": "rolling resistance coefficient",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
+      "SUV"
+    ],
+    "source": "https://theicct.org/sites/default/files/publications/ICCT_LDV-Driving-Resistances-EU_121516.pdf",
+    "uncertainty_type": 5,
+    "unit": null,
+    "year": 2017
+  },
+  "56-2017-rolling resistance coefficient-Van": {
+    "amount": 0.00936,
+    "category": "Glider",
+    "kind": "distribution",
+    "loc": 0.00936,
+    "maximum": 0.012,
+    "minimum": 0.007,
+    "name": "rolling resistance coefficient",
+    "powertrain": [
+      "BEV",
+      "FCEV",
+      "HEV-p",
+      "HEV-d",
+      "ICEV-d",
+      "ICEV-g",
+      "ICEV-p",
+      "PHEV-c-p",
+      "PHEV-c-d",
+      "PHEV-e"
+    ],
+    "sizes": [
       "Van"
     ],
-    "source": "Transportation research board (2006)",
+    "source": "https://theicct.org/sites/default/files/publications/ICCT_LDV-Driving-Resistances-EU_121516.pdf",
     "uncertainty_type": 5,
     "unit": null,
     "year": 2017
   },
   "57-2040-rolling resistance coefficient": {
-    "amount": 0.009,
+    "amount": 0.007,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 0.009,
-    "maximum": 0.012,
-    "minimum": 0.006,
+    "loc": 0.007,
+    "maximum": 0.008,
+    "minimum": 0.005,
     "name": "rolling resistance coefficient",
     "powertrain": [
       "BEV",
@@ -8529,7 +8691,7 @@
       "Small",
       "Van"
     ],
-    "source": "Transportation research board (2006)",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": null,
     "year": 2040
@@ -13443,12 +13605,12 @@
     "year": 2010
   },
   "34-2010-frontal area": {
-    "amount": 1.9,
+    "amount": 2.09,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 1.9,
-    "maximum": 2.1,
-    "minimum": 1.7,
+    "loc": 2.09,
+    "maximum": 2.2,
+    "minimum": 2.0,
     "name": "frontal area",
     "powertrain": [
       "BEV",
@@ -13465,7 +13627,7 @@
     "sizes": [
       "Mini"
     ],
-    "source": "Calibration result",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": "m2",
     "year": 2010
@@ -13788,10 +13950,10 @@
     "year": 2010
   },
   "36-2010-frontal area": {
-    "amount": 2.1,
+    "amount": 2.11,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.1,
+    "loc": 2.11,
     "maximum": 2.3,
     "minimum": 1.9,
     "name": "frontal area",
@@ -13810,7 +13972,7 @@
     "sizes": [
       "Small"
     ],
-    "source": "Calibration result",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": "m2",
     "year": 2010
@@ -14096,10 +14258,10 @@
     "year": 2010
   },
   "38-2010-frontal area": {
-    "amount": 2.2,
+    "amount": 2.24,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.2,
+    "loc": 2.24,
     "maximum": 2.4,
     "minimum": 2,
     "name": "frontal area",
@@ -14118,7 +14280,7 @@
     "sizes": [
       "Lower medium"
     ],
-    "source": "Calibration result",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": "m2",
     "year": 2010
@@ -14280,12 +14442,12 @@
     "year": 2010
   },
   "44-2010-frontal area": {
-    "amount": 2.6,
+    "amount": 4.06,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.6,
-    "maximum": 3.4,
-    "minimum": 2.5,
+    "loc": 4.06,
+    "maximum": 4.2,
+    "minimum": 4.0,
     "name": "frontal area",
     "powertrain": [
       "BEV",
@@ -14302,18 +14464,18 @@
     "sizes": [
       "Van"
     ],
-    "source": "Calibration result",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": "m2",
     "year": 2010
   },
   "46-2010-frontal area": {
-    "amount": 2.7,
+    "amount": 2.5,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 2.7,
-    "maximum": 3.4,
-    "minimum": 2.5,
+    "loc": 2.5,
+    "maximum": 2.3,
+    "minimum": 2.7,
     "name": "frontal area",
     "powertrain": [
       "BEV",
@@ -14330,7 +14492,7 @@
     "sizes": [
       "SUV"
     ],
-    "source": "Calibration result",
+    "source": "ICCT (2016)",
     "uncertainty_type": 5,
     "unit": "m2",
     "year": 2010
@@ -14395,10 +14557,10 @@
     "year": 2010
   },
   "52-2010-aerodynamic drag coefficient": {
-    "amount": 0.32,
+    "amount": 0.34,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 0.32,
+    "loc": 0.34,
     "maximum": 0.4,
     "minimum": 0.3,
     "name": "aerodynamic drag coefficient",
@@ -14417,18 +14579,18 @@
     "sizes": [
       "Van"
     ],
-    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result, ICCT (2016)",
     "uncertainty_type": 5,
     "unit": null,
     "year": 2010
   },
   "54-2010-aerodynamic drag coefficient": {
-    "amount": 0.27,
+    "amount": 0.36,
     "category": "Glider",
     "kind": "distribution",
-    "loc": 0.27,
+    "loc": 0.36,
     "maximum": 0.4,
-    "minimum": 0.25,
+    "minimum": 0.3,
     "name": "aerodynamic drag coefficient",
     "powertrain": [
       "BEV",
@@ -14445,7 +14607,7 @@
     "sizes": [
       "SUV"
     ],
-    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
+    "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result, ICCT (2016)",
     "uncertainty_type": 5,
     "unit": null,
     "year": 2010
@@ -19482,12 +19644,12 @@
       "year":2000
    },
    "44-2000-frontal area":{
-      "amount":2.6,
+      "amount":4.06,
       "category":"Glider",
       "kind":"distribution",
-      "loc":2.6,
+      "loc":4.06,
       "maximum":3.4,
-      "minimum":2.5,
+      "minimum":4.5,
       "name":"frontal area",
       "powertrain":[
          "BEV",
@@ -19504,7 +19666,7 @@
       "sizes":[
          "Van"
       ],
-      "source":"Calibration result",
+      "source":"ICCT (2016)",
       "uncertainty_type":5,
       "unit":"m2",
       "year":2000
@@ -19538,10 +19700,10 @@
       "year":2000
    },
    "48-2000-aerodynamic drag coefficient":{
-      "amount":0.33,
+      "amount":0.34,
       "category":"Glider",
       "kind":"distribution",
-      "loc":0.33,
+      "loc":0.34,
       "maximum":0.35,
       "minimum":0.3,
       "name":"aerodynamic drag coefficient",
@@ -19566,10 +19728,10 @@
       "year":2000
    },
    "50-2000-aerodynamic drag coefficient":{
-      "amount":0.3,
+      "amount":0.31,
       "category":"Glider",
       "kind":"distribution",
-      "loc":0.3,
+      "loc":0.31,
       "maximum":0.33,
       "minimum":0.25,
       "name":"aerodynamic drag coefficient",
@@ -19597,10 +19759,10 @@
       "year":2000
    },
    "52-2000-aerodynamic drag coefficient":{
-      "amount":0.32,
+      "amount":0.36,
       "category":"Glider",
       "kind":"distribution",
-      "loc":0.32,
+      "loc":0.36,
       "maximum":0.4,
       "minimum":0.3,
       "name":"aerodynamic drag coefficient",
@@ -19625,10 +19787,10 @@
       "year":2000
    },
    "54-2000-aerodynamic drag coefficient":{
-      "amount":0.27,
+      "amount":0.36,
       "category":"Glider",
       "kind":"distribution",
-      "loc":0.27,
+      "loc":0.36,
       "maximum":0.4,
       "minimum":0.25,
       "name":"aerodynamic drag coefficient",
@@ -19647,7 +19809,7 @@
       "sizes":[
          "SUV"
       ],
-      "source":"Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
+      "source":"Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result, ICCT (2016)",
       "uncertainty_type":5,
       "unit":null,
       "year":2000

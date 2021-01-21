@@ -264,6 +264,26 @@ class InventoryCalculation:
 
         self.array = array.stack(desired=["size", "powertrain", "year"])
 
+        # store some important specs for inventory documentation
+        self.specs = array.sel(
+            parameter=[
+                "combustion power",
+                "electric power",
+                "combustion power share",
+                "lifetime kilometers",
+                "kilometers per year",
+                "range",
+                "TtW efficiency",
+                "TtW energy",
+                "fuel cell system efficiency",
+                "electric energy stored",
+                "oxidation energy stored",
+                "energy battery mass",
+                "curb mass",
+                "driving mass",
+            ]
+        )
+
         self.iterations = len(array.value.values)
 
         self.number_of_cars = (
@@ -309,8 +329,6 @@ class InventoryCalculation:
                     self.background_configuration["energy storage"]["electric"][
                         "type"
                     ] = "NMC"
-
-
 
         self.inputs = self.get_dict_input()
         self.bs = BackgroundSystemModel()
@@ -1057,7 +1075,7 @@ class InventoryCalculation:
         )
 
         arr = (
-            self.A[:, :, -self.number_of_cars:].transpose(0, 2, 1).reshape(shape)
+            self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1).reshape(shape)
             * new_arr.transpose(1, 2, 0)[:, None, None, None, ...]
             * -1
         )
@@ -1452,13 +1470,17 @@ class InventoryCalculation:
                 )
                 list_file_names = sorted(list_file_names)
                 B = np.zeros((len(list_file_names), 21, len(self.inputs)))
-            else:
+            elif self.method_type == "endpoint":
                 list_file_names = glob.glob(
                     str(REMIND_FILES_DIR)
                     + "/*recipe_endpoint*{}*.csv".format(self.scenario)
                 )
                 list_file_names = sorted(list_file_names)
                 B = np.zeros((len(list_file_names), 4, len(self.inputs)))
+            else:
+                raise TypeError(
+                    "The LCIA method type should be either 'midpoint' or 'endpoint'."
+                )
 
         else:
             list_file_names = glob.glob(
@@ -1749,24 +1771,26 @@ class InventoryCalculation:
             electricity_inputs = [
                 self.inputs[a] for a in self.inputs if "electricity market for" in a[0]
             ]
-            self.A[np.ix_(range(self.A.shape[0], electricity_inputs, fuel_markets))] = 0
+            self.A[np.ix_(range(self.A.shape[0]), electricity_inputs, fuel_markets)] = 0
 
         if presamples == True:
             lci, array = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
             ).write_lci(
-                presamples,
-                ecoinvent_compatibility,
-                ecoinvent_version,
-                forbidden_activities,
+                presamples=presamples,
+                ecoinvent_compatibility=ecoinvent_compatibility,
+                ecoinvent_version=ecoinvent_version,
+                forbidden_activities=forbidden_activities,
+                vehicle_specs=self.specs,
             )
             return (lci, array)
         else:
             lci = ExportInventory(self.A, self.rev_inputs, db_name=db_name).write_lci(
-                presamples,
-                ecoinvent_compatibility,
-                ecoinvent_version,
-                forbidden_activities,
+                presamples=presamples,
+                ecoinvent_compatibility=ecoinvent_compatibility,
+                ecoinvent_version=ecoinvent_version,
+                forbidden_activities=forbidden_activities,
+                vehicle_specs=self.specs,
             )
             return lci
 
@@ -1885,20 +1909,23 @@ class InventoryCalculation:
             lci, array = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
             ).write_lci_to_bw(
-                presamples,
-                ecoinvent_compatibility,
-                ecoinvent_version,
-                forbidden_activities,
+                presamples=presamples,
+                ecoinvent_compatibility=ecoinvent_compatibility,
+                ecoinvent_version=ecoinvent_version,
+                forbidden_activities=forbidden_activities,
+                vehicle_specs=self.specs
+
             )
             return (lci, array)
         else:
             lci = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
             ).write_lci_to_bw(
-                presamples,
-                ecoinvent_compatibility,
-                ecoinvent_version,
-                forbidden_activities,
+                presamples=presamples,
+                ecoinvent_compatibility=ecoinvent_compatibility,
+                ecoinvent_version=ecoinvent_version,
+                forbidden_activities=forbidden_activities,
+                vehicle_specs=self.specs
             )
             return lci
 
@@ -1911,7 +1938,7 @@ class InventoryCalculation:
         filename=None,
         forbidden_activities=None,
         create_vehicle_datasets=True,
-        export_format="file"
+        export_format="file",
     ):
         """
         Export the inventory as an Excel file (if the destination software is Brightway2) or a CSV file (if the destination software is Simapro) file.
@@ -2022,7 +2049,8 @@ class InventoryCalculation:
             software_compatibility=software_compatibility,
             filename=filename,
             forbidden_activities=forbidden_activities,
-            export_format=export_format
+            export_format=export_format,
+            vehicle_specs=self.specs,
         )
         return fp
 
@@ -2331,6 +2359,13 @@ class InventoryCalculation:
                 losses_to_low = float(self.bs.losses[battery_origin]["LV"])
             except KeyError:
                 losses_to_low = float(self.bs.losses["CN"]["LV"])
+
+            if battery_origin not in self.bs.electricity_mix.country.values:
+                print(
+                    "The electricity mix for {} could not be found. Average Chinese electricity mix is used for "
+                    "battery manufacture instead.".format(self.country)
+                )
+                battery_origin = "CN"
 
             mix_battery_manufacturing = (
                 self.bs.electricity_mix.sel(
@@ -2714,6 +2749,8 @@ class InventoryCalculation:
             "diesel": 42.8,
             "biodiesel - cooking oil": 31.7,
             "biodiesel - algae": 31.7,
+            "biodiesel - rapeseed oil": 31.7,
+            "biodiesel - palm oil": 31.7,
             "synthetic diesel": 43.3,
             "synthetic diesel - energy allocation": 43.3,
             "cng": 55.5,
@@ -2731,6 +2768,8 @@ class InventoryCalculation:
             "synthetic gasoline": 3.18,
             "diesel": 3.14,
             "biodiesel - cooking oil": 2.85,
+            "biodiesel - palm oil": 2.85,
+            "biodiesel - rapeseed oil": 2.85,
             "biodiesel - algae": 2.85,
             "synthetic diesel": 3.16,
             "synthetic diesel - energy allocation": 3.16,
@@ -2910,16 +2949,23 @@ class InventoryCalculation:
         :return: float. Sulfur content in ppm.
         """
 
+        try:
+            int(year)
+        except ValueError:
+            raise ValueError(
+                "The year for which to fetch sulfur concentration values is not valid."
+            )
+
         if location in self.bs.sulfur.country.values:
             sulfur_concentration = (
                 self.bs.sulfur.sel(country=location, year=year, fuel=fuel).sum().values
             )
         else:
             # If the geography is in fact a region,
-            # we need to calculate hte average sulfur content
+            # we need to calculate the average sulfur content
             # across the region
 
-            list_countries = self.geo.iam_to_ecoinvent_location(self.country)
+            list_countries = self.geo.iam_to_ecoinvent_location(location)
             list_countries = [
                 c for c in list_countries if c in self.bs.sulfur.country.values
             ]
@@ -3102,10 +3148,10 @@ class InventoryCalculation:
             },
             "biogas - sewage sludge": {
                 "name": (
-                    "biogas upgrading - sewage sludge - amine scrubbing - best",
-                    "CH",
+                    "Biomethane, gaseous, 5 bar, from sewage sludge fermentation, at fuelling station",
+                    "RER",
                     "kilogram",
-                    "biogas upgrading - sewage sludge - amine scrubbing - best",
+                    "biomethane, high pressure",
                 )
             },
             "biogas - biowaste": {
@@ -3118,50 +3164,66 @@ class InventoryCalculation:
             },
             "syngas": {
                 "name": (
-                    "Methane production, synthetic, from electrochemical methanation",
+                    "Methane, synthetic, gaseous, 5 bar, from electrochemical methanation, at fuelling station",
                     "RER",
                     "kilogram",
-                    "Methane, synthetic",
+                    "methane, high pressure",
                 )
             },
             "diesel": {
                 "name": (
-                    "market for diesel",
-                    "Europe without Switzerland",
+                    "market group for diesel, low-sulfur",
+                    "RER",
                     "kilogram",
-                    "diesel",
+                    "diesel, low-sulfur",
                 )
             },
             "biodiesel - algae": {
                 "name": (
-                    "Biodiesel from algae",
+                    "Biodiesel, from algae, at fuelling station",
                     "RER",
                     "kilogram",
-                    "Biodiesel from algae",
+                    "biodiesel, vehicle grade",
                 )
             },
             "biodiesel - cooking oil": {
                 "name": (
-                    "Biodiesel from cooking oil",
+                    "Biodiesel, from used cooking oil, at fuelling station",
                     "RER",
                     "kilogram",
-                    "Biodiesel from cooking oil",
+                    "biodiesel, vehicle grade",
+                )
+            },
+            "biodiesel - rapeseed oil": {
+                "name": (
+                    "Biodiesel, from rapeseed oil, at fuelling station",
+                    "RER",
+                    "kilogram",
+                    "biodiesel, vehicle grade",
+                )
+            },
+            "biodiesel - palm oil": {
+                "name": (
+                    "Biodiesel, from palm oil, at fuelling station",
+                    "RER",
+                    "kilogram",
+                    "biodiesel, vehicle grade",
                 )
             },
             "synthetic diesel": {
                 "name": (
-                    "Diesel production, synthetic, Fischer Tropsch process, economic allocation",
+                    "Diesel, synthetic, from electrolysis-based hydrogen, economic allocation, at fuelling station",
                     "RER",
                     "kilogram",
-                    "Diesel, synthetic",
+                    "diesel, synthetic, vehicle grade",
                 )
             },
             "synthetic diesel - energy allocation": {
                 "name": (
-                    "Diesel production, synthetic, Fischer Tropsch process, energy allocation",
+                    "Diesel, synthetic, from electrolysis-based hydrogen, energy allocation, at fuelling station",
                     "RER",
                     "kilogram",
-                    "Diesel, synthetic",
+                    "diesel, synthetic, vehicle grade",
                 )
             },
             "petrol": {
@@ -3174,42 +3236,42 @@ class InventoryCalculation:
             },
             "bioethanol - wheat straw": {
                 "name": (
-                    "Ethanol from wheat straw pellets",
+                    "Ethanol, from wheat straw pellets, at fuelling station",
                     "RER",
                     "kilogram",
-                    "Ethanol from wheat straw pellets",
+                    "ethanol, without water, in 99.7% solution state, vehicle grade",
                 )
             },
             "bioethanol - forest residues": {
                 "name": (
-                    "Ethanol from forest residues",
+                    "Ethanol, from forest residues, at fuelling station",
                     "RER",
                     "kilogram",
-                    "Ethanol from forest residues",
+                    "ethanol, without water, in 99.7% solution state, vehicle grade",
                 )
             },
             "bioethanol - sugarbeet": {
                 "name": (
-                    "Ethanol from sugarbeet",
+                    "Ethanol, from sugarbeet, at fuelling station",
                     "RER",
                     "kilogram",
-                    "Ethanol from sugarbeet",
+                    "ethanol, without water, in 99.7% solution state, vehicle grade",
                 )
             },
             "bioethanol - maize starch": {
                 "name": (
-                    "Ethanol from maize starch",
+                    "Ethanol, from maize starch, at fuelling station",
                     "RER",
                     "kilogram",
-                    "Ethanol from maize starch",
+                    "ethanol, without water, in 99.7% solution state, vehicle grade",
                 )
             },
             "synthetic gasoline": {
                 "name": (
-                    "Gasoline production, synthetic, from methanol",
+                    "Gasoline, synthetic, from methanol, at fuelling station",
                     "RER",
                     "kilogram",
-                    "Gasoline, synthetic",
+                    "gasoline, synthetic, vehicle grade",
                 )
             },
         }
@@ -3266,12 +3328,19 @@ class InventoryCalculation:
                 fuel_market_index = [
                     self.inputs[i] for i in self.inputs if i[0] == dataset_name
                 ][0]
-                primary_fuel_activity_index = self.inputs[
-                    self.fuel_dictionary[primary]["name"]
-                ]
-                secondary_fuel_activity_index = self.inputs[
-                    self.fuel_dictionary[secondary]["name"]
-                ]
+
+                try:
+                    primary_fuel_activity_index = self.inputs[
+                        self.fuel_dictionary[primary]["name"]
+                    ]
+                    secondary_fuel_activity_index = self.inputs[
+                        self.fuel_dictionary[secondary]["name"]
+                    ]
+                except KeyError:
+                    raise KeyError(
+                        "One of the primary or secondary fuels specified in "
+                        "the fuel blend for {} is not valid.".format(fuel_type)
+                    )
 
                 self.A[:, primary_fuel_activity_index, fuel_market_index] = (
                     -1 * primary_share[y]
@@ -4109,22 +4178,25 @@ class InventoryCalculation:
 
                 if self.fuel_blends["cng"]["primary"]["type"] == "cng":
                     share_fossil += self.fuel_blends["cng"]["primary"]["share"][y]
-                    CO2_fossil = (self.fuel_blends["cng"]["primary"]["CO2"] *
-                                  self.fuel_blends["cng"]["primary"]["share"][y]
-                                  )
+                    CO2_fossil = (
+                        self.fuel_blends["cng"]["primary"]["CO2"]
+                        * self.fuel_blends["cng"]["primary"]["share"][y]
+                    )
 
                 if self.fuel_blends["cng"]["secondary"]["type"] == "cng":
                     share_fossil += self.fuel_blends["cng"]["secondary"]["share"][y]
-                    CO2_fossil += (self.fuel_blends["cng"]["secondary"]["CO2"] *
-                                   self.fuel_blends["cng"]["secondary"]["share"][y]
-                                   )
+                    CO2_fossil += (
+                        self.fuel_blends["cng"]["secondary"]["CO2"]
+                        * self.fuel_blends["cng"]["secondary"]["share"][y]
+                    )
 
                 if "tertiary" in self.fuel_blends["cng"]:
                     if self.fuel_blends["cng"]["tertiary"]["type"] == "cng":
                         share_fossil += self.fuel_blends["cng"]["tertiary"]["share"][y]
-                        CO2_fossil += (self.fuel_blends["cng"]["tertiary"]["CO2"] *
-                                       self.fuel_blends["cng"]["tertiary"]["share"][y]
-                                       )
+                        CO2_fossil += (
+                            self.fuel_blends["cng"]["tertiary"]["CO2"]
+                            * self.fuel_blends["cng"]["tertiary"]["share"][y]
+                        )
 
                 self.A[
                     :,
@@ -4147,9 +4219,10 @@ class InventoryCalculation:
 
                 if self.fuel_blends["cng"]["primary"]["type"] != "cng":
                     share_non_fossil += self.fuel_blends["cng"]["primary"]["share"][y]
-                    CO2_non_fossil = (self.fuel_blends["cng"]["primary"]["CO2"] *
-                                      self.fuel_blends["cng"]["primary"]["share"][y]
-                                      )
+                    CO2_non_fossil = (
+                        self.fuel_blends["cng"]["primary"]["CO2"]
+                        * self.fuel_blends["cng"]["primary"]["share"][y]
+                    )
 
                 if self.fuel_blends["cng"]["secondary"]["type"] != "cng":
                     share_non_fossil += self.fuel_blends["cng"]["secondary"]["share"][y]
@@ -4292,26 +4365,27 @@ class InventoryCalculation:
                 # Fuel-based CO2 emission from conventional diesel
                 if self.fuel_blends["diesel"]["primary"]["type"] == "diesel":
                     share_fossil += self.fuel_blends["diesel"]["primary"]["share"][y]
-                    CO2_fossil += (self.fuel_blends["diesel"]["primary"]["CO2"] *
-                                  self.fuel_blends["diesel"]["primary"]["share"][y]
-                                  )
+                    CO2_fossil += (
+                        self.fuel_blends["diesel"]["primary"]["CO2"]
+                        * self.fuel_blends["diesel"]["primary"]["share"][y]
+                    )
 
                 if self.fuel_blends["diesel"]["secondary"]["type"] == "diesel":
                     share_fossil += self.fuel_blends["diesel"]["secondary"]["share"][y]
-                    CO2_fossil += (self.fuel_blends["diesel"]["secondary"]["CO2"] *
-                                   self.fuel_blends["diesel"]["secondary"]["share"][y]
-                                   )
+                    CO2_fossil += (
+                        self.fuel_blends["diesel"]["secondary"]["CO2"]
+                        * self.fuel_blends["diesel"]["secondary"]["share"][y]
+                    )
 
                 if "tertiary" in self.fuel_blends["diesel"]:
                     if self.fuel_blends["diesel"]["tertiary"]["type"] == "diesel":
                         share_fossil += self.fuel_blends["diesel"]["tertiary"]["share"][
                             y
                         ]
-                        CO2_fossil += (self.fuel_blends["diesel"]["tertiary"]["CO2"] *
-                                       self.fuel_blends["diesel"]["tertiary"]["share"][
-                                           y
-                                       ]
-                                       )
+                        CO2_fossil += (
+                            self.fuel_blends["diesel"]["tertiary"]["CO2"]
+                            * self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                        )
 
                 self.A[
                     :,
@@ -4361,11 +4435,10 @@ class InventoryCalculation:
                     share_non_fossil += self.fuel_blends["diesel"]["primary"]["share"][
                         y
                     ]
-                    CO2_non_fossil += (self.fuel_blends["diesel"]["primary"]["CO2"] *
-                                       self.fuel_blends["diesel"]["primary"]["share"][
-                                           y
-                                       ]
-                                       )
+                    CO2_non_fossil += (
+                        self.fuel_blends["diesel"]["primary"]["CO2"]
+                        * self.fuel_blends["diesel"]["primary"]["share"][y]
+                    )
 
                 if self.fuel_blends["diesel"]["secondary"]["type"] != "diesel":
                     share_non_fossil += self.fuel_blends["diesel"]["secondary"][
@@ -4650,27 +4723,27 @@ class InventoryCalculation:
                 # Fuel-based CO2 emission from conventional petrol
                 if self.fuel_blends["petrol"]["primary"]["type"] == "petrol":
                     share_fossil = self.fuel_blends["petrol"]["primary"]["share"][y]
-                    CO2_fossil += (self.fuel_blends["petrol"]["primary"]["CO2"] *
-                                   self.fuel_blends["petrol"]["primary"]["share"][y])
-
+                    CO2_fossil += (
+                        self.fuel_blends["petrol"]["primary"]["CO2"]
+                        * self.fuel_blends["petrol"]["primary"]["share"][y]
+                    )
 
                 if self.fuel_blends["petrol"]["secondary"]["type"] == "petrol":
                     share_fossil += self.fuel_blends["petrol"]["secondary"]["share"][y]
-                    CO2_fossil += (self.fuel_blends["petrol"]["secondary"]["CO2"] *
-                                   self.fuel_blends["petrol"]["secondary"]["share"][y])
-
+                    CO2_fossil += (
+                        self.fuel_blends["petrol"]["secondary"]["CO2"]
+                        * self.fuel_blends["petrol"]["secondary"]["share"][y]
+                    )
 
                 if "tertiary" in self.fuel_blends["petrol"]:
                     if self.fuel_blends["petrol"]["tertiary"]["type"] == "petrol":
                         share_fossil += self.fuel_blends["petrol"]["tertiary"]["share"][
                             y
                         ]
-                        CO2_fossil += (self.fuel_blends["petrol"]["tertiary"]["CO2"] *
-                                       self.fuel_blends["petrol"]["tertiary"]["share"][
-                                           y
-                                       ]
-                                       )
-
+                        CO2_fossil += (
+                            self.fuel_blends["petrol"]["tertiary"]["CO2"]
+                            * self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                        )
 
                 self.A[
                     :,
@@ -4720,24 +4793,19 @@ class InventoryCalculation:
                     share_non_fossil += self.fuel_blends["petrol"]["primary"]["share"][
                         y
                     ]
-                    CO2_non_fossil += (self.fuel_blends["petrol"]["primary"]["CO2"] *
-                                       self.fuel_blends["petrol"]["primary"]["share"][
-                                           y
-                                       ]
-                                       )
-
+                    CO2_non_fossil += (
+                        self.fuel_blends["petrol"]["primary"]["CO2"]
+                        * self.fuel_blends["petrol"]["primary"]["share"][y]
+                    )
 
                 if self.fuel_blends["petrol"]["secondary"]["type"] != "petrol":
                     share_non_fossil += self.fuel_blends["petrol"]["secondary"][
                         "share"
                     ][y]
                     CO2_non_fossil += (
-                        self.fuel_blends["petrol"]["secondary"]["CO2"] *
-                        self.fuel_blends["petrol"]["secondary"][
-                            "share"
-                        ][y]
+                        self.fuel_blends["petrol"]["secondary"]["CO2"]
+                        * self.fuel_blends["petrol"]["secondary"]["share"][y]
                     )
-
 
                 if "tertiary" in self.fuel_blends["petrol"]:
                     if self.fuel_blends["petrol"]["tertiary"]["type"] != "petrol":
@@ -4748,7 +4816,6 @@ class InventoryCalculation:
                             self.fuel_blends["petrol"]["tertiary"]["share"][y]
                             * self.fuel_blends["petrol"]["tertiary"]["CO2"]
                         )
-
 
                 self.A[
                     :,
@@ -5745,19 +5812,25 @@ class InventoryCalculation:
 
                 if self.fuel_blends["cng"]["primary"]["type"] == "cng":
                     share_fossil += self.fuel_blends["cng"]["primary"]["share"][y]
-                    CO2_fossil += (self.fuel_blends["cng"]["primary"]["CO2"] *
-                                   self.fuel_blends["cng"]["primary"]["share"][y])
+                    CO2_fossil += (
+                        self.fuel_blends["cng"]["primary"]["CO2"]
+                        * self.fuel_blends["cng"]["primary"]["share"][y]
+                    )
 
                 if self.fuel_blends["cng"]["secondary"]["type"] == "cng":
                     share_fossil += self.fuel_blends["cng"]["secondary"]["share"][y]
-                    CO2_fossil += (self.fuel_blends["cng"]["secondary"]["CO2"] *
-                                   self.fuel_blends["cng"]["secondary"]["share"][y])
+                    CO2_fossil += (
+                        self.fuel_blends["cng"]["secondary"]["CO2"]
+                        * self.fuel_blends["cng"]["secondary"]["share"][y]
+                    )
 
                 if "tertiary" in self.fuel_blends["cng"]:
                     if self.fuel_blends["cng"]["tertiary"]["type"] == "cng":
                         share_fossil += self.fuel_blends["cng"]["tertiary"]["share"][y]
-                        CO2_fossil += (self.fuel_blends["cng"]["tertiary"]["CO2"] *
-                                       self.fuel_blends["cng"]["tertiary"]["share"][y])
+                        CO2_fossil += (
+                            self.fuel_blends["cng"]["tertiary"]["CO2"]
+                            * self.fuel_blends["cng"]["tertiary"]["share"][y]
+                        )
 
                 self.A[
                     :,
@@ -5917,24 +5990,27 @@ class InventoryCalculation:
                 # Fuel-based CO2 emission from conventional diesel
                 if self.fuel_blends["diesel"]["primary"]["type"] == "diesel":
                     share_fossil += self.fuel_blends["diesel"]["primary"]["share"][y]
-                    CO2_fossil += (self.fuel_blends["diesel"]["primary"]["CO2"] *
-                                   self.fuel_blends["diesel"]["primary"]["share"][y])
+                    CO2_fossil += (
+                        self.fuel_blends["diesel"]["primary"]["CO2"]
+                        * self.fuel_blends["diesel"]["primary"]["share"][y]
+                    )
 
                 if self.fuel_blends["diesel"]["secondary"]["type"] == "diesel":
                     share_fossil += self.fuel_blends["diesel"]["secondary"]["share"][y]
-                    CO2_fossil += (self.fuel_blends["diesel"]["secondary"]["CO2"] *
-                                   self.fuel_blends["diesel"]["secondary"]["share"][y])
+                    CO2_fossil += (
+                        self.fuel_blends["diesel"]["secondary"]["CO2"]
+                        * self.fuel_blends["diesel"]["secondary"]["share"][y]
+                    )
 
                 if "tertiary" in self.fuel_blends["diesel"]:
                     if self.fuel_blends["diesel"]["tertiary"]["type"] == "diesel":
                         share_fossil += self.fuel_blends["diesel"]["tertiary"]["share"][
                             y
                         ]
-                        CO2_fossil += (self.fuel_blends["diesel"]["tertiary"]["CO2"] *
-                                       self.fuel_blends["diesel"]["tertiary"]["share"][
-                                           y
-                                       ]
-                                       )
+                        CO2_fossil += (
+                            self.fuel_blends["diesel"]["tertiary"]["CO2"]
+                            * self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                        )
 
                 self.A[
                     :,
@@ -5984,32 +6060,29 @@ class InventoryCalculation:
                     share_non_fossil += self.fuel_blends["diesel"]["primary"]["share"][
                         y
                     ]
-                    CO2_non_fossil += (self.fuel_blends["diesel"]["primary"]["CO2"] *
-                                       self.fuel_blends["diesel"]["primary"]["share"][
-                                           y
-                                       ]
-                                       )
+                    CO2_non_fossil += (
+                        self.fuel_blends["diesel"]["primary"]["CO2"]
+                        * self.fuel_blends["diesel"]["primary"]["share"][y]
+                    )
 
                 if self.fuel_blends["diesel"]["secondary"]["type"] != "diesel":
                     share_non_fossil += self.fuel_blends["diesel"]["secondary"][
                         "share"
                     ][y]
-                    CO2_non_fossil += (self.fuel_blends["diesel"]["secondary"]["CO2"] *
-                                       self.fuel_blends["diesel"]["secondary"][
-                                           "share"
-                                       ][y]
-                                       )
+                    CO2_non_fossil += (
+                        self.fuel_blends["diesel"]["secondary"]["CO2"]
+                        * self.fuel_blends["diesel"]["secondary"]["share"][y]
+                    )
 
                 if "tertiary" in self.fuel_blends["diesel"]:
                     if self.fuel_blends["diesel"]["tertiary"]["type"] != "diesel":
                         share_non_fossil += self.fuel_blends["diesel"]["tertiary"][
                             "share"
                         ][y]
-                        CO2_non_fossil += (self.fuel_blends["diesel"]["tertiary"]["CO2"] *
-                                           self.fuel_blends["diesel"]["tertiary"][
-                                               "share"
-                                           ][y]
-                                           )
+                        CO2_non_fossil += (
+                            self.fuel_blends["diesel"]["tertiary"]["CO2"]
+                            * self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                        )
 
                 self.A[
                     :,
@@ -6275,24 +6348,27 @@ class InventoryCalculation:
                 # Fuel-based CO2 emission from conventional petrol
                 if self.fuel_blends["petrol"]["primary"]["type"] == "petrol":
                     share_fossil += self.fuel_blends["petrol"]["primary"]["share"][y]
-                    CO2_fossil = (self.fuel_blends["petrol"]["primary"]["CO2"] *
-                                  self.fuel_blends["petrol"]["primary"]["share"][y])
+                    CO2_fossil = (
+                        self.fuel_blends["petrol"]["primary"]["CO2"]
+                        * self.fuel_blends["petrol"]["primary"]["share"][y]
+                    )
 
                 if self.fuel_blends["petrol"]["secondary"]["type"] == "petrol":
                     share_fossil += self.fuel_blends["petrol"]["secondary"]["share"][y]
-                    CO2_fossil += (self.fuel_blends["petrol"]["secondary"]["CO2"] *
-                                   self.fuel_blends["petrol"]["secondary"]["share"][y])
+                    CO2_fossil += (
+                        self.fuel_blends["petrol"]["secondary"]["CO2"]
+                        * self.fuel_blends["petrol"]["secondary"]["share"][y]
+                    )
 
                 if "tertiary" in self.fuel_blends["petrol"]:
                     if self.fuel_blends["petrol"]["tertiary"]["type"] == "petrol":
                         share_fossil += self.fuel_blends["petrol"]["tertiary"]["share"][
                             y
                         ]
-                        CO2_fossil += (self.fuel_blends["petrol"]["tertiary"]["CO2"] *
-                                       self.fuel_blends["petrol"]["tertiary"]["share"][
-                                           y
-                                       ]
-                                       )
+                        CO2_fossil += (
+                            self.fuel_blends["petrol"]["tertiary"]["CO2"]
+                            * self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                        )
 
                 self.A[
                     :,
@@ -6342,31 +6418,29 @@ class InventoryCalculation:
                     share_non_fossil += self.fuel_blends["petrol"]["primary"]["share"][
                         y
                     ]
-                    CO2_non_fossil += (self.fuel_blends["petrol"]["primary"]["CO2"] *
-                                       self.fuel_blends["petrol"]["primary"]["share"][
-                        y
-                    ])
+                    CO2_non_fossil += (
+                        self.fuel_blends["petrol"]["primary"]["CO2"]
+                        * self.fuel_blends["petrol"]["primary"]["share"][y]
+                    )
 
                 if self.fuel_blends["petrol"]["secondary"]["type"] != "petrol":
                     share_non_fossil += self.fuel_blends["petrol"]["secondary"][
                         "share"
                     ][y]
-                    CO2_non_fossil += (self.fuel_blends["petrol"]["secondary"]["CO2"] *
-                                       self.fuel_blends["petrol"]["secondary"][
-                                           "share"
-                                       ][y]
-                                       )
+                    CO2_non_fossil += (
+                        self.fuel_blends["petrol"]["secondary"]["CO2"]
+                        * self.fuel_blends["petrol"]["secondary"]["share"][y]
+                    )
 
                 if "tertiary" in self.fuel_blends["petrol"]:
                     if self.fuel_blends["petrol"]["tertiary"]["type"] != "petrol":
                         share_non_fossil += self.fuel_blends["petrol"]["tertiary"][
                             "share"
                         ][y]
-                        CO2_non_fossil += (self.fuel_blends["petrol"]["tertiary"]["CO2"] *
-                                           self.fuel_blends["petrol"]["tertiary"][
-                                               "share"
-                                           ][y]
-                                           )
+                        CO2_non_fossil += (
+                            self.fuel_blends["petrol"]["tertiary"]["CO2"]
+                            * self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                        )
 
                 self.A[
                     :,
@@ -6730,20 +6804,25 @@ class InventoryCalculation:
             ),
         }
 
-        air_capture = self.inputs[('carbon dioxide, captured from atmosphere',
-                      'RER',
-                      'kilogram',
-                      'carbon dioxide, captured from the atmosphere')]
+        air_capture = self.inputs[
+            (
+                "carbon dioxide, captured from atmosphere",
+                "RER",
+                "kilogram",
+                "carbon dioxide, captured from the atmosphere",
+            )
+        ]
 
-        methanol_distillation = self.inputs[("Methanol distillation",
-                                             "RER",
-                                             "kilogram",
-                                             "Purified methanol")]
+        methanol_distillation = self.inputs[
+            ("Methanol distillation", "RER", "kilogram", "Purified methanol")
+        ]
 
         all_inds = [self.inputs[i] for i in list(d_heat_suppliers.values())]
 
         # DAC
-        heat_amount = self.A[np.ix_(range(self.A.shape[0]), all_inds, [air_capture])].sum()
+        heat_amount = self.A[
+            np.ix_(range(self.A.shape[0]), all_inds, [air_capture])
+        ].sum()
         # zero out the heat input
         self.A[np.ix_(range(self.A.shape[0]), all_inds, [air_capture])] = 0
         # find index of the new supplier and set the amount
@@ -6751,9 +6830,13 @@ class InventoryCalculation:
         self.A[np.ix_(range(self.A.shape[0]), [ind], [air_capture])] = heat_amount
 
         # Methanol distillation
-        heat_amount = self.A[np.ix_(range(self.A.shape[0]), all_inds, [methanol_distillation])].sum()
+        heat_amount = self.A[
+            np.ix_(range(self.A.shape[0]), all_inds, [methanol_distillation])
+        ].sum()
         # zero out the heat input
         self.A[np.ix_(range(self.A.shape[0]), all_inds, [methanol_distillation])] = 0
         # find index of the new supplier and set the amount
         ind = self.inputs[d_heat_suppliers[heat_supplier]]
-        self.A[np.ix_(range(self.A.shape[0]), [ind], [methanol_distillation])] = heat_amount
+        self.A[
+            np.ix_(range(self.A.shape[0]), [ind], [methanol_distillation])
+        ] = heat_amount

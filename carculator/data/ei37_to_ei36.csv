@@ -17,3 +17,5 @@ market for ammonium sulfate;RER;kilogram;ammonium sulfate;market for ammonium su
 kraft paper production;RER;kilogram;kraft paper;kraft paper production, bleached;RER;kilogram;kraft paper, bleached
 smelting of copper concentrate, sulfide ore;RoW;kilogram;copper, anode;market for copper concentrate, sulfide ore;GLO;kilogram;copper concentrate, sulfide ore
 market for natural gas, high pressure, vehicle grade;GLO;kilogram;natural gas, high pressure, vehicle grade;market for natural gas, from high pressure network (1-5 bar), at service station;GLO;kilogram;natural gas, from high pressure network (1-5 bar), at service station
+market for heat, central or small-scale, biomethane;Europe without Switzerland;megajoule;heat, central or small-scale, biomethane;heat and power co-generation, biogas, gas engine;CH;megajoule;heat, central or small-scale, other than natural gas
+market for heat, central or small-scale, biomethane;RoW;megajoule;heat, central or small-scale, biomethane;heat and power co-generation, biogas, gas engine;RoW;megajoule;heat, central or small-scale, other than natural gas
