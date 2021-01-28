@@ -4,6 +4,21 @@
     "Energy, gross calorific value, in biomass",
     "Energy, gross calorific value, in biomass"
   ],
+  [
+    "natural resource",
+    "Energy, gross calorific value, in biomass",
+    "Energy, kinetic (in wind), converted"
+  ],
+    [
+    "natural resource",
+    "Energy, gross calorific value, in biomass",
+    "Energy, potential (in hydropower reservoir), converted"
+  ],
+      [
+    "natural resource",
+    "Energy, gross calorific value, in biomass",
+    "Energy, geothermal, converted"
+  ],
     [
     "air",
     "1-Butanol",
@@ -53,6 +68,11 @@
     "air",
     "Carbon dioxide, biogenic",
     "Carbon dioxide, non-fossil"
+  ],
+  [
+    "air",
+    "Carbon dioxide, in air",
+    "Carbon dioxide, in air"
   ],
   [
     "air",
@@ -764,6 +784,11 @@
     "Iron",
     "Iron, 46% in ore, 25% in crude ore, in ground"
   ],
+   [
+    "natural resource",
+    "Iron",
+    "Iron, in ground"
+  ],
   [
     "natural resource",
     "Kaolinite",
@@ -963,6 +988,16 @@
     "natural resource",
     "Occupation, industrial area, built up",
     "Occupation, industrial area"
+  ],
+    [
+    "natural resource",
+    "Occupation, industrial area, built up",
+    "Occupation, dump site"
+  ],
+  [
+    "natural resource",
+    "Occupation, industrial area, built up",
+    "Occupation, mineral extraction site"
   ],
   [
     "natural resource",
@@ -2043,6 +2078,11 @@
     "natural resource",
     "Water, river, Europe without Switzerland",
     "Water, unspecified natural origin"
+  ],
+    [
+    "natural resource",
+    "Water, river, Europe without Switzerland",
+    "Water, river"
   ],
   [
     "natural resource",

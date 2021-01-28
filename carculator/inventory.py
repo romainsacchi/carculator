@@ -1494,11 +1494,13 @@ class InventoryCalculation:
 
             new_B = np.zeros((np.shape(initial_B)[0], len(self.inputs),))
 
-            new_B[0 : np.shape(initial_B)[0], 0 : np.shape(initial_B)[1]] = initial_B
+            new_B[0: np.shape(initial_B)[0], 0: np.shape(initial_B)[1]] = initial_B
 
             B[f, :, :] = new_B
 
         list_impact_categories = list(self.impact_categories.keys())
+
+        print(B.shape)
 
         if self.scenario != "static":
             response = xr.DataArray(

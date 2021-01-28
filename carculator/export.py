@@ -77,6 +77,35 @@ def load_references():
 
     return dict_reference
 
+def load_uvek_transport_distances():
+    """Load a dictionary with transport distances for inventory export to UVEK database"""
+
+    # Load the matching dictionary
+    filename = "transport_distance_uvek.csv"
+    filepath = DATA_DIR / filename
+    if not filepath.is_file():
+        raise FileNotFoundError(
+            "The dictionary with transport distances could not be found."
+        )
+    with open(filepath, encoding='latin1') as f:
+        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+    header, *data = csv_list
+
+    dict_distance = {}
+    for row in data:
+        name, _, _, train_RER, truck_RER, barge_RER, train_CH, truck_CH, barge_CH = row
+
+        dict_distance[name] = {
+            "train RER": float(train_RER),
+            "truck RER": float(truck_RER),
+            "barge RER": float(barge_RER),
+            "train CH": float(train_CH),
+            "truck CH": float(truck_CH),
+            "barge CH": float(barge_CH),
+        }
+
+    return dict_distance
+
 def load_mapping_37_to_35():
     """Load mapping dictionary between ecoinvent 3.7 and 3.5"""
 
@@ -246,6 +275,7 @@ class ExportInventory:
         self.map_36_to_uvek = self.load_mapping_36_to_uvek()
         self.map_36_to_uvek_for_simapro = self.load_mapping_36_to_uvek_for_simapro()
         self.tags = self.load_tags()
+        self.uvek_dist = load_uvek_transport_distances()
 
     def rename_vehicles(self):
 
@@ -489,7 +519,9 @@ class ExportInventory:
             "market for molybdenum trioxide",
             "market for nickel sulfate",
             "market for soda ash, light, crystalline, heptahydrate",
+            'market for fly ash and scrubber sludge',
         ]
+
 
         ei35_activities_to_remove = [
             "latex production"
@@ -596,10 +628,6 @@ class ExportInventory:
                                 type_exc,
                             )
                         )
-                    # else:
-                    #    # Generate uncertainty distribution parameters
-                    #    amount = np.median(self.array[:, row, col])
-                    #    uncertainty = self.best_fit_distribution(self.array[:, row, col] * -1)
 
                 # Look for a tag, if any
                 tag = [self.tags[t] for t in list(self.tags.keys()) if t in tuple_input[0]]
@@ -753,6 +781,111 @@ class ExportInventory:
                                 val = int(val)
 
                             string += d_names[p] + ": " + str(val) + " " + d_units[p] + ". "
+
+
+                # Added transport distances if the inventory
+                # is meant for the UVEK database
+                if ecoinvent_version == "uvek":
+                    dist_train, dist_truck, dist_barge = (0, 0, 0)
+                    if tuple_output[1] in ("RER", "Europe without Switzerland", "SE", "GLO",
+                                           "DE", "JP", "CN"):
+                        for exc in list_exc:
+                            if exc["name"] in self.uvek_dist:
+                                dist_train += (self.uvek_dist[exc["name"]]["train RER"]
+                                                * float(exc["amount"]) / 1000)
+                                dist_truck += (self.uvek_dist[exc["name"]]["truck RER"]
+                                               * float(exc["amount"]) / 1000)
+                                dist_barge += (self.uvek_dist[exc["name"]]["barge RER"]
+                                               * float(exc["amount"]) / 1000)
+
+                        if dist_train > 0:
+
+                            list_exc.append(
+                                {
+                                    "name": "market for transport, freight train",
+                                    "database": "ecoinvent",
+                                    "amount": dist_train,
+                                    "unit": "ton kilometer",
+                                    "type": "technosphere",
+                                    "location": "Europe without Switzerland",
+                                    "reference product": "transport, freight train",
+                                }
+                            )
+                        if dist_truck > 0:
+
+                            list_exc.append(
+                                {
+                                    "name": "market for transport, freight, lorry >32 metric ton, EURO4",
+                                    "database": "ecoinvent",
+                                    "amount": dist_truck,
+                                    "unit": "ton kilometer",
+                                    "type": "technosphere",
+                                    "location": "RER",
+                                    "reference product": "transport, freight, lorry >32 metric ton, EURO4",
+                                }
+                            )
+                        if dist_barge > 0:
+
+                            list_exc.append(
+                                {
+                                    "name": "market for transport, freight, inland waterways, barge",
+                                    "database": "ecoinvent",
+                                    "amount": dist_barge,
+                                    "unit": "ton kilometer",
+                                    "type": "technosphere",
+                                    "location": "RER",
+                                    "reference product": "transport, freight, inland waterways, barge",
+                                }
+                            )
+
+                    elif tuple_output[1] == "CH":
+
+                        for exc in list_exc:
+                            if exc["name"] in self.uvek_dist:
+                                dist_train += (self.uvek_dist[exc["name"]]["train CH"]
+                                                * float(exc["amount"]) / 1000)
+                                dist_truck += (self.uvek_dist[exc["name"]]["truck CH"]
+                                               * float(exc["amount"]) / 1000)
+                                dist_barge += (self.uvek_dist[exc["name"]]["barge CH"]
+                                               * float(exc["amount"]) / 1000)
+
+                        if dist_train > 0:
+                            list_exc.append(
+                                {
+                                    "name": "market for transport, freight train",
+                                    "database": "ecoinvent",
+                                    "amount": dist_train,
+                                    "unit": "ton kilometer",
+                                    "type": "technosphere",
+                                    "location": "CH",
+                                    "reference product": "transport, freight train",
+                                }
+                            )
+                        if dist_truck > 0:
+                            list_exc.append(
+                                {
+                                    "name": "market for transport, freight, lorry >32 metric ton, EURO4",
+                                    "database": "ecoinvent",
+                                    "amount": dist_truck,
+                                    "unit": "ton kilometer",
+                                    "type": "technosphere",
+                                    "location": "RER",
+                                    "reference product": "transport, freight, lorry >32 metric ton, EURO4",
+                                }
+                            )
+                        if dist_barge > 0:
+                            list_exc.append(
+                                {
+                                    "name": "market for transport, freight, inland waterways, barge",
+                                    "database": "ecoinvent",
+                                    "amount": dist_barge,
+                                    "unit": "ton kilometer",
+                                    "type": "technosphere",
+                                    "location": "RER",
+                                    "reference product": "transport, freight, inland waterways, barge",
+                                }
+                            )
+
 
                 list_act.append(
                     {
@@ -1023,6 +1156,25 @@ class ExportInventory:
         return rows
 
     def format_data_for_lci_for_simapro(self, data, ei_version):
+
+        # not all biosphere flows exist in simapro
+        simapro_biosphere_flows_to_remove = [
+            'Gangue, in ground',
+            'Water, turbine use, unspecified natural origin',
+            'Oxygen',
+            'Volume occupied, reservoir',
+            'Xenon-135',
+            'Noble gases, radioactive, unspecified',
+            'Radon-222',
+            'Xenon-133',
+            'Hydrogen-3, Tritium',
+            'Radon-222',
+            'Radon-220',
+            'Oxygen',
+            'Occupation, traffic area, road network',
+            'Energy, gross calorific value, in biomass, primary forest',
+            'Carbon-14'
+        ]
 
         headers = [
 
@@ -1381,9 +1533,13 @@ class ExportInventory:
 
                                     if e["name"] not in [i["name"] for i in data]:
 
-                                        name = self.map_36_to_uvek_for_simapro[
-                                            e["name"], e["location"], e["unit"], e["reference product"]
-                                        ]
+                                        try:
+                                            name = self.map_36_to_uvek_for_simapro[
+                                                e["name"], e["location"], e["unit"], e["reference product"]
+                                            ]
+                                        except:
+                                            print(e["name"], e["location"], e["unit"], e["reference product"])
+                                            name=""
 
                                     else:
                                         name = e["name"] + "/" + e["location"] + " U"
@@ -1431,21 +1587,26 @@ class ExportInventory:
                 if item == "Resources":
                     for e in a["exchanges"]:
                         if (
-                                e["type"] == "biosphere"
-                                and e["categories"][0] == "natural resource"
+                            e["type"] == "biosphere"
+                            and e["categories"][0] == "natural resource"
                         ):
-                            rows.append(
-                                [
-                                    dict_bio[e["name"]],
-                                    "",
-                                    simapro_units[e["unit"]],
-                                    "{:.3E}".format(e["amount"]),
-                                    "undefined",
-                                    0,
-                                    0,
-                                    0,
-                                ]
-                            )
+                            if e["name"] not in simapro_biosphere_flows_to_remove:
+                                rows.append(
+
+
+                                            [
+                                                dict_bio[e["name"]],
+                                                "",
+                                                simapro_units[e["unit"]],
+                                                "{:.3E}".format(e["amount"]),
+                                                "undefined",
+                                                0,
+                                                0,
+                                                0,
+                                            ]
+
+                                    )
+
 
                 if item == "Emissions to air":
                     for e in a["exchanges"]:
@@ -1453,18 +1614,22 @@ class ExportInventory:
                                 e["type"] == "biosphere"
                                 and e["categories"][0] == "air"
                         ):
-                            rows.append(
-                                [
-                                    dict_bio.get(e["name"], e["name"]),
-                                    "",
-                                    simapro_units[e["unit"]],
-                                    "{:.3E}".format(e["amount"]),
-                                    "undefined",
-                                    0,
-                                    0,
-                                    0,
-                                ]
-                            )
+                            if e["name"] not in simapro_biosphere_flows_to_remove:
+                                try:
+                                    rows.append(
+                                        [
+                                            dict_bio.get(e["name"], e["name"]),
+                                            "",
+                                            simapro_units[e["unit"]],
+                                            "{:.3E}".format(e["amount"]),
+                                            "undefined",
+                                            0,
+                                            0,
+                                            0,
+                                        ]
+                                    )
+                                except:
+                                    print(e["name"], e["categories"])
 
                 if item == "Emissions to water":
                     for e in a["exchanges"]:
@@ -1472,22 +1637,23 @@ class ExportInventory:
                                 e["type"] == "biosphere"
                                 and e["categories"][0] == "water"
                         ):
-                            if e["name"].lower() == "water":
-                                e["unit"] = "kilogram"
-                                e["amount"] /= 1000
+                            if e["name"] not in simapro_biosphere_flows_to_remove:
+                                if e["name"].lower() == "water":
+                                    e["unit"] = "kilogram"
+                                    e["amount"] /= 1000
 
-                            rows.append(
-                                [
-                                    dict_bio.get(e["name"], e["name"]),
-                                    "",
-                                    simapro_units[e["unit"]],
-                                    "{:.3E}".format(e["amount"]),
-                                    "undefined",
-                                    0,
-                                    0,
-                                    0,
-                                ]
-                            )
+                                rows.append(
+                                    [
+                                        dict_bio.get(e["name"], e["name"]),
+                                        "",
+                                        simapro_units[e["unit"]],
+                                        "{:.3E}".format(e["amount"]),
+                                        "undefined",
+                                        0,
+                                        0,
+                                        0,
+                                    ]
+                                )
 
                 if item == "Emissions to soil":
                     for e in a["exchanges"]:
@@ -1495,18 +1661,19 @@ class ExportInventory:
                                 e["type"] == "biosphere"
                                 and e["categories"][0] == "soil"
                         ):
-                            rows.append(
-                                [
-                                    dict_bio.get(e["name"], e["name"]),
-                                    "",
-                                    simapro_units[e["unit"]],
-                                    "{:.3E}".format(e["amount"]),
-                                    "undefined",
-                                    0,
-                                    0,
-                                    0,
-                                ]
-                            )
+                            if e["name"] not in simapro_biosphere_flows_to_remove:
+                                rows.append(
+                                    [
+                                        dict_bio.get(e["name"], e["name"]),
+                                        "",
+                                        simapro_units[e["unit"]],
+                                        "{:.3E}".format(e["amount"]),
+                                        "undefined",
+                                        0,
+                                        0,
+                                        0,
+                                    ]
+                                )
 
                 if item == "Waste to treatment":
                     for e in a["exchanges"]:
@@ -1603,9 +1770,13 @@ class ExportInventory:
                                             factor = 1
 
                                         if e["name"] not in [i["name"] for i in data]:
-                                            name = self.map_36_to_uvek_for_simapro[
-                                                e["name"], e["location"], e["unit"], e["reference product"]
-                                            ]
+                                            try:
+                                                name = self.map_36_to_uvek_for_simapro[
+                                                    e["name"], e["location"], e["unit"], e["reference product"]
+                                                ]
+                                            except:
+                                                print(e["name"], e["location"], e["unit"], e["reference product"])
+                                                name=""
 
                                         else:
                                             name = e["name"] + "/" + e["location"] + " U"
