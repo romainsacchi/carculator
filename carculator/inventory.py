@@ -3525,6 +3525,23 @@ class InventoryCalculation:
             * -1
         )
 
+        # Battery EoL
+        self.A[
+        :,
+        self.inputs[
+            (
+                "market for used Li-ion battery",
+                "GLO",
+                "kilogram",
+                "used Li-ion battery",
+            )
+        ],
+        -self.number_of_cars:,
+        ] = (
+                array[self.array_inputs["energy battery mass"], :]
+                / array[self.array_inputs["lifetime kilometers"], :]
+        )
+
         self.A[
             :,
             self.inputs[
@@ -5186,7 +5203,23 @@ class InventoryCalculation:
         ] = (
             array[self.array_inputs["curb mass"], :]
             * (1 - array[self.array_inputs["combustion power share"], :])
-            * -1
+
+        )
+
+        # Battery EoL
+        self.A[
+        :,
+        self.inputs[
+            (
+                "market for used Li-ion battery",
+                "GLO",
+                "kilogram",
+                "used Li-ion battery",
+            )
+        ],
+            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+        ] = (
+                array[self.array_inputs["energy battery mass"], :]
         )
 
         self.A[

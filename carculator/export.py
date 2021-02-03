@@ -768,19 +768,20 @@ class ExportInventory:
 
                     pwt = d_pwt[pwt]
 
-                    for p in vehicle_specs.parameter.values:
+                    if not vehicle_specs is None:
+                        for p in vehicle_specs.parameter.values:
 
-                        val = vehicle_specs.sel(powertrain=pwt, size=size, year=int(year), value=0, parameter=p).values
+                            val = vehicle_specs.sel(powertrain=pwt, size=size, year=int(year), value=0, parameter=p).values
 
-                        if val != 0:
+                            if val != 0:
 
-                            if p in ("TtW efficiency", 'combustion power share',
-                                     'capacity utilization', 'fuel cell system efficiency'):
-                                val = int(val * 100)
-                            else:
-                                val = int(val)
+                                if p in ("TtW efficiency", 'combustion power share',
+                                         'capacity utilization', 'fuel cell system efficiency'):
+                                    val = int(val * 100)
+                                else:
+                                    val = int(val)
 
-                            string += d_names[p] + ": " + str(val) + " " + d_units[p] + ". "
+                                string += d_names[p] + ": " + str(val) + " " + d_units[p] + ". "
 
 
                 # Added transport distances if the inventory
@@ -915,7 +916,7 @@ class ExportInventory:
         ecoinvent_compatibility,
         ecoinvent_version,
         software_compatibility,
-        vehicle_specs,
+        vehicle_specs=None,
         directory=None,
         filename=None,
         forbidden_activities=None,
@@ -1857,7 +1858,7 @@ class ExportInventory:
                         ecoinvent_compatibility,
                         ecoinvent_version,
                         forbidden_activities,
-                        vehicle_specs):
+                        vehicle_specs=None):
         """
         Return a LCIImporter object with the inventory as `data` attribute.
 
