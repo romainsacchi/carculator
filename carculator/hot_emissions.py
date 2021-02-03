@@ -166,7 +166,7 @@ class HotEmissionsModel:
 
         # Cold start and soak emissions are defined per start and stop
         # Therefore, we need to normalize per km
-        # And add cold start emissions to teh first second of the driving cycle
+        # And add cold start emissions to the first second of the driving cycle
         hot[..., 0] += ((start_per_day * 365 / yearly_km).values
               * non_hot_emissions.loc[dict(type="cold start")].values[:, None, ..., None])
         # And add soak emissions to the last second of the driving cycle

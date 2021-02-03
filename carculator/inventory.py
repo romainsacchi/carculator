@@ -1491,16 +1491,11 @@ class InventoryCalculation:
 
         for f, fp in enumerate(list_file_names):
             initial_B = np.genfromtxt(fp, delimiter=";")
-
             new_B = np.zeros((np.shape(initial_B)[0], len(self.inputs),))
-
             new_B[0: np.shape(initial_B)[0], 0: np.shape(initial_B)[1]] = initial_B
-
             B[f, :, :] = new_B
 
         list_impact_categories = list(self.impact_categories.keys())
-
-        print(B.shape)
 
         if self.scenario != "static":
             response = xr.DataArray(
@@ -1515,7 +1510,7 @@ class InventoryCalculation:
         else:
             response = xr.DataArray(
                 B,
-                coords=[[2020], list_impact_categories, list(self.inputs.keys()),],
+                coords=[[2020], list_impact_categories, list(self.inputs.keys())],
                 dims=["year", "category", "activity"],
             )
 
@@ -2086,7 +2081,7 @@ class InventoryCalculation:
                 ))
 
             if not np.allclose(np.sum(mix, 1), np.ones(len(self.scope["year"]))):
-                raise ValueError("The sum of the electricity mix share does "
+                print("The sum of the electricity mix share does "
                                  "not equal to 1 for each year.")
 
         else:
