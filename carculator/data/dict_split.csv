@@ -10,7 +10,7 @@ components;glider;name;glider lightweighting
 components;EoL;name;market for manual dismantling of used electric passenger car
 components;EoL;name;market for used powertrain from electric passenger car, manual dismantling
 components;EoL;name;market for manual dismantling of used passenger car with internal combustion engine
-components;EoL;name;market for used Li-ion battery
+components;EoL;name;market for used li-ion battery
 components;powertrain;name;charger
 components;powertrain;name;inverter
 components;powertrain;name;converter
