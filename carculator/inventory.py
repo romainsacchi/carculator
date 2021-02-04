@@ -2760,10 +2760,10 @@ class InventoryCalculation:
             "biodiesel - palm oil": 31.7,
             "synthetic diesel": 43.3,
             "synthetic diesel - energy allocation": 43.3,
-            "cng": 55.5,
-            "biogas - sewage sludge": 55.5,
-            "biogas - biowaste": 55.5,
-            "syngas": 55.5,
+            "cng": 50,
+            "biogas - sewage sludge": 50,
+            "biogas - biowaste": 50,
+            "syngas": 50,
         }
 
         fuels_CO2 = {
