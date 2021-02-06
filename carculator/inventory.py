@@ -1075,16 +1075,18 @@ class InventoryCalculation:
         )
 
         arr = (
-            self.A[:, :, -self.number_of_cars :].transpose(0, 2, 1).reshape(shape)
+            self.A[:, :, -self.number_of_cars:].transpose(0, 2, 1).reshape(shape)
             * new_arr.transpose(1, 2, 0)[:, None, None, None, ...]
             * -1
         )
         arr = arr[..., self.split_indices].sum(axis=-1)
 
-        results[...] = arr.transpose(0, 2, 3, 4, 5, 1)
-
         if sensitivity:
+            results[...] = arr.transpose(0, 2, 3, 4, 5, 1).sum(axis=-2)
             results /= results.sel(parameter="reference")
+        else:
+            results[...] = arr.transpose(0, 2, 3, 4, 5, 1)
+
 
         # If the FU is in passenger-km, we normalize the results by the number of passengers
         if self.scope["fu"]["unit"] == "vkm":

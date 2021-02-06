@@ -152,19 +152,23 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
                     )
                 ] = cip.values[param]
     else:
+
         for param in cip.input_parameters:
+
             names = [n for n in cip.metadata if cip.metadata[n]['name'] == param]
 
-            pwt = set(cip.metadata[param]["powertrain"]) if isinstance(cip.metadata[param]["powertrain"], list) \
-                else set([cip.metadata[param]["powertrain"]])
-
-            size = set(cip.metadata[param]["sizes"]) if isinstance(cip.metadata[param]["sizes"], list) \
-                else set([cip.metadata[param]["sizes"]])
-
-            year = set(cip.metadata[param]["year"]) if isinstance(cip.metadata[param]["year"], list) \
-                else set([cip.metadata[param]["year"]])
-
             for name in names:
+
+                pwt = set(cip.metadata[name]["powertrain"]) if isinstance(cip.metadata[name]["powertrain"], list) \
+                    else set([cip.metadata[name]["powertrain"]])
+
+                size = set(cip.metadata[name]["sizes"]) if isinstance(cip.metadata[name]["sizes"], list) \
+                    else set([cip.metadata[name]["sizes"]])
+
+                year = set(cip.metadata[name]["year"]) if isinstance(cip.metadata[name]["year"], list) \
+                    else set([cip.metadata[name]["year"]])
+
+
                 vals = [cip.values[name] for _ in range(0, len(cip.input_parameters) + 1)]
                 vals[cip.input_parameters.index(param) + 1] *= 1.1
 
@@ -259,6 +263,8 @@ def modify_xarray_from_custom_parameters(fp, array):
             else:
                 if k[1] in array.coords["powertrain"].values:
                     pt = [k[1]]
+                elif all(p for p in k[1].split(", ") if p in array.coords["powertrain"].values):
+                    pt = [p for p in k[1].split(", ")]
                 else:
                     print(
                     "{} is not a recognized powertrain. It will be skipped.".format(
@@ -266,7 +272,6 @@ def modify_xarray_from_custom_parameters(fp, array):
                         )
                     )
                     continue
-
 
             if not isinstance(k[2], str):
                 sizes = [s.strip() for s in k[2] if s]
@@ -277,6 +282,8 @@ def modify_xarray_from_custom_parameters(fp, array):
             else:
                 if k[2] in array.coords["size"].values:
                     sizes = [k[2]]
+                elif all(s for s in k[2].split(", ") if s in array.coords["size"].values):
+                    sizes = [s for s in k[2].split(", ")]
                 else:
                     print(
                     "{} is not a recognized size category. It will be skipped.".format(

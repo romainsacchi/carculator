@@ -14474,8 +14474,8 @@
     "category": "Glider",
     "kind": "distribution",
     "loc": 2.5,
-    "maximum": 2.3,
-    "minimum": 2.7,
+    "maximum": 2.7,
+    "minimum": 2.3,
     "name": "frontal area",
     "powertrain": [
       "BEV",
@@ -19648,8 +19648,8 @@
       "category":"Glider",
       "kind":"distribution",
       "loc":4.06,
-      "maximum":3.4,
-      "minimum":4.5,
+      "maximum":4.5,
+      "minimum":3.6,
       "name":"frontal area",
       "powertrain":[
          "BEV",

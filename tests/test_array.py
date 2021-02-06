@@ -60,3 +60,13 @@ def test_wrong_param_modify_array():
     with pytest.raises(KeyError) as wrapped_error:
         array.sel(powertrain="ICEV-d", size="Large", year=2017, parameter="foo")
     assert wrapped_error.type == KeyError
+
+def test_scope():
+    """ Test that the use of scope dictionary works as intended"""
+    cip = CarInputParameters()
+    cip.static()
+    scope = {"powertrain":["ICEV-d"], "size": ["Lower medium"]}
+    _, array = fill_xarray_from_input_parameters(cip, scope=scope)
+
+    assert "BEV" not in array.coords["powertrain"].values
+    assert "Large" not in array.coords["size"].values
