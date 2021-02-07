@@ -1324,12 +1324,12 @@ class InventoryCalculation:
 
         new_A = np.identity(len(self.inputs))
 
-        new_A[0 : np.shape(initial_A)[0], 0 : np.shape(initial_A)[0]] = initial_A
+        new_A[0 : np.shape(initial_A)[0], 0: np.shape(initial_A)[0]] = initial_A
 
         # Resize the matrix to fit the number of iterations in `array`
 
-        new_A = np.resize(new_A, (self.array.shape[1], new_A.shape[0], new_A.shape[1]))
-        return new_A.astype("float32")
+        new_A = np.resize(new_A.astype("float32"), (self.array.shape[1], new_A.shape[0], new_A.shape[1]))
+        return new_A
 
     def build_fleet_vehicles(self):
 
