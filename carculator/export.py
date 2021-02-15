@@ -696,7 +696,10 @@ class ExportInventory:
                 special_remark = self.references[tuple_output[0]]["special remark"]
             else:
 
-                key = [k for k in self.references.keys() if k.lower() in tuple_output[0].lower()][0]
+                try:
+                    key = [k for k in self.references.keys() if k.lower() in tuple_output[0].lower()][0]
+                except IndexError:
+                    print(tuple_output[0])
                 source = self.references[key]["source"]
                 description = self.references[key]["description"]
                 special_remark = self.references[key]["special remark"]
@@ -769,19 +772,23 @@ class ExportInventory:
                     pwt = d_pwt[pwt]
 
                     if not vehicle_specs is None:
+
                         for p in vehicle_specs.parameter.values:
 
-                            val = vehicle_specs.sel(powertrain=pwt, size=size, year=int(year), value=0, parameter=p).values
+                            try:
+                                val = vehicle_specs.sel(powertrain=pwt, size=size, year=int(year), value=0, parameter=p).values
 
-                            if val != 0:
+                                if val != 0:
 
-                                if p in ("TtW efficiency", 'combustion power share',
-                                         'capacity utilization', 'fuel cell system efficiency'):
-                                    val = int(val * 100)
-                                else:
-                                    val = int(val)
+                                    if p in ("TtW efficiency", 'combustion power share',
+                                             'capacity utilization', 'fuel cell system efficiency'):
+                                        val = int(val * 100)
+                                    else:
+                                        val = int(val)
 
-                                string += d_names[p] + ": " + str(val) + " " + d_units[p] + ". "
+                                    string += d_names[p] + ": " + str(val) + " " + d_units[p] + ". "
+                            except KeyError:
+                                print(f"Could not find vehicle specs for {pwt} {size} {year}")
 
 
                 # Added transport distances if the inventory
@@ -1038,7 +1045,6 @@ class ExportInventory:
                 return output.read()
 
         else:
-
             if export_format == "file":
                 with open(filepath_export, "w", newline="", encoding='latin1') as csvFile:
                     writer = csv.writer(csvFile, delimiter=";")
