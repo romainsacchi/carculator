@@ -513,71 +513,100 @@ class InventoryCalculation:
                 ("air", "urban air close to ground"),
                 "kilogram",
             ): "Benzene direct emissions, urban",
-            (
-                "Dinitrogen monoxide",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Dinitrogen oxide direct emissions, urban",
-            (
-                "Toluene",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Toluene direct emissions, urban",
-            (
-                "Toluene",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Toluene direct emissions, suburban",
-            (
-                "Toluene",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Toluene direct emissions, rural",
-            (
-                "Xylene",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Xylene direct emissions, urban",
-            (
-                "Xylene",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Xylene direct emissions, suburban",
-            (
-                "Xylene",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Xylene direct emissions, rural",
-            (
-                "Formaldehyde",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Formaldehyde direct emissions, urban",
-            (
-                "Formaldehyde",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Formaldehyde direct emissions, suburban",
-            (
-                "Formaldehyde",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Formaldehyde direct emissions, rural",
-            (
-                "Acetaldehyde",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Acetaldehyde direct emissions, urban",
-            (
-                "Acetaldehyde",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Acetaldehyde direct emissions, suburban",
-            (
-                "Acetaldehyde",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Acetaldehyde direct emissions, rural",
+            ('Ethane', ('air', 'urban air close to ground'), 'kilogram'): 'Ethane direct emissions, rural',
+            ('Propane', ('air', 'urban air close to ground'), 'kilogram'): 'Propane direct emissions, rural',
+            ('Butane', ('air', 'urban air close to ground'), 'kilogram'): 'Butane direct emissions, rural',
+            ('Pentane', ('air', 'urban air close to ground'), 'kilogram'): 'Pentane direct emissions, rural',
+            ('Hexane', ('air', 'urban air close to ground'), 'kilogram'): 'Hexane direct emissions, rural',
+            ('Cyclohexane', ('air', 'urban air close to ground'), 'kilogram'): 'Cyclohexane direct emissions, rural',
+            ('Heptane', ('air', 'urban air close to ground'), 'kilogram'): 'Heptane direct emissions, rural',
+            ('Ethene', ('air', 'urban air close to ground'), 'kilogram'): 'Ethene direct emissions, rural',
+            ('Propene', ('air', 'urban air close to ground'), 'kilogram'): 'Propene direct emissions, rural',
+            ('1-Pentene', ('air', 'urban air close to ground'), 'kilogram'): '1-Pentene direct emissions, rural',
+            ('Toluene', ('air', 'urban air close to ground'), 'kilogram'): 'Toluene direct emissions, rural',
+            ('m-Xylene', ('air', 'urban air close to ground'), 'kilogram'): 'm-Xylene direct emissions, rural',
+            ('o-Xylene', ('air', 'urban air close to ground'), 'kilogram'): 'o-Xylene direct emissions, rural',
+            ('Formaldehyde', ('air', 'urban air close to ground'), 'kilogram'): 'Formaldehyde direct emissions, rural',
+            ('Acetaldehyde', ('air', 'urban air close to ground'), 'kilogram'): 'Acetaldehyde direct emissions, rural',
+            ('Benzaldehyde', ('air', 'urban air close to ground'), 'kilogram'): 'Benzaldehyde direct emissions, rural',
+            ('Acetone', ('air', 'urban air close to ground'), 'kilogram'): 'Acetone direct emissions, rural',
+            ('Methyl ethyl ketone', ('air', 'urban air close to ground'), 'kilogram'): 'Methyl ethyl ketone direct emissions, rural',
+            ('Acrolein', ('air', 'urban air close to ground'), 'kilogram'): 'Acrolein direct emissions, rural',
+            ('Styrene', ('air', 'urban air close to ground'), 'kilogram'): 'Styrene direct emissions, rural',
+            ('Ethane', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Ethane direct emissions, suburban',
+            ('Propane', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Propane direct emissions, suburban',
+            ('Butane', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Butane direct emissions, suburban',
+            ('Pentane', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Pentane direct emissions, suburban',
+            ('Hexane', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Hexane direct emissions, suburban',
+            ('Cyclohexane', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Cyclohexane direct emissions, suburban',
+            ('Heptane', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Heptane direct emissions, suburban',
+            ('Ethene', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Ethene direct emissions, suburban',
+            ('Propene', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Propene direct emissions, suburban',
+            ('1-Pentene', ('air', 'non-urban air or from high stacks'), 'kilogram'): '1-Pentene direct emissions, suburban',
+            ('Toluene', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Toluene direct emissions, suburban',
+            ('m-Xylene', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'm-Xylene direct emissions, suburban',
+            ('o-Xylene', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'o-Xylene direct emissions, suburban',
+            ('Formaldehyde', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Formaldehyde direct emissions, suburban',
+            ('Acetaldehyde', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Acetaldehyde direct emissions, suburban',
+            ('Benzaldehyde', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Benzaldehyde direct emissions, suburban',
+            ('Acetone', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Acetone direct emissions, suburban',
+            ('Methyl ethyl ketone', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Methyl ethyl ketone direct emissions, suburban',
+            ('Acrolein', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Acrolein direct emissions, suburban',
+            ('Styrene', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Styrene direct emissions, suburban',
+            ('Ethane', ('air', 'low population density, long-term'), 'kilogram'): 'Ethane direct emissions, rural',
+            ('Propane', ('air', 'low population density, long-term'), 'kilogram'): 'Propane direct emissions, rural',
+            ('Butane', ('air', 'low population density, long-term'), 'kilogram'): 'Butane direct emissions, rural',
+            ('Pentane', ('air', 'low population density, long-term'), 'kilogram'): 'Pentane direct emissions, rural',
+            ('Hexane', ('air', 'low population density, long-term'), 'kilogram'): 'Hexane direct emissions, rural',
+            ('Cyclohexane', ('air', 'low population density, long-term'), 'kilogram'): 'Cyclohexane direct emissions, rural',
+            ('Heptane', ('air', 'low population density, long-term'), 'kilogram'): 'Heptane direct emissions, rural',
+            ('Ethene', ('air', 'low population density, long-term'), 'kilogram'): 'Ethene direct emissions, rural',
+            ('Propene', ('air', 'low population density, long-term'), 'kilogram'): 'Propene direct emissions, rural',
+            ('1-Pentene', ('air', 'low population density, long-term'), 'kilogram'): '1-Pentene direct emissions, rural',
+            ('Toluene', ('air', 'low population density, long-term'), 'kilogram'): 'Toluene direct emissions, rural',
+            ('m-Xylene', ('air', 'low population density, long-term'), 'kilogram'): 'm-Xylene direct emissions, rural',
+            ('o-Xylene', ('air', 'low population density, long-term'), 'kilogram'): 'o-Xylene direct emissions, rural',
+            ('Formaldehyde', ('air', 'low population density, long-term'), 'kilogram'): 'Formaldehyde direct emissions, rural',
+            ('Acetaldehyde', ('air', 'low population density, long-term'), 'kilogram'): 'Acetaldehyde direct emissions, rural',
+            ('Benzaldehyde', ('air', 'low population density, long-term'), 'kilogram'): 'Benzaldehyde direct emissions, rural',
+            ('Acetone', ('air', 'low population density, long-term'), 'kilogram'): 'Acetone direct emissions, rural',
+            ('Methyl ethyl ketone', ('air', 'low population density, long-term'), 'kilogram'): 'Methyl ethyl ketone direct emissions, rural',
+            ('Acrolein', ('air', 'low population density, long-term'), 'kilogram'): 'Acrolein direct emissions, rural',
+            ('Styrene', ('air', 'low population density, long-term'), 'kilogram'): 'Styrene direct emissions, rural',
+            ('PAH, polycyclic aromatic hydrocarbons', ('air', 'urban air close to ground'),
+             'kilogram'): 'PAH, polycyclic aromatic hydrocarbons direct emissions, rural',
+            ('Arsenic', ('air', 'urban air close to ground'), 'kilogram'): 'Arsenic direct emissions, rural',
+            ('Selenium', ('air', 'urban air close to ground'), 'kilogram'): 'Selenium direct emissions, rural',
+            ('Zinc', ('air', 'urban air close to ground'), 'kilogram'): 'Zinc direct emissions, rural',
+            ('Copper', ('air', 'urban air close to ground'), 'kilogram'): 'Copper direct emissions, rural',
+            ('Nickel', ('air', 'urban air close to ground'), 'kilogram'): 'Nickel direct emissions, rural',
+            ('Chromium', ('air', 'urban air close to ground'), 'kilogram'): 'Chromium direct emissions, rural',
+            ('Chromium VI', ('air', 'urban air close to ground'), 'kilogram'): 'Chromium VI direct emissions, rural',
+            ('Mercury', ('air', 'urban air close to ground'), 'kilogram'): 'Mercury direct emissions, rural',
+            ('Cadmium', ('air', 'urban air close to ground'), 'kilogram'): 'Cadmium direct emissions, rural',
+            ('PAH, polycyclic aromatic hydrocarbons', ('air', 'non-urban air or from high stacks'),
+             'kilogram'): 'PAH, polycyclic aromatic hydrocarbons direct emissions, suburban',
+            ('Arsenic', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Arsenic direct emissions, suburban',
+            ('Selenium', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Selenium direct emissions, suburban',
+            ('Zinc', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Zinc direct emissions, suburban',
+            ('Copper', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Copper direct emissions, suburban',
+            ('Nickel', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Nickel direct emissions, suburban',
+            ('Chromium', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Chromium direct emissions, suburban',
+            ('Chromium VI', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Chromium VI direct emissions, suburban',
+            ('Mercury', ('air', 'non-urban air or from high stacks'), 'kilogram'): 'Mercury direct emissions, suburban',
+            ('Cadmium', ('air', 'low population density, long-term'), 'kilogram'): 'Cadmium direct emissions, suburban',
+            ('PAH, polycyclic aromatic hydrocarbons', ('air', 'low population density, long-term'),
+             'kilogram'): 'PAH, polycyclic aromatic hydrocarbons direct emissions, rural',
+            ('Arsenic', ('air', 'low population density, long-term'), 'kilogram'): 'Arsenic direct emissions, rural',
+            ('Selenium', ('air', 'low population density, long-term'), 'kilogram'): 'Selenium direct emissions, rural',
+            ('Zinc', ('air', 'low population density, long-term'), 'kilogram'): 'Zinc direct emissions, rural',
+            ('Copper', ('air', 'low population density, long-term'), 'kilogram'): 'Copper direct emissions, rural',
+            ('Nickel', ('air', 'low population density, long-term'), 'kilogram'): 'Nickel direct emissions, rural',
+            ('Chromium', ('air', 'low population density, long-term'), 'kilogram'): 'Chromium direct emissions, rural',
+            ('Chromium VI', ('air', 'low population density, long-term'), 'kilogram'): 'Chromium VI direct emissions, rural',
+            ('Mercury', ('air', 'low population density, long-term'), 'kilogram'): 'Mercury direct emissions, rural',
+            ('Cadmium', ('air', 'low population density, long-term'), 'kilogram'): 'Cadmium direct emissions, rural',
+
         }
 
         self.index_emissions = [
@@ -961,29 +990,7 @@ class InventoryCalculation:
         d["direct - exhaust"].append(
             self.inputs[("Methane, fossil", ("air",), "kilogram")]
         )
-        d["direct - exhaust"].append(
-            self.inputs[("Cadmium", ("air", "urban air close to ground"), "kilogram")]
-        )
-        d["direct - exhaust"].append(
-            self.inputs[("Copper", ("air", "urban air close to ground"), "kilogram")]
-        )
-        d["direct - exhaust"].append(
-            self.inputs[("Chromium", ("air", "urban air close to ground"), "kilogram")]
-        )
-        d["direct - exhaust"].append(
-            self.inputs[("Nickel", ("air", "urban air close to ground"), "kilogram")]
-        )
-        d["direct - exhaust"].append(
-            self.inputs[("Selenium", ("air", "urban air close to ground"), "kilogram")]
-        )
-        d["direct - exhaust"].append(
-            self.inputs[("Zinc", ("air", "urban air close to ground"), "kilogram")]
-        )
-        d["direct - exhaust"].append(
-            self.inputs[
-                ("Chromium VI", ("air", "urban air close to ground"), "kilogram")
-            ]
-        )
+
         d["direct - exhaust"].extend(self.index_emissions)
         d["direct - exhaust"].extend(self.index_noise)
 
@@ -4572,145 +4579,6 @@ class InventoryCalculation:
                     * -1
                 ).T
 
-                # Heavy metals emissions from conventional diesel
-                # Emission factors from Spielmann et al., Transport Services Data v.2 (2007)
-                # Cadmium, 0.01 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Cadmium", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Copper, 1.7 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Copper", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.7e-6
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Chromium, 0.05 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Chromium", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 5.0e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Nickel, 0.07 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Nickel", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 7.0e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Selenium, 0.01 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Selenium", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.0e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Zinc, 1 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Zinc", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.0e-6
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Chromium VI, 0.0001 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        (
-                            "Chromium VI",
-                            ("air", "urban air close to ground"),
-                            "kilogram",
-                        )
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.0e-10
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
         if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV-p"]]:
             index = self.get_index_vehicle_from_array(["ICEV-p", "HEV-p", "PHEV-p"])
 
@@ -4927,144 +4795,6 @@ class InventoryCalculation:
                             * share_non_fossil
                             * CO2_non_fossil
                         )
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Heavy metals emissions from conventional petrol
-                # Cadmium, 0.01 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Cadmium", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Copper, 1.7 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Copper", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.7e-6
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Chromium, 0.05 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Chromium", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 5.0e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Nickel, 0.07 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Nickel", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 7.0e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Selenium, 0.01 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Selenium", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.0e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Zinc, 1 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Zinc", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.0e-6
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Chromium VI, 0.0001 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        (
-                            "Chromium VI",
-                            ("air", "urban air close to ground"),
-                            "kilogram",
-                        )
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.0e-10
                     )
                     / array[self.array_inputs["range"], :, ind_array]
                     * -1
@@ -6240,145 +5970,6 @@ class InventoryCalculation:
                     * -1
                 ).T
 
-                # Heavy metals emissions from conventional diesel
-                # Emission factors from Spielmann et al., Transport Services Data v.2 (2007)
-                # Cadmium, 0.01 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Cadmium", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Copper, 1.7 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Copper", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.7e-6
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Chromium, 0.05 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Chromium", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 5.0e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Nickel, 0.07 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Nickel", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 7.0e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Selenium, 0.01 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Selenium", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.0e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Zinc, 1 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Zinc", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.0e-6
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Chromium VI, 0.0001 mg/kg diesel
-                self.A[
-                    :,
-                    self.inputs[
-                        (
-                            "Chromium VI",
-                            ("air", "urban air close to ground"),
-                            "kilogram",
-                        )
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.0e-10
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
         if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV-p"]]:
             index = self.get_index_vehicle_from_array(["ICEV-p", "HEV-p", "PHEV-p"])
 
@@ -6595,144 +6186,6 @@ class InventoryCalculation:
                             * share_non_fossil
                             * CO2_non_fossil
                         )
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Heavy metals emissions from conventional petrol
-                # Cadmium, 0.01 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Cadmium", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Copper, 1.7 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Copper", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.7e-6
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Chromium, 0.05 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Chromium", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 5.0e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Nickel, 0.07 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Nickel", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 7.0e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Selenium, 0.01 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Selenium", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.0e-8
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Zinc, 1 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        ("Zinc", ("air", "urban air close to ground"), "kilogram")
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.0e-6
-                    )
-                    / array[self.array_inputs["range"], :, ind_array]
-                    * -1
-                ).T
-
-                # Chromium VI, 0.0001 mg/kg gasoline
-                self.A[
-                    :,
-                    self.inputs[
-                        (
-                            "Chromium VI",
-                            ("air", "urban air close to ground"),
-                            "kilogram",
-                        )
-                    ],
-                    ind_A,
-                ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
-                        )
-                        * 1.0e-10
                     )
                     / array[self.array_inputs["range"], :, ind_array]
                     * -1
