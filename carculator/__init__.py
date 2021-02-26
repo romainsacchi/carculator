@@ -21,7 +21,7 @@ __all__ = (
     "BackgroundSystemModel",
     "ExportInventory",
     "InternalNoiseModel",
-    "create_fleet_composition_from_REMIND_file",
+    "create_fleet_composition_from_IAM_file",
     "extract_electricity_mix_from_IAM_file",
     "extract_biofuel_shares_from_IAM"
 )
@@ -45,5 +45,5 @@ from .model import CarModel
 from .inventory import InventoryCalculation
 from .background_systems import BackgroundSystemModel
 from .export import ExportInventory
-from .utils import (create_fleet_composition_from_REMIND_file, extract_electricity_mix_from_IAM_file,
+from .utils import (create_fleet_composition_from_IAM_file, extract_electricity_mix_from_IAM_file,
                     extract_biofuel_shares_from_IAM)

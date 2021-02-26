@@ -12,6 +12,8 @@ import xarray as xr
 import itertools
 from .geomap import Geomap
 
+np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
+
 REMIND_FILES_DIR = DATA_DIR / "IAM"
 
 
@@ -1066,12 +1068,13 @@ class InventoryCalculation:
         for a in ind:
             f[:] = 0
             f[a] = 1
-            X = np.float32(sparse.linalg.spsolve(self.A[0], f.T))
+            X = np.float32(sparse.linalg.spsolve(sparse.csr_matrix(self.A[0]), f.T))
 
             if self.scenario == "static":
                 new_arr[a] = np.float32(X * B).sum(axis=-1).T[..., None]
             else:
                 new_arr[a] = np.float32(X * B).sum(axis=-1).T
+
 
         shape = (
             self.iterations,
@@ -1343,9 +1346,8 @@ class InventoryCalculation:
     def build_fleet_vehicles(self):
 
         # additional cars
-        n_cars = len(self.scope["year"]) * len(self.scope["powertrain"])
+        n_cars = len(self.scope["year"]) * len(self.scope["powertrain"]) + len(self.scope["year"])
         self.A = np.pad(self.A, ((0, 0), (0, n_cars), (0, n_cars)))
-
         maximum = max(self.inputs.values())
 
         for pt in self.scope["powertrain"]:
@@ -1354,6 +1356,7 @@ class InventoryCalculation:
 
                 # share of the powertrain that year, all sizes
                 share_pt = self.fleet.sel(powertrain=pt, variable=y).sum().values
+                print(pt, y, share_pt)
 
                 name = "transport, passenger car, fleet average, " + pt + ", " + str(y)
 
@@ -1361,7 +1364,7 @@ class InventoryCalculation:
 
                 if self.scope["fu"]["unit"] == "vkm":
                     unit = "kilometer"
-                if self.scope["fu"]["unit"] == "pkm":
+                else:
                     unit = "person kilometer"
 
                 self.inputs[
@@ -1377,7 +1380,8 @@ class InventoryCalculation:
 
                 if share_pt > 0:
                     for s in self.fleet.coords["size"].values:
-                        for vin_year in self.scope["year"]:
+                        for vin_year in range(min(self.scope["year"]), y):
+
                             fleet_share = (
                                 self.fleet.sel(
                                     powertrain=pt,
@@ -1387,7 +1391,6 @@ class InventoryCalculation:
                                 )
                                 .sum()
                                 .values
-                                / share_pt
                             )
 
                             if fleet_share > 0:
@@ -1398,15 +1401,16 @@ class InventoryCalculation:
                                     if all(
                                         [
                                             item in i[0]
-                                            for item in [pt, str(vin_year), s]
-                                        ]
-                                    )
+                                            for item in [pt, str(vin_year), s, "transport"]
+                                        ])
                                 ][0]
-                                car_inputs = (
-                                    self.A[:, : car_index - 1, car_index] * fleet_share
-                                )
 
-                                self.A[:, : car_index - 1, maximum] += car_inputs
+
+                                car_inputs = (self.A[:, : car_index - 1, car_index] * fleet_share)
+
+                                self.A[:, : car_index -1 , maximum] += car_inputs
+
+
 
                     # Fuel and electricity supply must be from the fleet year, not the vintage year
 
@@ -1459,6 +1463,66 @@ class InventoryCalculation:
                             if "supply for electric vehicles, " + str(y) in i[0]
                         ]
                         self.A[:, current_provider, maximum] = amount_fuel
+
+
+        # We also want to produce a fleet average vehicle, with all powertrain types
+
+        for y in self.scope["year"]:
+
+            # share of that year, all sizes and powertrains
+            share_pt = self.fleet.sel(variable=y).sum().values
+            print(y, share_pt)
+
+            name = "transport, passenger car, fleet average, all powertrains, " + str(y)
+
+            maximum += 1
+
+            if self.scope["fu"]["unit"] == "vkm":
+                unit = "kilometer"
+            else:
+                unit = "person kilometer"
+
+            self.inputs[
+                (
+                    name,
+                    self.background_configuration["country"],
+                    unit,
+                    "transport, passenger car, fleet average",
+                )
+            ] = maximum
+
+            self.A[:, maximum, maximum] = 1
+
+            if share_pt > 0:
+                for pt in self.fleet.coords["powertrain"].values:
+                    for s in self.fleet.coords["size"].values:
+                        for vin_year in range(min(self.scope["year"]), y):
+
+                            fleet_share = (
+                                self.fleet.sel(
+                                    powertrain=pt,
+                                    vintage_year=vin_year,
+                                    size=s,
+                                    variable=y,
+                                )
+                                    .sum()
+                                    .values /
+                                share_pt
+                            )
+
+                            if fleet_share > 0:
+                                car_index = [
+                                    self.inputs[i]
+                                    for i in self.inputs
+                                    if all(
+                                        [
+                                            item in i[0]
+                                            for item in [pt, str(vin_year), s, "transport"]
+                                        ])
+                                ][0]
+
+                                self.A[:, car_index, maximum] = fleet_share * -1
+
 
     def get_B_matrix(self):
         """
@@ -1769,6 +1833,7 @@ class InventoryCalculation:
             # Update dictionary
             self.rev_inputs = self.get_rev_dict_input()
 
+
             # Update number of cars
             self.number_of_cars += len(self.scope["year"]) * len(
                 self.scope["powertrain"]
@@ -1906,6 +1971,8 @@ class InventoryCalculation:
                 self.scope["powertrain"]
             )
 
+        #np.savetxt("A.csv", self.A[0], delimiter=";")
+
         # if the inventories are meant to link to `premise` databases
         # we need to remove the additional electricity input
         # in the fuel market datasets
@@ -1918,7 +1985,7 @@ class InventoryCalculation:
             ]
             self.A[np.ix_(range(self.A.shape[0]), electricity_inputs, fuel_markets)] = 0
 
-        if presamples == True:
+        if presamples:
             lci, array = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
             ).write_lci_to_bw(
@@ -2249,7 +2316,7 @@ class InventoryCalculation:
 
         # Fill the electricity markets for battery charging and hydrogen production
         for y, year in enumerate(self.scope["year"]):
-            m = np.array(self.mix[y]).reshape(-1, 15, 1)
+            m = np.array(self.mix[y], dtype=object).reshape(-1, 15, 1)
             # Add electricity technology shares
             self.A[
                 np.ix_(
@@ -2439,7 +2506,7 @@ class InventoryCalculation:
 
         # Fill the electricity markets for battery production
         for y, year in enumerate(self.scope["year"]):
-            m = np.array(mix_battery_manufacturing[y]).reshape(-1, 15, 1)
+            m = np.array(mix_battery_manufacturing[y], dtype=object).reshape(-1, 15, 1)
 
             self.A[
                 np.ix_(
@@ -2684,12 +2751,12 @@ class InventoryCalculation:
                 primary = default_fuels[fuel_type]["primary"]
                 secondary = default_fuels[fuel_type]["secondary"]
                 secondary_share = self.get_share_biofuel()
-                primary_share = 1 - np.array(secondary_share)
+                primary_share = 1 - np.array(secondary_share, dtype=object)
         else:
             primary = default_fuels[fuel_type]["primary"]
             secondary = default_fuels[fuel_type]["secondary"]
             secondary_share = self.get_share_biofuel()
-            primary_share = 1 - np.array(secondary_share)
+            primary_share = 1 - np.array(secondary_share, dtype=object)
 
         return (
             primary,
@@ -3489,7 +3556,7 @@ class InventoryCalculation:
 
         f[index_output] = 1
 
-        X = np.float32(sparse.linalg.spsolve(self.A[0], f.T))
+        X = np.float32(sparse.linalg.spsolve(sparse.csr_matrix(self.A[0]), f.T))
 
         ind_inputs = np.nonzero(X)[0]
 

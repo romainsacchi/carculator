@@ -1,11 +1,12 @@
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 import pandas as pd
-import pycountry
 from . import DATA_DIR
 import itertools
 import csv
 import numpy as np
 from pathlib import Path
-import bisect
 
 pd.options.mode.chained_assignment = None
 
@@ -189,7 +190,6 @@ def extract_biofuel_shares_from_IAM(
     arr = np.clip(arr, 0, 1)
     return arr
 
-
 def get_iam_electricity_market_labels(model):
     """
     Loads a csv file into a dictionary. This dictionary contains labels of electricity markets
@@ -331,8 +331,8 @@ def extract_electricity_mix_from_IAM_file(model, fp, IAM_region, years):
 
     return arr
 
-def create_fleet_composition_from_REMIND_file(
-    fp, remind_region, fleet_year=2020, normalized=True
+def create_fleet_composition_from_IAM_file(
+    fp
 ):
     """
     This function creates a consumable fleet composition array from a CSV file.
@@ -340,8 +340,8 @@ def create_fleet_composition_from_REMIND_file(
 
     :param fp: Path file path
     :type fp: Path
-    :param remind_region: REMIND region for which to extract fleet composition
-    :type remind_region: str
+    :param iam_region: IAM region for which to extract fleet composition
+    :type iam_region: str
     :param fleet_year: the year for which to extract fleet composition
     :type fleet_year: int
     :return: fleet composition array
@@ -354,186 +354,25 @@ def create_fleet_composition_from_REMIND_file(
     if not fp.is_file():
         raise FileNotFoundError("Could not locate {}".format(fp))
 
-    # Load diesel shares from IEA on OECD countries
-    share_diesel = pd.read_csv(
-        IEA_DIESEL_SHARE, sep=";", usecols=range(1, 10), index_col=[0]
-    )
-    share_diesel.columns = [int(c) for c in share_diesel.columns]
-    shares = pd.concat(
-        [
-            share_diesel,
-            pd.DataFrame(columns=range(2019, 2051)),
-            pd.DataFrame(columns=range(2000, 2011)),
-        ]
-    )
-    shares = shares.T.fillna(method="ffill")
-    shares = shares.fillna(method="bfill")
-
     # Read the fleet composition CSV file
     df = pd.read_csv(fp, delimiter=",")
     df = df.fillna(0)
 
-    def get_iso_2_to_REMIND_map():
-        """ Generate a dictionary of shape {`iso alpha-2 country code`:`REMIND region`}"""
-        with open(REGION_MAPPING_FILEPATH) as f:
-            f.readline()
-            csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
-            d = {x[1]: x[2] for x in csv_list}
-        return d
-
-    # Generate a dictionary of shape {`iso alpha-3 country code`:`iso alpha-2 country code`}
-    d_iso3_iso2 = {
-        c: pycountry.countries.get(alpha_3=c).alpha_2 for c in df["iso"].unique()
-    }
-
-    df["iso_2"] = df["iso"].map(d_iso3_iso2)
-    d_iso_2_remind = get_iso_2_to_REMIND_map()
-    df["REMIND_region"] = df["iso_2"].map(d_iso_2_remind)
-
-    # Filter out rows for which no REMIND region equivalence can be found.
-    if len(df.loc[df["REMIND_region"].isnull(), "iso_2"].unique()) > 0:
-        print(
-            "No REMIND region could be mapped to the following ISO alpha2 country codes: {}".format(
-                df.loc[df["REMIND_region"].isnull(), "iso_2"].unique()
-            )
-        )
-        print("They will be skipped.")
-        df = df.loc[~df["REMIND_region"].isnull()]
-
-    # Dictionary map of shape {`REMIND car size`:`carculator car size`}
-    d_map_sizes = {
-        "Compact Car": "Lower medium",
-        "Large Car and SUV": "Large",
-        "Mini Car": "Mini",
-        "Subcompact Car": "Small",
-        "Van": "Van",
-        "Multipurpose Vehicle": "Van",
-        "Midsize Car": "Medium",
-        "Large Car": "Large",
-        "Light Truck and SUV": "SUV",
-    }
-
-    # Dictionary map of shape {`REMIND car powertrain`:`carculator car powertrain`}
-    d_map_tech = {
-        "BEV": "BEV",
-        "FCEV": "FCEV",
-        "Hybrid Electric": "PHEV",
-        "Hybrid Liquids": "HEV",
-        "Liquids": "ICEV",
-        "NG": "ICEV-g",
-    }
-
-    df["powertrain"] = df["technology"].map(d_map_tech)
-    df["size"] = df["vehicle_type"].map(d_map_sizes)
-
-    # Clean up
-    df["variable"] = df["variable"].str.replace(r"\D", "").astype(int)
-
-    # Rename `variable`, since it is a built-in name used by `xarray`
-    df = df.rename(columns={"variable": "vintage_year"})
-
-    # Check if we have a fleet composition for the fleet year requested
-    if len(df.loc[df["year"] == fleet_year]) == 0:
-        # Find the nearest smallest year instead
-        list_years = df["year"].unique()
-        index = bisect.bisect(list_years, fleet_year)
-        substitute_year = list_years[index-1]
-        print("Fleet information for {} is not available. We'll use {} instead.".format(fleet_year, substitute_year))
-        df = df.loc[df["year"] == substitute_year]
-    else:
-        df = df.loc[df["year"] == fleet_year]
-
-    df = df.loc[df["REMIND_region"] == remind_region]
-
-    # Associate diesel shares
-    def get_diesel_factor(row):
-
-        if row["iso_2"] in shares.columns:
-            return float(shares.loc[row["vintage_year"], row["iso_2"]])
-        else:
-            return 0
-
-
-    df["diesel_factor"] = df.apply(get_diesel_factor, axis=1)
-
-    new_df_p = df.loc[df["powertrain"].isin(("HEV", "PHEV", "ICEV"))]
-    new_df_p.loc[:, "powertrain"] += "-p"
-    new_df_p.loc[:, "vintage_demand_vkm"] *= 1 - new_df_p.loc[:, "diesel_factor"]
-    new_df_d = df.loc[df["powertrain"].isin(("HEV", "PHEV", "ICEV"))]
-    new_df_d.loc[:, "powertrain"] += "-d"
-    new_df_d.loc[:, "vintage_demand_vkm"] *= new_df_p.loc[:, "diesel_factor"]
-
-    df = pd.concat([df, new_df_p, new_df_d])
-    df = df.loc[~df["powertrain"].isin(("HEV", "PHEV", "ICEV"))]
-
     # Filter out unecessary columns
-    df = df[["powertrain", "size", "year", "vintage_year", "vintage_demand_vkm",]]
+    df = df[["year", "IAM_region", "powertrain", "size", "vintage_year", "vintage_demand_vkm"]]
 
-    if len(df) == 0:
-        raise ValueError("This fleet year is not available.")
+    df_gr = df.groupby(["IAM_region", "powertrain", "size", "year", "vintage_year"]).sum()
+    df_gr = df_gr.groupby(level=[0, 1, 3]).apply(lambda x: x / float(x.sum()))
 
-    # Distribute the transport demand of 2010 to anterior years
-
-    distr_km = {
-        # EURO 4 - 60%
-        2010: 0.15,
-        2009: 0.15,
-        2008: 0.10,
-        2007: 0.10,
-        2006: 0.10,
-        # EURO 3 - 25%
-        2005: 0.05,
-        2004: 0.05,
-        2003: 0.05,
-        2002: 0.05,
-        2001: 0.05,
-        # EURO 2 - 10%
-        2000: 0.025,
-        1999: 0.025,
-        1998: 0.025,
-        1997: 0.025,
-        # EURO 1 - 5%
-        1996: 0.05,
-    }
-
-    new_df = pd.DataFrame()
-    for y in range(2010, 1995, -1):
-        temp_df = df.loc[df["vintage_year"] == 2010]
-        temp_df["vintage_year"] = y
-        temp_df["vintage_demand_vkm"] *= distr_km[y]
-        new_df = pd.concat([new_df, temp_df])
-
-    df = df.loc[df["vintage_year"] != 2010]
-
-    df = pd.concat([df, new_df])
+    df = df_gr.reset_index()
 
     # Turn the dataframe into a pivot table
     df = df.pivot_table(
-        index=["powertrain", "size", "vintage_year"], columns=["year"], aggfunc=np.sum
+        index=["IAM_region", "powertrain", "size", "vintage_year"], columns=["year"], aggfunc=np.sum
     )["vintage_demand_vkm"]
 
-    # The table needs to be square: so we add powertrain-size-vintage_year combinations and set their value to 0
-    new_cols = [
-        c
-        for c in df.index.get_level_values("vintage_year").unique()
-        if c not in df.columns
-    ]
-    df[new_cols] = pd.DataFrame([[0] * len(new_cols)], index=df.index)
-    pt = df.index.get_level_values("powertrain").unique().tolist()
-    y = df.index.get_level_values("vintage_year").unique().tolist()
-    y.append(y[-1] + 1)
-    s = df.index.get_level_values("size").unique().tolist()
-    a = [pt] + [s] + [y]
-
-    for row in [i for i in list(itertools.product(*a)) if i not in df.index]:
-        df.loc[row] = 0
-
-    if normalized:
-        # The vkm values are normalized to 1, year-wise
-        df /= df.sum(axis=0)
-
     # xarray.DataArray is returned
-    return df.to_xarray().fillna(0).to_array()
+    return df.to_xarray().fillna(0).to_array().round(3)
 
 
 def build_fleet_array(fp, scope):

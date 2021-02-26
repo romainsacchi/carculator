@@ -763,32 +763,43 @@ class ExportInventory:
                     if len(l) == 6:
                         _, _, pwt, size, year, _ = [t.strip() for t in tuple_output[0].split(",")]
                     else:
-                        if [t.strip() for t in tuple_output[0].split(",")][2] == "fleet average":
-                            _, _, _, pwt, year = [t.strip() for t in tuple_output[0].split(",")]
-                            size = "Medium"
+                        items = [t.strip() for t in tuple_output[0].split(",")]
+                        if items[2] == "fleet average":
+
+                            if items[3] == "all powertrains":
+                                size = None
+                                pwt = "diesel"
+
+                            else:
+                                _, _, _, pwt, year = [t.strip() for t in tuple_output[0].split(",")]
+                                size = "Medium"
                         else:
                             _, pwt, size, year, _ = [t.strip() for t in tuple_output[0].split(",")]
 
                     pwt = d_pwt[pwt]
 
-                    if not vehicle_specs is None:
+                    if not size is None:
 
-                        for p in vehicle_specs.parameter.values:
+                        if not vehicle_specs is None:
 
-                            try:
-                                val = vehicle_specs.sel(powertrain=pwt, size=size, year=int(year), value=0, parameter=p).values
+                            for p in vehicle_specs.parameter.values:
 
-                                if val != 0:
+                                try:
+                                    val = vehicle_specs.sel(powertrain=pwt, size=size, year=int(year), value=0, parameter=p).values
 
-                                    if p in ("TtW efficiency", 'combustion power share',
-                                             'capacity utilization', 'fuel cell system efficiency'):
-                                        val = int(val * 100)
-                                    else:
-                                        val = int(val)
+                                    if val != 0:
 
-                                    string += d_names[p] + ": " + str(val) + " " + d_units[p] + ". "
-                            except KeyError:
-                                print(f"Could not find vehicle specs for {pwt} {size} {year}")
+                                        if p in ("TtW efficiency", 'combustion power share',
+                                                 'capacity utilization', 'fuel cell system efficiency'):
+                                            val = int(val * 100)
+                                        else:
+                                            val = int(val)
+
+                                        string += d_names[p] + ": " + str(val) + " " + d_units[p] + ". "
+                                except KeyError:
+                                    print(f"Could not find vehicle specs for {pwt} {size} {year}")
+                    else:
+                        string = "Fleet average vehicle, all sizes and powertrains considered."
 
 
                 # Added transport distances if the inventory
