@@ -1,5 +1,5 @@
 pandas
-xarray==0.16.2
+xarray
 numpy
 pytest
 pytest-cov
