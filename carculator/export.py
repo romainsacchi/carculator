@@ -1547,7 +1547,8 @@ class ExportInventory:
                                                          "tyre wear emissions",
                                                          "road wear emissions",
                                                          "used powertrain from electric passenger car"
-                                                         ]):
+                                                         ])\
+                                        or ("municipal solid waste, incineration" in e["name"] and e["unit"]=="kilowatt hour"):
 
                                     if e["name"] not in [i["name"] for i in data]:
 
@@ -1631,9 +1632,25 @@ class ExportInventory:
                         if (
                                 e["type"] == "biosphere"
                                 and e["categories"][0] == "air"
-                        ):
+                        ) or e["name"] in ["Carbon dioxide, from soil or biomass stock",
+                                           "Carbon dioxide, to soil or biomass stock"]:
                             if e["name"] not in simapro_biosphere_flows_to_remove:
-                                try:
+
+                                if e["name"] in ["Carbon dioxide, to soil or biomass stock"]:
+                                    rows.append(
+                                        [
+                                            dict_bio.get(e["name"], e["name"]),
+                                            "",
+                                            simapro_units[e["unit"]],
+                                            "{:.3E}".format(e["amount"] * -1),
+                                            "undefined",
+                                            0,
+                                            0,
+                                            0,
+                                        ]
+                                    )
+
+                                else:
                                     rows.append(
                                         [
                                             dict_bio.get(e["name"], e["name"]),
@@ -1646,8 +1663,6 @@ class ExportInventory:
                                             0,
                                         ]
                                     )
-                                except:
-                                    print(e["name"], e["categories"])
 
                 if item == "Emissions to water":
                     for e in a["exchanges"]:
@@ -1678,7 +1693,8 @@ class ExportInventory:
                         if (
                                 e["type"] == "biosphere"
                                 and e["categories"][0] == "soil"
-                        ):
+                        ) and e["name"] not in ["Carbon dioxide, from soil or biomass stock",
+                                                "Carbon dioxide, to soil or biomass stock"]:
                             if e["name"] not in simapro_biosphere_flows_to_remove:
                                 rows.append(
                                     [
@@ -1712,7 +1728,8 @@ class ExportInventory:
                                                  "used passenger car",
                                                  "used electric passenger car",
                                                  "municipal solid waste",
-                                                 "disposal")
+                                                 "disposal",
+                                                 "rainwater mineral oil")
                                        ) \
                                         and not any(i.lower() in e["name"].lower()
                                                     for i in ("anaerobic",
@@ -1720,8 +1737,7 @@ class ExportInventory:
                                                               "heat",
                                                               "manual dismantling"
                                                               ))\
-                                        and not any(i.lower() in e["reference product"].lower()
-                                                    for i in ["electricity"]):
+                                        and e["unit"] not in ["kilowatt hour", "megajoule"]:
                                     is_waste = True
 
                             # Yes, it is a waste treatment activity

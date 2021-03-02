@@ -1356,7 +1356,6 @@ class InventoryCalculation:
 
                 # share of the powertrain that year, all sizes
                 share_pt = self.fleet.sel(powertrain=pt, variable=y).sum().values
-                print(pt, y, share_pt)
 
                 name = "transport, passenger car, fleet average, " + pt + ", " + str(y)
 
@@ -1382,33 +1381,35 @@ class InventoryCalculation:
                     for s in self.fleet.coords["size"].values:
                         for vin_year in range(min(self.scope["year"]), y):
 
-                            fleet_share = (
-                                self.fleet.sel(
-                                    powertrain=pt,
-                                    vintage_year=vin_year,
-                                    size=s,
-                                    variable=y,
+                            if vin_year in self.fleet.vintage_year:
+
+                                fleet_share = (
+                                    self.fleet.sel(
+                                        powertrain=pt,
+                                        vintage_year=vin_year,
+                                        size=s,
+                                        variable=y,
+                                    )
+                                    .sum()
+                                    .values / share_pt
                                 )
-                                .sum()
-                                .values
-                            )
 
-                            if fleet_share > 0:
+                                if fleet_share > 0:
 
-                                car_index = [
-                                    self.inputs[i]
-                                    for i in self.inputs
-                                    if all(
-                                        [
-                                            item in i[0]
-                                            for item in [pt, str(vin_year), s, "transport"]
-                                        ])
-                                ][0]
+                                    car_index = [
+                                        self.inputs[i]
+                                        for i in self.inputs
+                                        if all(
+                                            [
+                                                item in i[0]
+                                                for item in [pt, str(vin_year), s, "transport"]
+                                            ])
+                                    ][0]
 
 
-                                car_inputs = (self.A[:, : car_index - 1, car_index] * fleet_share)
+                                    car_inputs = (self.A[:, : car_index - 1, car_index] * fleet_share)
 
-                                self.A[:, : car_index -1 , maximum] += car_inputs
+                                    self.A[:, : car_index -1 , maximum] += car_inputs
 
 
 
@@ -1471,7 +1472,6 @@ class InventoryCalculation:
 
             # share of that year, all sizes and powertrains
             share_pt = self.fleet.sel(variable=y).sum().values
-            print(y, share_pt)
 
             name = "transport, passenger car, fleet average, all powertrains, " + str(y)
 
@@ -1498,30 +1498,88 @@ class InventoryCalculation:
                     for s in self.fleet.coords["size"].values:
                         for vin_year in range(min(self.scope["year"]), y):
 
-                            fleet_share = (
-                                self.fleet.sel(
-                                    powertrain=pt,
-                                    vintage_year=vin_year,
-                                    size=s,
-                                    variable=y,
+                            if vin_year in self.fleet.vintage_year:
+
+                                fleet_share = (
+                                    self.fleet.sel(
+                                        powertrain=pt,
+                                        vintage_year=vin_year,
+                                        size=s,
+                                        variable=y,
+                                    )
+                                        .sum()
+                                        .values /
+                                    share_pt
                                 )
-                                    .sum()
-                                    .values /
-                                share_pt
-                            )
 
-                            if fleet_share > 0:
-                                car_index = [
-                                    self.inputs[i]
-                                    for i in self.inputs
-                                    if all(
-                                        [
-                                            item in i[0]
-                                            for item in [pt, str(vin_year), s, "transport"]
-                                        ])
-                                ][0]
+                                if fleet_share > 0:
+                                    car_index = [
+                                        self.inputs[i]
+                                        for i in self.inputs
+                                        if all(
+                                            [
+                                                item in i[0]
+                                                for item in [pt, str(vin_year), s, "transport"]
+                                            ])
+                                    ][0]
 
-                                self.A[:, car_index, maximum] = fleet_share * -1
+                                    #self.A[:, car_index, maximum] = fleet_share * -1
+
+                                    car_inputs = (self.A[:, : car_index - 1, car_index] * fleet_share)
+
+                                    self.A[:, : car_index - 1, maximum] += car_inputs
+
+            # Fuel and electricity supply must be from the fleet year, not the vintage year
+
+            d_map_fuel = {
+                "ICEV-p": "gasoline",
+                "ICEV-d": "diesel",
+                "ICEV-g": "gas",
+                "HEV-p": "gasoline",
+                "HEV-d": "diesel",
+                "PHEV-p": "gasoline",
+                "PHEV-d": "diesel",
+                "BEV": "electric",
+                "FCEV": "hydrogen",
+            }
+
+            ind_supply = [
+                self.inputs[i]
+                for i in self.inputs
+                if "supply for " + d_map_fuel[pt] + " vehicles, " in i[0]
+            ]
+            amount_fuel = self.A[:, ind_supply, maximum].sum(axis=1)
+
+            # zero out initial fuel inputs
+            self.A[:, ind_supply, maximum] = 0
+
+            # set saved amount to current fuel supply provider
+            current_provider = [
+                self.inputs[i]
+                for i in self.inputs
+                if "supply for " + d_map_fuel[pt] + " vehicles, " + str(y)
+                   in i[0]
+            ]
+            self.A[:, current_provider, maximum] = amount_fuel
+
+            if pt in ["PHEV-p", "PHEV-d"]:
+                ind_supply = [
+                    self.inputs[i]
+                    for i in self.inputs
+                    if "supply for electric vehicles, " in i[0]
+                ]
+                amount_fuel = self.A[:, ind_supply, maximum].sum(axis=1)
+
+                # zero out initial fuel inputs
+                self.A[:, ind_supply, maximum] = 0
+
+                # set saved amount to current fuel supply provider
+                current_provider = [
+                    self.inputs[i]
+                    for i in self.inputs
+                    if "supply for electric vehicles, " + str(y) in i[0]
+                ]
+                self.A[:, current_provider, maximum] = amount_fuel
 
 
     def get_B_matrix(self):

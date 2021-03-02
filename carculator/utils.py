@@ -361,10 +361,10 @@ def create_fleet_composition_from_IAM_file(
     # Filter out unecessary columns
     df = df[["year", "IAM_region", "powertrain", "size", "vintage_year", "vintage_demand_vkm"]]
 
-    df_gr = df.groupby(["IAM_region", "powertrain", "size", "year", "vintage_year"]).sum()
-    df_gr = df_gr.groupby(level=[0, 1, 3]).apply(lambda x: x / float(x.sum()))
+    #df_gr = df.groupby(["IAM_region", "powertrain", "size", "year", "vintage_year"]).sum()
+    #df_gr = df_gr.groupby(level=[0, 1, 3]).apply(lambda x: x / float(x.sum()))
 
-    df = df_gr.reset_index()
+    #df = df_gr.reset_index()
 
     # Turn the dataframe into a pivot table
     df = df.pivot_table(
