@@ -21,7 +21,8 @@ class InternalNoiseModel:
 
         self.noise_coeff = self.get_noise_coefficients()
 
-    def get_noise_coefficients(self):
+    @staticmethod
+    def get_noise_coefficients():
 
         filename = "internal_noise_coefficients.csv"
         filepath = DATA_DIR / filename

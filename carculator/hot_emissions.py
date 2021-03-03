@@ -113,7 +113,7 @@ class HotEmissionsModel:
         """
 
         # Check if the powertrains passed are valid
-        if set(powertrain_type).intersection(set(["FCEV", "BEV", "PHEV-e"])):
+        if set(powertrain_type).intersection({"FCEV", "BEV", "PHEV-e"}):
             raise TypeError("Wrong powertrain!")
 
         hot_emissions = self.hot.sel(
@@ -133,7 +133,7 @@ class HotEmissionsModel:
             ],
         ).transpose("component", "powertrain", "euro_class", "variable")
 
-        distance = self.cycle.sum(axis=0) / 3600
+        distance = self.cycle.sum() / 3600
 
         # Emissions for each second of the driving cycle equal:
         # a * energy consumption

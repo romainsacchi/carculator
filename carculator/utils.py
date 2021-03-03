@@ -21,6 +21,7 @@ def extract_biofuel_shares_from_IAM(
     """
     This function extracts biofuel shares from a IAM file provided.
 
+    :param model:
     :param fp: file path to IAM file
     :type fp: str
     :param IAM_region: IAM region for which to extract the biofuel shares
@@ -211,6 +212,7 @@ def extract_electricity_mix_from_IAM_file(model, fp, IAM_region, years):
     """
     This function extracts electricity mixes from a IAM file provided.
 
+    :param model:
     :param fp: file path to IAM file
     :type fp: str
     :param IAM_region: IAM region for which to extract the electricity mix
@@ -340,10 +342,6 @@ def create_fleet_composition_from_IAM_file(
 
     :param fp: Path file path
     :type fp: Path
-    :param iam_region: IAM region for which to extract fleet composition
-    :type iam_region: str
-    :param fleet_year: the year for which to extract fleet composition
-    :type fleet_year: int
     :return: fleet composition array
     :rtype: xarray.DataArray
     """
@@ -387,6 +385,7 @@ def build_fleet_array(fp, scope):
     * the sizes specified in the fleet must be present in scope["size"]
     * the sum for each year-powertrain-size set must equal 1
 
+    :param scope:
     :param fp: filepath to an array that contains fleet composition
     :type fp: str
     :return array: fleet composition array

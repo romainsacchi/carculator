@@ -186,11 +186,9 @@ class InventoryCalculation:
     ):
 
         if scope is None:
-            scope = {}
-            scope["size"] = array.coords["size"].values.tolist()
-            scope["powertrain"] = array.coords["powertrain"].values.tolist()
-            scope["year"] = array.coords["year"].values.tolist()
-            scope["fu"] = {"unit": "vkm", "quantity": 1}
+            scope = {"size": array.coords["size"].values.tolist(),
+                     "powertrain": array.coords["powertrain"].values.tolist(),
+                     "year": array.coords["year"].values.tolist(), "fu": {"unit": "vkm", "quantity": 1}}
         else:
             scope["size"] = scope.get("size", array.coords["size"].values.tolist())
             scope["powertrain"] = scope.get(
@@ -862,6 +860,7 @@ class InventoryCalculation:
         """
         Format an xarray.DataArray array to receive the results.
 
+        :param sensitivity:
         :param split: "components" or "impact categories". Split by impact categories only applicable when "endpoint" level is applied.
         :return: xarrray.DataArray
         """
@@ -886,7 +885,7 @@ class InventoryCalculation:
         if isinstance(self.fleet, xr.core.dataarray.DataArray):
             sizes += ["fleet average"]
 
-        if sensitivity == False:
+        if not sensitivity:
 
             response = xr.DataArray(
                 np.zeros(
@@ -1588,8 +1587,6 @@ class InventoryCalculation:
         per unit of activity. Its length column-wise equals the length of the A matrix row-wise.
         Its length row-wise equals the number of impact assessment methods.
 
-        :param method: only "recipe" and "ilcd" available at the moment.
-        :param level: only "midpoint" available at the moment.
         :return: an array with impact values per unit of activity for each method.
         :rtype: numpy.ndarray
 
@@ -1654,7 +1651,8 @@ class InventoryCalculation:
 
         return response
 
-    def get_dict_input(self):
+    @staticmethod
+    def get_dict_input():
         """
         Load a dictionary with tuple ("name of activity", "location", "unit", "reference product") as key, row/column
         indices as values.
@@ -1765,6 +1763,8 @@ class InventoryCalculation:
         """
         Return list of row/column indices of self.array of labels that contain the string defined in `items_to_look_for`.
 
+        :param items_to_look_for_also:
+        :param method:
         :param items_to_look_for: string to search for
         :return: list
         """
@@ -1825,6 +1825,8 @@ class InventoryCalculation:
     ):
         """
         Export the inventory as a dictionary. Also return a list of arrays that contain pre-sampled random values if
+        :param db_name:
+        :param forbidden_activities:
         :meth:`stochastic` of :class:`CarModel` class has been called.
 
         :param presamples: boolean.
@@ -1909,7 +1911,7 @@ class InventoryCalculation:
             ]
             self.A[np.ix_(range(self.A.shape[0]), electricity_inputs, fuel_markets)] = 0
 
-        if presamples == True:
+        if presamples:
             lci, array = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
             ).write_lci(
@@ -1919,7 +1921,7 @@ class InventoryCalculation:
                 forbidden_activities=forbidden_activities,
                 vehicle_specs=self.specs,
             )
-            return (lci, array)
+            return lci, array
         else:
             lci = ExportInventory(self.A, self.rev_inputs, db_name=db_name).write_lci(
                 presamples=presamples,
@@ -2053,7 +2055,7 @@ class InventoryCalculation:
                 forbidden_activities=forbidden_activities,
                 vehicle_specs=self.specs,
             )
-            return (lci, array)
+            return lci, array
         else:
             lci = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
@@ -2081,6 +2083,10 @@ class InventoryCalculation:
         Export the inventory as an Excel file (if the destination software is Brightway2) or a CSV file (if the destination software is Simapro) file.
         Also return the file path where the file is stored.
 
+        :param filename:
+        :param forbidden_activities:
+        :param create_vehicle_datasets:
+        :param export_format:
         :param directory: directory where to save the file.
         :type directory: str
         :param ecoinvent_compatibility: If True, compatible with ecoinvent. If False, compatible with REMIND-ecoinvent.
@@ -3129,6 +3135,7 @@ class InventoryCalculation:
         Return the sulfur content in the fuel.
         If a region is passed, the average sulfur content over
         the countries the region contains is returned.
+        :param year:
         :param location: str. A country or region ISO code
         :param fuel: str. "diesel" or "gasoline
         :return: float. Sulfur content in ppm.
@@ -3593,6 +3600,7 @@ class InventoryCalculation:
     ):
         """
         Finds the exchange inputs to a specified functional unit
+        :param zero_out_input:
         :param find_input_by: can be 'name' or 'unit'
         :param value_in: value to look for
         :param value_out: functional unit output

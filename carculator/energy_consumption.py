@@ -54,12 +54,12 @@ class EnergyConsumptionModel:
                 cycle = get_standard_driving_cycle(cycle)
 
             except KeyError:
-                raise ("The driving cycle specified could not be found.")
+                raise "The driving cycle specified could not be found."
         elif isinstance(cycle, np.ndarray):
             self.cycle_name = "custom"
             pass
         else:
-            raise ("The format of the driving cycle is not valid.")
+            raise "The format of the driving cycle is not valid."
 
         self.cycle = cycle
         self.rho_air = rho_air

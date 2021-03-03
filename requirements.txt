@@ -1,3 +1,5 @@
+scipy
+pyprind
 pandas
 xarray
 numpy

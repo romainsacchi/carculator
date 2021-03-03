@@ -198,7 +198,7 @@ class NoiseEmissionsModel:
                 urban = np.sum(sound_power[:, start:stop], axis=1) / distance
 
             else:
-                urban = np.zeros((8))
+                urban = np.zeros(8)
 
             if "suburban start" in self.cycle_environment[self.cycle_name]:
                 start = self.cycle_environment[self.cycle_name]["suburban start"]
@@ -206,7 +206,7 @@ class NoiseEmissionsModel:
                 suburban = np.sum(sound_power[:, start:stop], axis=1) / distance
 
             else:
-                suburban = np.zeros((8))
+                suburban = np.zeros(8)
 
             if "rural start" in self.cycle_environment[self.cycle_name]:
                 start = self.cycle_environment[self.cycle_name]["rural start"]
@@ -214,7 +214,7 @@ class NoiseEmissionsModel:
                 rural = np.sum(sound_power[:, start:stop], axis=1) / distance
 
             else:
-                rural = np.zeros((8))
+                rural = np.zeros(8)
 
         else:
             distance = self.cycle.sum() / 3600

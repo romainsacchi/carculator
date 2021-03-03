@@ -20,7 +20,8 @@ class BackgroundSystemModel:
         self.biofuel = self.get_biofuel_share()
         self.sulfur = self.get_sulfur_content_in_fuel()
 
-    def get_electricity_losses(self):
+    @staticmethod
+    def get_electricity_losses():
         """
         Retrieve cumulative electricity losses from high to medium and low voltage.
         Source: `ecoinvent v.3.6 <https://www.ecoinvent.org/>`_.
@@ -45,7 +46,8 @@ class BackgroundSystemModel:
             csv_dict[key] = {key: value for key, value in zip(header, values)}
         return csv_dict
 
-    def get_region_mapping(self):
+    @staticmethod
+    def get_region_mapping():
         """
         Retrieve mapping between ISO country codes and REMIND regions.
 
@@ -70,7 +72,8 @@ class BackgroundSystemModel:
             csv_dict[key] = {key: value for key, value in zip(header, values)}
         return csv_dict
 
-    def get_electricity_mix(self):
+    @staticmethod
+    def get_electricity_mix():
         """
         Retrieve electricity mixes and shape them into an xarray.
         Source:
@@ -102,12 +105,11 @@ class BackgroundSystemModel:
 
         return array
 
-    def get_biofuel_share(self):
+    @staticmethod
+    def get_biofuel_share():
         """
         Retrieve shares of biofuel consumption from REMIND and shape them into an xarray.
 
-        :param country: Country to return the biofuel share for.
-        :type country: str. 2-digit ISO country code.
         :return: An axarray with 'country' and 'year' as dimensions
         :rtype: xarray.core.dataarray.DataArray
         """
@@ -137,7 +139,8 @@ class BackgroundSystemModel:
                 array.loc[dict(region=r, scenario=s, value=0)] = val
         return array
 
-    def get_sulfur_content_in_fuel(self):
+    @staticmethod
+    def get_sulfur_content_in_fuel():
         """
         Retrieve sulfur content per kg of petrol and diesel.
         For CH, DE, FR, AU and SE, the concentration values come from HBEFA 4.1, from 1909 to 2020 (extrapolated to 2050).
@@ -150,8 +153,6 @@ class BackgroundSystemModel:
         There is an assumption made: countries that have high-sulfur content fuels (above 50 ppm in 2019) are assumed to
         improve over time to reach 50 ppm by 2050.
 
-        :param country: Country to return the sulfur concentration for.
-        :type country: str. 2-digit ISO country code.
         :return: An axarray with 'country' and 'year' as dimensions
         :rtype: xarray.core.dataarray.DataArray
         """

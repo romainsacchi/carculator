@@ -98,6 +98,7 @@ class Geomap:
         """
         Find the corresponding ecoinvent region given an IAM region.
 
+        :param contained:
         :param location: name of a IAM region
         :type location: str
         :return: name of an ecoinvent region

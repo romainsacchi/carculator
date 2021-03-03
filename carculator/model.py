@@ -164,7 +164,7 @@ class CarModel:
         self.set_hot_emissions()
         self.set_noise_emissions()
         self.create_PHEV()
-        if drop_hybrids==True:
+        if drop_hybrids:
             self.drop_hybrid()
 
     def adjust_cost(self):
@@ -1153,11 +1153,9 @@ class CarModel:
         """
 
         if scope is None:
-            scope = {}
-            scope["size"] = self.array.coords["size"].values.tolist()
-            scope["powertrain"] = self.array.coords["powertrain"].values.tolist()
-            scope["year"] = self.array.coords["year"].values.tolist()
-
+            scope = {"size": self.array.coords["size"].values.tolist(),
+                     "powertrain": self.array.coords["powertrain"].values.tolist(),
+                     "year": self.array.coords["year"].values.tolist()}
 
         list_cost_cat = ["purchase", "maintenance", "component replacement", "energy", "total"]
 

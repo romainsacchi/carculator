@@ -16,6 +16,7 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
     (http://xarray.pydata.org/en/stable/).
 
 
+    :param sensitivity:
     :param cip: Instance of the :class:`CarInputParameters` class in :mod:`car_input_parameters`.
     :param scope: a dictionary to narrow down the scope of vehicles to consider
     :returns: `tuple`, `xarray.DataArray`
@@ -81,7 +82,7 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
             "One of the powertrain types is not valid."
         )
 
-    if sensitivity == False:
+    if not sensitivity:
         array = xr.DataArray(
             np.zeros(
                 (
@@ -123,18 +124,18 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
     year_dict = {k: i for i, k in enumerate(scope["year"])}
     parameter_dict = {k: i for i, k in enumerate(cip.parameters)}
 
-    if sensitivity == False:
+    if not sensitivity:
 
         for param in cip:
 
             pwt = set(cip.metadata[param]["powertrain"]) if isinstance(cip.metadata[param]["powertrain"], list) \
-                    else set([cip.metadata[param]["powertrain"]])
+                    else {cip.metadata[param]["powertrain"]}
 
             size = set(cip.metadata[param]["sizes"]) if isinstance(cip.metadata[param]["sizes"], list) \
-                    else set([cip.metadata[param]["sizes"]])
+                    else {cip.metadata[param]["sizes"]}
 
             year = set(cip.metadata[param]["year"]) if isinstance(cip.metadata[param]["year"], list) \
-                    else set([cip.metadata[param]["year"]])
+                    else {cip.metadata[param]["year"]}
 
             if pwt.intersection(scope["powertrain"]) \
                 and size.intersection(scope["size"]) \
@@ -160,13 +161,13 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
             for name in names:
 
                 pwt = set(cip.metadata[name]["powertrain"]) if isinstance(cip.metadata[name]["powertrain"], list) \
-                    else set([cip.metadata[name]["powertrain"]])
+                    else {cip.metadata[name]["powertrain"]}
 
                 size = set(cip.metadata[name]["sizes"]) if isinstance(cip.metadata[name]["sizes"], list) \
-                    else set([cip.metadata[name]["sizes"]])
+                    else {cip.metadata[name]["sizes"]}
 
                 year = set(cip.metadata[name]["year"]) if isinstance(cip.metadata[name]["year"], list) \
-                    else set([cip.metadata[name]["year"]])
+                    else {cip.metadata[name]["year"]}
 
 
                 vals = [cip.values[name] for _ in range(0, len(cip.input_parameters) + 1)]
@@ -229,6 +230,7 @@ def modify_xarray_from_custom_parameters(fp, array):
 
             }
 
+    :param array:
     :param fp: File path of workbook with new values or dictionary.
     :type fp: str or dict
 

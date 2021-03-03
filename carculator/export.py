@@ -298,7 +298,8 @@ class ExportInventory:
                     new_val[0] = new_val[0].replace(key, d_names[key])
                     self.indices[k] = tuple(new_val)
 
-    def load_tags(self):
+    @staticmethod
+    def load_tags():
         """Loads dictionary of tags for further use in BW2"""
 
         filename = "tags.csv"
@@ -320,7 +321,8 @@ class ExportInventory:
 
         return dict_tags
 
-    def load_mapping_36_to_uvek(self):
+    @staticmethod
+    def load_mapping_36_to_uvek():
         """Load mapping dictionary between ecoinvent 3.6 and UVEK"""
 
         # Load the matching dictionary between ecoinvent and Simapro biosphere flows
@@ -342,7 +344,8 @@ class ExportInventory:
             dict_uvek[(name, ref_prod, unit, location)] = (uvek_name, uvek_ref_prod, uvek_unit, uvek_loc)
         return dict_uvek
 
-    def load_mapping_36_to_uvek_for_simapro(self):
+    @staticmethod
+    def load_mapping_36_to_uvek_for_simapro():
         """Load mapping dictionary between ecoinvent 3.6 and UVEK for Simapro name format"""
 
         # Load the matching dictionary between ecoinvent and Simapro biosphere flows
@@ -612,7 +615,7 @@ class ExportInventory:
 
                 else:
                     # Uncertainty
-                    if presamples == True:
+                    if presamples:
                         # Generate pre-sampled values
                         amount = np.median(self.array[:, row, col])  * mult_factor
                         uncertainty = [("uncertainty type", 1)]
@@ -925,7 +928,7 @@ class ExportInventory:
                     }
                 )
         if presamples:
-            return (list_act, presamples_matrix)
+            return list_act, presamples_matrix
         else:
             return list_act
 
@@ -945,6 +948,10 @@ class ExportInventory:
         Alternatively, exports a string representation of the file (in case the invenotry should be downloaded
         from a browser, for example)
 
+        :param vehicle_specs:
+        :param filename:
+        :param forbidden_activities:
+        :param export_format:
         :param directory: str. path to export the file to.
         :type directory: str or pathlib.Path
         :param ecoinvent_compatibility: bool. If True, the inventory is compatible with ecoinvent. If False, the inventory is compatible with REMIND-ecoinvent.
@@ -953,9 +960,7 @@ class ExportInventory:
         :type ecoinvent_version: str
         :param software_compatibility: str. "brightway2" or "simapro"
         :type software_compatibility: str
-        :param format: can be "file" or "string". If "file", returns a file path where the file is stored.
         If "string", returns a string.
-        :type format: str
         :returns: returns the file path of the exported inventory.
         :rtype: str.
         """
@@ -1074,7 +1079,8 @@ class ExportInventory:
                 csvFile.seek(0)
                 return csvFile.read()
 
-    def get_simapro_biosphere(self):
+    @staticmethod
+    def get_simapro_biosphere():
 
         # Load the matching dictionary between ecoinvent and Simapro biosphere flows
         filename = "simapro-biosphere.json"
@@ -1091,7 +1097,8 @@ class ExportInventory:
 
         return dict_bio
 
-    def get_simapro_technosphere(self):
+    @staticmethod
+    def get_simapro_technosphere():
 
         # Load the matching dictionary between ecoinvent and Simapro product flows
         filename = "simapro-technosphere-3.5.csv"
@@ -1106,7 +1113,7 @@ class ExportInventory:
         for row in data:
             name, location, simapro_name = row
             simapro_name = simapro_name.split("|")[:2]
-            dict_tech[(name, location)] = ("|").join(simapro_name)
+            dict_tech[(name, location)] = "|".join(simapro_name)
 
         return dict_tech
 
@@ -1387,10 +1394,10 @@ class ExportInventory:
                 if item == "External documents":
                     rows.append(["https://carculator.psi.ch"])
 
-                if item in ("System description"):
+                if item in "System description":
                     rows.append(["carculator"])
 
-                if item in ("Allocation rules"):
+                if item in "Allocation rules":
                     rows.append(
                         ["In the instance of joint-production, allocation of process burden based on"
                          "economic relative revenue of each co-product."])
@@ -1898,7 +1905,7 @@ class ExportInventory:
         :return: LCIImporter object to be imported in a Brightway2 project
         :rtype: bw2io.base_lci.LCIImporter
         """
-        if presamples == True:
+        if presamples:
             data, array = self.write_lci(
                 presamples=presamples,
                 ecoinvent_compatibility=ecoinvent_compatibility,
@@ -1908,7 +1915,7 @@ class ExportInventory:
             )
             i = bw2io.importers.base_lci.LCIImporter(self.db_name)
             i.data = data
-            return (i, array)
+            return i, array
         else:
             data = self.write_lci(
                 presamples=presamples,
