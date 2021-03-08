@@ -1529,7 +1529,6 @@ class InventoryCalculation:
                                     self.A[:, : car_index - 1, maximum] += car_inputs
 
             # Fuel and electricity supply must be from the fleet year, not the vintage year
-
             d_map_fuel = {
                 "ICEV-p": "gasoline",
                 "ICEV-d": "diesel",
@@ -1542,44 +1541,29 @@ class InventoryCalculation:
                 "FCEV": "hydrogen",
             }
 
-            ind_supply = [
-                self.inputs[i]
-                for i in self.inputs
-                if "supply for " + d_map_fuel[pt] + " vehicles, " in i[0]
-            ]
-            amount_fuel = self.A[:, ind_supply, maximum].sum(axis=1)
+            for fuel_type in set(d_map_fuel.values()):
 
-            # zero out initial fuel inputs
-            self.A[:, ind_supply, maximum] = 0
-
-            # set saved amount to current fuel supply provider
-            current_provider = [
-                self.inputs[i]
-                for i in self.inputs
-                if "supply for " + d_map_fuel[pt] + " vehicles, " + str(y)
-                   in i[0]
-            ]
-            self.A[:, current_provider, maximum] = amount_fuel
-
-            if pt in ["PHEV-p", "PHEV-d"]:
                 ind_supply = [
                     self.inputs[i]
                     for i in self.inputs
-                    if "supply for electric vehicles, " in i[0]
+                    if "supply for " + fuel_type + " vehicles, " in i[0]
                 ]
                 amount_fuel = self.A[:, ind_supply, maximum].sum(axis=1)
 
-                # zero out initial fuel inputs
-                self.A[:, ind_supply, maximum] = 0
+                if amount_fuel > 0:
 
-                # set saved amount to current fuel supply provider
-                current_provider = [
-                    self.inputs[i]
-                    for i in self.inputs
-                    if "supply for electric vehicles, " + str(y) in i[0]
-                ]
-                self.A[:, current_provider, maximum] = amount_fuel
+                    # zero out initial fuel inputs
+                    self.A[:, ind_supply, maximum] = 0
 
+                    # set saved amount to current fuel supply provider
+                    current_provider = [
+                        self.inputs[i]
+                        for i in self.inputs
+                        if "supply for " + fuel_type + " vehicles, " + str(y)
+                           in i[0]
+                    ]
+
+                    self.A[:, current_provider, maximum] = amount_fuel
 
     def get_B_matrix(self):
         """

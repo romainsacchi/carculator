@@ -353,7 +353,7 @@ def create_fleet_composition_from_IAM_file(
         raise FileNotFoundError("Could not locate {}".format(fp))
 
     # Read the fleet composition CSV file
-    df = pd.read_csv(fp, delimiter=",")
+    df = pd.read_csv(fp, delimiter=";")
     df = df.fillna(0)
 
     # Filter out unecessary columns

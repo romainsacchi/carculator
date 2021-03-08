@@ -771,17 +771,18 @@ class ExportInventory:
 
                             if items[3] == "all powertrains":
                                 size = None
-                                pwt = "diesel"
+                                pwt = None
 
                             else:
                                 _, _, _, pwt, year = [t.strip() for t in tuple_output[0].split(",")]
-                                size = "Medium"
+                                size = None
                         else:
                             _, pwt, size, year, _ = [t.strip() for t in tuple_output[0].split(",")]
 
-                    pwt = d_pwt[pwt]
+
 
                     if not size is None:
+                        pwt = d_pwt[pwt]
 
                         if not vehicle_specs is None:
 
@@ -802,7 +803,12 @@ class ExportInventory:
                                 except KeyError:
                                     print(f"Could not find vehicle specs for {pwt} {size} {year}")
                     else:
-                        string = "Fleet average vehicle, all sizes and powertrains considered."
+                        if not pwt is None:
+                            pwt = d_pwt[pwt]
+                            string = f"Fleet average {pwt} vehicle in {year}, all sizes considered."
+
+                        else:
+                            string = "Fleet average vehicle, all sizes and powertrains considered."
 
 
                 # Added transport distances if the inventory
@@ -1481,10 +1487,12 @@ class ExportInventory:
                             if ei_version in ("3.5", "3.6"):
                                 if not any(i.lower() in e["name"].lower()
                                            for i in ("waste", "emissions", "treatment", "scrap",
-                                                     "used powertrain", "disposal")) \
+                                                     "used powertrain", "disposal", "sludge")) \
                                         or any(i in e["name"]
                                                for i in ["from municipal waste incineration",
-                                                         ])\
+                                                         "municipal solid waste, incineration",
+                                                            "Biomethane", "biogas upgrading",
+                                                         "anaerobic digestion, with biogenic carbon uptake"])\
                                         or any(i.lower() in e["reference product"].lower()
                                                for i in ["electricity",
                                                          ]):
@@ -1546,7 +1554,7 @@ class ExportInventory:
                                 if not any(i.lower() in e["name"].lower()
                                            for i in ("waste", "emissions", "treatment", "scrap",
                                                      "used powertrain", "disposal", "used passenger car",
-                                                     "used electric passenger car")) \
+                                                     "used electric passenger car", "anaerobic digestion, with biogenic carbon uptake")) \
                                         or any(i in e["name"]
                                                for i in ["from municipal waste incineration",
                                                          "aluminium scrap, new",
@@ -1736,7 +1744,8 @@ class ExportInventory:
                                                  "used electric passenger car",
                                                  "municipal solid waste",
                                                  "disposal",
-                                                 "rainwater mineral oil")
+                                                 "rainwater mineral oil",
+                                                 "sludge")
                                        ) \
                                         and not any(i.lower() in e["name"].lower()
                                                     for i in ("anaerobic",
