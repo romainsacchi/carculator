@@ -110,7 +110,7 @@ def extract_biofuel_shares_from_IAM(
 
         if len(df_gas) == 0:
             df_gas = pd.DataFrame(0,
-                                      columns=["Region", "Variable", "Unit"] + [str(i) for i in list(range(2005, 2050, 5))],
+                                      columns=["Region", "Variable", "Unit"] + [str(i) for i in list(range(2005, 2055, 5))],
                                       index=range(0, len(var))
                                       )
             df_gas["Region"] = IAM_region
@@ -179,8 +179,12 @@ def extract_biofuel_shares_from_IAM(
         new_df.columns[:3].tolist() + new_df.columns[3:].astype(int).tolist()
     )
 
+    print(new_df)
+
     new_df = new_df.rename(columns={"Variable": "fuel_type"})
     new_df = new_df.groupby("fuel_type").sum()
+
+    print(new_df)
 
     arr = (
         new_df.to_xarray()
@@ -292,6 +296,11 @@ def extract_electricity_mix_from_IAM_file(model, fp, IAM_region, years):
     df = df.reset_index()
     df = df.loc[df["Region"] == IAM_region]
     df = df.loc[:, : str(2050)]
+
+    print(electricity_markets)
+    print(len(electricity_markets))
+    print(df.head())
+    print(df["Variable"].unique())
     df = df.loc[df["Variable"].isin(electricity_markets.values())]
     df["Variable"] = df["Variable"].map(rev_tech)
     df.columns = df.columns[:3].tolist() + df.columns[3:].astype(int).tolist()

@@ -843,7 +843,7 @@ class InventoryCalculation:
         self.impact_categories = self.get_dict_impact_categories()
 
         # Load the B matrix
-        self.B = self.get_B_matrix()
+        self.B = None
 
     def __getitem__(self, key):
         """
@@ -1017,6 +1017,8 @@ class InventoryCalculation:
 
     def calculate_impacts(self, split="components", sensitivity=False):
 
+        self.B = self.get_B_matrix()
+
         # Prepare an array to store the results
         results = self.get_results_table(split, sensitivity=sensitivity)
 
@@ -1162,6 +1164,8 @@ class InventoryCalculation:
                         "fuel",
                     )
                 ] = maximum
+
+
 
             if {"FCEV"}.intersection(set(self.scope["powertrain"])):
                 maximum += 1
@@ -1378,7 +1382,7 @@ class InventoryCalculation:
 
                 if share_pt > 0:
                     for s in self.fleet.coords["size"].values:
-                        for vin_year in range(min(self.scope["year"]), y):
+                        for vin_year in range(min(self.scope["year"]), y + 1):
 
                             if vin_year in self.fleet.vintage_year:
 
@@ -1408,7 +1412,7 @@ class InventoryCalculation:
 
                                     car_inputs = (self.A[:, : car_index - 1, car_index] * fleet_share)
 
-                                    self.A[:, : car_index -1 , maximum] += car_inputs
+                                    self.A[:, : car_index -1, maximum] += car_inputs
 
 
 
@@ -1495,7 +1499,7 @@ class InventoryCalculation:
             if share_pt > 0:
                 for pt in self.fleet.coords["powertrain"].values:
                     for s in self.fleet.coords["size"].values:
-                        for vin_year in range(min(self.scope["year"]), y):
+                        for vin_year in range(min(self.scope["year"]), y + 1):
 
                             if vin_year in self.fleet.vintage_year:
 
@@ -1521,8 +1525,6 @@ class InventoryCalculation:
                                                 for item in [pt, str(vin_year), s, "transport"]
                                             ])
                                     ][0]
-
-                                    #self.A[:, car_index, maximum] = fleet_share * -1
 
                                     car_inputs = (self.A[:, : car_index - 1, car_index] * fleet_share)
 
@@ -2015,14 +2017,12 @@ class InventoryCalculation:
                 self.scope["powertrain"]
             )
 
-        #np.savetxt("A.csv", self.A[0], delimiter=";")
-
         # if the inventories are meant to link to `premise` databases
         # we need to remove the additional electricity input
         # in the fuel market datasets
         if not ecoinvent_compatibility:
             fuel_markets = [
-                self.inputs[a] for a in self.inputs if "fuel market for" in a[0]
+                self.inputs[a] for a in self.inputs if "fuel supply for" in a[0]
             ]
             electricity_inputs = [
                 self.inputs[a] for a in self.inputs if "electricity market for" in a[0]
@@ -2041,6 +2041,7 @@ class InventoryCalculation:
             )
             return lci, array
         else:
+
             lci = ExportInventory(
                 self.A, self.rev_inputs, db_name=db_name
             ).write_lci_to_bw(
@@ -2050,6 +2051,8 @@ class InventoryCalculation:
                 forbidden_activities=forbidden_activities,
                 vehicle_specs=self.specs,
             )
+
+
             return lci
 
     def export_lci_to_excel(
@@ -3530,6 +3533,16 @@ class InventoryCalculation:
                         "the fuel blend for {} is not valid.".format(fuel_type)
                     )
 
+                if tertiary:
+                    if ~np.isclose(primary_share[y] + secondary_share[y] + tertiary_share[y], 1, rtol=1e-3):
+                        sum_blend = primary_share[y] + secondary_share[y] + tertiary_share[y]
+                        raise ValueError(f"The fuel blend for {fuel_type} in {year} is not equal to 1, but {sum_blend}.")
+                else:
+                    if ~np.isclose(primary_share[y] + secondary_share[y], 1, rtol=1e-3):
+                        sum_blend = primary_share[y] + secondary_share[y]
+                        raise ValueError(f"The fuel blend for {fuel_type} in {year} is not equal to 1, but {sum_blend}.")
+
+
                 self.A[:, primary_fuel_activity_index, fuel_market_index] = (
                     -1 * primary_share[y]
                 )
@@ -4114,26 +4127,27 @@ class InventoryCalculation:
             * -1
         ).T
 
-        sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
+        if self.B is not None:
+            sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
 
-        for y, year in enumerate(self.scope["year"]):
+            for y, year in enumerate(self.scope["year"]):
 
-            if y + 1 == len(self.scope["year"]):
-                end_str = "\n * "
-            else:
-                end_str = "\n \t * "
+                if y + 1 == len(self.scope["year"]):
+                    end_str = "\n * "
+                else:
+                    end_str = "\n \t * "
 
-            print(
-                "in "
-                + str(year)
-                + ", % of renewable: "
-                + str(np.round(sum_renew[y] * 100, 0))
-                + "%"
-                + ", GHG intensity per kWh: "
-                + str(int(np.sum(co2_intensity_tech[y] * self.mix[y])))
-                + " g. CO2-eq.",
-                end=end_str,
-            )
+                print(
+                    "in "
+                    + str(year)
+                    + ", % of renewable: "
+                    + str(np.round(sum_renew[y] * 100, 0))
+                    + "%"
+                    + ", GHG intensity per kWh: "
+                    + str(int(np.sum(co2_intensity_tech[y] * self.mix[y])))
+                    + " g. CO2-eq.",
+                    end=end_str,
+                )
 
         if any(
             True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in self.scope["powertrain"]
@@ -5514,26 +5528,27 @@ class InventoryCalculation:
             -1 / array[self.array_inputs["lifetime kilometers"]]
         )
 
-        sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
+        if self.B is not None:
+            sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
 
-        for y, year in enumerate(self.scope["year"]):
+            for y, year in enumerate(self.scope["year"]):
 
-            if y + 1 == len(self.scope["year"]):
-                end_str = "\n * "
-            else:
-                end_str = "\n \t * "
+                if y + 1 == len(self.scope["year"]):
+                    end_str = "\n * "
+                else:
+                    end_str = "\n \t * "
 
-            print(
-                "in "
-                + str(year)
-                + ", % of renewable: "
-                + str(np.round(sum_renew[y] * 100, 0))
-                + "%"
-                + ", GHG intensity per kWh: "
-                + str(int(np.sum(co2_intensity_tech[y] * self.mix[y])))
-                + " g. CO2-eq.",
-                end=end_str,
-            )
+                print(
+                    "in "
+                    + str(year)
+                    + ", % of renewable: "
+                    + str(np.round(sum_renew[y] * 100, 0))
+                    + "%"
+                    + ", GHG intensity per kWh: "
+                    + str(int(np.sum(co2_intensity_tech[y] * self.mix[y])))
+                    + " g. CO2-eq.",
+                    end=end_str,
+                )
 
         if any(
             True for x in ["BEV", "PHEV-p", "PHEV-d"] if x in self.scope["powertrain"]
