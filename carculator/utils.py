@@ -294,13 +294,11 @@ def extract_electricity_mix_from_IAM_file(model, fp, IAM_region, years):
         }
 
     df = df.reset_index()
+    print(f"current IAM_region being looked at: {IAM_region}")
+    print(f"IAM regions available: {df['Region'].unique()}")
     df = df.loc[df["Region"] == IAM_region]
     df = df.loc[:, : str(2050)]
 
-    print(electricity_markets)
-    print(len(electricity_markets))
-    print(df.head())
-    print(df["Variable"].unique())
     df = df.loc[df["Variable"].isin(electricity_markets.values())]
     df["Variable"] = df["Variable"].map(rev_tech)
     df.columns = df.columns[:3].tolist() + df.columns[3:].astype(int).tolist()
