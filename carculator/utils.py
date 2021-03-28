@@ -179,12 +179,8 @@ def extract_biofuel_shares_from_IAM(
         new_df.columns[:3].tolist() + new_df.columns[3:].astype(int).tolist()
     )
 
-    print(new_df)
-
     new_df = new_df.rename(columns={"Variable": "fuel_type"})
     new_df = new_df.groupby("fuel_type").sum()
-
-    print(new_df)
 
     arr = (
         new_df.to_xarray()
@@ -294,8 +290,6 @@ def extract_electricity_mix_from_IAM_file(model, fp, IAM_region, years):
         }
 
     df = df.reset_index()
-    print(f"current IAM_region being looked at: {IAM_region}")
-    print(f"IAM regions available: {df['Region'].unique()}")
     df = df.loc[df["Region"] == IAM_region]
     df = df.loc[:, : str(2050)]
 
