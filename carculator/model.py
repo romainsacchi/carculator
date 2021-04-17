@@ -1026,7 +1026,7 @@ class CarModel:
         for y in self.array.year.values:
 
             if y < 1993:
-                l_y.append(0)
+                l_y.append(1)
             if 1993 <= y < 1997:
                 l_y.append(1)
             if 1997 <= y < 2001:
