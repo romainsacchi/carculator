@@ -12,3 +12,4 @@ numexpr
 bw2io
 pycountry
 wurst
+pypardiso

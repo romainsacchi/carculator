@@ -29,6 +29,7 @@ requirements:
     - bw2io
     - pycountry
     - wurst
+    - pypardiso
 
 test:
   imports:

@@ -3433,11 +3433,15 @@ class InventoryCalculation:
                 if tertiary:
                     if ~np.isclose(primary_share[y] + secondary_share[y] + tertiary_share[y], 1, rtol=1e-3):
                         sum_blend = primary_share[y] + secondary_share[y] + tertiary_share[y]
-                        raise ValueError(f"The fuel blend for {fuel_type} in {year} is not equal to 1, but {sum_blend}.")
+                        print(f"The fuel blend for {fuel_type} in {year} is not equal to 1, but {sum_blend}."
+                              f"The primary fuel share is adjusted so that the fuel blend equals 1.")
+                        primary_share[y] = 1 - (secondary_share[y] + tertiary_share[y])
                 else:
                     if ~np.isclose(primary_share[y] + secondary_share[y], 1, rtol=1e-3):
                         sum_blend = primary_share[y] + secondary_share[y]
-                        raise ValueError(f"The fuel blend for {fuel_type} in {year} is not equal to 1, but {sum_blend}.")
+                        print(f"The fuel blend for {fuel_type} in {year} is not equal to 1, but {sum_blend}."
+                              f"The primary fuel share is adjusted so that the fuel blend equals 1.")
+                        primary_share[y] = 1 - secondary_share[y]
 
 
                 self.A[:, primary_fuel_activity_index, fuel_market_index] = (
