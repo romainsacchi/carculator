@@ -10,5 +10,4 @@ numexpr
 bw2io
 pycountry
 wurst
-mkl-service
 mkl
