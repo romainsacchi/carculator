@@ -31,6 +31,7 @@ install:
   pip3 install pytest;
   pip3 install pytest-cov;
   else pip3 install -r ci/macos-travis.txt; pip3 install -e .;
+  pip3 install -e git+https://github.com/haasad/PyPardisoProject.git#egg=PyPardisoProject;
   fi
 script:
 - 'if [ "$TRAVIS_OS_NAME" == "linux" ]; then pwd; ls; pytest --cov=carculator; coveralls;
