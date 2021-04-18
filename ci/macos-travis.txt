@@ -11,3 +11,4 @@ bw2io
 pycountry
 wurst
 pypardiso
+mkl
