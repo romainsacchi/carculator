@@ -25,14 +25,12 @@ before_install:
   fi
 install:
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then conda create -n test-environment python=$TRAVIS_PYTHON_VERSION
-  pandas xarray xlrd numpy coveralls klausen numexpr bw2io pycountry wurst pypardiso;
+  pandas xarray xlrd numpy coveralls klausen numexpr bw2io pycountry wurst;
   source activate test-environment;
   pip3 install -e .;
   pip3 install pytest;
   pip3 install pytest-cov;
   else pip3 install -r ci/macos-travis.txt; pip3 install -e .;
-  pip3 install -e git+https://github.com/haasad/PyPardisoProject.git#egg=PyPardisoProject;
-  pip3 install -e git+https://github.com/IntelPython/mkl-service.git#egg=mkl-service;
   fi
 script:
 - 'if [ "$TRAVIS_OS_NAME" == "linux" ]; then pwd; ls; pytest --cov=carculator; coveralls;

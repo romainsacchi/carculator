@@ -10,5 +10,3 @@ numexpr
 bw2io
 pycountry
 wurst
-mkl
-cython
