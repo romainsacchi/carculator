@@ -23,7 +23,6 @@ __all__ = (
     "InternalNoiseModel",
     "create_fleet_composition_from_IAM_file",
     "extract_electricity_mix_from_IAM_file",
-    "extract_biofuel_shares_from_IAM"
 )
 __version__ = (1, 4, 8)
 
