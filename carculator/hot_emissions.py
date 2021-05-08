@@ -143,6 +143,7 @@ class HotEmissionsModel:
 
 
         # energy conusmption is given in kj for each second
+        # emissions are in grams per MJ
         hot = hot_emissions.sel(variable="a").values[:, None, :, :, None, None] * energy_consumption.values
 
         non_hot_emissions = self.non_hot.sel(

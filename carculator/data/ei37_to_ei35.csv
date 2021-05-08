@@ -39,3 +39,5 @@ market for concrete block;DE;kilogram;concrete block;market for concrete block;G
 market for road maintenance;RER;meter-year;road maintenance;market for road maintenance;GLO;meter-year;road maintenance
 market for heat, central or small-scale, biomethane;Europe without Switzerland;megajoule;heat, central or small-scale, biomethane;heat and power co-generation, biogas, gas engine;CH;megajoule;heat, central or small-scale, other than natural gas
 market for heat, central or small-scale, biomethane;RoW;megajoule;heat, central or small-scale, biomethane;heat and power co-generation, biogas, gas engine;RoW;megajoule;heat, central or small-scale, other than natural gas
+market for compressed air, 1000 kPa gauge;RER;cubic meter;compressed air, 1000 kPa gauge;market for compressed air, 1000 kPa gauge;GLO;cubic meter;compressed air, 1000 kPa gauge
+market for steam, in chemical industry;RER;kilogram;steam, in chemical industry;market for steam, in chemical industry;GLO;kilogram;steam, in chemical industry

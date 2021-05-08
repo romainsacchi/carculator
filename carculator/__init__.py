@@ -24,7 +24,7 @@ __all__ = (
     "create_fleet_composition_from_IAM_file",
     "extract_electricity_mix_from_IAM_file",
 )
-__version__ = (1, 4, 8)
+__version__ = (1, 4, 9)
 
 from pathlib import Path
 

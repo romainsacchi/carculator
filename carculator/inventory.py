@@ -52,7 +52,7 @@ class InventoryCalculation:
                         },
                  'diesel':{
                         'primary fuel':{
-                            'type':'synthetic diesel',
+                            'type':'synthetic diesel - energy allocation',
                             'share':[0.9, 0.8, 0.7, 0.6]
                             },
                         'secondary fuel':{
@@ -150,7 +150,7 @@ class InventoryCalculation:
     diesel
     biodiesel - algae
     biodiesel - cooking oil
-    synthetic diesel
+    synthetic diesel - economic allocation
     synthetic diesel - energy allocation
 
     Petrol technologies
@@ -160,14 +160,15 @@ class InventoryCalculation:
     bioethanol - maize starch
     bioethanol - sugarbeet
     bioethanol - forest residues
-    synthetic gasoline
+    synthetic gasoline - economic allocation
+    synthetic gasoline - energy allocation
 
     :ivar array: array from the CarModel class
     :vartype array: CarModel.array
     :ivar scope: dictionary that contains filters for narrowing the analysis
     :ivar background_configuration: dictionary that contains choices for background system
     :ivar scenario: REMIND energy scenario to use ("SSP2-Baseline": business-as-usual,
-                                                    "SSP2-PkBudg1100": limits cumulative GHG emissions to 1,100 gigatons by 2100,
+                                                    "SSP2-PkBudg1300": limits temperature increase by 2100 to 2 degrees Celsius,
                                                     "static": no forward-looking modification of the background inventories).
                     "SSP2-Baseline" selected by default.
 
@@ -1228,7 +1229,13 @@ class InventoryCalculation:
         if not filepath.is_file():
             raise FileNotFoundError("The technology matrix could not be found.")
 
-        initial_A = np.genfromtxt(filepath, delimiter=";")
+        # build matrix A from coordinates
+        A_coords = np.genfromtxt(filepath, delimiter=";")
+        I = A_coords[:, 0].astype(int)
+        J = A_coords[:, 1].astype(int)
+        initial_A = sparse.csr_matrix((A_coords[:, 2], (I, J))).toarray()
+
+        #initial_A = np.genfromtxt(filepath, delimiter=";")
 
         new_A = np.identity(len(self.inputs))
 
@@ -2702,7 +2709,12 @@ class InventoryCalculation:
         else:
             primary = default_fuels[fuel_type]["primary"]
             secondary = default_fuels[fuel_type]["secondary"]
-            secondary_share = self.get_share_biofuel()
+
+            if primary == "electrolysis":
+                secondary_share = np.zeros_like(self.scope["year"])
+            else:
+                secondary_share = self.get_share_biofuel()
+
             primary_share = 1 - np.array(secondary_share, dtype=object)
 
         return (
@@ -2817,14 +2829,14 @@ class InventoryCalculation:
             "bioethanol - maize starch": 26.8,
             "bioethanol - sugarbeet": 26.8,
             "bioethanol - forest residues": 26.8,
-            "synthetic gasoline": 42.4,
+            "synthetic gasoline - economic allocation": 42.4,
             "synthetic gasoline - energy allocation": 42.4,
             "diesel": 42.8,
             "biodiesel - cooking oil": 31.7,
             "biodiesel - algae": 31.7,
             "biodiesel - rapeseed oil": 31.7,
             "biodiesel - palm oil": 31.7,
-            "synthetic diesel": 43.3,
+            "synthetic diesel - economic allocation": 43.3,
             "synthetic diesel - energy allocation": 43.3,
             "cng": 50,
             "biogas - sewage sludge": 50,
@@ -2838,14 +2850,14 @@ class InventoryCalculation:
             "bioethanol - maize starch": 1.91,
             "bioethanol - sugarbeet": 1.91,
             "bioethanol - forest residues": 1.91,
-            "synthetic gasoline": 3.18,
+            "synthetic gasoline - economic allocation": 3.18,
             "synthetic gasoline - energy allocation": 3.18,
             "diesel": 3.14,
             "biodiesel - cooking oil": 2.85,
             "biodiesel - palm oil": 2.85,
             "biodiesel - rapeseed oil": 2.85,
             "biodiesel - algae": 2.85,
-            "synthetic diesel": 3.16,
+            "synthetic diesel - economic allocation": 3.16,
             "synthetic diesel - energy allocation": 3.16,
             "cng": 2.65,
             "biogas - sewage sludge": 2.65,
@@ -3153,38 +3165,6 @@ class InventoryCalculation:
                     "Hydrogen, gaseous, 700 bar",
                 )
             },
-            "wood gasification (Swiss forest)": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from heatpipe reformer gasification of woody biomass, at fuelling station",
-                    "CH",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "wood gasification with CCS (Swiss forest)": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from heatpipe reformer gasification of woody biomass with CCS, at fuelling station",
-                    "CH",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "wood gasification with EF (Swiss forest)": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in entrained flow gasifier, at fuelling station",
-                    "CH",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "wood gasification with EF with CCS (Swiss forest)": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at fuelling station",
-                    "CH",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
             "atr - natural gas": {
                 "name": (
                     "Hydrogen, gaseous, 700 bar, ATR of NG, at fuelling station",
@@ -3289,9 +3269,9 @@ class InventoryCalculation:
                     "biodiesel, vehicle grade",
                 )
             },
-            "synthetic diesel": {
+            "synthetic diesel - economic allocation": {
                 "name": (
-                    "Diesel, synthetic, from electrolysis-based hydrogen, economic allocation, at fuelling station",
+                    "diesel production, synthetic, from electrolysis-based hydrogen, economic allocation, at fuelling station",
                     "RER",
                     "kilogram",
                     "diesel, synthetic, vehicle grade",
@@ -3299,7 +3279,7 @@ class InventoryCalculation:
             },
             "synthetic diesel - energy allocation": {
                 "name": (
-                    "Diesel, synthetic, from electrolysis-based hydrogen, energy allocation, at fuelling station",
+                    "diesel production, synthetic, from electrolysis-based hydrogen, energy allocation, at fuelling station",
                     "RER",
                     "kilogram",
                     "diesel, synthetic, vehicle grade",
@@ -3345,9 +3325,9 @@ class InventoryCalculation:
                     "ethanol, without water, in 99.7% solution state, vehicle grade",
                 )
             },
-            "synthetic gasoline": {
+            "synthetic gasoline - economic allocation": {
                 "name": (
-                    "Gasoline, synthetic, from MTG, hydrogen from electrolysis, economic allocation, at fuelling station",
+                    "gasoline production, synthetic, from methanol, hydrogen from electrolysis, CO2 from DAC, economic allocation, at fuelling station",
                     "RER",
                     "kilogram",
                     "gasoline, synthetic, vehicle grade",
@@ -3355,7 +3335,7 @@ class InventoryCalculation:
             },
             "synthetic gasoline - energy allocation": {
                 "name": (
-                    "Gasoline, synthetic, from MTG, hydrogen from electrolysis, energy allocation, at fuelling station",
+                    "gasoline production, synthetic, from methanol, hydrogen from electrolysis, CO2 from DAC, energy allocation, at fuelling station",
                     "RER",
                     "kilogram",
                     "gasoline, synthetic, vehicle grade",
@@ -3450,11 +3430,56 @@ class InventoryCalculation:
                     -1 * secondary_share[y]
                 )
 
+                def learning_rate_fuel(fuel, year, share, val):
+                    if fuel == "electrolysis":
+                        # apply some learning rate for electrolysis
+                        electrolysis = -.3538 * (float(year) - 2010) + 58.589
+                        electricity = (val - 58 + electrolysis) * share
+                    elif fuel == "synthetic gasoline - energy allocation":
+                        # apply some learning rate for electrolysis
+                        h2 = .338
+                        electrolysis = -.3538 * (float(year) - 2010) + 58.589
+                        electricity = val - (h2 * 58)
+                        electricity += (electrolysis * h2)
+                        electricity *= share
+
+                    elif fuel == "synthetic gasoline - economic allocation":
+                        # apply some learning rate for electrolysis
+                        h2 = .6385
+                        electrolysis = -.3538 * (float(year) - 2010) + 58.589
+                        electricity = val - (h2 * 58)
+                        electricity += (electrolysis * h2)
+                        electricity *= share
+
+                    elif fuel == "synthetic diesel - energy allocation":
+                        # apply some learning rate for electrolysis
+                        h2 = .42
+                        electrolysis = -.3538 * (float(year) - 2010) + 58.589
+                        electricity = val - (h2 * 58)
+                        electricity += (electrolysis * h2)
+                        electricity *= share
+
+                    elif fuel == "synthetic diesel - economic allocation":
+                        # apply some learning rate for electrolysis
+                        h2 = .183
+                        electrolysis = -.3538 * (float(year) - 2010) + 58.589
+                        electricity = val - (h2 * 58)
+                        electricity += (electrolysis * h2)
+                        electricity *= share
+
+                    else:
+                        electricity = val * share
+                    return electricity
+
+                additional_electricity_primary = learning_rate_fuel(primary, year, primary_share[y],
+                                            self.fuel_dictionary[primary]["additional electricity"])
+
+                additional_electricity_secondary = learning_rate_fuel(secondary, year, secondary_share[y],
+                                            self.fuel_dictionary[secondary]["additional electricity"])
+
                 additional_electricity = (
-                    self.fuel_dictionary[primary]["additional electricity"]
-                    * primary_share[y]
-                    + self.fuel_dictionary[secondary]["additional electricity"]
-                    * secondary_share[y]
+                    additional_electricity_primary
+                    + additional_electricity_secondary
                 )
 
                 if tertiary:
@@ -3464,10 +3489,8 @@ class InventoryCalculation:
                     self.A[:, tertiary_fuel_activity_index, fuel_market_index] = (
                         -1 * tertiary_share[y]
                     )
-                    additional_electricity += (
-                        self.fuel_dictionary[tertiary]["additional electricity"]
-                        * tertiary_share[y]
-                    )
+                    additional_electricity += learning_rate_fuel(tertiary, year, tertiary_share[y],
+                                            self.fuel_dictionary[tertiary]["additional electricity"])
 
                 if additional_electricity > 0:
                     electricity_mix_index = [
