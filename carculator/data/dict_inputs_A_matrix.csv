@@ -202,6 +202,7 @@ Formaldehyde;('air', 'urban air close to ground');kilogram
 Fuel tank, compressed hydrogen gas, 700bar;GLO;kilogram;Fuel tank, compressed hydrogen gas, 700bar
 Fuel tank, compressed hydrogen gas, 700bar, with HDPE liner;RER;kilogram;Hydrogen tank
 Fuel tank, compressed hydrogen gas, 700bar, with aluminium liner;RER;kilogram;Hydrogen tank
+Fuel tank, compressed natural gas, 200 bar;RER;kilogram;Fuel tank, compressed natural gas, 200 bar
 Gangue, in ground;('natural resource', 'in ground');kilogram
 Gas Diffusion Layer;GLO;kilowatt;Gas Diffusion Layer
 Gas, mine, off-gas, process, coal mining;('natural resource', 'in ground');cubic meter

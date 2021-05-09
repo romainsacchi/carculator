@@ -31,38 +31,44 @@ def test_scope():
 def test_plausibility_of_GWP():
     """Test if GWP scores make sense"""
 
-    ic = InventoryCalculation(
-        cm.array,
-        method="recipe",
-        method_type="midpoint",
-        scope={"powertrain": ["ICEV-d", "ICEV-p", "BEV"], "size": ["Medium"]},
-    )
-    results = ic.calculate_impacts()
+    for method in ["recipe", "ilcd"]:
+        ic = InventoryCalculation(
+            cm.array,
+            method=method,
+            method_type="midpoint",
+            scope={"powertrain": ["ICEV-d", "ICEV-p", "BEV"], "size": ["Medium"]},
+        )
+        results = ic.calculate_impacts()
 
-    gwp_icev = results.sel(impact_category="climate change", powertrain=["ICEV-d", "ICEV-p"],
-                           value=0,
-                           year=2017,
-                           size="Medium")
+        if method == "recipe":
+            m = "climate change"
+        else:
+            m = "climate change - climate change total"
 
-    # Are the medium ICEVs between 0.3 and 0.4 kg CO2-eq./vkm?
-    assert (gwp_icev.sum(dim="impact") > .3).all() and (gwp_icev.sum(dim="impact") < .4).all()
+        gwp_icev = results.sel(impact_category=m, powertrain=["ICEV-d", "ICEV-p"],
+                               value=0,
+                               year=2017,
+                               size="Medium")
 
-    # Are the medium ICEVs direct emissions between 0.175 and  0.225 kg CO2-eq./vkm?
-    assert (gwp_icev.sel(impact="direct - exhaust") > .175).all() and (gwp_icev.sel(impact="direct - exhaust") < .225).all()
+        # Are the medium ICEVs between 0.3 and 0.4 kg CO2-eq./vkm?
+        assert (gwp_icev.sum(dim="impact") > .3).all() and (gwp_icev.sum(dim="impact") < .4).all()
 
-    # Are the ICEVs glider emissions between 0.055 and 0.075 kg CO2-eq./vkm?
-    assert (gwp_icev.sel(impact="glider") > .055).all() and (gwp_icev.sel(impact="glider") < .075).all()
+        # Are the medium ICEVs direct emissions between 0.175 and  0.225 kg CO2-eq./vkm?
+        assert (gwp_icev.sel(impact="direct - exhaust") > .175).all() and (gwp_icev.sel(impact="direct - exhaust") < .225).all()
 
-    # Is the GWP score for batteries of BEVs between 0.02 and 0.03 kg Co2-eq./vkm?
-    gwp_bev = results.sel(impact_category="climate change",
-                          powertrain="BEV",
-                          value=0,
-                          year=2017,
-                        size="Medium")
-    assert (gwp_bev.sel(impact="energy storage") > .02).all() and (gwp_bev.sel(impact="energy storage") < .03).all()
+        # Are the ICEVs glider emissions between 0.055 and 0.075 kg CO2-eq./vkm?
+        assert (gwp_icev.sel(impact="glider") > .055).all() and (gwp_icev.sel(impact="glider") < .075).all()
 
-    # Are the GWP scores for glider of ICEVs the same as those for BEVs?
-    assert gwp_icev.sel(impact="glider").mean() == gwp_bev.sel(impact="glider").mean()
+        # Is the GWP score for batteries of BEVs between 0.02 and 0.03 kg Co2-eq./vkm?
+        gwp_bev = results.sel(impact_category=m,
+                              powertrain="BEV",
+                              value=0,
+                              year=2017,
+                            size="Medium")
+        assert (gwp_bev.sel(impact="energy storage") > .02).all() and (gwp_bev.sel(impact="energy storage") < .03).all()
+
+        # Are the GWP scores for glider of ICEVs the same as those for BEVs?
+        assert gwp_icev.sel(impact="glider").mean() == gwp_bev.sel(impact="glider").mean()
 
 
 def test_fuel_blend():
