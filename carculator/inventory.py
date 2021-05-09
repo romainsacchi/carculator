@@ -5396,10 +5396,10 @@ class InventoryCalculation:
             :,
             self.inputs[
                 (
-                    "glass fibre reinforced plastic production, polyamide, injection moulded",
+                    "Fuel tank, compressed natural gas, 200 bar",
                     "RER",
                     "kilogram",
-                    "glass fibre reinforced plastic, polyamide, injection moulded",
+                    "Fuel tank, compressed natural gas, 200 bar",
                 )
             ],
             index_A,
