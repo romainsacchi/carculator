@@ -2761,7 +2761,11 @@ class InventoryCalculation:
                     else:
                         secondary_share = self.get_share_biofuel()
 
+                if secondary_share.shape == ():
+                    secondary_share = secondary_share.reshape( 1)
+
                 primary_share = 1 - np.array(secondary_share, dtype=object)
+
         else:
             primary = default_fuels[fuel_type]["primary"]
             secondary = default_fuels[fuel_type]["secondary"]
@@ -2789,6 +2793,8 @@ class InventoryCalculation:
                 else:
                     secondary_share = self.get_share_biofuel()
 
+            if secondary_share.shape == ():
+                secondary_share = secondary_share.reshape(1)
             primary_share = 1 - np.array(secondary_share, dtype=object)
 
         return (
@@ -3483,13 +3489,17 @@ class InventoryCalculation:
                         "the fuel blend for {} is not valid.".format(fuel_type)
                     )
 
+
+
                 if tertiary:
+
                     if ~np.isclose(primary_share[y] + secondary_share[y] + tertiary_share[y], 1, rtol=1e-3):
                         sum_blend = primary_share[y] + secondary_share[y] + tertiary_share[y]
                         print(f"The fuel blend for {fuel_type} in {year} is not equal to 1, but {sum_blend}."
                               f"The primary fuel share is adjusted so that the fuel blend equals 1.")
                         primary_share[y] = 1 - (secondary_share[y] + tertiary_share[y])
                 else:
+
                     if ~np.isclose(primary_share[y] + secondary_share[y], 1, rtol=1e-3):
                         sum_blend = primary_share[y] + secondary_share[y]
                         print(f"The fuel blend for {fuel_type} in {year} is not equal to 1, but {sum_blend}."
