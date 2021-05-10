@@ -1663,7 +1663,7 @@ class ExportInventory:
                 special_remark = self.references[a["name"]]["special remark"]
             else:
                 # if we cannot find it, it's because some keys are more general
-                key = [k for k in self.references.keys() if k in a["name"].lower()][0]
+                key = [k for k in self.references.keys() if k.lower() in a["name"].lower()][0]
                 main_category = self.references[key]["category 1"]
                 category = self.references[key]["category 2"]
                 source = self.references[key]["source"]

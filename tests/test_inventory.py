@@ -171,13 +171,13 @@ def test_countries():
     """Test that calculation works with all countries"""
     for c in [
         "AO","AT","AU","BE","BF","BG","BI","BJ","BR","BW","CA","CD","CF",
-#          #"CG","CH","CI","CL","CM","CN","CY","CZ","DE","DJ","DK","DZ","EE",
-#          #"EG","ER","ES","ET","FI","FR","GA",
-#          #"GB","GH","GM","GN","GQ","GR","GW","HR","HU","IE",
-#          #"IN","IT", "IS", "JP", "KE", "LR","LS","LT","LU","LV","LY","MA","ML","MR","MT","MW","MZ",
-#          #"NE", "NG","NL","NM","NO","PL","PT","RER","RO","RU","RW","SD","SE","SI","SK","SL","SN","SO","SS","SZ",
-#          #"TD","TG","TN","TZ","UG","UK","US","ZA","ZM",
-#          #"ZW",
+        "CG","CH","CI","CL","CM","CN","CY","CZ","DE","DJ","DK","DZ","EE",
+         #"EG","ER","ES","ET","FI","FR","GA",
+         #"GB","GH","GM","GN","GQ","GR","GW","HR","HU","IE",
+         #"IN","IT", "IS", "JP", "KE", "LR","LS","LT","LU","LV","LY","MA","ML","MR","MT","MW","MZ",
+         #"NE", "NG","NL","NM","NO","PL","PT","RER","RO","RU","RW","SD","SE","SI","SK","SL","SN","SO","SS","SZ",
+        "TD","TG","TN","TZ","UG","UK","US","ZA","ZM",
+         #"ZW",
     ]:
         ic = InventoryCalculation(
             cm.array,

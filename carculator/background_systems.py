@@ -19,6 +19,9 @@ class BackgroundSystemModel:
         self.region_map = self.get_region_mapping()
         self.biofuel = self.get_biofuel_share()
         self.sulfur = self.get_sulfur_content_in_fuel()
+        self.biomethane = self.get_biomethane_share()
+        self.biogasoline = self.get_biogasoline_share()
+        self.biodiesel = self.get_biodiesel_share()
 
     @staticmethod
     def get_electricity_losses():
@@ -138,6 +141,42 @@ class BackgroundSystemModel:
                 ]
                 array.loc[dict(region=r, scenario=s, value=0)] = val
         return array
+
+    def get_biomethane_share(self):
+        filename = "share_bio_cng.csv"
+        filepath = DATA_DIR / filename
+
+        if not filepath.is_file():
+            raise FileNotFoundError(
+                "The CSV file that contains biomethane shares could not be found."
+            )
+        df = pd.read_csv(filepath, sep=";")
+
+        return df.groupby(["country", "year"]).sum().to_xarray().to_array()
+
+    def get_biogasoline_share(self):
+        filename = "share_bio_gasoline.csv"
+        filepath = DATA_DIR / filename
+
+        if not filepath.is_file():
+            raise FileNotFoundError(
+                "The CSV file that contains biogasoline shares could not be found."
+            )
+        df = pd.read_csv(filepath, sep=";")
+
+        return df.groupby(["country", "year"]).sum().to_xarray().to_array()
+
+    def get_biodiesel_share(self):
+        filename = "share_bio_diesel.csv"
+        filepath = DATA_DIR / filename
+
+        if not filepath.is_file():
+            raise FileNotFoundError(
+                "The CSV file that contains biodiesel shares could not be found."
+            )
+        df = pd.read_csv(filepath, sep=";")
+
+        return df.groupby(["country", "year"]).sum().to_xarray().to_array()
 
     @staticmethod
     def get_sulfur_content_in_fuel():

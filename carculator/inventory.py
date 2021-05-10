@@ -1235,8 +1235,6 @@ class InventoryCalculation:
         J = A_coords[:, 1].astype(int)
         initial_A = sparse.csr_matrix((A_coords[:, 2], (I, J))).toarray()
 
-        #initial_A = np.genfromtxt(filepath, delimiter=";")
-
         new_A = np.identity(len(self.inputs))
 
         new_A[0 : np.shape(initial_A)[0], 0 : np.shape(initial_A)[0]] = initial_A
@@ -2595,7 +2593,41 @@ class InventoryCalculation:
                 (5.4e-8 + 2.99e-9) * -1 * losses_to_low
             )
 
+    def get_share_biogasoline(self):
+        """ Returns average share of biogasoline according to historical IEA stats """
+        share_biofuel = np.squeeze(np.clip(
+            self.bs.biogasoline.sel(
+                country=self.country
+            )
+                .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
+                .values
+        , 0, 1))
+        return share_biofuel
+
+    def get_share_biodiesel(self):
+        """ Returns average share of biodiesel according to historical IEA stats """
+        share_biofuel = np.squeeze(np.clip(
+            self.bs.biodiesel.sel(
+                country=self.country
+            )
+                .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
+                .values
+        , 0, 1))
+        return share_biofuel
+
+    def get_share_biomethane(self):
+        """ Returns average share of biomethane according to historical IEA stats """
+        share_biofuel = np.squeeze(np.clip(
+            self.bs.biomethane.sel(
+                country=self.country
+            )
+                .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
+                .values
+        , 0, 1))
+        return share_biofuel
+
     def get_share_biofuel(self):
+        """ Returns average share of biofuel in blend according to IAM REMIND """
         try:
             region = self.bs.region_map[self.country]["RegionCode"]
         except KeyError:
@@ -2704,7 +2736,31 @@ class InventoryCalculation:
             else:
                 primary = default_fuels[fuel_type]["primary"]
                 secondary = default_fuels[fuel_type]["secondary"]
-                secondary_share = self.get_share_biofuel()
+
+                if primary == "electrolysis":
+                    secondary_share = np.zeros_like(self.scope["year"])
+                else:
+                    if fuel_type == "diesel":
+                        if self.country in self.bs.biodiesel.country.values:
+                            secondary_share = self.get_share_biodiesel()
+                        else:
+                            secondary_share = self.get_share_biofuel()
+
+
+                    elif fuel_type == "petrol":
+                        if self.country in self.bs.biogasoline.country.values:
+                            secondary_share = self.get_share_biogasoline()
+                        else:
+                            secondary_share = self.get_share_biofuel()
+
+                    elif fuel_type == "cng":
+                        if self.country in self.bs.biomethane.country.values:
+                            secondary_share = self.get_share_biomethane()
+                        else:
+                            secondary_share = self.get_share_biofuel()
+                    else:
+                        secondary_share = self.get_share_biofuel()
+
                 primary_share = 1 - np.array(secondary_share, dtype=object)
         else:
             primary = default_fuels[fuel_type]["primary"]
@@ -2713,7 +2769,25 @@ class InventoryCalculation:
             if primary == "electrolysis":
                 secondary_share = np.zeros_like(self.scope["year"])
             else:
-                secondary_share = self.get_share_biofuel()
+                if fuel_type == "diesel":
+                    if self.country in self.bs.biodiesel.country.values:
+                        secondary_share = self.get_share_biodiesel()
+                    else:
+                        secondary_share = self.get_share_biofuel()
+
+                elif fuel_type == "petrol":
+                    if self.country in self.bs.biogasoline.country.values:
+                        secondary_share = self.get_share_biogasoline()
+                    else:
+                        secondary_share = self.get_share_biofuel()
+
+                elif fuel_type == "cng":
+                    if self.country in self.bs.biomethane.country.values:
+                        secondary_share = self.get_share_biomethane()
+                    else:
+                        secondary_share = self.get_share_biofuel()
+                else:
+                    secondary_share = self.get_share_biofuel()
 
             primary_share = 1 - np.array(secondary_share, dtype=object)
 
