@@ -1851,6 +1851,8 @@ class ExportInventory:
                                             "used powertrain",
                                             "disposal",
                                             "sludge",
+                                            "used li-ion",
+                                            "mineral oil storage"
                                         )
                                     )
                                     or any(
@@ -2098,6 +2100,10 @@ class ExportInventory:
                         ]:
                             if e["name"] not in simapro_biosphere_flows_to_remove:
 
+                                if e["name"].lower() == "water":
+                                    e["unit"] = "kilogram"
+                                    e["amount"] /= 1000
+
                                 if e["name"] in [
                                     "Carbon dioxide, to soil or biomass stock"
                                 ]:
@@ -2196,6 +2202,7 @@ class ExportInventory:
                                             "disposal",
                                             "rainwater mineral oil",
                                             "sludge",
+                                            "used li-ion"
                                         )
                                     )
                                     and not any(
