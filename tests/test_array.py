@@ -27,7 +27,7 @@ def test_modify_array():
 
     dict_param = {
         ("Driving", "all", "all", "lifetime kilometers", "none"): {
-            (2017, "loc"): 150000,
+            (2020, "loc"): 150000,
             (2040, "loc"): 150000,
         }
     }
@@ -37,7 +37,7 @@ def test_modify_array():
         array.sel(
             powertrain="ICEV-d",
             size="Large",
-            year=2017,
+            year=2020,
             parameter="lifetime kilometers",
         ).sum()
         == 150000
@@ -51,14 +51,14 @@ def test_wrong_param_modify_array():
 
     dict_param = {
         ("Driving", "all", "all", "foo", "none"): {
-            (2017, "loc"): 150000,
+            (2020, "loc"): 150000,
             (2040, "loc"): 150000,
         }
     }
 
     modify_xarray_from_custom_parameters(dict_param, array)
     with pytest.raises(KeyError) as wrapped_error:
-        array.sel(powertrain="ICEV-d", size="Large", year=2017, parameter="foo")
+        array.sel(powertrain="ICEV-d", size="Large", year=2020, parameter="foo")
     assert wrapped_error.type == KeyError
 
 def test_scope():

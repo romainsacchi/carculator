@@ -9,7 +9,7 @@ klausen
 xlrd
 pytest
 numexpr
-bw2io
+bw2io>0.8.0
 pycountry
 wurst
 pypardiso

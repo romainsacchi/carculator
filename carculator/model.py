@@ -49,7 +49,7 @@ class CarModel:
 
     """
 
-    def __init__(self, array, mappings=None, cycle=None, gradient=None):
+    def __init__(self, array, mappings=None, cycle=None, gradient=None, energy_storage=None):
 
         self.array = array
         self.mappings = mappings or DEFAULT_MAPPINGS
@@ -58,6 +58,9 @@ class CarModel:
             self.ecm = EnergyConsumptionModel("WLTC")
         else:
             self.ecm = EnergyConsumptionModel(cycle=cycle, gradient=gradient)
+
+        self.energy_storage = energy_storage or {
+            "electric": {"BEV": "NMC", "PHEV-e": "NMC"}}
 
 
     def __call__(self, key):
@@ -558,7 +561,7 @@ class CarModel:
         self["electric engine mass"] = (
             self["electric power"] * self["electric mass per power"]
             + self["electric fixed mass"]
-        )
+        ) * (self["electric power"] > 0)
         self["powertrain mass"] = (
             self["power"] * self["powertrain mass per power"]
             + self["powertrain fixed mass"]
@@ -748,15 +751,17 @@ class CarModel:
         for pt in self.battery:
             if pt in self.array.coords["powertrain"].values:
                 with self(pt) as cpm:
+                    battery_tech_label = "battery cell energy density, " + self.energy_storage["electric"][pt]
                     cpm["electric energy stored"] = (
-                        cpm["battery cell mass"] * cpm["battery cell energy density"]
+                        cpm["battery cell mass"] * cpm[battery_tech_label]
                     )
 
         for pt in self.electric_hybrid:
             if pt in self.array.coords["powertrain"].values:
                 with self(pt) as cpm:
+                    battery_tech_label = "battery cell energy density, " + self.energy_storage["electric"][pt]
                     cpm["electric energy stored"] = (
-                        cpm["battery cell mass"] * cpm["battery cell energy density"]
+                        cpm["battery cell mass"] * cpm[battery_tech_label]
                     )
                     cpm["fuel tank mass"] = (
                         cpm["fuel mass"]
@@ -801,8 +806,7 @@ class CarModel:
         )
         self["energy battery cost"] = (
             self["energy battery cost per kWh"]
-            * self["battery cell mass"]
-            * self["battery cell energy density"]
+            * self["electric energy stored"]
         )
         self["fuel tank cost"] = self["fuel tank cost per kg"] * self["fuel mass"]
         # Per km
@@ -859,6 +863,7 @@ class CarModel:
         self["amortised purchase cost"] = (
             self["purchase cost"] * amortisation_factor / self["kilometers per year"]
         )
+
         # per km
         self["maintenance cost"] = (
             self["maintenance cost per glider cost"]
@@ -1024,7 +1029,7 @@ class CarModel:
 
         l_y = []
         for y in self.array.year.values:
-
+            # European emission standards funciton of registration year
             if y < 1993:
                 l_y.append(1)
             if 1993 <= y < 1997:
@@ -1041,9 +1046,9 @@ class CarModel:
                 l_y.append(6.0)
             if 2017 <= y < 2019:
                 l_y.append(6.1)
-            if 2019 <= y < 2020:
+            if 2019 <= y < 2021:
                 l_y.append(6.2)
-            if y >= 2020:
+            if y >= 2021:
                 l_y.append(6.3)
 
         l_pt = []

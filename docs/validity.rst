@@ -101,9 +101,9 @@ as it is determinant for the energy required to overcome `rolling resistance`, t
 move the vehicle over a given distance -- `kinetic energy`, which is altogether defined as the `tank to wheel` energy,
 stored under the parameter `TtW_energy`.
 
-Parameters such as total cargo mass, curb mass and driving mass, can be obtained the following way, for a 2017 battery electric SUV::
+Parameters such as total cargo mass, curb mass and driving mass, can be obtained the following way, for a 2020 battery electric SUV::
 
-    cm.array.sel(size='SUV', powertrain='BEV', year=2017, parameter=['cargo mass','curb mass', 'driving mass']).values
+    cm.array.sel(size='SUV', powertrain='BEV', year=2020, parameter=['cargo mass','curb mass', 'driving mass']).values
     
     array([[  20.        ],
        [1719.56033224],
@@ -112,7 +112,7 @@ Parameters such as total cargo mass, curb mass and driving mass, can be obtained
 One can check whether `total cargo mass` is indeed equal to cargo mass plus the product of the number of passengers
 and the average passenger weight::
 
-    total_cargo, cargo, passengers, passengers_weight = cm.array.sel(size='SUV', powertrain='BEV', year=2017,
+    total_cargo, cargo, passengers, passengers_weight = cm.array.sel(size='SUV', powertrain='BEV', year=2020,
         parameter=['total cargo mass','cargo mass','average passengers', 'average passenger mass']).values
     print('Total cargo of {} kg, with a cargo mass of {} kg, and {} passengers of individual weight of {} kg.'.format(total_cargo[0], cargo[0], passengers[0], passengers_weight[0]))
     print(total_cargo == cargo+(passengers * passengers_weight))
@@ -122,7 +122,7 @@ and the average passenger weight::
     
 However, most of the driving mass is explained by the curb mass::
 
-    plt.pie(np.squeeze(cm.array.sel(size='SUV', powertrain='BEV', year=2017,
+    plt.pie(np.squeeze(cm.array.sel(size='SUV', powertrain='BEV', year=2020,
         parameter=['total cargo mass', 'curb mass']).values).tolist(), labels=['Total cargo mass', 'Curb mass'])
     plt.show()
 
@@ -141,7 +141,7 @@ On an equivalent diesel powertrain, the mass of the glider base is comparatively
 
     colors = ['yellowgreen','red','gold','lightskyblue','white','lightcoral','blue','pink', 'darkgreen','yellow','grey','violet','magenta','cyan', 'green']
 
-    BEV_mass = np.squeeze(cm.array.sel(size='SUV', powertrain='BEV', year=2017,
+    BEV_mass = np.squeeze(cm.array.sel(size='SUV', powertrain='BEV', year=2020,
             parameter=l_param).values)
 
     percent = 100.*BEV_mass/BEV_mass.sum()
@@ -164,7 +164,7 @@ On an equivalent diesel powertrain, the mass of the glider base is comparatively
                fontsize=8)
 
 
-    ICEV_d_mass = np.squeeze(cm.array.sel(size='SUV', powertrain='ICEV-d', year=2017,
+    ICEV_d_mass = np.squeeze(cm.array.sel(size='SUV', powertrain='ICEV-d', year=2020,
             parameter=l_param).values)
     percent = 100.*ICEV_d_mass/ICEV_d_mass.sum()
 
@@ -192,8 +192,8 @@ On an equivalent diesel powertrain, the mass of the glider base is comparatively
     
 
 
-The `curb mass` returned by ``carculator`` for the year 2010 and 2017 is further calibrated against manufacturers' data, per vehicle size class and powertrain technology.
-For example, we use the car database Car2db (https://car2db.com/) and load all the vehicles produced between 2015 and 2019 (11,500+ vehicles) to do the curb mass calibration for 2017 vehicles.
+The `curb mass` returned by ``carculator`` for the year 2010 and 2020 is further calibrated against manufacturers' data, per vehicle size class and powertrain technology.
+For example, we use the car database Car2db (https://car2db.com/) and load all the vehicles produced between 2015 and 2019 (11,500+ vehicles) to do the curb mass calibration for 2020 vehicles.
 The same exercise is done with vehicles between 2008 and 2012 to calibrate the curb mass of given by carculator for vehicles in 2010.
 
     
@@ -209,8 +209,7 @@ See: https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
 
 However, this database does not directly give energy consumption.
 But we can use CO2 emission measurements with the lower heating value of the corresponding fuel to back-calculate the energy consumption.
-Here is an example, where the 2017 vehicle fuel consumption is calibrated against 15,000,000+ measurements found in the EU database for vehicles registered in 2018
-(the 2017 database could not be used as emissions were not measured according to WLTC just yet).
+Here is an example, where the 2020 vehicle fuel consumption is calibrated against 15,000,000+ measurements found in the EU database for vehicles registered between 2010 and 2019.
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/EU_energy_comparison.png
     :width: 900

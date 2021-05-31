@@ -30,7 +30,7 @@ class CarInputParameters(NamedParameters):
     :vartype powertrains: list
     :ivar parameters: List of string items e.g., ['Benzene', 'CH4', 'CNG tank mass intercept',...]
     :vartype parameters: list
-    :ivar years: List of integers e.g., [2017, 2040]
+    :ivar years: List of integers e.g., [2000, 2010, 2020, 2040]
     :vartype years: list
     :ivar metadata: Dictionary for metadata.
     :vartype metadata: dict

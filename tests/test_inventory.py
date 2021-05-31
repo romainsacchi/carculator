@@ -47,7 +47,7 @@ def test_plausibility_of_GWP():
 
         gwp_icev = results.sel(impact_category=m, powertrain=["ICEV-d", "ICEV-p"],
                                value=0,
-                               year=2017,
+                               year=2020,
                                size="Medium")
 
         # Are the medium ICEVs between 0.3 and 0.4 kg CO2-eq./vkm?

@@ -1129,9 +1129,9 @@ class InventoryCalculation:
                         euro_class = "EURO-6ab"
                     if 2017 <= y < 2019:
                         euro_class = "EURO-6c"
-                    if 2019 <= y < 2020:
+                    if 2019 <= y <= 2020:
                         euro_class = "EURO-6d-TEMP"
-                    if y >= 2020:
+                    if y >= 2021:
                         euro_class = "EURO-6d"
 
                     name = (
@@ -5071,8 +5071,8 @@ class InventoryCalculation:
         ).transpose([1, 0, 2])
 
         # Emissions of air conditioner refrigerant r134a
-        # Leakage assumed to amount to 53g according to
-        # https://ec.europa.eu/clima/sites/clima/files/eccp/docs/leakage_rates_final_report_en.pdf
+        # Leakage assumed to amount to 750g/year according to
+        # https://treeze.ch/fileadmin/user_upload/downloads/Publications/Case_Studies/Mobility/544-LCI-Road-NonRoad-Transport-Services-v2.0.pdf
 
         self.A[
             :,
@@ -5081,7 +5081,7 @@ class InventoryCalculation:
             ],
             -self.number_of_cars :,
         ] = (
-            0.053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
+            0.750 / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
         )
 
         self.A[
@@ -5091,7 +5091,7 @@ class InventoryCalculation:
             ],
             -self.number_of_cars :,
         ] = (
-            0.053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
+            (0.75 + 0.55) / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
         )
 
         print("*********************************************************************")
@@ -6494,7 +6494,7 @@ class InventoryCalculation:
 
         # Emissions of air conditioner refrigerant r134a
         # Leakage assumed to amount to 53g according to
-        # https://ec.europa.eu/clima/sites/clima/files/eccp/docs/leakage_rates_final_report_en.pdf
+        # https://treeze.ch/fileadmin/user_upload/downloads/Publications/Case_Studies/Mobility/544-LCI-Road-NonRoad-Transport-Services-v2.0.pdf
 
         self.A[
             :,
@@ -6503,7 +6503,7 @@ class InventoryCalculation:
             ],
             [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
         ] = (
-            0.053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
+            0.75 / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
         )
 
         self.A[
@@ -6513,7 +6513,7 @@ class InventoryCalculation:
             ],
             [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
         ] = (
-            0.053 / self.array.values[self.array_inputs["kilometers per year"]] * -1
+            (0.75 + 0.55) / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
         )
 
         print("*********************************************************************")

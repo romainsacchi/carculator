@@ -5,7 +5,7 @@ Introduction
 vehicle configurations, according to selected:
 
 * powertrain technologies (9): petrol engine, diesel engine, electric motor, hybrid, plugin-hybrid, etc.,
-* year of operation (2): 2000, 2010, 2017, 2040 (with the possibility to interpolate in between, and up to 2050)
+* year of operation (2): 2000, 2010, 2020, 2040 (with the possibility to interpolate in between, and up to 2050)
 * and sizes (7): Mini, Large, etc.
 
 The methodology used to develop `carculator` is explained in:
@@ -86,7 +86,7 @@ Note: many examples are given in this `notebook <https://github.com/romainsacchi
 The inventories can be calculated using the most likely value of the given input parameters ("static" mode), but also using
 randomly-generated values based on a probability distribution for those ("stochastic" mode).
 
-For example, the drivetrain efficiency of SUVs in 2017, regardless of the powertrain, is given the most likely value (i.e., the mode) of 0.38,
+For example, the drivetrain efficiency of SUVs in 2020, regardless of the powertrain, is given the most likely value (i.e., the mode) of 0.38,
 but with a triangular probability distribution with a minimum and maximum of 0.3 and 0.4, respectively.
 
 Creating car models in static mode will use the most likely value of the given parameters to dimension the cars, etc., such as:
@@ -148,16 +148,16 @@ Custom values for given parameters
 
 You can pass your own values for the given parameters, effectively overriding the default values.
 
-For example, you may think that the *base mass of the glider* for large diesel and petrol cars is 1600 kg in 2017
+For example, you may think that the *base mass of the glider* for large diesel and petrol cars is 1600 kg in 2020
 and 1,500 kg in 2040, and not 1,500 kg as defined by the default values. It is easy to change this value.
 You need to create first a dictionary and define your new values as well as a probability distribution if needed :
 
 .. code-block:: python
 
     dic_param = {
-    ('Glider', ['ICEV-d', 'ICEV-p'], 'Large', 'glider base mass', 'triangular'): {(2017, 'loc'): 1600.0,
-                                                                 (2017, 'minimum'): 1500.0,
-                                                                 (2017, 'maximum'): 2000.0,
+    ('Glider', ['ICEV-d', 'ICEV-p'], 'Large', 'glider base mass', 'triangular'): {(2020, 'loc'): 1600.0,
+                                                                 (2020, 'minimum'): 1500.0,
+                                                                 (2020, 'maximum'): 2000.0,
                                                                  (2040, 'loc'): 1500.0,
                                                                  (2040, 'minimum'): 1300.0,
                                                                  (2040, 'maximum'): 1700.0}}
@@ -186,7 +186,7 @@ The following probability distributions are accepted:
 Inter and extrapolation of parameters
 *************************************
 
-``carculator`` creates by default car models for the year 2000, 2010, 2017 and 2040.
+``carculator`` creates by default car models for the year 2000, 2010, 2020 and 2040.
 It is possible to inter and extrapolate all the parameters to other years simply by writing:
 
 .. code-block:: python
@@ -240,12 +240,12 @@ The user can also create custom driving cycles and pass it to the :class:`CarMod
 
 Accessing calculated parameters of the car model
 ************************************************
-Hence, the tank-to-wheel energy requirement per km driven per powertrain technology for a SUV in 2017 can be obtained
+Hence, the tank-to-wheel energy requirement per km driven per powertrain technology for a SUV in 2020 can be obtained
 from the CarModel object:
 
 .. code-block:: python
 
-    TtW_energy = cm.array.sel(size='SUV', year=2017, parameter='TtW energy', value=0) * 1/3600 * 100
+    TtW_energy = cm.array.sel(size='SUV', year=2020, parameter='TtW energy', value=0) * 1/3600 * 100
 
     plt.bar(TtW_energy.powertrain, TtW_energy)
     plt.ylabel('kWh/100 km')
@@ -273,7 +273,7 @@ value for the tank-to-wheel energy, you would have a distribution of values:
     :alt: Alternative text
 
 Any other attributes of the CarModel class can be obtained in a similar way.
-Hence, the following code lists all direct exhaust emissions included in the inventory of an petrol Van in 2017:
+Hence, the following code lists all direct exhaust emissions included in the inventory of an petrol Van in 2020:
 
 List of all the given and calculated parameters of the car model:
 
@@ -291,7 +291,7 @@ Finally, return their values and display the first 10 in a table:
 
 .. code-block:: python
 
-    cm.array.sel(parameter=direct_emissions, year=2017, size='Van', powertrain='BEV').to_dataframe(name='direct emissions')
+    cm.array.sel(parameter=direct_emissions, year=2020, size='Van', powertrain='BEV').to_dataframe(name='direct emissions')
 
 
 
@@ -300,7 +300,7 @@ Or we could be interested in visualizing the distribution of non-characterized n
 .. code-block:: python
 
     noise_emissions = [x for x in list_param if 'noise' in x]
-    data = cm.array.sel(parameter=noise_emissions, year=2017, size='Van', powertrain='ICEV-p', value=0)\
+    data = cm.array.sel(parameter=noise_emissions, year=2020, size='Van', powertrain='ICEV-p', value=0)\
         .to_dataframe(name='noise emissions')['noise emissions']
     data[data>0].plot(kind='bar')
     plt.ylabel('joules per km')
@@ -313,11 +313,11 @@ Modify calculated parameters
 ****************************
 
 As input parameters, calculated parameters can also be overridden. For example here, we override the `driving mass`
-of large diesel vehicles for 2010 and 2017:
+of large diesel vehicles for 2010 and 2020:
 
 .. code-block:: python
 
-    cm.array.loc['Large','ICEV-d', 'driving mass', [2010, 2017]] = [[2000],[2200]]
+    cm.array.loc['Large','ICEV-d', 'driving mass', [2010, 2020]] = [[2000],[2200]]
 
 Characterization of inventories (static)
 ****************************************
@@ -333,11 +333,11 @@ For example, to obtain characterized results against the midpoint impact assessm
     results = ic.calculate_impacts()
 
 
-Hence, to plot the carbon footprint for all medium cars in 2017:
+Hence, to plot the carbon footprint for all medium cars in 2020:
 
 .. code-block:: python
 
-    results.sel(size='Medium', year=2017, impact_category='climate change', value=0).to_dataframe('impact').unstack(level=1)['impact'].plot(kind='bar',
+    results.sel(size='Medium', year=2020, impact_category='climate change', value=0).to_dataframe('impact').unstack(level=1)['impact'].plot(kind='bar',
                 stacked=True)
     plt.ylabel('kg CO2-eq./vkm')
     plt.show()
