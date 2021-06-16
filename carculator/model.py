@@ -483,7 +483,7 @@ class CarModel:
             in other terms, e.g., charging cycles.
 
         """
-        # Here we assume that we can use fractions of a battery/fuel cell
+        # Here we assume that we can use fractions of a battery
         # (averaged across the fleet)
         self["battery lifetime replacements"] = finite(
             np.clip(
@@ -492,14 +492,29 @@ class CarModel:
                 None,
             )
         )
-        self["fuel cell lifetime replacements"] = finite(
-            np.clip(
-                (self["lifetime kilometers"] / self["fuel cell lifetime kilometers"])
-                - 1,
-                0,
-                None,
-            )
-        )
+
+        # The number of fuel cell replacements is based on the average distance driven
+        # with a set of fuel cells given their lifetime expressed in hours of use.
+        # The number is replacement is rounded *up* as we assume no allocation of burden
+        # with a second life
+
+        if "FCEV" in self.array.coords["powertrain"].values:
+            with self("FCEV") as pt:
+                pt["fuel cell lifetime replacements"] = np.ceil(
+                    np.clip(
+                        (
+                                pt["lifetime kilometers"]
+                                / (
+                                        pt.ecm.cycle.sum(axis=0)
+                                        / pt.ecm.cycle.shape[0]
+                                        * pt["fuel cell lifetime hours"].T
+                                )
+                        )
+                        - 1,
+                        0,
+                        5,
+                    )
+                )
 
     def set_car_masses(self):
         """
@@ -568,16 +583,26 @@ class CarModel:
         )
 
     def set_electric_utility_factor(self, uf=None):
-        """ Set the electric utility factor according to a study from Plötz et al. 2017
-            which correlated the share of km driven in electric-mode to the capacity of the battery.
+        """ Set the electric utility factor according to a sampled values in Germany (ICTT 2020)
+            https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf
+
+            Real-world range in simulation 20 km 30 km 40 km 50 km 60 km 70 km 80 km
+            Observed UF for Germany (Sample-size weighted regression ± 2 standard errors)
+            Observed UF private (in %) 30±2 41±2 50±3 58±3 65±3 71±3 75±3
+
+            which correlated the share of km driven in electric-mode to the capacity of the battery
+            (the range that can be driven in battery-depleting mode).
+
             The argument `uf` is used to override this relation, if needed.
-            `uf` must be a ratio between 0 and 1, for each."""
+            `uf` must be a ratio between 0 and .75, for each."""
         if "PHEV-e" in self.array.coords["powertrain"].values:
             with self("PHEV-e") as cpm:
                 if uf is None:
-                    cpm["electric utility factor"] = (
-                        1 - np.exp(-0.01147 * cpm["range"])
-                    ) ** 1.186185
+                    cpm["electric utility factor"] = np.clip(np.interp(
+                        cpm["range"],
+                        [0, 20, 30, 40, 50, 60, 70, 80],
+                        [0, 0.3, .41, .5, .58, .65, .71, .75]
+                    ), 0, .75)
                 else:
                     cpm["electric utility factor"] = np.array(uf).reshape([1, -1, 1])
 

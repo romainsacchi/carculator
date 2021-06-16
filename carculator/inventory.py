@@ -2900,49 +2900,52 @@ class InventoryCalculation:
         This function defines fuel blends from what is passed in `background_configuration`.
         It populates a dictionary `self.fuel_blends` that contains the respective shares, lower heating values
         and CO2 emission factors of the fuels used.
+
+        Source for LHV: https://www.bafu.admin.ch/bafu/en/home/topics/climate/state/data/climate-reporting/references.html
+
         :return:
         """
 
         fuels_lhv = {
-            "petrol": 42.4,
-            "bioethanol - wheat straw": 26.8,
-            "bioethanol - maize starch": 26.8,
-            "bioethanol - sugarbeet": 26.8,
-            "bioethanol - forest residues": 26.8,
+            "petrol": 42.6,
+            "bioethanol - wheat straw": 26.5,
+            "bioethanol - maize starch": 26.5,
+            "bioethanol - sugarbeet": 26.5,
+            "bioethanol - forest residues": 26.5,
             "synthetic gasoline - economic allocation": 42.4,
             "synthetic gasoline - energy allocation": 42.4,
-            "diesel": 42.8,
-            "biodiesel - cooking oil": 31.7,
-            "biodiesel - algae": 31.7,
-            "biodiesel - rapeseed oil": 31.7,
-            "biodiesel - palm oil": 31.7,
+            "diesel": 43,
+            "biodiesel - cooking oil": 38,
+            "biodiesel - algae": 38,
+            "biodiesel - rapeseed oil": 38,
+            "biodiesel - palm oil": 38,
             "synthetic diesel - economic allocation": 43.3,
             "synthetic diesel - energy allocation": 43.3,
-            "cng": 50,
-            "biogas - sewage sludge": 50,
-            "biogas - biowaste": 50,
-            "syngas": 50,
+            "cng": 47.5,
+            "biogas - sewage sludge": 47.5,
+            "biogas - biowaste": 47.5,
+            "syngas": 47.5,
         }
 
         fuels_CO2 = {
-            "petrol": 3.18,
+            "petrol": 3.136,
             "bioethanol - wheat straw": 1.91,
             "bioethanol - maize starch": 1.91,
             "bioethanol - sugarbeet": 1.91,
             "bioethanol - forest residues": 1.91,
             "synthetic gasoline - economic allocation": 3.18,
             "synthetic gasoline - energy allocation": 3.18,
-            "diesel": 3.14,
+            "diesel": 3.152,
             "biodiesel - cooking oil": 2.85,
             "biodiesel - palm oil": 2.85,
             "biodiesel - rapeseed oil": 2.85,
             "biodiesel - algae": 2.85,
             "synthetic diesel - economic allocation": 3.16,
             "synthetic diesel - energy allocation": 3.16,
-            "cng": 2.65,
-            "biogas - sewage sludge": 2.65,
-            "biogas - biowaste": 2.65,
-            "syngas": 2.65,
+            "cng": 2.115,
+            "biogas - sewage sludge": 2.115,
+            "biogas - biowaste": 2.115,
+            "syngas": 2.115,
         }
 
         if {"ICEV-p", "HEV-p", "PHEV-p"}.intersection(set(self.scope["powertrain"])):
@@ -4081,10 +4084,10 @@ class InventoryCalculation:
             :,
             self.inputs[
                 (
-                    "glass fibre reinforced plastic production, polyamide, injection moulded",
+                    "Fuel tank, compressed natural gas, 200 bar",
                     "RER",
                     "kilogram",
-                    "glass fibre reinforced plastic, polyamide, injection moulded",
+                    "Fuel tank, compressed natural gas, 200 bar",
                 )
             ],
             self.index_cng,
@@ -4442,7 +4445,6 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     array[self.array_inputs["fuel mass"], :, ind_array]
-                    * share_fossil
                     * CO2_fossil
                     / array[self.array_inputs["range"], :, ind_array]
                     * -1
@@ -4493,7 +4495,6 @@ class InventoryCalculation:
                     (
                         (
                             array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_non_fossil
                             * CO2_non_fossil
                         )
                     )
@@ -4633,7 +4634,6 @@ class InventoryCalculation:
                     (
                         (
                             array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
                             * CO2_fossil
                         )
                     )
@@ -4713,7 +4713,6 @@ class InventoryCalculation:
                     (
                         (
                             array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_non_fossil
                             * CO2_non_fossil
                         )
                     )
@@ -4846,6 +4845,7 @@ class InventoryCalculation:
                             * self.fuel_blends["petrol"]["tertiary"]["share"][y]
                         )
 
+
                 self.A[
                     :,
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
@@ -4854,7 +4854,6 @@ class InventoryCalculation:
                     (
                         (
                             array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
                             * CO2_fossil
                         )
                     )
@@ -4934,7 +4933,6 @@ class InventoryCalculation:
                     (
                         (
                             array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_non_fossil
                             * CO2_non_fossil
                         )
                     )
@@ -5888,7 +5886,6 @@ class InventoryCalculation:
                     (
                         (
                             array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_non_fossil
                             * CO2_non_fossil
                         )
                     )
@@ -6028,7 +6025,6 @@ class InventoryCalculation:
                     (
                         (
                             array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
                             * CO2_fossil
                         )
                     )
@@ -6108,7 +6104,6 @@ class InventoryCalculation:
                     (
                         (
                             array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_non_fossil
                             * CO2_non_fossil
                         )
                     )
@@ -6249,7 +6244,6 @@ class InventoryCalculation:
                     (
                         (
                             array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_fossil
                             * CO2_fossil
                         )
                     )
@@ -6329,7 +6323,6 @@ class InventoryCalculation:
                     (
                         (
                             array[self.array_inputs["fuel mass"], :, ind_array]
-                            * share_non_fossil
                             * CO2_non_fossil
                         )
                     )

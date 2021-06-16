@@ -6,7 +6,7 @@ def test_monte_carlo():
     dcts, array = fill_xarray_from_input_parameters(cip,
                                                     scope={"powertrain": ["ICEV-d", "BEV"],
                                                            "size": ["Lower medium"],
-                                                           "year": [2017]})
+                                                           "year": [2020]})
     cm = CarModel(array, cycle='WLTC 3.4')
     cm.set_all()
     ic = InventoryCalculation(cm.array)

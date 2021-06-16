@@ -1986,6 +1986,7 @@ class ExportInventory:
                                             "used passenger car",
                                             "used electric passenger car",
                                             "anaerobic digestion, with biogenic carbon uptake",
+                                            "mineral oil storage"
                                         )
                                     )
                                     or any(
