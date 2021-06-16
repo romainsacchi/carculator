@@ -1,7 +1,7 @@
 scipy
 pyprind
 pandas
-xarray
+xarray<0.18
 numpy
 pytest
 pytest-cov

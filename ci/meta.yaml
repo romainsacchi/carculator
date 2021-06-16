@@ -20,13 +20,13 @@ requirements:
   run:
     - klausen
     - pandas
-    - xarray
+    - xarray<0.18
     - numpy
     - python
     - xarray
     - xlrd
     - numexpr
-    - bw2io
+    - bw2io>0.8
     - pycountry
     - wurst
 
