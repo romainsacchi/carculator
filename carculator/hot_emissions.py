@@ -368,8 +368,8 @@ class HotEmissionsModel:
                      ],
                 powertrain=[p for p in final_emissions.powertrain.values if "-p" in p]
             )
-        ] = np.array([4.76E-7, 7.08E-9, 4.72E-9, 5.09E-05, 9.91E-7, 3.07E-7, 3.77E-7,
-                        7.55E-10, 2.05E-7, 2.55E-7]).reshape((-1, 1, 1, 1, 1, 1))\
+        ] = np.array([8.19E-10, 7.06E-12, 4.71E-12, 5.08E-08, 9.88E-10, 3.06E-10, 3.76E-10
+                      7.53E-13, 2.05E-10, 2.54E-10]).reshape((-1, 1, 1, 1, 1, 1))\
                 * energy_consumption.sel(powertrain=[p for p in energy_consumption.powertrain.values if "-p" in p]).values
 
         final_emissions.loc[
@@ -388,8 +388,8 @@ class HotEmissionsModel:
                 ],
                 powertrain=[p for p in final_emissions.powertrain.values if "-d" in p]
             )
-        ] = np.array([1.33E-06, 2.34E-9, 2.34E-9, 4.07E-05, 4.95E-7, 2.06E-7,
-                        7.01E-7, 7.48E-10, 1.24E-7, 2.03E-7]).reshape((-1, 1, 1, 1, 1, 1))\
+        ] = np.array([1.32E-09, 2.33E-12, 2.33E-12, 4.05E-08, 4.93E-10, 2.05E-10,
+                      6.98E-10, 1.40E-12, 1.23E-10, 2.02E-10]).reshape((-1, 1, 1, 1, 1, 1))\
             * energy_consumption.sel(powertrain=[p for p in energy_consumption.powertrain.values if "-d" in p]).values
 
         if self.cycle_name in self.cycle_environment:
