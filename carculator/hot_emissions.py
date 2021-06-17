@@ -368,7 +368,7 @@ class HotEmissionsModel:
                      ],
                 powertrain=[p for p in final_emissions.powertrain.values if "-p" in p]
             )
-        ] = np.array([8.19E-10, 7.06E-12, 4.71E-12, 5.08E-08, 9.88E-10, 3.06E-10, 3.76E-10
+        ] = np.array([8.19E-10, 7.06E-12, 4.71E-12, 5.08E-08, 9.88E-10, 3.06E-10, 3.76E-10,
                       7.53E-13, 2.05E-10, 2.54E-10]).reshape((-1, 1, 1, 1, 1, 1))\
                 * energy_consumption.sel(powertrain=[p for p in energy_consumption.powertrain.values if "-p" in p]).values
 
