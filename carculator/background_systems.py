@@ -1,7 +1,8 @@
-from . import DATA_DIR
 import numpy as np
 import pandas as pd
 import xarray as xr
+
+from . import DATA_DIR
 
 
 class BackgroundSystemModel:
@@ -98,12 +99,15 @@ class BackgroundSystemModel:
         df = pd.read_csv(filepath, sep=";", index_col=["country", "year"])
         df = df.reset_index()
 
-        array = df.melt(id_vars=["country", "year"],
-                    value_name="value")\
-                    .groupby(["country","year", "variable"])["value"]\
-                    .mean()\
-                    .to_xarray()
-        array = array.interpolate_na(dim="year", method="linear", fill_value='extrapolate').clip(0,1)
+        array = (
+            df.melt(id_vars=["country", "year"], value_name="value")
+            .groupby(["country", "year", "variable"])["value"]
+            .mean()
+            .to_xarray()
+        )
+        array = array.interpolate_na(
+            dim="year", method="linear", fill_value="extrapolate"
+        ).clip(0, 1)
         array /= array.sum(axis=2)
 
         return array
@@ -204,16 +208,16 @@ class BackgroundSystemModel:
             )
         df = pd.read_csv(filepath, sep=";")
         df = df.groupby(["country", "year"]).sum().unstack()
-        df.loc[:,("diesel", 1990)] = df["diesel"].max(1)
-        df.loc[:,("petrol", 1990)] = df["petrol"].max(1)
+        df.loc[:, ("diesel", 1990)] = df["diesel"].max(1)
+        df.loc[:, ("petrol", 1990)] = df["petrol"].max(1)
 
-        df.loc[df[("diesel", 2019)]>50/1e6,("diesel", 2050)] = 50/1e6
-        df.loc[df[("petrol", 2019)]>50/1e6,("petrol", 2050)] = 50/1e6
-        df.loc[:,("diesel", 2050)] = df["diesel"].min(1)
-        df.loc[:,("petrol", 2050)] = df["petrol"].min(1)
+        df.loc[df[("diesel", 2019)] > 50 / 1e6, ("diesel", 2050)] = 50 / 1e6
+        df.loc[df[("petrol", 2019)] > 50 / 1e6, ("petrol", 2050)] = 50 / 1e6
+        df.loc[:, ("diesel", 2050)] = df["diesel"].min(1)
+        df.loc[:, ("petrol", 2050)] = df["petrol"].min(1)
 
         df = df.interpolate(axis=1)
         df = df.unstack().reset_index()
-        df = df.rename(columns={"level_0":"fuel"})
+        df = df.rename(columns={"level_0": "fuel"})
         arr = df.groupby(["country", "year", "fuel"]).sum()[0].to_xarray()
         return arr

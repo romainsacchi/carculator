@@ -1,5 +1,7 @@
-from carculator.energy_consumption import EnergyConsumptionModel
 import numpy as np
+
+from carculator.energy_consumption import EnergyConsumptionModel
+
 
 def test_acceleration():
     ecm = EnergyConsumptionModel("WLTC")
@@ -14,7 +16,7 @@ def test_aux_power():
 
 def test_motive_energy():
     ecm = EnergyConsumptionModel("WLTC")
-    aux = np.full(1801, 94) / 0.29 /1000
+    aux = np.full(1801, 94) / 0.29 / 1000
     motive, recup, dist = ecm.motive_energy_per_km(
         driving_mass=1879,
         rr_coef=0.01,

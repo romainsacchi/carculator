@@ -1,17 +1,15 @@
-from bw2io.export.excel import (
-    safe_filename,
-    xlsxwriter,
-    create_valid_worksheet_name,
-)
+import csv
+import datetime
+import io
+import json
+import os
+import uuid
+
 import bw2io
 import numpy as np
-import os
 import pyprind
-import uuid
-import datetime
-import json
-import csv
-import io
+from bw2io.export.excel import create_valid_worksheet_name, safe_filename, xlsxwriter
+
 from . import DATA_DIR, __version__
 
 
@@ -685,122 +683,122 @@ class ExportInventory:
             "electricity production, at power plant/natural gas, post, pipeline 200km, storage 1000m",
             "electricity production, at BIGCC power plant 450MW, pre, pipeline 200km, storage 1000m",
             "Glider lightweighting",
-            'Ancillary BoP',
-            'Anode',
-            'Anode current collector, LFP',
-            'Anode current collector, LTO',
-            'Anode current collector, NCA',
-            'Anode paste, LFP',
-            'Anode paste, LTO',
-            'Anode paste, NCA',
-            'Battery BoP',
-            'Battery cell, LFP',
-            'Battery cell, LTO',
-            'Battery cell, NCA',
-            'Battery cell, NMC-111',
-            'Battery cell, NMC-622',
-            'Battery management system',
-            'Battery packaging',
-            'Battery retention',
-            'Battery tray',
-            'Bimetallic busbars and washers',
-            'Biodiesel, from algae, at fuelling station',
-            'Biodiesel, from palm oil, at fuelling station',
-            'Biodiesel, from rapeseed oil, at fuelling station',
-            'Biodiesel, from used cooking oil, at fuelling station',
-            'Biomethane, gaseous, 5 bar, from sewage sludge fermentation, at fuelling station',
-            'Bipolar plate',
-            'Catalyst layer',
-            'Cathode',
-            'Cathode current collector, LFP',
-            'Cathode current collector, LTO',
-            'Cathode current collector, NCA',
-            'Cathode paste, LFP',
-            'Cathode paste, NCA',
-            'Cathode, NMC-622',
-            'Cell container',
-            'Clamps and fasteners',
-            'Coating and curing, general manufacturing',
-            'Cobalt sulfate',
-            'Cooling system',
-            'Electrolyte',
-            'Electrolyte, LFP',
-            'Electrolyte, LTO',
-            'Electrolyte, NCA',
-            'End plate',
-            'End-busbar aluminum',
-            'End-busbar copper',
-            'Essential BoP',
-            'Ethanol, from forest residues, at fuelling station',
-            'Ethanol, from maize starch, at fuelling station',
-            'Ethanol, from sugarbeet, at fuelling station',
-            'Ethanol, from wheat grains, at fuelling station',
-            'Ethanol, from wheat straw pellets, at fuelling station',
-            'Fuel tank, compressed hydrogen gas, 700bar',
-            'Fuel tank, compressed hydrogen gas, 700bar, with HDPE liner',
-            'Fuel tank, compressed hydrogen gas, 700bar, with aluminium liner',
-            'Gas Diffusion Layer',
-            'Heat transfer plate',
-            'High voltage system',
-            'Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant',
-            'Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant',
-            'Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant',
-            'Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant',
-            'Hydrogen, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass with CCS, at gasification plant',
-            'Hydrogen, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass with CCS, at gasification plant',
-            'Hydrogen, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass, at gasification plant',
-            'Hydrogen, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass, at gasification plant',
-            'Hydrogen, gaseous, 700 bar, from coal gasification, at fuelling station',
-            'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in entrained flow gasifier, at fuelling station',
-            'Hydrogen, gaseous, 700 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at fuelling station',
-            'Hydrogen, gaseous, 700 bar, from heatpipe reformer gasification of woody biomass with CCS, at fuelling station',
-            'Hydrogen, gaseous, 700 bar, from heatpipe reformer gasification of woody biomass, at fuelling station',
-            'IBIS',
-            'IBIS fasteners',
-            'Inner frame',
-            'LTO electrode material (Li4Ti5O12)',
-            'Lithium iron phosphate [LiFePO4]',
-            'Low voltage system',
-            'Lower retention',
-            'MEA hot pressing',
-            'Manifolds',
-            'Membrane',
-            'Methane production, synthetic, from electrochemical methanation',
-            'Methane, synthetic, gaseous, 5 bar, from electrochemical methanation, at fuelling station',
-            'Module fasteners',
-            'Module lid',
-            'Module packaging',
-            'Multilayer pouch',
-            'NCA electrode material (LiNi0.8Co0.15Al0.05O2)',
-            'Negative current collector Cu',
-            'Negative electrode paste',
-            'Ni1/3Co1/3Mn1/3(OH)2',
-            'Ni3/5Co1/5Mn1/5(OH)2',
-            'Outer frame',
-            'PEM Fuel Cell',
-            'Pipe fitting',
-            'Positive active material, NMC-111',
-            'Positive active material, NMC-622',
-            'Positive current collector Al',
-            'Positive electrode paste, NMC-111',
-            'Positive electrode paste, NMC-622',
-            'Radiator',
-            'Selective coating, sputtering',
-            'Separator',
-            'Separator, LFP',
-            'Separator, NCA',
-            'Stack',
-            'Strap retention',
-            'Tab Aluminum',
-            'Tab Copper',
-            'Thermal pad',
-            'Tie-rods',
-            'Tray lid',
-            'Tray seal',
-            'Tray with fasteners',
-            'Waste Cooking Oil',
-            'biomethane from biogas upgrading - biowaste - amine scrubbing',
-            'market for styrene butadiene rubber (SBR)',
+            "Ancillary BoP",
+            "Anode",
+            "Anode current collector, LFP",
+            "Anode current collector, LTO",
+            "Anode current collector, NCA",
+            "Anode paste, LFP",
+            "Anode paste, LTO",
+            "Anode paste, NCA",
+            "Battery BoP",
+            "Battery cell, LFP",
+            "Battery cell, LTO",
+            "Battery cell, NCA",
+            "Battery cell, NMC-111",
+            "Battery cell, NMC-622",
+            "Battery management system",
+            "Battery packaging",
+            "Battery retention",
+            "Battery tray",
+            "Bimetallic busbars and washers",
+            "Biodiesel, from algae, at fuelling station",
+            "Biodiesel, from palm oil, at fuelling station",
+            "Biodiesel, from rapeseed oil, at fuelling station",
+            "Biodiesel, from used cooking oil, at fuelling station",
+            "Biomethane, gaseous, 5 bar, from sewage sludge fermentation, at fuelling station",
+            "Bipolar plate",
+            "Catalyst layer",
+            "Cathode",
+            "Cathode current collector, LFP",
+            "Cathode current collector, LTO",
+            "Cathode current collector, NCA",
+            "Cathode paste, LFP",
+            "Cathode paste, NCA",
+            "Cathode, NMC-622",
+            "Cell container",
+            "Clamps and fasteners",
+            "Coating and curing, general manufacturing",
+            "Cobalt sulfate",
+            "Cooling system",
+            "Electrolyte",
+            "Electrolyte, LFP",
+            "Electrolyte, LTO",
+            "Electrolyte, NCA",
+            "End plate",
+            "End-busbar aluminum",
+            "End-busbar copper",
+            "Essential BoP",
+            "Ethanol, from forest residues, at fuelling station",
+            "Ethanol, from maize starch, at fuelling station",
+            "Ethanol, from sugarbeet, at fuelling station",
+            "Ethanol, from wheat grains, at fuelling station",
+            "Ethanol, from wheat straw pellets, at fuelling station",
+            "Fuel tank, compressed hydrogen gas, 700bar",
+            "Fuel tank, compressed hydrogen gas, 700bar, with HDPE liner",
+            "Fuel tank, compressed hydrogen gas, 700bar, with aluminium liner",
+            "Gas Diffusion Layer",
+            "Heat transfer plate",
+            "High voltage system",
+            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant",
+            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant",
+            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant",
+            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant",
+            "Hydrogen, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass with CCS, at gasification plant",
+            "Hydrogen, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass with CCS, at gasification plant",
+            "Hydrogen, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass, at gasification plant",
+            "Hydrogen, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass, at gasification plant",
+            "Hydrogen, gaseous, 700 bar, from coal gasification, at fuelling station",
+            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in entrained flow gasifier, at fuelling station",
+            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at fuelling station",
+            "Hydrogen, gaseous, 700 bar, from heatpipe reformer gasification of woody biomass with CCS, at fuelling station",
+            "Hydrogen, gaseous, 700 bar, from heatpipe reformer gasification of woody biomass, at fuelling station",
+            "IBIS",
+            "IBIS fasteners",
+            "Inner frame",
+            "LTO electrode material (Li4Ti5O12)",
+            "Lithium iron phosphate [LiFePO4]",
+            "Low voltage system",
+            "Lower retention",
+            "MEA hot pressing",
+            "Manifolds",
+            "Membrane",
+            "Methane production, synthetic, from electrochemical methanation",
+            "Methane, synthetic, gaseous, 5 bar, from electrochemical methanation, at fuelling station",
+            "Module fasteners",
+            "Module lid",
+            "Module packaging",
+            "Multilayer pouch",
+            "NCA electrode material (LiNi0.8Co0.15Al0.05O2)",
+            "Negative current collector Cu",
+            "Negative electrode paste",
+            "Ni1/3Co1/3Mn1/3(OH)2",
+            "Ni3/5Co1/5Mn1/5(OH)2",
+            "Outer frame",
+            "PEM Fuel Cell",
+            "Pipe fitting",
+            "Positive active material, NMC-111",
+            "Positive active material, NMC-622",
+            "Positive current collector Al",
+            "Positive electrode paste, NMC-111",
+            "Positive electrode paste, NMC-622",
+            "Radiator",
+            "Selective coating, sputtering",
+            "Separator",
+            "Separator, LFP",
+            "Separator, NCA",
+            "Stack",
+            "Strap retention",
+            "Tab Aluminum",
+            "Tab Copper",
+            "Thermal pad",
+            "Tie-rods",
+            "Tray lid",
+            "Tray seal",
+            "Tray with fasteners",
+            "Waste Cooking Oil",
+            "biomethane from biogas upgrading - biowaste - amine scrubbing",
+            "market for styrene butadiene rubber (SBR)",
         ]
 
         if isinstance(forbidden_activities, list):
@@ -1006,7 +1004,10 @@ class ExportInventory:
                 description = self.references[key]["description"]
                 special_remark = self.references[key]["special remark"]
 
-            if ecoinvent_compatibility or (ecoinvent_compatibility == False and tuple_output[0] not in activities_to_be_removed):
+            if ecoinvent_compatibility or (
+                ecoinvent_compatibility == False
+                and tuple_output[0] not in activities_to_be_removed
+            ):
 
                 string = ""
                 if "passenger car" in tuple_output[0].lower():
@@ -1325,7 +1326,13 @@ class ExportInventory:
                     + ".xlsx"
                 )
             else:
-                safe_name = safe_filename(filename, False,) + ".xlsx"
+                safe_name = (
+                    safe_filename(
+                        filename,
+                        False,
+                    )
+                    + ".xlsx"
+                )
         else:
             safe_name = (
                 safe_filename(
@@ -1663,7 +1670,9 @@ class ExportInventory:
                 special_remark = self.references[a["name"]]["special remark"]
             else:
                 # if we cannot find it, it's because some keys are more general
-                key = [k for k in self.references.keys() if k.lower() in a["name"].lower()][0]
+                key = [
+                    k for k in self.references.keys() if k.lower() in a["name"].lower()
+                ][0]
                 main_category = self.references[key]["category 1"]
                 category = self.references[key]["category 2"]
                 source = self.references[key]["source"]
@@ -1852,7 +1861,7 @@ class ExportInventory:
                                             "disposal",
                                             "sludge",
                                             "used li-ion",
-                                            "mineral oil storage"
+                                            "mineral oil storage",
                                         )
                                     )
                                     or any(
@@ -1867,7 +1876,9 @@ class ExportInventory:
                                     )
                                     or any(
                                         i.lower() in e["reference product"].lower()
-                                        for i in ["electricity",]
+                                        for i in [
+                                            "electricity",
+                                        ]
                                     )
                                 ):
 
@@ -1986,7 +1997,7 @@ class ExportInventory:
                                             "used passenger car",
                                             "used electric passenger car",
                                             "anaerobic digestion, with biogenic carbon uptake",
-                                            "mineral oil storage"
+                                            "mineral oil storage",
                                         )
                                     )
                                     or any(
@@ -2203,7 +2214,7 @@ class ExportInventory:
                                             "disposal",
                                             "rainwater mineral oil",
                                             "sludge",
-                                            "used li-ion"
+                                            "used li-ion",
                                         )
                                     )
                                     and not any(
@@ -2471,9 +2482,10 @@ class ExportInventory:
             return i
 
     def best_fit_distribution(self, data, bins=200, ax=None):
-        import scipy.stats as st
         import warnings
+
         import pandas as pd
+        import scipy.stats as st
 
         """
         Model data by finding best fit distribution to data
@@ -2605,7 +2617,7 @@ class ExportInventory:
             ]
 
         def make_pdf(self, dist, params, size=10000):
-            """Generate distributions's Probability Distribution Function """
+            """Generate distributions's Probability Distribution Function"""
             import pandas as pd
 
             # Separate parts of parameters

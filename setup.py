@@ -1,5 +1,6 @@
-from setuptools import setup
 import os
+
+from setuptools import setup
 
 packages = []
 root_dir = os.path.dirname(__file__)
@@ -22,6 +23,8 @@ def package_files(directory):
         for filename in filenames:
             paths.append(os.path.join("..", path, filename))
     return paths
+
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -44,7 +47,7 @@ setup(
         "numexpr",
         "bw2io",
         "pycountry",
-        "wurst"
+        "wurst",
     ],
     url="https://github.com/romainsacchi/carculator",
     description="Prospective environmental and economic life cycle assessment of vehicles made blazing fast",

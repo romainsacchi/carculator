@@ -1,5 +1,5 @@
-import numpy as np
 import numexpr as ne
+import numpy as np
 
 
 def pn(cycle, powertrain_type):

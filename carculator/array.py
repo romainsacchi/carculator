@@ -1,8 +1,9 @@
-from .car_input_parameters import CarInputParameters as c_i_p
 import numpy as np
 import pandas as pd
 import stats_arrays as sa
 import xarray as xr
+
+from .car_input_parameters import CarInputParameters as c_i_p
 
 
 def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
@@ -39,11 +40,7 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
         )
 
     if scope is None:
-        scope = {
-            "size": cip.sizes,
-            "powertrain": cip.powertrains,
-            "year": cip.years
-        }
+        scope = {"size": cip.sizes, "powertrain": cip.powertrains, "year": cip.years}
     else:
         if "size" not in scope:
             scope["size"] = cip.sizes
@@ -65,22 +62,14 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
             if pt not in scope["powertrain"]:
                 scope["powertrain"].append(pt)
 
-
-
     if any(s for s in scope["size"] if s not in cip.sizes):
-        raise ValueError(
-            "One of the size types is not valid."
-        )
+        raise ValueError("One of the size types is not valid.")
 
     if any(y for y in scope["year"] if y not in cip.years):
-        raise ValueError(
-            "One of the years defined is not valid."
-        )
+        raise ValueError("One of the years defined is not valid.")
 
     if any(pt for pt in scope["powertrain"] if pt not in cip.powertrains):
-        raise ValueError(
-            "One of the powertrain types is not valid."
-        )
+        raise ValueError("One of the powertrain types is not valid.")
 
     if not sensitivity:
         array = xr.DataArray(
@@ -128,27 +117,35 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
 
         for param in cip:
 
-            pwt = set(cip.metadata[param]["powertrain"]) if isinstance(cip.metadata[param]["powertrain"], list) \
-                    else {cip.metadata[param]["powertrain"]}
+            pwt = (
+                set(cip.metadata[param]["powertrain"])
+                if isinstance(cip.metadata[param]["powertrain"], list)
+                else {cip.metadata[param]["powertrain"]}
+            )
 
-            size = set(cip.metadata[param]["sizes"]) if isinstance(cip.metadata[param]["sizes"], list) \
-                    else {cip.metadata[param]["sizes"]}
+            size = (
+                set(cip.metadata[param]["sizes"])
+                if isinstance(cip.metadata[param]["sizes"], list)
+                else {cip.metadata[param]["sizes"]}
+            )
 
-            year = set(cip.metadata[param]["year"]) if isinstance(cip.metadata[param]["year"], list) \
-                    else {cip.metadata[param]["year"]}
+            year = (
+                set(cip.metadata[param]["year"])
+                if isinstance(cip.metadata[param]["year"], list)
+                else {cip.metadata[param]["year"]}
+            )
 
-            if pwt.intersection(scope["powertrain"]) \
-                and size.intersection(scope["size"]) \
-                and year.intersection(scope["year"]):
+            if (
+                pwt.intersection(scope["powertrain"])
+                and size.intersection(scope["size"])
+                and year.intersection(scope["year"])
+            ):
 
                 array.loc[
                     dict(
-                        powertrain=[p for p in pwt
-                                    if p in scope["powertrain"]],
-                        size=[s for s in size
-                                if s in scope["size"]],
-                        year=[y for y in year
-                                if y in scope["year"]],
+                        powertrain=[p for p in pwt if p in scope["powertrain"]],
+                        size=[s for s in size if s in scope["size"]],
+                        year=[y for y in year if y in scope["year"]],
                         parameter=cip.metadata[param]["name"],
                     )
                 ] = cip.values[param]
@@ -156,36 +153,44 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
 
         for param in cip.input_parameters:
 
-            names = [n for n in cip.metadata if cip.metadata[n]['name'] == param]
+            names = [n for n in cip.metadata if cip.metadata[n]["name"] == param]
 
             for name in names:
 
-                pwt = set(cip.metadata[name]["powertrain"]) if isinstance(cip.metadata[name]["powertrain"], list) \
+                pwt = (
+                    set(cip.metadata[name]["powertrain"])
+                    if isinstance(cip.metadata[name]["powertrain"], list)
                     else {cip.metadata[name]["powertrain"]}
+                )
 
-                size = set(cip.metadata[name]["sizes"]) if isinstance(cip.metadata[name]["sizes"], list) \
+                size = (
+                    set(cip.metadata[name]["sizes"])
+                    if isinstance(cip.metadata[name]["sizes"], list)
                     else {cip.metadata[name]["sizes"]}
+                )
 
-                year = set(cip.metadata[name]["year"]) if isinstance(cip.metadata[name]["year"], list) \
+                year = (
+                    set(cip.metadata[name]["year"])
+                    if isinstance(cip.metadata[name]["year"], list)
                     else {cip.metadata[name]["year"]}
+                )
 
-
-                vals = [cip.values[name] for _ in range(0, len(cip.input_parameters) + 1)]
+                vals = [
+                    cip.values[name] for _ in range(0, len(cip.input_parameters) + 1)
+                ]
                 vals[cip.input_parameters.index(param) + 1] *= 1.1
 
                 array.loc[
                     dict(
-                        powertrain=[p for p in pwt
-                                    if p in scope["powertrain"]],
-                        size=[s for s in size
-                              if s in scope["size"]],
-                        year=[y for y in year
-                              if y in scope["year"]],
+                        powertrain=[p for p in pwt if p in scope["powertrain"]],
+                        size=[s for s in size if s in scope["size"]],
+                        year=[y for y in year if y in scope["year"]],
                         parameter=cip.metadata[name]["name"],
                     )
                 ] = vals
 
     return (size_dict, powertrain_dict, parameter_dict, year_dict), array
+
 
 def modify_xarray_from_custom_parameters(fp, array):
     """
@@ -265,12 +270,16 @@ def modify_xarray_from_custom_parameters(fp, array):
             else:
                 if k[1] in array.coords["powertrain"].values:
                     pt = [k[1]]
-                elif all(p for p in k[1].split(", ") if p in array.coords["powertrain"].values):
+                elif all(
+                    p
+                    for p in k[1].split(", ")
+                    if p in array.coords["powertrain"].values
+                ):
                     pt = [p for p in k[1].split(", ")]
                 else:
                     print(
-                    "{} is not a recognized powertrain. It will be skipped.".format(
-                        k[1]
+                        "{} is not a recognized powertrain. It will be skipped.".format(
+                            k[1]
                         )
                     )
                     continue
@@ -284,12 +293,14 @@ def modify_xarray_from_custom_parameters(fp, array):
             else:
                 if k[2] in array.coords["size"].values:
                     sizes = [k[2]]
-                elif all(s for s in k[2].split(", ") if s in array.coords["size"].values):
+                elif all(
+                    s for s in k[2].split(", ") if s in array.coords["size"].values
+                ):
                     sizes = [s for s in k[2].split(", ")]
                 else:
                     print(
-                    "{} is not a recognized size category. It will be skipped.".format(
-                        k[2]
+                        "{} is not a recognized size category. It will be skipped.".format(
+                            k[2]
                         )
                     )
                     continue
