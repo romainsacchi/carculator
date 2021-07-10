@@ -1,6 +1,7 @@
-from klausen import NamedParameters
-from pathlib import Path
 import json
+from pathlib import Path
+
+from klausen import NamedParameters
 
 DEFAULT = Path(__file__, "..").resolve() / "data" / "default_parameters.json"
 EXTRA = Path(__file__, "..").resolve() / "data" / "extra_parameters.json"
@@ -73,9 +74,7 @@ class CarInputParameters(NamedParameters):
         )
 
         # keep a list of input parameters, for sensitivity purpose
-        self.input_parameters = sorted(
-            {o["name"] for o in parameters.values()})
-
+        self.input_parameters = sorted({o["name"] for o in parameters.values()})
 
         self.years = sorted({o["year"] for o in parameters.values()})
         self.add_car_parameters(parameters)

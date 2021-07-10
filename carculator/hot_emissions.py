@@ -1,6 +1,8 @@
+import pickle
+
 import numpy as np
 import xarray as xr
-import pickle
+
 from . import DATA_DIR
 
 
@@ -11,27 +13,30 @@ def _(o):
     else:
         return o
 
+
 def get_hot_emission_factors():
-    """ Hot emissions factors extracted for trucks from HBEFA 4.1
-        detailed by size, powertrain and EURO class for each substance.
+    """Hot emissions factors extracted for trucks from HBEFA 4.1
+    detailed by size, powertrain and EURO class for each substance.
     """
     fp = DATA_DIR / "hot.pickle"
 
-    with open(fp, 'rb') as f:
+    with open(fp, "rb") as f:
         hot = pickle.load(f)
 
     return hot
 
+
 def get_non_hot_emission_factors():
-    """ Non hot emissions factors (cold start, evaporation, soak emissions) extracted for trucks from HBEFA 4.1
-        detailed by size, powertrain and EURO class for each substance.
+    """Non hot emissions factors (cold start, evaporation, soak emissions) extracted for trucks from HBEFA 4.1
+    detailed by size, powertrain and EURO class for each substance.
     """
     fp = DATA_DIR / "non_hot.pickle"
 
-    with open(fp, 'rb') as f:
+    with open(fp, "rb") as f:
         non_hot = pickle.load(f)
 
     return non_hot
+
 
 class HotEmissionsModel:
     """
@@ -86,7 +91,9 @@ class HotEmissionsModel:
         self.hot = get_hot_emission_factors()
         self.non_hot = get_non_hot_emission_factors()
 
-    def get_hot_emissions(self, powertrain_type, euro_class, energy_consumption, yearly_km):
+    def get_hot_emissions(
+        self, powertrain_type, euro_class, energy_consumption, yearly_km
+    ):
         """
         Calculate hot pollutants emissions given a powertrain type (i.e., diesel, petrol, CNG) and a EURO pollution class, per air sub-compartment
         (i.e., urban, suburban and rural).
@@ -141,14 +148,16 @@ class HotEmissionsModel:
         # the fitting of emissions function of energy consumption is described in the notebook
         # `HBEFA trucks.ipynb` in the folder `dev`.
 
-
         # energy conusmption is given in kj for each second
         # emissions are in grams per MJ
-        hot = hot_emissions.sel(variable="a").values[:, None, :, :, None, None] * energy_consumption.values
+        hot = (
+            hot_emissions.sel(variable="a").values[:, None, :, :, None, None]
+            * energy_consumption.values
+        )
         # bit of a manual calibration for N2O and NH3
         # as they do not correlate with fuel consumption
-        hot[6] *= .5
-        hot[7] *= .5
+        hot[6] *= 0.5
+        hot[7] *= 0.5
 
         non_hot_emissions = self.non_hot.sel(
             powertrain=powertrain_type,
@@ -167,25 +176,31 @@ class HotEmissionsModel:
             ],
         ).transpose("Component", "powertrain", "euro_class", "type")
 
-        start_per_day = 2.3 # source for
+        start_per_day = 2.3  # source for
 
         # Cold start and soak emissions are defined per start and stop
         # Therefore, we need to normalize per km
         # And add cold start emissions to the first second of the driving cycle
-        hot[..., 0] += ((start_per_day * 365 / yearly_km).values
-              * non_hot_emissions.loc[dict(type="cold start")].values[:, None, ..., None])
+        hot[..., 0] += (start_per_day * 365 / yearly_km).values * non_hot_emissions.loc[
+            dict(type="cold start")
+        ].values[:, None, ..., None]
         # And add soak emissions to the last second of the driving cycle
-        hot[..., -1] += ((start_per_day * 365 / yearly_km).values
-                        * non_hot_emissions.loc[dict(type="soak")].values[:, None, ..., None])
+        hot[..., -1] += (
+            start_per_day * 365 / yearly_km
+        ).values * non_hot_emissions.loc[dict(type="soak")].values[:, None, ..., None]
 
         # Diurnal emissions are defined in g/day
         # And need to be evenly distributed throughout the driving cycle
-        hot += ((365 / yearly_km).values * non_hot_emissions.loc[dict(type="diurnal")].values[:, None, ..., None])[..., None]\
-               / len(self.cycle)
+        hot += (
+            (365 / yearly_km).values
+            * non_hot_emissions.loc[dict(type="diurnal")].values[:, None, ..., None]
+        )[..., None] / len(self.cycle)
 
         # Running losses are in g/km (no conversion needed)
         # And need to be evenly distributed throughout the driving cycle
-        hot += non_hot_emissions.loc[dict(type="running losses")].values[:, None, ..., None, None] / len(self.cycle)
+        hot += non_hot_emissions.loc[dict(type="running losses")].values[
+            :, None, ..., None, None
+        ] / len(self.cycle)
 
         # Add additional species derived from NMHC emissions
         # Toluene, Xylene, Formaldehyde, Acetaldehyde, etc.
@@ -195,12 +210,14 @@ class HotEmissionsModel:
 
         arr = np.zeros(shape)
 
-        arr[:hot.shape[0],
-            :hot.shape[1],
-            :hot.shape[2],
-            :hot.shape[3],
-            :hot.shape[4],
-            :hot.shape[5]] = hot
+        arr[
+            : hot.shape[0],
+            : hot.shape[1],
+            : hot.shape[2],
+            : hot.shape[3],
+            : hot.shape[4],
+            : hot.shape[5],
+        ] = hot
 
         final_emissions = xr.DataArray(
             arr,
@@ -245,110 +262,160 @@ class HotEmissionsModel:
                     "Chromium",
                     "Chromium VI",
                     "Mercury",
-                    "Cadmium"
+                    "Cadmium",
                 ],
                 energy_consumption.coords["size"].values,
                 energy_consumption.powertrain.values,
                 energy_consumption.year.values,
                 range(0, arr.shape[4]),
-                range(0, arr.shape[-1])
+                range(0, arr.shape[-1]),
             ],
             dims=["component", "size", "powertrain", "year", "value", "second"],
         )
 
-        NMHC_ratios_petrol = np.array([0.032,0.007,0.052,0.022,0.016,0.011,0.007,0.073,0.038,
-                        0.001,0.110,0.054,0.023,0.017,0.008,0.002,0.006,0.001,
-                        0.002,0.010])
+        NMHC_ratios_petrol = np.array(
+            [
+                0.032,
+                0.007,
+                0.052,
+                0.022,
+                0.016,
+                0.011,
+                0.007,
+                0.073,
+                0.038,
+                0.001,
+                0.110,
+                0.054,
+                0.023,
+                0.017,
+                0.008,
+                0.002,
+                0.006,
+                0.001,
+                0.002,
+                0.010,
+            ]
+        )
 
-
-        NMHC_ratios_diesel = np.array([0.0033,0.0011,0.0011,0.0004,0.0000,0.0065,0.0020,
-                                0.1097,0.0360,0.0000,0.0069,0.0061,0.0027,0.1200,
-                                0.0647,0.0086,0.0294,0.0120,0.0358,0.0037])
+        NMHC_ratios_diesel = np.array(
+            [
+                0.0033,
+                0.0011,
+                0.0011,
+                0.0004,
+                0.0000,
+                0.0065,
+                0.0020,
+                0.1097,
+                0.0360,
+                0.0000,
+                0.0069,
+                0.0061,
+                0.0027,
+                0.1200,
+                0.0647,
+                0.0086,
+                0.0294,
+                0.0120,
+                0.0358,
+                0.0037,
+            ]
+        )
 
         final_emissions.loc[
             dict(
-                component=["Ethane",
-                            "Propane",
-                            "Butane",
-                            "Pentane",
-                            "Hexane",
-                            "Cyclohexane",
-                            "Heptane",
-                            "Ethene",
-                            "Propene",
-                            "1-Pentene",
-                            "Toluene",
-                            "m-Xylene",
-                            "o-Xylene",
-                            "Formaldehyde",
-                            "Acetaldehyde",
-                            "Benzaldehyde",
-                            "Acetone",
-                            "Methyl ethyl ketone",
-                            "Acrolein",
-                            "Styrene",
-                           ],
-                powertrain=[p for p in final_emissions.powertrain.values if "d" in p]
+                component=[
+                    "Ethane",
+                    "Propane",
+                    "Butane",
+                    "Pentane",
+                    "Hexane",
+                    "Cyclohexane",
+                    "Heptane",
+                    "Ethene",
+                    "Propene",
+                    "1-Pentene",
+                    "Toluene",
+                    "m-Xylene",
+                    "o-Xylene",
+                    "Formaldehyde",
+                    "Acetaldehyde",
+                    "Benzaldehyde",
+                    "Acetone",
+                    "Methyl ethyl ketone",
+                    "Acrolein",
+                    "Styrene",
+                ],
+                powertrain=[p for p in final_emissions.powertrain.values if "d" in p],
             )
         ] = (
-                    NMHC_ratios_diesel.reshape((-1, 1, 1, 1, 1, 1)) *
-                    final_emissions.loc[
-                        dict(
-                            component="NMHC",
-                            powertrain=[p for p in final_emissions.powertrain.values if "-d" in p]
-                        )
-                    ].values
-
-            )
-
-        final_emissions.loc[
-            dict(
-                component="NMHC",
-                powertrain=[p for p in final_emissions.powertrain.values if "-d" in p]
-            )
-        ] *= (1 - .45)
-
-        final_emissions.loc[
-            dict(
-                component=["Ethane",
-                            "Propane",
-                            "Butane",
-                            "Pentane",
-                            "Hexane",
-                            "Cyclohexane",
-                            "Heptane",
-                            "Ethene",
-                            "Propene",
-                            "1-Pentene",
-                            "Toluene",
-                            "m-Xylene",
-                            "o-Xylene",
-                            "Formaldehyde",
-                            "Acetaldehyde",
-                            "Benzaldehyde",
-                            "Acetone",
-                            "Methyl ethyl ketone",
-                            "Acrolein",
-                            "Styrene",],
-                powertrain=[p for p in final_emissions.powertrain.values if "-p" in p]
-            )
-        ] = (
-                NMHC_ratios_petrol.reshape((-1, 1, 1, 1, 1, 1)) *
-                final_emissions.loc[
-                    dict(
-                        component="NMHC",
-                        powertrain=[p for p in final_emissions.powertrain.values if "-p" in p]
-                    )
-                ].values
-
+            NMHC_ratios_diesel.reshape((-1, 1, 1, 1, 1, 1))
+            * final_emissions.loc[
+                dict(
+                    component="NMHC",
+                    powertrain=[
+                        p for p in final_emissions.powertrain.values if "-d" in p
+                    ],
+                )
+            ].values
         )
 
         final_emissions.loc[
             dict(
                 component="NMHC",
-                powertrain=[p for p in final_emissions.powertrain.values if "-p" in p]
+                powertrain=[p for p in final_emissions.powertrain.values if "-d" in p],
             )
-        ] *= (1 - .492)
+        ] *= (
+            1 - 0.45
+        )
+
+        final_emissions.loc[
+            dict(
+                component=[
+                    "Ethane",
+                    "Propane",
+                    "Butane",
+                    "Pentane",
+                    "Hexane",
+                    "Cyclohexane",
+                    "Heptane",
+                    "Ethene",
+                    "Propene",
+                    "1-Pentene",
+                    "Toluene",
+                    "m-Xylene",
+                    "o-Xylene",
+                    "Formaldehyde",
+                    "Acetaldehyde",
+                    "Benzaldehyde",
+                    "Acetone",
+                    "Methyl ethyl ketone",
+                    "Acrolein",
+                    "Styrene",
+                ],
+                powertrain=[p for p in final_emissions.powertrain.values if "-p" in p],
+            )
+        ] = (
+            NMHC_ratios_petrol.reshape((-1, 1, 1, 1, 1, 1))
+            * final_emissions.loc[
+                dict(
+                    component="NMHC",
+                    powertrain=[
+                        p for p in final_emissions.powertrain.values if "-p" in p
+                    ],
+                )
+            ].values
+        )
+
+        final_emissions.loc[
+            dict(
+                component="NMHC",
+                powertrain=[p for p in final_emissions.powertrain.values if "-p" in p],
+            )
+        ] *= (
+            1 - 0.492
+        )
 
         # Heavy metals emissions are dependent of fuel consumption
         # given in grams of emission per kj
@@ -365,12 +432,30 @@ class HotEmissionsModel:
                     "Chromium VI",
                     "Mercury",
                     "Cadmium",
-                     ],
-                powertrain=[p for p in final_emissions.powertrain.values if "-p" in p]
+                ],
+                powertrain=[p for p in final_emissions.powertrain.values if "-p" in p],
             )
-        ] = np.array([8.19E-10, 7.06E-12, 4.71E-12, 5.08E-08, 9.88E-10, 3.06E-10, 3.76E-10,
-                      7.53E-13, 2.05E-10, 2.54E-10]).reshape((-1, 1, 1, 1, 1, 1))\
-                * energy_consumption.sel(powertrain=[p for p in energy_consumption.powertrain.values if "-p" in p]).values
+        ] = (
+            np.array(
+                [
+                    8.19e-10,
+                    7.06e-12,
+                    4.71e-12,
+                    5.08e-08,
+                    9.88e-10,
+                    3.06e-10,
+                    3.76e-10,
+                    7.53e-13,
+                    2.05e-10,
+                    2.54e-10,
+                ]
+            ).reshape((-1, 1, 1, 1, 1, 1))
+            * energy_consumption.sel(
+                powertrain=[
+                    p for p in energy_consumption.powertrain.values if "-p" in p
+                ]
+            ).values
+        )
 
         final_emissions.loc[
             dict(
@@ -386,11 +471,29 @@ class HotEmissionsModel:
                     "Mercury",
                     "Cadmium",
                 ],
-                powertrain=[p for p in final_emissions.powertrain.values if "-d" in p]
+                powertrain=[p for p in final_emissions.powertrain.values if "-d" in p],
             )
-        ] = np.array([1.32E-09, 2.33E-12, 2.33E-12, 4.05E-08, 4.93E-10, 2.05E-10,
-                      6.98E-10, 1.40E-12, 1.23E-10, 2.02E-10]).reshape((-1, 1, 1, 1, 1, 1))\
-            * energy_consumption.sel(powertrain=[p for p in energy_consumption.powertrain.values if "-d" in p]).values
+        ] = (
+            np.array(
+                [
+                    1.32e-09,
+                    2.33e-12,
+                    2.33e-12,
+                    4.05e-08,
+                    4.93e-10,
+                    2.05e-10,
+                    6.98e-10,
+                    1.40e-12,
+                    1.23e-10,
+                    2.02e-10,
+                ]
+            ).reshape((-1, 1, 1, 1, 1, 1))
+            * energy_consumption.sel(
+                powertrain=[
+                    p for p in energy_consumption.powertrain.values if "-d" in p
+                ]
+            ).values
+        )
 
         if self.cycle_name in self.cycle_environment:
             if "urban start" in self.cycle_environment[self.cycle_name]:
@@ -400,7 +503,9 @@ class HotEmissionsModel:
                 urban_start, urban_stop = [0, 0]
 
             if "suburban start" in self.cycle_environment[self.cycle_name]:
-                suburban_start = self.cycle_environment[self.cycle_name]["suburban start"]
+                suburban_start = self.cycle_environment[self.cycle_name][
+                    "suburban start"
+                ]
                 suburban_stop = self.cycle_environment[self.cycle_name]["suburban stop"]
             else:
                 suburban_start, suburban_stop = [0, 0]
@@ -411,16 +516,30 @@ class HotEmissionsModel:
             else:
                 rural_start, rural_stop = [0, 0]
 
-            urban = final_emissions.sel(second=range(urban_start, urban_stop)).sum(axis=-1) / distance
-            suburban = final_emissions.sel(second=range(suburban_start, suburban_stop)).sum(axis=-1) / distance
-            rural = final_emissions.sel(second=range(rural_start, rural_stop)).sum(axis=-1) / distance
-
+            urban = (
+                final_emissions.sel(second=range(urban_start, urban_stop)).sum(axis=-1)
+                / distance
+            )
+            suburban = (
+                final_emissions.sel(second=range(suburban_start, suburban_stop)).sum(
+                    axis=-1
+                )
+                / distance
+            )
+            rural = (
+                final_emissions.sel(second=range(rural_start, rural_stop)).sum(axis=-1)
+                / distance
+            )
 
         else:
-            urban = final_emissions.where(self.cycle <=50).sum(axis=-1) / distance
-            suburban = final_emissions.where((self.cycle >50)&(self.cycle <= 80)).sum(axis=-1) / distance
-            rural = final_emissions.where(self.cycle >80).sum(axis=-1) / distance
-
+            urban = final_emissions.where(self.cycle <= 50).sum(axis=-1) / distance
+            suburban = (
+                final_emissions.where((self.cycle > 50) & (self.cycle <= 80)).sum(
+                    axis=-1
+                )
+                / distance
+            )
+            rural = final_emissions.where(self.cycle > 80).sum(axis=-1) / distance
 
         urban *= np.isfinite(urban)
         suburban *= np.isfinite(suburban)
@@ -429,6 +548,5 @@ class HotEmissionsModel:
         urban = urban.fillna(0)
         suburban = suburban.fillna(0)
         rural = rural.fillna(0)
-
 
         return np.vstack((urban, suburban, rural)).transpose(1, 2, 0, 3, 4) / 1000

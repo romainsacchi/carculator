@@ -1,20 +1,21 @@
 import warnings
-warnings.simplefilter(action='ignore', category=FutureWarning)
 
-import pandas as pd
-from . import DATA_DIR
-import itertools
+warnings.simplefilter(action="ignore", category=FutureWarning)
+
 import csv
-import numpy as np
+import itertools
 from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+from . import DATA_DIR
 
 pd.options.mode.chained_assignment = None
 
 REGION_MAPPING_FILEPATH = DATA_DIR / "regionmappingH12.csv"
 IAM_ELEC_MARKETS = DATA_DIR / "electricity_markets.csv"
 IEA_DIESEL_SHARE = DATA_DIR / "diesel_share_oecd.csv"
-
-
 
 
 def get_iam_electricity_market_labels(model):
@@ -33,6 +34,7 @@ def get_iam_electricity_market_labels(model):
             if row[0] == model:
                 d[row[1]] = row[2]
     return d
+
 
 def extract_electricity_mix_from_IAM_file(model, fp, IAM_region, years):
     """
@@ -160,9 +162,8 @@ def extract_electricity_mix_from_IAM_file(model, fp, IAM_region, years):
 
     return arr
 
-def create_fleet_composition_from_IAM_file(
-    fp
-):
+
+def create_fleet_composition_from_IAM_file(fp):
     """
     This function creates a consumable fleet composition array from a CSV file.
     The array returned is consumed by `InventoryCalculation`.
@@ -184,16 +185,27 @@ def create_fleet_composition_from_IAM_file(
     df = df.fillna(0)
 
     # Filter out unecessary columns
-    df = df[["year", "IAM_region", "powertrain", "size", "vintage_year", "vintage_demand_vkm"]]
+    df = df[
+        [
+            "year",
+            "IAM_region",
+            "powertrain",
+            "size",
+            "vintage_year",
+            "vintage_demand_vkm",
+        ]
+    ]
 
-    #df_gr = df.groupby(["IAM_region", "powertrain", "size", "year", "vintage_year"]).sum()
-    #df_gr = df_gr.groupby(level=[0, 1, 3]).apply(lambda x: x / float(x.sum()))
+    # df_gr = df.groupby(["IAM_region", "powertrain", "size", "year", "vintage_year"]).sum()
+    # df_gr = df_gr.groupby(level=[0, 1, 3]).apply(lambda x: x / float(x.sum()))
 
-    #df = df_gr.reset_index()
+    # df = df_gr.reset_index()
 
     # Turn the dataframe into a pivot table
     df = df.pivot_table(
-        index=["IAM_region", "powertrain", "size", "vintage_year"], columns=["year"], aggfunc=np.sum
+        index=["IAM_region", "powertrain", "size", "vintage_year"],
+        columns=["year"],
+        aggfunc=np.sum,
     )["vintage_demand_vkm"]
 
     # xarray.DataArray is returned

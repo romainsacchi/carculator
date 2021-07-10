@@ -1,18 +1,20 @@
-from . import DATA_DIR
+import csv
 import glob
-from .background_systems import BackgroundSystemModel
-from .export import ExportInventory
+import itertools
 from inspect import currentframe, getframeinfo
 from pathlib import Path
-from scipy import sparse
-import csv
-from .utils import build_fleet_array
+
 import numpy as np
 import xarray as xr
-import itertools
-from .geomap import Geomap
+from scipy import sparse
 
-np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
+from . import DATA_DIR
+from .background_systems import BackgroundSystemModel
+from .export import ExportInventory
+from .geomap import Geomap
+from .utils import build_fleet_array
+
+np.warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 
 REMIND_FILES_DIR = DATA_DIR / "IAM"
 
@@ -187,9 +189,12 @@ class InventoryCalculation:
     ):
 
         if scope is None:
-            scope = {"size": array.coords["size"].values.tolist(),
-                     "powertrain": array.coords["powertrain"].values.tolist(),
-                     "year": array.coords["year"].values.tolist(), "fu": {"unit": "vkm", "quantity": 1}}
+            scope = {
+                "size": array.coords["size"].values.tolist(),
+                "powertrain": array.coords["powertrain"].values.tolist(),
+                "year": array.coords["year"].values.tolist(),
+                "fu": {"unit": "vkm", "quantity": 1},
+            }
         else:
             scope["size"] = scope.get("size", array.coords["size"].values.tolist())
             scope["powertrain"] = scope.get(
@@ -384,126 +389,606 @@ class InventoryCalculation:
         self.index_fuel_cell = [self.inputs[i] for i in self.inputs if "FCEV" in i[0]]
 
         self.map_non_fuel_emissions = {
-            ('1-Pentene', ('air','low population density, long-term'), 'kilogram'): "1-Pentene direct emissions, rural",
-            ('1-Pentene', ('air','non-urban air or from high stacks'), 'kilogram'): "1-Pentene direct emissions, suburban",
-            ('1-Pentene', ('air','urban air close to ground'), 'kilogram'): "1-Pentene direct emissions, urban",
-            ('Acetaldehyde', ('air','low population density, long-term'), 'kilogram'): "Acetaldehyde direct emissions, rural",
-            ('Acetaldehyde', ('air','non-urban air or from high stacks'), 'kilogram'): "Acetaldehyde direct emissions, suburban",
-            ('Acetaldehyde', ('air','urban air close to ground'), 'kilogram'): "Acetaldehyde direct emissions, urban",
-            ('Acetone', ('air','low population density, long-term'), 'kilogram'): "Acetone direct emissions, rural",
-            ('Acetone', ('air','non-urban air or from high stacks'), 'kilogram'): "Acetone direct emissions, suburban",
-            ('Acetone', ('air','urban air close to ground'), 'kilogram'): "Acetone direct emissions, urban",
-            ('Acrolein', ('air','low population density, long-term'), 'kilogram'): "Acrolein direct emissions, rural",
-            ('Acrolein', ('air','non-urban air or from high stacks'), 'kilogram'): "Acrolein direct emissions, suburban",
-            ('Acrolein', ('air','urban air close to ground'), 'kilogram'): "Acrolein direct emissions, urban",
-            ("Ammonia", ('air','low population density, long-term'), 'kilogram'): "Ammonia direct emissions, rural",
-            ("Ammonia", ('air','non-urban air or from high stacks'), 'kilogram'): "Ammonia direct emissions, suburban",
-            ("Ammonia", ('air','urban air close to ground'), 'kilogram'): "Ammonia direct emissions, urban",
-            ('Arsenic', ('air','low population density, long-term'), 'kilogram'): "Arsenic direct emissions, rural",
-            ('Arsenic', ('air','non-urban air or from high stacks'), 'kilogram'): "Arsenic direct emissions, suburban",
-            ('Arsenic', ('air','urban air close to ground'), 'kilogram'): "Arsenic direct emissions, urban",
-            ('Benzaldehyde', ('air','low population density, long-term'), 'kilogram'): "Benzaldehyde direct emissions, rural",
-            ('Benzaldehyde', ('air','non-urban air or from high stacks'), 'kilogram'): "Benzaldehyde direct emissions, suburban",
-            ('Benzaldehyde', ('air','urban air close to ground'), 'kilogram'): "Benzaldehyde direct emissions, urban",
-            ("Benzene", ('air','low population density, long-term'), 'kilogram'): "Benzene direct emissions, rural",
-            ("Benzene", ('air','non-urban air or from high stacks'), 'kilogram'): "Benzene direct emissions, suburban",
-            ("Benzene", ('air','urban air close to ground'), 'kilogram'): "Benzene direct emissions, urban",
-            ('Butane', ('air','low population density, long-term'), 'kilogram'): "Butane direct emissions, rural",
-            ('Butane', ('air','non-urban air or from high stacks'), 'kilogram'): "Butane direct emissions, suburban",
-            ('Butane', ('air','urban air close to ground'), 'kilogram'): "Butane direct emissions, urban",
-            ('Cadmium', ('air','low population density, long-term'), 'kilogram'): "Cadmium direct emissions, rural",
-            ('Cadmium', ('air','non-urban air or from high stacks'), 'kilogram'): "Cadmium direct emissions, suburban",
-            ('Cadmium', ('air','urban air close to ground'), 'kilogram'): "Cadmium direct emissions, urban",
-            ("Carbon monoxide, fossil", ('air','low population density, long-term'), 'kilogram'): "Carbon monoxide direct emissions, rural",
-            ("Carbon monoxide, fossil", ('air','non-urban air or from high stacks'), 'kilogram'): "Carbon monoxide direct emissions, suburban",
-            ("Carbon monoxide, fossil", ('air','urban air close to ground'), 'kilogram'): "Carbon monoxide direct emissions, urban",
-            ('Chromium', ('air','low population density, long-term'), 'kilogram'): "Chromium direct emissions, rural",
-            ('Chromium', ('air','non-urban air or from high stacks'), 'kilogram'): "Chromium direct emissions, suburban",
-            ('Chromium', ('air','urban air close to ground'), 'kilogram'): "Chromium direct emissions, urban",
-            ('Chromium VI', ('air','low population density, long-term'), 'kilogram'): "Chromium VI direct emissions, rural",
-            ('Chromium VI', ('air','non-urban air or from high stacks'), 'kilogram'): "Chromium VI direct emissions, suburban",
-            ('Chromium VI', ('air','urban air close to ground'), 'kilogram'): "Chromium VI direct emissions, urban",
-            ('Copper', ('air','low population density, long-term'), 'kilogram'): "Copper direct emissions, rural",
-            ('Copper', ('air','non-urban air or from high stacks'), 'kilogram'): "Copper direct emissions, suburban",
-            ('Copper', ('air','urban air close to ground'), 'kilogram'): "Copper direct emissions, urban",
-            ('Cyclohexane', ('air','low population density, long-term'), 'kilogram'): "Cyclohexane direct emissions, rural",
-            ('Cyclohexane', ('air','non-urban air or from high stacks'), 'kilogram'): "Cyclohexane direct emissions, suburban",
-            ('Cyclohexane', ('air','urban air close to ground'), 'kilogram'): "Cyclohexane direct emissions, urban",
-            ("Dinitrogen monoxide", ('air','low population density, long-term'), 'kilogram'): "Dinitrogen oxide direct emissions, rural",
-            ("Dinitrogen monoxide", ('air','non-urban air or from high stacks'), 'kilogram'): "Dinitrogen oxide direct emissions, suburban",
-            ("Dinitrogen monoxide", ('air','urban air close to ground'), 'kilogram'): "Dinitrogen oxide direct emissions, urban",
-            ('Ethane', ('air','low population density, long-term'), 'kilogram'): "Ethane direct emissions, rural",
-            ('Ethane', ('air','non-urban air or from high stacks'), 'kilogram'): "Ethane direct emissions, suburban",
-            ('Ethane', ('air','urban air close to ground'), 'kilogram'): "Ethane direct emissions, urban",
-            ('Ethene', ('air','low population density, long-term'), 'kilogram'): "Ethene direct emissions, rural",
-            ('Ethene', ('air','non-urban air or from high stacks'), 'kilogram'): "Ethene direct emissions, suburban",
-            ('Ethene', ('air','urban air close to ground'), 'kilogram'): "Ethene direct emissions, urban",
-            ('Formaldehyde', ('air','low population density, long-term'), 'kilogram'): "Formaldehyde direct emissions, rural",
-            ('Formaldehyde', ('air','non-urban air or from high stacks'), 'kilogram'): "Formaldehyde direct emissions, suburban",
-            ('Formaldehyde', ('air','urban air close to ground'), 'kilogram'): "Formaldehyde direct emissions, urban",
-            ('Heptane', ('air','low population density, long-term'), 'kilogram'): "Heptane direct emissions, rural",
-            ('Heptane', ('air','non-urban air or from high stacks'), 'kilogram'): "Heptane direct emissions, suburban",
-            ('Heptane', ('air','urban air close to ground'), 'kilogram'): "Heptane direct emissions, urban",
-            ('Hexane', ('air','low population density, long-term'), 'kilogram'): "Hexane direct emissions, rural",
-            ('Hexane', ('air','non-urban air or from high stacks'), 'kilogram'): "Hexane direct emissions, suburban",
-            ('Hexane', ('air','urban air close to ground'), 'kilogram'): "Hexane direct emissions, urban",
-            ('Hydrocarbons, chlorinated', ('air','low population density, long-term'), 'kilogram'): "Hydrocarbons direct emissions, rural",
-            ('Hydrocarbons, chlorinated', ('air','non-urban air or from high stacks'), 'kilogram'): "Hydrocarbons direct emissions, suburban",
-            ('Hydrocarbons, chlorinated', ('air','urban air close to ground'), 'kilogram'): "Hydrocarbons direct emissions, urban",
-            ("Lead", ('air','low population density, long-term'), 'kilogram'): "Lead direct emissions, rural",
-            ("Lead", ('air','non-urban air or from high stacks'), 'kilogram'): "Lead direct emissions, suburban",
-            ("Lead", ('air','urban air close to ground'), 'kilogram'): "Lead direct emissions, urban",
-            ('Mercury', ('air','low population density, long-term'), 'kilogram'): "Mercury direct emissions, rural",
-            ('Mercury', ('air','non-urban air or from high stacks'), 'kilogram'): "Mercury direct emissions, suburban",
-            ('Mercury', ('air','urban air close to ground'), 'kilogram'): "Mercury direct emissions, urban",
-            ("Methane, fossil", ('air','low population density, long-term'), 'kilogram'): "Methane direct emissions, rural",
-            ("Methane, fossil", ('air','non-urban air or from high stacks'), 'kilogram'): "Methane direct emissions, suburban",
-            ("Methane, fossil", ('air','urban air close to ground'), 'kilogram'): "Methane direct emissions, urban",
-            ('Methyl ethyl ketone', ('air','low population density, long-term'), 'kilogram'): "Methyl ethyl ketone direct emissions, rural",
-            ('Methyl ethyl ketone', ('air','non-urban air or from high stacks'), 'kilogram'): "Methyl ethyl ketone direct emissions, suburban",
-            ('Methyl ethyl ketone', ('air','urban air close to ground'), 'kilogram'): "Methyl ethyl ketone direct emissions, urban",
-            ('m-Xylene', ('air','low population density, long-term'), 'kilogram'): "m-Xylene direct emissions, rural",
-            ('m-Xylene', ('air','non-urban air or from high stacks'), 'kilogram'): "m-Xylene direct emissions, suburban",
-            ('m-Xylene', ('air','urban air close to ground'), 'kilogram'): "m-Xylene direct emissions, urban",
-            ('Nickel', ('air','low population density, long-term'), 'kilogram'): "Nickel direct emissions, rural",
-            ('Nickel', ('air','non-urban air or from high stacks'), 'kilogram'): "Nickel direct emissions, suburban",
-            ('Nickel', ('air','urban air close to ground'), 'kilogram'): "Nickel direct emissions, urban",
-            ("Nitrogen oxides", ('air','low population density, long-term'), 'kilogram'): "Nitrogen oxides direct emissions, rural",
-            ("Nitrogen oxides", ('air','non-urban air or from high stacks'), 'kilogram'): "Nitrogen oxides direct emissions, suburban",
-            ("Nitrogen oxides", ('air','urban air close to ground'), 'kilogram'): "Nitrogen oxides direct emissions, urban",
-            ("NMVOC, non-methane volatile organic compounds, unspecified origin", ('air','low population density, long-term'), 'kilogram'): "NMVOC direct emissions, rural",
-            ("NMVOC, non-methane volatile organic compounds, unspecified origin", ('air','non-urban air or from high stacks'), 'kilogram'): "NMVOC direct emissions, suburban",
-            ("NMVOC, non-methane volatile organic compounds, unspecified origin", ('air','urban air close to ground'), 'kilogram'): "NMVOC direct emissions, urban",
-            ('o-Xylene', ('air','low population density, long-term'), 'kilogram'): "o-Xylene direct emissions, rural",
-            ('o-Xylene', ('air','non-urban air or from high stacks'), 'kilogram'): "o-Xylene direct emissions, suburban",
-            ('o-Xylene', ('air','urban air close to ground'), 'kilogram'): "o-Xylene direct emissions, urban",
-            ('PAH, polycyclic aromatic hydrocarbons', ('air','low population density, long-term'), 'kilogram'): "PAH, polycyclic aromatic hydrocarbons direct emissions, rural",
-            ('PAH, polycyclic aromatic hydrocarbons', ('air','non-urban air or from high stacks'), 'kilogram'): "PAH, polycyclic aromatic hydrocarbons direct emissions, suburban",
-            ('PAH, polycyclic aromatic hydrocarbons', ('air','urban air close to ground'), 'kilogram'): "PAH, polycyclic aromatic hydrocarbons direct emissions, urban",
-            ("Particulates, < 2.5 um", ('air','low population density, long-term'), 'kilogram'): "Particulate matters direct emissions, rural",
-            ("Particulates, < 2.5 um", ('air','non-urban air or from high stacks'), 'kilogram'): "Particulate matters direct emissions, suburban",
-            ("Particulates, < 2.5 um", ('air','urban air close to ground'), 'kilogram'): "Particulate matters direct emissions, urban",
-            ('Pentane', ('air','low population density, long-term'), 'kilogram'): "Pentane direct emissions, rural",
-            ('Pentane', ('air','non-urban air or from high stacks'), 'kilogram'): "Pentane direct emissions, suburban",
-            ('Pentane', ('air','urban air close to ground'), 'kilogram'): "Pentane direct emissions, urban",
-            ('Propane', ('air','low population density, long-term'), 'kilogram'): "Propane direct emissions, rural",
-            ('Propane', ('air','non-urban air or from high stacks'), 'kilogram'): "Propane direct emissions, suburban",
-            ('Propane', ('air','urban air close to ground'), 'kilogram'): "Propane direct emissions, urban",
-            ('Propene', ('air','low population density, long-term'), 'kilogram'): "Propene direct emissions, rural",
-            ('Propene', ('air','non-urban air or from high stacks'), 'kilogram'): "Propene direct emissions, suburban",
-            ('Propene', ('air','urban air close to ground'), 'kilogram'): "Propene direct emissions, urban",
-            ('Selenium', ('air','low population density, long-term'), 'kilogram'): "Selenium direct emissions, rural",
-            ('Selenium', ('air','non-urban air or from high stacks'), 'kilogram'): "Selenium direct emissions, suburban",
-            ('Selenium', ('air','urban air close to ground'), 'kilogram'): "Selenium direct emissions, urban",
-            ('Styrene', ('air','low population density, long-term'), 'kilogram'): "Styrene direct emissions, rural",
-            ('Styrene', ('air','non-urban air or from high stacks'), 'kilogram'): "Styrene direct emissions, suburban",
-            ('Styrene', ('air','urban air close to ground'), 'kilogram'): "Styrene direct emissions, urban",
-            ('Toluene', ('air','low population density, long-term'), 'kilogram'): "Toluene direct emissions, rural",
-            ('Toluene', ('air','non-urban air or from high stacks'), 'kilogram'): "Toluene direct emissions, suburban",
-            ('Toluene', ('air','urban air close to ground'), 'kilogram'): "Toluene direct emissions, urban",
-            ('Zinc', ('air','low population density, long-term'), 'kilogram'): "Zinc direct emissions, rural",
-            ('Zinc', ('air','non-urban air or from high stacks'), 'kilogram'): "Zinc direct emissions, suburban",
-            ('Zinc', ('air','urban air close to ground'), 'kilogram'): "Zinc direct emissions, urban",
+            (
+                "1-Pentene",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "1-Pentene direct emissions, rural",
+            (
+                "1-Pentene",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "1-Pentene direct emissions, suburban",
+            (
+                "1-Pentene",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "1-Pentene direct emissions, urban",
+            (
+                "Acetaldehyde",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Acetaldehyde direct emissions, rural",
+            (
+                "Acetaldehyde",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Acetaldehyde direct emissions, suburban",
+            (
+                "Acetaldehyde",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Acetaldehyde direct emissions, urban",
+            (
+                "Acetone",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Acetone direct emissions, rural",
+            (
+                "Acetone",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Acetone direct emissions, suburban",
+            (
+                "Acetone",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Acetone direct emissions, urban",
+            (
+                "Acrolein",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Acrolein direct emissions, rural",
+            (
+                "Acrolein",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Acrolein direct emissions, suburban",
+            (
+                "Acrolein",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Acrolein direct emissions, urban",
+            (
+                "Ammonia",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Ammonia direct emissions, rural",
+            (
+                "Ammonia",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Ammonia direct emissions, suburban",
+            (
+                "Ammonia",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Ammonia direct emissions, urban",
+            (
+                "Arsenic",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Arsenic direct emissions, rural",
+            (
+                "Arsenic",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Arsenic direct emissions, suburban",
+            (
+                "Arsenic",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Arsenic direct emissions, urban",
+            (
+                "Benzaldehyde",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Benzaldehyde direct emissions, rural",
+            (
+                "Benzaldehyde",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Benzaldehyde direct emissions, suburban",
+            (
+                "Benzaldehyde",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Benzaldehyde direct emissions, urban",
+            (
+                "Benzene",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Benzene direct emissions, rural",
+            (
+                "Benzene",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Benzene direct emissions, suburban",
+            (
+                "Benzene",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Benzene direct emissions, urban",
+            (
+                "Butane",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Butane direct emissions, rural",
+            (
+                "Butane",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Butane direct emissions, suburban",
+            (
+                "Butane",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Butane direct emissions, urban",
+            (
+                "Cadmium",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Cadmium direct emissions, rural",
+            (
+                "Cadmium",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Cadmium direct emissions, suburban",
+            (
+                "Cadmium",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Cadmium direct emissions, urban",
+            (
+                "Carbon monoxide, fossil",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Carbon monoxide direct emissions, rural",
+            (
+                "Carbon monoxide, fossil",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Carbon monoxide direct emissions, suburban",
+            (
+                "Carbon monoxide, fossil",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Carbon monoxide direct emissions, urban",
+            (
+                "Chromium",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Chromium direct emissions, rural",
+            (
+                "Chromium",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Chromium direct emissions, suburban",
+            (
+                "Chromium",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Chromium direct emissions, urban",
+            (
+                "Chromium VI",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Chromium VI direct emissions, rural",
+            (
+                "Chromium VI",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Chromium VI direct emissions, suburban",
+            (
+                "Chromium VI",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Chromium VI direct emissions, urban",
+            (
+                "Copper",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Copper direct emissions, rural",
+            (
+                "Copper",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Copper direct emissions, suburban",
+            (
+                "Copper",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Copper direct emissions, urban",
+            (
+                "Cyclohexane",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Cyclohexane direct emissions, rural",
+            (
+                "Cyclohexane",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Cyclohexane direct emissions, suburban",
+            (
+                "Cyclohexane",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Cyclohexane direct emissions, urban",
+            (
+                "Dinitrogen monoxide",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Dinitrogen oxide direct emissions, rural",
+            (
+                "Dinitrogen monoxide",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Dinitrogen oxide direct emissions, suburban",
+            (
+                "Dinitrogen monoxide",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Dinitrogen oxide direct emissions, urban",
+            (
+                "Ethane",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Ethane direct emissions, rural",
+            (
+                "Ethane",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Ethane direct emissions, suburban",
+            (
+                "Ethane",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Ethane direct emissions, urban",
+            (
+                "Ethene",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Ethene direct emissions, rural",
+            (
+                "Ethene",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Ethene direct emissions, suburban",
+            (
+                "Ethene",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Ethene direct emissions, urban",
+            (
+                "Formaldehyde",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Formaldehyde direct emissions, rural",
+            (
+                "Formaldehyde",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Formaldehyde direct emissions, suburban",
+            (
+                "Formaldehyde",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Formaldehyde direct emissions, urban",
+            (
+                "Heptane",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Heptane direct emissions, rural",
+            (
+                "Heptane",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Heptane direct emissions, suburban",
+            (
+                "Heptane",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Heptane direct emissions, urban",
+            (
+                "Hexane",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Hexane direct emissions, rural",
+            (
+                "Hexane",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Hexane direct emissions, suburban",
+            (
+                "Hexane",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Hexane direct emissions, urban",
+            (
+                "Hydrocarbons, chlorinated",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Hydrocarbons direct emissions, rural",
+            (
+                "Hydrocarbons, chlorinated",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Hydrocarbons direct emissions, suburban",
+            (
+                "Hydrocarbons, chlorinated",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Hydrocarbons direct emissions, urban",
+            (
+                "Lead",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Lead direct emissions, rural",
+            (
+                "Lead",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Lead direct emissions, suburban",
+            (
+                "Lead",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Lead direct emissions, urban",
+            (
+                "Mercury",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Mercury direct emissions, rural",
+            (
+                "Mercury",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Mercury direct emissions, suburban",
+            (
+                "Mercury",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Mercury direct emissions, urban",
+            (
+                "Methane, fossil",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Methane direct emissions, rural",
+            (
+                "Methane, fossil",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Methane direct emissions, suburban",
+            (
+                "Methane, fossil",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Methane direct emissions, urban",
+            (
+                "Methyl ethyl ketone",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Methyl ethyl ketone direct emissions, rural",
+            (
+                "Methyl ethyl ketone",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Methyl ethyl ketone direct emissions, suburban",
+            (
+                "Methyl ethyl ketone",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Methyl ethyl ketone direct emissions, urban",
+            (
+                "m-Xylene",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "m-Xylene direct emissions, rural",
+            (
+                "m-Xylene",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "m-Xylene direct emissions, suburban",
+            (
+                "m-Xylene",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "m-Xylene direct emissions, urban",
+            (
+                "Nickel",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Nickel direct emissions, rural",
+            (
+                "Nickel",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Nickel direct emissions, suburban",
+            (
+                "Nickel",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Nickel direct emissions, urban",
+            (
+                "Nitrogen oxides",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Nitrogen oxides direct emissions, rural",
+            (
+                "Nitrogen oxides",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Nitrogen oxides direct emissions, suburban",
+            (
+                "Nitrogen oxides",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Nitrogen oxides direct emissions, urban",
+            (
+                "NMVOC, non-methane volatile organic compounds, unspecified origin",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "NMVOC direct emissions, rural",
+            (
+                "NMVOC, non-methane volatile organic compounds, unspecified origin",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "NMVOC direct emissions, suburban",
+            (
+                "NMVOC, non-methane volatile organic compounds, unspecified origin",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "NMVOC direct emissions, urban",
+            (
+                "o-Xylene",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "o-Xylene direct emissions, rural",
+            (
+                "o-Xylene",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "o-Xylene direct emissions, suburban",
+            (
+                "o-Xylene",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "o-Xylene direct emissions, urban",
+            (
+                "PAH, polycyclic aromatic hydrocarbons",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "PAH, polycyclic aromatic hydrocarbons direct emissions, rural",
+            (
+                "PAH, polycyclic aromatic hydrocarbons",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "PAH, polycyclic aromatic hydrocarbons direct emissions, suburban",
+            (
+                "PAH, polycyclic aromatic hydrocarbons",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "PAH, polycyclic aromatic hydrocarbons direct emissions, urban",
+            (
+                "Particulates, < 2.5 um",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Particulate matters direct emissions, rural",
+            (
+                "Particulates, < 2.5 um",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Particulate matters direct emissions, suburban",
+            (
+                "Particulates, < 2.5 um",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Particulate matters direct emissions, urban",
+            (
+                "Pentane",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Pentane direct emissions, rural",
+            (
+                "Pentane",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Pentane direct emissions, suburban",
+            (
+                "Pentane",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Pentane direct emissions, urban",
+            (
+                "Propane",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Propane direct emissions, rural",
+            (
+                "Propane",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Propane direct emissions, suburban",
+            (
+                "Propane",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Propane direct emissions, urban",
+            (
+                "Propene",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Propene direct emissions, rural",
+            (
+                "Propene",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Propene direct emissions, suburban",
+            (
+                "Propene",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Propene direct emissions, urban",
+            (
+                "Selenium",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Selenium direct emissions, rural",
+            (
+                "Selenium",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Selenium direct emissions, suburban",
+            (
+                "Selenium",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Selenium direct emissions, urban",
+            (
+                "Styrene",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Styrene direct emissions, rural",
+            (
+                "Styrene",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Styrene direct emissions, suburban",
+            (
+                "Styrene",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Styrene direct emissions, urban",
+            (
+                "Toluene",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Toluene direct emissions, rural",
+            (
+                "Toluene",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Toluene direct emissions, suburban",
+            (
+                "Toluene",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Toluene direct emissions, urban",
+            (
+                "Zinc",
+                ("air", "low population density, long-term"),
+                "kilogram",
+            ): "Zinc direct emissions, rural",
+            (
+                "Zinc",
+                ("air", "non-urban air or from high stacks"),
+                "kilogram",
+            ): "Zinc direct emissions, suburban",
+            (
+                "Zinc",
+                ("air", "urban air close to ground"),
+                "kilogram",
+            ): "Zinc direct emissions, urban",
         }
 
         self.index_emissions = [
@@ -973,7 +1458,6 @@ class InventoryCalculation:
             else:
                 new_arr[a] = np.float32(X * B).sum(axis=-1).T
 
-
         shape = (
             self.iterations,
             len(self.scope["size"]),
@@ -1061,8 +1545,6 @@ class InventoryCalculation:
                         "fuel",
                     )
                 ] = maximum
-
-
 
             if {"FCEV"}.intersection(set(self.scope["powertrain"])):
                 maximum += 1
@@ -1250,7 +1732,9 @@ class InventoryCalculation:
     def build_fleet_vehicles(self):
 
         # additional cars
-        n_cars = len(self.scope["year"]) * len(self.scope["powertrain"]) + len(self.scope["year"])
+        n_cars = len(self.scope["year"]) * len(self.scope["powertrain"]) + len(
+            self.scope["year"]
+        )
         self.A = np.pad(self.A, ((0, 0), (0, n_cars), (0, n_cars)))
         maximum = max(self.inputs.values())
 
@@ -1295,7 +1779,8 @@ class InventoryCalculation:
                                         variable=y,
                                     )
                                     .sum()
-                                    .values / share_pt
+                                    .values
+                                    / share_pt
                                 )
 
                                 if fleet_share > 0:
@@ -1306,16 +1791,22 @@ class InventoryCalculation:
                                         if all(
                                             [
                                                 item in i[0]
-                                                for item in [pt, str(vin_year), s, "transport"]
-                                            ])
+                                                for item in [
+                                                    pt,
+                                                    str(vin_year),
+                                                    s,
+                                                    "transport",
+                                                ]
+                                            ]
+                                        )
                                     ][0]
 
+                                    car_inputs = (
+                                        self.A[:, : car_index - 1, car_index]
+                                        * fleet_share
+                                    )
 
-                                    car_inputs = (self.A[:, : car_index - 1, car_index] * fleet_share)
-
-                                    self.A[:, : car_index -1, maximum] += car_inputs
-
-
+                                    self.A[:, : car_index - 1, maximum] += car_inputs
 
                     # Fuel and electricity supply must be from the fleet year, not the vintage year
 
@@ -1369,7 +1860,6 @@ class InventoryCalculation:
                         ]
                         self.A[:, current_provider, maximum] = amount_fuel
 
-
         # We also want to produce a fleet average vehicle, with all powertrain types
 
         for y in self.scope["year"]:
@@ -1411,9 +1901,9 @@ class InventoryCalculation:
                                         size=s,
                                         variable=y,
                                     )
-                                        .sum()
-                                        .values /
-                                    share_pt
+                                    .sum()
+                                    .values
+                                    / share_pt
                                 )
 
                                 if fleet_share > 0:
@@ -1423,11 +1913,20 @@ class InventoryCalculation:
                                         if all(
                                             [
                                                 item in i[0]
-                                                for item in [pt, str(vin_year), s, "transport"]
-                                            ])
+                                                for item in [
+                                                    pt,
+                                                    str(vin_year),
+                                                    s,
+                                                    "transport",
+                                                ]
+                                            ]
+                                        )
                                     ][0]
 
-                                    car_inputs = (self.A[:, : car_index - 1, car_index] * fleet_share)
+                                    car_inputs = (
+                                        self.A[:, : car_index - 1, car_index]
+                                        * fleet_share
+                                    )
 
                                     self.A[:, : car_index - 1, maximum] += car_inputs
 
@@ -1462,8 +1961,7 @@ class InventoryCalculation:
                     current_provider = [
                         self.inputs[i]
                         for i in self.inputs
-                        if "supply for " + fuel_type + " vehicles, " + str(y)
-                           in i[0]
+                        if "supply for " + fuel_type + " vehicles, " + str(y) in i[0]
                     ]
 
                     self.A[:, current_provider, maximum] = amount_fuel
@@ -1780,7 +2278,6 @@ class InventoryCalculation:
             # Update dictionary
             self.rev_inputs = self.get_rev_dict_input()
 
-
             # Update number of cars
             self.number_of_cars += len(self.scope["year"]) * len(
                 self.scope["powertrain"]
@@ -1952,7 +2449,6 @@ class InventoryCalculation:
                 forbidden_activities=forbidden_activities,
                 vehicle_specs=self.specs,
             )
-
 
             return lci
 
@@ -2594,40 +3090,46 @@ class InventoryCalculation:
             )
 
     def get_share_biogasoline(self):
-        """ Returns average share of biogasoline according to historical IEA stats """
-        share_biofuel = np.squeeze(np.clip(
-            self.bs.biogasoline.sel(
-                country=self.country
-            )
+        """Returns average share of biogasoline according to historical IEA stats"""
+        share_biofuel = np.squeeze(
+            np.clip(
+                self.bs.biogasoline.sel(country=self.country)
                 .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
-                .values
-        , 0, 1))
+                .values,
+                0,
+                1,
+            )
+        )
         return share_biofuel
 
     def get_share_biodiesel(self):
-        """ Returns average share of biodiesel according to historical IEA stats """
-        share_biofuel = np.squeeze(np.clip(
-            self.bs.biodiesel.sel(
-                country=self.country
-            )
+        """Returns average share of biodiesel according to historical IEA stats"""
+        share_biofuel = np.squeeze(
+            np.clip(
+                self.bs.biodiesel.sel(country=self.country)
                 .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
-                .values
-        , 0, 1))
+                .values,
+                0,
+                1,
+            )
+        )
         return share_biofuel
 
     def get_share_biomethane(self):
-        """ Returns average share of biomethane according to historical IEA stats """
-        share_biofuel = np.squeeze(np.clip(
-            self.bs.biomethane.sel(
-                country=self.country
-            )
+        """Returns average share of biomethane according to historical IEA stats"""
+        share_biofuel = np.squeeze(
+            np.clip(
+                self.bs.biomethane.sel(country=self.country)
                 .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
-                .values
-        , 0, 1))
+                .values,
+                0,
+                1,
+            )
+        )
         return share_biofuel
 
     def get_share_biofuel(self):
-        """ Returns average share of biofuel in blend according to IAM REMIND """
+        """Returns average share of biofuel in blend according to IAM REMIND"""
         try:
             region = self.bs.region_map[self.country]["RegionCode"]
         except KeyError:
@@ -2746,7 +3248,6 @@ class InventoryCalculation:
                         else:
                             secondary_share = self.get_share_biofuel()
 
-
                     elif fuel_type == "petrol":
                         if self.country in self.bs.biogasoline.country.values:
                             secondary_share = self.get_share_biogasoline()
@@ -2762,7 +3263,7 @@ class InventoryCalculation:
                         secondary_share = self.get_share_biofuel()
 
                 if secondary_share.shape == ():
-                    secondary_share = secondary_share.reshape( 1)
+                    secondary_share = secondary_share.reshape(1)
 
                 primary_share = 1 - np.array(secondary_share, dtype=object)
 
@@ -3492,23 +3993,30 @@ class InventoryCalculation:
                         "the fuel blend for {} is not valid.".format(fuel_type)
                     )
 
-
-
                 if tertiary:
 
-                    if ~np.isclose(primary_share[y] + secondary_share[y] + tertiary_share[y], 1, rtol=1e-3):
-                        sum_blend = primary_share[y] + secondary_share[y] + tertiary_share[y]
-                        print(f"The fuel blend for {fuel_type} in {year} is not equal to 1, but {sum_blend}."
-                              f"The primary fuel share is adjusted so that the fuel blend equals 1.")
+                    if ~np.isclose(
+                        primary_share[y] + secondary_share[y] + tertiary_share[y],
+                        1,
+                        rtol=1e-3,
+                    ):
+                        sum_blend = (
+                            primary_share[y] + secondary_share[y] + tertiary_share[y]
+                        )
+                        print(
+                            f"The fuel blend for {fuel_type} in {year} is not equal to 1, but {sum_blend}."
+                            f"The primary fuel share is adjusted so that the fuel blend equals 1."
+                        )
                         primary_share[y] = 1 - (secondary_share[y] + tertiary_share[y])
                 else:
 
                     if ~np.isclose(primary_share[y] + secondary_share[y], 1, rtol=1e-3):
                         sum_blend = primary_share[y] + secondary_share[y]
-                        print(f"The fuel blend for {fuel_type} in {year} is not equal to 1, but {sum_blend}."
-                              f"The primary fuel share is adjusted so that the fuel blend equals 1.")
+                        print(
+                            f"The fuel blend for {fuel_type} in {year} is not equal to 1, but {sum_blend}."
+                            f"The primary fuel share is adjusted so that the fuel blend equals 1."
+                        )
                         primary_share[y] = 1 - secondary_share[y]
-
 
                 self.A[:, primary_fuel_activity_index, fuel_market_index] = (
                     -1 * primary_share[y]
@@ -3520,53 +4028,60 @@ class InventoryCalculation:
                 def learning_rate_fuel(fuel, year, share, val):
                     if fuel == "electrolysis":
                         # apply some learning rate for electrolysis
-                        electrolysis = -.3538 * (float(year) - 2010) + 58.589
+                        electrolysis = -0.3538 * (float(year) - 2010) + 58.589
                         electricity = (val - 58 + electrolysis) * share
                     elif fuel == "synthetic gasoline - energy allocation":
                         # apply some learning rate for electrolysis
-                        h2 = .338
-                        electrolysis = -.3538 * (float(year) - 2010) + 58.589
+                        h2 = 0.338
+                        electrolysis = -0.3538 * (float(year) - 2010) + 58.589
                         electricity = val - (h2 * 58)
-                        electricity += (electrolysis * h2)
+                        electricity += electrolysis * h2
                         electricity *= share
 
                     elif fuel == "synthetic gasoline - economic allocation":
                         # apply some learning rate for electrolysis
-                        h2 = .6385
-                        electrolysis = -.3538 * (float(year) - 2010) + 58.589
+                        h2 = 0.6385
+                        electrolysis = -0.3538 * (float(year) - 2010) + 58.589
                         electricity = val - (h2 * 58)
-                        electricity += (electrolysis * h2)
+                        electricity += electrolysis * h2
                         electricity *= share
 
                     elif fuel == "synthetic diesel - energy allocation":
                         # apply some learning rate for electrolysis
-                        h2 = .42
-                        electrolysis = -.3538 * (float(year) - 2010) + 58.589
+                        h2 = 0.42
+                        electrolysis = -0.3538 * (float(year) - 2010) + 58.589
                         electricity = val - (h2 * 58)
-                        electricity += (electrolysis * h2)
+                        electricity += electrolysis * h2
                         electricity *= share
 
                     elif fuel == "synthetic diesel - economic allocation":
                         # apply some learning rate for electrolysis
-                        h2 = .183
-                        electrolysis = -.3538 * (float(year) - 2010) + 58.589
+                        h2 = 0.183
+                        electrolysis = -0.3538 * (float(year) - 2010) + 58.589
                         electricity = val - (h2 * 58)
-                        electricity += (electrolysis * h2)
+                        electricity += electrolysis * h2
                         electricity *= share
 
                     else:
                         electricity = val * share
                     return electricity
 
-                additional_electricity_primary = learning_rate_fuel(primary, year, primary_share[y],
-                                            self.fuel_dictionary[primary]["additional electricity"])
+                additional_electricity_primary = learning_rate_fuel(
+                    primary,
+                    year,
+                    primary_share[y],
+                    self.fuel_dictionary[primary]["additional electricity"],
+                )
 
-                additional_electricity_secondary = learning_rate_fuel(secondary, year, secondary_share[y],
-                                            self.fuel_dictionary[secondary]["additional electricity"])
+                additional_electricity_secondary = learning_rate_fuel(
+                    secondary,
+                    year,
+                    secondary_share[y],
+                    self.fuel_dictionary[secondary]["additional electricity"],
+                )
 
                 additional_electricity = (
-                    additional_electricity_primary
-                    + additional_electricity_secondary
+                    additional_electricity_primary + additional_electricity_secondary
                 )
 
                 if tertiary:
@@ -3576,8 +4091,12 @@ class InventoryCalculation:
                     self.A[:, tertiary_fuel_activity_index, fuel_market_index] = (
                         -1 * tertiary_share[y]
                     )
-                    additional_electricity += learning_rate_fuel(tertiary, year, tertiary_share[y],
-                                            self.fuel_dictionary[tertiary]["additional electricity"])
+                    additional_electricity += learning_rate_fuel(
+                        tertiary,
+                        year,
+                        tertiary_share[y],
+                        self.fuel_dictionary[tertiary]["additional electricity"],
+                    )
 
                 if additional_electricity > 0:
                     electricity_mix_index = [
@@ -4137,7 +4656,6 @@ class InventoryCalculation:
             * -1
         ).T
 
-
         try:
             sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
         except:
@@ -4631,12 +5149,7 @@ class InventoryCalculation:
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
                 ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * CO2_fossil
-                        )
-                    )
+                    ((array[self.array_inputs["fuel mass"], :, ind_array] * CO2_fossil))
                     / array[self.array_inputs["range"], :, ind_array]
                     * -1
                 ).T
@@ -4845,18 +5358,12 @@ class InventoryCalculation:
                             * self.fuel_blends["petrol"]["tertiary"]["share"][y]
                         )
 
-
                 self.A[
                     :,
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
                 ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * CO2_fossil
-                        )
-                    )
+                    ((array[self.array_inputs["fuel mass"], :, ind_array] * CO2_fossil))
                     / array[self.array_inputs["range"], :, ind_array]
                     * -1
                 ).T
@@ -5089,7 +5596,9 @@ class InventoryCalculation:
             ],
             -self.number_of_cars :,
         ] = (
-            (0.75 + 0.55) / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
+            (0.75 + 0.55)
+            / self.array.values[self.array_inputs["lifetime kilometers"]]
+            * -1
         )
 
         print("*********************************************************************")
@@ -6022,12 +6531,7 @@ class InventoryCalculation:
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
                 ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * CO2_fossil
-                        )
-                    )
+                    ((array[self.array_inputs["fuel mass"], :, ind_array] * CO2_fossil))
                     / array[self.array_inputs["range"], :, ind_array]
                     * -1
                 ).T
@@ -6241,12 +6745,7 @@ class InventoryCalculation:
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
                 ] = (
-                    (
-                        (
-                            array[self.array_inputs["fuel mass"], :, ind_array]
-                            * CO2_fossil
-                        )
-                    )
+                    ((array[self.array_inputs["fuel mass"], :, ind_array] * CO2_fossil))
                     / array[self.array_inputs["range"], :, ind_array]
                     * -1
                 ).T
@@ -6506,7 +7005,9 @@ class InventoryCalculation:
             ],
             [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
         ] = (
-            (0.75 + 0.55) / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
+            (0.75 + 0.55)
+            / self.array.values[self.array_inputs["lifetime kilometers"]]
+            * -1
         )
 
         print("*********************************************************************")

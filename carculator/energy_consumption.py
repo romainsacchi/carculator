@@ -1,7 +1,8 @@
-from .driving_cycles import get_standard_driving_cycle
 import numexpr as ne
 import numpy as np
 import xarray
+
+from .driving_cycles import get_standard_driving_cycle
 
 
 def _(o):
@@ -192,9 +193,11 @@ class EnergyConsumptionModel:
         re = _(recuperation_efficiency)
 
         # rolling resistance + air resistance + kinetic energy + gradient resistance
-        total_force = np.float16(ne.evaluate(
-            "(ones * dm * rr * 9.81) + (v ** 2 * fa * dc * rho_air / 2) + (a * dm) + (dm * 9.81 * sin(g))"
-        ))
+        total_force = np.float16(
+            ne.evaluate(
+                "(ones * dm * rr * 9.81) + (v ** 2 * fa * dc * rho_air / 2) + (a * dm) + (dm * 9.81 * sin(g))"
+            )
+        )
 
         tv = ne.evaluate("total_force * v")
 
@@ -216,10 +219,8 @@ class EnergyConsumptionModel:
         # t_e = ne.evaluate("where(total_force<0, 0, tv)") #
         # t_e = np.where(total_force<0, 0, tv)
 
-        #results = ne.evaluate(
+        # results = ne.evaluate(
         #    "((where(total_force<0, 0, tv) / (distance * 1000)) + (recuperated_power / distance / 1000))/ ttw_eff"
-        #)
-
-
+        # )
 
         return tv, recuperated_power, distance
