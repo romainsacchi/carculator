@@ -12,5 +12,3 @@ numexpr
 bw2io>0.8.0
 pycountry
 wurst
-pypardiso
-mkl

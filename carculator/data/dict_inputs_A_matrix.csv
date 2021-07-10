@@ -227,6 +227,9 @@ Hexane;('air', 'non-urban air or from high stacks');kilogram
 Hexane;('air', 'urban air close to ground');kilogram
 High voltage system;GLO;kilogram;High voltage system
 Hydrocarbons, aromatic;('water', 'surface water');kilogram
+Hydrocarbons, chlorinated;('air', 'low population density, long-term');kilogram
+Hydrocarbons, chlorinated;('air', 'non-urban air or from high stacks');kilogram
+Hydrocarbons, chlorinated;('air', 'urban air close to ground');kilogram
 Hydrogen chloride;('air', 'non-urban air or from high stacks');kilogram
 Hydrogen refuelling station;GLO;unit;Hydrogen refuelling station
 Hydrogen sulfide;('air',);kilogram

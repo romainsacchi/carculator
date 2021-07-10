@@ -1,6 +1,8 @@
+{% set data = load_setup_py_data() %}
+
 package:
   name: carculator
-  version: {{ environ['VERSION'] }}
+  version: {{ data['VERSION'] }}
 
 source:
   path: ..
@@ -18,15 +20,18 @@ requirements:
     - python
     - setuptools
   run:
-    - klausen
+    - scipy
+    - pyprind
     - pandas
     - xarray<0.18
     - numpy
-    - python
-    - xarray
+    - pytest
+    - pytest-cov
+    - klausen
     - xlrd
+    - pytest
     - numexpr
-    - bw2io>0.8
+    - bw2io>0.8.0
     - pycountry
     - wurst
 
@@ -35,7 +40,7 @@ test:
     - carculator
 
 about:
-  home: https://github.com/romainsacchi/carculator
+  home: https://github.com/romainsacchi/carculator_truck
   license: BSD License
   summary: 'A parameterized Python model to calculate the energy consumption and life cycle assessment of cars'
 license_family: BSD
