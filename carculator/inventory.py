@@ -4658,7 +4658,8 @@ class InventoryCalculation:
 
         try:
             sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
-        except:
+
+        except AttributeError:
             sum_renew = [0] * len(self.scope["year"])
             co2_intensity_tech = [0] * len(self.scope["year"])
 
@@ -6048,7 +6049,8 @@ class InventoryCalculation:
 
         try:
             sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
-        except:
+
+        except AttributeError:
             sum_renew = [0] * len(self.scope["year"])
             co2_intensity_tech = [0] * len(self.scope["year"])
 
