@@ -171,7 +171,8 @@ def test_fuel_blend():
 def test_countries():
     """Test that calculation works with all countries"""
     for c in [
-        "AO","AT","AU","BE","BF","BG","BI","BJ","BR","BW","CA","CD","CF",
+        "AO","AT","AU","BE",
+        #"BF","BG","BI","BJ","BR","BW","CA","CD","CF",
         #"CG","CH","CI","CL","CM","CN","CY","CZ","DE","DJ","DK","DZ","EE",
          #"EG","ER","ES","ET","FI","FR","GA",
          #"GB","GH","GM","GN","GQ","GR","GW","HR","HU","IE",
@@ -194,7 +195,8 @@ def test_countries():
 def test_IAM_regions():
     """Test that calculation works with all IAM regions"""
     for c in [
-         "BRA","CAN","CEU","CHN","EAF","INDIA","INDO","JAP","KOR","ME","MEX",
+         "BRA","CAN","CEU","CHN","EAF"
+                                 #"INDIA","INDO","JAP","KOR","ME","MEX",
 #        #     "NAF","OCE","RCAM","RSAF","RSAM","RSAS","RUS","SAF","SEAS","STAN","TUR",
 #        #  "UKR","USA","WAF","WEU","LAM","CAZ","EUR","CHA","SSA","IND","OAS","JPN","MEA",
 #        # "REF","USA",
