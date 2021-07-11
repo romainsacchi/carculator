@@ -76,7 +76,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest --cov=carculator
+          pytest
           coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.COVERALLS }}
