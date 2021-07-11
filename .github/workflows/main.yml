@@ -1,4 +1,4 @@
-name: configuration for python env
+name: Github Action
 on: [push, pull_request]
 
 jobs:
@@ -61,11 +61,11 @@ jobs:
       - name: Install python version
         uses: gabrielfalcao/pyenv-action@v7
         with:
-          default: 3.8.6
+          default: 3.9.0
           command: pip install -U pip  # upgrade pip after installing python
 
       - name: create environment
-        run: pyenv local 3.8.6 && python -mvenv .venv386
+        run: pyenv local 3.9.0 && python -mvenv .venv390
 
       - name: Install dependencies
         run: |
@@ -76,33 +76,89 @@ jobs:
 
       - name: Run tests
         run: |
-          coverage run --source=carculator -m pytest
+          pytest -m "not ecoinvent" -s --cov=carculator
           coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.COVERALLS }}
+          IAM_FILES_KEY: ${{ secrets.IAM_FILES_KEY }}
 
-  publish:
+  conda:
+    name: (${{ matrix.python-version }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    needs: build
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        python-version: ["3.9"]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+          channels: conda-forge,cmutel,konstantinstadler,haasad,pascallesage,romainsacchi
+          allow-softlinks: true
+          channel-priority: strict
+          auto-update-conda: true
+          conda-build-version: 3.21.4
+          activate-environment: test
+          USER: ${{ secrets.CONDA_USERNAME }}
+          TOKEN: ${{ secrets.ANACONDA_CLOUD }}
+
+      - name: Conda info
+        shell: bash -l {0}
+        run: conda info
+
+      - name: Publish distribution 📦 to Anaconda if Push
+        shell: bash -l {0}
+
+        run: |
+
+          PKG_NAME=carculator
+          USER=romainsacchi
+          conda install anaconda-client
+          mkdir ~/conda-bld
+          conda config --set anaconda_upload no
+          export CONDA_BLD_PATH=~/conda-bld
+          export VERSION=`date +%Y.%m.%d`
+          conda build "conda/" --old-build-string
+          ls $CONDA_BLD_PATH/noarch/
+          anaconda -t ${{ secrets.ANACONDA_CLOUD }} upload -u $USER $CONDA_BLD_PATH/noarch/$PKG_NAME-$VERSION-py_0.tar.bz2 --force
+
+  Pypi:
     runs-on: ubuntu-latest
     needs: build
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Publish distribution 📦 to Anaconda if Push
-        uses: fcakyon/conda-publish-action@v1.3
-        with:
-          subdir: 'conda'
-          anacondatoken: ${{ secrets.ANACONDA_CLOUD }}
-          platforms: 'win osx linux'
+      - name: Install pypa/build
+        run: >-
+          python -m
+          pip install
+          build
+          --user
+
+      - name: Build a binary wheel and a source tarball
+        run: >-
+          python -m
+          build
+          --sdist
+          --wheel
+          --outdir dist/
+          .
 
       - name: Publish distribution 📦 to Test PyPI if Push
         uses: pypa/gh-action-pypi-publish@master
         with:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          user: ${{ secrets.TEST_PYPI_USER }}
+          password: ${{ secrets.TEST_PYPI_PASSWORD }}
           repository_url: https://test.pypi.org/legacy/
 
       - name: Publish distribution 📦 to PyPI if Release
         if: startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@master
         with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          user: ${{ secrets.PYPI_USER }}
+          password: ${{ secrets.PYPI_PASSWORD }}

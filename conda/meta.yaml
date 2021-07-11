@@ -1,8 +1,6 @@
-{% set data = load_setup_py_data() %}
-
 package:
   name: carculator
-  version: {{ data['version'] }}
+  version: {{ environ['VERSION'] }}
 
 source:
   path: ..
@@ -11,6 +9,9 @@ build:
   noarch: python
   number: 0
   script: python -m pip install --no-deps --ignore-installed .
+  script_env:
+    - VERSION
+    - CONDA_BLD_PATH
 
 requirements:
   build:
@@ -20,13 +21,12 @@ requirements:
     - scipy
     - pyprind
     - pandas
-    - xarray<0.18
+    - xarray <0.18
     - numpy
     - klausen
     - xlrd
-    - pytest
     - numexpr
-    - bw2io>0.8.0
+    - bw2io >0.8.0
     - pycountry
     - wurst
 
@@ -37,5 +37,5 @@ test:
 about:
   home: https://github.com/romainsacchi/carculator
   license: BSD License
-  summary: 'A parameterized Python model to calculate the energy consumption and life cycle assessment of cars'
+  summary: 'Life Cycle Assessment for passenger cars.'
 license_family: BSD
