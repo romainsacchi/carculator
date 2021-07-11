@@ -76,7 +76,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest -m "not ecoinvent" -s --cov=carculator
+          pytest --cov=carculator
           coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.COVERALLS }}
