@@ -1,7 +1,11 @@
 import numpy as np
 import pytest
 
-from carculator import *
+from carculator import (
+fill_xarray_from_input_parameters,
+CarInputParameters,
+modify_xarray_from_custom_parameters
+)
 
 
 def test_type_cip():

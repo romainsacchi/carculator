@@ -2537,7 +2537,6 @@ class ExportInventory:
                     try:
                         if ax:
                             pd.Series(pdf, x).plot(ax=ax)
-                        end
                     except Exception:
                         pass
 

@@ -1,7 +1,12 @@
 import numpy as np
 import pytest
 
-from carculator import *
+from carculator import (
+CarInputParameters,
+fill_xarray_from_input_parameters,
+CarModel,
+InventoryCalculation
+)
 
 # generate vehicle parameters
 cip = CarInputParameters()
@@ -226,8 +231,6 @@ def test_countries():
         )
         ic.calculate_impacts()
 
-
-#
 def test_IAM_regions():
     """Test that calculation works with all IAM regions"""
     for c in [
@@ -252,8 +255,6 @@ def test_IAM_regions():
         )
         ic.calculate_impacts()
 
-
-#
 def test_endpoint():
     """Test if the correct impact categories are considered"""
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
@@ -267,9 +268,6 @@ def test_endpoint():
         ic.calculate_impacts()
     assert wrapped_error.type == TypeError
 
-
-#
-#
 def test_sulfur_concentration():
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
     ic.get_sulfur_content("RER", "diesel", 2000)
@@ -279,51 +277,34 @@ def test_sulfur_concentration():
         ic.get_sulfur_content("FR", "diesel", "jku")
     assert wrapped_error.type == ValueError
 
-
-#
-#
 def test_custom_electricity_mix():
     """Test if a wrong number of electricity mixes throws an error"""
-    #
-    bc = {
-        "custom electricity mix": [
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        ]
-    }
-    #
-    with pytest.raises(ValueError) as wrapped_error:
-        InventoryCalculation(
-            cm.array,
-            method="recipe",
-            method_type="endpoint",
-            background_configuration=bc,
-        )
-    assert wrapped_error.type == ValueError
 
-    """ Test if a sum of share superior to 1 throws an error """
+    # Passing four mixes instead of 6
+    mix_1 = np.zeros((5, 15))
+    mix_1[:, 0] = 1
+    # Passing a mix inferior to 1
+    mix_2 = np.zeros((6, 15))
+    mix_2[:, 0] = 1
+    mix_2[:, 0] = 0.9
 
-    bc = {
-        "custom electricity mix": [
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        ]
-    }
-    #
-    with pytest.raises(ValueError) as wrapped_error:
-        InventoryCalculation(
-            cm.array,
-            method="recipe",
-            method_type="endpoint",
-            background_configuration=bc,
-        )
-    assert wrapped_error.type == ValueError
+    # Passing a mix superior to 1
+    mix_3 = np.zeros((6, 15))
+    mix_3[:, 0] = 1
+    mix_3[:, 1] = 0.1
 
+    mixes = [mix_1, mix_2, mix_3]
 
-#
-#
+    for mix in mixes:
+        with pytest.raises(ValueError) as wrapped_error:
+            InventoryCalculation(
+                cm.array,
+                method="recipe",
+                method_type="endpoint",
+                background_configuration={"custom electricity mix": mix},
+            )
+        assert wrapped_error.type == ValueError
+
 def test_export_to_bw():
     """Test that inventories export successfully"""
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
@@ -337,9 +318,6 @@ def test_export_to_bw():
                     create_vehicle_datasets=c,
                 )
 
-
-#
-#
 def test_export_to_excel():
     """Test that inventories export successfully to Excel/CSV"""
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")

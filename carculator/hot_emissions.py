@@ -8,7 +8,7 @@ from . import DATA_DIR
 
 def _(o):
     """Add a trailing dimension to make input arrays broadcast correctly"""
-    if isinstance(o, (np.ndarray, xarray.DataArray)):
+    if isinstance(o, (np.ndarray, xr.DataArray)):
         return np.expand_dims(o, -1)
     else:
         return o
@@ -323,30 +323,32 @@ class HotEmissionsModel:
             ]
         )
 
+        nmvoc_sub_species = [
+            "Ethane",
+            "Propane",
+            "Butane",
+            "Pentane",
+            "Hexane",
+            "Cyclohexane",
+            "Heptane",
+            "Ethene",
+            "Propene",
+            "1-Pentene",
+            "Toluene",
+            "m-Xylene",
+            "o-Xylene",
+            "Formaldehyde",
+            "Acetaldehyde",
+            "Benzaldehyde",
+            "Acetone",
+            "Methyl ethyl ketone",
+            "Acrolein",
+            "Styrene",
+        ]
+
         final_emissions.loc[
             dict(
-                component=[
-                    "Ethane",
-                    "Propane",
-                    "Butane",
-                    "Pentane",
-                    "Hexane",
-                    "Cyclohexane",
-                    "Heptane",
-                    "Ethene",
-                    "Propene",
-                    "1-Pentene",
-                    "Toluene",
-                    "m-Xylene",
-                    "o-Xylene",
-                    "Formaldehyde",
-                    "Acetaldehyde",
-                    "Benzaldehyde",
-                    "Acetone",
-                    "Methyl ethyl ketone",
-                    "Acrolein",
-                    "Styrene",
-                ],
+                component=nmvoc_sub_species,
                 powertrain=[p for p in final_emissions.powertrain.values if "d" in p],
             )
         ] = (
@@ -372,28 +374,7 @@ class HotEmissionsModel:
 
         final_emissions.loc[
             dict(
-                component=[
-                    "Ethane",
-                    "Propane",
-                    "Butane",
-                    "Pentane",
-                    "Hexane",
-                    "Cyclohexane",
-                    "Heptane",
-                    "Ethene",
-                    "Propene",
-                    "1-Pentene",
-                    "Toluene",
-                    "m-Xylene",
-                    "o-Xylene",
-                    "Formaldehyde",
-                    "Acetaldehyde",
-                    "Benzaldehyde",
-                    "Acetone",
-                    "Methyl ethyl ketone",
-                    "Acrolein",
-                    "Styrene",
-                ],
+                component=nmvoc_sub_species,
                 powertrain=[p for p in final_emissions.powertrain.values if "-p" in p],
             )
         ] = (
@@ -419,20 +400,21 @@ class HotEmissionsModel:
 
         # Heavy metals emissions are dependent of fuel consumption
         # given in grams of emission per kj
+        heavy_metals = [
+            "PAH, polycyclic aromatic hydrocarbons",
+            "Arsenic",
+            "Selenium",
+            "Zinc",
+            "Copper",
+            "Nickel",
+            "Chromium",
+            "Chromium VI",
+            "Mercury",
+            "Cadmium",
+        ]
         final_emissions.loc[
             dict(
-                component=[
-                    "PAH, polycyclic aromatic hydrocarbons",
-                    "Arsenic",
-                    "Selenium",
-                    "Zinc",
-                    "Copper",
-                    "Nickel",
-                    "Chromium",
-                    "Chromium VI",
-                    "Mercury",
-                    "Cadmium",
-                ],
+                component=heavy_metals,
                 powertrain=[p for p in final_emissions.powertrain.values if "-p" in p],
             )
         ] = (
@@ -459,18 +441,7 @@ class HotEmissionsModel:
 
         final_emissions.loc[
             dict(
-                component=[
-                    "PAH, polycyclic aromatic hydrocarbons",
-                    "Arsenic",
-                    "Selenium",
-                    "Zinc",
-                    "Copper",
-                    "Nickel",
-                    "Chromium",
-                    "Chromium VI",
-                    "Mercury",
-                    "Cadmium",
-                ],
+                component=heavy_metals,
                 powertrain=[p for p in final_emissions.powertrain.values if "-d" in p],
             )
         ] = (

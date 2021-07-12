@@ -254,8 +254,7 @@ def modify_xarray_from_custom_parameters(fp, array):
     elif isinstance(fp, dict):
         d = fp
     else:
-        print("The format passed as parameter is not valid.")
-        raise
+        raise TypeError("The format passed as parameter is not valid.")
 
     FORBIDDEN_KEYS = ["Driving cycle", "Background", "Functional unit"]
 
@@ -328,90 +327,92 @@ def modify_xarray_from_custom_parameters(fp, array):
 
             year = set([v[0] for v in val])
 
-            # Stochastic mode
-            if array.sizes["value"] > 1:
-                for y in year:
-                    # No uncertainty parameters given
-                    if distr == 1:
-                        # There should be at least a `loc`
-                        if ~np.isnan(val[(y, "loc")]):
-                            for s in sizes:
-                                for p in pt:
-                                    array.loc[
-                                        dict(
-                                            powertrain=p,
-                                            size=s,
-                                            year=y,
-                                            parameter=param,
-                                        )
-                                    ] = val[(y, "loc")]
-                        # Otherwise warn
-                        else:
+
+            for y in year:
+                # No uncertainty parameters given
+                if distr == 1:
+                    # There should be at least a `loc`
+                    if ~np.isnan(val[(y, "loc")]):
+                        for s in sizes:
+                            for p in pt:
+                                array.loc[
+                                    dict(
+                                        powertrain=p,
+                                        size=s,
+                                        year=y,
+                                        parameter=param,
+                                    )
+                                ] = val[(y, "loc")]
+                    # Otherwise warn
+                    else:
+                        print(
+                            "`loc`parameter missing for {} in {}.".format(param, y)
+                        )
+                        continue
+
+                elif distr in [2, 3, 4, 5]:
+
+                    # Check if the correct parameters are present
+                    # Triangular
+
+                    if distr == 5:
+                        if (
+                            np.isnan(val[(y, "loc")])
+                            or np.isnan(val[(y, "minimum")])
+                            or np.isnan(val[(y, "maximum")])
+                        ):
                             print(
-                                "`loc`parameter missing for {} in {}.".format(param, y)
+                                "One or more parameters for the triangular distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
+                                    param, y
+                                )
                             )
                             continue
 
-                    elif distr in [2, 3, 4, 5]:
-
-                        # Check if the correct parameters are present
-                        # Triangular
-
-                        if distr == 5:
-                            if (
-                                np.isnan(val[(y, "loc")])
-                                or np.isnan(val[(y, "minimum")])
-                                or np.isnan(val[(y, "maximum")])
-                            ):
-                                print(
-                                    "One or more parameters for the triangular distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
-                                        param, y
-                                    )
+                    # Lognormal
+                    if distr == 2:
+                        if np.isnan(val[(y, "loc")]) or np.isnan(val[(y, "scale")]):
+                            print(
+                                "One or more parameters for the lognormal distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
+                                    param, y
                                 )
-                                continue
+                            )
+                            continue
 
-                        # Lognormal
-                        if distr == 2:
-                            if np.isnan(val[(y, "loc")]) or np.isnan(val[(y, "scale")]):
-                                print(
-                                    "One or more parameters for the lognormal distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
-                                        param, y
-                                    )
+                    # Normal
+                    if distr == 3:
+                        if np.isnan(val[(y, "loc")]) or np.isnan(val[(y, "scale")]):
+                            print(
+                                "One or more parameters for the normal distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
+                                    param, y
                                 )
-                                continue
+                            )
+                            continue
 
-                        # Normal
-                        if distr == 3:
-                            if np.isnan(val[(y, "loc")]) or np.isnan(val[(y, "scale")]):
-                                print(
-                                    "One or more parameters for the normal distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
-                                        param, y
-                                    )
+                    # Uniform
+                    if distr == 4:
+                        if np.isnan(val[(y, "minimum")]) or np.isnan(
+                            val[(y, "maximum")]
+                        ):
+                            print(
+                                "One or more parameters for the uniform distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
+                                    param, y
                                 )
-                                continue
+                            )
+                            continue
 
-                        # Uniform
-                        if distr == 4:
-                            if np.isnan(val[(y, "minimum")]) or np.isnan(
-                                val[(y, "maximum")]
-                            ):
-                                print(
-                                    "One or more parameters for the uniform distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
-                                        param, y
-                                    )
-                                )
-                                continue
+                    a = sa.UncertaintyBase.from_dicts(
+                        {
+                            "loc": val[y, "loc"],
+                            "scale": val[y, "scale"],
+                            "shape": val[y, "shape"],
+                            "minimum": val[y, "minimum"],
+                            "maximum": val[y, "maximum"],
+                            "uncertainty_type": distr,
+                        }
+                    )
 
-                        a = sa.UncertaintyBase.from_dicts(
-                            {
-                                "loc": val[y, "loc"],
-                                "scale": val[y, "scale"],
-                                "shape": val[y, "shape"],
-                                "minimum": val[y, "minimum"],
-                                "maximum": val[y, "maximum"],
-                                "uncertainty_type": distr,
-                            }
-                        )
+                    # Stochastic mode
+                    if array.sizes["value"] > 1:
 
                         rng = sa.MCRandomNumberGenerator(a)
 
@@ -420,98 +421,7 @@ def modify_xarray_from_custom_parameters(fp, array):
                                 array.loc[
                                     dict(powertrain=p, size=s, year=y, parameter=param)
                                 ] = rng.generate(array.sizes["value"]).reshape((-1,))
-
                     else:
-                        print(
-                            "The uncertainty type is not recognized for {} in {}.\n The parameter is skipped and default value applies".format(
-                                param, y
-                            )
-                        )
-                        continue
-
-            # Static mode
-            else:
-                for y in year:
-                    if distr == 1:
-                        # There should be at least a `loc`
-                        if ~np.isnan(val[(y, "loc")]):
-                            for s in sizes:
-                                for p in pt:
-                                    array.loc[
-                                        dict(
-                                            powertrain=p,
-                                            size=s,
-                                            year=y,
-                                            parameter=param,
-                                        )
-                                    ] = val[(y, "loc")]
-                        # Otherwise warn
-                        else:
-                            print(
-                                "`loc`parameter missing for {} in {}.".format(param, y)
-                            )
-                            continue
-
-                    elif distr in [2, 3, 4, 5]:
-
-                        # Check if the correct parameters are present
-                        # Triangular
-
-                        if distr == 5:
-                            if (
-                                np.isnan(val[(y, "loc")])
-                                or np.isnan(val[(y, "minimum")])
-                                or np.isnan(val[(y, "maximum")])
-                            ):
-                                print(
-                                    "One or more parameters for the triangular distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
-                                        param, y
-                                    )
-                                )
-                                continue
-
-                        # Lognormal
-                        if distr == 2:
-                            if np.isnan(val[(y, "loc")]) or np.isnan(val[(y, "scale")]):
-                                print(
-                                    "One or more parameters for the lognormal distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
-                                        param, y
-                                    )
-                                )
-                                continue
-
-                        # Normal
-                        if distr == 3:
-                            if np.isnan(val[(y, "loc")]) or np.isnan(val[(y, "scale")]):
-                                print(
-                                    "One or more parameters for the normal distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
-                                        param, y
-                                    )
-                                )
-                                continue
-
-                        # Uniform
-                        if distr == 4:
-                            if np.isnan(val[(y, "minimum")]) or np.isnan(
-                                val[(y, "maximum")]
-                            ):
-                                print(
-                                    "One or more parameters for the uniform distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
-                                        param, y
-                                    )
-                                )
-                                continue
-
-                        a = sa.UncertaintyBase.from_dicts(
-                            {
-                                "loc": val[y, "loc"],
-                                "scale": val[y, "scale"],
-                                "shape": val[y, "shape"],
-                                "minimum": val[y, "minimum"],
-                                "maximum": val[y, "maximum"],
-                                "uncertainty_type": distr,
-                            }
-                        )
 
                         dist = sa.uncertainty_choices[distr]
                         median = float(dist.ppf(a, np.array((0.5,))))
@@ -522,10 +432,10 @@ def modify_xarray_from_custom_parameters(fp, array):
                                     dict(powertrain=p, size=s, year=y, parameter=param)
                                 ] = median
 
-                    else:
-                        print(
-                            "The uncertainty type is not recognized for {} in {}.\n The parameter is skipped and default value applies".format(
-                                param, y
-                            )
+                else:
+                    print(
+                        "The uncertainty type is not recognized for {} in {}.\n The parameter is skipped and default value applies".format(
+                            param, y
                         )
-                        continue
+                    )
+                    continue

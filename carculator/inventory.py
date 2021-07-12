@@ -1227,17 +1227,6 @@ class InventoryCalculation:
         # Load the B matrix
         self.B = None
 
-    def __getitem__(self, key):
-        """
-        Make class['foo'] automatically filter for the parameter 'foo'
-        Makes the model code much cleaner
-
-        :param key: Parameter name
-        :type key: str
-        :return: `array` filtered after the parameter selected
-        """
-        return self.temp_array.sel(parameter=key)
-
     def get_results_table(self, split, sensitivity=False):
         """
         Format an xarray.DataArray array to receive the results.
@@ -2764,7 +2753,7 @@ class InventoryCalculation:
 
         # Fill the electricity markets for battery charging and hydrogen production
         for y, year in enumerate(self.scope["year"]):
-            m = np.array(self.mix[y], dtype=object).reshape(-1, 15, 1)
+            m = np.array(self.mix[y], dtype=object).reshape((-1, 15, 1))
             # Add electricity technology shares
             self.A[
                 np.ix_(
@@ -2954,7 +2943,7 @@ class InventoryCalculation:
 
         # Fill the electricity markets for battery production
         for y, year in enumerate(self.scope["year"]):
-            m = np.array(mix_battery_manufacturing[y], dtype=object).reshape(-1, 15, 1)
+            m = np.array(mix_battery_manufacturing[y], dtype=object).reshape((-1, 15, 1))
 
             self.A[
                 np.ix_(

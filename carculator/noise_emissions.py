@@ -1,38 +1,6 @@
 import numexpr as ne
 import numpy as np
 
-
-def pn(cycle, powertrain_type):
-    cycle = np.array(cycle)
-
-    # Noise sources are calculated for speeds above 20 km/h.
-    if powertrain_type in ("combustion", "electric"):
-        array = np.tile((cycle - 70) / 70, 8).reshape((8, -1))
-        constants = np.array((94.5, 89.2, 88, 85.9, 84.2, 86.9, 83.3, 76.1)).reshape(
-            (-1, 1)
-        )
-        coefficients = np.array((-1.3, 7.2, 7.7, 8, 8, 8, 8, 8)).reshape((-1, 1))
-        array = array * coefficients + constants
-
-        if powertrain_type == "electric":
-            # For electric cars, we add correction factors
-            # We also add a 56 dB loud sound signal when the speed is below 20 km/h.
-            correction = np.array((0, 1.7, 4.2, 15, 15, 15, 13.8, 0)).reshape((-1, 1))
-            array -= correction
-            array[:, cycle < 20] = 56
-        else:
-            array[:, cycle < 20] = 0
-    else:
-        # For non plugin-hybrids, apply electric engine noise coefficient up to 30 km/h
-        # and combustion engine noise coefficients above 30 km/h
-        electric = pn(cycle, "electric")
-        electric_mask = cycle < 30
-
-        array = pn(cycle, "combustion")
-        array[:, electric_mask] = electric[:, electric_mask]
-    return array
-
-
 class NoiseEmissionsModel:
     """
     Calculate propulsion and rolling noise emissions for combustion, hybrid and electric vehicles, based on CNOSSOS model.
@@ -145,10 +113,10 @@ class NoiseEmissionsModel:
         else:
             # For non plugin-hybrids, apply electric engine noise coefficient up to 30 km/h
             # and combustion engine noise coefficients above 30 km/h
-            electric = pn(cycle, "electric")
+            electric = self.propulsion_noise("electric")
             electric_mask = cycle < 30
 
-            array = pn(cycle, "combustion")
+            array = self.propulsion_noise(cycle, "combustion")
             array[:, electric_mask] = electric[:, electric_mask]
         return array
 

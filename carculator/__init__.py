@@ -21,8 +21,6 @@ __all__ = (
     "BackgroundSystemModel",
     "ExportInventory",
     "InternalNoiseModel",
-    "create_fleet_composition_from_IAM_file",
-    "extract_electricity_mix_from_IAM_file",
 )
 __version__ = (1, 5, 2)
 
@@ -44,7 +42,3 @@ from .internal_noise import InternalNoiseModel
 from .inventory import InventoryCalculation
 from .model import CarModel
 from .noise_emissions import NoiseEmissionsModel
-from .utils import (
-    create_fleet_composition_from_IAM_file,
-    extract_electricity_mix_from_IAM_file,
-)

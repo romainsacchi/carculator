@@ -114,8 +114,6 @@ class CarModel:
     def __getattr__(self, key):
         if key in self.mappings:
             return self.mappings[key]
-        else:
-            return super().__getattr__(key)
 
     def set_all(self, drop_hybrids=True, electric_utility_factor=None):
         """

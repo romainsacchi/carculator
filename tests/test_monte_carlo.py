@@ -1,4 +1,9 @@
-from carculator import *
+from carculator import (
+CarInputParameters,
+fill_xarray_from_input_parameters,
+CarModel,
+InventoryCalculation
+)
 
 
 def test_monte_carlo():
