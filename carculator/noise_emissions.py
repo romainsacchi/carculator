@@ -116,7 +116,7 @@ class NoiseEmissionsModel:
             electric = self.propulsion_noise("electric")
             electric_mask = cycle < 30
 
-            array = self.propulsion_noise(cycle, "combustion")
+            array = self.propulsion_noise("combustion")
             array[:, electric_mask] = electric[:, electric_mask]
         return array
 
