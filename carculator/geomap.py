@@ -84,6 +84,7 @@ def get_IAM_geomatcher():
 
     return geo
 
+
 class Geomap:
     """
     Map ecoinvent locations to IAM regions and vice-versa.
