@@ -131,7 +131,7 @@ def get_biofuel_share():
     return array
 
 
-def get_biomethane_share(self):
+def get_biomethane_share():
     filename = "share_bio_cng.csv"
     filepath = DATA_DIR / filename
 
@@ -144,7 +144,7 @@ def get_biomethane_share(self):
     return df.groupby(["country", "year"]).sum().to_xarray().to_array()
 
 
-def get_biogasoline_share(self):
+def get_biogasoline_share():
     filename = "share_bio_gasoline.csv"
     filepath = DATA_DIR / filename
 
@@ -157,7 +157,7 @@ def get_biogasoline_share(self):
     return df.groupby(["country", "year"]).sum().to_xarray().to_array()
 
 
-def get_biodiesel_share(self):
+def get_biodiesel_share():
     filename = "share_bio_diesel.csv"
     filepath = DATA_DIR / filename
 
