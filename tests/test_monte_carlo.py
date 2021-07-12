@@ -1,8 +1,8 @@
 from carculator import (
-CarInputParameters,
-fill_xarray_from_input_parameters,
-CarModel,
-InventoryCalculation
+    CarInputParameters,
+    CarModel,
+    InventoryCalculation,
+    fill_xarray_from_input_parameters,
 )
 
 

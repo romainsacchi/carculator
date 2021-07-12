@@ -327,7 +327,6 @@ def modify_xarray_from_custom_parameters(fp, array):
 
             year = set([v[0] for v in val])
 
-
             for y in year:
                 # No uncertainty parameters given
                 if distr == 1:
@@ -345,9 +344,7 @@ def modify_xarray_from_custom_parameters(fp, array):
                                 ] = val[(y, "loc")]
                     # Otherwise warn
                     else:
-                        print(
-                            "`loc`parameter missing for {} in {}.".format(param, y)
-                        )
+                        print("`loc`parameter missing for {} in {}.".format(param, y))
                         continue
 
                 elif distr in [2, 3, 4, 5]:
