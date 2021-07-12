@@ -37,7 +37,7 @@ setup(
     package_data={"carculator": package_files(os.path.join("carculator", "data"))},
     install_requires=[
         "pandas",
-        "xarray<0.18",
+        "xarray <0.18",
         "numpy",
         "klausen",
         "xlrd",
