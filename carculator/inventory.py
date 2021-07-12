@@ -2943,7 +2943,9 @@ class InventoryCalculation:
 
         # Fill the electricity markets for battery production
         for y, year in enumerate(self.scope["year"]):
-            m = np.array(mix_battery_manufacturing[y], dtype=object).reshape((-1, 15, 1))
+            m = np.array(mix_battery_manufacturing[y], dtype=object).reshape(
+                (-1, 15, 1)
+            )
 
             self.A[
                 np.ix_(

@@ -1,6 +1,7 @@
 import numexpr as ne
 import numpy as np
 
+
 class NoiseEmissionsModel:
     """
     Calculate propulsion and rolling noise emissions for combustion, hybrid and electric vehicles, based on CNOSSOS model.

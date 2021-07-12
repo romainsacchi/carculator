@@ -39,7 +39,6 @@ def get_electricity_losses():
     with open(filepath) as f:
         csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
 
-
     return data_to_dict(csv_list)
 
 
@@ -127,11 +126,10 @@ def get_biofuel_share():
     )
     for r in country_code:
         for s in scenario:
-            val = df.loc[
-                (df["Region"] == r) & (df["Scenario"] == s), "Biomass fuel":
-            ]
+            val = df.loc[(df["Region"] == r) & (df["Scenario"] == s), "Biomass fuel":]
             array.loc[dict(region=r, scenario=s, value=0)] = val
     return array
+
 
 def get_biomethane_share(self):
     filename = "share_bio_cng.csv"
@@ -145,6 +143,7 @@ def get_biomethane_share(self):
 
     return df.groupby(["country", "year"]).sum().to_xarray().to_array()
 
+
 def get_biogasoline_share(self):
     filename = "share_bio_gasoline.csv"
     filepath = DATA_DIR / filename
@@ -156,6 +155,7 @@ def get_biogasoline_share(self):
     df = pd.read_csv(filepath, sep=";")
 
     return df.groupby(["country", "year"]).sum().to_xarray().to_array()
+
 
 def get_biodiesel_share(self):
     filename = "share_bio_diesel.csv"
@@ -208,6 +208,7 @@ def get_sulfur_content_in_fuel():
     df = df.rename(columns={"level_0": "fuel"})
     arr = df.groupby(["country", "year", "fuel"]).sum()[0].to_xarray()
     return arr
+
 
 class BackgroundSystemModel:
     """

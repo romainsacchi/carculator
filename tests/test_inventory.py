@@ -2,10 +2,10 @@ import numpy as np
 import pytest
 
 from carculator import (
-CarInputParameters,
-fill_xarray_from_input_parameters,
-CarModel,
-InventoryCalculation
+    CarInputParameters,
+    CarModel,
+    InventoryCalculation,
+    fill_xarray_from_input_parameters,
 )
 
 # generate vehicle parameters
@@ -231,6 +231,7 @@ def test_countries():
         )
         ic.calculate_impacts()
 
+
 def test_IAM_regions():
     """Test that calculation works with all IAM regions"""
     for c in [
@@ -255,6 +256,7 @@ def test_IAM_regions():
         )
         ic.calculate_impacts()
 
+
 def test_endpoint():
     """Test if the correct impact categories are considered"""
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
@@ -268,6 +270,7 @@ def test_endpoint():
         ic.calculate_impacts()
     assert wrapped_error.type == TypeError
 
+
 def test_sulfur_concentration():
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
     ic.get_sulfur_content("RER", "diesel", 2000)
@@ -276,6 +279,7 @@ def test_sulfur_concentration():
     with pytest.raises(ValueError) as wrapped_error:
         ic.get_sulfur_content("FR", "diesel", "jku")
     assert wrapped_error.type == ValueError
+
 
 def test_custom_electricity_mix():
     """Test if a wrong number of electricity mixes throws an error"""
@@ -305,6 +309,7 @@ def test_custom_electricity_mix():
             )
         assert wrapped_error.type == ValueError
 
+
 def test_export_to_bw():
     """Test that inventories export successfully"""
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
@@ -317,6 +322,7 @@ def test_export_to_bw():
                     ecoinvent_version=b,
                     create_vehicle_datasets=c,
                 )
+
 
 def test_export_to_excel():
     """Test that inventories export successfully to Excel/CSV"""
