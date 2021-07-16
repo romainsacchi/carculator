@@ -467,8 +467,12 @@ class CarModel:
             / distance
         ).T
 
-        self["TtW energy, combustion mode"] = self["TtW energy"] * (self["combustion power share"] > 0)
-        self["TtW energy, electric mode"] = self["TtW energy"] * (self["combustion power share"] == 0)
+        self["TtW energy, combustion mode"] = self["TtW energy"] * (
+            self["combustion power share"] > 0
+        )
+        self["TtW energy, electric mode"] = self["TtW energy"] * (
+            self["combustion power share"] == 0
+        )
 
     def set_fuel_cell_parameters(self):
         """
@@ -754,35 +758,55 @@ class CarModel:
 
             # We need to preserve the fuel mass and fuel tank mass
             self.array.loc[
-                dict(parameter=["fuel mass", "fuel tank mass", "oxidation energy stored"], powertrain="PHEV-d")
+                dict(
+                    parameter=[
+                        "fuel mass",
+                        "fuel tank mass",
+                        "oxidation energy stored",
+                    ],
+                    powertrain="PHEV-d",
+                )
             ] = self.array.loc[
-                dict(parameter=["fuel mass", "fuel tank mass", "oxidation energy stored"], powertrain="PHEV-c-d")
+                dict(
+                    parameter=[
+                        "fuel mass",
+                        "fuel tank mass",
+                        "oxidation energy stored",
+                    ],
+                    powertrain="PHEV-c-d",
+                )
             ]
 
             # We need to recalculate the range as well
-            self.array.loc[
-                dict(parameter="range", powertrain="PHEV-d")
-            ] = (
-                 self.array.loc[dict(parameter="oxidation energy stored", powertrain="PHEV-d")]
-                 + (
-                    self.array.loc[dict(parameter="electric energy stored", powertrain="PHEV-d")]
-                    * self.array.loc[dict(parameter="battery DoD", powertrain="PHEV-e")]
-                 )
-             ) * 3600 / self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-d")]
+            self.array.loc[dict(parameter="range", powertrain="PHEV-d")] = (
+                (
+                    self.array.loc[
+                        dict(parameter="oxidation energy stored", powertrain="PHEV-d")
+                    ]
+                    + (
+                        self.array.loc[
+                            dict(
+                                parameter="electric energy stored", powertrain="PHEV-d"
+                            )
+                        ]
+                        * self.array.loc[
+                            dict(parameter="battery DoD", powertrain="PHEV-e")
+                        ]
+                    )
+                )
+                * 3600
+                / self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-d")]
+            )
 
             # We store the tank-to-wheel energy consumption
             # in combustion and electric mode separately
             self.array.loc[
                 dict(parameter="TtW energy, combustion mode", powertrain="PHEV-d")
-            ] = self.array.loc[
-                dict(parameter="TtW energy", powertrain="PHEV-c-d")
-            ]
+            ] = self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-c-d")]
 
             self.array.loc[
                 dict(parameter="TtW energy, electric mode", powertrain="PHEV-d")
-            ] = self.array.loc[
-                dict(parameter="TtW energy", powertrain="PHEV-e")
-            ]
+            ] = self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-e")]
 
         if "PHEV-p" in self.array.coords["powertrain"].values:
 
@@ -848,36 +872,55 @@ class CarModel:
 
             # We need to preserve the fuel mass and fuel tank mass
             self.array.loc[
-                dict(parameter=["fuel mass", "fuel tank mass", "oxidation energy stored"], powertrain="PHEV-p")
+                dict(
+                    parameter=[
+                        "fuel mass",
+                        "fuel tank mass",
+                        "oxidation energy stored",
+                    ],
+                    powertrain="PHEV-p",
+                )
             ] = self.array.loc[
-                dict(parameter=["fuel mass", "fuel tank mass", "oxidation energy stored"], powertrain="PHEV-c-p")
+                dict(
+                    parameter=[
+                        "fuel mass",
+                        "fuel tank mass",
+                        "oxidation energy stored",
+                    ],
+                    powertrain="PHEV-c-p",
+                )
             ]
 
             # We need to recalculate the range as well
-            self.array.loc[
-                dict(parameter="range", powertrain="PHEV-p")
-            ] = (
-                 self.array.loc[dict(parameter="oxidation energy stored", powertrain="PHEV-p")]
-                 + (
-                    self.array.loc[dict(parameter="electric energy stored", powertrain="PHEV-p")]
-                    * self.array.loc[dict(parameter="battery DoD", powertrain="PHEV-e")]
-                 )
-             ) * 3600 / self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-p")]
+            self.array.loc[dict(parameter="range", powertrain="PHEV-p")] = (
+                (
+                    self.array.loc[
+                        dict(parameter="oxidation energy stored", powertrain="PHEV-p")
+                    ]
+                    + (
+                        self.array.loc[
+                            dict(
+                                parameter="electric energy stored", powertrain="PHEV-p"
+                            )
+                        ]
+                        * self.array.loc[
+                            dict(parameter="battery DoD", powertrain="PHEV-e")
+                        ]
+                    )
+                )
+                * 3600
+                / self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-p")]
+            )
 
             # We store the tank-to-wheel energy consumption
             # in combustion and electric mode separately
             self.array.loc[
                 dict(parameter="TtW energy, combustion mode", powertrain="PHEV-p")
-            ] = self.array.loc[
-                dict(parameter="TtW energy", powertrain="PHEV-c-p")
-            ]
+            ] = self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-c-p")]
 
             self.array.loc[
                 dict(parameter="TtW energy, electric mode", powertrain="PHEV-p")
-            ] = self.array.loc[
-                dict(parameter="TtW energy", powertrain="PHEV-e")
-            ]
-
+            ] = self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-e")]
 
     def set_battery_properties(self):
         pt_list = [

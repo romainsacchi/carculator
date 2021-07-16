@@ -3343,7 +3343,9 @@ class InventoryCalculation:
                             * lhv_tertiary
                         )
                         + (
-                            self.array.values[self.array_inputs["electric energy stored"], :, index]
+                            self.array.values[
+                                self.array_inputs["electric energy stored"], :, index
+                            ]
                             * 3.6
                         )
                     )
@@ -3352,24 +3354,10 @@ class InventoryCalculation:
                 )
 
                 self.array.values[self.array_inputs["LHV fuel MJ per kg"], :, index] = (
-                    (
-
-                            share_primary
-                            * lhv_primary
-                        )
-                        + (
-
-                            share_secondary
-                            * lhv_secondary
-                        )
-                        + (
-
-                            share_tertiary
-                            * lhv_tertiary
-                        )
+                    (share_primary * lhv_primary)
+                    + (share_secondary * lhv_secondary)
+                    + (share_tertiary * lhv_tertiary)
                 )
-
-
 
         if {"ICEV-d", "HEV-d", "PHEV-d"}.intersection(set(self.scope["powertrain"])):
             for y, year in enumerate(self.scope["year"]):
@@ -3407,7 +3395,9 @@ class InventoryCalculation:
                             * lhv_tertiary
                         )
                         + (
-                            self.array.values[self.array_inputs["electric energy stored"], :, index]
+                            self.array.values[
+                                self.array_inputs["electric energy stored"], :, index
+                            ]
                             * 3.6
                         )
                     )
@@ -3416,18 +3406,9 @@ class InventoryCalculation:
                 )
 
                 self.array.values[self.array_inputs["LHV fuel MJ per kg"], :, index] = (
-                    (
-                            share_primary
-                            * lhv_primary
-                        )
-                        + (
-                            share_secondary
-                            * lhv_secondary
-                        )
-                        + (
-                            share_tertiary
-                            * lhv_tertiary
-                        )
+                    (share_primary * lhv_primary)
+                    + (share_secondary * lhv_secondary)
+                    + (share_tertiary * lhv_tertiary)
                 )
 
     def define_fuel_blends(self):
@@ -5139,10 +5120,21 @@ class InventoryCalculation:
                 # Fuel supply
 
                 fuel_amount = (
-
-                    array[self.array_inputs["TtW energy, combustion mode"], :, ind_array]
-                    / (self.array.values[self.array_inputs["LHV fuel MJ per kg"], :, ind_array] * 1000)
-                    * (1 - self.array.values[self.array_inputs["electric utility factor"], :, ind_array])
+                    array[
+                        self.array_inputs["TtW energy, combustion mode"], :, ind_array
+                    ]
+                    / (
+                        self.array.values[
+                            self.array_inputs["LHV fuel MJ per kg"], :, ind_array
+                        ]
+                        * 1000
+                    )
+                    * (
+                        1
+                        - self.array.values[
+                            self.array_inputs["electric utility factor"], :, ind_array
+                        ]
+                    )
                     * -1
                 ).T
 
@@ -5189,7 +5181,9 @@ class InventoryCalculation:
                     :,
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
-                ] = fuel_amount * CO2_fossil
+                ] = (
+                    fuel_amount * CO2_fossil
+                )
 
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as concentration ratio
@@ -5203,10 +5197,10 @@ class InventoryCalculation:
                     self.inputs[("Sulfur dioxide", ("air",), "kilogram")],
                     ind_A,
                 ] = (
-                        fuel_amount
-                        * sulfur_concentration
-                        * (64 / 32)  # molar mass of SO2/molar mass of O2
-                    )
+                    fuel_amount
+                    * sulfur_concentration
+                    * (64 / 32)  # molar mass of SO2/molar mass of O2
+                )
 
                 share_non_fossil = 0
                 CO2_non_fossil = 0
@@ -5252,7 +5246,9 @@ class InventoryCalculation:
                         )
                     ],
                     ind_A,
-                ] = fuel_amount * CO2_non_fossil
+                ] = (
+                    fuel_amount * CO2_non_fossil
+                )
 
         if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV-p"]]:
             index = self.get_index_vehicle_from_array(["ICEV-p", "HEV-p", "PHEV-p"])
@@ -5337,10 +5333,21 @@ class InventoryCalculation:
                 # Fuel supply
 
                 fuel_amount = (
-
-                    array[self.array_inputs["TtW energy, combustion mode"], :, ind_array]
-                    / (self.array.values[self.array_inputs["LHV fuel MJ per kg"], :, ind_array] * 1000)
-                    * (1 - self.array.values[self.array_inputs["electric utility factor"], :, ind_array])
+                    array[
+                        self.array_inputs["TtW energy, combustion mode"], :, ind_array
+                    ]
+                    / (
+                        self.array.values[
+                            self.array_inputs["LHV fuel MJ per kg"], :, ind_array
+                        ]
+                        * 1000
+                    )
+                    * (
+                        1
+                        - self.array.values[
+                            self.array_inputs["electric utility factor"], :, ind_array
+                        ]
+                    )
                     * -1
                 ).T
 
@@ -5389,7 +5396,9 @@ class InventoryCalculation:
                     :,
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
-                ] = fuel_amount * CO2_fossil
+                ] = (
+                    fuel_amount * CO2_fossil
+                )
 
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as a concentration ratio
@@ -5452,7 +5461,9 @@ class InventoryCalculation:
                         )
                     ],
                     ind_A,
-                ] = fuel_amount * CO2_non_fossil
+                ] = (
+                    fuel_amount * CO2_non_fossil
+                )
 
         # Non-exhaust emissions
         self.A[
@@ -6494,10 +6505,21 @@ class InventoryCalculation:
                 # Fuel supply
 
                 fuel_amount = (
-
-                    array[self.array_inputs["TtW energy, combustion mode"], :, ind_array]
-                    / (self.array.values[self.array_inputs["LHV fuel MJ per kg"], :, ind_array] * 1000)
-                    * (1 - self.array.values[self.array_inputs["electric utility factor"], :, ind_array])
+                    array[
+                        self.array_inputs["TtW energy, combustion mode"], :, ind_array
+                    ]
+                    / (
+                        self.array.values[
+                            self.array_inputs["LHV fuel MJ per kg"], :, ind_array
+                        ]
+                        * 1000
+                    )
+                    * (
+                        1
+                        - self.array.values[
+                            self.array_inputs["electric utility factor"], :, ind_array
+                        ]
+                    )
                     * -1
                 ).T
 
@@ -6544,7 +6566,9 @@ class InventoryCalculation:
                     :,
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
-                ] = fuel_amount * CO2_fossil
+                ] = (
+                    fuel_amount * CO2_fossil
+                )
 
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as concentration ratio
@@ -6558,10 +6582,10 @@ class InventoryCalculation:
                     self.inputs[("Sulfur dioxide", ("air",), "kilogram")],
                     ind_A,
                 ] = (
-                        fuel_amount
-                        * sulfur_concentration
-                        * (64 / 32)  # molar mass of SO2/molar mass of O2
-                    )
+                    fuel_amount
+                    * sulfur_concentration
+                    * (64 / 32)  # molar mass of SO2/molar mass of O2
+                )
 
                 share_non_fossil = 0
                 CO2_non_fossil = 0
@@ -6607,7 +6631,9 @@ class InventoryCalculation:
                         )
                     ],
                     ind_A,
-                ] = fuel_amount * CO2_non_fossil
+                ] = (
+                    fuel_amount * CO2_non_fossil
+                )
 
         if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV-p"]]:
             index = self.get_index_vehicle_from_array(["ICEV-p", "HEV-p", "PHEV-p"])
@@ -6678,7 +6704,6 @@ class InventoryCalculation:
                         end=end_str,
                     )
 
-
                 ind_A = [
                     self.inputs[i]
                     for i in self.inputs
@@ -6693,10 +6718,21 @@ class InventoryCalculation:
                 # Fuel supply
 
                 fuel_amount = (
-
-                    array[self.array_inputs["TtW energy, combustion mode"], :, ind_array]
-                    / (self.array.values[self.array_inputs["LHV fuel MJ per kg"], :, ind_array] * 1000)
-                    * (1 - self.array.values[self.array_inputs["electric utility factor"], :, ind_array])
+                    array[
+                        self.array_inputs["TtW energy, combustion mode"], :, ind_array
+                    ]
+                    / (
+                        self.array.values[
+                            self.array_inputs["LHV fuel MJ per kg"], :, ind_array
+                        ]
+                        * 1000
+                    )
+                    * (
+                        1
+                        - self.array.values[
+                            self.array_inputs["electric utility factor"], :, ind_array
+                        ]
+                    )
                     * -1
                 ).T
 
@@ -6745,7 +6781,9 @@ class InventoryCalculation:
                     :,
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
-                ] = fuel_amount * CO2_fossil
+                ] = (
+                    fuel_amount * CO2_fossil
+                )
 
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as a concentration ratio
@@ -6808,7 +6846,9 @@ class InventoryCalculation:
                         )
                     ],
                     ind_A,
-                ] = fuel_amount * CO2_non_fossil
+                ] = (
+                    fuel_amount * CO2_non_fossil
+                )
 
         # Non-exhaust emissions
         ind_A = [self.inputs[i] for i in self.inputs if "transport, passenger" in i[0]]
