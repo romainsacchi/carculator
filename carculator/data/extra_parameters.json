@@ -239,5 +239,7 @@
   "Chromium direct emissions, rural",
   "Chromium VI direct emissions, rural",
   "Mercury direct emissions, rural",
-  "Cadmium direct emissions, rural"
+  "Cadmium direct emissions, rural",
+  "TtW energy, combustion mode",
+  "TtW energy, electric mode"
 ]
