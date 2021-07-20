@@ -61,3 +61,51 @@ def build_fleet_array(fp, scope):
         raise ValueError("The fleet size list differs from {}".format(scope["size"]))
 
     return array.to_array().fillna(0)
+
+
+def create_fleet_composition_from_IAM_file(fp):
+    """
+    This function creates a consumable fleet composition array from a CSV file.
+    The array returned is consumed by `InventoryCalculation`.
+    :param fp: Path file path
+    :type fp: Path
+    :return: fleet composition array
+    :rtype: xarray.DataArray
+    """
+
+    if isinstance(fp, str):
+        fp = Path(fp)
+
+    if not fp.is_file():
+        raise FileNotFoundError("Could not locate {}".format(fp))
+
+    # Read the fleet composition CSV file
+    df = pd.read_csv(fp, delimiter=",")
+    df = df.fillna(0)
+
+    # Filter out unecessary columns
+    df = df[
+        [
+            "year",
+            "IAM_region",
+            "powertrain",
+            "size",
+            "vintage_year",
+            "vintage_demand_vkm",
+        ]
+    ]
+
+    # df_gr = df.groupby(["IAM_region", "powertrain", "size", "year", "vintage_year"]).sum()
+    # df_gr = df_gr.groupby(level=[0, 1, 3]).apply(lambda x: x / float(x.sum()))
+
+    # df = df_gr.reset_index()
+
+    # Turn the dataframe into a pivot table
+    df = df.pivot_table(
+        index=["IAM_region", "powertrain", "size", "vintage_year"],
+        columns=["year"],
+        aggfunc=np.sum,
+    )["vintage_demand_vkm"]
+
+    # xarray.DataArray is returned
+    return df.to_xarray().fillna(0).to_array().round(3)
