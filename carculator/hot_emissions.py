@@ -37,6 +37,91 @@ def get_non_hot_emission_factors():
 
     return non_hot
 
+def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
+    """
+    Catalyst degrade overtime, leading to increased emissions
+    of CO, HC and NOX. We apply a correction factor
+    to reflect this.
+    :return:
+    """
+
+    d_corr = {
+        'ICEV-p': {
+            'CO': {
+                1: 1.9,
+                2: 1.6,
+                3: 1.75,
+                4: 1.9,
+                5: 2,
+                6: 1.3,
+                6.1: 1.3,
+                6.2: 1.3,
+                6.3: 1.3,
+            },
+            'HC': {
+                1: 1.59,
+                2: 1.59,
+                3: 1.02,
+                4: 1.02
+            },
+            'NOx': {
+                1: 2.5,
+                2: 2.3,
+                3: 2.9,
+                4: 2,
+                5: 2.5,
+                6: 1.3,
+                6.1: 1.3,
+                6.2: 1.3,
+                6.3: 1.3,
+            }
+        },
+        'ICEV-d': {
+            'CO': {
+                4: 1.3,
+                5: 1.3,
+                6: 1.4,
+                6.1: 1.4,
+                6.2: 1.4,
+                6.3: 1.4,
+            },
+            'NOx': {
+                2: 1.25,
+                3: 1.2,
+                4: 1.06,
+                5: 1.03,
+                6: 1.15,
+                6.1: 1.15,
+                6.2: 1.15,
+                6.3: 1.15,
+            }
+        },
+    }
+
+    shape = list(lifetime_km.shape)
+    shape[-1] = 3
+    corr = np.ones(tuple(shape))
+
+    for p, pt in enumerate(powertrain_type):
+        for e, ec in enumerate(euro_class):
+            for c, co in enumerate(['CO', 'HC', 'NOx']):
+                try:
+                    val = d_corr[pt][co][ec]
+                    y_max = 120000 if co == "HC" else 200000
+                    corr[:, p, e, c] = np.clip(
+                        np.interp(
+                            lifetime_km[:, p, e, 0] / 2,
+                            [0, y_max],
+                            [1, val]),
+                        1,
+                        None
+                        )
+
+                except KeyError:
+                    pass
+
+    return corr.transpose(3, 0, 1, 2)
+
 
 class HotEmissionsModel:
     """
@@ -92,7 +177,7 @@ class HotEmissionsModel:
         self.non_hot = get_non_hot_emission_factors()
 
     def get_hot_emissions(
-        self, powertrain_type, euro_class, energy_consumption, yearly_km
+        self, powertrain_type, euro_class, lifetime_km, energy_consumption, yearly_km
     ):
         """
         Calculate hot pollutants emissions given a powertrain type (i.e., diesel, petrol, CNG) and a EURO pollution class, per air sub-compartment
@@ -158,6 +243,10 @@ class HotEmissionsModel:
         # as they do not correlate with fuel consumption
         hot[6] *= 0.5
         hot[7] *= 0.5
+
+        # apply a mileage degradation factor for CO, HC and NOx
+        corr = get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km)
+        hot[:3] *= corr[:, :, :, :, None, None]
 
         non_hot_emissions = self.non_hot.sel(
             powertrain=powertrain_type,

@@ -62,7 +62,7 @@ class CarModel:
             self.ecm = EnergyConsumptionModel(cycle=cycle, gradient=gradient)
 
         self.energy_storage = energy_storage or {
-            "electric": {"BEV": "NMC", "PHEV-e": "NMC"}
+            "electric": {"BEV": "NMC-111", "PHEV-e": "NMC-111"}
         }
 
     def __call__(self, key):
@@ -169,6 +169,29 @@ class CarModel:
         self.create_PHEV()
         if drop_hybrids:
             self.drop_hybrid()
+
+        # we flag cars that have a range inferior to 100 km
+        # and also BEVs, PHEVs and FCEVs from before 2013
+        self.array.loc[dict(
+            parameter="has_low_range"
+        )] = (
+            self.array.loc[
+                dict(
+                    parameter="range"
+                )
+            ] < 100
+        )
+
+        self.array.loc[dict(
+            parameter="has_low_range",
+            powertrain=[
+            pt
+            for pt in ["BEV", "PHEV-e", "PHEV-c-p", "PHEV-c-d",
+                       "FCEV", "PHEV-p", "PHEV-d", "HEV-d", "HEV-p"]
+            if pt in self.array.coords["powertrain"].values
+            ],
+            year=[y for y in self.array.year.values if y < 2013]
+        )] = 1
 
     def adjust_cost(self):
         """
@@ -777,27 +800,6 @@ class CarModel:
                 )
             ]
 
-            # We need to recalculate the range as well
-            self.array.loc[dict(parameter="range", powertrain="PHEV-d")] = (
-                (
-                    self.array.loc[
-                        dict(parameter="oxidation energy stored", powertrain="PHEV-d")
-                    ]
-                    + (
-                        self.array.loc[
-                            dict(
-                                parameter="electric energy stored", powertrain="PHEV-d"
-                            )
-                        ]
-                        * self.array.loc[
-                            dict(parameter="battery DoD", powertrain="PHEV-e")
-                        ]
-                    )
-                )
-                * 3600
-                / self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-d")]
-            )
-
             # We store the tank-to-wheel energy consumption
             # in combustion and electric mode separately
             self.array.loc[
@@ -807,6 +809,26 @@ class CarModel:
             self.array.loc[
                 dict(parameter="TtW energy, electric mode", powertrain="PHEV-d")
             ] = self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-e")]
+
+
+            # We need to recalculate the range as well
+            self.array.loc[dict(parameter="range", powertrain="PHEV-d")] = (
+                    self.array.loc[
+                        dict(parameter="oxidation energy stored", powertrain="PHEV-d")
+                    ]
+                * 3600
+                / self.array.loc[dict(parameter="TtW energy, combustion mode", powertrain="PHEV-d")]
+            )
+
+            self.array.loc[dict(parameter="range", powertrain="PHEV-d")] += (
+                    self.array.loc[
+                        dict(parameter="electric energy stored", powertrain="PHEV-d")
+                    ]
+                    * 3600
+                    / self.array.loc[dict(parameter="TtW energy, electric mode", powertrain="PHEV-e")]
+            )
+
+
 
         if "PHEV-p" in self.array.coords["powertrain"].values:
 
@@ -891,27 +913,6 @@ class CarModel:
                 )
             ]
 
-            # We need to recalculate the range as well
-            self.array.loc[dict(parameter="range", powertrain="PHEV-p")] = (
-                (
-                    self.array.loc[
-                        dict(parameter="oxidation energy stored", powertrain="PHEV-p")
-                    ]
-                    + (
-                        self.array.loc[
-                            dict(
-                                parameter="electric energy stored", powertrain="PHEV-p"
-                            )
-                        ]
-                        * self.array.loc[
-                            dict(parameter="battery DoD", powertrain="PHEV-e")
-                        ]
-                    )
-                )
-                * 3600
-                / self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-p")]
-            )
-
             # We store the tank-to-wheel energy consumption
             # in combustion and electric mode separately
             self.array.loc[
@@ -921,6 +922,24 @@ class CarModel:
             self.array.loc[
                 dict(parameter="TtW energy, electric mode", powertrain="PHEV-p")
             ] = self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-e")]
+
+            # We need to recalculate the range as well
+            self.array.loc[dict(parameter="range", powertrain="PHEV-p")] = (
+                    self.array.loc[
+                        dict(parameter="oxidation energy stored", powertrain="PHEV-p")
+                    ]
+                    * 3600
+                    / self.array.loc[dict(parameter="TtW energy, combustion mode", powertrain="PHEV-p")]
+            )
+
+            self.array.loc[dict(parameter="range", powertrain="PHEV-p")] += (
+                    self.array.loc[
+                        dict(parameter="electric energy stored", powertrain="PHEV-p")
+                    ]
+                    * 3600
+                    / self.array.loc[dict(parameter="TtW energy, electric mode", powertrain="PHEV-e")]
+            )
+
 
     def set_battery_properties(self):
         pt_list = [
@@ -1363,6 +1382,16 @@ class CarModel:
         ] = hem.get_hot_emissions(
             powertrain_type=l_pt,
             euro_class=l_y,
+            lifetime_km=self.array.loc[
+            dict(
+                powertrain=[
+                    pt
+                    for pt in self.array.powertrain.values
+                    if pt not in ["FCEV", "BEV", "PHEV-e"]
+                ],
+                parameter="lifetime kilometers",
+            )
+        ],
             energy_consumption=self.energy.sel(
                 powertrain=[
                     pt

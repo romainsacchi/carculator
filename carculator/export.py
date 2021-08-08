@@ -140,6 +140,40 @@ def load_mapping_37_to_35():
 
     return dict_ei35
 
+def get_simapro_biosphere():
+
+    # Load the matching dictionary between ecoinvent and Simapro biosphere flows
+    filename = "simapro-biosphere.json"
+    filepath = DATA_DIR / filename
+    if not filepath.is_file():
+        raise FileNotFoundError(
+            "The dictionary of biosphere flow match between ecoinvent and Simapro could not be found."
+        )
+    with open(filepath) as json_file:
+        data = json.load(json_file)
+    dict_bio = {}
+    for d in data:
+        dict_bio[d[2]] = d[1]
+
+    return dict_bio
+
+def get_simapro_technosphere():
+
+    # Load the matching dictionary between ecoinvent and Simapro product flows
+    filename = "simapro-technosphere-3.5.csv"
+    filepath = DATA_DIR / filename
+    with open(filepath) as f:
+        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+    (_, _, *header), *data = csv_list
+
+    dict_tech = {}
+    for row in data:
+        name, location, simapro_name = row
+        simapro_name = simapro_name.split("|")[:2]
+        dict_tech[(name, location)] = "|".join(simapro_name)
+
+    return dict_tech
+
 
 class ExportInventory:
     """
@@ -1448,41 +1482,7 @@ class ExportInventory:
                 csvFile.seek(0)
                 return csvFile.read()
 
-    @staticmethod
-    def get_simapro_biosphere():
 
-        # Load the matching dictionary between ecoinvent and Simapro biosphere flows
-        filename = "simapro-biosphere.json"
-        filepath = DATA_DIR / filename
-        if not filepath.is_file():
-            raise FileNotFoundError(
-                "The dictionary of biosphere flow match between ecoinvent and Simapro could not be found."
-            )
-        with open(filepath) as json_file:
-            data = json.load(json_file)
-        dict_bio = {}
-        for d in data:
-            dict_bio[d[2]] = d[1]
-
-        return dict_bio
-
-    @staticmethod
-    def get_simapro_technosphere():
-
-        # Load the matching dictionary between ecoinvent and Simapro product flows
-        filename = "simapro-technosphere-3.5.csv"
-        filepath = DATA_DIR / filename
-        with open(filepath) as f:
-            csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
-        (_, _, *header), *data = csv_list
-
-        dict_tech = {}
-        for row in data:
-            name, location, simapro_name = row
-            simapro_name = simapro_name.split("|")[:2]
-            dict_tech[(name, location)] = "|".join(simapro_name)
-
-        return dict_tech
 
     def format_data_for_lci_for_bw2(self, data):
 
@@ -1642,8 +1642,8 @@ class ExportInventory:
             "meter-year": "my",
         }
 
-        dict_tech = self.get_simapro_technosphere()
-        dict_bio = self.get_simapro_biosphere()
+        dict_tech = get_simapro_technosphere()
+        dict_bio = get_simapro_biosphere()
 
         rows = []
 

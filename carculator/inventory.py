@@ -270,6 +270,9 @@ class InventoryCalculation:
 
         self.array = array.stack(desired=["size", "powertrain", "year"])
 
+        self.compliant_vehicles = (1 - array.sel(parameter="has_low_range"))
+
+
         # store some important specs for inventory documentation
         self.specs = array.sel(
             parameter=[
@@ -1486,7 +1489,10 @@ class InventoryCalculation:
             )
 
         return (
-            results.astype("float32") / load_factor * int(self.scope["fu"]["quantity"])
+            results.astype("float32")
+            / load_factor
+            * int(self.scope["fu"]["quantity"])
+            * self.compliant_vehicles.values[None,:,:, :, None, ...]
         )
 
     def add_additional_activities(self):
@@ -2188,6 +2194,46 @@ class InventoryCalculation:
                 if all(ele in c[1] for ele in items_to_look_for)
             ]
 
+    def resize_A_matrix_for_export(self):
+        """ Removes some vehicles if they do not comply with
+        requirements in terms of range"""
+
+        indices_to_remove = []
+
+        for i in self.inputs:
+            if (
+                "passenger car, " in i[0].lower()
+                and "fleet average" not in i[0].lower()
+                and "market" not in i[0].lower()
+            ):
+
+                if "transport" in i[0]:
+                    _, _, pt, size, year, _ = [
+                        x.strip() for x in i[0].split(", ")
+                    ]
+                else:
+                    _, pt, size, year, _ = i[0].split(", ")
+
+                if (
+                    self.compliant_vehicles.sel(
+                        powertrain=pt, size=size, year=int(year)
+                    )
+                    == 0
+                ):
+                    indices_to_remove.append(self.inputs[i])
+                    self.rev_inputs.pop(self.inputs[i])
+
+
+        indices_to_preserve = [
+            i for i in range(self.A.shape[1]) if i not in indices_to_remove
+        ]
+
+        self.A = self.A[
+            np.ix_(range(self.A.shape[0]), indices_to_preserve, indices_to_preserve)
+        ]
+
+        self.rev_inputs = {v: k for v, k in enumerate(self.rev_inputs.values())}
+
     def export_lci(
         self,
         presamples=True,
@@ -2283,6 +2329,9 @@ class InventoryCalculation:
                 self.inputs[a] for a in self.inputs if "electricity market for" in a[0]
             ]
             self.A[np.ix_(range(self.A.shape[0]), electricity_inputs, fuel_markets)] = 0
+
+        # Remove vehicles not compliant or available
+        self.resize_A_matrix_for_export()
 
         if presamples:
             lci, array = ExportInventory(
@@ -2415,6 +2464,9 @@ class InventoryCalculation:
                 self.inputs[a] for a in self.inputs if "electricity market for" in a[0]
             ]
             self.A[np.ix_(range(self.A.shape[0]), electricity_inputs, fuel_markets)] = 0
+
+        # Remove vehicles not compliant or available
+        self.resize_A_matrix_for_export()
 
         if presamples:
             lci, array = ExportInventory(
@@ -2555,6 +2607,9 @@ class InventoryCalculation:
                 self.inputs[a] for a in self.inputs if "electricity market for" in a[0]
             ]
             self.A[np.ix_(range(self.A.shape[0]), electricity_inputs, fuel_markets)] = 0
+
+        # Remove vehicles not compliant or available
+        self.resize_A_matrix_for_export()
 
         fp = ExportInventory(
             self.A, self.rev_inputs, db_name=filename or "carculator db"
@@ -3088,7 +3143,7 @@ class InventoryCalculation:
                 .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
                 .values,
                 0,
-                1,
+                .2,
             )
         )
         return share_biofuel
@@ -3101,7 +3156,7 @@ class InventoryCalculation:
                 .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
                 .values,
                 0,
-                1,
+                .2,
             )
         )
         return share_biofuel
@@ -5351,7 +5406,6 @@ class InventoryCalculation:
                     * -1
                 ).T
 
-                print(fuel_amount)
 
                 self.A[
                     :,
@@ -6736,7 +6790,6 @@ class InventoryCalculation:
                     * -1
                 ).T
 
-                print(fuel_amount)
 
                 self.A[
                     :,

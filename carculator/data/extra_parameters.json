@@ -241,5 +241,6 @@
   "Mercury direct emissions, rural",
   "Cadmium direct emissions, rural",
   "TtW energy, combustion mode",
-  "TtW energy, electric mode"
+  "TtW energy, electric mode",
+  "has_low_range"
 ]
