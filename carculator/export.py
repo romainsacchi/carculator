@@ -140,6 +140,7 @@ def load_mapping_37_to_35():
 
     return dict_ei35
 
+
 def get_simapro_biosphere():
 
     # Load the matching dictionary between ecoinvent and Simapro biosphere flows
@@ -156,6 +157,7 @@ def get_simapro_biosphere():
         dict_bio[d[2]] = d[1]
 
     return dict_bio
+
 
 def get_simapro_technosphere():
 
@@ -1481,8 +1483,6 @@ class ExportInventory:
                     writer.writerow(row)
                 csvFile.seek(0)
                 return csvFile.read()
-
-
 
     def format_data_for_lci_for_bw2(self, data):
 

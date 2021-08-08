@@ -37,6 +37,7 @@ def get_non_hot_emission_factors():
 
     return non_hot
 
+
 def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
     """
     Catalyst degrade overtime, leading to increased emissions
@@ -46,8 +47,8 @@ def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
     """
 
     d_corr = {
-        'ICEV-p': {
-            'CO': {
+        "ICEV-p": {
+            "CO": {
                 1: 1.9,
                 2: 1.6,
                 3: 1.75,
@@ -58,13 +59,8 @@ def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
                 6.2: 1.3,
                 6.3: 1.3,
             },
-            'HC': {
-                1: 1.59,
-                2: 1.59,
-                3: 1.02,
-                4: 1.02
-            },
-            'NOx': {
+            "HC": {1: 1.59, 2: 1.59, 3: 1.02, 4: 1.02},
+            "NOx": {
                 1: 2.5,
                 2: 2.3,
                 3: 2.9,
@@ -74,10 +70,10 @@ def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
                 6.1: 1.3,
                 6.2: 1.3,
                 6.3: 1.3,
-            }
+            },
         },
-        'ICEV-d': {
-            'CO': {
+        "ICEV-d": {
+            "CO": {
                 4: 1.3,
                 5: 1.3,
                 6: 1.4,
@@ -85,7 +81,7 @@ def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
                 6.2: 1.4,
                 6.3: 1.4,
             },
-            'NOx': {
+            "NOx": {
                 2: 1.25,
                 3: 1.2,
                 4: 1.06,
@@ -94,7 +90,7 @@ def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
                 6.1: 1.15,
                 6.2: 1.15,
                 6.3: 1.15,
-            }
+            },
         },
     }
 
@@ -104,18 +100,15 @@ def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
 
     for p, pt in enumerate(powertrain_type):
         for e, ec in enumerate(euro_class):
-            for c, co in enumerate(['CO', 'HC', 'NOx']):
+            for c, co in enumerate(["CO", "HC", "NOx"]):
                 try:
                     val = d_corr[pt][co][ec]
                     y_max = 120000 if co == "HC" else 200000
                     corr[:, p, e, c] = np.clip(
-                        np.interp(
-                            lifetime_km[:, p, e, 0] / 2,
-                            [0, y_max],
-                            [1, val]),
+                        np.interp(lifetime_km[:, p, e, 0] / 2, [0, y_max], [1, val]),
                         1,
-                        None
-                        )
+                        None,
+                    )
 
                 except KeyError:
                     pass

@@ -270,8 +270,7 @@ class InventoryCalculation:
 
         self.array = array.stack(desired=["size", "powertrain", "year"])
 
-        self.compliant_vehicles = (1 - array.sel(parameter="has_low_range"))
-
+        self.compliant_vehicles = 1 - array.sel(parameter="has_low_range")
 
         # store some important specs for inventory documentation
         self.specs = array.sel(
@@ -1492,7 +1491,7 @@ class InventoryCalculation:
             results.astype("float32")
             / load_factor
             * int(self.scope["fu"]["quantity"])
-            * self.compliant_vehicles.values[None,:,:, :, None, ...]
+            * self.compliant_vehicles.values[None, :, :, :, None, ...]
         )
 
     def add_additional_activities(self):
@@ -2195,7 +2194,7 @@ class InventoryCalculation:
             ]
 
     def resize_A_matrix_for_export(self):
-        """ Removes some vehicles if they do not comply with
+        """Removes some vehicles if they do not comply with
         requirements in terms of range"""
 
         indices_to_remove = []
@@ -2208,9 +2207,7 @@ class InventoryCalculation:
             ):
 
                 if "transport" in i[0]:
-                    _, _, pt, size, year, _ = [
-                        x.strip() for x in i[0].split(", ")
-                    ]
+                    _, _, pt, size, year, _ = [x.strip() for x in i[0].split(", ")]
                 else:
                     _, pt, size, year, _ = i[0].split(", ")
 
@@ -2222,7 +2219,6 @@ class InventoryCalculation:
                 ):
                     indices_to_remove.append(self.inputs[i])
                     self.rev_inputs.pop(self.inputs[i])
-
 
         indices_to_preserve = [
             i for i in range(self.A.shape[1]) if i not in indices_to_remove
@@ -3143,7 +3139,7 @@ class InventoryCalculation:
                 .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
                 .values,
                 0,
-                .2,
+                0.2,
             )
         )
         return share_biofuel
@@ -3156,7 +3152,7 @@ class InventoryCalculation:
                 .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
                 .values,
                 0,
-                .2,
+                0.2,
             )
         )
         return share_biofuel
@@ -5406,7 +5402,6 @@ class InventoryCalculation:
                     * -1
                 ).T
 
-
                 self.A[
                     :,
                     [
@@ -6789,7 +6784,6 @@ class InventoryCalculation:
                     )
                     * -1
                 ).T
-
 
                 self.A[
                     :,
