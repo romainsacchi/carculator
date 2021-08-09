@@ -22,7 +22,7 @@ __all__ = (
     "ExportInventory",
     "InternalNoiseModel",
 )
-__version__ = (1, 5, 4)
+__version__ = (1, 5, 6)
 
 from pathlib import Path
 
