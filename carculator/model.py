@@ -65,16 +65,21 @@ class CarModel:
             "electric": {"BEV": "NMC-111", "PHEV-e": "NMC-111", "FCEV": "NMC-111"}
         }
 
-        l_pwt = [pt for pt in ("BEV", "PHEV-e", "FCEV")
-                 if pt in self.array.powertrain.values]
+        l_pwt = [
+            pt for pt in ("BEV", "PHEV-e", "FCEV") if pt in self.array.powertrain.values
+        ]
 
         for pt in l_pwt:
             with self(pt) as cpm:
                 if pt in self.energy_storage["electric"]:
-                    cpm["battery cell energy density"] = cpm["battery cell energy density, " + self.energy_storage["electric"][pt]]
+                    cpm["battery cell energy density"] = cpm[
+                        "battery cell energy density, "
+                        + self.energy_storage["electric"][pt]
+                    ]
                 else:
-                    cpm["battery cell energy density"] = cpm["battery cell energy density, NMC-111"]
-
+                    cpm["battery cell energy density"] = cpm[
+                        "battery cell energy density, NMC-111"
+                    ]
 
     def __call__(self, key):
         """
