@@ -5732,7 +5732,7 @@ class InventoryCalculation:
             [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
         ] = array[self.array_inputs["curb mass"], :] * (
             1 - array[self.array_inputs["combustion power share"], :]
-        )
+        ) *-1
 
         # Battery EoL
         self.A[

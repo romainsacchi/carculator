@@ -470,7 +470,7 @@ market for maintenance, electric scooter, without battery;GLO;unit;maintenance, 
 motor scooter production;RER;unit;motor scooter, 50 cubic cm engine;Scooter, ICE, at regional storage/RER/I U;RER;unit;Scooter, ICE, at regional storage/RER/I U;Scooter, ICE, at regional storage/RER/I U
 maintenance, motor scooter;CH;unit;maintenance, motor scooter;Maintenance, scooter/CH/I U;CH;unit;Maintenance, scooter/CH/I U;Maintenance, scooter/CH/I U
 petrol blending for two-stroke engines;CH;kilogram;petrol, two-stroke blend;Petrol, two-stroke blend, at regional storage/CH U;CH;kilogram;Petrol, two-stroke blend, at regional storage/CH U;Petrol, two-stroke blend, at regional storage/CH U
-market for manual dismantling of electric scooter;GLO;unit;manual dismantling of electric scooter;disposal, powertrain, for electric scooter/RER/I U;RER;kilogram;disposal, powertrain, for electric scooter/RER/I U;disposal, powertrain, for electric scooter/RER/I U
+market for manual dismantling of electric scooter;GLO;unit;manual dismantling of electric scooter;Disposal, electric scooter/CH/I U;CH;unit;Disposal, electric scooter/CH/I U;Disposal, electric scooter/CH/I U
 tram production;RER;unit;tram;Tram/RER/I U;RER;unit;Tram/RER/I U;Tram/RER/I U
 tram track construction;CH;meter-year;tram track;Tram track/CH/I U;CH;meter-year;Tram track/CH/I U;Tram track/CH/I U
 market for electricity, medium voltage;CH;kilowatt hour;electricity, medium voltage;electricity, medium voltage, at grid/kWh/CH U;CH;kilowatt hour;electricity, medium voltage, at grid/kWh/CH U;electricity, medium voltage, at grid/kWh/CH U
