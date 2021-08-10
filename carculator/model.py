@@ -62,8 +62,19 @@ class CarModel:
             self.ecm = EnergyConsumptionModel(cycle=cycle, gradient=gradient)
 
         self.energy_storage = energy_storage or {
-            "electric": {"BEV": "NMC-111", "PHEV-e": "NMC-111"}
+            "electric": {"BEV": "NMC-111", "PHEV-e": "NMC-111", "FCEV": "NMC-111"}
         }
+
+        l_pwt = [pt for pt in ("BEV", "PHEV-e", "FCEV")
+                 if pt in self.array.powertrain.values]
+
+        for pt in l_pwt:
+            with self(pt) as cpm:
+                if pt in self.energy_storage["electric"]:
+                    cpm["battery cell energy density"] = cpm["battery cell energy density, " + self.energy_storage["electric"][pt]]
+                else:
+                    cpm["battery cell energy density"] = cpm["battery cell energy density, NMC-111"]
+
 
     def __call__(self, key):
         """
@@ -1065,23 +1076,17 @@ class CarModel:
         for pt in self.battery:
             if pt in self.array.coords["powertrain"].values:
                 with self(pt) as cpm:
-                    battery_tech_label = (
-                        "battery cell energy density, "
-                        + self.energy_storage["electric"][pt]
-                    )
+
                     cpm["electric energy stored"] = (
-                        cpm["battery cell mass"] * cpm[battery_tech_label]
+                        cpm["battery cell mass"] * cpm["battery cell energy density"]
                     )
 
         for pt in self.electric_hybrid:
             if pt in self.array.coords["powertrain"].values:
                 with self(pt) as cpm:
-                    battery_tech_label = (
-                        "battery cell energy density, "
-                        + self.energy_storage["electric"][pt]
-                    )
+
                     cpm["electric energy stored"] = (
-                        cpm["battery cell mass"] * cpm[battery_tech_label]
+                        cpm["battery cell mass"] * cpm["battery cell energy density"]
                     )
                     cpm["fuel tank mass"] = (
                         cpm["fuel mass"]

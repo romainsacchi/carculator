@@ -242,5 +242,6 @@
   "Cadmium direct emissions, rural",
   "TtW energy, combustion mode",
   "TtW energy, electric mode",
-  "has_low_range"
+  "has_low_range",
+  "battery cell energy density"
 ]
