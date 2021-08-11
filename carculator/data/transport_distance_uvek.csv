@@ -201,3 +201,27 @@ aluminium hydroxide production;metals;aluminium;200;100;0;200;50;0
 market for chemical, organic;organic chemical;other;600;100;0;600;50;0
 market for magnesium sulfate;inorganic chemical;other;600;100;0;600;50;0
 market for urea;agricultural;sewage sludge;0;15;0;0;15;0
+market for acrylonitrile;;;200;100;0;200;50;0
+market for aluminium alloy, AlMg3;;;200;100;0;200;50;0
+market for ammonia, liquid;;;600;100;0;600;50;0
+market for ammonium bicarbonate;;;600;100;0;600;50;0
+market for ammonium sulfate, as N;;;600;100;0;600;50;0
+market for concrete, high exacting requirements;;;0;50;0;20;0;0
+market for concrete, normal;;;0;50;0;20;0;0
+market for concrete, sole plate and foundation;;;0;50;0;20;0;0
+market for copper;;;200;100;0;600;50;0
+market for copper concentrate, sulfide ore;;;200;100;0;600;50;0
+market for diesel, burned in building machine;;;44;56;670;33;33;0
+market for dimethyl sulfoxide;;;600;100;0;600;50;0
+market for display, liquid crystal, 17 inches;;;200;100;0;600;50;0
+market for electronic component factory;;;200;100;0;600;50;0
+market for electronics, for control units;;;200;100;0;600;50;0
+market for epoxy resin, liquid;;;600;100;0;600;50;0
+market for lithium carbonate;;;600;100;0;600;50;0
+market for methyl acrylate;;;600;100;0;600;50;0
+market for nickel, 99.5%;;;200;100;0;600;50;0
+market for phenolic resin;;;600;100;0;600;50;0
+market for potassium permanganate;;;600;100;0;600;50;0
+market for potassium sulfate, as K2O;;;100;100;100;100;100;100
+market for silicone product;;;600;100;0;600;50;0
+market for waste concrete;;;0;15;0;0;15;0
