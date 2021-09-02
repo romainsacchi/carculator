@@ -21,7 +21,7 @@ __all__ = (
     "BackgroundSystemModel",
     "ExportInventory",
     "InternalNoiseModel",
-    "create_fleet_composition_from_IAM_file"
+    "create_fleet_composition_from_IAM_file",
 )
 __version__ = (1, 5, 9)
 

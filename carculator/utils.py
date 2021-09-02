@@ -1,8 +1,8 @@
 import itertools
 import warnings
-import numpy as np
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
