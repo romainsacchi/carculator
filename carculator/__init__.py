@@ -23,7 +23,7 @@ __all__ = (
     "InternalNoiseModel",
     "create_fleet_composition_from_IAM_file",
 )
-__version__ = (1, 5, 9)
+__version__ = (1, 6, 0)
 
 from pathlib import Path
 
