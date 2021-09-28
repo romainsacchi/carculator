@@ -5705,7 +5705,7 @@ class InventoryCalculation:
                     "glider, passenger car",
                 )
             ],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (array[self.array_inputs["glider base mass"], :]) * -1
 
         self.A[
@@ -5713,7 +5713,7 @@ class InventoryCalculation:
             self.inputs[
                 ("Glider lightweighting", "GLO", "kilogram", "Glider lightweighting")
             ],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[self.array_inputs["lightweighting"], :]
             * array[self.array_inputs["glider base mass"], :]
@@ -5745,7 +5745,7 @@ class InventoryCalculation:
                     "used glider, passenger car",
                 )
             ],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[self.array_inputs["glider base mass"], :]
             * (1 - array[self.array_inputs["lightweighting"], :])
@@ -5764,7 +5764,7 @@ class InventoryCalculation:
                     "used Li-ion battery",
                 )
             ],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = array[
             [self.array_inputs[l] for l in ["battery cell mass", "battery BoP mass"]], :
         ].sum(
@@ -5782,7 +5782,7 @@ class InventoryCalculation:
                     "used internal combustion engine, from passenger car",
                 )
             ],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = array[
             [
                 self.array_inputs[l]
@@ -5804,7 +5804,7 @@ class InventoryCalculation:
                     "charger, electric passenger car",
                 )
             ],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[self.array_inputs["charger mass"], :] * -1
         )
@@ -5819,7 +5819,7 @@ class InventoryCalculation:
                     "converter, for electric passenger car",
                 )
             ],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[self.array_inputs["converter mass"], :] * -1
         )
@@ -5834,7 +5834,7 @@ class InventoryCalculation:
                     "electric motor, electric passenger car",
                 )
             ],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[self.array_inputs["electric engine mass"], :] * -1
         )
@@ -5849,7 +5849,7 @@ class InventoryCalculation:
                     "inverter, for electric passenger car",
                 )
             ],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[self.array_inputs["inverter mass"], :] * -1
         )
@@ -5864,7 +5864,7 @@ class InventoryCalculation:
                     "power distribution unit, for electric passenger car",
                 )
             ],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[self.array_inputs["power distribution unit mass"], :] * -1
         )
@@ -5891,7 +5891,7 @@ class InventoryCalculation:
                     "used powertrain from electric passenger car, manual dismantling",
                 )
             ],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = array[[self.array_inputs[l] for l in l_elec_pt], :].sum(axis=0)
 
         self.A[
@@ -5904,7 +5904,7 @@ class InventoryCalculation:
                     "internal combustion engine, for passenger car",
                 )
             ],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[
                 [
@@ -5918,7 +5918,7 @@ class InventoryCalculation:
         self.A[
             :,
             self.inputs[("Ancillary BoP", "GLO", "kilogram", "Ancillary BoP")],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[self.array_inputs["fuel cell ancillary BoP mass"], :] * -1
         )
@@ -5926,7 +5926,7 @@ class InventoryCalculation:
         self.A[
             :,
             self.inputs[("Essential BoP", "GLO", "kilogram", "Essential BoP")],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[self.array_inputs["fuel cell essential BoP mass"], :] * -1
         )
@@ -5934,7 +5934,7 @@ class InventoryCalculation:
         self.A[
             :,
             self.inputs[("Stack", "GLO", "kilowatt", "Stack")],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[self.array_inputs["fuel cell stack mass"], :] * -1
         )
@@ -5973,7 +5973,7 @@ class InventoryCalculation:
         self.A[
             :,
             self.inputs[("Battery BoP", "GLO", "kilogram", "Battery BoP")],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[self.array_inputs["battery BoP mass"], :]
             * (1 + array[self.array_inputs["battery lifetime replacements"], :])
@@ -5989,7 +5989,7 @@ class InventoryCalculation:
         self.A[
             :,
             self.inputs[battery_cell_label],
-            [self.inputs[i] for i in self.inputs if "Passenger car" in i[0]],
+            [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
             array[self.array_inputs["battery cell mass"], :]
             * (1 + array[self.array_inputs["fuel cell lifetime replacements"], :])
@@ -6024,7 +6024,7 @@ class InventoryCalculation:
                     [
                         self.inputs[i]
                         for i in self.inputs
-                        if str(y) in i[0] and "Passenger car" in i[0]
+                        if str(y) in i[0] and i[0].startswith("Passenger car")
                     ],
                 )
             ] = (
@@ -6037,7 +6037,7 @@ class InventoryCalculation:
                     [
                         self.inputs[i]
                         for i in self.inputs
-                        if str(y) in i[0] and "Passenger car" in i[0]
+                        if str(y) in i[0] and i[0].startswith("Passenger car")
                     ],
                 ]
             ).reshape(
@@ -6051,7 +6051,7 @@ class InventoryCalculation:
                 ele in c[0]
                 for ele in ["ICEV-d", "ICEV-p", "HEV-p", "PHEV-p", "PHEV-d", "HEV-d"]
             )
-            and "Passenger car" in c[0]
+            and c[0].startswith("Passenger car")
         ]
         index = self.get_index_vehicle_from_array(
             ["ICEV-d", "ICEV-p", "HEV-p", "PHEV-p", "PHEV-d", "HEV-d"]
@@ -6073,7 +6073,7 @@ class InventoryCalculation:
         index_A = [
             self.inputs[c]
             for c in self.inputs
-            if "ICEV-g" in c[0] and "Passenger car" in c[0]
+            if "ICEV-g" in c[0] and c[0].startswith("Passenger car")
         ]
 
         index = self.get_index_vehicle_from_array("ICEV-g")
@@ -6122,7 +6122,7 @@ class InventoryCalculation:
         index_A = [
             self.inputs[c]
             for c in self.inputs
-            if "FCEV" in c[0] and "Passenger car" in c[0]
+            if "FCEV" in c[0] and c[0].startswith("Passenger car")
         ]
 
         index = self.get_index_vehicle_from_array("FCEV")
@@ -6134,7 +6134,7 @@ class InventoryCalculation:
 
         self.A[
             :,
-            [self.inputs[c] for c in self.inputs if "Passenger car" in c[0]],
+            [self.inputs[c] for c in self.inputs if c[0].startswith("Passenger car")],
             [self.inputs[c] for c in self.inputs if "transport, passenger car" in c[0]],
         ] = (
             -1 / array[self.array_inputs["lifetime kilometers"]]
