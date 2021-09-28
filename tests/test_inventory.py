@@ -60,13 +60,13 @@ def test_plausibility_of_GWP():
             size="Medium",
         )
 
-        # Are the medium ICEVs between 0.3 and 0.4 kg CO2-eq./vkm?
-        assert (gwp_icev.sum(dim="impact") > 0.24).all() and (
-            gwp_icev.sum(dim="impact") < 0.325
+        # Are the medium ICEVs between 0.3 and 0.35 kg CO2-eq./vkm?
+        assert (gwp_icev.sum(dim="impact") > 0.3).all() and (
+            gwp_icev.sum(dim="impact") < 0.35
         ).all()
 
-        # Are the medium ICEVs direct emissions between 0.125 and  0.18 kg CO2-eq./vkm?
-        assert (gwp_icev.sel(impact="direct - exhaust") > 0.125).all() and (
+        # Are the medium ICEVs direct emissions between 0.15 and  0.18 kg CO2-eq./vkm?
+        assert (gwp_icev.sel(impact="direct - exhaust") > 0.15).all() and (
             gwp_icev.sel(impact="direct - exhaust") < 0.18
         ).all()
 
