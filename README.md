@@ -20,6 +20,8 @@ A fully parameterized Python model developed by the [Technology Assessment group
 
 See [the documentation](https://carculator.readthedocs.io/en/latest/index.html) for more detail, validation, etc.
 
+See our [examples notebook](https://github.com/romainsacchi/carculator/blob/master/examples/Examples.ipynb) as well.
+
 ## Table of Contents
 
 - [Background](#background)
