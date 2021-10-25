@@ -6,8 +6,8 @@ from pathlib import Path
 
 import numpy as np
 import xarray as xr
-from scipy import sparse
 from pypardiso import spsolve
+from scipy import sparse
 
 from . import DATA_DIR
 from .background_systems import BackgroundSystemModel
