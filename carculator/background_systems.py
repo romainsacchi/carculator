@@ -67,7 +67,7 @@ def get_electricity_mix():
     """
     Retrieve electricity mixes and shape them into an xarray.
     Source:
-        * for European countries (`EU Reference Scenario 2016 <https://ec.europa.eu/energy/en/data-analysis/energy-modelling/eu-reference-scenario-2016>`_),
+        * for European countries (`ENTSOE TYNDP 2020 scenarios <https://2020.entsos-tyndp-scenarios.eu/>`_),
         * for African countries (`TEMBA <http://www.osemosys.org/temba.html>`_ model)
         * and for other countries (`IEA World Energy outlook 2017 <https://www.iea.org/reports/world-energy-outlook-2017>`_)
 

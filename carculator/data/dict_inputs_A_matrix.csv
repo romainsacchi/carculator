@@ -233,7 +233,7 @@ Hydrocarbons, chlorinated;('air', 'urban air close to ground');kilogram
 Hydrogen chloride;('air', 'non-urban air or from high stacks');kilogram
 Hydrogen refuelling station;GLO;unit;Hydrogen refuelling station
 Hydrogen sulfide;('air',);kilogram
-Hydrogen, gaseous, 25 bar, from electrolysis;RER;kilogram;Hydrogen, gaseous, 25 bar
+hydrogen production, gaseous, 25 bar, from electrolysis;RER;kilogram;Hydrogen, gaseous, 25 bar
 Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant;CH;kilogram;Hydrogen, gaseous, 25 bar
 Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant;RER;kilogram;Hydrogen, gaseous, 25 bar
 Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant;CH;kilogram;Hydrogen, gaseous, 25 bar
@@ -286,7 +286,7 @@ Mercury;('air',);kilogram
 Mercury;('air', 'low population density, long-term');kilogram
 Mercury;('air', 'non-urban air or from high stacks');kilogram
 Mercury;('air', 'urban air close to ground');kilogram
-Methane production, synthetic, from electrochemical methanation;RER;kilogram;Methane, synthetic
+methane, from electrochemical methanation, with carbon from atmospheric CO2 capture;RER;kilogram;methane, from electrochemical methanation
 Methane, bromochlorodifluoro-, Halon 1211;('air', 'non-urban air or from high stacks');kilogram
 Methane, chlorodifluoro-, HCFC-22;('air', 'non-urban air or from high stacks');kilogram
 Methane, dichloro-, HCC-30;('water', 'surface water');kilogram
