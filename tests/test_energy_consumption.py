@@ -22,7 +22,7 @@ def test_motive_energy():
         drag_coef=0.3,
         frontal_area=2.4,
         ttw_efficiency=0.232,
-        sizes=["Medium"]
+        sizes=["Medium"],
     )
 
     motive = np.clip(motive / 1000, 0, None)

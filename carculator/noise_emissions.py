@@ -198,5 +198,6 @@ class NoiseEmissionsModel:
             )
             rural = ne.evaluate("sum(where(c > 80, sound_power, 0), 1)") / distance
 
-
-        return np.vstack([urban, suburban, rural])[..., None].transpose(1, 2, 0)[..., None, None]
+        return np.vstack([urban, suburban, rural])[..., None].transpose(1, 2, 0)[
+            ..., None, None
+        ]

@@ -319,6 +319,8 @@ def test_export_to_bw():
                     ecoinvent_version=b,
                     create_vehicle_datasets=c,
                 )
+
+
 def test_export_to_excel():
     """Test that inventories export successfully to Excel/CSV"""
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
