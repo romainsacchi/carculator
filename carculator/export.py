@@ -1127,7 +1127,7 @@ class ExportInventory:
                                     "Medium SUV",
                                     "Large",
                                     "Large SUV",
-                                    "Van"
+                                    "Van",
                                 ]:
                                     _, _, _, _, size, year = [
                                         t.strip() for t in tuple_output[0].split(",")

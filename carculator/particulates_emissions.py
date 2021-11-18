@@ -71,10 +71,7 @@ class ParticulatesEmissionsModel:
                 "rural start": 781,
                 "rural stop": 1180,
             },
-            "custom": {
-                "urban start": 0,
-                "urban stop": cycle[0][-1]
-            }
+            "custom": {"urban start": 0, "urban stop": cycle[0][-1]},
         }
 
     def get_abrasion_emissions(self):
@@ -102,7 +99,9 @@ class ParticulatesEmissionsModel:
 
         urban_start = self.cycle_environment[self.cycle_name].get("urban start", 0)
         urban_stop = self.cycle_environment[self.cycle_name].get("urban stop", 0)
-        suburban_start = self.cycle_environment[self.cycle_name].get("suburban start", 0)
+        suburban_start = self.cycle_environment[self.cycle_name].get(
+            "suburban start", 0
+        )
         suburban_stop = self.cycle_environment[self.cycle_name].get("suburban stop", 0)
         rural_start = self.cycle_environment[self.cycle_name].get("rural start", 0)
         rural_stop = self.cycle_environment[self.cycle_name].get("rural stop", 0)

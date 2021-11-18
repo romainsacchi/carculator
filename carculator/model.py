@@ -238,7 +238,7 @@ class CarModel:
                             "HEV-p",
                             "ICEV-p",
                             "ICEV-d",
-                            "ICEV-g"
+                            "ICEV-g",
                         ]
                         if pt in self.array.coords["powertrain"].values
                     ],
@@ -547,7 +547,9 @@ class CarModel:
         )
 
         self.energy.loc[dict(parameter="recuperated energy")] = np.clip(
-            recuperated_energy / 1000, self["power"].values[..., None] * -1, 0,
+            recuperated_energy / 1000,
+            self["power"].values[..., None] * -1,
+            0,
         )
 
         self.energy.loc[dict(parameter="recuperated energy")] *= self[
@@ -767,7 +769,7 @@ class CarModel:
         )
 
     def set_share_recuperated_energy(self):
-        """ Calculate the share of recuperated energy, over the total negative motive energy"""
+        """Calculate the share of recuperated energy, over the total negative motive energy"""
 
         self["share recuperated energy"] = (
             self.energy.loc[dict(parameter="recuperated energy")].sum(dim="second") * -1
@@ -1064,9 +1066,14 @@ class CarModel:
         self["battery cell mass share"] = self["battery cell mass share"].clip(
             min=0, max=1
         )
-        self.array.loc[:, pt_list, "battery BoP mass", :, :] = self.array.loc[
-            :, pt_list, "battery cell mass",
-        ] * (1 - self.array.loc[:, pt_list, "battery cell mass share", :, :])
+        self.array.loc[:, pt_list, "battery BoP mass", :, :] = (
+            self.array.loc[
+                :,
+                pt_list,
+                "battery cell mass",
+            ]
+            * (1 - self.array.loc[:, pt_list, "battery cell mass share", :, :])
+        )
 
         list_pt_el = [
             pt

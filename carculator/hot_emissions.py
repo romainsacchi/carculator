@@ -73,7 +73,14 @@ def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
             },
         },
         "ICEV-d": {
-            "CO": {4: 1.3, 5: 1.3, 6: 1.4, 6.1: 1.4, 6.2: 1.4, 6.3: 1.4,},
+            "CO": {
+                4: 1.3,
+                5: 1.3,
+                6: 1.4,
+                6.1: 1.4,
+                6.2: 1.4,
+                6.3: 1.4,
+            },
             "NOx": {
                 2: 1.25,
                 3: 1.2,
@@ -443,7 +450,9 @@ class HotEmissionsModel:
                 component="NMHC",
                 powertrain=[p for p in final_emissions.powertrain.values if "-d" in p],
             )
-        ] *= (1 - 0.45)
+        ] *= (
+            1 - 0.45
+        )
 
         final_emissions.loc[
             dict(
@@ -467,7 +476,9 @@ class HotEmissionsModel:
                 component="NMHC",
                 powertrain=[p for p in final_emissions.powertrain.values if "-p" in p],
             )
-        ] *= (1 - 0.492)
+        ] *= (
+            1 - 0.492
+        )
 
         # Heavy metals emissions are dependent of fuel consumption
         # given in grams of emission per kj
@@ -558,7 +569,6 @@ class HotEmissionsModel:
             else:
                 rural_start, rural_stop = [0, 0]
 
-
             urban = (
                 final_emissions.sel(second=range(urban_start, urban_stop)).sum(axis=-1)
                 / distance[:, None, None, None]
@@ -595,7 +605,6 @@ class HotEmissionsModel:
                 )
                 / distance[:, None, None, None]
             )
-
 
         urban *= np.isfinite(urban)
         suburban *= np.isfinite(suburban)
