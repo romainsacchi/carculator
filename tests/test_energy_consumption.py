@@ -5,8 +5,7 @@ from carculator.energy_consumption import EnergyConsumptionModel
 
 def test_acceleration():
     ecm = EnergyConsumptionModel("WLTC")
-    assert ecm.acceleration.sum() == 0
-    assert int(ecm.velocity.sum()) == 23262
+    assert ecm.cycle.shape == ecm.gradient.shape
 
 
 def test_aux_power():
@@ -23,6 +22,7 @@ def test_motive_energy():
         drag_coef=0.3,
         frontal_area=2.4,
         ttw_efficiency=0.232,
+        sizes=["Medium"]
     )
 
     motive = np.clip(motive / 1000, 0, None)

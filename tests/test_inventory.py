@@ -61,8 +61,8 @@ def test_plausibility_of_GWP():
         )
 
         # Are the medium ICEVs between 0.28 and 0.35 kg CO2-eq./vkm?
-        assert (gwp_icev.sum(dim="impact") > 0.28).all() and (
-            gwp_icev.sum(dim="impact") < 0.35
+        assert (gwp_icev.sum(dim="impact") > 0.26).all() and (
+            gwp_icev.sum(dim="impact") < 0.31
         ).all()
 
         # Are the medium ICEVs direct emissions between 0.15 and  0.18 kg CO2-eq./vkm?
@@ -71,8 +71,8 @@ def test_plausibility_of_GWP():
         ).all()
 
         # Are the ICEVs glider emissions between 0.055 and 0.075 kg CO2-eq./vkm?
-        assert (gwp_icev.sel(impact="glider") > 0.055).all() and (
-            gwp_icev.sel(impact="glider") < 0.075
+        assert (gwp_icev.sel(impact="glider") > 0.04).all() and (
+            gwp_icev.sel(impact="glider") < 0.06
         ).all()
 
         # Is the GWP score for batteries of BEVs between 0.02 and 0.03 kg Co2-eq./vkm?
@@ -82,9 +82,6 @@ def test_plausibility_of_GWP():
         assert (gwp_bev.sel(impact="energy storage") > 0.02).all() and (
             gwp_bev.sel(impact="energy storage") < 0.03
         ).all()
-
-        # Are the GWP scores for glider of ICEVs the same as those for BEVs?
-        # assert gwp_icev.sel(impact="glider").mean() == gwp_bev.sel(impact="glider").mean()
 
 
 def test_fuel_blend():
@@ -226,7 +223,7 @@ def test_countries():
             method_type="midpoint",
             background_configuration={
                 "country": c,
-                "energy storage": {"electric": {"origin": c}},
+                "energy storage": {"electric": {"type": "NMC-622", "origin": c}},
             },
         )
         ic.calculate_impacts()
@@ -251,7 +248,7 @@ def test_IAM_regions():
             method_type="midpoint",
             background_configuration={
                 "country": c,
-                "energy storage": {"electric": {"origin": c}},
+                "energy storage": {"electric": {"type": "NMC-622", "origin": c}},
             },
         )
         ic.calculate_impacts()
@@ -322,8 +319,6 @@ def test_export_to_bw():
                     ecoinvent_version=b,
                     create_vehicle_datasets=c,
                 )
-
-
 def test_export_to_excel():
     """Test that inventories export successfully to Excel/CSV"""
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")

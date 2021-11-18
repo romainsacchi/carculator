@@ -13,7 +13,8 @@ def test_wrong_powertrain():
         hem.get_hot_emissions(
             powertrain_type=["ICEV-d", "BEV"],
             euro_class=[5],
-            energy_consumption=[1500, 900],
+            lifetime_km=[200000, 200000],
+            energy_consumption=[[10, 10, 10], [10, 10, 10]],
             yearly_km=[12000, 12000],
         )
     assert wrapped_error.type == TypeError

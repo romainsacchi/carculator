@@ -160,7 +160,7 @@ class NoiseEmissionsModel:
         # speed levels to compartmentalize emissions.
 
         if self.cycle_name in self.cycle_environment:
-            distance = self.cycle.sum() / 3600
+            distance = (self.cycle / 3600).sum(axis=0)
 
             if "urban start" in self.cycle_environment[self.cycle_name]:
                 start = self.cycle_environment[self.cycle_name]["urban start"]
@@ -186,7 +186,7 @@ class NoiseEmissionsModel:
                 rural = np.zeros((8, self.cycle.shape[-1]))
 
         else:
-            distance = self.cycle.sum() / 3600
+            distance = (self.cycle / 3600).sum(axis=0)
 
             # sum sound power over duration (J/s * s --> J) and divide by distance (--> J / km) and further
             # divide into compartments
@@ -197,5 +197,4 @@ class NoiseEmissionsModel:
             )
             rural = ne.evaluate("sum(where(c > 80, sound_power, 0), 1)") / distance
 
-
-        return np.vstack([urban, suburban, rural]).sum(axis=-1)[..., None, None]
+        return np.vstack([urban, suburban, rural])[..., None].transpose(1, 2, 0)[..., None, None]
