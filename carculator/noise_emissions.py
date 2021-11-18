@@ -65,7 +65,6 @@ class NoiseEmissionsModel:
             np.log10(cycle / 70, out=np.zeros_like(cycle), where=(cycle != 0)), 8
         ).reshape((8, cycle.shape[0], cycle.shape[-1]))
 
-
         constants = np.array((79.7, 85.7, 84.5, 90.2, 97.3, 93.9, 84.1, 74.3)).reshape(
             (-1, 1)
         )
@@ -95,7 +94,9 @@ class NoiseEmissionsModel:
 
         # Noise sources are calculated for speeds above 20 km/h.
         if powertrain_type in ("combustion", "electric"):
-            array = np.tile((cycle - 70) / 70, 8).reshape((8, cycle.shape[0], cycle.shape[-1]))
+            array = np.tile((cycle - 70) / 70, 8).reshape(
+                (8, cycle.shape[0], cycle.shape[-1])
+            )
             constants = np.array(
                 (94.5, 89.2, 88, 85.9, 84.2, 86.9, 83.3, 76.1)
             ).reshape((-1, 1))
@@ -196,5 +197,6 @@ class NoiseEmissionsModel:
                 / distance
             )
             rural = ne.evaluate("sum(where(c > 80, sound_power, 0), 1)") / distance
+
 
         return np.vstack([urban, suburban, rural])[..., None].transpose(1, 2, 0)[..., None, None]

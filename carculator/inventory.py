@@ -332,7 +332,6 @@ class InventoryCalculation:
                         "origin"
                     ] = "CN"
 
-
         self.inputs = self.get_dict_input()
         self.bs = BackgroundSystemModel()
         self.country = self.get_country_of_use()
@@ -1612,8 +1611,8 @@ class InventoryCalculation:
 
                     if pt == "BEV":
                         chemistry = self.background_configuration["energy storage"][
-                                "electric"
-                            ]["type"]
+                            "electric"
+                        ]["type"]
                         name = f"transport, passenger car, {pt}, {chemistry} battery, {s}, {y}"
                         ref = "transport, passenger car"
 
@@ -1626,12 +1625,7 @@ class InventoryCalculation:
                         ref = f"transport, passenger car, {euro_class}"
 
                     self.inputs[
-                        (
-                            name,
-                            self.background_configuration["country"],
-                            unit,
-                            ref
-                        )
+                        (name, self.background_configuration["country"], unit, ref)
                     ] = maximum
 
     def add_additional_activities_for_export(self):
@@ -1683,12 +1677,7 @@ class InventoryCalculation:
                         ref = f"Passenger car, {euro_class}"
 
                     self.inputs[
-                        (
-                            name,
-                            self.background_configuration["country"],
-                            "unit",
-                            ref
-                        )
+                        (name, self.background_configuration["country"], "unit", ref)
                     ] = maximum
 
     def get_A_matrix(self):
@@ -2229,7 +2218,7 @@ class InventoryCalculation:
                             # combustion vehicles
                             _, pt, size, year, _ = i[0].split(", ")
                     else:
-                        #FCEV vehicle
+                        # FCEV vehicle
                         _, pt, size, year = i[0].split(", ")
 
                 if (
@@ -5076,8 +5065,8 @@ class InventoryCalculation:
                 if self.fuel_blends["cng"]["primary"]["type"] != "cng":
                     share_non_fossil = self.fuel_blends["cng"]["primary"]["share"][y]
                     CO2_non_fossil = (
-                            self.fuel_blends["cng"]["primary"]["share"][y]
-                            * self.fuel_blends["cng"]["primary"]["CO2"]
+                        self.fuel_blends["cng"]["primary"]["share"][y]
+                        * self.fuel_blends["cng"]["primary"]["CO2"]
                     )
 
                 if self.fuel_blends["cng"]["secondary"]["type"] != "cng":
@@ -5557,9 +5546,8 @@ class InventoryCalculation:
                 )
             ],
             -self.number_of_cars :,
-        ] = (
-            array[self.array_inputs["road wear emissions"], :]
-            + (0.333 * array[self.array_inputs["road dust emissions"], :])
+        ] = array[self.array_inputs["road wear emissions"], :] + (
+            0.333 * array[self.array_inputs["road dust emissions"], :]
         )
 
         self.A[
@@ -5573,18 +5561,12 @@ class InventoryCalculation:
                 )
             ],
             -self.number_of_cars :,
-        ] = (
-            array[self.array_inputs["tire wear emissions"], :]
-            + (0.333 * array[self.array_inputs["road dust emissions"], :])
+        ] = array[self.array_inputs["tire wear emissions"], :] + (
+            0.333 * array[self.array_inputs["road dust emissions"], :]
         )
 
         # Brake wear emissions
-        ind_A = [
-            self.inputs[i]
-            for i in self.inputs
-            if "transport, passenger" in i[0]
-        ]
-
+        ind_A = [self.inputs[i] for i in self.inputs if "transport, passenger" in i[0]]
 
         self.A[
             :,
@@ -5597,9 +5579,8 @@ class InventoryCalculation:
                 )
             ],
             ind_A,
-        ] = (
-            array[self.array_inputs["brake wear emissions"], :]
-            + (0.333 * array[self.array_inputs["road dust emissions"], :])
+        ] = array[self.array_inputs["brake wear emissions"], :] + (
+            0.333 * array[self.array_inputs["road dust emissions"], :]
         )
 
         # Infrastructure
@@ -6467,10 +6448,9 @@ class InventoryCalculation:
                             "share"
                         ][y]
                         CO2_non_fossil += (
-                        self.fuel_blends["cng"]["tertiary"]["CO2"]
-                        * self.fuel_blends["cng"]["tertiary"]["share"][y]
-                    )
-
+                            self.fuel_blends["cng"]["tertiary"]["CO2"]
+                            * self.fuel_blends["cng"]["tertiary"]["share"][y]
+                        )
 
                 self.A[
                     :,
@@ -6666,9 +6646,7 @@ class InventoryCalculation:
                 # The share of non-fossil fuel in the blend is retrieved
                 # As well as the CO2 emission factor of the fuel
                 if self.fuel_blends["diesel"]["primary"]["type"] != "diesel":
-                    share_non_fossil = self.fuel_blends["diesel"]["primary"]["share"][
-                        y
-                    ]
+                    share_non_fossil = self.fuel_blends["diesel"]["primary"]["share"][y]
                     CO2_non_fossil = (
                         self.fuel_blends["diesel"]["primary"]["CO2"]
                         * self.fuel_blends["diesel"]["primary"]["share"][y]
@@ -6935,11 +6913,9 @@ class InventoryCalculation:
                 )
             ],
             ind_A,
-        ] = (
-            array[self.array_inputs["road wear emissions"], :]
-            + (0.333 * array[self.array_inputs["road dust emissions"], :])
+        ] = array[self.array_inputs["road wear emissions"], :] + (
+            0.333 * array[self.array_inputs["road dust emissions"], :]
         )
-
 
         self.A[
             :,
@@ -6952,20 +6928,14 @@ class InventoryCalculation:
                 )
             ],
             ind_A,
-        ] = (
-            array[self.array_inputs["tire wear emissions"], :]
-            + (0.333 * array[self.array_inputs["road dust emissions"], :])
+        ] = array[self.array_inputs["tire wear emissions"], :] + (
+            0.333 * array[self.array_inputs["road dust emissions"], :]
         )
-
 
         # Brake wear emissions
         # BEVs only emit 20% of what a combustion engine vehicle emit according to
         # https://link.springer.com/article/10.1007/s11367-014-0792-4
-        ind_A = [
-            self.inputs[i]
-            for i in self.inputs
-            if "transport, passenger" in i[0]
-        ]
+        ind_A = [self.inputs[i] for i in self.inputs if "transport, passenger" in i[0]]
 
         self.A[
             :,
@@ -6978,9 +6948,8 @@ class InventoryCalculation:
                 )
             ],
             ind_A,
-        ] = (
-            array[self.array_inputs["brake wear emissions"], :]
-            + (0.333 * array[self.array_inputs["road dust emissions"], :])
+        ] = array[self.array_inputs["brake wear emissions"], :] + (
+            0.333 * array[self.array_inputs["road dust emissions"], :]
         )
 
         # Infrastructure
