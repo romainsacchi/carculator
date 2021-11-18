@@ -315,12 +315,12 @@ class InventoryCalculation:
 
         if "energy storage" not in self.background_configuration:
             self.background_configuration["energy storage"] = {
-                "electric": {"type": "NMC-111", "origin": "CN"}
+                "electric": {"type": "NMC-622", "origin": "CN"}
             }
         else:
             if "electric" not in self.background_configuration["energy storage"]:
                 self.background_configuration["energy storage"]["electric"] = {
-                    "type": "NMC-111",
+                    "type": "NMC-622",
                     "origin": "CN",
                 }
             else:
@@ -331,13 +331,7 @@ class InventoryCalculation:
                     self.background_configuration["energy storage"]["electric"][
                         "origin"
                     ] = "CN"
-                if (
-                    "type"
-                    not in self.background_configuration["energy storage"]["electric"]
-                ):
-                    self.background_configuration["energy storage"]["electric"][
-                        "type"
-                    ] = "NMC-111"
+
 
         self.inputs = self.get_dict_input()
         self.bs = BackgroundSystemModel()
@@ -1592,47 +1586,51 @@ class InventoryCalculation:
 
                     if y < 1993:
                         euro_class = "EURO-0"
-                    if 1993 <= y < 1997:
+                    elif 1993 <= y < 1997:
                         euro_class = "EURO-1"
-                    if 1997 <= y < 2001:
+                    elif 1997 <= y < 2001:
                         euro_class = "EURO-2"
-                    if 2001 <= y < 2006:
+                    elif 2001 <= y < 2006:
                         euro_class = "EURO-3"
-                    if 2006 <= y < 2011:
+                    elif 2006 <= y < 2011:
                         euro_class = "EURO-4"
-                    if 2011 <= y < 2015:
+                    elif 2011 <= y < 2015:
                         euro_class = "EURO-5"
-                    if 2015 <= y < 2017:
+                    elif 2015 <= y < 2017:
                         euro_class = "EURO-6ab"
-                    if 2017 <= y < 2019:
+                    elif 2017 <= y < 2019:
                         euro_class = "EURO-6c"
-                    if 2019 <= y <= 2020:
+                    elif 2019 <= y <= 2020:
                         euro_class = "EURO-6d-TEMP"
-                    if y >= 2021:
+                    else:
                         euro_class = "EURO-6d"
-
-                    name = (
-                        "transport, passenger car, "
-                        + pt
-                        + ", "
-                        + s
-                        + ", "
-                        + str(y)
-                        + ", "
-                        + euro_class
-                    )
 
                     if self.scope["fu"]["unit"] == "vkm":
                         unit = "kilometer"
-                    if self.scope["fu"]["unit"] == "pkm":
+                    else:
                         unit = "person kilometer"
+
+                    if pt == "BEV":
+                        chemistry = self.background_configuration["energy storage"][
+                                "electric"
+                            ]["type"]
+                        name = f"transport, passenger car, {pt}, {chemistry} battery, {s}, {y}"
+                        ref = "transport, passenger car"
+
+                    elif pt == "FCEV":
+                        name = f"transport, passenger car, {pt}, {s}, {y}"
+                        ref = "transport, passenger car"
+
+                    else:
+                        name = f"transport, passenger car, {pt}, {s}, {y}, {euro_class}"
+                        ref = f"transport, passenger car, {euro_class}"
 
                     self.inputs[
                         (
                             name,
                             self.background_configuration["country"],
                             unit,
-                            "transport, passenger car, " + euro_class,
+                            ref
                         )
                     ] = maximum
 
@@ -1650,42 +1648,46 @@ class InventoryCalculation:
 
                     if y < 1993:
                         euro_class = "EURO-0"
-                    if 1993 <= y < 1997:
+                    elif 1993 <= y < 1997:
                         euro_class = "EURO-1"
-                    if 1997 <= y < 2001:
+                    elif 1997 <= y < 2001:
                         euro_class = "EURO-2"
-                    if 2001 <= y < 2006:
+                    elif 2001 <= y < 2006:
                         euro_class = "EURO-3"
-                    if 2006 <= y < 2011:
+                    elif 2006 <= y < 2011:
                         euro_class = "EURO-4"
-                    if 2011 <= y < 2015:
+                    elif 2011 <= y < 2015:
                         euro_class = "EURO-5"
-                    if 2015 <= y < 2017:
+                    elif 2015 <= y < 2017:
                         euro_class = "EURO-6ab"
-                    if 2017 <= y < 2019:
+                    elif 2017 <= y < 2019:
                         euro_class = "EURO-6c"
-                    if 2019 <= y < 2020:
+                    elif 2019 <= y < 2020:
                         euro_class = "EURO-6d-TEMP"
-                    if y >= 2020:
+                    else:
                         euro_class = "EURO-6d"
 
-                    name = (
-                        "Passenger car, "
-                        + pt
-                        + ", "
-                        + s
-                        + ", "
-                        + str(y)
-                        + ", "
-                        + euro_class
-                    )
+                    if pt == "BEV":
+                        chemistry = self.background_configuration["energy storage"][
+                            "electric"
+                        ]["type"]
+                        name = f"Passenger car, {pt}, {chemistry} battery, {s}, {y}"
+                        ref = "Passenger car"
+
+                    elif pt == "FCEV":
+                        name = f"Passenger car, {pt}, {s}, {y}"
+                        ref = "Passenger car"
+
+                    else:
+                        name = f"Passenger car, {pt}, {s}, {y}, {euro_class}"
+                        ref = f"Passenger car, {euro_class}"
 
                     self.inputs[
                         (
                             name,
                             self.background_configuration["country"],
                             "unit",
-                            "Passenger car, " + euro_class,
+                            ref
                         )
                     ] = maximum
 
@@ -2208,10 +2210,27 @@ class InventoryCalculation:
                 and "used" not in i[0].lower()
             ):
 
-                if "transport" in i[0]:
-                    _, _, pt, size, year, _ = [x.strip() for x in i[0].split(", ")]
+                split_name = [x.strip() for x in i[0].split(", ")]
+
+                if split_name[0] == "transport":
+                    if len(split_name) == 5:
+                        _, _, pt, size, year = split_name
+                    else:
+                        if split_name[2] == "BEV":
+                            _, _, pt, _, size, year = split_name
+                        else:
+                            _, _, pt, size, year, _ = split_name
                 else:
-                    _, pt, size, year, _ = i[0].split(", ")
+                    if len(split_name) == 5:
+                        if split_name[1] == "BEV":
+                            # electric vehicle
+                            _, pt, _, size, year = i[0].split(", ")
+                        else:
+                            # combustion vehicles
+                            _, pt, size, year, _ = i[0].split(", ")
+                    else:
+                        #FCEV vehicle
+                        _, pt, size, year = i[0].split(", ")
 
                 if (
                     self.compliant_vehicles.sel(
@@ -4553,7 +4572,7 @@ class InventoryCalculation:
         # Energy storage
 
         print(
-            "The country of use is " + self.country,
+            f"The country of use is {self.country}",
             end="\n * ",
         )
 
@@ -4565,15 +4584,10 @@ class InventoryCalculation:
         ]
 
         print(
-            "Power and energy batteries produced in "
-            + battery_origin
-            + " using "
-            + battery_tech
-            + " chemistry.",
+            f"Power and energy batteries produced in {battery_origin} using {battery_tech} chemistry",
             end="\n * ",
         )
 
-        # Use the NMC inventory of Schmidt et al. 2019
         self.A[
             :,
             self.inputs[("Battery BoP", "GLO", "kilogram", "Battery BoP")],
@@ -5020,7 +5034,7 @@ class InventoryCalculation:
                 CO2_fossil = 0
 
                 if self.fuel_blends["cng"]["primary"]["type"] == "cng":
-                    share_fossil += self.fuel_blends["cng"]["primary"]["share"][y]
+                    share_fossil = self.fuel_blends["cng"]["primary"]["share"][y]
                     CO2_fossil = (
                         self.fuel_blends["cng"]["primary"]["CO2"]
                         * self.fuel_blends["cng"]["primary"]["share"][y]
@@ -5060,10 +5074,10 @@ class InventoryCalculation:
                 CO2_non_fossil = 0
 
                 if self.fuel_blends["cng"]["primary"]["type"] != "cng":
-                    share_non_fossil += self.fuel_blends["cng"]["primary"]["share"][y]
+                    share_non_fossil = self.fuel_blends["cng"]["primary"]["share"][y]
                     CO2_non_fossil = (
-                        self.fuel_blends["cng"]["primary"]["CO2"]
-                        * self.fuel_blends["cng"]["primary"]["share"][y]
+                            self.fuel_blends["cng"]["primary"]["share"][y]
+                            * self.fuel_blends["cng"]["primary"]["CO2"]
                     )
 
                 if self.fuel_blends["cng"]["secondary"]["type"] != "cng":
@@ -5544,8 +5558,10 @@ class InventoryCalculation:
             ],
             -self.number_of_cars :,
         ] = (
-            array[self.array_inputs["driving mass"], :] * 1e-08
+            array[self.array_inputs["road wear emissions"], :]
+            + (0.333 * array[self.array_inputs["road dust emissions"], :])
         )
+
         self.A[
             :,
             self.inputs[
@@ -5558,20 +5574,17 @@ class InventoryCalculation:
             ],
             -self.number_of_cars :,
         ] = (
-            array[self.array_inputs["driving mass"], :] * 6e-08
+            array[self.array_inputs["tire wear emissions"], :]
+            + (0.333 * array[self.array_inputs["road dust emissions"], :])
         )
 
         # Brake wear emissions
-        # BEVs only emit 20% of what a combustion engine vehicle emits according to
-        # https://link.springer.com/article/10.1007/s11367-014-0792-4
         ind_A = [
             self.inputs[i]
             for i in self.inputs
             if "transport, passenger" in i[0]
-            and any(x in i[0] for x in ["ICEV-d", "ICEV-p", "ICEV-g"])
         ]
 
-        index = self.get_index_vehicle_from_array(["ICEV-d", "ICEV-p", "ICEV-g"])
 
         self.A[
             :,
@@ -5585,35 +5598,8 @@ class InventoryCalculation:
             ],
             ind_A,
         ] = (
-            array[self.array_inputs["driving mass"], :, index].T * 5e-09
-        )
-
-        ind_A = [
-            self.inputs[i]
-            for i in self.inputs
-            if "transport, passenger" in i[0]
-            and any(
-                x in i[0] for x in ["BEV", "FCEV", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"]
-            )
-        ]
-
-        index = self.get_index_vehicle_from_array(
-            ["BEV", "FCEV", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"]
-        )
-
-        self.A[
-            :,
-            self.inputs[
-                (
-                    "market for brake wear emissions, passenger car",
-                    "GLO",
-                    "kilogram",
-                    "brake wear emissions, passenger car",
-                )
-            ],
-            ind_A,
-        ] = (
-            array[self.array_inputs["driving mass"], :, index].T * 5e-09 * 0.2
+            array[self.array_inputs["brake wear emissions"], :]
+            + (0.333 * array[self.array_inputs["road dust emissions"], :])
         )
 
         # Infrastructure
@@ -5660,7 +5646,7 @@ class InventoryCalculation:
         ).transpose([1, 0, 2])
 
         # Emissions of air conditioner refrigerant r134a
-        # Leakage assumed to amount to 750g/year according to
+        # Leakage assumed to amount to 750g/lifetime according to
         # https://treeze.ch/fileadmin/user_upload/downloads/Publications/Case_Studies/Mobility/544-LCI-Road-NonRoad-Transport-Services-v2.0.pdf
 
         self.A[
@@ -6422,8 +6408,8 @@ class InventoryCalculation:
                 CO2_fossil = 0
 
                 if self.fuel_blends["cng"]["primary"]["type"] == "cng":
-                    share_fossil += self.fuel_blends["cng"]["primary"]["share"][y]
-                    CO2_fossil += (
+                    share_fossil = self.fuel_blends["cng"]["primary"]["share"][y]
+                    CO2_fossil = (
                         self.fuel_blends["cng"]["primary"]["CO2"]
                         * self.fuel_blends["cng"]["primary"]["share"][y]
                     )
@@ -6449,7 +6435,6 @@ class InventoryCalculation:
                     ind_A,
                 ] = (
                     array[self.array_inputs["fuel mass"], :, ind_array]
-                    * share_fossil
                     * CO2_fossil
                     / array[self.array_inputs["range"], :, ind_array]
                     * -1
@@ -6463,19 +6448,29 @@ class InventoryCalculation:
                 CO2_non_fossil = 0
 
                 if self.fuel_blends["cng"]["primary"]["type"] != "cng":
-                    share_non_fossil += self.fuel_blends["cng"]["primary"]["share"][y]
-                    CO2_non_fossil = self.fuel_blends["cng"]["primary"]["CO2"]
+                    share_non_fossil = self.fuel_blends["cng"]["primary"]["share"][y]
+                    CO2_non_fossil = (
+                        self.fuel_blends["cng"]["primary"]["CO2"]
+                        * self.fuel_blends["cng"]["primary"]["share"][y]
+                    )
 
                 if self.fuel_blends["cng"]["secondary"]["type"] != "cng":
                     share_non_fossil += self.fuel_blends["cng"]["secondary"]["share"][y]
-                    CO2_non_fossil = self.fuel_blends["cng"]["secondary"]["CO2"]
+                    CO2_non_fossil += (
+                        self.fuel_blends["cng"]["secondary"]["CO2"]
+                        * self.fuel_blends["cng"]["secondary"]["share"][y]
+                    )
 
                 if "tertiary" in self.fuel_blends["cng"]:
                     if self.fuel_blends["cng"]["tertiary"]["type"] != "cng":
                         share_non_fossil += self.fuel_blends["cng"]["tertiary"][
                             "share"
                         ][y]
-                        CO2_non_fossil = self.fuel_blends["cng"]["tertiary"]["CO2"]
+                        CO2_non_fossil += (
+                        self.fuel_blends["cng"]["tertiary"]["CO2"]
+                        * self.fuel_blends["cng"]["tertiary"]["share"][y]
+                    )
+
 
                 self.A[
                     :,
@@ -6616,8 +6611,8 @@ class InventoryCalculation:
 
                 # Fuel-based CO2 emission from conventional diesel
                 if self.fuel_blends["diesel"]["primary"]["type"] == "diesel":
-                    share_fossil += self.fuel_blends["diesel"]["primary"]["share"][y]
-                    CO2_fossil += (
+                    share_fossil = self.fuel_blends["diesel"]["primary"]["share"][y]
+                    CO2_fossil = (
                         self.fuel_blends["diesel"]["primary"]["CO2"]
                         * self.fuel_blends["diesel"]["primary"]["share"][y]
                     )
@@ -6671,10 +6666,10 @@ class InventoryCalculation:
                 # The share of non-fossil fuel in the blend is retrieved
                 # As well as the CO2 emission factor of the fuel
                 if self.fuel_blends["diesel"]["primary"]["type"] != "diesel":
-                    share_non_fossil += self.fuel_blends["diesel"]["primary"]["share"][
+                    share_non_fossil = self.fuel_blends["diesel"]["primary"]["share"][
                         y
                     ]
-                    CO2_non_fossil += (
+                    CO2_non_fossil = (
                         self.fuel_blends["diesel"]["primary"]["CO2"]
                         * self.fuel_blends["diesel"]["primary"]["share"][y]
                     )
@@ -6926,6 +6921,8 @@ class InventoryCalculation:
                 )
 
         # Non-exhaust emissions
+
+        # Road wear emissions + 33.3% of re-suspended road dust
         ind_A = [self.inputs[i] for i in self.inputs if "transport, passenger" in i[0]]
         self.A[
             :,
@@ -6939,8 +6936,10 @@ class InventoryCalculation:
             ],
             ind_A,
         ] = (
-            array[self.array_inputs["driving mass"], :] * 1e-08
+            array[self.array_inputs["road wear emissions"], :]
+            + (0.333 * array[self.array_inputs["road dust emissions"], :])
         )
+
 
         self.A[
             :,
@@ -6954,8 +6953,10 @@ class InventoryCalculation:
             ],
             ind_A,
         ] = (
-            array[self.array_inputs["driving mass"], :] * 6e-08
+            array[self.array_inputs["tire wear emissions"], :]
+            + (0.333 * array[self.array_inputs["road dust emissions"], :])
         )
+
 
         # Brake wear emissions
         # BEVs only emit 20% of what a combustion engine vehicle emit according to
@@ -6964,10 +6965,7 @@ class InventoryCalculation:
             self.inputs[i]
             for i in self.inputs
             if "transport, passenger" in i[0]
-            and any(x in i[0] for x in ["ICEV-d", "ICEV-p", "ICEV-g"])
         ]
-
-        index = self.get_index_vehicle_from_array(["ICEV-d", "ICEV-p", "ICEV-g"])
 
         self.A[
             :,
@@ -6981,35 +6979,8 @@ class InventoryCalculation:
             ],
             ind_A,
         ] = (
-            array[self.array_inputs["driving mass"], :, index].T * 5e-09
-        )
-
-        ind_A = [
-            self.inputs[i]
-            for i in self.inputs
-            if "transport, passenger" in i[0]
-            and any(
-                x in i[0] for x in ["BEV", "FCEV", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"]
-            )
-        ]
-
-        index = self.get_index_vehicle_from_array(
-            ["BEV", "FCEV", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"]
-        )
-
-        self.A[
-            :,
-            self.inputs[
-                (
-                    "market for brake wear emissions, passenger car",
-                    "GLO",
-                    "kilogram",
-                    "brake wear emissions, passenger car",
-                )
-            ],
-            ind_A,
-        ] = (
-            array[self.array_inputs["driving mass"], :, index].T * 5e-09 * 0.2
+            array[self.array_inputs["brake wear emissions"], :]
+            + (0.333 * array[self.array_inputs["road dust emissions"], :])
         )
 
         # Infrastructure

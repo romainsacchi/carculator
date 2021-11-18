@@ -54,13 +54,13 @@ class EnergyConsumptionModel:
                 self.cycle_name = cycle
                 cycle = get_standard_driving_cycle(cycle)
 
-            except KeyError:
-                raise "The driving cycle specified could not be found."
+            except KeyError as err:
+                raise("The driving cycle specified could not be found.") from err
         elif isinstance(cycle, np.ndarray):
             self.cycle_name = "custom"
             pass
         else:
-            raise "The format of the driving cycle is not valid."
+            raise TypeError("The format of the driving cycle is not valid.")
 
         self.cycle = cycle
         self.rho_air = rho_air
@@ -82,14 +82,6 @@ class EnergyConsumptionModel:
         else:
             self.gradient = np.zeros_like(cycle)
 
-        # Unit conversion km/h to m/s
-        self.velocity = (cycle * 1000) / 3600
-
-        # Model acceleration as difference in velocity between time steps (1 second)
-        # Zero at first value
-        self.acceleration = np.zeros_like(self.velocity)
-        self.acceleration[1:-1] = (self.velocity[2:] - self.velocity[:-2]) / 2
-
     def aux_energy_per_km(self, aux_power, efficiency=1):
         """
         Calculate energy used other than motive energy per km driven.
@@ -105,11 +97,14 @@ class EnergyConsumptionModel:
         :rtype: float
 
         """
+        # Unit conversion km/h to m/s
+        velocity = (self.cycle * 1000) / 3600
+
         # Provide energy in kJ / km (1 J = 1 Ws)
         auxiliary_energy = (
             aux_power  # Watt
-            * self.velocity.size  # Number of seconds -> Ws -> J
-            / self.velocity.sum()  # m/s * 1s = m -> J/m
+            * velocity.size  # Number of seconds -> Ws -> J
+            / velocity.sum()  # m/s * 1s = m -> J/m
             * 1000  # m / km
             / 1000  # 1 / (J / kJ)
         )
@@ -123,6 +118,7 @@ class EnergyConsumptionModel:
         drag_coef,
         frontal_area,
         ttw_efficiency,
+        sizes,
         recuperation_efficiency=0,
         motor_power=0,
     ):
@@ -139,6 +135,8 @@ class EnergyConsumptionModel:
         :type frontal_area: float
         :param ttw_efficiency: Efficiency of translating potential energy into motion (dimensionless, between 0.0 and 1.0)
         :type ttw_efficiency: float
+        :param sizes: size classes of the vehicles
+        :type sizes: list of strings
         :param recuperation_efficiency: Fraction of energy that can be recuperated (dimensionless, between 0.0 and 1.0). Optional.
         :type recuperation_efficiency: float
         :param motor_power: Electric motor power (watts). Optional.
@@ -168,9 +166,26 @@ class EnergyConsumptionModel:
 
         """
 
+        # correct the driving cycle speed profile
+        # if a micro car is present
+        # as those can only drive at 90 km/h max
+        self.cycle = np.repeat(self.cycle.reshape(1, -1), len(sizes), axis=0).T
+
+        if "Micro" in sizes:
+            idx = sizes.tolist().index("Micro")
+            self.cycle[idx] = np.clip(self.cycle[idx], 0, 90)
+
+        # Unit conversion km/h to m/s
+        velocity = (self.cycle * 1000) / 3600
+
+        # Model acceleration as difference in velocity between time steps (1 second)
+        # Zero at first value
+        acceleration = np.zeros_like(velocity)
+        acceleration[1:-1] = (velocity[2:] - velocity[:-2]) / 2
+
         # Convert to km; velocity is m/s, times 1 second
         # Distance WLTC 3.2 = 4.75 km
-        distance = self.velocity.sum() / 1000
+        distance = velocity.sum(axis=0) / 1000
 
         # Total power required at the wheel to meet acceleration requirement,
         # and overcome air and rolling resistance.
@@ -178,28 +193,25 @@ class EnergyConsumptionModel:
         # if the vehicle is decelerating.
         # Power is in watts (kg m2 / s3)
 
-        # We opt for simpler variable names to be accepted by `numexpr`
-        ones = np.ones_like(self.velocity)
+        ones = np.ones_like(velocity).T[:, None, None, None]
         dm = _(driving_mass)
         rr = _(rr_coef)
         fa = _(frontal_area)
         dc = _(drag_coef)
-        v = self.velocity
-        a = self.acceleration
+        v = velocity.T[:, None, None, None]
+        a = acceleration.T[:, None, None, None]
         g = self.gradient
         rho_air = self.rho_air
-        ttw_eff = _(ttw_efficiency)
         mp = _(motor_power)
-        re = _(recuperation_efficiency)
 
         # rolling resistance + air resistance + kinetic energy + gradient resistance
-        total_force = np.float16(
-            ne.evaluate(
-                "(ones * dm * rr * 9.81) + (v ** 2 * fa * dc * rho_air / 2) + (a * dm) + (dm * 9.81 * sin(g))"
-            )
-        )
+        rolling_resistance = ones * dm * rr * 9.81
+        air_resistance = np.power(v, 2) * fa * dc * rho_air / 2
 
-        tv = ne.evaluate("total_force * v")
+        kinetic_energy = (a * dm) + (dm * 9.81 * np.sin(g))
+        total_force = rolling_resistance + air_resistance + kinetic_energy
+
+        tv = total_force * v
 
         # Can only recuperate when power is less than zero, limited by recuperation efficiency
         # Motor power in kW, other power in watts
@@ -207,20 +219,5 @@ class EnergyConsumptionModel:
         recuperated_power = ne.evaluate(
             "where(tv < (-1000 * mp), (-1000 * mp), where(tv>0, 0, tv))"
         )
-        # braking_power = pd.w - recuperated_power
-
-        # self.recuperated_power = recuperated_power/distance/1000
-        # self.braking_power = braking_power/distance/1000
-        # self.power_rolling_resistance = pa.r / distance / 1000
-        # self.power_aerodynamic = pa.a / distance / 1000
-        # self.power_kinetic = pa.k / distance / 1000
-        # self.total_power = pa.w / distance / 1000
-
-        # t_e = ne.evaluate("where(total_force<0, 0, tv)") #
-        # t_e = np.where(total_force<0, 0, tv)
-
-        # results = ne.evaluate(
-        #    "((where(total_force<0, 0, tv) / (distance * 1000)) + (recuperated_power / distance / 1000))/ ttw_eff"
-        # )
 
         return tv, recuperated_power, distance

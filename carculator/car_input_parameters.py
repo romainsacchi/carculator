@@ -25,7 +25,7 @@ class CarInputParameters(NamedParameters):
     default_parameters and format them into an array following the structured described
     in the *klausen* package.
 
-    :ivar sizes: List of string items e.g., ['Large', 'Lower medium', 'Medium', 'Mini', 'SUV', 'Small', 'Van']
+    :ivar sizes: List of string items e.g., ['Large', 'Lower medium', 'Medium', 'Mini', 'Medium SUV', 'Small', 'Van']
     :vartype sizes: list
     :ivar powertrains: List of string items e.g., ['BEV', 'FCEV', 'HEV-p', 'ICEV-d', 'ICEV-g', 'ICEV-p', 'PHEV-c', 'PHEV-e']
     :vartype powertrains: list

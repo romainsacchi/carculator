@@ -73,14 +73,7 @@ def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
             },
         },
         "ICEV-d": {
-            "CO": {
-                4: 1.3,
-                5: 1.3,
-                6: 1.4,
-                6.1: 1.4,
-                6.2: 1.4,
-                6.3: 1.4,
-            },
+            "CO": {4: 1.3, 5: 1.3, 6: 1.4, 6.1: 1.4, 6.2: 1.4, 6.3: 1.4,},
             "NOx": {
                 2: 1.25,
                 3: 1.2,
@@ -218,7 +211,7 @@ class HotEmissionsModel:
             ],
         ).transpose("component", "powertrain", "euro_class", "variable")
 
-        distance = self.cycle.sum() / 3600
+        distance = (self.cycle / 3600).sum(axis=0)
 
         # Emissions for each second of the driving cycle equal:
         # a * energy consumption
@@ -450,9 +443,7 @@ class HotEmissionsModel:
                 component="NMHC",
                 powertrain=[p for p in final_emissions.powertrain.values if "-d" in p],
             )
-        ] *= (
-            1 - 0.45
-        )
+        ] *= (1 - 0.45)
 
         final_emissions.loc[
             dict(
@@ -476,9 +467,7 @@ class HotEmissionsModel:
                 component="NMHC",
                 powertrain=[p for p in final_emissions.powertrain.values if "-p" in p],
             )
-        ] *= (
-            1 - 0.492
-        )
+        ] *= (1 - 0.492)
 
         # Heavy metals emissions are dependent of fuel consumption
         # given in grams of emission per kj
@@ -569,30 +558,44 @@ class HotEmissionsModel:
             else:
                 rural_start, rural_stop = [0, 0]
 
+
             urban = (
                 final_emissions.sel(second=range(urban_start, urban_stop)).sum(axis=-1)
-                / distance
+                / distance[:, None, None, None]
             )
             suburban = (
                 final_emissions.sel(second=range(suburban_start, suburban_stop)).sum(
                     axis=-1
                 )
-                / distance
+                / distance[:, None, None, None]
             )
             rural = (
                 final_emissions.sel(second=range(rural_start, rural_stop)).sum(axis=-1)
-                / distance
+                / distance[:, None, None, None]
             )
 
         else:
-            urban = final_emissions.where(self.cycle <= 50).sum(axis=-1) / distance
-            suburban = (
-                final_emissions.where((self.cycle > 50) & (self.cycle <= 80)).sum(
+
+            urban = (
+                final_emissions.where(self.cycle.T[:, None, None, None, :] <= 50).sum(
                     axis=-1
                 )
-                / distance
+                / distance[:, None, None, None]
             )
-            rural = final_emissions.where(self.cycle > 80).sum(axis=-1) / distance
+            suburban = (
+                final_emissions.where(
+                    (self.cycle.T[:, None, None, None, :] > 50)
+                    & (self.cycle.T[:, None, None, None, :] <= 80)
+                ).sum(axis=-1)
+                / distance[:, None, None, None]
+            )
+            rural = (
+                final_emissions.where(self.cycle.T[:, None, None, None, :] > 80).sum(
+                    axis=-1
+                )
+                / distance[:, None, None, None]
+            )
+
 
         urban *= np.isfinite(urban)
         suburban *= np.isfinite(suburban)

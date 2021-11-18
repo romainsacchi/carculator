@@ -63,7 +63,8 @@ class NoiseEmissionsModel:
         cycle = np.array(self.cycle)
         array = np.tile(
             np.log10(cycle / 70, out=np.zeros_like(cycle), where=(cycle != 0)), 8
-        ).reshape((8, -1))
+        ).reshape((8, cycle.shape[0], cycle.shape[-1]))
+
 
         constants = np.array((79.7, 85.7, 84.5, 90.2, 97.3, 93.9, 84.1, 74.3)).reshape(
             (-1, 1)
@@ -71,7 +72,8 @@ class NoiseEmissionsModel:
         coefficients = np.array((30, 41.5, 38.9, 25.7, 32.5, 37.2, 39, 40)).reshape(
             (-1, 1)
         )
-        array = array * coefficients + constants
+
+        array = array * coefficients[..., None] + constants[..., None]
 
         return array
 
@@ -93,19 +95,17 @@ class NoiseEmissionsModel:
 
         # Noise sources are calculated for speeds above 20 km/h.
         if powertrain_type in ("combustion", "electric"):
-            array = np.tile((cycle - 70) / 70, 8).reshape((8, -1))
+            array = np.tile((cycle - 70) / 70, 8).reshape((8, cycle.shape[0], cycle.shape[-1]))
             constants = np.array(
                 (94.5, 89.2, 88, 85.9, 84.2, 86.9, 83.3, 76.1)
             ).reshape((-1, 1))
             coefficients = np.array((-1.3, 7.2, 7.7, 8, 8, 8, 8, 8)).reshape((-1, 1))
-            array = array * coefficients + constants
+            array = array * coefficients[..., None] + constants[..., None]
 
             if powertrain_type == "electric":
                 # For electric cars, we add correction factors
                 # We also add a 56 dB loud sound signal when the speed is below 20 km/h.
-                correction = np.array((0, 1.7, 4.2, 15, 15, 15, 13.8, 0)).reshape(
-                    (-1, 1)
-                )
+                correction = np.array((0, 1.7, 4.2, 15, 15, 15, 13.8, 0))[:, None, None]
                 array -= correction
 
                 # Warming signal for electric cars of 56 dB at 20 km/h or lower
@@ -119,6 +119,7 @@ class NoiseEmissionsModel:
 
             array = self.propulsion_noise("combustion")
             array[:, electric_mask] = electric[:, electric_mask]
+
         return array
 
     def get_sound_power_per_compartment(self, powertrain_type):
@@ -167,15 +168,14 @@ class NoiseEmissionsModel:
                 urban = np.sum(sound_power[:, start:stop], axis=1) / distance
 
             else:
-                urban = np.zeros(8)
+                urban = np.zeros((8, self.cycle.shape[-1]))
 
             if "suburban start" in self.cycle_environment[self.cycle_name]:
                 start = self.cycle_environment[self.cycle_name]["suburban start"]
                 stop = self.cycle_environment[self.cycle_name]["suburban stop"]
                 suburban = np.sum(sound_power[:, start:stop], axis=1) / distance
-
             else:
-                suburban = np.zeros(8)
+                suburban = np.zeros((8, self.cycle.shape[-1]))
 
             if "rural start" in self.cycle_environment[self.cycle_name]:
                 start = self.cycle_environment[self.cycle_name]["rural start"]
@@ -183,7 +183,7 @@ class NoiseEmissionsModel:
                 rural = np.sum(sound_power[:, start:stop], axis=1) / distance
 
             else:
-                rural = np.zeros(8)
+                rural = np.zeros((8, self.cycle.shape[-1]))
 
         else:
             distance = self.cycle.sum() / 3600
@@ -197,4 +197,5 @@ class NoiseEmissionsModel:
             )
             rural = ne.evaluate("sum(where(c > 80, sound_power, 0), 1)") / distance
 
-        return np.array([urban, suburban, rural])
+
+        return np.vstack([urban, suburban, rural]).sum(axis=-1)[..., None, None]

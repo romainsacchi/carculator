@@ -5,6 +5,7 @@ import xarray as xr
 from .energy_consumption import EnergyConsumptionModel
 from .hot_emissions import HotEmissionsModel
 from .noise_emissions import NoiseEmissionsModel
+from .particulates_emissions import ParticulatesEmissionsModel
 
 DEFAULT_MAPPINGS = {
     "electric": {"BEV", "PHEV-e"},
@@ -62,7 +63,7 @@ class CarModel:
             self.ecm = EnergyConsumptionModel(cycle=cycle, gradient=gradient)
 
         self.energy_storage = energy_storage or {
-            "electric": {"BEV": "NMC-111", "PHEV-e": "NMC-111", "FCEV": "NMC-111"}
+            "electric": {"BEV": "NMC-622", "PHEV-e": "NMC-622", "FCEV": "NMC-622"}
         }
 
         l_pwt = [
@@ -73,13 +74,16 @@ class CarModel:
             with self(pt) as cpm:
                 if pt in self.energy_storage["electric"]:
                     cpm["battery cell energy density"] = cpm[
-                        "battery cell energy density, "
-                        + self.energy_storage["electric"][pt]
+                        f"battery cell energy density, {self.energy_storage['electric'][pt].split('-')[0].strip()}"
+                    ]
+                    cpm["battery cell mass share"] = cpm[
+                        f"battery cell mass share, {self.energy_storage['electric'][pt].split('-')[0].strip()}"
                     ]
                 else:
                     cpm["battery cell energy density"] = cpm[
-                        "battery cell energy density, NMC-111"
+                        "battery cell energy density, NMC"
                     ]
+                    cpm["battery cell mass share"] = cpm["battery cell mass share, NMC"]
 
     def __call__(self, key):
         """
@@ -155,7 +159,7 @@ class CarModel:
 
         diff = 1.0
 
-        while diff > 0.01:
+        while diff > 0.001:
             old_driving_mass = self["driving mass"].sum().values
 
             self.set_car_masses()
@@ -175,12 +179,14 @@ class CarModel:
         self.set_auxiliaries()
         self.set_ttw_efficiency()
         self.calculate_ttw_energy()
+        self.set_share_recuperated_energy()
         self.adjust_cost()
         self.set_range()
         self.set_electric_utility_factor(electric_utility_factor)
         self.set_electricity_consumption()
         self.set_costs()
         self.set_hot_emissions()
+        self.set_particulates_emission()
         self.set_noise_emissions()
         self.create_PHEV()
         if drop_hybrids:
@@ -213,6 +219,43 @@ class CarModel:
                 year=[y for y in self.array.year.values if y < 2013],
             )
         ] = 1
+
+        # and also Micro cars other than BEVs
+        if "Micro" in self.array.coords["size"].values:
+            self.array.loc[
+                dict(
+                    parameter="has_low_range",
+                    powertrain=[
+                        pt
+                        for pt in [
+                            "PHEV-e",
+                            "PHEV-c-p",
+                            "PHEV-c-d",
+                            "FCEV",
+                            "PHEV-p",
+                            "PHEV-d",
+                            "HEV-d",
+                            "HEV-p",
+                            "ICEV-p",
+                            "ICEV-d",
+                            "ICEV-g"
+                        ]
+                        if pt in self.array.coords["powertrain"].values
+                    ],
+                    size="Micro",
+                )
+            ] = 1
+
+        # fill in NaNs due to `Micro` only existing for `BEV` powertrain
+        if "Micro" in self.array.coords["size"].values:
+            self.array.loc[dict(size="Micro")] = self.array.loc[
+                dict(size="Micro")
+            ].fillna(1)
+            self.array.loc[
+                dict(size="Micro", parameter="lifetime kilometers")
+            ] = self.array.loc[
+                dict(size="Micro", parameter="lifetime kilometers", powertrain="BEV")
+            ]
 
     def adjust_cost(self):
         """
@@ -394,7 +437,7 @@ class CarModel:
                 (
                     len(self.array.coords["size"]),
                     len(self.array.coords["powertrain"]),
-                    3,
+                    4,
                     len(self.array.coords["year"]),
                     len(self.array.coords["value"]),
                     self.ecm.cycle.shape[0],
@@ -403,7 +446,12 @@ class CarModel:
             coords=[
                 self.array.coords["size"],
                 self.array.coords["powertrain"],
-                ["auxiliary energy", "motive energy", "recuperated energy"],
+                [
+                    "auxiliary energy",
+                    "motive energy",
+                    "recuperated energy",
+                    "negative motive energy",
+                ],
                 self.array.coords["year"],
                 self.array.coords["value"],
                 np.arange(self.ecm.cycle.shape[0]),
@@ -477,6 +525,7 @@ class CarModel:
             drag_coef=self["aerodynamic drag coefficient"],
             frontal_area=self["frontal area"],
             ttw_efficiency=self["TtW efficiency"],
+            sizes=self.array.coords["size"].values,
             recuperation_efficiency=self["recuperation efficiency"],
             motor_power=self["electric power"],
         )
@@ -485,10 +534,20 @@ class CarModel:
             motive_energy / 1000, 0, None
         )
 
+        self.energy.loc[dict(parameter="negative motive energy")] = (
+            np.clip(motive_energy / 1000, None, 0) * -1
+        )
+
         self.energy.loc[dict(parameter="motive energy")] /= self["TtW efficiency"]
 
+        self.energy.loc[dict(parameter="motive energy")] = np.clip(
+            self.energy.loc[dict(parameter="motive energy")],
+            0,
+            self["power"].values[..., None],
+        )
+
         self.energy.loc[dict(parameter="recuperated energy")] = np.clip(
-            recuperated_energy / 1000, self["power"].values[..., None] * -1, 0
+            recuperated_energy / 1000, self["power"].values[..., None] * -1, 0,
         )
 
         self.energy.loc[dict(parameter="recuperated energy")] *= self[
@@ -706,6 +765,27 @@ class CarModel:
             self["power"] * self["powertrain mass per power"]
             + self["powertrain fixed mass"]
         )
+
+    def set_share_recuperated_energy(self):
+        """ Calculate the share of recuperated energy, over the total negative motive energy"""
+
+        self["share recuperated energy"] = (
+            self.energy.loc[dict(parameter="recuperated energy")].sum(dim="second") * -1
+        ) / self.energy.loc[dict(parameter="negative motive energy")].sum(dim="second")
+
+        if "PHEV-d" in self.array.powertrain.values:
+            self.array.loc[
+                dict(powertrain="PHEV-c-d", parameter="share recuperated energy")
+            ] = self.array.loc[
+                dict(powertrain="PHEV-e", parameter="share recuperated energy")
+            ]
+
+        if "PHEV-p" in self.array.powertrain.values:
+            self.array.loc[
+                dict(powertrain="PHEV-c-p", parameter="share recuperated energy")
+            ] = self.array.loc[
+                dict(powertrain="PHEV-e", parameter="share recuperated energy")
+            ]
 
     def set_electric_utility_factor(self, uf=None):
         """Set the electric utility factor according to a sampled values in Germany (ICTT 2020)
@@ -984,14 +1064,9 @@ class CarModel:
         self["battery cell mass share"] = self["battery cell mass share"].clip(
             min=0, max=1
         )
-        self.array.loc[:, pt_list, "battery BoP mass", :, :] = (
-            self.array.loc[
-                :,
-                pt_list,
-                "battery cell mass",
-            ]
-            * (1 - self.array.loc[:, pt_list, "battery cell mass share", :, :])
-        )
+        self.array.loc[:, pt_list, "battery BoP mass", :, :] = self.array.loc[
+            :, pt_list, "battery cell mass",
+        ] * (1 - self.array.loc[:, pt_list, "battery cell mass share", :, :])
 
         list_pt_el = [
             pt
@@ -1429,6 +1504,54 @@ class CarModel:
             ),
         )
 
+    def set_particulates_emission(self):
+        """
+        Calculate the emission of particulates according to
+        https://www.eea.europa.eu/ds_resolveuid/6USNA27I4D
+
+        and further disaggregated in:
+        https://doi.org/10.1016/j.atmosenv.2020.117886
+
+        for:
+
+        - brake wear
+        - tire wear
+        - road wear
+        - re-suspended road dust
+
+        by considering:
+
+        - vehicle mass
+        - driving situation (urban, rural, motorway)
+
+        into the following fractions:
+
+        - PM 2.5
+        - PM 10
+
+        Emissions are subdivided in compartments: urban, suburban and rural.
+
+        """
+
+        list_param = [
+            "tire wear emissions",
+            "brake wear emissions",
+            "road wear emissions",
+            "road dust emissions",
+        ]
+
+        pem = ParticulatesEmissionsModel(
+            cycle_name=self.ecm.cycle_name,
+            cycle=self.ecm.cycle,
+            mass=self["driving mass"],
+        )
+
+        res = pem.get_abrasion_emissions()
+        self[list_param] = res
+
+        # brake emissions are discounted by the use of regenerative braking
+        self["brake wear emissions"] *= 1 - self["share recuperated energy"]
+
     def set_noise_emissions(self):
         """
         Calculate noise emissions based on ``driving cycle``.
@@ -1479,7 +1602,7 @@ class CarModel:
             list_noise_emissions,
             :,
             :,
-        ] = nem.get_sound_power_per_compartment("combustion").reshape((24, 1, 1))
+        ] = nem.get_sound_power_per_compartment("combustion")
 
         self.array.loc[
             :,
@@ -1491,7 +1614,7 @@ class CarModel:
             list_noise_emissions,
             :,
             :,
-        ] = nem.get_sound_power_per_compartment("electric").reshape((24, 1, 1))
+        ] = nem.get_sound_power_per_compartment("electric")
 
         self.array.loc[
             :,
@@ -1503,7 +1626,7 @@ class CarModel:
             list_noise_emissions,
             :,
             :,
-        ] = nem.get_sound_power_per_compartment("electric").reshape((24, 1, 1))
+        ] = nem.get_sound_power_per_compartment("electric")
 
         self.array.loc[
             :,
@@ -1515,7 +1638,7 @@ class CarModel:
             list_noise_emissions,
             :,
             :,
-        ] = nem.get_sound_power_per_compartment("hybrid").reshape((24, 1, 1))
+        ] = nem.get_sound_power_per_compartment("hybrid")
 
     def calculate_cost_impacts(self, sensitivity=False, scope=None):
         """

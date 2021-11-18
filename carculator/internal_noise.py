@@ -56,7 +56,7 @@ class InternalNoiseModel:
             "HEV-p",
             "HEV-d",
         ]
-        list_size = ["Large", "Lower medium", "Medium", "Mini", "SUV", "Small", "Van"]
+        list_size = ["Large", "Lower medium", "Medium", "Mini", "Medium SUV", "Small", "Van", "Micro", "Large SUV"]
 
         arr = np.zeros((len(list_size), len(list_pt), 6))
 

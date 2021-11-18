@@ -242,5 +242,11 @@
   "Cadmium direct emissions, rural",
   "TtW energy, combustion mode",
   "TtW energy, electric mode",
-  "has_low_range"
+  "has_low_range",
+  "share recuperated energy",
+  "battery cell mass share",
+  "tire wear emissions",
+  "brake wear emissions",
+  "road wear emissions",
+  "road dust emissions"
 ]

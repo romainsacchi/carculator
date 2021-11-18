@@ -1094,31 +1094,73 @@ class ExportInventory:
                         "fuel cell system efficiency": "Fuel cell system efficiency",
                     }
 
-                    l = [t.strip() for t in tuple_output[0].split(",")]
+                    split_name = [t.strip() for t in tuple_output[0].split(",")]
 
-                    if len(l) == 6:
-                        _, _, pwt, size, year, _ = [
-                            t.strip() for t in tuple_output[0].split(",")
-                        ]
-                    else:
-                        items = [t.strip() for t in tuple_output[0].split(",")]
-                        if items[2] == "fleet average":
+                    pwt, size, year = (None, None, None)
 
-                            if items[3] == "all powertrains":
-                                size = None
-                                pwt = None
-
+                    if "fleet average" not in tuple_output[0]:
+                        if "transport, " in tuple_output[0]:
+                            if "battery electric" in split_name[2]:
+                                _, _, pwt, _, size, year = split_name
+                            elif "fuel cell" in split_name[2]:
+                                _, _, pwt, size, year = split_name
                             else:
-                                _, _, _, pwt, year = [
+                                _, _, pwt, size, year, _ = split_name
+                        else:
+                            if "battery electric" in split_name[1]:
+                                _, pwt, _, size, year = split_name
+                            elif "fuel cell" in split_name[1]:
+                                _, pwt, size, year = split_name
+                            else:
+                                _, pwt, size, year, _ = split_name
+                    else:
+                        if split_name[3] == "fleet average":
+
+                            if len(split_name) == 6:
+
+                                if split_name[4] in [
+                                    "Micro",
+                                    "Mini",
+                                    "Small",
+                                    "Lower medium",
+                                    "Medium",
+                                    "Medium SUV",
+                                    "Large",
+                                    "Large SUV",
+                                    "Van"
+                                ]:
+                                    _, _, _, _, size, year = [
+                                        t.strip() for t in tuple_output[0].split(",")
+                                    ]
+                                    pwt = None
+                                else:
+                                    _, _, _, _, pwt, year = [
+                                        t.strip() for t in tuple_output[0].split(",")
+                                    ]
+                                    size = None
+
+                            if len(split_name) == 5:
+                                _, _, _, _, year = [
                                     t.strip() for t in tuple_output[0].split(",")
                                 ]
                                 size = None
-                        else:
-                            _, pwt, size, year, _ = [
-                                t.strip() for t in tuple_output[0].split(",")
-                            ]
+                                pwt = None
 
-                    if not size is None:
+                        else:
+                            if split_name[1] == "battery electric":
+
+                                _, pwt, _, size, year, _ = [
+                                    t.strip() for t in tuple_output[0].split(",")
+                                ]
+                            elif split_name[1] == "fuel cell electric":
+                                _, pwt, size, year, _ = [
+                                    t.strip() for t in tuple_output[0].split(",")
+                                ]
+                            else:
+                                _, pwt, size, year, _, _ = [
+                                    t.strip() for t in tuple_output[0].split(",")
+                                ]
+                    if not size is None and pwt is not None:
                         pwt = d_pwt[pwt]
 
                         if not vehicle_specs is None:
@@ -1146,14 +1188,7 @@ class ExportInventory:
                                         else:
                                             val = int(val)
 
-                                        string += (
-                                            d_names[p]
-                                            + ": "
-                                            + str(val)
-                                            + " "
-                                            + d_units[p]
-                                            + ". "
-                                        )
+                                        string += f"{d_names[p]}: {val} {d_units[p]}. "
                                 except KeyError:
                                     print(
                                         f"Could not find vehicle specs for {pwt} {size} {year}"
