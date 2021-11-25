@@ -248,14 +248,15 @@ class CarModel:
 
         # fill in NaNs due to `Micro` only existing for `BEV` powertrain
         if "Micro" in self.array.coords["size"].values:
-            self.array.loc[dict(size="Micro")] = self.array.loc[
-                dict(size="Micro")
-            ].fillna(1)
-            self.array.loc[
-                dict(size="Micro", parameter="lifetime kilometers")
-            ] = self.array.loc[
-                dict(size="Micro", parameter="lifetime kilometers", powertrain="BEV")
-            ]
+            if "BEV" in self.array.coords["powertrain"].values:
+                self.array.loc[dict(size="Micro")] = self.array.loc[
+                    dict(size="Micro")
+                ].fillna(1)
+                self.array.loc[
+                    dict(size="Micro", parameter="lifetime kilometers")
+                ] = self.array.loc[
+                    dict(size="Micro", parameter="lifetime kilometers", powertrain="BEV")
+                ]
 
     def adjust_cost(self):
         """
