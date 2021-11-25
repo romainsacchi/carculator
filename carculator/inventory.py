@@ -5629,7 +5629,7 @@ class InventoryCalculation:
         # Emissions of air conditioner refrigerant r134a
         # Leakage assumed to amount to 750g/lifetime according to
         # https://treeze.ch/fileadmin/user_upload/downloads/Publications/Case_Studies/Mobility/544-LCI-Road-NonRoad-Transport-Services-v2.0.pdf
-
+        # but only to cars with an AC system (meaning, with a cooling energy consumption)
         self.A[
             :,
             self.inputs[
@@ -5638,7 +5638,7 @@ class InventoryCalculation:
             -self.number_of_cars :,
         ] = (
             0.750 / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
-        )
+        ) * self.array.values[self.array_inputs["cooling energy consumption"]]
 
         self.A[
             :,
@@ -5650,7 +5650,7 @@ class InventoryCalculation:
             (0.75 + 0.55)
             / self.array.values[self.array_inputs["lifetime kilometers"]]
             * -1
-        )
+        )  * self.array.values[self.array_inputs["cooling energy consumption"]]
 
         print("*********************************************************************")
 
@@ -7023,6 +7023,7 @@ class InventoryCalculation:
         # Emissions of air conditioner refrigerant r134a
         # Leakage assumed to amount to 53g according to
         # https://treeze.ch/fileadmin/user_upload/downloads/Publications/Case_Studies/Mobility/544-LCI-Road-NonRoad-Transport-Services-v2.0.pdf
+        # but only to cars with an AC system (meaning, with a cooling energy consumption)
 
         self.A[
             :,
@@ -7032,7 +7033,7 @@ class InventoryCalculation:
             [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
         ] = (
             0.75 / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
-        )
+        ) * self.array.values[self.array_inputs["cooling energy consumption"]]
 
         self.A[
             :,
@@ -7044,7 +7045,7 @@ class InventoryCalculation:
             (0.75 + 0.55)
             / self.array.values[self.array_inputs["lifetime kilometers"]]
             * -1
-        )
+        ) * self.array.values[self.array_inputs["cooling energy consumption"]]
 
         print("*********************************************************************")
 
