@@ -5638,7 +5638,9 @@ class InventoryCalculation:
             -self.number_of_cars :,
         ] = (
             0.750 / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
-        ) * self.array.values[self.array_inputs["cooling energy consumption"]]
+        ) * self.array.values[
+            self.array_inputs["cooling energy consumption"]
+        ]
 
         self.A[
             :,
@@ -5650,7 +5652,9 @@ class InventoryCalculation:
             (0.75 + 0.55)
             / self.array.values[self.array_inputs["lifetime kilometers"]]
             * -1
-        )  * self.array.values[self.array_inputs["cooling energy consumption"]]
+        ) * self.array.values[
+            self.array_inputs["cooling energy consumption"]
+        ]
 
         print("*********************************************************************")
 
@@ -7033,7 +7037,9 @@ class InventoryCalculation:
             [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
         ] = (
             0.75 / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
-        ) * self.array.values[self.array_inputs["cooling energy consumption"]]
+        ) * self.array.values[
+            self.array_inputs["cooling energy consumption"]
+        ]
 
         self.A[
             :,
@@ -7045,7 +7051,9 @@ class InventoryCalculation:
             (0.75 + 0.55)
             / self.array.values[self.array_inputs["lifetime kilometers"]]
             * -1
-        ) * self.array.values[self.array_inputs["cooling energy consumption"]]
+        ) * self.array.values[
+            self.array_inputs["cooling energy consumption"]
+        ]
 
         print("*********************************************************************")
 
