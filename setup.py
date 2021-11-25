@@ -45,7 +45,6 @@ setup(
         "bw2io",
         "pycountry",
         "wurst",
-        "pypardiso",
     ],
     url="https://github.com/romainsacchi/carculator",
     description="Prospective environmental and economic life cycle assessment of vehicles made blazing fast",

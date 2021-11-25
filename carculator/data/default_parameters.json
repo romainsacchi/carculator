@@ -3396,7 +3396,6 @@
         "sizes": [
             "Large",
             "Medium SUV",
-            "Large SUV",
             "Van"
         ],
         "amount": 347.7173913043478,
@@ -4292,9 +4291,7 @@
             "Medium",
             "Small",
             "Mini",
-            "Micro",
             "Medium SUV",
-            "Large SUV",
             "Van"
         ],
         "amount": 0.9739130434782608,
@@ -4735,7 +4732,6 @@
         "sizes": [
             "Large",
             "Medium SUV",
-            "Large SUV",
             "Van"
         ],
         "amount": 347.7173913043478,
@@ -7846,7 +7842,9 @@
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
-            "BEV"
+            "BEV",
+            "ICEV-d",
+            "PHEV-e"
         ],
         "sizes": [
             "Medium"
@@ -9577,8 +9575,7 @@
             "PHEV-e"
         ],
         "sizes": [
-            "Mini",
-            "Micro"
+            "Mini"
         ],
         "amount": 198.6956521739131,
         "loc": 198.6956521739131,
@@ -10253,7 +10250,26 @@
         "source": "Own assumption",
         "comment": "mechanical load per thermal load"
     },
-    "358-2020-power to mass ratio": {
+    "358-2020-heating energy consumption": {
+        "name": "heating energy consumption",
+        "year": 2020,
+        "powertrain": [
+            "BEV",
+            "PHEV-e"
+        ],
+        "sizes": [
+            "Micro",
+            "Large SUV"
+        ],
+        "amount": 1,
+        "loc": 1,
+        "kind": "distribution",
+        "uncertainty_type": 1,
+        "category": "Auxiliaries",
+        "source": "Own assumption",
+        "comment": "mechanical load per thermal load"
+    },
+    "359-2020-power to mass ratio": {
         "name": "power to mass ratio",
         "year": 2020,
         "powertrain": [
@@ -10272,7 +10288,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
         "comment": ""
     },
-    "359-2020-energy battery mass": {
+    "360-2020-energy battery mass": {
         "name": "energy battery mass",
         "year": 2020,
         "powertrain": [
@@ -10291,7 +10307,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "360-2020-kilometers per year": {
+    "361-2020-kilometers per year": {
         "name": "kilometers per year",
         "year": 2020,
         "powertrain": [
@@ -10310,7 +10326,26 @@
         "source": "Biedermann et al. (2015)",
         "comment": "Typical values"
     },
-    "361-2040-battery lifetime kilometers": {
+    "362-2020-heating thermal demand": {
+        "name": "heating thermal demand",
+        "year": 2020,
+        "powertrain": [
+            "BEV"
+        ],
+        "sizes": [
+            "Micro"
+        ],
+        "amount": 200,
+        "loc": 200,
+        "minimum": 100,
+        "maximum": 300,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Auxiliaries",
+        "source": "Hirschberg et al. (2016), Own assumption",
+        "comment": "annual average heat demand (thermal)"
+    },
+    "363-2040-battery lifetime kilometers": {
         "name": "battery lifetime kilometers",
         "year": 2040,
         "powertrain": [
@@ -10329,7 +10364,7 @@
         "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Own assumption",
         "comment": ""
     },
-    "362-2040-cooling thermal demand": {
+    "364-2040-cooling thermal demand": {
         "name": "cooling thermal demand",
         "year": 2040,
         "powertrain": [
@@ -10346,7 +10381,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": "annual average A/C demand (thermal)"
     },
-    "363-2040-glider base mass": {
+    "365-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -10365,7 +10400,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "364-2040-lifetime kilometers": {
+    "366-2040-lifetime kilometers": {
         "name": "lifetime kilometers",
         "year": 2040,
         "powertrain": [
@@ -10384,7 +10419,7 @@
         "source": "Weymar et al. (2016), Biedermann et al (2017)",
         "comment": "Typical values, higher bound expected to increase in the future due to increases in car sharing"
     },
-    "365-2040-cooling energy consumption": {
+    "367-2040-cooling energy consumption": {
         "name": "cooling energy consumption",
         "year": 2040,
         "powertrain": [
@@ -10401,7 +10436,7 @@
         "source": "Own assumption",
         "comment": "mechanical load per thermal load"
     },
-    "366-2040-power to mass ratio": {
+    "368-2040-power to mass ratio": {
         "name": "power to mass ratio",
         "year": 2040,
         "powertrain": [
@@ -10420,7 +10455,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
         "comment": ""
     },
-    "367-2040-energy battery mass": {
+    "369-2040-energy battery mass": {
         "name": "energy battery mass",
         "year": 2040,
         "powertrain": [
@@ -10439,7 +10474,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "368-2040-kilometers per year": {
+    "370-2040-kilometers per year": {
         "name": "kilometers per year",
         "year": 2040,
         "powertrain": [
@@ -10458,7 +10493,7 @@
         "source": "Biedermann et al. (2015)",
         "comment": "Typical values"
     },
-    "369-2000-glider base mass": {
+    "371-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -10485,7 +10520,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "370-2000-frontal area": {
+    "372-2000-frontal area": {
         "name": "frontal area",
         "year": 2000,
         "powertrain": [
@@ -10514,7 +10549,7 @@
         "source": "ICCT (2016)",
         "comment": ""
     },
-    "371-2000-power to mass ratio": {
+    "373-2000-power to mass ratio": {
         "name": "power to mass ratio",
         "year": 2000,
         "powertrain": [
@@ -10543,7 +10578,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
         "comment": ""
     },
-    "372-2000-aerodynamic drag coefficient": {
+    "374-2000-aerodynamic drag coefficient": {
         "name": "aerodynamic drag coefficient",
         "year": 2000,
         "powertrain": [
@@ -10572,7 +10607,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
         "comment": ""
     },
-    "373-2000-energy battery mass": {
+    "375-2000-energy battery mass": {
         "name": "energy battery mass",
         "year": 2000,
         "powertrain": [
@@ -10591,7 +10626,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "374-2010-glider base mass": {
+    "376-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -10618,7 +10653,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "375-2010-frontal area": {
+    "377-2010-frontal area": {
         "name": "frontal area",
         "year": 2010,
         "powertrain": [
@@ -10647,7 +10682,7 @@
         "source": "ICCT (2016)",
         "comment": ""
     },
-    "376-2010-power to mass ratio": {
+    "378-2010-power to mass ratio": {
         "name": "power to mass ratio",
         "year": 2010,
         "powertrain": [
@@ -10676,7 +10711,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
         "comment": ""
     },
-    "377-2010-aerodynamic drag coefficient": {
+    "379-2010-aerodynamic drag coefficient": {
         "name": "aerodynamic drag coefficient",
         "year": 2010,
         "powertrain": [
@@ -10705,7 +10740,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
         "comment": ""
     },
-    "378-2010-energy battery mass": {
+    "380-2010-energy battery mass": {
         "name": "energy battery mass",
         "year": 2010,
         "powertrain": [
@@ -10724,7 +10759,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "379-2020-glider base mass": {
+    "381-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -10751,7 +10786,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "380-2020-frontal area": {
+    "382-2020-frontal area": {
         "name": "frontal area",
         "year": 2020,
         "powertrain": [
@@ -10780,7 +10815,7 @@
         "source": "ICCT (2016)",
         "comment": ""
     },
-    "381-2020-power to mass ratio": {
+    "383-2020-power to mass ratio": {
         "name": "power to mass ratio",
         "year": 2020,
         "powertrain": [
@@ -10809,7 +10844,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
         "comment": ""
     },
-    "382-2020-aerodynamic drag coefficient": {
+    "384-2020-aerodynamic drag coefficient": {
         "name": "aerodynamic drag coefficient",
         "year": 2020,
         "powertrain": [
@@ -10838,7 +10873,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
         "comment": ""
     },
-    "383-2020-energy battery mass": {
+    "385-2020-energy battery mass": {
         "name": "energy battery mass",
         "year": 2020,
         "powertrain": [
@@ -10857,7 +10892,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "384-2020-rolling resistance coefficient": {
+    "386-2020-rolling resistance coefficient": {
         "name": "rolling resistance coefficient",
         "year": 2020,
         "powertrain": [
@@ -10886,7 +10921,7 @@
         "source": "https://theicct.org/sites/default/files/publications/ICCT_LDV-Driving-Resistances-EU_121516.pdf",
         "comment": ""
     },
-    "385-2040-glider base mass": {
+    "387-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -10913,7 +10948,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "386-2040-frontal area": {
+    "388-2040-frontal area": {
         "name": "frontal area",
         "year": 2040,
         "powertrain": [
@@ -10942,7 +10977,7 @@
         "source": "ICCT (2016)",
         "comment": ""
     },
-    "387-2040-power to mass ratio": {
+    "389-2040-power to mass ratio": {
         "name": "power to mass ratio",
         "year": 2040,
         "powertrain": [
@@ -10971,7 +11006,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
         "comment": ""
     },
-    "388-2040-aerodynamic drag coefficient": {
+    "390-2040-aerodynamic drag coefficient": {
         "name": "aerodynamic drag coefficient",
         "year": 2040,
         "powertrain": [
@@ -11000,7 +11035,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
         "comment": ""
     },
-    "389-2040-energy battery mass": {
+    "391-2040-energy battery mass": {
         "name": "energy battery mass",
         "year": 2040,
         "powertrain": [
@@ -11019,7 +11054,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "390-2000-glider base mass": {
+    "392-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -11046,7 +11081,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "391-2000-energy battery mass": {
+    "393-2000-energy battery mass": {
         "name": "energy battery mass",
         "year": 2000,
         "powertrain": [
@@ -11065,7 +11100,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "392-2010-glider base mass": {
+    "394-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -11092,7 +11127,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "393-2010-energy battery mass": {
+    "395-2010-energy battery mass": {
         "name": "energy battery mass",
         "year": 2010,
         "powertrain": [
@@ -11111,7 +11146,35 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "394-2020-glider base mass": {
+    "396-2020-cooling thermal demand": {
+        "name": "cooling thermal demand",
+        "year": 2020,
+        "powertrain": [
+            "BEV",
+            "FCEV",
+            "HEV-d",
+            "HEV-p",
+            "ICEV-d",
+            "ICEV-g",
+            "ICEV-p",
+            "PHEV-c-d",
+            "PHEV-c-p",
+            "PHEV-e"
+        ],
+        "sizes": [
+            "Large SUV"
+        ],
+        "amount": 350,
+        "loc": 350,
+        "minimum": 250,
+        "maximum": 450,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Auxiliaries",
+        "source": "Hirschberg et al. (2016), Own assumption",
+        "comment": "annual average A/C demand (thermal)"
+    },
+    "397-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -11138,7 +11201,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "395-2020-lightweighting": {
+    "398-2020-lightweighting": {
         "name": "lightweighting",
         "year": 2020,
         "powertrain": [
@@ -11157,7 +11220,7 @@
         "source": "Geyer (2017), Hirschberg et al. (2016)",
         "comment": ""
     },
-    "396-2020-energy battery mass": {
+    "399-2020-energy battery mass": {
         "name": "energy battery mass",
         "year": 2020,
         "powertrain": [
@@ -11176,7 +11239,35 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "397-2040-glider base mass": {
+    "400-2020-heating thermal demand": {
+        "name": "heating thermal demand",
+        "year": 2020,
+        "powertrain": [
+            "BEV",
+            "FCEV",
+            "HEV-d",
+            "HEV-p",
+            "ICEV-d",
+            "ICEV-g",
+            "ICEV-p",
+            "PHEV-c-d",
+            "PHEV-c-p",
+            "PHEV-e"
+        ],
+        "sizes": [
+            "Large SUV"
+        ],
+        "amount": 350,
+        "loc": 350,
+        "minimum": 250,
+        "maximum": 450,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Auxiliaries",
+        "source": "Hirschberg et al. (2016), Own assumption",
+        "comment": "annual average heat demand (thermal)"
+    },
+    "401-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -11203,7 +11294,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "398-2040-lightweighting": {
+    "402-2040-lightweighting": {
         "name": "lightweighting",
         "year": 2040,
         "powertrain": [
@@ -11222,7 +11313,7 @@
         "source": "Geyer (2017), Hirschberg et al. (2016)",
         "comment": ""
     },
-    "399-2040-energy battery mass": {
+    "403-2040-energy battery mass": {
         "name": "energy battery mass",
         "year": 2040,
         "powertrain": [
@@ -11241,7 +11332,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "400-2000-glider base mass": {
+    "404-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -11262,7 +11353,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "401-2000-frontal area": {
+    "405-2000-frontal area": {
         "name": "frontal area",
         "year": 2000,
         "powertrain": [
@@ -11290,7 +11381,7 @@
         "source": "ICCT (2016)",
         "comment": ""
     },
-    "402-2000-power to mass ratio": {
+    "406-2000-power to mass ratio": {
         "name": "power to mass ratio",
         "year": 2000,
         "powertrain": [
@@ -11318,7 +11409,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
         "comment": ""
     },
-    "403-2000-aerodynamic drag coefficient": {
+    "407-2000-aerodynamic drag coefficient": {
         "name": "aerodynamic drag coefficient",
         "year": 2000,
         "powertrain": [
@@ -11346,7 +11437,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
         "comment": ""
     },
-    "404-2010-glider base mass": {
+    "408-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -11367,7 +11458,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "405-2010-frontal area": {
+    "409-2010-frontal area": {
         "name": "frontal area",
         "year": 2010,
         "powertrain": [
@@ -11395,7 +11486,7 @@
         "source": "ICCT (2016)",
         "comment": ""
     },
-    "406-2010-power to mass ratio": {
+    "410-2010-power to mass ratio": {
         "name": "power to mass ratio",
         "year": 2010,
         "powertrain": [
@@ -11423,7 +11514,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
         "comment": ""
     },
-    "407-2010-aerodynamic drag coefficient": {
+    "411-2010-aerodynamic drag coefficient": {
         "name": "aerodynamic drag coefficient",
         "year": 2010,
         "powertrain": [
@@ -11451,7 +11542,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
         "comment": ""
     },
-    "408-2020-glider base mass": {
+    "412-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -11472,7 +11563,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "409-2020-frontal area": {
+    "413-2020-frontal area": {
         "name": "frontal area",
         "year": 2020,
         "powertrain": [
@@ -11500,7 +11591,7 @@
         "source": "ICCT (2016)",
         "comment": ""
     },
-    "410-2020-power to mass ratio": {
+    "414-2020-power to mass ratio": {
         "name": "power to mass ratio",
         "year": 2020,
         "powertrain": [
@@ -11528,7 +11619,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
         "comment": ""
     },
-    "411-2020-aerodynamic drag coefficient": {
+    "415-2020-aerodynamic drag coefficient": {
         "name": "aerodynamic drag coefficient",
         "year": 2020,
         "powertrain": [
@@ -11556,7 +11647,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
         "comment": ""
     },
-    "412-2020-rolling resistance coefficient": {
+    "416-2020-rolling resistance coefficient": {
         "name": "rolling resistance coefficient",
         "year": 2020,
         "powertrain": [
@@ -11584,7 +11675,7 @@
         "source": "https://theicct.org/sites/default/files/publications/ICCT_LDV-Driving-Resistances-EU_121516.pdf",
         "comment": ""
     },
-    "413-2040-glider base mass": {
+    "417-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -11605,7 +11696,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "414-2040-frontal area": {
+    "418-2040-frontal area": {
         "name": "frontal area",
         "year": 2040,
         "powertrain": [
@@ -11633,7 +11724,7 @@
         "source": "ICCT (2016)",
         "comment": ""
     },
-    "415-2040-power to mass ratio": {
+    "419-2040-power to mass ratio": {
         "name": "power to mass ratio",
         "year": 2040,
         "powertrain": [
@@ -11661,7 +11752,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), VCS (2018)",
         "comment": ""
     },
-    "416-2040-aerodynamic drag coefficient": {
+    "420-2040-aerodynamic drag coefficient": {
         "name": "aerodynamic drag coefficient",
         "year": 2040,
         "powertrain": [
@@ -11689,7 +11780,7 @@
         "source": "Hirschberg et al. (2016), Grunditz, Thiringer (2016), Calibration result",
         "comment": ""
     },
-    "417-2000-fuel cell lifetime hours": {
+    "421-2000-fuel cell lifetime hours": {
         "name": "fuel cell lifetime hours",
         "year": 2000,
         "powertrain": [
@@ -11715,7 +11806,7 @@
         "source": "https://www.nrel.gov/docs/fy19osti/73011.pdf",
         "comment": "Used to calculate the number of replacements over lifetime."
     },
-    "418-2000-H2 tank mass per energy": {
+    "422-2000-H2 tank mass per energy": {
         "name": "H2 tank mass per energy",
         "year": 2000,
         "powertrain": [
@@ -11741,7 +11832,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": ""
     },
-    "419-2000-fuel cell stack efficiency": {
+    "423-2000-fuel cell stack efficiency": {
         "name": "fuel cell stack efficiency",
         "year": 2000,
         "powertrain": [
@@ -11767,7 +11858,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "420-2000-fuel mass": {
+    "424-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -11789,7 +11880,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "421-2000-fuel cell cost per kW": {
+    "425-2000-fuel cell cost per kW": {
         "name": "fuel cell cost per kW",
         "year": 2000,
         "powertrain": [
@@ -11815,7 +11906,7 @@
         "source": "James (2017), Hirschberg et al. (2016), Own assumption",
         "comment": "considers whole fuel cell system"
     },
-    "422-2000-battery cell mass share, NCA": {
+    "426-2000-battery cell mass share, NCA": {
         "name": "battery cell mass share, NCA",
         "year": 2000,
         "powertrain": [
@@ -11846,7 +11937,7 @@
         "source": "Yang, X.-G., Liu, T., & Wang, C.-Y. (2021). Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nature Energy 2021 6:2, 6(2), 176\u2013185. https://doi.org/10.1038/s41560-020-00757-7",
         "comment": ""
     },
-    "423-2000-fuel cell power share": {
+    "427-2000-fuel cell power share": {
         "name": "fuel cell power share",
         "year": 2000,
         "powertrain": [
@@ -11872,7 +11963,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": "Share of total vehicle power provided by fuel cell (versus battery)"
     },
-    "424-2000-fuel cell own consumption": {
+    "428-2000-fuel cell own consumption": {
         "name": "fuel cell own consumption",
         "year": 2000,
         "powertrain": [
@@ -11898,7 +11989,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "425-2000-battery cell mass share, NMC": {
+    "429-2000-battery cell mass share, NMC": {
         "name": "battery cell mass share, NMC",
         "year": 2000,
         "powertrain": [
@@ -11929,7 +12020,7 @@
         "source": "Yang, X.-G., Liu, T., & Wang, C.-Y. (2021). Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nature Energy 2021 6:2, 6(2), 176\u2013185. https://doi.org/10.1038/s41560-020-00757-7",
         "comment": ""
     },
-    "426-2000-fuel cell ancillary BoP mass per power": {
+    "430-2000-fuel cell ancillary BoP mass per power": {
         "name": "fuel cell ancillary BoP mass per power",
         "year": 2000,
         "powertrain": [
@@ -11955,7 +12046,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "427-2000-energy cost per kWh": {
+    "431-2000-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2000,
         "powertrain": [
@@ -11981,7 +12072,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "428-2000-power battery cost per kW": {
+    "432-2000-power battery cost per kW": {
         "name": "power battery cost per kW",
         "year": 2000,
         "powertrain": [
@@ -12014,7 +12105,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": "considers whole battery system"
     },
-    "429-2000-electric powertrain cost per kW": {
+    "433-2000-electric powertrain cost per kW": {
         "name": "electric powertrain cost per kW",
         "year": 2000,
         "powertrain": [
@@ -12045,7 +12136,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "430-2000-fuel cell essential BoP mass per power": {
+    "434-2000-fuel cell essential BoP mass per power": {
         "name": "fuel cell essential BoP mass per power",
         "year": 2000,
         "powertrain": [
@@ -12071,7 +12162,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "431-2000-fuel cell power area density": {
+    "435-2000-fuel cell power area density": {
         "name": "fuel cell power area density",
         "year": 2000,
         "powertrain": [
@@ -12097,7 +12188,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "432-2000-battery cell power density": {
+    "436-2000-battery cell power density": {
         "name": "battery cell power density",
         "year": 2000,
         "powertrain": [
@@ -12128,7 +12219,7 @@
         "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Dai (2018),Own assumption",
         "comment": ""
     },
-    "433-2000-fuel tank cost per kg": {
+    "437-2000-fuel tank cost per kg": {
         "name": "fuel tank cost per kg",
         "year": 2000,
         "powertrain": [
@@ -12154,7 +12245,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "434-2000-battery cell mass share, LFP": {
+    "438-2000-battery cell mass share, LFP": {
         "name": "battery cell mass share, LFP",
         "year": 2000,
         "powertrain": [
@@ -12185,7 +12276,7 @@
         "source": "Yang, X.-G., Liu, T., & Wang, C.-Y. (2021). Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nature Energy 2021 6:2, 6(2), 176\u2013185. https://doi.org/10.1038/s41560-020-00757-7",
         "comment": ""
     },
-    "435-2000-LHV fuel MJ per kg": {
+    "439-2000-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2000,
         "powertrain": [
@@ -12211,7 +12302,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "436-2010-fuel cell lifetime hours": {
+    "440-2010-fuel cell lifetime hours": {
         "name": "fuel cell lifetime hours",
         "year": 2010,
         "powertrain": [
@@ -12237,7 +12328,7 @@
         "source": "https://www.nrel.gov/docs/fy19osti/73011.pdf",
         "comment": "Used to calculate the number of replacements over lifetime."
     },
-    "437-2010-H2 tank mass per energy": {
+    "441-2010-H2 tank mass per energy": {
         "name": "H2 tank mass per energy",
         "year": 2010,
         "powertrain": [
@@ -12263,7 +12354,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": ""
     },
-    "438-2010-fuel cell stack efficiency": {
+    "442-2010-fuel cell stack efficiency": {
         "name": "fuel cell stack efficiency",
         "year": 2010,
         "powertrain": [
@@ -12289,7 +12380,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "439-2010-fuel mass": {
+    "443-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -12311,7 +12402,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "440-2010-fuel cell cost per kW": {
+    "444-2010-fuel cell cost per kW": {
         "name": "fuel cell cost per kW",
         "year": 2010,
         "powertrain": [
@@ -12337,7 +12428,7 @@
         "source": "James (2017), Hirschberg et al. (2016), Own assumption",
         "comment": "considers whole fuel cell system"
     },
-    "441-2010-battery cell mass share, NCA": {
+    "445-2010-battery cell mass share, NCA": {
         "name": "battery cell mass share, NCA",
         "year": 2010,
         "powertrain": [
@@ -12368,7 +12459,7 @@
         "source": "Yang, X.-G., Liu, T., & Wang, C.-Y. (2021). Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nature Energy 2021 6:2, 6(2), 176\u2013185. https://doi.org/10.1038/s41560-020-00757-7",
         "comment": ""
     },
-    "442-2010-fuel cell power share": {
+    "446-2010-fuel cell power share": {
         "name": "fuel cell power share",
         "year": 2010,
         "powertrain": [
@@ -12394,7 +12485,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": "Share of total vehicle power provided by fuel cell (versus battery)"
     },
-    "443-2010-fuel cell own consumption": {
+    "447-2010-fuel cell own consumption": {
         "name": "fuel cell own consumption",
         "year": 2010,
         "powertrain": [
@@ -12420,7 +12511,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "444-2010-battery cell mass share, NMC": {
+    "448-2010-battery cell mass share, NMC": {
         "name": "battery cell mass share, NMC",
         "year": 2010,
         "powertrain": [
@@ -12451,7 +12542,7 @@
         "source": "Yang, X.-G., Liu, T., & Wang, C.-Y. (2021). Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nature Energy 2021 6:2, 6(2), 176\u2013185. https://doi.org/10.1038/s41560-020-00757-7",
         "comment": ""
     },
-    "445-2010-fuel cell ancillary BoP mass per power": {
+    "449-2010-fuel cell ancillary BoP mass per power": {
         "name": "fuel cell ancillary BoP mass per power",
         "year": 2010,
         "powertrain": [
@@ -12477,7 +12568,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "446-2010-energy cost per kWh": {
+    "450-2010-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2010,
         "powertrain": [
@@ -12503,7 +12594,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "447-2010-power battery cost per kW": {
+    "451-2010-power battery cost per kW": {
         "name": "power battery cost per kW",
         "year": 2010,
         "powertrain": [
@@ -12536,7 +12627,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": "considers whole battery system"
     },
-    "448-2010-electric powertrain cost per kW": {
+    "452-2010-electric powertrain cost per kW": {
         "name": "electric powertrain cost per kW",
         "year": 2010,
         "powertrain": [
@@ -12567,7 +12658,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "449-2010-fuel cell essential BoP mass per power": {
+    "453-2010-fuel cell essential BoP mass per power": {
         "name": "fuel cell essential BoP mass per power",
         "year": 2010,
         "powertrain": [
@@ -12593,7 +12684,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "450-2010-fuel cell power area density": {
+    "454-2010-fuel cell power area density": {
         "name": "fuel cell power area density",
         "year": 2010,
         "powertrain": [
@@ -12619,7 +12710,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "451-2010-battery cell power density": {
+    "455-2010-battery cell power density": {
         "name": "battery cell power density",
         "year": 2010,
         "powertrain": [
@@ -12650,7 +12741,7 @@
         "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Dai (2018),Own assumption",
         "comment": ""
     },
-    "452-2010-fuel tank cost per kg": {
+    "456-2010-fuel tank cost per kg": {
         "name": "fuel tank cost per kg",
         "year": 2010,
         "powertrain": [
@@ -12676,7 +12767,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "453-2010-battery cell mass share, LFP": {
+    "457-2010-battery cell mass share, LFP": {
         "name": "battery cell mass share, LFP",
         "year": 2010,
         "powertrain": [
@@ -12707,7 +12798,7 @@
         "source": "Yang, X.-G., Liu, T., & Wang, C.-Y. (2021). Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nature Energy 2021 6:2, 6(2), 176\u2013185. https://doi.org/10.1038/s41560-020-00757-7",
         "comment": ""
     },
-    "454-2010-LHV fuel MJ per kg": {
+    "458-2010-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2010,
         "powertrain": [
@@ -12733,7 +12824,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "455-2020-fuel cell lifetime hours": {
+    "459-2020-fuel cell lifetime hours": {
         "name": "fuel cell lifetime hours",
         "year": 2020,
         "powertrain": [
@@ -12759,7 +12850,7 @@
         "source": "https://www.nrel.gov/docs/fy19osti/73011.pdf",
         "comment": "Used to calculate the number of replacements over lifetime."
     },
-    "456-2020-H2 tank mass per energy": {
+    "460-2020-H2 tank mass per energy": {
         "name": "H2 tank mass per energy",
         "year": 2020,
         "powertrain": [
@@ -12785,7 +12876,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": ""
     },
-    "457-2020-fuel cell stack efficiency": {
+    "461-2020-fuel cell stack efficiency": {
         "name": "fuel cell stack efficiency",
         "year": 2020,
         "powertrain": [
@@ -12811,7 +12902,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "458-2020-fuel mass": {
+    "462-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -12833,7 +12924,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "459-2020-fuel cell cost per kW": {
+    "463-2020-fuel cell cost per kW": {
         "name": "fuel cell cost per kW",
         "year": 2020,
         "powertrain": [
@@ -12859,7 +12950,7 @@
         "source": "James (2017), Hirschberg et al. (2016), Own assumption",
         "comment": "considers whole fuel cell system"
     },
-    "460-2020-battery cell mass share, NCA": {
+    "464-2020-battery cell mass share, NCA": {
         "name": "battery cell mass share, NCA",
         "year": 2020,
         "powertrain": [
@@ -12890,7 +12981,7 @@
         "source": "Yang, X.-G., Liu, T., & Wang, C.-Y. (2021). Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nature Energy 2021 6:2, 6(2), 176\u2013185. https://doi.org/10.1038/s41560-020-00757-7",
         "comment": ""
     },
-    "461-2020-fuel cell power share": {
+    "465-2020-fuel cell power share": {
         "name": "fuel cell power share",
         "year": 2020,
         "powertrain": [
@@ -12916,7 +13007,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": "Share of total vehicle power provided by fuel cell (versus battery)"
     },
-    "462-2020-fuel cell own consumption": {
+    "466-2020-fuel cell own consumption": {
         "name": "fuel cell own consumption",
         "year": 2020,
         "powertrain": [
@@ -12942,7 +13033,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "463-2020-lightweighting": {
+    "467-2020-lightweighting": {
         "name": "lightweighting",
         "year": 2020,
         "powertrain": [
@@ -12975,7 +13066,7 @@
         "source": "Geyer (2017), Hirschberg et al. (2016)",
         "comment": ""
     },
-    "464-2020-engine efficiency": {
+    "468-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -13001,7 +13092,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "465-2020-battery cell mass share, NMC": {
+    "469-2020-battery cell mass share, NMC": {
         "name": "battery cell mass share, NMC",
         "year": 2020,
         "powertrain": [
@@ -13032,7 +13123,7 @@
         "source": "Yang, X.-G., Liu, T., & Wang, C.-Y. (2021). Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nature Energy 2021 6:2, 6(2), 176\u2013185. https://doi.org/10.1038/s41560-020-00757-7",
         "comment": ""
     },
-    "466-2020-fuel cell ancillary BoP mass per power": {
+    "470-2020-fuel cell ancillary BoP mass per power": {
         "name": "fuel cell ancillary BoP mass per power",
         "year": 2020,
         "powertrain": [
@@ -13058,7 +13149,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "467-2020-energy cost per kWh": {
+    "471-2020-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2020,
         "powertrain": [
@@ -13084,7 +13175,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "468-2020-power battery cost per kW": {
+    "472-2020-power battery cost per kW": {
         "name": "power battery cost per kW",
         "year": 2020,
         "powertrain": [
@@ -13117,7 +13208,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": "considers whole battery system"
     },
-    "469-2020-electric powertrain cost per kW": {
+    "473-2020-electric powertrain cost per kW": {
         "name": "electric powertrain cost per kW",
         "year": 2020,
         "powertrain": [
@@ -13148,7 +13239,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "470-2020-fuel cell essential BoP mass per power": {
+    "474-2020-fuel cell essential BoP mass per power": {
         "name": "fuel cell essential BoP mass per power",
         "year": 2020,
         "powertrain": [
@@ -13174,7 +13265,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "471-2020-fuel cell power area density": {
+    "475-2020-fuel cell power area density": {
         "name": "fuel cell power area density",
         "year": 2020,
         "powertrain": [
@@ -13200,7 +13291,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "472-2020-battery cell power density": {
+    "476-2020-battery cell power density": {
         "name": "battery cell power density",
         "year": 2020,
         "powertrain": [
@@ -13231,7 +13322,7 @@
         "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Dai (2018),Own assumption",
         "comment": ""
     },
-    "473-2020-fuel tank cost per kg": {
+    "477-2020-fuel tank cost per kg": {
         "name": "fuel tank cost per kg",
         "year": 2020,
         "powertrain": [
@@ -13257,7 +13348,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "474-2020-LHV fuel MJ per kg": {
+    "478-2020-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2020,
         "powertrain": [
@@ -13283,7 +13374,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "475-2040-fuel cell lifetime hours": {
+    "479-2040-fuel cell lifetime hours": {
         "name": "fuel cell lifetime hours",
         "year": 2040,
         "powertrain": [
@@ -13309,7 +13400,7 @@
         "source": "https://www.nrel.gov/docs/fy19osti/73011.pdf",
         "comment": "Used to calculate the number of replacements over lifetime."
     },
-    "476-2040-H2 tank mass per energy": {
+    "480-2040-H2 tank mass per energy": {
         "name": "H2 tank mass per energy",
         "year": 2040,
         "powertrain": [
@@ -13335,7 +13426,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": ""
     },
-    "477-2040-fuel cell stack efficiency": {
+    "481-2040-fuel cell stack efficiency": {
         "name": "fuel cell stack efficiency",
         "year": 2040,
         "powertrain": [
@@ -13361,7 +13452,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "478-2040-fuel mass": {
+    "482-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -13383,7 +13474,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "479-2040-fuel cell cost per kW": {
+    "483-2040-fuel cell cost per kW": {
         "name": "fuel cell cost per kW",
         "year": 2040,
         "powertrain": [
@@ -13409,7 +13500,7 @@
         "source": "James (2017), Hirschberg et al. (2016), Own assumption",
         "comment": "considers whole fuel cell system"
     },
-    "480-2040-battery cell mass share, NCA": {
+    "484-2040-battery cell mass share, NCA": {
         "name": "battery cell mass share, NCA",
         "year": 2040,
         "powertrain": [
@@ -13440,7 +13531,7 @@
         "source": "Yang, X.-G., Liu, T., & Wang, C.-Y. (2021). Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nature Energy 2021 6:2, 6(2), 176\u2013185. https://doi.org/10.1038/s41560-020-00757-7",
         "comment": ""
     },
-    "481-2040-fuel cell power share": {
+    "485-2040-fuel cell power share": {
         "name": "fuel cell power share",
         "year": 2040,
         "powertrain": [
@@ -13466,7 +13557,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": "Share of total vehicle power provided by fuel cell (versus battery)"
     },
-    "482-2040-fuel cell own consumption": {
+    "486-2040-fuel cell own consumption": {
         "name": "fuel cell own consumption",
         "year": 2040,
         "powertrain": [
@@ -13492,7 +13583,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "483-2040-battery cell mass share, NMC": {
+    "487-2040-battery cell mass share, NMC": {
         "name": "battery cell mass share, NMC",
         "year": 2040,
         "powertrain": [
@@ -13523,7 +13614,7 @@
         "source": "Yang, X.-G., Liu, T., & Wang, C.-Y. (2021). Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nature Energy 2021 6:2, 6(2), 176\u2013185. https://doi.org/10.1038/s41560-020-00757-7",
         "comment": ""
     },
-    "484-2040-fuel cell ancillary BoP mass per power": {
+    "488-2040-fuel cell ancillary BoP mass per power": {
         "name": "fuel cell ancillary BoP mass per power",
         "year": 2040,
         "powertrain": [
@@ -13549,7 +13640,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "485-2040-energy cost per kWh": {
+    "489-2040-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2040,
         "powertrain": [
@@ -13575,7 +13666,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "486-2040-power battery cost per kW": {
+    "490-2040-power battery cost per kW": {
         "name": "power battery cost per kW",
         "year": 2040,
         "powertrain": [
@@ -13608,7 +13699,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": "considers whole battery system"
     },
-    "487-2040-electric powertrain cost per kW": {
+    "491-2040-electric powertrain cost per kW": {
         "name": "electric powertrain cost per kW",
         "year": 2040,
         "powertrain": [
@@ -13639,7 +13730,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "488-2040-fuel cell essential BoP mass per power": {
+    "492-2040-fuel cell essential BoP mass per power": {
         "name": "fuel cell essential BoP mass per power",
         "year": 2040,
         "powertrain": [
@@ -13665,7 +13756,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "489-2040-fuel cell power area density": {
+    "493-2040-fuel cell power area density": {
         "name": "fuel cell power area density",
         "year": 2040,
         "powertrain": [
@@ -13691,7 +13782,7 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "490-2040-battery cell power density": {
+    "494-2040-battery cell power density": {
         "name": "battery cell power density",
         "year": 2040,
         "powertrain": [
@@ -13722,7 +13813,7 @@
         "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Dai (2018),Own assumption",
         "comment": ""
     },
-    "491-2040-fuel tank cost per kg": {
+    "495-2040-fuel tank cost per kg": {
         "name": "fuel tank cost per kg",
         "year": 2040,
         "powertrain": [
@@ -13748,7 +13839,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "492-2040-LHV fuel MJ per kg": {
+    "496-2040-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2040,
         "powertrain": [
@@ -13774,7 +13865,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "493-2000-fuel mass": {
+    "497-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -13793,7 +13884,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "494-2000-glider base mass": {
+    "498-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -13813,7 +13904,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "495-2010-fuel mass": {
+    "499-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -13832,7 +13923,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "496-2010-glider base mass": {
+    "500-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -13852,7 +13943,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "497-2020-fuel mass": {
+    "501-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -13871,18 +13962,20 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "498-2020-glider base mass": {
+    "502-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
             "FCEV",
-            "ICEV-g"
+            "ICEV-d",
+            "ICEV-g",
+            "ICEV-p"
         ],
         "sizes": [
             "Lower medium"
         ],
-        "amount": 1150,
-        "loc": 1150,
+        "amount": 1170,
+        "loc": 1170,
         "minimum": 950,
         "maximum": 1350,
         "kind": "distribution",
@@ -13891,7 +13984,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "499-2040-fuel mass": {
+    "503-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -13910,7 +14003,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "500-2040-glider base mass": {
+    "504-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -13936,7 +14029,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "501-2000-fuel mass": {
+    "505-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -13955,7 +14048,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "502-2000-glider base mass": {
+    "506-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -13975,7 +14068,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "503-2010-fuel mass": {
+    "507-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -13994,7 +14087,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "504-2010-glider base mass": {
+    "508-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -14014,7 +14107,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "505-2020-fuel mass": {
+    "509-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -14033,11 +14126,12 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "506-2020-glider base mass": {
+    "510-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
             "FCEV",
+            "ICEV-g",
             "ICEV-p"
         ],
         "sizes": [
@@ -14053,7 +14147,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "507-2040-fuel mass": {
+    "511-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -14072,7 +14166,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "508-2040-glider base mass": {
+    "512-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -14096,7 +14190,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "509-2000-fuel mass": {
+    "513-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -14115,7 +14209,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "510-2000-glider base mass": {
+    "514-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -14135,7 +14229,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "511-2010-fuel mass": {
+    "515-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -14154,7 +14248,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "512-2010-glider base mass": {
+    "516-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -14174,7 +14268,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "513-2020-fuel mass": {
+    "517-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -14193,7 +14287,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "514-2020-glider base mass": {
+    "518-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -14213,7 +14307,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "515-2040-fuel mass": {
+    "519-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -14232,7 +14326,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "516-2040-glider base mass": {
+    "520-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -14259,7 +14353,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "517-2000-fuel mass": {
+    "521-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -14278,7 +14372,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "518-2010-fuel mass": {
+    "522-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -14297,7 +14391,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "519-2020-fuel mass": {
+    "523-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -14316,7 +14410,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "520-2020-lightweighting": {
+    "524-2020-lightweighting": {
         "name": "lightweighting",
         "year": 2020,
         "powertrain": [
@@ -14343,7 +14437,7 @@
         "source": "Geyer (2017), Hirschberg et al. (2016)",
         "comment": ""
     },
-    "521-2040-fuel mass": {
+    "525-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -14362,7 +14456,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "522-2000-glider base mass": {
+    "526-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -14385,7 +14479,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "523-2010-glider base mass": {
+    "527-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -14408,15 +14502,14 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "524-2020-glider base mass": {
+    "528-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
             "FCEV",
             "ICEV-d",
             "ICEV-g",
-            "PHEV-c-d",
-            "PHEV-c-p",
+            "ICEV-p",
             "PHEV-e"
         ],
         "sizes": [
@@ -14432,7 +14525,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "525-2040-glider base mass": {
+    "529-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -14456,7 +14549,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "526-2000-CO2 per kg fuel": {
+    "530-2000-CO2 per kg fuel": {
         "name": "CO2 per kg fuel",
         "year": 2000,
         "powertrain": [
@@ -14482,7 +14575,7 @@
         "source": "EMEP/ EEA (2016)",
         "comment": ""
     },
-    "527-2000-combustion fixed mass": {
+    "531-2000-combustion fixed mass": {
         "name": "combustion fixed mass",
         "year": 2000,
         "powertrain": [
@@ -14513,7 +14606,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "528-2000-powertrain mass per power": {
+    "532-2000-powertrain mass per power": {
         "name": "powertrain mass per power",
         "year": 2000,
         "powertrain": [
@@ -14543,7 +14636,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "529-2000-powertrain fixed mass": {
+    "533-2000-powertrain fixed mass": {
         "name": "powertrain fixed mass",
         "year": 2000,
         "powertrain": [
@@ -14573,7 +14666,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "530-2000-combustion mass per power": {
+    "534-2000-combustion mass per power": {
         "name": "combustion mass per power",
         "year": 2000,
         "powertrain": [
@@ -14604,7 +14697,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "531-2000-fuel mass": {
+    "535-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -14627,7 +14720,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "532-2000-maintenance cost per glider cost": {
+    "536-2000-maintenance cost per glider cost": {
         "name": "maintenance cost per glider cost",
         "year": 2000,
         "powertrain": [
@@ -14660,7 +14753,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "533-2000-combustion exhaust treatment cost": {
+    "537-2000-combustion exhaust treatment cost": {
         "name": "combustion exhaust treatment cost",
         "year": 2000,
         "powertrain": [
@@ -14693,7 +14786,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": "applies to all vehicles with a combustion engine regardless of type and size"
     },
-    "534-2000-fuel tank mass per energy": {
+    "538-2000-fuel tank mass per energy": {
         "name": "fuel tank mass per energy",
         "year": 2000,
         "powertrain": [
@@ -14725,7 +14818,7 @@
         "source": "Own assumption",
         "comment": ""
     },
-    "535-2000-drivetrain efficiency": {
+    "539-2000-drivetrain efficiency": {
         "name": "drivetrain efficiency",
         "year": 2000,
         "powertrain": [
@@ -14753,7 +14846,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "536-2000-combustion power share": {
+    "540-2000-combustion power share": {
         "name": "combustion power share",
         "year": 2000,
         "powertrain": [
@@ -14780,7 +14873,7 @@
         "source": "Own assumption, Calibration result",
         "comment": "Share of total vehicle power provided by combustion (versus battery)"
     },
-    "537-2000-engine efficiency": {
+    "541-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -14799,7 +14892,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "538-2000-energy cost per kWh": {
+    "542-2000-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2000,
         "powertrain": [
@@ -14827,7 +14920,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "539-2000-combustion powertrain cost per kW": {
+    "543-2000-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2000,
         "powertrain": [
@@ -14857,7 +14950,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "540-2000-fuel tank cost per kg": {
+    "544-2000-fuel tank cost per kg": {
         "name": "fuel tank cost per kg",
         "year": 2000,
         "powertrain": [
@@ -14889,7 +14982,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "541-2000-LHV fuel MJ per kg": {
+    "545-2000-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2000,
         "powertrain": [
@@ -14917,7 +15010,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "542-2010-CO2 per kg fuel": {
+    "546-2010-CO2 per kg fuel": {
         "name": "CO2 per kg fuel",
         "year": 2010,
         "powertrain": [
@@ -14943,7 +15036,7 @@
         "source": "EMEP/ EEA (2016)",
         "comment": ""
     },
-    "543-2010-combustion fixed mass": {
+    "547-2010-combustion fixed mass": {
         "name": "combustion fixed mass",
         "year": 2010,
         "powertrain": [
@@ -14974,7 +15067,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "544-2010-powertrain mass per power": {
+    "548-2010-powertrain mass per power": {
         "name": "powertrain mass per power",
         "year": 2010,
         "powertrain": [
@@ -15004,7 +15097,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "545-2010-powertrain fixed mass": {
+    "549-2010-powertrain fixed mass": {
         "name": "powertrain fixed mass",
         "year": 2010,
         "powertrain": [
@@ -15034,7 +15127,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "546-2010-combustion mass per power": {
+    "550-2010-combustion mass per power": {
         "name": "combustion mass per power",
         "year": 2010,
         "powertrain": [
@@ -15065,7 +15158,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "547-2010-fuel mass": {
+    "551-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -15088,7 +15181,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "548-2010-maintenance cost per glider cost": {
+    "552-2010-maintenance cost per glider cost": {
         "name": "maintenance cost per glider cost",
         "year": 2010,
         "powertrain": [
@@ -15121,7 +15214,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "549-2010-combustion exhaust treatment cost": {
+    "553-2010-combustion exhaust treatment cost": {
         "name": "combustion exhaust treatment cost",
         "year": 2010,
         "powertrain": [
@@ -15154,7 +15247,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": "applies to all vehicles with a combustion engine regardless of type and size"
     },
-    "550-2010-fuel tank mass per energy": {
+    "554-2010-fuel tank mass per energy": {
         "name": "fuel tank mass per energy",
         "year": 2010,
         "powertrain": [
@@ -15186,7 +15279,7 @@
         "source": "Own assumption",
         "comment": ""
     },
-    "551-2010-combustion power share": {
+    "555-2010-combustion power share": {
         "name": "combustion power share",
         "year": 2010,
         "powertrain": [
@@ -15213,7 +15306,7 @@
         "source": "Own assumption, Calibration result",
         "comment": "Share of total vehicle power provided by combustion (versus battery)"
     },
-    "552-2010-engine efficiency": {
+    "556-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -15232,7 +15325,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "553-2010-energy cost per kWh": {
+    "557-2010-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2010,
         "powertrain": [
@@ -15260,7 +15353,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "554-2010-combustion powertrain cost per kW": {
+    "558-2010-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2010,
         "powertrain": [
@@ -15290,7 +15383,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "555-2010-fuel tank cost per kg": {
+    "559-2010-fuel tank cost per kg": {
         "name": "fuel tank cost per kg",
         "year": 2010,
         "powertrain": [
@@ -15322,7 +15415,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "556-2010-LHV fuel MJ per kg": {
+    "560-2010-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2010,
         "powertrain": [
@@ -15350,7 +15443,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "557-2020-CO2 per kg fuel": {
+    "561-2020-CO2 per kg fuel": {
         "name": "CO2 per kg fuel",
         "year": 2020,
         "powertrain": [
@@ -15376,7 +15469,7 @@
         "source": "EMEP/ EEA (2016)",
         "comment": ""
     },
-    "558-2020-combustion fixed mass": {
+    "562-2020-combustion fixed mass": {
         "name": "combustion fixed mass",
         "year": 2020,
         "powertrain": [
@@ -15407,7 +15500,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "559-2020-powertrain mass per power": {
+    "563-2020-powertrain mass per power": {
         "name": "powertrain mass per power",
         "year": 2020,
         "powertrain": [
@@ -15437,7 +15530,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "560-2020-powertrain fixed mass": {
+    "564-2020-powertrain fixed mass": {
         "name": "powertrain fixed mass",
         "year": 2020,
         "powertrain": [
@@ -15467,7 +15560,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "561-2020-combustion mass per power": {
+    "565-2020-combustion mass per power": {
         "name": "combustion mass per power",
         "year": 2020,
         "powertrain": [
@@ -15498,7 +15591,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "562-2020-fuel mass": {
+    "566-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -15526,7 +15619,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "563-2020-maintenance cost per glider cost": {
+    "567-2020-maintenance cost per glider cost": {
         "name": "maintenance cost per glider cost",
         "year": 2020,
         "powertrain": [
@@ -15559,7 +15652,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "564-2020-combustion exhaust treatment cost": {
+    "568-2020-combustion exhaust treatment cost": {
         "name": "combustion exhaust treatment cost",
         "year": 2020,
         "powertrain": [
@@ -15592,7 +15685,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": "applies to all vehicles with a combustion engine regardless of type and size"
     },
-    "565-2020-fuel tank mass per energy": {
+    "569-2020-fuel tank mass per energy": {
         "name": "fuel tank mass per energy",
         "year": 2020,
         "powertrain": [
@@ -15624,7 +15717,7 @@
         "source": "Own assumption",
         "comment": ""
     },
-    "566-2020-drivetrain efficiency": {
+    "570-2020-drivetrain efficiency": {
         "name": "drivetrain efficiency",
         "year": 2020,
         "powertrain": [
@@ -15652,7 +15745,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "567-2020-combustion power share": {
+    "571-2020-combustion power share": {
         "name": "combustion power share",
         "year": 2020,
         "powertrain": [
@@ -15679,7 +15772,7 @@
         "source": "Own assumption, Calibration result",
         "comment": "Share of total vehicle power provided by combustion (versus battery)"
     },
-    "568-2020-engine efficiency": {
+    "572-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -15698,7 +15791,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "569-2020-energy cost per kWh": {
+    "573-2020-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2020,
         "powertrain": [
@@ -15726,7 +15819,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "570-2020-combustion powertrain cost per kW": {
+    "574-2020-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2020,
         "powertrain": [
@@ -15756,7 +15849,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "571-2020-fuel tank cost per kg": {
+    "575-2020-fuel tank cost per kg": {
         "name": "fuel tank cost per kg",
         "year": 2020,
         "powertrain": [
@@ -15788,7 +15881,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "572-2020-LHV fuel MJ per kg": {
+    "576-2020-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2020,
         "powertrain": [
@@ -15816,7 +15909,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "573-2040-CO2 per kg fuel": {
+    "577-2040-CO2 per kg fuel": {
         "name": "CO2 per kg fuel",
         "year": 2040,
         "powertrain": [
@@ -15842,7 +15935,7 @@
         "source": "EMEP/ EEA (2016)",
         "comment": ""
     },
-    "574-2040-combustion fixed mass": {
+    "578-2040-combustion fixed mass": {
         "name": "combustion fixed mass",
         "year": 2040,
         "powertrain": [
@@ -15873,7 +15966,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "575-2040-powertrain mass per power": {
+    "579-2040-powertrain mass per power": {
         "name": "powertrain mass per power",
         "year": 2040,
         "powertrain": [
@@ -15903,7 +15996,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "576-2040-powertrain fixed mass": {
+    "580-2040-powertrain fixed mass": {
         "name": "powertrain fixed mass",
         "year": 2040,
         "powertrain": [
@@ -15933,7 +16026,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "577-2040-combustion mass per power": {
+    "581-2040-combustion mass per power": {
         "name": "combustion mass per power",
         "year": 2040,
         "powertrain": [
@@ -15964,7 +16057,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "578-2040-fuel mass": {
+    "582-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -15987,7 +16080,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "579-2040-maintenance cost per glider cost": {
+    "583-2040-maintenance cost per glider cost": {
         "name": "maintenance cost per glider cost",
         "year": 2040,
         "powertrain": [
@@ -16020,7 +16113,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "580-2040-combustion exhaust treatment cost": {
+    "584-2040-combustion exhaust treatment cost": {
         "name": "combustion exhaust treatment cost",
         "year": 2040,
         "powertrain": [
@@ -16053,7 +16146,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": "applies to all vehicles with a combustion engine regardless of type and size"
     },
-    "581-2040-fuel tank mass per energy": {
+    "585-2040-fuel tank mass per energy": {
         "name": "fuel tank mass per energy",
         "year": 2040,
         "powertrain": [
@@ -16085,7 +16178,7 @@
         "source": "Own assumption",
         "comment": ""
     },
-    "582-2040-drivetrain efficiency": {
+    "586-2040-drivetrain efficiency": {
         "name": "drivetrain efficiency",
         "year": 2040,
         "powertrain": [
@@ -16113,7 +16206,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "583-2040-combustion power share": {
+    "587-2040-combustion power share": {
         "name": "combustion power share",
         "year": 2040,
         "powertrain": [
@@ -16140,7 +16233,7 @@
         "source": "Own assumption, Calibration result",
         "comment": "Share of total vehicle power provided by combustion (versus battery)"
     },
-    "584-2040-engine efficiency": {
+    "588-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -16159,7 +16252,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "585-2040-energy cost per kWh": {
+    "589-2040-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2040,
         "powertrain": [
@@ -16187,7 +16280,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "586-2040-combustion powertrain cost per kW": {
+    "590-2040-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2040,
         "powertrain": [
@@ -16217,7 +16310,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "587-2040-fuel tank cost per kg": {
+    "591-2040-fuel tank cost per kg": {
         "name": "fuel tank cost per kg",
         "year": 2040,
         "powertrain": [
@@ -16249,7 +16342,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "588-2040-LHV fuel MJ per kg": {
+    "592-2040-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2040,
         "powertrain": [
@@ -16277,7 +16370,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "589-2000-fuel mass": {
+    "593-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -16297,7 +16390,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "590-2000-glider base mass": {
+    "594-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -16318,7 +16411,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "591-2000-engine efficiency": {
+    "595-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -16339,7 +16432,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "592-2010-fuel mass": {
+    "596-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -16359,7 +16452,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "593-2010-glider base mass": {
+    "597-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -16380,7 +16473,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "594-2010-engine efficiency": {
+    "598-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -16401,7 +16494,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "595-2020-fuel mass": {
+    "599-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -16421,19 +16514,20 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "596-2020-glider base mass": {
+    "600-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
             "HEV-d",
-            "ICEV-d",
-            "PHEV-c-d"
+            "HEV-p",
+            "PHEV-c-d",
+            "PHEV-c-p"
         ],
         "sizes": [
             "Lower medium"
         ],
-        "amount": 1207.5,
-        "loc": 1207.5,
+        "amount": 1230,
+        "loc": 1230,
         "minimum": 950,
         "maximum": 1350,
         "kind": "distribution",
@@ -16442,7 +16536,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "597-2020-engine efficiency": {
+    "601-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -16462,7 +16556,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "598-2040-fuel mass": {
+    "602-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -16482,7 +16576,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "599-2040-engine efficiency": {
+    "603-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -16503,7 +16597,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "600-2000-fuel mass": {
+    "604-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -16523,7 +16617,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "601-2000-glider base mass": {
+    "605-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -16543,7 +16637,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "602-2000-engine efficiency": {
+    "606-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -16562,7 +16656,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "603-2010-fuel mass": {
+    "607-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -16582,7 +16676,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "604-2010-glider base mass": {
+    "608-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -16602,7 +16696,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "605-2010-engine efficiency": {
+    "609-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -16621,7 +16715,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "606-2020-fuel mass": {
+    "610-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -16641,7 +16735,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "607-2020-glider base mass": {
+    "611-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -16651,8 +16745,8 @@
         "sizes": [
             "Medium"
         ],
-        "amount": 1390.5,
-        "loc": 1390.5,
+        "amount": 1390,
+        "loc": 1390,
         "minimum": 900,
         "maximum": 1500,
         "kind": "distribution",
@@ -16661,7 +16755,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "608-2020-engine efficiency": {
+    "612-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -16680,7 +16774,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "609-2000-fuel mass": {
+    "613-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -16700,7 +16794,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "610-2000-glider base mass": {
+    "614-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -16720,7 +16814,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "611-2010-fuel mass": {
+    "615-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -16740,7 +16834,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "612-2010-glider base mass": {
+    "616-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -16760,7 +16854,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "613-2020-fuel mass": {
+    "617-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -16780,7 +16874,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "614-2020-glider base mass": {
+    "618-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -16801,7 +16895,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "615-2020-engine efficiency": {
+    "619-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -16820,7 +16914,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "616-2040-fuel mass": {
+    "620-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -16840,7 +16934,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "617-2040-engine efficiency": {
+    "621-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -16859,7 +16953,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "618-2000-fuel mass": {
+    "622-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -16879,7 +16973,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "619-2010-fuel mass": {
+    "623-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -16900,7 +16994,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "620-2020-fuel mass": {
+    "624-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -16920,7 +17014,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "621-2040-fuel mass": {
+    "625-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -16940,7 +17034,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "622-2000-engine efficiency": {
+    "626-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -16961,7 +17055,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "623-2010-engine efficiency": {
+    "627-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -16982,7 +17076,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "624-2020-engine efficiency": {
+    "628-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -17003,7 +17097,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "625-2040-engine efficiency": {
+    "629-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -17025,7 +17119,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "626-2040-engine efficiency": {
+    "630-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -17044,7 +17138,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "627-2000-glider base mass": {
+    "631-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -17064,7 +17158,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "628-2010-glider base mass": {
+    "632-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -17084,7 +17178,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "629-2020-glider base mass": {
+    "633-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -17104,7 +17198,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "630-2040-fuel mass": {
+    "634-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -17124,7 +17218,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "631-2040-glider base mass": {
+    "635-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -17144,7 +17238,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "632-2000-CO2 per kg fuel": {
+    "636-2000-CO2 per kg fuel": {
         "name": "CO2 per kg fuel",
         "year": 2000,
         "powertrain": [
@@ -17170,7 +17264,7 @@
         "source": "EMEP/ EEA (2016)",
         "comment": ""
     },
-    "633-2000-engine efficiency": {
+    "637-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -17189,7 +17283,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "634-2000-energy cost per kWh": {
+    "638-2000-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2000,
         "powertrain": [
@@ -17217,7 +17311,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "635-2000-LHV fuel MJ per kg": {
+    "639-2000-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2000,
         "powertrain": [
@@ -17245,7 +17339,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "636-2010-CO2 per kg fuel": {
+    "640-2010-CO2 per kg fuel": {
         "name": "CO2 per kg fuel",
         "year": 2010,
         "powertrain": [
@@ -17271,7 +17365,7 @@
         "source": "EMEP/ EEA (2016)",
         "comment": ""
     },
-    "637-2010-engine efficiency": {
+    "641-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -17290,7 +17384,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "638-2010-energy cost per kWh": {
+    "642-2010-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2010,
         "powertrain": [
@@ -17318,7 +17412,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "639-2010-LHV fuel MJ per kg": {
+    "643-2010-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2010,
         "powertrain": [
@@ -17346,7 +17440,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "640-2020-CO2 per kg fuel": {
+    "644-2020-CO2 per kg fuel": {
         "name": "CO2 per kg fuel",
         "year": 2020,
         "powertrain": [
@@ -17372,7 +17466,7 @@
         "source": "EMEP/ EEA (2016)",
         "comment": ""
     },
-    "641-2020-engine efficiency": {
+    "645-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -17394,7 +17488,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "642-2020-energy cost per kWh": {
+    "646-2020-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2020,
         "powertrain": [
@@ -17422,7 +17516,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "643-2020-LHV fuel MJ per kg": {
+    "647-2020-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2020,
         "powertrain": [
@@ -17450,7 +17544,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "644-2040-CO2 per kg fuel": {
+    "648-2040-CO2 per kg fuel": {
         "name": "CO2 per kg fuel",
         "year": 2040,
         "powertrain": [
@@ -17476,7 +17570,7 @@
         "source": "EMEP/ EEA (2016)",
         "comment": ""
     },
-    "645-2040-engine efficiency": {
+    "649-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -17497,7 +17591,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "646-2040-energy cost per kWh": {
+    "650-2040-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2040,
         "powertrain": [
@@ -17525,7 +17619,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "647-2040-LHV fuel MJ per kg": {
+    "651-2040-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2040,
         "powertrain": [
@@ -17553,7 +17647,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "648-2000-glider base mass": {
+    "652-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -17572,7 +17666,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "649-2000-engine efficiency": {
+    "653-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -17593,7 +17687,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "650-2010-glider base mass": {
+    "654-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -17612,7 +17706,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "651-2010-engine efficiency": {
+    "655-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -17631,26 +17725,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "652-2020-glider base mass": {
-        "name": "glider base mass",
-        "year": 2020,
-        "powertrain": [
-            "HEV-p"
-        ],
-        "sizes": [
-            "Lower medium"
-        ],
-        "amount": 1229.83875,
-        "loc": 1229.83875,
-        "minimum": 950,
-        "maximum": 1350,
-        "kind": "distribution",
-        "uncertainty_type": 5,
-        "category": "Glider",
-        "source": "Hirschberg et al. (2016), Calibration result",
-        "comment": ""
-    },
-    "653-2020-engine efficiency": {
+    "656-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -17669,7 +17744,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "654-2040-engine efficiency": {
+    "657-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -17689,7 +17764,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "655-2000-engine efficiency": {
+    "658-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -17708,7 +17783,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "656-2010-engine efficiency": {
+    "659-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -17727,7 +17802,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "657-2020-engine efficiency": {
+    "660-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -17746,7 +17821,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "658-2000-glider base mass": {
+    "661-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -17766,7 +17841,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "659-2000-engine efficiency": {
+    "662-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -17785,7 +17860,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "660-2010-glider base mass": {
+    "663-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -17805,7 +17880,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "661-2010-engine efficiency": {
+    "664-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -17824,7 +17899,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "662-2020-glider base mass": {
+    "665-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -17845,7 +17920,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "663-2020-engine efficiency": {
+    "666-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -17864,7 +17939,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "664-2000-engine efficiency": {
+    "667-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -17883,7 +17958,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "665-2010-engine efficiency": {
+    "668-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -17902,7 +17977,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "666-2020-engine efficiency": {
+    "669-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -17921,7 +17996,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "667-2040-engine efficiency": {
+    "670-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -17941,7 +18016,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "668-2000-engine efficiency": {
+    "671-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -17962,7 +18037,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "669-2010-engine efficiency": {
+    "672-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -17983,7 +18058,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "670-2000-battery lifetime kilometers": {
+    "673-2000-battery lifetime kilometers": {
         "name": "battery lifetime kilometers",
         "year": 2000,
         "powertrain": [
@@ -18011,7 +18086,7 @@
         "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Own assumption",
         "comment": ""
     },
-    "671-2000-combustion fixed mass": {
+    "674-2000-combustion fixed mass": {
         "name": "combustion fixed mass",
         "year": 2000,
         "powertrain": [
@@ -18037,7 +18112,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "672-2000-combustion mass per power": {
+    "675-2000-combustion mass per power": {
         "name": "combustion mass per power",
         "year": 2000,
         "powertrain": [
@@ -18064,7 +18139,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "673-2000-fuel mass": {
+    "676-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -18083,7 +18158,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "674-2000-electric fixed mass": {
+    "677-2000-electric fixed mass": {
         "name": "electric fixed mass",
         "year": 2000,
         "powertrain": [
@@ -18111,7 +18186,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "675-2000-drivetrain efficiency": {
+    "678-2000-drivetrain efficiency": {
         "name": "drivetrain efficiency",
         "year": 2000,
         "powertrain": [
@@ -18141,7 +18216,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "676-2000-combustion power share": {
+    "679-2000-combustion power share": {
         "name": "combustion power share",
         "year": 2000,
         "powertrain": [
@@ -18169,7 +18244,7 @@
         "source": "Own assumption, Calibration result",
         "comment": "Share of total vehicle power provided by combustion (versus battery)"
     },
-    "677-2000-engine efficiency": {
+    "680-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -18188,7 +18263,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "678-2000-auxilliary power base demand": {
+    "681-2000-auxilliary power base demand": {
         "name": "auxilliary power base demand",
         "year": 2000,
         "powertrain": [
@@ -18216,7 +18291,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": "average power demand (mechanical)"
     },
-    "679-2000-combustion powertrain cost per kW": {
+    "682-2000-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2000,
         "powertrain": [
@@ -18242,7 +18317,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "680-2000-electric powertrain cost per kW": {
+    "683-2000-electric powertrain cost per kW": {
         "name": "electric powertrain cost per kW",
         "year": 2000,
         "powertrain": [
@@ -18270,7 +18345,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "681-2010-battery lifetime kilometers": {
+    "684-2010-battery lifetime kilometers": {
         "name": "battery lifetime kilometers",
         "year": 2010,
         "powertrain": [
@@ -18298,7 +18373,7 @@
         "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Own assumption",
         "comment": ""
     },
-    "682-2010-combustion fixed mass": {
+    "685-2010-combustion fixed mass": {
         "name": "combustion fixed mass",
         "year": 2010,
         "powertrain": [
@@ -18324,7 +18399,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "683-2010-combustion mass per power": {
+    "686-2010-combustion mass per power": {
         "name": "combustion mass per power",
         "year": 2010,
         "powertrain": [
@@ -18351,7 +18426,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "684-2010-fuel mass": {
+    "687-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -18374,7 +18449,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "685-2010-electric fixed mass": {
+    "688-2010-electric fixed mass": {
         "name": "electric fixed mass",
         "year": 2010,
         "powertrain": [
@@ -18402,7 +18477,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "686-2010-drivetrain efficiency": {
+    "689-2010-drivetrain efficiency": {
         "name": "drivetrain efficiency",
         "year": 2010,
         "powertrain": [
@@ -18430,7 +18505,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "687-2010-combustion power share": {
+    "690-2010-combustion power share": {
         "name": "combustion power share",
         "year": 2010,
         "powertrain": [
@@ -18458,7 +18533,7 @@
         "source": "Own assumption, Calibration result",
         "comment": "Share of total vehicle power provided by combustion (versus battery)"
     },
-    "688-2010-engine efficiency": {
+    "691-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -18477,7 +18552,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "689-2010-auxilliary power base demand": {
+    "692-2010-auxilliary power base demand": {
         "name": "auxilliary power base demand",
         "year": 2010,
         "powertrain": [
@@ -18505,7 +18580,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": "average power demand (mechanical)"
     },
-    "690-2010-combustion powertrain cost per kW": {
+    "693-2010-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2010,
         "powertrain": [
@@ -18531,7 +18606,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "691-2010-electric powertrain cost per kW": {
+    "694-2010-electric powertrain cost per kW": {
         "name": "electric powertrain cost per kW",
         "year": 2010,
         "powertrain": [
@@ -18559,7 +18634,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "692-2020-battery lifetime kilometers": {
+    "695-2020-battery lifetime kilometers": {
         "name": "battery lifetime kilometers",
         "year": 2020,
         "powertrain": [
@@ -18587,7 +18662,7 @@
         "source": "Konecky, Anderman (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), DOE (2013), DOE (2017c), Own assumption",
         "comment": ""
     },
-    "693-2020-combustion fixed mass": {
+    "696-2020-combustion fixed mass": {
         "name": "combustion fixed mass",
         "year": 2020,
         "powertrain": [
@@ -18613,7 +18688,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "694-2020-combustion mass per power": {
+    "697-2020-combustion mass per power": {
         "name": "combustion mass per power",
         "year": 2020,
         "powertrain": [
@@ -18640,7 +18715,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "695-2020-fuel mass": {
+    "698-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -18664,7 +18739,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "696-2020-electric fixed mass": {
+    "699-2020-electric fixed mass": {
         "name": "electric fixed mass",
         "year": 2020,
         "powertrain": [
@@ -18692,7 +18767,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "697-2020-drivetrain efficiency": {
+    "700-2020-drivetrain efficiency": {
         "name": "drivetrain efficiency",
         "year": 2020,
         "powertrain": [
@@ -18720,7 +18795,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "698-2020-combustion power share": {
+    "701-2020-combustion power share": {
         "name": "combustion power share",
         "year": 2020,
         "powertrain": [
@@ -18748,7 +18823,7 @@
         "source": "Own assumption, Calibration result",
         "comment": "Share of total vehicle power provided by combustion (versus battery)"
     },
-    "699-2020-engine efficiency": {
+    "702-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -18767,7 +18842,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "700-2020-auxilliary power base demand": {
+    "703-2020-auxilliary power base demand": {
         "name": "auxilliary power base demand",
         "year": 2020,
         "powertrain": [
@@ -18795,7 +18870,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": "average power demand (mechanical)"
     },
-    "701-2020-combustion powertrain cost per kW": {
+    "704-2020-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2020,
         "powertrain": [
@@ -18821,7 +18896,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "702-2020-electric powertrain cost per kW": {
+    "705-2020-electric powertrain cost per kW": {
         "name": "electric powertrain cost per kW",
         "year": 2020,
         "powertrain": [
@@ -18849,7 +18924,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "703-2040-combustion fixed mass": {
+    "706-2040-combustion fixed mass": {
         "name": "combustion fixed mass",
         "year": 2040,
         "powertrain": [
@@ -18875,7 +18950,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "704-2040-combustion mass per power": {
+    "707-2040-combustion mass per power": {
         "name": "combustion mass per power",
         "year": 2040,
         "powertrain": [
@@ -18902,7 +18977,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "705-2040-fuel mass": {
+    "708-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -18926,7 +19001,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "706-2040-drivetrain efficiency": {
+    "709-2040-drivetrain efficiency": {
         "name": "drivetrain efficiency",
         "year": 2040,
         "powertrain": [
@@ -18954,7 +19029,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "707-2040-combustion power share": {
+    "710-2040-combustion power share": {
         "name": "combustion power share",
         "year": 2040,
         "powertrain": [
@@ -18980,7 +19055,7 @@
         "source": "Own assumption, Calibration result",
         "comment": "Share of total vehicle power provided by combustion (versus battery)"
     },
-    "708-2040-engine efficiency": {
+    "711-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -18999,7 +19074,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "709-2040-combustion powertrain cost per kW": {
+    "712-2040-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2040,
         "powertrain": [
@@ -19025,7 +19100,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "710-2040-electric powertrain cost per kW": {
+    "713-2040-electric powertrain cost per kW": {
         "name": "electric powertrain cost per kW",
         "year": 2040,
         "powertrain": [
@@ -19053,7 +19128,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "711-2000-fuel mass": {
+    "714-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -19072,7 +19147,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "712-2000-engine efficiency": {
+    "715-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -19093,7 +19168,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "713-2010-fuel mass": {
+    "716-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -19112,7 +19187,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "714-2010-engine efficiency": {
+    "717-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -19133,7 +19208,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "715-2020-engine efficiency": {
+    "718-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -19152,7 +19227,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "716-2040-fuel mass": {
+    "719-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -19174,7 +19249,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "717-2040-engine efficiency": {
+    "720-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -19202,7 +19277,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "718-2000-fuel mass": {
+    "721-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -19223,7 +19298,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "719-2000-glider base mass": {
+    "722-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -19242,7 +19317,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "720-2000-engine efficiency": {
+    "723-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -19261,7 +19336,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "721-2010-glider base mass": {
+    "724-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -19280,7 +19355,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "722-2010-engine efficiency": {
+    "725-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -19299,26 +19374,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "723-2020-glider base mass": {
-        "name": "glider base mass",
-        "year": 2020,
-        "powertrain": [
-            "ICEV-d"
-        ],
-        "sizes": [
-            "Medium"
-        ],
-        "amount": 1500,
-        "loc": 1500,
-        "minimum": 1350,
-        "maximum": 1650.0000000000002,
-        "kind": "distribution",
-        "uncertainty_type": 5,
-        "category": "Glider",
-        "source": "Hirschberg et al. (2016), Calibration result",
-        "comment": ""
-    },
-    "724-2020-engine efficiency": {
+    "726-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -19337,7 +19393,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "725-2000-fuel mass": {
+    "727-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -19356,7 +19412,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "726-2000-glider base mass": {
+    "728-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -19375,7 +19431,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "727-2010-fuel mass": {
+    "729-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -19394,7 +19450,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "728-2010-glider base mass": {
+    "730-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -19413,7 +19469,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "729-2020-fuel mass": {
+    "731-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -19435,7 +19491,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "730-2020-engine efficiency": {
+    "732-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -19454,7 +19510,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "731-2040-fuel mass": {
+    "733-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -19476,7 +19532,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "732-2040-engine efficiency": {
+    "734-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -19495,7 +19551,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "733-2000-fuel mass": {
+    "735-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -19514,7 +19570,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "734-2020-fuel mass": {
+    "736-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -19536,7 +19592,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "735-2020-engine efficiency": {
+    "737-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -19555,7 +19611,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "736-2040-fuel mass": {
+    "738-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -19577,7 +19633,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "737-2000-fuel mass": {
+    "739-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -19597,7 +19653,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "738-2000-engine efficiency": {
+    "740-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -19618,7 +19674,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "739-2010-engine efficiency": {
+    "741-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -19639,7 +19695,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "740-2020-fuel mass": {
+    "742-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -19662,7 +19718,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "741-2020-engine efficiency": {
+    "743-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -19681,7 +19737,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "742-2040-fuel mass": {
+    "744-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -19704,7 +19760,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "743-2040-engine efficiency": {
+    "745-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -19723,7 +19779,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "744-2020-engine efficiency": {
+    "746-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -19742,7 +19798,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "745-2040-engine efficiency": {
+    "747-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -19761,7 +19817,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "746-2010-fuel mass": {
+    "748-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -19781,7 +19837,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "747-2020-engine efficiency": {
+    "749-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -19800,7 +19856,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "748-2040-engine efficiency": {
+    "750-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -19821,7 +19877,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "749-2000-CO2 per kg fuel": {
+    "751-2000-CO2 per kg fuel": {
         "name": "CO2 per kg fuel",
         "year": 2000,
         "powertrain": [
@@ -19845,7 +19901,7 @@
         "source": "EMEP/ EEA (2016)",
         "comment": ""
     },
-    "750-2000-fuel mass": {
+    "752-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -19864,7 +19920,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "751-2000-CNG pump-to-tank leakage": {
+    "753-2000-CNG pump-to-tank leakage": {
         "name": "CNG pump-to-tank leakage",
         "year": 2000,
         "powertrain": [
@@ -19890,7 +19946,7 @@
         "source": "https://iopscience.iop.org/article/10.1088/2516-1083/ab56af/pdf",
         "comment": "Leakage represented as a fraction of CNG input.\nIncludes leakage from Delivery, Station tank, Continuous leaks at stations, Fuelling nozzle, Vehicle fuel tank and Vehicle manual vent."
     },
-    "752-2000-CNG tank mass intercept": {
+    "754-2000-CNG tank mass intercept": {
         "name": "CNG tank mass intercept",
         "year": 2000,
         "powertrain": [
@@ -19916,7 +19972,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "753-2000-engine efficiency": {
+    "755-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -19940,7 +19996,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "754-2000-CNG tank mass slope": {
+    "756-2000-CNG tank mass slope": {
         "name": "CNG tank mass slope",
         "year": 2000,
         "powertrain": [
@@ -19966,7 +20022,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "755-2000-energy cost per kWh": {
+    "757-2000-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2000,
         "powertrain": [
@@ -19992,7 +20048,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "756-2000-combustion powertrain cost per kW": {
+    "758-2000-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2000,
         "powertrain": [
@@ -20018,7 +20074,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "757-2000-fuel tank cost per kg": {
+    "759-2000-fuel tank cost per kg": {
         "name": "fuel tank cost per kg",
         "year": 2000,
         "powertrain": [
@@ -20044,7 +20100,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "758-2000-LHV fuel MJ per kg": {
+    "760-2000-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2000,
         "powertrain": [
@@ -20070,7 +20126,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "759-2010-CO2 per kg fuel": {
+    "761-2010-CO2 per kg fuel": {
         "name": "CO2 per kg fuel",
         "year": 2010,
         "powertrain": [
@@ -20094,7 +20150,7 @@
         "source": "EMEP/ EEA (2016)",
         "comment": ""
     },
-    "760-2010-fuel mass": {
+    "762-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -20113,7 +20169,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "761-2010-CNG pump-to-tank leakage": {
+    "763-2010-CNG pump-to-tank leakage": {
         "name": "CNG pump-to-tank leakage",
         "year": 2010,
         "powertrain": [
@@ -20139,7 +20195,7 @@
         "source": "https://iopscience.iop.org/article/10.1088/2516-1083/ab56af/pdf",
         "comment": "Leakage represented as a fraction of CNG input.\nIncludes leakage from Delivery, Station tank, Continuous leaks at stations, Fuelling nozzle, Vehicle fuel tank and Vehicle manual vent."
     },
-    "762-2010-CNG tank mass intercept": {
+    "764-2010-CNG tank mass intercept": {
         "name": "CNG tank mass intercept",
         "year": 2010,
         "powertrain": [
@@ -20165,7 +20221,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "763-2010-engine efficiency": {
+    "765-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -20189,7 +20245,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "764-2010-CNG tank mass slope": {
+    "766-2010-CNG tank mass slope": {
         "name": "CNG tank mass slope",
         "year": 2010,
         "powertrain": [
@@ -20215,7 +20271,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "765-2010-energy cost per kWh": {
+    "767-2010-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2010,
         "powertrain": [
@@ -20241,7 +20297,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "766-2010-combustion powertrain cost per kW": {
+    "768-2010-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2010,
         "powertrain": [
@@ -20267,7 +20323,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "767-2010-fuel tank cost per kg": {
+    "769-2010-fuel tank cost per kg": {
         "name": "fuel tank cost per kg",
         "year": 2010,
         "powertrain": [
@@ -20293,7 +20349,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "768-2010-LHV fuel MJ per kg": {
+    "770-2010-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2010,
         "powertrain": [
@@ -20319,7 +20375,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "769-2020-CO2 per kg fuel": {
+    "771-2020-CO2 per kg fuel": {
         "name": "CO2 per kg fuel",
         "year": 2020,
         "powertrain": [
@@ -20343,7 +20399,7 @@
         "source": "EMEP/ EEA (2016)",
         "comment": ""
     },
-    "770-2020-fuel mass": {
+    "772-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -20365,7 +20421,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "771-2020-CNG pump-to-tank leakage": {
+    "773-2020-CNG pump-to-tank leakage": {
         "name": "CNG pump-to-tank leakage",
         "year": 2020,
         "powertrain": [
@@ -20391,7 +20447,7 @@
         "source": "https://iopscience.iop.org/article/10.1088/2516-1083/ab56af/pdf",
         "comment": "Leakage represented as a fraction of CNG input.\nIncludes leakage from Delivery, Station tank, Continuous leaks at stations, Fuelling nozzle, Vehicle fuel tank and Vehicle manual vent."
     },
-    "772-2020-CNG tank mass intercept": {
+    "774-2020-CNG tank mass intercept": {
         "name": "CNG tank mass intercept",
         "year": 2020,
         "powertrain": [
@@ -20417,7 +20473,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "773-2020-engine efficiency": {
+    "775-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -20441,7 +20497,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "774-2020-CNG tank mass slope": {
+    "776-2020-CNG tank mass slope": {
         "name": "CNG tank mass slope",
         "year": 2020,
         "powertrain": [
@@ -20467,7 +20523,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "775-2020-energy cost per kWh": {
+    "777-2020-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2020,
         "powertrain": [
@@ -20493,7 +20549,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "776-2020-combustion powertrain cost per kW": {
+    "778-2020-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2020,
         "powertrain": [
@@ -20519,7 +20575,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "777-2020-fuel tank cost per kg": {
+    "779-2020-fuel tank cost per kg": {
         "name": "fuel tank cost per kg",
         "year": 2020,
         "powertrain": [
@@ -20545,7 +20601,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "778-2020-LHV fuel MJ per kg": {
+    "780-2020-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2020,
         "powertrain": [
@@ -20571,7 +20627,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "779-2040-CO2 per kg fuel": {
+    "781-2040-CO2 per kg fuel": {
         "name": "CO2 per kg fuel",
         "year": 2040,
         "powertrain": [
@@ -20595,7 +20651,7 @@
         "source": "EMEP/ EEA (2016)",
         "comment": ""
     },
-    "780-2040-fuel mass": {
+    "782-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -20614,7 +20670,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "781-2040-CNG pump-to-tank leakage": {
+    "783-2040-CNG pump-to-tank leakage": {
         "name": "CNG pump-to-tank leakage",
         "year": 2040,
         "powertrain": [
@@ -20640,7 +20696,7 @@
         "source": "https://iopscience.iop.org/article/10.1088/2516-1083/ab56af/pdf",
         "comment": "Leakage represented as a fraction of CNG input.\nIncludes leakage from Delivery, Station tank, Continuous leaks at stations, Fuelling nozzle, Vehicle fuel tank and Vehicle manual vent."
     },
-    "782-2040-CNG tank mass intercept": {
+    "784-2040-CNG tank mass intercept": {
         "name": "CNG tank mass intercept",
         "year": 2040,
         "powertrain": [
@@ -20666,7 +20722,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "783-2040-engine efficiency": {
+    "785-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -20693,7 +20749,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "784-2040-CNG tank mass slope": {
+    "786-2040-CNG tank mass slope": {
         "name": "CNG tank mass slope",
         "year": 2040,
         "powertrain": [
@@ -20719,7 +20775,7 @@
         "source": "Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "785-2040-energy cost per kWh": {
+    "787-2040-energy cost per kWh": {
         "name": "energy cost per kWh",
         "year": 2040,
         "powertrain": [
@@ -20745,7 +20801,7 @@
         "source": "Bauer (2017), European Commission (2018a)",
         "comment": "Electricity for household consumers : .2 Euro surcharge for charging station amortisation included. Future prices from IMAGE results"
     },
-    "786-2040-combustion powertrain cost per kW": {
+    "788-2040-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2040,
         "powertrain": [
@@ -20771,7 +20827,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "787-2040-fuel tank cost per kg": {
+    "789-2040-fuel tank cost per kg": {
         "name": "fuel tank cost per kg",
         "year": 2040,
         "powertrain": [
@@ -20797,7 +20853,7 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "788-2040-LHV fuel MJ per kg": {
+    "790-2040-LHV fuel MJ per kg": {
         "name": "LHV fuel MJ per kg",
         "year": 2040,
         "powertrain": [
@@ -20823,7 +20879,7 @@
         "source": "https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html",
         "comment": ""
     },
-    "789-2000-fuel mass": {
+    "791-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -20842,7 +20898,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "790-2000-engine efficiency": {
+    "792-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -20862,7 +20918,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "791-2010-fuel mass": {
+    "793-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -20881,7 +20937,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "792-2010-engine efficiency": {
+    "794-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -20901,7 +20957,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "793-2020-fuel mass": {
+    "795-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -20920,7 +20976,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "794-2020-engine efficiency": {
+    "796-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -20940,7 +20996,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "795-2040-fuel mass": {
+    "797-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -20959,7 +21015,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "796-2000-fuel mass": {
+    "798-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -20978,7 +21034,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "797-2000-glider base mass": {
+    "799-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -20997,7 +21053,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "798-2010-fuel mass": {
+    "800-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -21016,7 +21072,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "799-2010-glider base mass": {
+    "801-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -21035,7 +21091,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "800-2020-fuel mass": {
+    "802-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -21054,26 +21110,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "801-2020-glider base mass": {
-        "name": "glider base mass",
-        "year": 2020,
-        "powertrain": [
-            "ICEV-g"
-        ],
-        "sizes": [
-            "Medium"
-        ],
-        "amount": 1377,
-        "loc": 1377,
-        "minimum": 900,
-        "maximum": 1500,
-        "kind": "distribution",
-        "uncertainty_type": 5,
-        "category": "Glider",
-        "source": "Hirschberg et al. (2016), Calibration result",
-        "comment": ""
-    },
-    "802-2040-fuel mass": {
+    "803-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -21092,7 +21129,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "803-2000-fuel mass": {
+    "804-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -21111,7 +21148,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "804-2010-fuel mass": {
+    "805-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -21130,7 +21167,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "805-2020-fuel mass": {
+    "806-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -21149,7 +21186,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "806-2040-fuel mass": {
+    "807-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -21168,7 +21205,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "807-2000-fuel mass": {
+    "808-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -21187,7 +21224,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "808-2010-fuel mass": {
+    "809-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -21206,7 +21243,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "809-2020-fuel mass": {
+    "810-2020-fuel mass": {
         "name": "fuel mass",
         "year": 2020,
         "powertrain": [
@@ -21225,7 +21262,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "810-2040-fuel mass": {
+    "811-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -21244,7 +21281,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "811-2000-fuel mass": {
+    "812-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -21264,7 +21301,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "812-2010-fuel mass": {
+    "813-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -21284,7 +21321,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "813-2040-fuel mass": {
+    "814-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -21304,7 +21341,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "814-2000-fuel mass": {
+    "815-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -21323,7 +21360,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "815-2000-glider base mass": {
+    "816-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -21342,7 +21379,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "816-2010-fuel mass": {
+    "817-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -21364,7 +21401,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "817-2010-glider base mass": {
+    "818-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -21383,7 +21420,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "818-2040-fuel mass": {
+    "819-2040-fuel mass": {
         "name": "fuel mass",
         "year": 2040,
         "powertrain": [
@@ -21402,7 +21439,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "819-2000-fuel mass": {
+    "820-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -21421,7 +21458,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "820-2000-engine efficiency": {
+    "821-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -21440,7 +21477,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "821-2000-combustion powertrain cost per kW": {
+    "822-2000-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2000,
         "powertrain": [
@@ -21466,7 +21503,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "822-2010-fuel mass": {
+    "823-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -21485,7 +21522,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "823-2010-engine efficiency": {
+    "824-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -21504,7 +21541,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "824-2010-combustion powertrain cost per kW": {
+    "825-2010-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2010,
         "powertrain": [
@@ -21530,7 +21567,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "825-2020-engine efficiency": {
+    "826-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -21550,7 +21587,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "826-2020-combustion powertrain cost per kW": {
+    "827-2020-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2020,
         "powertrain": [
@@ -21576,7 +21613,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "827-2040-engine efficiency": {
+    "828-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -21597,7 +21634,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "828-2040-combustion powertrain cost per kW": {
+    "829-2040-combustion powertrain cost per kW": {
         "name": "combustion powertrain cost per kW",
         "year": 2040,
         "powertrain": [
@@ -21623,7 +21660,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "829-2000-fuel mass": {
+    "830-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -21642,7 +21679,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "830-2000-glider base mass": {
+    "831-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -21661,7 +21698,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "831-2000-engine efficiency": {
+    "832-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -21680,7 +21717,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "832-2010-fuel mass": {
+    "833-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -21699,7 +21736,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "833-2010-glider base mass": {
+    "834-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -21718,7 +21755,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "834-2010-engine efficiency": {
+    "835-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -21734,25 +21771,6 @@
         "kind": "distribution",
         "uncertainty_type": 5,
         "category": "Powertrain",
-        "source": "Hirschberg et al. (2016), Calibration result",
-        "comment": ""
-    },
-    "835-2020-glider base mass": {
-        "name": "glider base mass",
-        "year": 2020,
-        "powertrain": [
-            "ICEV-p"
-        ],
-        "sizes": [
-            "Lower medium"
-        ],
-        "amount": 1170,
-        "loc": 1170,
-        "minimum": 950,
-        "maximum": 1350,
-        "kind": "distribution",
-        "uncertainty_type": 5,
-        "category": "Glider",
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
@@ -22219,26 +22237,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "860-2020-glider base mass": {
-        "name": "glider base mass",
-        "year": 2020,
-        "powertrain": [
-            "ICEV-p"
-        ],
-        "sizes": [
-            "Van"
-        ],
-        "amount": 1400,
-        "loc": 1400,
-        "minimum": 1100,
-        "maximum": 1900,
-        "kind": "distribution",
-        "uncertainty_type": 5,
-        "category": "Glider",
-        "source": "Hirschberg et al. (2016), Calibration result",
-        "comment": ""
-    },
-    "861-2020-engine efficiency": {
+    "860-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -22257,7 +22256,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "862-2040-glider base mass": {
+    "861-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -22276,7 +22275,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "863-2000-powertrain mass per power": {
+    "862-2000-powertrain mass per power": {
         "name": "powertrain mass per power",
         "year": 2000,
         "powertrain": [
@@ -22304,7 +22303,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "864-2000-powertrain fixed mass": {
+    "863-2000-powertrain fixed mass": {
         "name": "powertrain fixed mass",
         "year": 2000,
         "powertrain": [
@@ -22332,7 +22331,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "865-2000-fuel mass": {
+    "864-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -22355,7 +22354,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "866-2000-engine efficiency": {
+    "865-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -22374,7 +22373,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "867-2000-energy battery mass": {
+    "866-2000-energy battery mass": {
         "name": "energy battery mass",
         "year": 2000,
         "powertrain": [
@@ -22397,7 +22396,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "868-2010-powertrain mass per power": {
+    "867-2010-powertrain mass per power": {
         "name": "powertrain mass per power",
         "year": 2010,
         "powertrain": [
@@ -22425,7 +22424,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "869-2010-powertrain fixed mass": {
+    "868-2010-powertrain fixed mass": {
         "name": "powertrain fixed mass",
         "year": 2010,
         "powertrain": [
@@ -22453,7 +22452,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "870-2010-fuel mass": {
+    "869-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -22473,7 +22472,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "871-2010-drivetrain efficiency": {
+    "870-2010-drivetrain efficiency": {
         "name": "drivetrain efficiency",
         "year": 2010,
         "powertrain": [
@@ -22500,7 +22499,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "872-2010-engine efficiency": {
+    "871-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -22519,7 +22518,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "873-2010-energy battery mass": {
+    "872-2010-energy battery mass": {
         "name": "energy battery mass",
         "year": 2010,
         "powertrain": [
@@ -22542,7 +22541,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "874-2020-powertrain mass per power": {
+    "873-2020-powertrain mass per power": {
         "name": "powertrain mass per power",
         "year": 2020,
         "powertrain": [
@@ -22570,7 +22569,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "875-2020-powertrain fixed mass": {
+    "874-2020-powertrain fixed mass": {
         "name": "powertrain fixed mass",
         "year": 2020,
         "powertrain": [
@@ -22598,7 +22597,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "876-2020-drivetrain efficiency": {
+    "875-2020-drivetrain efficiency": {
         "name": "drivetrain efficiency",
         "year": 2020,
         "powertrain": [
@@ -22625,7 +22624,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "877-2020-engine efficiency": {
+    "876-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -22646,7 +22645,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "878-2020-energy battery mass": {
+    "877-2020-energy battery mass": {
         "name": "energy battery mass",
         "year": 2020,
         "powertrain": [
@@ -22669,7 +22668,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "879-2040-powertrain mass per power": {
+    "878-2040-powertrain mass per power": {
         "name": "powertrain mass per power",
         "year": 2040,
         "powertrain": [
@@ -22697,7 +22696,7 @@
         "source": "Del Duce et al (2016), Grunditz, Thiringer (2016), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "880-2040-powertrain fixed mass": {
+    "879-2040-powertrain fixed mass": {
         "name": "powertrain fixed mass",
         "year": 2040,
         "powertrain": [
@@ -22725,7 +22724,7 @@
         "source": "Simons (2013), Hirschberg et al. (2016), Own assumption",
         "comment": ""
     },
-    "881-2040-drivetrain efficiency": {
+    "880-2040-drivetrain efficiency": {
         "name": "drivetrain efficiency",
         "year": 2040,
         "powertrain": [
@@ -22752,7 +22751,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "882-2040-combustion power share": {
+    "881-2040-combustion power share": {
         "name": "combustion power share",
         "year": 2040,
         "powertrain": [
@@ -22777,7 +22776,7 @@
         "source": "Own assumption, Calibration result",
         "comment": "Share of total vehicle power provided by combustion (versus battery)"
     },
-    "883-2040-energy battery mass": {
+    "882-2040-energy battery mass": {
         "name": "energy battery mass",
         "year": 2040,
         "powertrain": [
@@ -22800,7 +22799,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "884-2000-fuel mass": {
+    "883-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -22820,7 +22819,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "885-2000-engine efficiency": {
+    "884-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -22841,7 +22840,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "886-2000-energy battery mass": {
+    "885-2000-energy battery mass": {
         "name": "energy battery mass",
         "year": 2000,
         "powertrain": [
@@ -22863,7 +22862,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "887-2010-fuel mass": {
+    "886-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -22883,7 +22882,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "888-2010-engine efficiency": {
+    "887-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -22904,7 +22903,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "889-2010-energy battery mass": {
+    "888-2010-energy battery mass": {
         "name": "energy battery mass",
         "year": 2010,
         "powertrain": [
@@ -22926,7 +22925,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "890-2020-engine efficiency": {
+    "889-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -22946,7 +22945,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "891-2020-energy battery mass": {
+    "890-2020-energy battery mass": {
         "name": "energy battery mass",
         "year": 2020,
         "powertrain": [
@@ -22968,7 +22967,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "892-2040-energy battery mass": {
+    "891-2040-energy battery mass": {
         "name": "energy battery mass",
         "year": 2040,
         "powertrain": [
@@ -22990,7 +22989,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "893-2000-glider base mass": {
+    "892-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -23010,7 +23009,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "894-2000-engine efficiency": {
+    "893-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -23031,7 +23030,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "895-2000-energy battery mass": {
+    "894-2000-energy battery mass": {
         "name": "energy battery mass",
         "year": 2000,
         "powertrain": [
@@ -23051,7 +23050,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "896-2010-fuel mass": {
+    "895-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -23071,7 +23070,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "897-2010-glider base mass": {
+    "896-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -23091,7 +23090,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "898-2010-engine efficiency": {
+    "897-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -23112,7 +23111,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "899-2010-energy battery mass": {
+    "898-2010-energy battery mass": {
         "name": "energy battery mass",
         "year": 2010,
         "powertrain": [
@@ -23132,7 +23131,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "900-2020-glider base mass": {
+    "899-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -23152,7 +23151,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "901-2020-engine efficiency": {
+    "900-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -23171,7 +23170,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "902-2020-energy battery mass": {
+    "901-2020-energy battery mass": {
         "name": "energy battery mass",
         "year": 2020,
         "powertrain": [
@@ -23191,7 +23190,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "903-2040-glider base mass": {
+    "902-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -23211,7 +23210,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "904-2040-energy battery mass": {
+    "903-2040-energy battery mass": {
         "name": "energy battery mass",
         "year": 2040,
         "powertrain": [
@@ -23231,7 +23230,7 @@
         "source": "Konecky, Anderman (2016), Calibration result",
         "comment": ""
     },
-    "905-2000-fuel mass": {
+    "904-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -23251,7 +23250,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "906-2020-engine efficiency": {
+    "905-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -23270,7 +23269,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "907-2000-fuel mass": {
+    "906-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -23290,7 +23289,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "908-2010-fuel mass": {
+    "907-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -23310,7 +23309,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "909-2000-engine efficiency": {
+    "908-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -23332,7 +23331,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "910-2010-fuel mass": {
+    "909-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -23353,7 +23352,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "911-2010-engine efficiency": {
+    "910-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -23375,7 +23374,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "912-2020-engine efficiency": {
+    "911-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -23398,7 +23397,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "913-2000-fuel mass": {
+    "912-2000-fuel mass": {
         "name": "fuel mass",
         "year": 2000,
         "powertrain": [
@@ -23418,7 +23417,7 @@
         "source": "Own assumption, Calibration result with Car2db",
         "comment": ""
     },
-    "914-2010-fuel mass": {
+    "913-2010-fuel mass": {
         "name": "fuel mass",
         "year": 2010,
         "powertrain": [
@@ -23436,6 +23435,26 @@
         "uncertainty_type": 5,
         "category": "Energy Storage",
         "source": "Own assumption, Calibration result with Car2db",
+        "comment": ""
+    },
+    "914-2020-glider base mass": {
+        "name": "glider base mass",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-c-d",
+            "PHEV-c-p"
+        ],
+        "sizes": [
+            "Van"
+        ],
+        "amount": 1400,
+        "loc": 1400,
+        "minimum": 1100,
+        "maximum": 1900,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Glider",
+        "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
     "915-2000-engine efficiency": {
@@ -23514,26 +23533,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "919-2020-glider base mass": {
-        "name": "glider base mass",
-        "year": 2020,
-        "powertrain": [
-            "PHEV-c-p"
-        ],
-        "sizes": [
-            "Lower medium"
-        ],
-        "amount": 1171.275,
-        "loc": 1171.275,
-        "minimum": 950,
-        "maximum": 1350,
-        "kind": "distribution",
-        "uncertainty_type": 5,
-        "category": "Glider",
-        "source": "Hirschberg et al. (2016), Calibration result",
-        "comment": ""
-    },
-    "920-2020-engine efficiency": {
+    "919-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -23552,7 +23552,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "921-2000-engine efficiency": {
+    "920-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -23571,7 +23571,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "922-2010-engine efficiency": {
+    "921-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -23590,7 +23590,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "923-2020-engine efficiency": {
+    "922-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -23609,7 +23609,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "924-2000-engine efficiency": {
+    "923-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -23628,7 +23628,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "925-2010-engine efficiency": {
+    "924-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -23647,7 +23647,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "926-2000-engine efficiency": {
+    "925-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -23666,7 +23666,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "927-2010-engine efficiency": {
+    "926-2010-engine efficiency": {
         "name": "engine efficiency",
         "year": 2010,
         "powertrain": [
@@ -23685,7 +23685,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "928-2020-engine efficiency": {
+    "927-2020-engine efficiency": {
         "name": "engine efficiency",
         "year": 2020,
         "powertrain": [
@@ -23704,7 +23704,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "929-2000-glider base mass": {
+    "928-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -23723,7 +23723,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "930-2000-engine efficiency": {
+    "929-2000-engine efficiency": {
         "name": "engine efficiency",
         "year": 2000,
         "powertrain": [
@@ -23749,7 +23749,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "931-2000-energy battery mass": {
+    "930-2000-energy battery mass": {
         "name": "energy battery mass",
         "year": 2000,
         "powertrain": [
@@ -23771,7 +23771,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "932-2010-glider base mass": {
+    "931-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -23790,7 +23790,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "933-2010-energy battery mass": {
+    "932-2010-energy battery mass": {
         "name": "energy battery mass",
         "year": 2010,
         "powertrain": [
@@ -23812,7 +23812,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "934-2020-glider base mass": {
+    "933-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -23831,7 +23831,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "935-2020-energy battery mass": {
+    "934-2020-energy battery mass": {
         "name": "energy battery mass",
         "year": 2020,
         "powertrain": [
@@ -23853,7 +23853,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "936-2040-glider base mass": {
+    "935-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -23872,7 +23872,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "937-2040-engine efficiency": {
+    "936-2040-engine efficiency": {
         "name": "engine efficiency",
         "year": 2040,
         "powertrain": [
@@ -23898,7 +23898,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "938-2040-energy battery mass": {
+    "937-2040-energy battery mass": {
         "name": "energy battery mass",
         "year": 2040,
         "powertrain": [
@@ -23920,7 +23920,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "939-2000-glider base mass": {
+    "938-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -23939,7 +23939,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "940-2000-energy battery mass": {
+    "939-2000-energy battery mass": {
         "name": "energy battery mass",
         "year": 2000,
         "powertrain": [
@@ -23958,7 +23958,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "941-2010-glider base mass": {
+    "940-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -23977,7 +23977,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "942-2010-energy battery mass": {
+    "941-2010-energy battery mass": {
         "name": "energy battery mass",
         "year": 2010,
         "powertrain": [
@@ -23996,7 +23996,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "943-2020-glider base mass": {
+    "942-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -24015,7 +24015,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "944-2020-energy battery mass": {
+    "943-2020-energy battery mass": {
         "name": "energy battery mass",
         "year": 2020,
         "powertrain": [
@@ -24034,7 +24034,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "945-2040-energy battery mass": {
+    "944-2040-energy battery mass": {
         "name": "energy battery mass",
         "year": 2040,
         "powertrain": [
@@ -24053,7 +24053,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "946-2000-glider base mass": {
+    "945-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -24072,7 +24072,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "947-2000-energy battery mass": {
+    "946-2000-energy battery mass": {
         "name": "energy battery mass",
         "year": 2000,
         "powertrain": [
@@ -24091,7 +24091,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "948-2010-glider base mass": {
+    "947-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -24110,7 +24110,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "949-2010-energy battery mass": {
+    "948-2010-energy battery mass": {
         "name": "energy battery mass",
         "year": 2010,
         "powertrain": [
@@ -24129,26 +24129,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "950-2020-glider base mass": {
-        "name": "glider base mass",
-        "year": 2020,
-        "powertrain": [
-            "PHEV-e"
-        ],
-        "sizes": [
-            "Medium"
-        ],
-        "amount": 1300,
-        "loc": 1300,
-        "minimum": 1170,
-        "maximum": 1430.0000000000002,
-        "kind": "distribution",
-        "uncertainty_type": 5,
-        "category": "Glider",
-        "source": "Hirschberg et al. (2016), Calibration result",
-        "comment": ""
-    },
-    "951-2020-energy battery mass": {
+    "949-2020-energy battery mass": {
         "name": "energy battery mass",
         "year": 2020,
         "powertrain": [
@@ -24167,7 +24148,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "952-2040-glider base mass": {
+    "950-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -24186,7 +24167,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "953-2040-energy battery mass": {
+    "951-2040-energy battery mass": {
         "name": "energy battery mass",
         "year": 2040,
         "powertrain": [
@@ -24205,7 +24186,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "954-2000-glider base mass": {
+    "952-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -24224,7 +24205,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "955-2000-energy battery mass": {
+    "953-2000-energy battery mass": {
         "name": "energy battery mass",
         "year": 2000,
         "powertrain": [
@@ -24244,7 +24225,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "956-2010-glider base mass": {
+    "954-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -24263,7 +24244,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "957-2010-energy battery mass": {
+    "955-2010-energy battery mass": {
         "name": "energy battery mass",
         "year": 2010,
         "powertrain": [
@@ -24283,7 +24264,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "958-2020-glider base mass": {
+    "956-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -24302,7 +24283,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "959-2020-energy battery mass": {
+    "957-2020-energy battery mass": {
         "name": "energy battery mass",
         "year": 2020,
         "powertrain": [
@@ -24322,7 +24303,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "960-2040-energy battery mass": {
+    "958-2040-energy battery mass": {
         "name": "energy battery mass",
         "year": 2040,
         "powertrain": [
@@ -24342,7 +24323,7 @@
         "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
         "comment": ""
     },
-    "961-2000-glider base mass": {
+    "959-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -24361,7 +24342,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "962-2010-glider base mass": {
+    "960-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -24380,7 +24361,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "963-2020-glider base mass": {
+    "961-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -24399,7 +24380,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "964-2040-glider base mass": {
+    "962-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
@@ -24418,7 +24399,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "965-2000-glider base mass": {
+    "963-2000-glider base mass": {
         "name": "glider base mass",
         "year": 2000,
         "powertrain": [
@@ -24437,7 +24418,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "966-2010-glider base mass": {
+    "964-2010-glider base mass": {
         "name": "glider base mass",
         "year": 2010,
         "powertrain": [
@@ -24456,7 +24437,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "967-2020-glider base mass": {
+    "965-2020-glider base mass": {
         "name": "glider base mass",
         "year": 2020,
         "powertrain": [
@@ -24475,7 +24456,7 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "968-2040-glider base mass": {
+    "966-2040-glider base mass": {
         "name": "glider base mass",
         "year": 2040,
         "powertrain": [
