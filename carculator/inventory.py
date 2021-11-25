@@ -6,7 +6,6 @@ from pathlib import Path
 
 import numpy as np
 import xarray as xr
-from pypardiso import spsolve
 from scipy import sparse
 
 from . import DATA_DIR
@@ -1436,7 +1435,7 @@ class InventoryCalculation:
         for a in ind:
             f[:] = 0
             f[a] = 1
-            X = np.float32(spsolve(sparse.csr_matrix(self.A[0]), f.T))
+            X = np.float32(sparse.linalg.spsolve(sparse.csr_matrix(self.A[0]), f.T))
 
             if self.scenario == "static":
                 new_arr[a] = np.float32(X * B).sum(axis=-1).T[..., None]
@@ -4224,7 +4223,7 @@ class InventoryCalculation:
 
         f[index_output] = 1
 
-        X = np.float32(spsolve(sparse.csr_matrix(self.A[0]), f.T))
+        X = np.float32(sparse.linalg.spsolve(sparse.csr_matrix(self.A[0]), f.T))
 
         ind_inputs = np.nonzero(X)[0]
 
