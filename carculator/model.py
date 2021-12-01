@@ -255,7 +255,9 @@ class CarModel:
                 self.array.loc[
                     dict(size="Micro", parameter="lifetime kilometers")
                 ] = self.array.loc[
-                    dict(size="Micro", parameter="lifetime kilometers", powertrain="BEV")
+                    dict(
+                        size="Micro", parameter="lifetime kilometers", powertrain="BEV"
+                    )
                 ]
 
     def adjust_cost(self):
