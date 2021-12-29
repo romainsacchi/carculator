@@ -1,21 +1,22 @@
+recipe;ReCiPe 2008 Midpoint (H) V1.13;agricultural land occupation;midpoint;ALOP;square meter-year;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;ozone depletion;midpoint;ODPinf;kg CFC-11.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;climate change;midpoint;GWP100;kg CO2-Eq.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;terrestrial acidification;midpoint;TAP100;kg SO2-Eq.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;photochemical oxidant formation;midpoint;POFP;kg NMVOC-.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;metal depletion;midpoint;MDP;kg Fe-Eq.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;water depletion;midpoint;WDP;m3 water-.;https://www.rivm.nl/documenten/6recipe111
 recipe;ReCiPe 2008 Midpoint (H) V1.13;freshwater ecotoxicity;midpoint;FETPinf;kg 1,4-DC.;https://www.rivm.nl/documenten/6recipe111
 recipe;ReCiPe 2008 Midpoint (H) V1.13;human toxicity;midpoint;HTPinf;kg 1,4-DC.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;marine ecotoxicity;midpoint;METPinf;kg 1,4-DB.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;terrestrial ecotoxicity;midpoint;TETPinf;kg 1,4-DC.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;metal depletion;midpoint;MDP;kg Fe-Eq.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;agricultural land occupation;midpoint;ALOP;square meter-year;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;climate change;midpoint;GWP100;kg CO2-Eq.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;fossil depletion;midpoint;FDP;kg oil-Eq.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;freshwater eutrophication;midpoint;FEP;kg P-Eq.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;ionising radiation;midpoint;IRP_HE;kg U235-Eq.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;marine eutrophication;midpoint;MEP;kg N-Eq.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;natural land transformation;midpoint;NLTP;square meter;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;ozone depletion;midpoint;ODPinf;kg CFC-11.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;particulate matter formation;midpoint;PMFP;kg PM10-Eq.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;photochemical oxidant formation;midpoint;POFP;kg NMVOC-.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;terrestrial acidification;midpoint;TAP100;kg SO2-Eq.;https://www.rivm.nl/documenten/6recipe111
 recipe;ReCiPe 2008 Midpoint (H) V1.13;urban land occupation;midpoint;ULOP;square meter-year;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;water depletion;midpoint;WDP;m3 water-.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;particulate matter formation;midpoint;PMFP;kg PM10-Eq.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;freshwater eutrophication;midpoint;FEP;kg P-Eq.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;natural land transformation;midpoint;NLTP;square meter;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;marine eutrophication;midpoint;MEP;kg N-Eq.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;terrestrial ecotoxicity;midpoint;TETPinf;kg 1,4-DC.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;fossil depletion;midpoint;FDP;kg oil-Eq.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;ionising radiation;midpoint;IRP_HE;kg U235-Eq.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;marine ecotoxicity;midpoint;METPinf;kg 1,4-DB.;https://www.rivm.nl/documenten/6recipe111
+recipe;ReCiPe 2008 Midpoint (H) V1.13;climate change, incl. biogenic CO2;midpoint;GWP100;kg CO2-Eq.;https://www.rivm.nl/documenten/6recipe111
 recipe;Additional indicator;noise emissions;midpoint;HN;Person-Pascal.second;https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837
 recipe;Additional indicator;renewable primary energy;midpoint;RPE;megajoule;ecoinvent 3.6
 recipe;Additional indicator;non-renewable primary energy;midpoint;NRPE;megajoule;ecoinvent 3.6

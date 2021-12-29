@@ -30,7 +30,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="carculator",
-    version="1.6.2",
+    version="1.6.3",
     packages=packages,
     author="Romain Sacchi <romain.sacchi@psi.ch>, Chris Mutel <christopher.mutel@psi.ch>",
     license=open("LICENSE").read(),

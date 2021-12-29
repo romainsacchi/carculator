@@ -79,8 +79,8 @@ def test_plausibility_of_GWP():
         gwp_bev = results.sel(
             impact_category=m, powertrain="BEV", value=0, year=2020, size="Medium"
         )
-        assert (gwp_bev.sel(impact="energy storage") > 0.02).all() and (
-            gwp_bev.sel(impact="energy storage") < 0.03
+        assert (gwp_bev.sel(impact="energy storage") > 0.03).all() and (
+            gwp_bev.sel(impact="energy storage") < 0.04
         ).all()
 
 
