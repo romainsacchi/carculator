@@ -331,8 +331,8 @@ class InventoryCalculation:
                         "origin"
                     ] = "CN"
                 if (
-                        "type"
-                        not in self.background_configuration["energy storage"]["electric"]
+                    "type"
+                    not in self.background_configuration["energy storage"]["electric"]
                 ):
                     self.background_configuration["energy storage"]["electric"][
                         "type"
@@ -2322,7 +2322,6 @@ class InventoryCalculation:
                 self.scope["powertrain"]
             )
 
-
         # Remove vehicles not compliant or available
         self.resize_A_matrix_for_export()
 
@@ -2440,7 +2439,6 @@ class InventoryCalculation:
                 self.scope["powertrain"]
             )
 
-
         # Remove vehicles not compliant or available
         self.resize_A_matrix_for_export()
 
@@ -2502,7 +2500,6 @@ class InventoryCalculation:
                 )
                 return
 
-
         self.inputs = self.get_dict_input()
         self.bs = BackgroundSystemModel()
         self.country = self.get_country_of_use()
@@ -2563,7 +2560,6 @@ class InventoryCalculation:
             self.number_of_cars += len(self.scope["year"]) * len(
                 self.scope["powertrain"]
             )
-
 
         # Remove vehicles not compliant or available
         self.resize_A_matrix_for_export()
