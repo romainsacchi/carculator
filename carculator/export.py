@@ -201,259 +201,7 @@ class ExportInventory:
             "uniform": 4,  # loc --> min, loc + scale --> max
             "t": 12,  # df --> shape, loc --> loc, scale --> scale
         }
-        self.map_remind_ecoinvent = {
-            (
-                "market group for electricity, high voltage",
-                "EUR",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ): (
-                "market group for electricity, high voltage",
-                "ENTSO-E",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            (
-                "market group for electricity, medium voltage",
-                "EUR",
-                "kilowatt hour",
-                "electricity, medium voltage",
-            ): (
-                "market group for electricity, medium voltage",
-                "ENTSO-E",
-                "kilowatt hour",
-                "electricity, medium voltage",
-            ),
-            (
-                "market group for electricity, low voltage",
-                "EUR",
-                "kilowatt hour",
-                "electricity, low voltage",
-            ): (
-                "market group for electricity, low voltage",
-                "ENTSO-E",
-                "kilowatt hour",
-                "electricity, low voltage",
-            ),
-            (
-                "market group for electricity, medium voltage",
-                "JPN",
-                "kilowatt hour",
-                "electricity, medium voltage",
-            ): (
-                "market for electricity, medium voltage",
-                "JP",
-                "kilowatt hour",
-                "electricity, medium voltage",
-            ),
-            (
-                "market group for electricity, high voltage",
-                "World",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ): (
-                "market group for electricity, high voltage",
-                "GLO",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            (
-                "market group for electricity, medium voltage",
-                "World",
-                "kilowatt hour",
-                "electricity, medium voltage",
-            ): (
-                "market group for electricity, medium voltage",
-                "GLO",
-                "kilowatt hour",
-                "electricity, medium voltage",
-            ),
-            (
-                "market group for electricity, low voltage",
-                "World",
-                "kilowatt hour",
-                "electricity, low voltage",
-            ): (
-                "market group for electricity, low voltage",
-                "GLO",
-                "kilowatt hour",
-                "electricity, low voltage",
-            ),
-            ("cement production, Portland", "EUR", "kilogram", "cement, Portland",): (
-                "cement production, Portland",
-                "CH",
-                "kilogram",
-                "cement, Portland",
-            ),
-            (
-                "market group for electricity, medium voltage",
-                "World",
-                "kilowatt hour",
-                "electricity, medium voltage",
-            ): (
-                "market group for electricity, medium voltage",
-                "GLO",
-                "kilowatt hour",
-                "electricity, medium voltage",
-            ),
-            (
-                "market group for electricity, low voltage",
-                "EUR",
-                "kilowatt hour",
-                "electricity, low voltage",
-            ): (
-                "market group for electricity, low voltage",
-                "ENTSO-E",
-                "kilowatt hour",
-                "electricity, low voltage",
-            ),
-            (
-                "market group for electricity, medium voltage",
-                "EUR",
-                "kilowatt hour",
-                "electricity, medium voltage",
-            ): (
-                "market group for electricity, medium voltage",
-                "Europe without Switzerland",
-                "kilowatt hour",
-                "electricity, medium voltage",
-            ),
-            ("cement production, Portland", "EUR", "kilogram", "cement, Portland"): (
-                "cement production, Portland",
-                "CH",
-                "kilogram",
-                "cement, Portland",
-            ),
-            (
-                "market group for electricity, low voltage",
-                "World",
-                "kilowatt hour",
-                "electricity, low voltage",
-            ): (
-                "market group for electricity, low voltage",
-                "GLO",
-                "kilowatt hour",
-                "electricity, low voltage",
-            ),
-            (
-                "transport, freight, lorry, fleet average, 26t",
-                "EUR",
-                "ton kilometer",
-                "transport, freight, lorry, fleet average",
-            ): (
-                "transport, freight, lorry 7.5-16 metric ton, EURO6",
-                "RER",
-                "ton kilometer",
-                "transport, freight, lorry 7.5-16 metric ton, EURO6",
-            ),
-            (
-                "transport, freight, lorry, fleet average, 40t",
-                "EUR",
-                "ton kilometer",
-                "transport, freight, lorry, fleet average",
-            ): (
-                "market for transport, freight, lorry >32 metric ton, EURO6",
-                "RER",
-                "ton kilometer",
-                "transport, freight, lorry >32 metric ton, EURO6",
-            ),
-            (
-                "market for steel, chromium steel 18/8",
-                "World",
-                "kilogram",
-                "steel, chromium steel 18/8",
-            ): (
-                "market for steel, chromium steel 18/8",
-                "GLO",
-                "kilogram",
-                "steel, chromium steel 18/8",
-            ),
-            (
-                "market for steel, low-alloyed",
-                "World",
-                "kilogram",
-                "steel, low-alloyed",
-            ): (
-                "market for steel, low-alloyed",
-                "GLO",
-                "kilogram",
-                "steel, low-alloyed",
-            ),
-            ("market for steel, unalloyed", "World", "kilogram", "steel, unalloyed"): (
-                "market for steel, unalloyed",
-                "GLO",
-                "kilogram",
-                "steel, unalloyed",
-            ),
-            (
-                "steel production, converter, low-alloyed",
-                "EUR",
-                "kilogram",
-                "steel, low-alloyed",
-            ): (
-                "steel production, converter, low-alloyed",
-                "RER",
-                "kilogram",
-                "steel, low-alloyed",
-            ),
-            (
-                "steel production, electric, low-alloyed",
-                "EUR",
-                "kilogram",
-                "steel, low-alloyed",
-            ): (
-                "steel production, electric, low-alloyed",
-                "Europe without Switzerland and Austria",
-                "kilogram",
-                "steel, low-alloyed",
-            ),
-            (
-                "transport, freight, lorry, fleet average",
-                "EUR",
-                "ton kilometer",
-                "transport, freight, lorry, fleet average",
-            ): (
-                "market for transport, freight, lorry, unspecified",
-                "RER",
-                "ton kilometer",
-                "transport, freight, lorry, unspecified",
-            ),
-            (
-                "transport, freight, lorry, fleet average, 26t",
-                "World",
-                "ton kilometer",
-                "transport, freight, lorry, fleet average",
-            ): (
-                "market for transport, freight, lorry 16-32 metric ton, EURO3",
-                "RoW",
-                "ton kilometer",
-                "transport, freight, lorry 16-32 metric ton, EURO3",
-            ),
-            (
-                "transport, freight, lorry, fleet average, 40t",
-                "World",
-                "ton kilometer",
-                "transport, freight, lorry, fleet average",
-            ): (
-                "market for transport, freight, lorry >32 metric ton, EURO3",
-                "RoW",
-                "ton kilometer",
-                "transport, freight, lorry >32 metric ton, EURO3",
-            ),
-        }
-        self.map_ecoinvent_remind = {
-            (
-                "biogas upgrading - sewage sludge - amine scrubbing - best",
-                "CH",
-                "kilogram",
-                "biogas upgrading - sewage sludge - amine scrubbing - best",
-            ): (
-                "biogas upgrading - sewage sludge - amine scrubbing - best",
-                "RER",
-                "kilogram",
-                "biogas upgrading - sewage sludge - amine scrubbing - best",
-            ),
-        }
+
         self.map_37_to_36 = load_mapping_37_to_36()
         self.map_37_to_35 = load_mapping_37_to_35()
         self.map_36_to_uvek = self.load_mapping_36_to_uvek()
@@ -572,281 +320,23 @@ class ExportInventory:
     def write_lci(
         self,
         presamples,
-        ecoinvent_compatibility,
         ecoinvent_version,
         vehicle_specs,
-        forbidden_activities=None,
     ):
         """
         Return the inventory as a dictionary
         If if there several values for one exchange, uncertainty information is generated.
         If `presamples` is True, returns the inventory as well as a `presamples` matrix.
         If `presamples` is False, returns the inventory with characterized uncertainty information.
-        If `ecoinvent_compatibility` is True, the inventory is made compatible with ecoinvent. If False,
-        the inventory is compatible with the REMIND-ecoinvent hybrid database output of the `premise` library.
 
         :returns: a dictionary that contains all the exchanges
         :rtype: dict
         """
 
-        # List of activities that are already part of the `premise`-generated database.
-        # They should not appear in the exported inventories, otherwise they will be duplicates
-        activities_to_be_removed = [
-            "Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass, at gasification plant",
-            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling station",
-            "hardwood forestry, oak, sustainable forest management_CF = -1",
-            "production of 2 wt-% potassium iodide solution",
-            "Hydrogen, gaseous, 700 bar, from ATR of biogas with CCS, at fuelling station",
-            "transport, pipeline, supercritical CO2, 200km w recompression",
-            "storage module, high pressure, at fuelling station",
-            "market for wood chips, wet, measured as dry mass, CF = -1",
-            "Carbon monoxide, from RWGS",
-            "Biodiesel from palm oil",
-            "Maize cultivation, drying and storage {RER} | Maize production Europe | Alloc Rec, U",
-            "diaphragm compressor module, high pressure",
-            "MTG production facility, construction",
-            "softwood forestry, pine, sustainable forest management_CF = -1",
-            "RWGS tank construction",
-            "Hydrogen, gaseous, 700 bar, from SMR of NG, at fuelling station",
-            "treatment of biowaste by anaerobic digestion, with biogenic carbon uptake, lower bound C sequestration, digestate incineration",
-            "market for wood chips, wet, measured as dry mass, CF = -1",
-            "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at fuelling station",
-            "RWGS catalyst",
-            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at gasification plant",
-            "control panel, carbon dioxide capture process",
-            "wiring and tubing, carbon dioxide capture process",
-            "Diesel production, synthetic, Fischer Tropsch process, energy allocation",
-            "diaphragms, for diaphragm compressor",
-            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at fuelling station",
-            "Ethanol from forest residues",
-            "hardwood forestry, birch, sustainable forest management_CF = -1",
-            "Crude Palm Oil extraction from FFBs {RER} |oil mill|",
-            "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at fuelling station",
-            "Crude vegetable oil | oil mill: extraction of vegetable oil from rapeseed | Alloc Rec, U",
-            "Buffer tank",
-            "ATR NG + CCS (MDEA), 98 (average), 25 bar",
-            "Hydrogen, gaseous, 700 bar, ATR of NG, with CCS, at fuelling station",
-            "Plant oil from crude oil | refining of vegetable oil from oil palm|",
-            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling station",
-            "production of nickle-based catalyst for methanation",
-            "Walls and foundations, for hydrogen refuelling station",
-            "CO2 storage/at H2 production plant, pre, pipeline 200km, storage 1000m",
-            "Hydrogen, gaseous, 700 bar, ATR of NG, at fuelling station",
-            "hot water tank, carbon dioxide capture process",
-            "Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass, at gasification plant",
-            "algae cultivation | algae broth production",
-            "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass with CCS, at fuelling station",
-            "Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant",
-            "Hydrogen, gaseous, 700 bar, from electrolysis, at fuelling station",
-            "straw pellets",
-            "Oil Palm Tree Cultivation {RER} | Fresh Fruit Bunches (FFBs) production | Alloc Rec, U",
-            "Gas-to-liquid plant construction",
-            "transformer and rectifier unit, for electrolyzer",
-            "Ethanol from wheat straw pellets",
-            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at gasification plant",
-            "woodchips from forestry residues",
-            "SMR NG + CCS (MDEA), 98 (average), 25 bar",
-            "pumps, carbon dioxide capture process",
-            "Hydrogen, gaseous, 30 bar, from hard coal gasification and reforming, at coal gasification plant",
-            "adsorption and desorption unit, carbon dioxide capture process",
-            "softwood forestry, mixed species, sustainable forest management, CF = -1",
-            "Methanol distillation",
-            "Hydrogen, gaseous, 700 bar, from SMR of NG, with CCS, at fuelling station",
-            "Hydrogen refuelling station, SMR",
-            "frequency converter, for diaphragm compressor",
-            "Biodiesel from cooking oil",
-            "transport, pipeline, supercritical CO2, 200km w/o recompression",
-            "Hydrogen, gaseous, 700 bar, from dual fluidised bed gasification of woody biomass, at fuelling station",
-            "Refined Waste Cooking Oil {RER} | Refining of waste cooking oil Europe | Alloc Rec, U",
-            "ATR BM, with digestate incineration, 25 bar",
-            "PEM electrolyzer, ACDC Converter",
-            "Sabatier reaction methanation unit",
-            "Diesel production, synthetic, Fischer Tropsch process, economic allocation",
-            "SMR BM, HT+LT, + CCS (MDEA), 98 (average), digestate incineration, 26 bar",
-            "Plant oil production | refining of crude vegetable oil from rapeseed| Alloc Rec, U",
-            "ethanol without biogas",
-            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at fuelling station",
-            "Biodiesel from rapeseed oil",
-            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, with CCS, at gasification plant",
-            "Wheat grain cultivation, drying and storage {RER} | wheat grain production Europe | Alloc Rec, U",
-            "Hydrogen, gaseous, 25 bar, from dual fluidised bed gasification of woody biomass with CCS, at gasification plant",
-            "Hydrogen, gaseous, 700 bar, from ATR of biogas, at fuelling station",
-            "algae harvesting| dry algae production",
-            "Syngas, RWGS, Production",
-            "market for wood chips, wet, measured as dry mass, CF = -1",
-            "carbon dioxide capture system",
-            "Ethanol from maize starch",
-            "softwood forestry, spruce, sustainable forest management_CF = -1",
-            "SMR NG + CCS (MDEA), 98 (average), 700 bar",
-            "PEM electrolyzer, Balance of Plant",
-            "PEM electrolyzer, Operation and Maintenance",
-            "Hydrogen, gaseous, 25 bar, from electrolysis",
-            "Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at fuelling station",
-            "carbon dioxide, captured from atmosphere",
-            "softwood forestry, pine, sustainable forest management_CF = -1",
-            "SMR NG, 700 bar",
-            "hardwood forestry, beech, sustainable forest management_CF = -1",
-            "Hydrogen, gaseous, 700 bar, from SMR of biogas, at fuelling station",
-            "Gasoline production, synthetic, from methanol",
-            "Ethanol from sugarbeet",
-            "Straw bales | baling of straw",
-            "heat exchanger, carbon dioxide capture process",
-            "PEM electrolyzer, Stack",
-            "Biodiesel from algae",
-            "Ethanol from wheat grains",
-            "SMR BM, HT+LT, with digestate incineration, 26 bar",
-            "container, with pipes and fittings, for diaphragm compressor",
-            "softwood forestry, spruce, sustainable forest management_CF = -1",
-            "Disposal, hydrogen fuelling station",
-            "SMR NG, 25 bar",
-            "Methanol Synthesis",
-            "pipeline, supercritical CO2/km",
-            "cooling unit, carbon dioxide capture process",
-            "market for wood chips, wet, measured as dry mass, CF = -1",
-            "Sugar beet cultivation {RER} | sugar beet production Europe | Alloc Rec, U",
-            "ATR BM + CCS (MDEA), 98 (average), with digestate incineration, 25 bar",
-            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in oxy-fired entrained flow gasifier, at gasification plant",
-            "Rapeseed cultivation {RER} | rapeseed production Europe | Alloc Rec, U",
-            "drilling, deep borehole/m",
-            "hardwood forestry, mixed species, sustainable forest management, CF = -1",
-            "ATR NG, 25 bar",
-            "Fixed bed reactor for RWGS",
-            "Hydrogen dispenser, for gaseous hydrogen",
-            "biogas upgrading - sewage sludge - amine scrubbing - best",
-            "electricity production, at power plant/hard coal, post, pipeline 200km, storage 1000m",
-            "electricity production, at power plant/biogas, post, pipeline 200km, storage 1000m",
-            "electricity production, at wood burning power plant 20 MW, truck 25km, post, pipeline 200km, storage 1000m",
-            "electricity production, at power plant/natural gas, post, pipeline 200km, storage 1000m",
-            "electricity production, at BIGCC power plant 450MW, pre, pipeline 200km, storage 1000m",
-            "Glider lightweighting",
-            "Ancillary BoP",
-            "Anode",
-            "Anode current collector, LFP",
-            "Anode current collector, LTO",
-            "Anode current collector, NCA",
-            "Anode paste, LFP",
-            "Anode paste, LTO",
-            "Anode paste, NCA",
-            "Battery BoP",
-            "Battery cell, LFP",
-            "Battery cell, LTO",
-            "Battery cell, NCA",
-            "Battery cell, NMC-111",
-            "Battery cell, NMC-622",
-            "Battery management system",
-            "Battery packaging",
-            "Battery retention",
-            "Battery tray",
-            "Bimetallic busbars and washers",
-            "Biodiesel, from algae, at fuelling station",
-            "Biodiesel, from palm oil, at fuelling station",
-            "Biodiesel, from rapeseed oil, at fuelling station",
-            "Biodiesel, from used cooking oil, at fuelling station",
-            "Biomethane, gaseous, 5 bar, from sewage sludge fermentation, at fuelling station",
-            "Bipolar plate",
-            "Catalyst layer",
-            "Cathode",
-            "Cathode current collector, LFP",
-            "Cathode current collector, LTO",
-            "Cathode current collector, NCA",
-            "Cathode paste, LFP",
-            "Cathode paste, NCA",
-            "Cathode, NMC-622",
-            "Cell container",
-            "Clamps and fasteners",
-            "Coating and curing, general manufacturing",
-            "Cobalt sulfate",
-            "Cooling system",
-            "Electrolyte",
-            "Electrolyte, LFP",
-            "Electrolyte, LTO",
-            "Electrolyte, NCA",
-            "End plate",
-            "End-busbar aluminum",
-            "End-busbar copper",
-            "Essential BoP",
-            "Ethanol, from forest residues, at fuelling station",
-            "Ethanol, from maize starch, at fuelling station",
-            "Ethanol, from sugarbeet, at fuelling station",
-            "Ethanol, from wheat grains, at fuelling station",
-            "Ethanol, from wheat straw pellets, at fuelling station",
-            "Fuel tank, compressed hydrogen gas, 700bar",
-            "Fuel tank, compressed hydrogen gas, 700bar, with HDPE liner",
-            "Fuel tank, compressed hydrogen gas, 700bar, with aluminium liner",
-            "Gas Diffusion Layer",
-            "Heat transfer plate",
-            "High voltage system",
-            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant",
-            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, at gasification plant",
-            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant",
-            "Hydrogen, gaseous, 25 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at gasification plant",
-            "Hydrogen, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass with CCS, at gasification plant",
-            "Hydrogen, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass with CCS, at gasification plant",
-            "Hydrogen, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass, at gasification plant",
-            "Hydrogen, gaseous, 25 bar, from heatpipe reformer gasification of woody biomass, at gasification plant",
-            "Hydrogen, gaseous, 700 bar, from coal gasification, at fuelling station",
-            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in entrained flow gasifier, at fuelling station",
-            "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at fuelling station",
-            "Hydrogen, gaseous, 700 bar, from heatpipe reformer gasification of woody biomass with CCS, at fuelling station",
-            "Hydrogen, gaseous, 700 bar, from heatpipe reformer gasification of woody biomass, at fuelling station",
-            "IBIS",
-            "IBIS fasteners",
-            "Inner frame",
-            "LTO electrode material (Li4Ti5O12)",
-            "Lithium iron phosphate [LiFePO4]",
-            "Low voltage system",
-            "Lower retention",
-            "MEA hot pressing",
-            "Manifolds",
-            "Membrane",
-            "Methane production, synthetic, from electrochemical methanation",
-            "Methane, synthetic, gaseous, 5 bar, from electrochemical methanation, at fuelling station",
-            "Module fasteners",
-            "Module lid",
-            "Module packaging",
-            "Multilayer pouch",
-            "NCA electrode material (LiNi0.8Co0.15Al0.05O2)",
-            "Negative current collector Cu",
-            "Negative electrode paste",
-            "Ni1/3Co1/3Mn1/3(OH)2",
-            "Ni3/5Co1/5Mn1/5(OH)2",
-            "Outer frame",
-            "PEM Fuel Cell",
-            "Pipe fitting",
-            "Positive active material, NMC-111",
-            "Positive active material, NMC-622",
-            "Positive current collector Al",
-            "Positive electrode paste, NMC-111",
-            "Positive electrode paste, NMC-622",
-            "Radiator",
-            "Selective coating, sputtering",
-            "Separator",
-            "Separator, LFP",
-            "Separator, NCA",
-            "Stack",
-            "Strap retention",
-            "Tab Aluminum",
-            "Tab Copper",
-            "Thermal pad",
-            "Tie-rods",
-            "Tray lid",
-            "Tray seal",
-            "Tray with fasteners",
-            "Waste Cooking Oil",
-            "biomethane from biogas upgrading - biowaste - amine scrubbing",
-            "market for styrene butadiene rubber (SBR)",
-        ]
-
-        if isinstance(forbidden_activities, list):
-            activities_to_be_removed.extend(forbidden_activities)
-
         uvek_activities_to_remove = [
             "market for activated carbon, granular",
             "market for iodine",
-            "market for manganese sulfate",
             "market for molybdenum trioxide",
-            "market for nickel sulfate",
-            "market for soda ash, light, crystalline, heptahydrate",
             "market for fly ash and scrubber sludge",
         ]
 
@@ -882,50 +372,32 @@ class ExportInventory:
                 tuple_input = self.indices[row]
                 mult_factor = 1
 
-                if ecoinvent_compatibility:
+                if ecoinvent_version == "3.6":
+                    tuple_output = self.map_37_to_36.get(tuple_output, tuple_output)
+                    tuple_input = self.map_37_to_36.get(tuple_input, tuple_input)
 
-                    tuple_output = self.map_remind_ecoinvent.get(
+                if ecoinvent_version == "3.5":
+                    tuple_output = self.map_37_to_35.get(tuple_output, tuple_output)
+                    tuple_input = self.map_37_to_35.get(tuple_input, tuple_input)
+
+                    if tuple_output[0] in ei35_activities_to_remove:
+                        continue
+
+                    if tuple_input[0] in ei35_activities_to_remove:
+                        continue
+
+                if ecoinvent_version == "uvek":
+
+                    tuple_output = self.map_36_to_uvek.get(
                         tuple_output, tuple_output
                     )
-                    tuple_input = self.map_remind_ecoinvent.get(
-                        tuple_input, tuple_input
-                    )
 
-                    if ecoinvent_version == "3.6":
-                        tuple_output = self.map_37_to_36.get(tuple_output, tuple_output)
-                        tuple_input = self.map_37_to_36.get(tuple_input, tuple_input)
-
-                    if ecoinvent_version == "3.5":
-                        tuple_output = self.map_37_to_35.get(tuple_output, tuple_output)
-                        tuple_input = self.map_37_to_35.get(tuple_input, tuple_input)
-
-                        if tuple_output[0] in ei35_activities_to_remove:
-                            continue
-
-                        if tuple_input[0] in ei35_activities_to_remove:
-                            continue
-
-                    if ecoinvent_version == "uvek":
-
-                        tuple_output = self.map_36_to_uvek.get(
-                            tuple_output, tuple_output
+                    if tuple_input[0] in uvek_activities_to_remove:
+                        continue
+                    else:
+                        tuple_input = self.map_36_to_uvek.get(
+                            tuple_input, tuple_input
                         )
-
-                        if tuple_input[0] in uvek_activities_to_remove:
-                            continue
-                        else:
-                            tuple_input = self.map_36_to_uvek.get(
-                                tuple_input, tuple_input
-                            )
-
-                else:
-
-                    tuple_output = self.map_ecoinvent_remind.get(
-                        tuple_output, tuple_output
-                    )
-                    tuple_input = self.map_ecoinvent_remind.get(
-                        tuple_input, tuple_input
-                    )
 
                 if len(self.array[:, row, col]) == 1:
                     # No uncertainty, only one value
@@ -941,22 +413,22 @@ class ExportInventory:
 
                 else:
                     # Uncertainty
-                    if presamples:
-                        # Generate pre-sampled values
-                        amount = np.median(self.array[:, row, col]) * mult_factor
-                        uncertainty = [("uncertainty type", 1)]
-                        if len(tuple_input) > 3:
-                            type_exc = "technosphere"
-                        else:
-                            type_exc = "biosphere"
 
-                        presamples_matrix.append(
-                            (
-                                self.array[:, row, col] * -1,
-                                [(tuple_input, tuple_output, type_exc)],
-                                type_exc,
-                            )
+                    # Generate pre-sampled values
+                    amount = np.median(self.array[:, row, col]) * mult_factor
+                    uncertainty = [("uncertainty type", 1)]
+                    if len(tuple_input) > 3:
+                        type_exc = "technosphere"
+                    else:
+                        type_exc = "biosphere"
+
+                    presamples_matrix.append(
+                        (
+                            self.array[:, row, col] * -1,
+                            [(tuple_input, tuple_output, type_exc)],
+                            type_exc,
                         )
+                    )
 
                 # Look for a tag, if any
                 tag = [
@@ -1040,313 +512,308 @@ class ExportInventory:
                 description = self.references[key]["description"]
                 special_remark = self.references[key]["special remark"]
 
-            if ecoinvent_compatibility or (
-                ecoinvent_compatibility == False
-                and tuple_output[0] not in activities_to_be_removed
-            ):
+            string = ""
+            if "passenger car" in tuple_output[0].lower():
 
-                string = ""
-                if "passenger car" in tuple_output[0].lower():
+                d_pwt = {
+                    "gasoline": "ICEV-p",
+                    "diesel": "ICEV-d",
+                    "compressed gas": "ICEV-g",
+                    "diesel hybrid": "HEV-d",
+                    "gasoline hybrid": "HEV-p",
+                    "plugin diesel hybrid": "PHEV-d",
+                    "plugin gasoline hybrid": "PHEV-p",
+                    "battery electric": "BEV",
+                    "fuel cell electric": "FCEV",
+                }
 
-                    d_pwt = {
-                        "gasoline": "ICEV-p",
-                        "diesel": "ICEV-d",
-                        "compressed gas": "ICEV-g",
-                        "diesel hybrid": "HEV-d",
-                        "gasoline hybrid": "HEV-p",
-                        "plugin diesel hybrid": "PHEV-d",
-                        "plugin gasoline hybrid": "PHEV-p",
-                        "battery electric": "BEV",
-                        "fuel cell electric": "FCEV",
-                    }
+                d_units = {
+                    "lifetime kilometers": "[km]",
+                    "kilometers per year": "[km/year]",
+                    "range": "[km]",
+                    "TtW efficiency": "[%]",
+                    "TtW energy": "[kj/km]",
+                    "electric energy stored": "[kWh]",
+                    "oxidation energy stored": "[kWh]",
+                    "combustion power share": "[%]",
+                    "combustion power": "[kW]",
+                    "electric power": "[kW]",
+                    "curb mass": "[kg]",
+                    "driving mass": "[kg]",
+                    "energy battery mass": "[kg]",
+                    "fuel cell system efficiency": "[%]",
+                }
 
-                    d_units = {
-                        "lifetime kilometers": "[km]",
-                        "kilometers per year": "[km/year]",
-                        "range": "[km]",
-                        "TtW efficiency": "[%]",
-                        "TtW energy": "[kj/km]",
-                        "electric energy stored": "[kWh]",
-                        "oxidation energy stored": "[kWh]",
-                        "combustion power share": "[%]",
-                        "combustion power": "[kW]",
-                        "electric power": "[kW]",
-                        "curb mass": "[kg]",
-                        "driving mass": "[kg]",
-                        "energy battery mass": "[kg]",
-                        "fuel cell system efficiency": "[%]",
-                    }
+                d_names = {
+                    "lifetime kilometers": "Km over lifetime",
+                    "kilometers per year": "Yearly mileage",
+                    "range": "Autonomy on a full tank/battery",
+                    "TtW efficiency": "Tank-to-wheel efficiency",
+                    "TtW energy": "Tank-to-wheel energy consumption",
+                    "electric energy stored": "Battery capacity",
+                    "oxidation energy stored": "Fuel tank capacity",
+                    "combustion power share": "Power share from combustion engine",
+                    "combustion power": "Combustion engine power",
+                    "electric power": "Electric motor power",
+                    "curb mass": "Curb mass (excl. driver and cargo)",
+                    "driving mass": "Driving mass (incl. driver and cargo)",
+                    "energy battery mass": "Mass of battery",
+                    "fuel cell system efficiency": "Fuel cell system efficiency",
+                }
 
-                    d_names = {
-                        "lifetime kilometers": "Km over lifetime",
-                        "kilometers per year": "Yearly mileage",
-                        "range": "Autonomy on a full tank/battery",
-                        "TtW efficiency": "Tank-to-wheel efficiency",
-                        "TtW energy": "Tank-to-wheel energy consumption",
-                        "electric energy stored": "Battery capacity",
-                        "oxidation energy stored": "Fuel tank capacity",
-                        "combustion power share": "Power share from combustion engine",
-                        "combustion power": "Combustion engine power",
-                        "electric power": "Electric motor power",
-                        "curb mass": "Curb mass (excl. driver and cargo)",
-                        "driving mass": "Driving mass (incl. driver and cargo)",
-                        "energy battery mass": "Mass of battery",
-                        "fuel cell system efficiency": "Fuel cell system efficiency",
-                    }
+                split_name = [t.strip() for t in tuple_output[0].split(",")]
 
-                    split_name = [t.strip() for t in tuple_output[0].split(",")]
+                pwt, size, year = (None, None, None)
 
-                    pwt, size, year = (None, None, None)
-
-                    if "fleet average" not in tuple_output[0]:
-                        if "transport, " in tuple_output[0]:
-                            if "battery electric" in split_name[2]:
-                                _, _, pwt, _, size, year = split_name
-                            elif "fuel cell" in split_name[2]:
-                                _, _, pwt, size, year = split_name
-                            else:
-                                _, _, pwt, size, year, _ = split_name
+                if "fleet average" not in tuple_output[0]:
+                    if "transport, " in tuple_output[0]:
+                        if "battery electric" in split_name[2]:
+                            _, _, pwt, _, size, year = split_name
+                        elif "fuel cell" in split_name[2]:
+                            _, _, pwt, size, year = split_name
                         else:
-                            if "battery electric" in split_name[1]:
-                                _, pwt, _, size, year = split_name
-                            elif "fuel cell" in split_name[1]:
-                                _, pwt, size, year = split_name
-                            else:
-                                _, pwt, size, year, _ = split_name
+                            _, _, pwt, size, year, _ = split_name
                     else:
-                        if split_name[3] == "fleet average":
+                        if "battery electric" in split_name[1]:
+                            _, pwt, _, size, year = split_name
+                        elif "fuel cell" in split_name[1]:
+                            _, pwt, size, year = split_name
+                        else:
+                            _, pwt, size, year, _ = split_name
+                else:
+                    if split_name[3] == "fleet average":
 
-                            if len(split_name) == 6:
+                        if len(split_name) == 6:
 
-                                if split_name[4] in [
-                                    "Micro",
-                                    "Mini",
-                                    "Small",
-                                    "Lower medium",
-                                    "Medium",
-                                    "Medium SUV",
-                                    "Large",
-                                    "Large SUV",
-                                    "Van",
-                                ]:
-                                    _, _, _, _, size, year = [
-                                        t.strip() for t in tuple_output[0].split(",")
-                                    ]
-                                    pwt = None
-                                else:
-                                    _, _, _, _, pwt, year = [
-                                        t.strip() for t in tuple_output[0].split(",")
-                                    ]
-                                    size = None
-
-                            if len(split_name) == 5:
-                                _, _, _, _, year = [
+                            if split_name[4] in [
+                                "Micro",
+                                "Mini",
+                                "Small",
+                                "Lower medium",
+                                "Medium",
+                                "Medium SUV",
+                                "Large",
+                                "Large SUV",
+                                "Van",
+                            ]:
+                                _, _, _, _, size, year = [
+                                    t.strip() for t in tuple_output[0].split(",")
+                                ]
+                                pwt = None
+                            else:
+                                _, _, _, _, pwt, year = [
                                     t.strip() for t in tuple_output[0].split(",")
                                 ]
                                 size = None
-                                pwt = None
 
-                        else:
-                            if split_name[1] == "battery electric":
+                        if len(split_name) == 5:
+                            _, _, _, _, year = [
+                                t.strip() for t in tuple_output[0].split(",")
+                            ]
+                            size = None
+                            pwt = None
 
-                                _, pwt, _, size, year, _ = [
-                                    t.strip() for t in tuple_output[0].split(",")
-                                ]
-                            elif split_name[1] == "fuel cell electric":
-                                _, pwt, size, year, _ = [
-                                    t.strip() for t in tuple_output[0].split(",")
-                                ]
-                            else:
-                                _, pwt, size, year, _, _ = [
-                                    t.strip() for t in tuple_output[0].split(",")
-                                ]
-                    if not size is None and pwt is not None:
-                        pwt = d_pwt[pwt]
-
-                        if not vehicle_specs is None:
-
-                            for p in vehicle_specs.parameter.values:
-
-                                try:
-                                    val = vehicle_specs.sel(
-                                        powertrain=pwt,
-                                        size=size,
-                                        year=int(year),
-                                        value=0,
-                                        parameter=p,
-                                    ).values
-
-                                    if val != 0:
-
-                                        if p in (
-                                            "TtW efficiency",
-                                            "combustion power share",
-                                            "capacity utilization",
-                                            "fuel cell system efficiency",
-                                        ):
-                                            val = int(val * 100)
-                                        else:
-                                            val = int(val)
-
-                                        string += f"{d_names[p]}: {val} {d_units[p]}. "
-                                except KeyError:
-                                    print(
-                                        f"Could not find vehicle specs for {pwt} {size} {year}"
-                                    )
                     else:
-                        if not pwt is None:
-                            pwt = d_pwt[pwt]
-                            string = f"Fleet average {pwt} vehicle in {year}, all sizes considered."
+                        if split_name[1] == "battery electric":
 
+                            _, pwt, _, size, year, _ = [
+                                t.strip() for t in tuple_output[0].split(",")
+                            ]
+                        elif split_name[1] == "fuel cell electric":
+                            _, pwt, size, year, _ = [
+                                t.strip() for t in tuple_output[0].split(",")
+                            ]
                         else:
-                            string = "Fleet average vehicle, all sizes and powertrains considered."
+                            _, pwt, size, year, _, _ = [
+                                t.strip() for t in tuple_output[0].split(",")
+                            ]
+                if not size is None and pwt is not None:
+                    pwt = d_pwt[pwt]
 
-                # Added transport distances if the inventory
-                # is meant for the UVEK database
-                if ecoinvent_version == "uvek":
-                    dist_train, dist_truck, dist_barge = (0, 0, 0)
-                    if tuple_output[1] in (
-                        "RER",
-                        "Europe without Switzerland",
-                        "SE",
-                        "GLO",
-                        "DE",
-                        "JP",
-                        "CN",
-                    ):
-                        for exc in list_exc:
-                            if exc["name"] in self.uvek_dist:
-                                dist_train += (
-                                    self.uvek_dist[exc["name"]]["train RER"]
-                                    * float(exc["amount"])
-                                    / 1000
-                                )
-                                dist_truck += (
-                                    self.uvek_dist[exc["name"]]["truck RER"]
-                                    * float(exc["amount"])
-                                    / 1000
-                                )
-                                dist_barge += (
-                                    self.uvek_dist[exc["name"]]["barge RER"]
-                                    * float(exc["amount"])
-                                    / 1000
-                                )
+                    if not vehicle_specs is None:
 
-                        if dist_train > 0:
+                        for p in vehicle_specs.parameter.values:
 
-                            list_exc.append(
-                                {
-                                    "name": "market for transport, freight train",
-                                    "database": "ecoinvent",
-                                    "amount": dist_train,
-                                    "unit": "ton kilometer",
-                                    "type": "technosphere",
-                                    "location": "Europe without Switzerland",
-                                    "reference product": "transport, freight train",
-                                }
+                            try:
+                                val = vehicle_specs.sel(
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=int(year),
+                                    value=0,
+                                    parameter=p,
+                                ).values
+
+                                if val != 0:
+
+                                    if p in (
+                                        "TtW efficiency",
+                                        "combustion power share",
+                                        "capacity utilization",
+                                        "fuel cell system efficiency",
+                                    ):
+                                        val = int(val * 100)
+                                    else:
+                                        val = int(val)
+
+                                    string += f"{d_names[p]}: {val} {d_units[p]}. "
+                            except KeyError:
+                                print(
+                                    f"Could not find vehicle specs for {pwt} {size} {year}"
+                                )
+                else:
+                    if not pwt is None:
+                        pwt = d_pwt[pwt]
+                        string = f"Fleet average {pwt} vehicle in {year}, all sizes considered."
+
+                    else:
+                        string = "Fleet average vehicle, all sizes and powertrains considered."
+
+            # Added transport distances if the inventory
+            # is meant for the UVEK database
+            if ecoinvent_version == "uvek":
+                dist_train, dist_truck, dist_barge = (0, 0, 0)
+                if tuple_output[1] in (
+                    "RER",
+                    "Europe without Switzerland",
+                    "SE",
+                    "GLO",
+                    "DE",
+                    "JP",
+                    "CN",
+                ):
+                    for exc in list_exc:
+                        if exc["name"] in self.uvek_dist:
+                            dist_train += (
+                                self.uvek_dist[exc["name"]]["train RER"]
+                                * float(exc["amount"])
+                                / 1000
                             )
-                        if dist_truck > 0:
-
-                            list_exc.append(
-                                {
-                                    "name": "market for transport, freight, lorry >32 metric ton, EURO4",
-                                    "database": "ecoinvent",
-                                    "amount": dist_truck,
-                                    "unit": "ton kilometer",
-                                    "type": "technosphere",
-                                    "location": "RER",
-                                    "reference product": "transport, freight, lorry >32 metric ton, EURO4",
-                                }
+                            dist_truck += (
+                                self.uvek_dist[exc["name"]]["truck RER"]
+                                * float(exc["amount"])
+                                / 1000
                             )
-                        if dist_barge > 0:
-
-                            list_exc.append(
-                                {
-                                    "name": "market for transport, freight, inland waterways, barge",
-                                    "database": "ecoinvent",
-                                    "amount": dist_barge,
-                                    "unit": "ton kilometer",
-                                    "type": "technosphere",
-                                    "location": "RER",
-                                    "reference product": "transport, freight, inland waterways, barge",
-                                }
-                            )
-
-                    elif tuple_output[1] == "CH":
-
-                        for exc in list_exc:
-                            if exc["name"] in self.uvek_dist:
-                                dist_train += (
-                                    self.uvek_dist[exc["name"]]["train CH"]
-                                    * float(exc["amount"])
-                                    / 1000
-                                )
-                                dist_truck += (
-                                    self.uvek_dist[exc["name"]]["truck CH"]
-                                    * float(exc["amount"])
-                                    / 1000
-                                )
-                                dist_barge += (
-                                    self.uvek_dist[exc["name"]]["barge CH"]
-                                    * float(exc["amount"])
-                                    / 1000
-                                )
-
-                        if dist_train > 0:
-                            list_exc.append(
-                                {
-                                    "name": "market for transport, freight train",
-                                    "database": "ecoinvent",
-                                    "amount": dist_train,
-                                    "unit": "ton kilometer",
-                                    "type": "technosphere",
-                                    "location": "CH",
-                                    "reference product": "transport, freight train",
-                                }
-                            )
-                        if dist_truck > 0:
-                            list_exc.append(
-                                {
-                                    "name": "market for transport, freight, lorry >32 metric ton, EURO4",
-                                    "database": "ecoinvent",
-                                    "amount": dist_truck,
-                                    "unit": "ton kilometer",
-                                    "type": "technosphere",
-                                    "location": "RER",
-                                    "reference product": "transport, freight, lorry >32 metric ton, EURO4",
-                                }
-                            )
-                        if dist_barge > 0:
-                            list_exc.append(
-                                {
-                                    "name": "market for transport, freight, inland waterways, barge",
-                                    "database": "ecoinvent",
-                                    "amount": dist_barge,
-                                    "unit": "ton kilometer",
-                                    "type": "technosphere",
-                                    "location": "RER",
-                                    "reference product": "transport, freight, inland waterways, barge",
-                                }
+                            dist_barge += (
+                                self.uvek_dist[exc["name"]]["barge RER"]
+                                * float(exc["amount"])
+                                / 1000
                             )
 
-                list_act.append(
-                    {
-                        "production amount": 1,
-                        "database": self.db_name,
-                        "name": tuple_output[0],
-                        "unit": tuple_output[2],
-                        "location": tuple_output[1],
-                        "exchanges": list_exc,
-                        "reference product": tuple_output[3],
-                        "type": "process",
-                        "code": str(uuid.uuid1()),
-                        "tag": tag,
-                        "source": source,
-                        "description": description,
-                        "special remark": special_remark,
-                        "comment": string,
-                    }
-                )
+                    if dist_train > 0:
+
+                        list_exc.append(
+                            {
+                                "name": "market for transport, freight train",
+                                "database": "ecoinvent",
+                                "amount": dist_train,
+                                "unit": "ton kilometer",
+                                "type": "technosphere",
+                                "location": "Europe without Switzerland",
+                                "reference product": "transport, freight train",
+                            }
+                        )
+                    if dist_truck > 0:
+
+                        list_exc.append(
+                            {
+                                "name": "market for transport, freight, lorry >32 metric ton, EURO4",
+                                "database": "ecoinvent",
+                                "amount": dist_truck,
+                                "unit": "ton kilometer",
+                                "type": "technosphere",
+                                "location": "RER",
+                                "reference product": "transport, freight, lorry >32 metric ton, EURO4",
+                            }
+                        )
+                    if dist_barge > 0:
+
+                        list_exc.append(
+                            {
+                                "name": "market for transport, freight, inland waterways, barge",
+                                "database": "ecoinvent",
+                                "amount": dist_barge,
+                                "unit": "ton kilometer",
+                                "type": "technosphere",
+                                "location": "RER",
+                                "reference product": "transport, freight, inland waterways, barge",
+                            }
+                        )
+
+                elif tuple_output[1] == "CH":
+
+                    for exc in list_exc:
+                        if exc["name"] in self.uvek_dist:
+                            dist_train += (
+                                self.uvek_dist[exc["name"]]["train CH"]
+                                * float(exc["amount"])
+                                / 1000
+                            )
+                            dist_truck += (
+                                self.uvek_dist[exc["name"]]["truck CH"]
+                                * float(exc["amount"])
+                                / 1000
+                            )
+                            dist_barge += (
+                                self.uvek_dist[exc["name"]]["barge CH"]
+                                * float(exc["amount"])
+                                / 1000
+                            )
+
+                    if dist_train > 0:
+                        list_exc.append(
+                            {
+                                "name": "market for transport, freight train",
+                                "database": "ecoinvent",
+                                "amount": dist_train,
+                                "unit": "ton kilometer",
+                                "type": "technosphere",
+                                "location": "CH",
+                                "reference product": "transport, freight train",
+                            }
+                        )
+                    if dist_truck > 0:
+                        list_exc.append(
+                            {
+                                "name": "market for transport, freight, lorry >32 metric ton, EURO4",
+                                "database": "ecoinvent",
+                                "amount": dist_truck,
+                                "unit": "ton kilometer",
+                                "type": "technosphere",
+                                "location": "RER",
+                                "reference product": "transport, freight, lorry >32 metric ton, EURO4",
+                            }
+                        )
+                    if dist_barge > 0:
+                        list_exc.append(
+                            {
+                                "name": "market for transport, freight, inland waterways, barge",
+                                "database": "ecoinvent",
+                                "amount": dist_barge,
+                                "unit": "ton kilometer",
+                                "type": "technosphere",
+                                "location": "RER",
+                                "reference product": "transport, freight, inland waterways, barge",
+                            }
+                        )
+
+            list_act.append(
+                {
+                    "production amount": 1,
+                    "database": self.db_name,
+                    "name": tuple_output[0],
+                    "unit": tuple_output[2],
+                    "location": tuple_output[1],
+                    "exchanges": list_exc,
+                    "reference product": tuple_output[3],
+                    "type": "process",
+                    "code": str(uuid.uuid1()),
+                    "tag": tag,
+                    "source": source,
+                    "description": description,
+                    "special remark": special_remark,
+                    "comment": string,
+                }
+            )
         if presamples:
             return list_act, presamples_matrix
         else:
@@ -1354,13 +821,11 @@ class ExportInventory:
 
     def write_lci_to_excel(
         self,
-        ecoinvent_compatibility,
         ecoinvent_version,
         software_compatibility,
         vehicle_specs=None,
         directory=None,
         filename=None,
-        forbidden_activities=None,
         export_format="file",
     ):
         """
@@ -1370,12 +835,9 @@ class ExportInventory:
 
         :param vehicle_specs:
         :param filename:
-        :param forbidden_activities:
         :param export_format:
         :param directory: str. path to export the file to.
         :type directory: str or pathlib.Path
-        :param ecoinvent_compatibility: bool. If True, the inventory is compatible with ecoinvent. If False, the inventory is compatible with REMIND-ecoinvent.
-        :type ecoinvent_compatibility: bool
         :param ecoinvent_version: str. "3.5", "3.6" or "uvek"
         :type ecoinvent_version: str
         :param software_compatibility: str. "brightway2" or "simapro"
@@ -1424,9 +886,7 @@ class ExportInventory:
 
         list_act = self.write_lci(
             presamples=False,
-            ecoinvent_compatibility=ecoinvent_compatibility,
             ecoinvent_version=ecoinvent_version,
-            forbidden_activities=forbidden_activities,
             vehicle_specs=vehicle_specs,
         )
 
@@ -2482,9 +1942,7 @@ class ExportInventory:
     def write_lci_to_bw(
         self,
         presamples,
-        ecoinvent_compatibility,
         ecoinvent_version,
-        forbidden_activities,
         vehicle_specs=None,
     ):
         """
@@ -2496,9 +1954,7 @@ class ExportInventory:
         if presamples:
             data, array = self.write_lci(
                 presamples=presamples,
-                ecoinvent_compatibility=ecoinvent_compatibility,
                 ecoinvent_version=ecoinvent_version,
-                forbidden_activities=forbidden_activities,
                 vehicle_specs=vehicle_specs,
             )
             i = bw2io.importers.base_lci.LCIImporter(self.db_name)
@@ -2507,9 +1963,7 @@ class ExportInventory:
         else:
             data = self.write_lci(
                 presamples=presamples,
-                ecoinvent_compatibility=ecoinvent_compatibility,
                 ecoinvent_version=ecoinvent_version,
-                forbidden_activities=forbidden_activities,
                 vehicle_specs=vehicle_specs,
             )
             i = bw2io.importers.base_lci.LCIImporter(self.db_name)
