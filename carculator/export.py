@@ -388,16 +388,12 @@ class ExportInventory:
 
                 if ecoinvent_version == "uvek":
 
-                    tuple_output = self.map_36_to_uvek.get(
-                        tuple_output, tuple_output
-                    )
+                    tuple_output = self.map_36_to_uvek.get(tuple_output, tuple_output)
 
                     if tuple_input[0] in uvek_activities_to_remove:
                         continue
                     else:
-                        tuple_input = self.map_36_to_uvek.get(
-                            tuple_input, tuple_input
-                        )
+                        tuple_input = self.map_36_to_uvek.get(tuple_input, tuple_input)
 
                 if len(self.array[:, row, col]) == 1:
                     # No uncertainty, only one value
