@@ -311,29 +311,26 @@ def test_export_to_bw():
     """Test that inventories export successfully"""
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
     #
-    for a in (True, False):
-        for b in ("3.5", "3.6", "3.7", "uvek"):
-            for c in (True, False):
-                ic.export_lci(
-                    ecoinvent_compatibility=a,
-                    ecoinvent_version=b,
-                    create_vehicle_datasets=c,
-                )
+
+    for b in ("3.5", "3.6", "3.7", "3.8", "uvek"):
+        for c in (True, False):
+            ic.export_lci(
+                ecoinvent_version=b,
+                create_vehicle_datasets=c,
+            )
 
 
 def test_export_to_excel():
     """Test that inventories export successfully to Excel/CSV"""
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
-    #
-    for a in (True, False):
-        for b in ("3.5", "3.6", "3.7", "uvek"):
-            for c in (True, False):
-                for d in ("file", "string"):
-                    #
-                    ic.export_lci_to_excel(
-                        ecoinvent_compatibility=a,
-                        ecoinvent_version=b,
-                        create_vehicle_datasets=c,
-                        export_format=d,
-                        directory="directory",
-                    )
+
+    for b in ("3.5", "3.6", "3.7", "3.8", "uvek"):
+        for c in (True, False):
+            for d in ("file", "string"):
+                #
+                ic.export_lci_to_excel(
+                    ecoinvent_version=b,
+                    create_vehicle_datasets=c,
+                    export_format=d,
+                    directory="directory",
+                )
