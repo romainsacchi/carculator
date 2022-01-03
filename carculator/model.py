@@ -63,11 +63,14 @@ class CarModel:
             self.ecm = EnergyConsumptionModel(cycle=cycle, gradient=gradient)
 
         self.energy_storage = energy_storage or {
-            "electric": {"BEV": "NMC-622", "PHEV-e": "NMC-622", "FCEV": "NMC-622"}
+            "electric": {"BEV": "NMC-622", "PHEV-e": "NMC-622",
+                         "FCEV": "NMC-622", "HEV-p": "NMC-622",
+                         "HEV-d": "NMC-622"}
         }
 
         l_pwt = [
-            pt for pt in ("BEV", "PHEV-e", "FCEV") if pt in self.array.powertrain.values
+            pt for pt in ("BEV", "PHEV-e", "FCEV", "HEV-p", "HEV-d")
+            if pt in self.array.powertrain.values
         ]
 
         for pt in l_pwt:
