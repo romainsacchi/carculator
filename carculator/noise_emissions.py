@@ -194,12 +194,12 @@ class NoiseEmissionsModel:
 
             # sum sound power over duration (J/s * s --> J) and divide by distance (--> J / km) and further
             # divide into compartments
-            urban = ne.evaluate("sum(where(c <= 50, sound_power, 0), 1)") / distance
+            urban = ne.evaluate("sum(where(cycle <= 50, sound_power, 0), 1)") / distance
             suburban = (
-                ne.evaluate("sum(where((c > 50) & (c <= 80), sound_power, 0), 1)")
+                ne.evaluate("sum(where((cycle > 50) & (cycle <= 80), sound_power, 0), 1)")
                 / distance
             )
-            rural = ne.evaluate("sum(where(c > 80, sound_power, 0), 1)") / distance
+            rural = ne.evaluate("sum(where(cycle > 80, sound_power, 0), 1)") / distance
 
         return np.vstack([urban, suburban, rural])[..., None].transpose(1, 2, 0)[
             ..., None, None
