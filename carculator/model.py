@@ -49,6 +49,7 @@ class CarModel:
         self.energy = None
 
     def __call__(self, key: Union[str, List]):
+
         """
         This method fixes a dimension of the `array` attribute given a powertrain technology selected.
         Set up this class as a context manager, so we can have some nice syntax
