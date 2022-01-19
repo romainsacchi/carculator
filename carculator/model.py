@@ -1,15 +1,15 @@
+from typing import Dict, List, Tuple, Union
+
 import numexpr as ne
 import numpy as np
 import xarray as xr
 import yaml
 
+from . import DATA_DIR
 from .energy_consumption import EnergyConsumptionModel
 from .hot_emissions import HotEmissionsModel
 from .noise_emissions import NoiseEmissionsModel
 from .particulates_emissions import ParticulatesEmissionsModel
-from . import DATA_DIR
-
-from typing import Union, List, Dict, Tuple
 
 
 def finite(array, mask_value=0):
@@ -229,7 +229,11 @@ class CarModel:
 
     def set_battery_preferences(self, energy_storage):
 
-        self.energy_storage = energy_storage or {"electric": {"type": "NMC-622",}}
+        self.energy_storage = energy_storage or {
+            "electric": {
+                "type": "NMC-622",
+            }
+        }
 
         l_pwt = [
             i
@@ -504,7 +508,9 @@ class CarModel:
         )
 
         self.energy.loc[dict(parameter="recuperated energy")] = np.clip(
-            recuperated_energy / 1000, self["power"].values[..., None] * -1, 0,
+            recuperated_energy / 1000,
+            self["power"].values[..., None] * -1,
+            0,
         )
 
         self.energy.loc[dict(parameter="recuperated energy")] *= self[
@@ -936,7 +942,7 @@ class CarModel:
                         "battery BoP mass",
                         "battery cell mass",
                         "battery DoD",
-                        "battery cell energy density"
+                        "battery cell energy density",
                     ],
                     powertrain="PHEV-d",
                 )
@@ -947,7 +953,7 @@ class CarModel:
                         "battery BoP mass",
                         "battery cell mass",
                         "battery DoD",
-                        "battery cell energy density"
+                        "battery cell energy density",
                     ],
                     powertrain="PHEV-e",
                 )
@@ -1075,7 +1081,7 @@ class CarModel:
                         "battery BoP mass",
                         "battery cell mass",
                         "battery DoD",
-                        "battery cell energy density"
+                        "battery cell energy density",
                     ],
                     powertrain="PHEV-p",
                 )
@@ -1086,7 +1092,7 @@ class CarModel:
                         "battery BoP mass",
                         "battery cell mass",
                         "battery DoD",
-                        "battery cell energy density"
+                        "battery cell energy density",
                     ],
                     powertrain="PHEV-e",
                 )
@@ -1142,7 +1148,9 @@ class CarModel:
             if i in self.array.powertrain
         ]
 
-        list_electric = [i for i in ["BEV", "PHEV-e", "HEV-p", "HEV-d"] if i in self.array.powertrain]
+        list_electric = [
+            i for i in ["BEV", "PHEV-e", "HEV-p", "HEV-d"] if i in self.array.powertrain
+        ]
 
         if len(list_combustion) > 0:
 
@@ -1273,7 +1281,14 @@ class CarModel:
 
         list_combustion = [
             i
-            for i in ["ICEV-p", "HEV-p", "HEV-d", "PHEV-c-p", "PHEV-c-d", "ICEV-d",]
+            for i in [
+                "ICEV-p",
+                "HEV-p",
+                "HEV-d",
+                "PHEV-c-p",
+                "PHEV-c-d",
+                "ICEV-d",
+            ]
             if i in self.array.powertrain
         ]
 
@@ -1513,7 +1528,10 @@ class CarModel:
             ).sum(dim="parameter")
 
             self.array.loc[
-                dict(powertrain=list_diesel, parameter=list_direct_emissions,)
+                dict(
+                    powertrain=list_diesel,
+                    parameter=list_direct_emissions,
+                )
             ] = hem.get_hot_emissions(
                 powertrain_type="ICEV-d",
                 euro_class=l_y,
@@ -1540,7 +1558,10 @@ class CarModel:
             ).sum(dim="parameter")
 
             self.array.loc[
-                dict(powertrain=list_petrol, parameter=list_direct_emissions,)
+                dict(
+                    powertrain=list_petrol,
+                    parameter=list_direct_emissions,
+                )
             ] = hem.get_hot_emissions(
                 powertrain_type="ICEV-p",
                 euro_class=l_y,
@@ -1561,7 +1582,10 @@ class CarModel:
             ).sum(dim="parameter")
 
             self.array.loc[
-                dict(powertrain=["ICEV-g"], parameter=list_direct_emissions,)
+                dict(
+                    powertrain=["ICEV-g"],
+                    parameter=list_direct_emissions,
+                )
             ] = hem.get_hot_emissions(
                 powertrain_type=["ICEV-g"],
                 euro_class=l_y,
@@ -1640,7 +1664,13 @@ class CarModel:
 
         list_pwt = [
             i
-            for i in ["ICEV-p", "PHEV-c-p", "ICEV-g", "ICEV-d", "PHEV-c-d",]
+            for i in [
+                "ICEV-p",
+                "PHEV-c-p",
+                "ICEV-g",
+                "ICEV-d",
+                "PHEV-c-d",
+            ]
             if i in self.array.powertrain
         ]
 

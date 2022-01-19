@@ -79,7 +79,14 @@ def get_mileage_degradation_factor(
             },
         },
         "ICEV-d": {
-            "CO": {4: 1.3, 5: 1.3, 6: 1.4, 6.1: 1.4, 6.2: 1.4, 6.3: 1.4,},
+            "CO": {
+                4: 1.3,
+                5: 1.3,
+                6: 1.4,
+                6.1: 1.4,
+                6.2: 1.4,
+                6.3: 1.4,
+            },
             "NOx": {
                 2: 1.25,
                 3: 1.2,
@@ -202,7 +209,9 @@ class HotEmissionsModel:
             raise TypeError("Wrong powertrain!")
 
         hot_emissions = self.hot.sel(
-            powertrain=[powertrain_type] if isinstance(powertrain_type, str) else powertrain_type,
+            powertrain=[powertrain_type]
+            if isinstance(powertrain_type, str)
+            else powertrain_type,
             euro_class=euro_class,
             component=[
                 "HC",
@@ -240,11 +249,15 @@ class HotEmissionsModel:
         # apply a mileage degradation factor for CO, HC and NOx
 
         if powertrain_type in ["ICEV-d", "ICEV-p"]:
-            corr = get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km)
+            corr = get_mileage_degradation_factor(
+                powertrain_type, euro_class, lifetime_km
+            )
             hot[:3] *= corr[:, :, :, :, None, None]
 
         non_hot_emissions = self.non_hot.sel(
-            powertrain=[powertrain_type] if isinstance(powertrain_type, str) else powertrain_type,
+            powertrain=[powertrain_type]
+            if isinstance(powertrain_type, str)
+            else powertrain_type,
             euro_class=euro_class,
             Component=[
                 "HC",
@@ -452,7 +465,9 @@ class HotEmissionsModel:
                 component="NMHC",
                 powertrain=[p for p in final_emissions.powertrain.values if "-d" in p],
             )
-        ] *= (1 - 0.45)
+        ] *= (
+            1 - 0.45
+        )
 
         final_emissions.loc[
             dict(
@@ -476,7 +491,9 @@ class HotEmissionsModel:
                 component="NMHC",
                 powertrain=[p for p in final_emissions.powertrain.values if "-p" in p],
             )
-        ] *= (1 - 0.492)
+        ] *= (
+            1 - 0.492
+        )
 
         # Heavy metals emissions are dependent of fuel consumption
         # given in grams of emission per kj

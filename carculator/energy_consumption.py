@@ -68,7 +68,9 @@ class EnergyConsumptionModel:
                 cycle = get_standard_driving_cycle(cycle)
 
             except KeyError as err:
-                raise KeyError("The driving cycle specified could not be found.") from err
+                raise KeyError(
+                    "The driving cycle specified could not be found."
+                ) from err
         elif isinstance(cycle, np.ndarray):
             self.cycle_name = "custom"
 
@@ -95,7 +97,9 @@ class EnergyConsumptionModel:
         else:
             self.gradient = np.zeros_like(cycle)
 
-    def aux_energy_per_km(self, aux_power: Union[float, np.ndarray], efficiency: float = 1.0) -> Union[float, np.ndarray]:
+    def aux_energy_per_km(
+        self, aux_power: Union[float, np.ndarray], efficiency: float = 1.0
+    ) -> Union[float, np.ndarray]:
         """
         Calculate energy used other than motive energy per km driven.
 
@@ -127,7 +131,7 @@ class EnergyConsumptionModel:
         drag_coef: Union[float, np.ndarray, xr.DataArray],
         frontal_area: Union[float, np.ndarray, xr.DataArray],
         sizes: Union[str, np.ndarray, xr.DataArray],
-        motor_power: Union[float, np.ndarray, xr.DataArray] = 0
+        motor_power: Union[float, np.ndarray, xr.DataArray] = 0,
     ) -> tuple[Union[float, Any], Any, Union[float, Any]]:
         """
         Calculate energy used and recuperated for a given vehicle per km driven.
@@ -201,9 +205,13 @@ class EnergyConsumptionModel:
 
         # rolling resistance + air resistance + kinetic energy + gradient resistance
         rolling_resistance = ones * driving_mass * rr_coeff * 9.81
-        air_resistance = np.power(velocity, 2) * frontal_area * drag_coef * self.rho_air / 2
+        air_resistance = (
+            np.power(velocity, 2) * frontal_area * drag_coef * self.rho_air / 2
+        )
 
-        kinetic_energy = (acceleration * driving_mass) + (driving_mass * 9.81 * np.sin(gradient))
+        kinetic_energy = (acceleration * driving_mass) + (
+            driving_mass * 9.81 * np.sin(gradient)
+        )
         total_force = rolling_resistance + air_resistance + kinetic_energy
 
         total_force_velocity = total_force * velocity

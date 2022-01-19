@@ -90,14 +90,20 @@ def test_fuel_blend():
     bc = {
         "fuel blend": {
             "petrol": {
-                "primary fuel": {"type": "petrol", "share": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9]},
+                "primary fuel": {
+                    "type": "petrol",
+                    "share": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
+                },
                 "secondary fuel": {
                     "type": "bioethanol - wheat straw",
                     "share": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
                 },
             },
             "diesel": {
-                "primary fuel": {"type": "diesel", "share": [0.93, 0.93, 0.93, 0.93, 0.93, 0.93]},
+                "primary fuel": {
+                    "type": "diesel",
+                    "share": [0.93, 0.93, 0.93, 0.93, 0.93, 0.93],
+                },
                 "secondary fuel": {
                     "type": "biodiesel - cooking oil",
                     "share": [0.07, 0.07, 0.07, 0.07, 0.07, 0.07],
@@ -123,8 +129,22 @@ def test_fuel_blend():
         cm.array, method="recipe", method_type="midpoint", background_configuration=bc
     )
 
-    assert ic.fuel_blends["petrol"]["primary"]["share"] == [0.9, 0.9, 0.9, 0.9, 0.9, 0.9]
-    assert ic.fuel_blends["petrol"]["secondary"]["share"] == [0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+    assert ic.fuel_blends["petrol"]["primary"]["share"] == [
+        0.9,
+        0.9,
+        0.9,
+        0.9,
+        0.9,
+        0.9,
+    ]
+    assert ic.fuel_blends["petrol"]["secondary"]["share"] == [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+    ]
     assert ic.fuel_blends["cng"]["primary"]["share"] == [1, 1, 1, 1, 1, 1]
     assert np.sum(ic.fuel_blends["cng"]["secondary"]["share"]) == 0
 
@@ -178,27 +198,13 @@ def test_fuel_blend():
                     "hydrogen": {
                         "primary fuel": {
                             "type": fuels[2],
-                            "share": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
-                            ],
+                            "share": [1, 1, 1, 1, 1, 1],
                         }
                     },
                     "cng": {
                         "primary fuel": {
                             "type": fuels[3],
-                            "share": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
-                            ],
+                            "share": [1, 1, 1, 1, 1, 1],
                         }
                     },
                 }

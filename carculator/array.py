@@ -323,9 +323,7 @@ def modify_xarray_from_custom_parameters(
             param = key[3]
 
             if not param in array.coords["parameter"].values:
-                print(
-                    f"{param} is not a recognized parameter. It will be skipped."
-                )
+                print(f"{param} is not a recognized parameter. It will be skipped.")
                 continue
 
             val = param_dictionary[key]
@@ -349,7 +347,12 @@ def modify_xarray_from_custom_parameters(
                         for size in sizes:
                             for pwt in powertrains:
                                 array.loc[
-                                    dict(powertrain=pwt, size=size, year=year, parameter=param,)
+                                    dict(
+                                        powertrain=pwt,
+                                        size=size,
+                                        year=year,
+                                        parameter=param,
+                                    )
                                 ] = val[(year, "loc")]
                     # Otherwise warn
                     else:
@@ -376,7 +379,9 @@ def modify_xarray_from_custom_parameters(
 
                     # Lognormal
                     if distr == 2:
-                        if np.isnan(val[(year, "loc")]) or np.isnan(val[(year, "scale")]):
+                        if np.isnan(val[(year, "loc")]) or np.isnan(
+                            val[(year, "scale")]
+                        ):
                             print(
                                 "One or more parameters for the lognormal distribution "
                                 f"is/are missing for {param} in {year}.\n "
@@ -386,7 +391,9 @@ def modify_xarray_from_custom_parameters(
 
                     # Normal
                     if distr == 3:
-                        if np.isnan(val[(year, "loc")]) or np.isnan(val[(year, "scale")]):
+                        if np.isnan(val[(year, "loc")]) or np.isnan(
+                            val[(year, "scale")]
+                        ):
                             print(
                                 "One or more parameters for the normal distribution is/are missing"
                                 f" for {param} in {year}.\n"
@@ -425,7 +432,12 @@ def modify_xarray_from_custom_parameters(
                         for size in sizes:
                             for pwt in powertrains:
                                 array.loc[
-                                    dict(powertrain=pwt, size=size, year=year, parameter=param)
+                                    dict(
+                                        powertrain=pwt,
+                                        size=size,
+                                        year=year,
+                                        parameter=param,
+                                    )
                                 ] = rng.generate(array.sizes["value"]).reshape((-1,))
                     else:
 
@@ -435,7 +447,12 @@ def modify_xarray_from_custom_parameters(
                         for size in sizes:
                             for pwt in powertrains:
                                 array.loc[
-                                    dict(powertrain=pwt, size=size, year=year, parameter=param)
+                                    dict(
+                                        powertrain=pwt,
+                                        size=size,
+                                        year=year,
+                                        parameter=param,
+                                    )
                                 ] = median
 
                 else:
