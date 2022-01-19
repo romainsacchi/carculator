@@ -20,7 +20,9 @@ from bw2io.export.excel import create_valid_worksheet_name, safe_filename, xlsxw
 from . import DATA_DIR, __version__
 
 
-def load_mapping_37_to_36() -> Dict[Tuple[str, str, str, str], Tuple[str, str, str, str]]:
+def load_mapping_37_to_36() -> Dict[
+    Tuple[str, str, str, str], Tuple[str, str, str, str]
+]:
     """Load mapping dictionary between ecoinvent 3.7 and 3.6"""
 
     # Load the matching dictionary
@@ -112,7 +114,9 @@ def load_uvek_transport_distances() -> Dict[str, Dict[str, float]]:
     return dict_distance
 
 
-def load_mapping_37_to_35() -> Dict[Tuple[str, str, str, str], Tuple[str, str, str, str]]:
+def load_mapping_37_to_35() -> Dict[
+    Tuple[str, str, str, str], Tuple[str, str, str, str]
+]:
     """Load mapping dictionary between ecoinvent 3.7 and 3.5"""
 
     # Load the matching dictionary
@@ -268,7 +272,9 @@ class ExportInventory:
         return dict_tags
 
     @staticmethod
-    def load_mapping_36_to_uvek() -> Dict[Tuple[str, str, str, str], Tuple[str, str, str, str]]:
+    def load_mapping_36_to_uvek() -> Dict[
+        Tuple[str, str, str, str], Tuple[str, str, str, str]
+    ]:
         """Load mapping dictionary between ecoinvent 3.6 and UVEK"""
 
         # Load the matching dictionary between ecoinvent and Simapro biosphere flows
@@ -1052,7 +1058,9 @@ class ExportInventory:
 
         return rows
 
-    def format_data_for_lci_for_simapro(self, data: List[Dict], ei_version: str) -> List[List]:
+    def format_data_for_lci_for_simapro(
+        self, data: List[Dict], ei_version: str
+    ) -> List[List]:
 
         # not all biosphere flows exist in simapro
         simapro_biosphere_flows_to_remove = [

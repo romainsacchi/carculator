@@ -94,7 +94,6 @@ def get_electricity_mix() -> xr.DataArray:
     dataframe = pd.read_csv(filepath, sep=";", index_col=["country", "year"])
     dataframe = dataframe.reset_index()
 
-
     array = (
         dataframe.melt(id_vars=["country", "year"], value_name="value")
         .groupby(["country", "year", "variable"])["value"]
@@ -136,7 +135,11 @@ def get_biofuel_share() -> xr.DataArray:
     )
     for country_code in country_codes:
         for scenario in scenarios:
-            val = dataframe.loc[(dataframe["Region"] == country_code) & (dataframe["Scenario"] == scenario), "Biomass fuel":]
+            val = dataframe.loc[
+                (dataframe["Region"] == country_code)
+                & (dataframe["Scenario"] == scenario),
+                "Biomass fuel":,
+            ]
             array.loc[dict(region=country_code, scenario=scenario, value=0)] = val
     return array
 

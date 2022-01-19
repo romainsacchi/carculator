@@ -52,7 +52,11 @@ class CarInputParameters(NamedParameters):
 
     """
 
-    def __init__(self, parameters: Union[str, Path, list] = None, extra: Union[str, Path, list] = None) -> None:
+    def __init__(
+        self,
+        parameters: Union[str, Path, list] = None,
+        extra: Union[str, Path, list] = None,
+    ) -> None:
         """Create a `klausen <https://github.com/cmutel/klausen>`__ model with the car input parameters."""
         super().__init__(None)
 
