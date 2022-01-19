@@ -21,7 +21,6 @@ def test_motive_energy():
         rr_coef=0.01,
         drag_coef=0.3,
         frontal_area=2.4,
-        ttw_efficiency=0.232,
         sizes=["Medium"],
     )
 

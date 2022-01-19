@@ -1,3 +1,7 @@
+"""
+inventory.py contains InventoryCalculation which provides all methods to solve inventories.
+"""
+
 import csv
 import glob
 import itertools
@@ -6,12 +10,12 @@ from pathlib import Path
 
 import numpy as np
 import xarray as xr
+import yaml
 from scipy import sparse
 
 from . import DATA_DIR
 from .background_systems import BackgroundSystemModel
 from .export import ExportInventory
-from .geomap import Geomap
 from .utils import build_fleet_array
 
 np.warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
@@ -223,7 +227,6 @@ class InventoryCalculation:
 
         self.scope = scope
         self.scenario = scenario
-        self.geo = Geomap()
 
         # Check if a fleet composition is specified
         if "fleet" in self.scope["fu"]:
@@ -234,11 +237,11 @@ class InventoryCalculation:
 
                 # check if a path as string is provided
                 if isinstance(self.scope["fu"]["fleet"], str):
-                    fp = Path(self.scope["fu"]["fleet"])
+                    filepath = Path(self.scope["fu"]["fleet"])
 
                 # check if instance of pathlib is provided instead
                 elif isinstance(self.scope["fu"]["fleet"], Path):
-                    fp = self.scope["fu"]["fleet"]
+                    filepath = self.scope["fu"]["fleet"]
 
                 else:
                     raise TypeError(
@@ -247,17 +250,17 @@ class InventoryCalculation:
                         "Or an array of type xarray.DataArray."
                     )
 
-                if not fp.is_file():
+                if not filepath.is_file():
                     raise FileNotFoundError(
                         "The CSV file that contains fleet composition could not be found."
                     )
 
-                if fp.suffix != ".csv":
+                if filepath.suffix != ".csv":
                     raise TypeError(
                         "A CSV file is expected to build the fleet composition."
                     )
 
-                self.fleet = build_fleet_array(fp, self.scope)
+                self.fleet = build_fleet_array(filepath, self.scope)
 
         else:
             self.fleet = None
@@ -307,7 +310,7 @@ class InventoryCalculation:
             x: i for i, x in enumerate(list(self.array.powertrain.values), 0)
         }
 
-        if not background_configuration is None:
+        if background_configuration is not None:
             self.background_configuration = background_configuration
         else:
             self.background_configuration = {}
@@ -343,10 +346,19 @@ class InventoryCalculation:
         self.country = self.get_country_of_use()
         self.add_additional_activities()
         self.rev_inputs = self.get_rev_dict_input()
+
+        with open(DATA_DIR / "fuel_specs.yaml", "r", encoding="utf-8") as stream:
+            self.fuel_specs = yaml.safe_load(stream)
+
+        with open(DATA_DIR / "elec_tech_map.yaml", "r", encoding="utf-8") as stream:
+            self.elec_map = yaml.safe_load(stream)
+            self.elec_map = {k: tuple(v) for k, v in self.elec_map.items()}
+
+        self.elec_tech = list(self.elec_map.keys())
         self.A = self.get_A_matrix()
         self.mix = self.define_electricity_mix_for_fuel_prep()
+        self.create_fuel_dictionary()
         self.fuel_blends = {}
-        self.fuel_dictionary = self.create_fuel_dictionary()
         self.define_fuel_blends()
         self.set_actual_range()
 
@@ -355,868 +367,47 @@ class InventoryCalculation:
                 heat_source = self.background_configuration["direct air capture"][
                     "heat source"
                 ]
+                self.select_heat_supplier(heat_source)
+            else:
+                self.background_configuration["direct air capture"][
+                    "heat source"
+                ] = "heat pump"
+                self.select_heat_supplier("heat pump")
+        else:
+            self.background_configuration["direct air capture"] = {
+                "heat source": "heat pump"
+            }
+            self.select_heat_supplier("heat pump")
 
-                if heat_source != "waste heat":
-                    self.select_heat_supplier(heat_source)
+        with open(DATA_DIR / "exhaust_and_noise_flows.yaml", "r", encoding="utf-8") as stream:
+            flows = yaml.safe_load(stream)["exhaust"]
 
-        self.index_cng = [self.inputs[i] for i in self.inputs if "ICEV-g" in i[0]]
-        self.index_combustion_wo_cng = [
-            self.inputs[i]
-            for i in self.inputs
-            if any(
-                ele in i[0]
-                for ele in ["ICEV-p", "HEV-p", "PHEV-p", "ICEV-d", "PHEV-d", "HEV-d"]
-            )
-        ]
-        self.index_diesel = [self.inputs[i] for i in self.inputs if "ICEV-d" in i[0]]
-        self.index_all_diesel = [
-            self.inputs[i]
-            for i in self.inputs
-            if any(ele in i[0] for ele in ["ICEV-d", "HEV-d", "PHEV-d"])
-        ]
-        self.index_all_petrol = [
-            self.inputs[i]
-            for i in self.inputs
-            if any(ele in i[0] for ele in ["ICEV-p", "HEV-p", "PHEV-p"])
-        ]
-        self.index_petrol = [self.inputs[i] for i in self.inputs if "ICEV-p" in i[0]]
-        self.index_hybrid = [
-            self.inputs[i]
-            for i in self.inputs
-            if any(ele in i[0] for ele in ["HEV-p", "HEV-d"])
-        ]
-        self.index_plugin_hybrid = [
-            self.inputs[i] for i in self.inputs if "PHEV" in i[0]
-        ]
-        self.index_fuel_cell = [self.inputs[i] for i in self.inputs if "FCEV" in i[0]]
+            d_comp = {
+                "urban": "urban air close to ground",
+                "suburban": "non-urban air or from high stacks",
+                "rural": "low population density, long-term",
+            }
 
-        self.map_non_fuel_emissions = {
-            (
-                "1-Pentene",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "1-Pentene direct emissions, rural",
-            (
-                "1-Pentene",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "1-Pentene direct emissions, suburban",
-            (
-                "1-Pentene",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "1-Pentene direct emissions, urban",
-            (
-                "Acetaldehyde",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Acetaldehyde direct emissions, rural",
-            (
-                "Acetaldehyde",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Acetaldehyde direct emissions, suburban",
-            (
-                "Acetaldehyde",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Acetaldehyde direct emissions, urban",
-            (
-                "Acetone",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Acetone direct emissions, rural",
-            (
-                "Acetone",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Acetone direct emissions, suburban",
-            (
-                "Acetone",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Acetone direct emissions, urban",
-            (
-                "Acrolein",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Acrolein direct emissions, rural",
-            (
-                "Acrolein",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Acrolein direct emissions, suburban",
-            (
-                "Acrolein",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Acrolein direct emissions, urban",
-            (
-                "Ammonia",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Ammonia direct emissions, rural",
-            (
-                "Ammonia",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Ammonia direct emissions, suburban",
-            (
-                "Ammonia",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Ammonia direct emissions, urban",
-            (
-                "Arsenic",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Arsenic direct emissions, rural",
-            (
-                "Arsenic",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Arsenic direct emissions, suburban",
-            (
-                "Arsenic",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Arsenic direct emissions, urban",
-            (
-                "Benzaldehyde",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Benzaldehyde direct emissions, rural",
-            (
-                "Benzaldehyde",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Benzaldehyde direct emissions, suburban",
-            (
-                "Benzaldehyde",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Benzaldehyde direct emissions, urban",
-            (
-                "Benzene",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Benzene direct emissions, rural",
-            (
-                "Benzene",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Benzene direct emissions, suburban",
-            (
-                "Benzene",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Benzene direct emissions, urban",
-            (
-                "Butane",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Butane direct emissions, rural",
-            (
-                "Butane",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Butane direct emissions, suburban",
-            (
-                "Butane",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Butane direct emissions, urban",
-            (
-                "Cadmium",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Cadmium direct emissions, rural",
-            (
-                "Cadmium",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Cadmium direct emissions, suburban",
-            (
-                "Cadmium",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Cadmium direct emissions, urban",
-            (
-                "Carbon monoxide, fossil",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Carbon monoxide direct emissions, rural",
-            (
-                "Carbon monoxide, fossil",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Carbon monoxide direct emissions, suburban",
-            (
-                "Carbon monoxide, fossil",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Carbon monoxide direct emissions, urban",
-            (
-                "Chromium",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Chromium direct emissions, rural",
-            (
-                "Chromium",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Chromium direct emissions, suburban",
-            (
-                "Chromium",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Chromium direct emissions, urban",
-            (
-                "Chromium VI",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Chromium VI direct emissions, rural",
-            (
-                "Chromium VI",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Chromium VI direct emissions, suburban",
-            (
-                "Chromium VI",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Chromium VI direct emissions, urban",
-            (
-                "Copper",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Copper direct emissions, rural",
-            (
-                "Copper",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Copper direct emissions, suburban",
-            (
-                "Copper",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Copper direct emissions, urban",
-            (
-                "Cyclohexane",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Cyclohexane direct emissions, rural",
-            (
-                "Cyclohexane",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Cyclohexane direct emissions, suburban",
-            (
-                "Cyclohexane",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Cyclohexane direct emissions, urban",
-            (
-                "Dinitrogen monoxide",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Dinitrogen oxide direct emissions, rural",
-            (
-                "Dinitrogen monoxide",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Dinitrogen oxide direct emissions, suburban",
-            (
-                "Dinitrogen monoxide",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Dinitrogen oxide direct emissions, urban",
-            (
-                "Ethane",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Ethane direct emissions, rural",
-            (
-                "Ethane",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Ethane direct emissions, suburban",
-            (
-                "Ethane",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Ethane direct emissions, urban",
-            (
-                "Ethene",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Ethene direct emissions, rural",
-            (
-                "Ethene",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Ethene direct emissions, suburban",
-            (
-                "Ethene",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Ethene direct emissions, urban",
-            (
-                "Formaldehyde",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Formaldehyde direct emissions, rural",
-            (
-                "Formaldehyde",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Formaldehyde direct emissions, suburban",
-            (
-                "Formaldehyde",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Formaldehyde direct emissions, urban",
-            (
-                "Heptane",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Heptane direct emissions, rural",
-            (
-                "Heptane",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Heptane direct emissions, suburban",
-            (
-                "Heptane",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Heptane direct emissions, urban",
-            (
-                "Hexane",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Hexane direct emissions, rural",
-            (
-                "Hexane",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Hexane direct emissions, suburban",
-            (
-                "Hexane",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Hexane direct emissions, urban",
-            (
-                "Hydrocarbons, chlorinated",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Hydrocarbons direct emissions, rural",
-            (
-                "Hydrocarbons, chlorinated",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Hydrocarbons direct emissions, suburban",
-            (
-                "Hydrocarbons, chlorinated",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Hydrocarbons direct emissions, urban",
-            (
-                "Lead",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Lead direct emissions, rural",
-            (
-                "Lead",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Lead direct emissions, suburban",
-            (
-                "Lead",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Lead direct emissions, urban",
-            (
-                "Mercury",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Mercury direct emissions, rural",
-            (
-                "Mercury",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Mercury direct emissions, suburban",
-            (
-                "Mercury",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Mercury direct emissions, urban",
-            (
-                "Methane, fossil",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Methane direct emissions, rural",
-            (
-                "Methane, fossil",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Methane direct emissions, suburban",
-            (
-                "Methane, fossil",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Methane direct emissions, urban",
-            (
-                "Methyl ethyl ketone",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Methyl ethyl ketone direct emissions, rural",
-            (
-                "Methyl ethyl ketone",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Methyl ethyl ketone direct emissions, suburban",
-            (
-                "Methyl ethyl ketone",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Methyl ethyl ketone direct emissions, urban",
-            (
-                "m-Xylene",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "m-Xylene direct emissions, rural",
-            (
-                "m-Xylene",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "m-Xylene direct emissions, suburban",
-            (
-                "m-Xylene",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "m-Xylene direct emissions, urban",
-            (
-                "Nickel",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Nickel direct emissions, rural",
-            (
-                "Nickel",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Nickel direct emissions, suburban",
-            (
-                "Nickel",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Nickel direct emissions, urban",
-            (
-                "Nitrogen oxides",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Nitrogen oxides direct emissions, rural",
-            (
-                "Nitrogen oxides",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Nitrogen oxides direct emissions, suburban",
-            (
-                "Nitrogen oxides",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Nitrogen oxides direct emissions, urban",
-            (
-                "NMVOC, non-methane volatile organic compounds, unspecified origin",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "NMVOC direct emissions, rural",
-            (
-                "NMVOC, non-methane volatile organic compounds, unspecified origin",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "NMVOC direct emissions, suburban",
-            (
-                "NMVOC, non-methane volatile organic compounds, unspecified origin",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "NMVOC direct emissions, urban",
-            (
-                "o-Xylene",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "o-Xylene direct emissions, rural",
-            (
-                "o-Xylene",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "o-Xylene direct emissions, suburban",
-            (
-                "o-Xylene",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "o-Xylene direct emissions, urban",
-            (
-                "PAH, polycyclic aromatic hydrocarbons",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "PAH, polycyclic aromatic hydrocarbons direct emissions, rural",
-            (
-                "PAH, polycyclic aromatic hydrocarbons",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "PAH, polycyclic aromatic hydrocarbons direct emissions, suburban",
-            (
-                "PAH, polycyclic aromatic hydrocarbons",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "PAH, polycyclic aromatic hydrocarbons direct emissions, urban",
-            (
-                "Particulates, < 2.5 um",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Particulate matters direct emissions, rural",
-            (
-                "Particulates, < 2.5 um",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Particulate matters direct emissions, suburban",
-            (
-                "Particulates, < 2.5 um",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Particulate matters direct emissions, urban",
-            (
-                "Pentane",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Pentane direct emissions, rural",
-            (
-                "Pentane",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Pentane direct emissions, suburban",
-            (
-                "Pentane",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Pentane direct emissions, urban",
-            (
-                "Propane",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Propane direct emissions, rural",
-            (
-                "Propane",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Propane direct emissions, suburban",
-            (
-                "Propane",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Propane direct emissions, urban",
-            (
-                "Propene",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Propene direct emissions, rural",
-            (
-                "Propene",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Propene direct emissions, suburban",
-            (
-                "Propene",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Propene direct emissions, urban",
-            (
-                "Selenium",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Selenium direct emissions, rural",
-            (
-                "Selenium",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Selenium direct emissions, suburban",
-            (
-                "Selenium",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Selenium direct emissions, urban",
-            (
-                "Styrene",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Styrene direct emissions, rural",
-            (
-                "Styrene",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Styrene direct emissions, suburban",
-            (
-                "Styrene",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Styrene direct emissions, urban",
-            (
-                "Toluene",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Toluene direct emissions, rural",
-            (
-                "Toluene",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Toluene direct emissions, suburban",
-            (
-                "Toluene",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Toluene direct emissions, urban",
-            (
-                "Zinc",
-                ("air", "low population density, long-term"),
-                "kilogram",
-            ): "Zinc direct emissions, rural",
-            (
-                "Zinc",
-                ("air", "non-urban air or from high stacks"),
-                "kilogram",
-            ): "Zinc direct emissions, suburban",
-            (
-                "Zinc",
-                ("air", "urban air close to ground"),
-                "kilogram",
-            ): "Zinc direct emissions, urban",
-        }
+            self.map_fuel_emissions = {
+                (v, ("air", d_comp[comp]), "kilogram"): f"{k} direct emissions, {comp}"
+                for k, v in flows.items()
+                for comp in ["urban", "suburban", "rural"]
+            }
 
-        self.index_emissions = [
-            self.inputs[i] for i in self.map_non_fuel_emissions.keys()
-        ]
+        self.index_emissions = [self.inputs[i] for i in self.map_fuel_emissions.keys()]
 
         self.map_noise_emissions = {
             (
-                "noise, octave 1, day time, urban",
-                ("octave 1", "day time", "urban"),
+                f"noise, octave {i}, day time, {comp}",
+                (f"octave {i}", "day time", comp),
                 "joule",
-            ): "noise, octave 1, day time, urban",
-            (
-                "noise, octave 2, day time, urban",
-                ("octave 2", "day time", "urban"),
-                "joule",
-            ): "noise, octave 2, day time, urban",
-            (
-                "noise, octave 3, day time, urban",
-                ("octave 3", "day time", "urban"),
-                "joule",
-            ): "noise, octave 3, day time, urban",
-            (
-                "noise, octave 4, day time, urban",
-                ("octave 4", "day time", "urban"),
-                "joule",
-            ): "noise, octave 4, day time, urban",
-            (
-                "noise, octave 5, day time, urban",
-                ("octave 5", "day time", "urban"),
-                "joule",
-            ): "noise, octave 5, day time, urban",
-            (
-                "noise, octave 6, day time, urban",
-                ("octave 6", "day time", "urban"),
-                "joule",
-            ): "noise, octave 6, day time, urban",
-            (
-                "noise, octave 7, day time, urban",
-                ("octave 7", "day time", "urban"),
-                "joule",
-            ): "noise, octave 7, day time, urban",
-            (
-                "noise, octave 8, day time, urban",
-                ("octave 8", "day time", "urban"),
-                "joule",
-            ): "noise, octave 8, day time, urban",
-            (
-                "noise, octave 1, day time, suburban",
-                ("octave 1", "day time", "suburban"),
-                "joule",
-            ): "noise, octave 1, day time, suburban",
-            (
-                "noise, octave 2, day time, suburban",
-                ("octave 2", "day time", "suburban"),
-                "joule",
-            ): "noise, octave 2, day time, suburban",
-            (
-                "noise, octave 3, day time, suburban",
-                ("octave 3", "day time", "suburban"),
-                "joule",
-            ): "noise, octave 3, day time, suburban",
-            (
-                "noise, octave 4, day time, suburban",
-                ("octave 4", "day time", "suburban"),
-                "joule",
-            ): "noise, octave 4, day time, suburban",
-            (
-                "noise, octave 5, day time, suburban",
-                ("octave 5", "day time", "suburban"),
-                "joule",
-            ): "noise, octave 5, day time, suburban",
-            (
-                "noise, octave 6, day time, suburban",
-                ("octave 6", "day time", "suburban"),
-                "joule",
-            ): "noise, octave 6, day time, suburban",
-            (
-                "noise, octave 7, day time, suburban",
-                ("octave 7", "day time", "suburban"),
-                "joule",
-            ): "noise, octave 7, day time, suburban",
-            (
-                "noise, octave 8, day time, suburban",
-                ("octave 8", "day time", "suburban"),
-                "joule",
-            ): "noise, octave 8, day time, suburban",
-            (
-                "noise, octave 1, day time, rural",
-                ("octave 1", "day time", "rural"),
-                "joule",
-            ): "noise, octave 1, day time, rural",
-            (
-                "noise, octave 2, day time, rural",
-                ("octave 2", "day time", "rural"),
-                "joule",
-            ): "noise, octave 2, day time, rural",
-            (
-                "noise, octave 3, day time, rural",
-                ("octave 3", "day time", "rural"),
-                "joule",
-            ): "noise, octave 3, day time, rural",
-            (
-                "noise, octave 4, day time, rural",
-                ("octave 4", "day time", "rural"),
-                "joule",
-            ): "noise, octave 4, day time, rural",
-            (
-                "noise, octave 5, day time, rural",
-                ("octave 5", "day time", "rural"),
-                "joule",
-            ): "noise, octave 5, day time, rural",
-            (
-                "noise, octave 6, day time, rural",
-                ("octave 6", "day time", "rural"),
-                "joule",
-            ): "noise, octave 6, day time, rural",
-            (
-                "noise, octave 7, day time, rural",
-                ("octave 7", "day time", "rural"),
-                "joule",
-            ): "noise, octave 7, day time, rural",
-            (
-                "noise, octave 8, day time, rural",
-                ("octave 8", "day time", "rural"),
-                "joule",
-            ): "noise, octave 8, day time, rural",
-        }
-
-        self.elec_map = {
-            "Hydro": (
-                "electricity production, hydro, run-of-river",
-                "DE",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            "Nuclear": (
-                "electricity production, nuclear, pressure water reactor",
-                "DE",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            "Gas": (
-                "electricity production, natural gas, conventional power plant",
-                "DE",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            "Solar": (
-                "electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted",
-                "DE",
-                "kilowatt hour",
-                "electricity, low voltage",
-            ),
-            "Wind": (
-                "electricity production, wind, 1-3MW turbine, onshore",
-                "DE",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            "Biomass": (
-                "heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014",
-                "DE",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            "Coal": (
-                "electricity production, hard coal",
-                "DE",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            "Oil": (
-                "electricity production, oil",
-                "DE",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            "Geo": (
-                "electricity production, deep geothermal",
-                "DE",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            "Waste": (
-                "treatment of municipal solid waste, incineration",
-                "DE",
-                "kilowatt hour",
-                "electricity, for reuse in municipal waste incineration only",
-            ),
-            "Biomass CCS": (
-                "electricity production, at BIGCC power plant 450MW, pre, pipeline 200km, storage 1000m",
-                "RER",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            "Coal CCS": (
-                "electricity production, at power plant/hard coal, post, pipeline 200km, storage 1000m",
-                "RER",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            "Gas CCS": (
-                "electricity production, at power plant/natural gas, post, pipeline 200km, storage 1000m",
-                "RER",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            "Biogas CCS": (
-                "electricity production, at power plant/biogas, post, pipeline 200km, storage 1000m",
-                "RER",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
-            "Wood CCS": (
-                "electricity production, at wood burning power plant 20 MW, truck 25km, post, pipeline 200km, storage 1000m",
-                "RER",
-                "kilowatt hour",
-                "electricity, high voltage",
-            ),
+            ): f"noise, octave {i}, day time, {comp}"
+            for i in range(1, 9)
+            for comp in ["urban", "suburban", "rural"]
         }
 
         self.index_noise = [self.inputs[i] for i in self.map_noise_emissions.keys()]
-
         self.list_cat, self.split_indices = self.get_split_indices()
-
         self.method = method
 
         if self.method == "recipe":
@@ -1325,7 +516,7 @@ class InventoryCalculation:
         if not filepath.is_file():
             raise FileNotFoundError("The dictionary of splits could not be found.")
 
-        with open(filepath) as f:
+        with open(filepath, encoding="utf-8") as f:
             csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
         (_, _, *header), *data = csv_list
 
@@ -1379,11 +570,15 @@ class InventoryCalculation:
             )
             l.append(d[cat])
 
+        # idx for an input that has no burden
+        # oxygen in this case
+        extra_idx = [j for i, j in self.inputs.items() if i[0].lower() == "oxygen"][0]
+
         list_ind = [d[x] for x in d]
         maxLen = max(map(len, list_ind))
         for row in list_ind:
             while len(row) < maxLen:
-                row.extend([len(self.inputs) - 1])
+                row.append(extra_idx)
         return list(d.keys()), list_ind
 
     def calculate_impacts(self, split="components", sensitivity=False):
@@ -1421,7 +616,7 @@ class InventoryCalculation:
             np.zeros((self.A.shape[1], self.B.shape[1], len(self.scope["year"])))
         )
 
-        f = np.zeros((np.shape(self.A)[1]))
+        f_vector = np.zeros((np.shape(self.A)[1]))
 
         # Collect indices of activities contributing to the first level
         ind_cars = [
@@ -1438,9 +633,9 @@ class InventoryCalculation:
             B = self.B[0].values
 
         for a in ind:
-            f[:] = 0
-            f[a] = 1
-            X = np.float32(sparse.linalg.spsolve(sparse.csr_matrix(self.A[0]), f.T))
+            f_vector[:] = 0
+            f_vector[a] = 1
+            X = np.float32(sparse.linalg.spsolve(sparse.csr_matrix(self.A[0]), f_vector.T))
 
             if self.scenario == "static":
                 new_arr[a] = np.float32(X * B).sum(axis=-1).T[..., None]
@@ -1485,12 +680,20 @@ class InventoryCalculation:
                 ),
             )
 
-        return (
-            results.astype("float32")
-            / load_factor
-            * int(self.scope["fu"]["quantity"])
-            * self.compliant_vehicles.values[None, :, :, :, None, ...]
-        )
+        if sensitivity:
+            return (
+                results.astype("float32")
+                / load_factor
+                * int(self.scope["fu"]["quantity"])
+                * self.compliant_vehicles.values[None, ...]
+            )
+        else:
+            return (
+                results.astype("float32")
+                / load_factor
+                * int(self.scope["fu"]["quantity"])
+                * self.compliant_vehicles.values[None, :, :, :, None, ...]
+            )
 
     def add_additional_activities(self):
         # Add as many rows and columns as cars to consider
@@ -1707,16 +910,13 @@ class InventoryCalculation:
         J = A_coords[:, 1].astype(int)
         initial_A = sparse.csr_matrix((A_coords[:, 2], (I, J))).toarray()
 
-        new_A = np.identity(len(self.inputs))
+        new_A = np.identity(len(self.inputs)).astype("float32")
 
         new_A[0 : np.shape(initial_A)[0], 0 : np.shape(initial_A)[0]] = initial_A
 
         # Resize the matrix to fit the number of iterations in `array`
 
-        new_A = np.resize(
-            new_A,
-            (self.array.shape[1], new_A.shape[0], new_A.shape[1]),
-        )
+        new_A = np.resize(new_A, (self.array.shape[1], new_A.shape[0], new_A.shape[1]),)
         return new_A
 
     def build_fleet_vehicles(self):
@@ -1979,7 +1179,7 @@ class InventoryCalculation:
                     + "/*recipe_endpoint*{}*.csv".format(self.scenario)
                 )
                 list_file_names = sorted(list_file_names)
-                B = np.zeros((len(list_file_names), 4, len(self.inputs)))
+                B = np.zeros((len(list_file_names), 6, len(self.inputs)))
             else:
                 raise TypeError(
                     "The LCIA method type should be either 'midpoint' or 'endpoint'."
@@ -1992,14 +1192,9 @@ class InventoryCalculation:
             list_file_names = sorted(list_file_names)
             B = np.zeros((len(list_file_names), 19, len(self.inputs)))
 
-        for f, fp in enumerate(list_file_names):
-            initial_B = np.genfromtxt(fp, delimiter=";")
-            new_B = np.zeros(
-                (
-                    np.shape(initial_B)[0],
-                    len(self.inputs),
-                )
-            )
+        for f, filepath in enumerate(list_file_names):
+            initial_B = np.genfromtxt(filepath, delimiter=";")
+            new_B = np.zeros((np.shape(initial_B)[0], len(self.inputs),))
             new_B[0 : np.shape(initial_B)[0], 0 : np.shape(initial_B)[1]] = initial_B
             B[f, :, :] = new_B
 
@@ -2042,7 +1237,7 @@ class InventoryCalculation:
             )
         csv_dict = {}
         count = 0
-        with open(filepath) as f:
+        with open(filepath, encoding="utf-8") as f:
             input_dict = csv.reader(f, delimiter=";")
             for row in input_dict:
                 if "(" in row[1]:
@@ -2055,8 +1250,7 @@ class InventoryCalculation:
                             s = "low population density, long-term"
                             t += (s,)
                             break
-                        else:
-                            t += (s.replace("'", ""),)
+                        t += (s.replace("'", ""),)
                     csv_dict[(row[0], t, row[2])] = count
                 else:
                     csv_dict[(row[0], row[1], row[2], row[3])] = count
@@ -2106,7 +1300,7 @@ class InventoryCalculation:
 
         csv_dict = {}
 
-        with open(filepath) as f:
+        with open(filepath, encoding="utf-8") as f:
             input_dict = csv.reader(f, delimiter=";")
             for row in input_dict:
                 if row[0] == self.method and row[3] == self.method_type:
@@ -2240,7 +1434,7 @@ class InventoryCalculation:
             np.ix_(range(self.A.shape[0]), indices_to_preserve, indices_to_preserve)
         ]
 
-        self.rev_inputs = {v: k for v, k in enumerate(self.rev_inputs.values())}
+        self.rev_inputs = dict(enumerate(self.rev_inputs.values()))
 
     def export_lci(
         self,
@@ -2268,6 +1462,23 @@ class InventoryCalculation:
         self.rev_inputs = self.get_rev_dict_input()
         self.A = self.get_A_matrix()
 
+        if "direct air capture" in self.background_configuration:
+            if "heat source" in self.background_configuration["direct air capture"]:
+                heat_source = self.background_configuration["direct air capture"][
+                    "heat source"
+                ]
+                self.select_heat_supplier(heat_source)
+            else:
+                self.background_configuration["direct air capture"][
+                    "heat source"
+                ] = "heat pump"
+                self.select_heat_supplier("heat pump")
+        else:
+            self.background_configuration["direct air capture"] = {
+                "heat source": "heat pump"
+            }
+            self.select_heat_supplier("heat pump")
+
         if create_vehicle_datasets:
 
             # add vehicles datasets
@@ -2279,6 +1490,23 @@ class InventoryCalculation:
             # resize A matrix
             self.A = self.get_A_matrix()
 
+            if "direct air capture" in self.background_configuration:
+                if "heat source" in self.background_configuration["direct air capture"]:
+                    heat_source = self.background_configuration["direct air capture"][
+                        "heat source"
+                    ]
+                    self.select_heat_supplier(heat_source)
+                else:
+                    self.background_configuration["direct air capture"][
+                        "heat source"
+                    ] = "heat pump"
+                    self.select_heat_supplier("heat pump")
+            else:
+                self.background_configuration["direct air capture"] = {
+                    "heat source": "heat pump"
+                }
+                self.select_heat_supplier("heat pump")
+
             # Create electricity and fuel market datasets
             self.create_electricity_market_for_fuel_prep()
 
@@ -2287,7 +1515,6 @@ class InventoryCalculation:
 
             # Create fuel markets
             self.fuel_blends = {}
-            self.fuel_dictionary = self.create_fuel_dictionary()
             self.define_fuel_blends()
             self.set_actual_range()
 
@@ -2303,14 +1530,13 @@ class InventoryCalculation:
 
             # Create fuel markets
             self.fuel_blends = {}
-            self.fuel_dictionary = self.create_fuel_dictionary()
             self.define_fuel_blends()
             self.set_actual_range()
 
             self.set_inputs_in_A_matrix(self.array.values)
 
         # Add rows for fleet vehicles, if any
-        if isinstance(self.fleet, xr.core.dataarray.DataArray):
+        if isinstance(self.fleet, xr.DataArray):
             print("Building fleet average vehicles...")
             self.build_fleet_vehicles()
 
@@ -2385,6 +1611,23 @@ class InventoryCalculation:
         self.rev_inputs = self.get_rev_dict_input()
         self.A = self.get_A_matrix()
 
+        if "direct air capture" in self.background_configuration:
+            if "heat source" in self.background_configuration["direct air capture"]:
+                heat_source = self.background_configuration["direct air capture"][
+                    "heat source"
+                ]
+                self.select_heat_supplier(heat_source)
+            else:
+                self.background_configuration["direct air capture"][
+                    "heat source"
+                ] = "heat pump"
+                self.select_heat_supplier("heat pump")
+        else:
+            self.background_configuration["direct air capture"] = {
+                "heat source": "heat pump"
+            }
+            self.select_heat_supplier("heat pump")
+
         if create_vehicle_datasets:
 
             # add vehicles datasets
@@ -2404,9 +1647,25 @@ class InventoryCalculation:
 
             # Create fuel markets
             self.fuel_blends = {}
-            self.fuel_dictionary = self.create_fuel_dictionary()
             self.define_fuel_blends()
             self.set_actual_range()
+
+            if "direct air capture" in self.background_configuration:
+                if "heat source" in self.background_configuration["direct air capture"]:
+                    heat_source = self.background_configuration["direct air capture"][
+                        "heat source"
+                    ]
+                    self.select_heat_supplier(heat_source)
+                else:
+                    self.background_configuration["direct air capture"][
+                        "heat source"
+                    ] = "heat pump"
+                    self.select_heat_supplier("heat pump")
+            else:
+                self.background_configuration["direct air capture"] = {
+                    "heat source": "heat pump"
+                }
+                self.select_heat_supplier("heat pump")
 
             self.set_inputs_in_A_matrix_for_export(self.array.values)
 
@@ -2420,7 +1679,6 @@ class InventoryCalculation:
 
             # Create fuel markets
             self.fuel_blends = {}
-            self.fuel_dictionary = self.create_fuel_dictionary()
             self.define_fuel_blends()
             self.set_actual_range()
 
@@ -2507,6 +1765,23 @@ class InventoryCalculation:
         self.rev_inputs = self.get_rev_dict_input()
         self.A = self.get_A_matrix()
 
+        if "direct air capture" in self.background_configuration:
+            if "heat source" in self.background_configuration["direct air capture"]:
+                heat_source = self.background_configuration["direct air capture"][
+                    "heat source"
+                ]
+                self.select_heat_supplier(heat_source)
+            else:
+                self.background_configuration["direct air capture"][
+                    "heat source"
+                ] = "heat pump"
+                self.select_heat_supplier("heat pump")
+        else:
+            self.background_configuration["direct air capture"] = {
+                "heat source": "heat pump"
+            }
+            self.select_heat_supplier("heat pump")
+
         if create_vehicle_datasets:
 
             # add vehicles datasets
@@ -2518,12 +1793,28 @@ class InventoryCalculation:
             # resize A matrix
             self.A = self.get_A_matrix()
 
+            if "direct air capture" in self.background_configuration:
+                if "heat source" in self.background_configuration["direct air capture"]:
+                    heat_source = self.background_configuration["direct air capture"][
+                        "heat source"
+                    ]
+                    self.select_heat_supplier(heat_source)
+                else:
+                    self.background_configuration["direct air capture"][
+                        "heat source"
+                    ] = "heat pump"
+                    self.select_heat_supplier("heat pump")
+            else:
+                self.background_configuration["direct air capture"] = {
+                    "heat source": "heat pump"
+                }
+                self.select_heat_supplier("heat pump")
+
             # Create electricity and fuel market datasets
             self.create_electricity_market_for_fuel_prep()
 
             # Create fuel markets
             self.fuel_blends = {}
-            self.fuel_dictionary = self.create_fuel_dictionary()
             self.define_fuel_blends()
             self.set_actual_range()
 
@@ -2542,7 +1833,6 @@ class InventoryCalculation:
 
             # Create fuel markets
             self.fuel_blends = {}
-            self.fuel_dictionary = self.create_fuel_dictionary()
             self.define_fuel_blends()
             self.set_actual_range()
 
@@ -2564,7 +1854,7 @@ class InventoryCalculation:
         # Remove vehicles not compliant or available
         self.resize_A_matrix_for_export()
 
-        fp = ExportInventory(
+        filepath = ExportInventory(
             self.A, self.rev_inputs, db_name=filename or "carculator db"
         ).write_lci_to_excel(
             directory=directory,
@@ -2574,7 +1864,7 @@ class InventoryCalculation:
             export_format=export_format,
             vehicle_specs=self.specs,
         )
-        return fp
+        return filepath
 
     def get_country_of_use(self):
 
@@ -2630,35 +1920,15 @@ class InventoryCalculation:
 
             if self.country not in self.bs.electricity_mix.country.values:
                 print(
-                    "The electricity mix for {} could not be found. Average European electricity mix is used instead.".format(
-                        self.country
-                    )
+                    f"The electricity mix for {self.country} could not be found."
+                    "Average European electricity mix is used instead."
                 )
                 country = "RER"
             else:
                 country = self.country
 
             mix = [
-                self.bs.electricity_mix.sel(
-                    country=country,
-                    variable=[
-                        "Hydro",
-                        "Nuclear",
-                        "Gas",
-                        "Solar",
-                        "Wind",
-                        "Biomass",
-                        "Coal",
-                        "Oil",
-                        "Geothermal",
-                        "Waste",
-                        "Biogas CCS",
-                        "Biomass CCS",
-                        "Coal CCS",
-                        "Gas CCS",
-                        "Wood CCS",
-                    ],
-                )
+                self.bs.electricity_mix.sel(country=country, variable=self.elec_tech,)
                 .interp(
                     year=np.arange(year, year + use_year[y]),
                     kwargs={"fill_value": "extrapolate"},
@@ -2667,24 +1937,7 @@ class InventoryCalculation:
                 .values
                 if y + use_year[y] <= 2050
                 else self.bs.electricity_mix.sel(
-                    country=country,
-                    variable=[
-                        "Hydro",
-                        "Nuclear",
-                        "Gas",
-                        "Solar",
-                        "Wind",
-                        "Biomass",
-                        "Coal",
-                        "Oil",
-                        "Geothermal",
-                        "Waste",
-                        "Biogas CCS",
-                        "Biomass CCS",
-                        "Coal CCS",
-                        "Gas CCS",
-                        "Wood CCS",
-                    ],
+                    country=country, variable=self.elec_tech,
                 )
                 .interp(
                     year=np.arange(year, 2051), kwargs={"fill_value": "extrapolate"}
@@ -2716,7 +1969,7 @@ class InventoryCalculation:
                 co2_intensity_tech = (
                     self.B.sel(
                         category=category_name,
-                        activity=list(self.elec_map.values()),
+                        activity=[self.elec_map[t] for t in self.elec_tech],
                     )
                     .interp(year=year, kwargs={"fill_value": "extrapolate"})
                     .values
@@ -2728,16 +1981,16 @@ class InventoryCalculation:
                     (
                         self.B.sel(
                             category=category_name,
-                            activity=list(self.elec_map.values()),
+                            activity=[self.elec_map[t] for t in self.elec_tech],
                             year=year,
                         ).values
                         * losses_to_low
                         * 1000
                     ),
-                    (len(self.scope["year"]), 15),
+                    (len(self.scope["year"]), 21),
                 )
         else:
-            co2_intensity_tech = np.zeros((len(self.scope["year"]), 15))
+            co2_intensity_tech = np.zeros((len(self.scope["year"]), 21))
 
         sum_renew = [
             np.sum([self.mix[x][i] for i in [0, 3, 4, 5, 8]])
@@ -2759,12 +2012,13 @@ class InventoryCalculation:
 
         # Fill the electricity markets for battery charging and hydrogen production
         for y, year in enumerate(self.scope["year"]):
-            m = np.array(self.mix[y], dtype=object).reshape((-1, 15, 1))
+            m = np.array(self.mix[y], dtype=object).reshape((-1, len(self.mix[y]), 1))
             # Add electricity technology shares
+
             self.A[
                 np.ix_(
                     np.arange(self.iterations),
-                    [self.inputs[self.elec_map[t]] for t in self.elec_map],
+                    [self.inputs[self.elec_map[t]] for t in self.elec_tech],
                     [
                         self.inputs[i]
                         for i in self.inputs
@@ -2772,9 +2026,7 @@ class InventoryCalculation:
                         and "electricity market for fuel preparation" in i[0]
                     ],
                 )
-            ] = (
-                m * -1 * losses_to_low
-            )
+            ] = (m * -1 * losses_to_low)
 
             # Add transmission network for high and medium voltage
             self.A[
@@ -2793,9 +2045,7 @@ class InventoryCalculation:
                     if str(year) in i[0]
                     and "electricity market for fuel preparation" in i[0]
                 ],
-            ] = (
-                6.58e-9 * -1 * losses_to_low
-            )
+            ] = (6.58e-9 * -1 * losses_to_low)
 
             self.A[
                 :,
@@ -2813,9 +2063,7 @@ class InventoryCalculation:
                     if str(year) in i[0]
                     and "electricity market for fuel preparation" in i[0]
                 ],
-            ] = (
-                1.86e-8 * -1 * losses_to_low
-            )
+            ] = (1.86e-8 * -1 * losses_to_low)
 
             self.A[
                 :,
@@ -2833,9 +2081,7 @@ class InventoryCalculation:
                     if str(year) in i[0]
                     and "electricity market for fuel preparation" in i[0]
                 ],
-            ] = (
-                3.17e-10 * -1 * losses_to_low
-            )
+            ] = (3.17e-10 * -1 * losses_to_low)
 
             # Add distribution network, low voltage
             self.A[
@@ -2854,9 +2100,7 @@ class InventoryCalculation:
                     if str(year) in i[0]
                     and "electricity market for fuel preparation" in i[0]
                 ],
-            ] = (
-                8.74e-8 * -1 * losses_to_low
-            )
+            ] = (8.74e-8 * -1 * losses_to_low)
 
             # Add supply of sulfur hexafluoride for transformers
             self.A[
@@ -2875,9 +2119,7 @@ class InventoryCalculation:
                     if str(year) in i[0]
                     and "electricity market for fuel preparation" in i[0]
                 ],
-            ] = (
-                (5.4e-8 + 2.99e-9) * -1 * losses_to_low
-            )
+            ] = ((5.4e-8 + 2.99e-9) * -1 * losses_to_low)
 
             # Add SF_6 leakage
 
@@ -2890,9 +2132,7 @@ class InventoryCalculation:
                     if str(year) in i[0]
                     and "electricity market for fuel preparation" in i[0]
                 ],
-            ] = (
-                (5.4e-8 + 2.99e-9) * -1 * losses_to_low
-            )
+            ] = ((5.4e-8 + 2.99e-9) * -1 * losses_to_low)
 
     def create_electricity_market_for_battery_production(self):
         """
@@ -2920,24 +2160,7 @@ class InventoryCalculation:
 
             mix_battery_manufacturing = (
                 self.bs.electricity_mix.sel(
-                    country=battery_origin,
-                    variable=[
-                        "Hydro",
-                        "Nuclear",
-                        "Gas",
-                        "Solar",
-                        "Wind",
-                        "Biomass",
-                        "Coal",
-                        "Oil",
-                        "Geothermal",
-                        "Waste",
-                        "Biogas CCS",
-                        "Biomass CCS",
-                        "Coal CCS",
-                        "Gas CCS",
-                        "Wood CCS",
-                    ],
+                    country=battery_origin, variable=self.elec_tech,
                 )
                 .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
                 .values
@@ -2950,13 +2173,13 @@ class InventoryCalculation:
         # Fill the electricity markets for battery production
         for y, year in enumerate(self.scope["year"]):
             m = np.array(mix_battery_manufacturing[y], dtype=object).reshape(
-                (-1, 15, 1)
+                (-1, 21, 1)
             )
 
             self.A[
                 np.ix_(
                     np.arange(self.iterations),
-                    [self.inputs[self.elec_map[t]] for t in self.elec_map],
+                    [self.inputs[self.elec_map[t]] for t in self.elec_tech],
                     [
                         self.inputs[i]
                         for i in self.inputs
@@ -2964,9 +2187,7 @@ class InventoryCalculation:
                         and "electricity market for energy storage production" in i[0]
                     ],
                 )
-            ] = (
-                m * losses_to_low * -1
-            )
+            ] = (m * losses_to_low * -1)
 
             # Add transmission network for high and medium voltage
             self.A[
@@ -2985,9 +2206,7 @@ class InventoryCalculation:
                     if str(year) in i[0]
                     and "electricity market for energy storage production" in i[0]
                 ],
-            ] = (
-                6.58e-9 * -1 * losses_to_low
-            )
+            ] = (6.58e-9 * -1 * losses_to_low)
 
             self.A[
                 :,
@@ -3005,9 +2224,7 @@ class InventoryCalculation:
                     if str(year) in i[0]
                     and "electricity market for energy storage production" in i[0]
                 ],
-            ] = (
-                1.86e-8 * -1 * losses_to_low
-            )
+            ] = (1.86e-8 * -1 * losses_to_low)
 
             self.A[
                 :,
@@ -3025,9 +2242,7 @@ class InventoryCalculation:
                     if str(year) in i[0]
                     and "electricity market for energy storage production" in i[0]
                 ],
-            ] = (
-                3.17e-10 * -1 * losses_to_low
-            )
+            ] = (3.17e-10 * -1 * losses_to_low)
 
             # Add distribution network, low voltage
             self.A[
@@ -3046,9 +2261,7 @@ class InventoryCalculation:
                     if str(year) in i[0]
                     and "electricity market for energy storage production" in i[0]
                 ],
-            ] = (
-                8.74e-8 * -1 * losses_to_low
-            )
+            ] = (8.74e-8 * -1 * losses_to_low)
 
             # Add supply of sulfur hexafluoride for transformers
             self.A[
@@ -3067,9 +2280,7 @@ class InventoryCalculation:
                     if str(year) in i[0]
                     and "electricity market for energy storage production" in i[0]
                 ],
-            ] = (
-                (5.4e-8 + 2.99e-9) * -1 * losses_to_low
-            )
+            ] = ((5.4e-8 + 2.99e-9) * -1 * losses_to_low)
 
             # Add SF_6 leakage
 
@@ -3082,9 +2293,7 @@ class InventoryCalculation:
                     if str(year) in i[0]
                     and "electricity market for energy storage production" in i[0]
                 ],
-            ] = (
-                (5.4e-8 + 2.99e-9) * -1 * losses_to_low
-            )
+            ] = ((5.4e-8 + 2.99e-9) * -1 * losses_to_low)
 
     def get_share_biogasoline(self):
         """Returns average share of biogasoline according to historical IEA stats"""
@@ -3139,10 +2348,7 @@ class InventoryCalculation:
 
         share_biofuel = (
             self.bs.biofuel.sel(
-                region=region,
-                value=0,
-                fuel_type="Biomass fuel",
-                scenario=scenario,
+                region=region, value=0, fuel_type="Biomass fuel", scenario=scenario,
             )
             .interp(year=self.scope["year"], kwargs={"fill_value": "extrapolate"})
             .values
@@ -3428,48 +2634,6 @@ class InventoryCalculation:
         :return:
         """
 
-        fuels_lhv = {
-            "petrol": 42.6,
-            "bioethanol - wheat straw": 26.5,
-            "bioethanol - maize starch": 26.5,
-            "bioethanol - sugarbeet": 26.5,
-            "bioethanol - forest residues": 26.5,
-            "synthetic gasoline - economic allocation": 42.4,
-            "synthetic gasoline - energy allocation": 42.4,
-            "diesel": 43,
-            "biodiesel - cooking oil": 38,
-            "biodiesel - algae": 38,
-            "biodiesel - rapeseed oil": 38,
-            "biodiesel - palm oil": 38,
-            "synthetic diesel - economic allocation": 43.3,
-            "synthetic diesel - energy allocation": 43.3,
-            "cng": 47.5,
-            "biogas - sewage sludge": 47.5,
-            "biogas - biowaste": 47.5,
-            "syngas": 47.5,
-        }
-
-        fuels_CO2 = {
-            "petrol": 3.14,
-            "bioethanol - wheat straw": 1.96,
-            "bioethanol - maize starch": 1.96,
-            "bioethanol - sugarbeet": 1.96,
-            "bioethanol - forest residues": 1.96,
-            "synthetic gasoline - economic allocation": 3.14,
-            "synthetic gasoline - energy allocation": 3.14,
-            "diesel": 3.15,
-            "biodiesel - cooking oil": 2.79,
-            "biodiesel - palm oil": 2.79,
-            "biodiesel - rapeseed oil": 2.79,
-            "biodiesel - algae": 2.79,
-            "synthetic diesel - economic allocation": 3.15,
-            "synthetic diesel - energy allocation": 3.15,
-            "cng": 2.68,
-            "biogas - sewage sludge": 2.68,
-            "biogas - biowaste": 2.68,
-            "syngas": 2.68,
-        }
-
         if {"ICEV-p", "HEV-p", "PHEV-p"}.intersection(set(self.scope["powertrain"])):
             fuel_type = "petrol"
             (
@@ -3493,14 +2657,14 @@ class InventoryCalculation:
                 "primary": {
                     "type": primary,
                     "share": primary_share,
-                    "lhv": fuels_lhv[primary],
-                    "CO2": fuels_CO2[primary],
+                    "lhv": self.fuel_specs[primary]["lhv"],
+                    "CO2": self.fuel_specs[primary]["co2"],
                 },
                 "secondary": {
                     "type": secondary,
                     "share": secondary_share,
-                    "lhv": fuels_lhv[secondary],
-                    "CO2": fuels_CO2[secondary],
+                    "lhv": self.fuel_specs[secondary]["lhv"],
+                    "CO2": self.fuel_specs[secondary]["co2"],
                 },
             }
 
@@ -3508,8 +2672,8 @@ class InventoryCalculation:
                 self.fuel_blends[fuel_type]["tertiary"] = {
                     "type": tertiary,
                     "share": tertiary_share,
-                    "lhv": fuels_lhv[tertiary],
-                    "CO2": fuels_CO2[tertiary],
+                    "lhv": self.fuel_specs[tertiary]["lhv"],
+                    "CO2": self.fuel_specs[tertiary]["co2"],
                 }
 
         if {"ICEV-d", "HEV-d", "PHEV-d"}.intersection(set(self.scope["powertrain"])):
@@ -3535,14 +2699,14 @@ class InventoryCalculation:
                 "primary": {
                     "type": primary,
                     "share": primary_share,
-                    "lhv": fuels_lhv[primary],
-                    "CO2": fuels_CO2[primary],
+                    "lhv": self.fuel_specs[primary]["lhv"],
+                    "CO2": self.fuel_specs[primary]["co2"],
                 },
                 "secondary": {
                     "type": secondary,
                     "share": secondary_share,
-                    "lhv": fuels_lhv[secondary],
-                    "CO2": fuels_CO2[secondary],
+                    "lhv": self.fuel_specs[secondary]["lhv"],
+                    "CO2": self.fuel_specs[secondary]["co2"],
                 },
             }
 
@@ -3550,8 +2714,8 @@ class InventoryCalculation:
                 self.fuel_blends[fuel_type]["tertiary"] = {
                     "type": tertiary,
                     "share": tertiary_share,
-                    "lhv": fuels_lhv[tertiary],
-                    "CO2": fuels_CO2[tertiary],
+                    "lhv": self.fuel_specs[tertiary]["lhv"],
+                    "CO2": self.fuel_specs[tertiary]["co2"],
                 }
 
         if {"ICEV-g"}.intersection(set(self.scope["powertrain"])):
@@ -3577,14 +2741,14 @@ class InventoryCalculation:
                 "primary": {
                     "type": primary,
                     "share": primary_share,
-                    "lhv": fuels_lhv[primary],
-                    "CO2": fuels_CO2[primary],
+                    "lhv": self.fuel_specs[primary]["lhv"],
+                    "CO2": self.fuel_specs[primary]["co2"],
                 },
                 "secondary": {
                     "type": secondary,
                     "share": secondary_share,
-                    "lhv": fuels_lhv[primary],
-                    "CO2": fuels_CO2[primary],
+                    "lhv": self.fuel_specs[primary]["lhv"],
+                    "CO2": self.fuel_specs[primary]["co2"],
                 },
             }
 
@@ -3592,8 +2756,8 @@ class InventoryCalculation:
                 self.fuel_blends[fuel_type]["tertiary"] = {
                     "type": tertiary,
                     "share": tertiary_share,
-                    "lhv": fuels_lhv[tertiary],
-                    "CO2": fuels_CO2[tertiary],
+                    "lhv": self.fuel_specs[tertiary]["lhv"],
+                    "CO2": self.fuel_specs[tertiary]["co2"],
                 }
 
         if {"FCEV"}.intersection(set(self.scope["powertrain"])):
@@ -3653,322 +2817,40 @@ class InventoryCalculation:
                 self.bs.sulfur.sel(country=location, year=year, fuel=fuel).sum().values
             )
         else:
-            # If the geography is in fact a region,
-            # we need to calculate the average sulfur content
-            # across the region
+            # If the geography is not found,
+            # we use the European average
 
-            list_countries = self.geo.iam_to_ecoinvent_location(location)
-            list_countries = [
-                c for c in list_countries if c in self.bs.sulfur.country.values
-            ]
+            print(
+                f"The sulfur content for {fuel} fuel in {location} could not be found."
+                "European average sulfur content is used instead."
+            )
 
-            if len(list_countries) > 0:
+            sulfur_concentration = (
+                self.bs.sulfur.sel(country="RER", year=year, fuel=fuel).sum().values
+            )
 
-                sulfur_concentration = (
-                    self.bs.sulfur.sel(
-                        country=list_countries,
-                        year=year,
-                        fuel=fuel,
-                    )
-                    .mean()
-                    .values
-                )
-
-            else:
-
-                # if we do not have the sulfur concentration for the required country, we pick Europe
-                print(
-                    "The sulfur content for {} fuel in {} could not be found. European average sulfur content is used instead.".format(
-                        fuel, location
-                    )
-                )
-                sulfur_concentration = (
-                    self.bs.sulfur.sel(country="RER", year=year, fuel=fuel).sum().values
-                )
         return sulfur_concentration
 
     def create_fuel_dictionary(self):
 
-        d_fuels = {
-            "electrolysis": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from electrolysis, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "smr - natural gas": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from SMR of NG, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "smr - natural gas with CCS": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from SMR of NG, with CCS, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "smr - biogas": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from SMR of biogas, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "smr - biogas with CCS": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "coal gasification": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from coal gasification, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "wood gasification": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from heatpipe reformer gasification of woody biomass, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "wood gasification with CCS": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from heatpipe reformer gasification of woody biomass with CCS, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "wood gasification with EF": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in entrained flow gasifier, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "wood gasification with EF with CCS": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "atr - natural gas": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, ATR of NG, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "atr - natural gas with CCS": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, ATR of NG, with CCS, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "atr - biogas": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from ATR of biogas, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "atr - biogas with CCS": {
-                "name": (
-                    "Hydrogen, gaseous, 700 bar, from ATR of biogas with CCS, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "Hydrogen, gaseous, 700 bar",
-                )
-            },
-            "cng": {
-                "name": (
-                    "market for natural gas, high pressure, vehicle grade",
-                    "GLO",
-                    "kilogram",
-                    "natural gas, high pressure, vehicle grade",
-                )
-            },
-            "biogas - sewage sludge": {
-                "name": (
-                    "Biomethane, gaseous, 5 bar, from sewage sludge fermentation, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "biomethane, high pressure",
-                )
-            },
-            "biogas - biowaste": {
-                "name": (
-                    "biomethane from biogas upgrading - biowaste - amine scrubbing",
-                    "CH",
-                    "kilogram",
-                    "biomethane",
-                )
-            },
-            "syngas": {
-                "name": (
-                    "Methane, synthetic, gaseous, 5 bar, from electrochemical methanation, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "methane, high pressure",
-                )
-            },
-            "diesel": {
-                "name": (
-                    "market group for diesel, low-sulfur",
-                    "RER",
-                    "kilogram",
-                    "diesel, low-sulfur",
-                )
-            },
-            "biodiesel - algae": {
-                "name": (
-                    "Biodiesel, from algae, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "biodiesel, vehicle grade",
-                )
-            },
-            "biodiesel - cooking oil": {
-                "name": (
-                    "Biodiesel, from used cooking oil, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "biodiesel, vehicle grade",
-                )
-            },
-            "biodiesel - rapeseed oil": {
-                "name": (
-                    "Biodiesel, from rapeseed oil, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "biodiesel, vehicle grade",
-                )
-            },
-            "biodiesel - palm oil": {
-                "name": (
-                    "Biodiesel, from palm oil, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "biodiesel, vehicle grade",
-                )
-            },
-            "synthetic diesel - economic allocation": {
-                "name": (
-                    "diesel production, synthetic, from electrolysis-based hydrogen, economic allocation, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "diesel, synthetic, vehicle grade",
-                )
-            },
-            "synthetic diesel - energy allocation": {
-                "name": (
-                    "diesel production, synthetic, from electrolysis-based hydrogen, energy allocation, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "diesel, synthetic, vehicle grade",
-                )
-            },
-            "petrol": {
-                "name": (
-                    "market for petrol, low-sulfur",
-                    "Europe without Switzerland",
-                    "kilogram",
-                    "petrol, low-sulfur",
-                )
-            },
-            "bioethanol - wheat straw": {
-                "name": (
-                    "Ethanol, from wheat straw pellets, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "ethanol, without water, in 99.7% solution state, vehicle grade",
-                )
-            },
-            "bioethanol - forest residues": {
-                "name": (
-                    "Ethanol, from forest residues, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "ethanol, without water, in 99.7% solution state, vehicle grade",
-                )
-            },
-            "bioethanol - sugarbeet": {
-                "name": (
-                    "Ethanol, from sugarbeet, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "ethanol, without water, in 99.7% solution state, vehicle grade",
-                )
-            },
-            "bioethanol - maize starch": {
-                "name": (
-                    "Ethanol, from maize starch, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "ethanol, without water, in 99.7% solution state, vehicle grade",
-                )
-            },
-            "synthetic gasoline - economic allocation": {
-                "name": (
-                    "gasoline production, synthetic, from methanol, hydrogen from electrolysis, CO2 from DAC, economic allocation, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "gasoline, synthetic, vehicle grade",
-                )
-            },
-            "synthetic gasoline - energy allocation": {
-                "name": (
-                    "gasoline production, synthetic, from methanol, hydrogen from electrolysis, CO2 from DAC, energy allocation, at fuelling station",
-                    "RER",
-                    "kilogram",
-                    "gasoline, synthetic, vehicle grade",
-                )
-            },
-        }
-
-        for d in d_fuels:
+        for val in self.fuel_specs.values():
             if any(
-                i in d_fuels[d]["name"][0].lower()
+                i in val["name"][0].lower()
                 for i in ("synthetic", "hydrogen", "ethanol", "biodiesel")
             ):
-                d_fuels[d]["additional electricity"] = self.find_inputs(
-                    "kilowatt hour", d_fuels[d]["name"][0], "unit"
+                val["additional electricity"] = self.find_inputs(
+                    "kilowatt hour", val["name"][0], "unit"
                 )
             else:
-                d_fuels[d]["additional electricity"] = 0
+                val["additional electricity"] = 0
 
-        for d in d_fuels:
+        for val in self.fuel_specs.values():
             if any(
-                i in d_fuels[d]["name"][0].lower()
-                for i in ("synthetic", "hydrogen", "bio")
+                i in val["name"][0].lower() for i in ("synthetic", "hydrogen", "bio")
             ):
                 self.find_inputs(
-                    "kilowatt hour", d_fuels[d]["name"][0], "unit", zero_out_input=True
+                    "kilowatt hour", val["name"][0], "unit", zero_out_input=True
                 )
-
-        return d_fuels
 
     def create_fuel_markets(
         self,
@@ -4003,10 +2885,10 @@ class InventoryCalculation:
 
                 try:
                     primary_fuel_activity_index = self.inputs[
-                        self.fuel_dictionary[primary]["name"]
+                        tuple(self.fuel_specs[primary]["name"])
                     ]
                     secondary_fuel_activity_index = self.inputs[
-                        self.fuel_dictionary[secondary]["name"]
+                        tuple(self.fuel_specs[secondary]["name"])
                     ]
                 except KeyError:
                     raise KeyError(
@@ -4091,14 +2973,14 @@ class InventoryCalculation:
                     primary,
                     year,
                     primary_share[y],
-                    self.fuel_dictionary[primary]["additional electricity"],
+                    self.fuel_specs[primary]["additional electricity"],
                 )
 
                 additional_electricity_secondary = learning_rate_fuel(
                     secondary,
                     year,
                     secondary_share[y],
-                    self.fuel_dictionary[secondary]["additional electricity"],
+                    self.fuel_specs[secondary]["additional electricity"],
                 )
 
                 additional_electricity = (
@@ -4107,7 +2989,7 @@ class InventoryCalculation:
 
                 if tertiary:
                     tertiary_fuel_activity_index = self.inputs[
-                        self.fuel_dictionary[tertiary]["name"]
+                        self.fuel_specs[tertiary]["name"]
                     ]
                     self.A[:, tertiary_fuel_activity_index, fuel_market_index] = (
                         -1 * tertiary_share[y]
@@ -4116,7 +2998,7 @@ class InventoryCalculation:
                         tertiary,
                         year,
                         tertiary_share[y],
-                        self.fuel_dictionary[tertiary]["additional electricity"],
+                        self.fuel_specs[tertiary]["additional electricity"],
                     )
 
                 if additional_electricity > 0:
@@ -4165,11 +3047,11 @@ class InventoryCalculation:
             if val.lower() in i[0].lower()
         ]
 
-        f = np.zeros((np.shape(self.A)[1]))
+        f_vector = np.zeros((np.shape(self.A)[1]))
 
-        f[index_output] = 1
+        f_vector[index_output] = 1
 
-        X = np.float32(sparse.linalg.spsolve(sparse.csr_matrix(self.A[0]), f.T))
+        X = np.float32(sparse.linalg.spsolve(sparse.csr_matrix(self.A[0]), f_vector.T))
 
         ind_inputs = np.nonzero(X)[0]
 
@@ -4250,9 +3132,7 @@ class InventoryCalculation:
                 )
             ],
             -self.number_of_cars :,
-        ] = (
-            array[self.array_inputs["curb mass"], :] / 1240 / 150000 * -1
-        )
+        ] = (array[self.array_inputs["curb mass"], :] / 1240 / 150000 * -1)
 
         # Glider EoL + fuel tank
         self.A[
@@ -4268,13 +3148,14 @@ class InventoryCalculation:
             -self.number_of_cars :,
         ] = (
             (
-                array[self.array_inputs["glider base mass"], :]
-                * (1 - array[self.array_inputs["lightweighting"], :])
+                (
+                    array[self.array_inputs["glider base mass"], :]
+                    * (1 - array[self.array_inputs["lightweighting"], :])
+                )
+                + array[self.array_inputs["fuel tank mass"], :]
             )
-            + array[self.array_inputs["fuel tank mass"], :]
-        ) / array[
-            self.array_inputs["lifetime kilometers"], :
-        ]
+            / array[self.array_inputs["lifetime kilometers"], :]
+        )
 
         # Battery EoL
         self.A[
@@ -4507,8 +3388,7 @@ class InventoryCalculation:
         # Energy storage
 
         print(
-            f"The country of use is {self.country}",
-            end="\n * ",
+            f"The country of use is {self.country}", end="\n * ",
         )
 
         battery_tech = self.background_configuration["energy storage"]["electric"][
@@ -4537,7 +3417,7 @@ class InventoryCalculation:
         )
 
         battery_cell_label = (
-            "Battery cell, " + battery_tech,
+            f"Battery cell, {battery_tech}",
             "GLO",
             "kilogram",
             "Battery cell",
@@ -4552,8 +3432,7 @@ class InventoryCalculation:
             * -1
         )
 
-        # Set an input of electricity, given the country of manufacture
-
+        # Fetch the overall input of electricity per kg of battery cell
         electricity_batt = self.find_inputs(
             "kilowatt hour", f"Battery cell, {battery_tech}", "unit"
         )
@@ -4642,7 +3521,11 @@ class InventoryCalculation:
                     "Fuel tank, compressed natural gas, 200 bar",
                 )
             ],
-            self.index_cng,
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if i[0].startswith("transport, passenger") and "ICEV-g" in i[0]
+            ],
         ] = (
             array[self.array_inputs["fuel tank mass"], :, index]
             / array[self.array_inputs["lifetime kilometers"], :, index]
@@ -4682,7 +3565,11 @@ class InventoryCalculation:
         self.A[
             :,
             self.inputs[dict_tank_map[hydro_tank_technology]],
-            self.index_fuel_cell,
+            [
+                self.inputs[i]
+                for i in self.inputs
+                if i[0].startswith("transport, passenger") and "FCEV" in i[0]
+            ],
         ] = (
             array[self.array_inputs["fuel tank mass"], :, index]
             / array[self.array_inputs["lifetime kilometers"], :, index]
@@ -4765,10 +3652,8 @@ class InventoryCalculation:
             else:
 
                 print(
-                    "{} is completed by {}.".format(
-                        self.fuel_blends["hydrogen"]["primary"]["type"],
-                        self.fuel_blends["hydrogen"]["secondary"]["type"],
-                    ),
+                    f"{self.fuel_blends['hydrogen']['primary']['type']} "
+                    f"is completed by {self.fuel_blends['hydrogen']['secondary']['type']}.",
                     end="\n \t * ",
                 )
 
@@ -4951,9 +3836,7 @@ class InventoryCalculation:
                 # Gas leakage to air
 
                 self.A[
-                    :,
-                    self.inputs[("Methane, fossil", ("air",), "kilogram")],
-                    ind_A,
+                    :, self.inputs[("Methane, fossil", ("air",), "kilogram")], ind_A,
                 ] = (
                     (
                         array[self.array_inputs["fuel mass"], :, ind_array]
@@ -5035,13 +3918,7 @@ class InventoryCalculation:
 
                 self.A[
                     :,
-                    self.inputs[
-                        (
-                            "Carbon dioxide, non-fossil",
-                            ("air",),
-                            "kilogram",
-                        )
-                    ],
+                    self.inputs[("Carbon dioxide, non-fossil", ("air",), "kilogram",)],
                     ind_A,
                 ] = (
                     (
@@ -5199,9 +4076,7 @@ class InventoryCalculation:
                     :,
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
-                ] = (
-                    fuel_amount * CO2_fossil
-                )
+                ] = (fuel_amount * CO2_fossil)
 
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as concentration ratio
@@ -5211,9 +4086,7 @@ class InventoryCalculation:
                 )
 
                 self.A[
-                    :,
-                    self.inputs[("Sulfur dioxide", ("air",), "kilogram")],
-                    ind_A,
+                    :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
                 ] = (
                     fuel_amount
                     * sulfur_concentration
@@ -5256,17 +4129,9 @@ class InventoryCalculation:
 
                 self.A[
                     :,
-                    self.inputs[
-                        (
-                            "Carbon dioxide, non-fossil",
-                            ("air",),
-                            "kilogram",
-                        )
-                    ],
+                    self.inputs[("Carbon dioxide, non-fossil", ("air",), "kilogram",)],
                     ind_A,
-                ] = (
-                    fuel_amount * CO2_non_fossil
-                )
+                ] = (fuel_amount * CO2_non_fossil)
 
         if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV-p"]]:
             index = self.get_index_vehicle_from_array(["ICEV-p", "HEV-p", "PHEV-p"])
@@ -5412,9 +4277,7 @@ class InventoryCalculation:
                     :,
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
-                ] = (
-                    fuel_amount * CO2_fossil
-                )
+                ] = (fuel_amount * CO2_fossil)
 
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as a concentration ratio
@@ -5424,9 +4287,7 @@ class InventoryCalculation:
                 )
 
                 self.A[
-                    :,
-                    self.inputs[("Sulfur dioxide", ("air",), "kilogram")],
-                    ind_A,
+                    :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
                 ] = (
                     fuel_amount
                     * sulfur_concentration
@@ -5469,17 +4330,9 @@ class InventoryCalculation:
 
                 self.A[
                     :,
-                    self.inputs[
-                        (
-                            "Carbon dioxide, non-fossil",
-                            ("air",),
-                            "kilogram",
-                        )
-                    ],
+                    self.inputs[("Carbon dioxide, non-fossil", ("air",), "kilogram",)],
                     ind_A,
-                ] = (
-                    fuel_amount * CO2_non_fossil
-                )
+                ] = (fuel_amount * CO2_non_fossil)
 
         # Non-exhaust emissions
         self.A[
@@ -5535,9 +4388,7 @@ class InventoryCalculation:
             :,
             self.inputs[("market for road", "GLO", "meter-year", "road")],
             -self.number_of_cars :,
-        ] = (
-            5.37e-7 * array[self.array_inputs["driving mass"], :] * -1
-        )
+        ] = (5.37e-7 * array[self.array_inputs["driving mass"], :] * -1)
 
         # Infrastructure maintenance
         self.A[
@@ -5546,16 +4397,14 @@ class InventoryCalculation:
                 ("market for road maintenance", "RER", "meter-year", "road maintenance")
             ],
             -self.number_of_cars :,
-        ] = (
-            1.29e-3 * -1
-        )
+        ] = (1.29e-3 * -1)
 
         # Exhaust emissions
         # Non-fuel based emissions
         self.A[:, self.index_emissions, -self.number_of_cars :] = (
             array[
                 [
-                    self.array_inputs[self.map_non_fuel_emissions[self.rev_inputs[x]]]
+                    self.array_inputs[self.map_fuel_emissions[self.rev_inputs[x]]]
                     for x in self.index_emissions
                 ]
             ]
@@ -5584,10 +4433,9 @@ class InventoryCalculation:
             ],
             -self.number_of_cars :,
         ] = (
-            0.750 / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
-        ) * self.array.values[
-            self.array_inputs["cooling energy consumption"]
-        ]
+            (0.750 / self.array.values[self.array_inputs["lifetime kilometers"]] * -1)
+            * self.array.values[self.array_inputs["cooling energy consumption"]]
+        )
 
         self.A[
             :,
@@ -5596,12 +4444,13 @@ class InventoryCalculation:
             ],
             -self.number_of_cars :,
         ] = (
-            (0.75 + 0.55)
-            / self.array.values[self.array_inputs["lifetime kilometers"]]
-            * -1
-        ) * self.array.values[
-            self.array_inputs["cooling energy consumption"]
-        ]
+            (
+                (0.75 + 0.55)
+                / self.array.values[self.array_inputs["lifetime kilometers"]]
+                * -1
+            )
+            * self.array.values[self.array_inputs["cooling energy consumption"]]
+        )
 
         print("*********************************************************************")
 
@@ -5634,9 +4483,12 @@ class InventoryCalculation:
             ],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
-            array[self.array_inputs["lightweighting"], :]
-            * array[self.array_inputs["glider base mass"], :]
-        ) * -1
+            (
+                array[self.array_inputs["lightweighting"], :]
+                * array[self.array_inputs["glider base mass"], :]
+            )
+            * -1
+        )
 
         self.A[
             :,
@@ -5649,9 +4501,7 @@ class InventoryCalculation:
                 )
             ],
             [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
-        ] = (
-            array[self.array_inputs["curb mass"], :] / 1240 / 150000 * -1
-        )
+        ] = (array[self.array_inputs["curb mass"], :] / 1240 / 150000 * -1)
 
         # Glider EoL + fuel tank
         self.A[
@@ -5666,11 +4516,12 @@ class InventoryCalculation:
             ],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
-            array[self.array_inputs["glider base mass"], :]
-            * (1 - array[self.array_inputs["lightweighting"], :])
-        ) + array[
-            self.array_inputs["fuel tank mass"], :
-        ]
+            (
+                array[self.array_inputs["glider base mass"], :]
+                * (1 - array[self.array_inputs["lightweighting"], :])
+            )
+            + array[self.array_inputs["fuel tank mass"], :]
+        )
 
         # Battery EoL
         self.A[
@@ -5724,9 +4575,7 @@ class InventoryCalculation:
                 )
             ],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
-        ] = (
-            array[self.array_inputs["charger mass"], :] * -1
-        )
+        ] = (array[self.array_inputs["charger mass"], :] * -1)
 
         self.A[
             :,
@@ -5739,9 +4588,7 @@ class InventoryCalculation:
                 )
             ],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
-        ] = (
-            array[self.array_inputs["converter mass"], :] * -1
-        )
+        ] = (array[self.array_inputs["converter mass"], :] * -1)
 
         self.A[
             :,
@@ -5754,9 +4601,7 @@ class InventoryCalculation:
                 )
             ],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
-        ] = (
-            array[self.array_inputs["electric engine mass"], :] * -1
-        )
+        ] = (array[self.array_inputs["electric engine mass"], :] * -1)
 
         self.A[
             :,
@@ -5769,9 +4614,7 @@ class InventoryCalculation:
                 )
             ],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
-        ] = (
-            array[self.array_inputs["inverter mass"], :] * -1
-        )
+        ] = (array[self.array_inputs["inverter mass"], :] * -1)
 
         self.A[
             :,
@@ -5784,9 +4627,7 @@ class InventoryCalculation:
                 )
             ],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
-        ] = (
-            array[self.array_inputs["power distribution unit mass"], :] * -1
-        )
+        ] = (array[self.array_inputs["power distribution unit mass"], :] * -1)
 
         l_elec_pt = [
             "charger mass",
@@ -5825,38 +4666,35 @@ class InventoryCalculation:
             ],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
-            array[
-                [
-                    self.array_inputs[l]
-                    for l in ["combustion engine mass", "powertrain mass"]
-                ],
-                :,
-            ].sum(axis=0)
-        ) * -1
+            (
+                array[
+                    [
+                        self.array_inputs[l]
+                        for l in ["combustion engine mass", "powertrain mass"]
+                    ],
+                    :,
+                ].sum(axis=0)
+            )
+            * -1
+        )
 
         self.A[
             :,
             self.inputs[("Ancillary BoP", "GLO", "kilogram", "Ancillary BoP")],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
-        ] = (
-            array[self.array_inputs["fuel cell ancillary BoP mass"], :] * -1
-        )
+        ] = (array[self.array_inputs["fuel cell ancillary BoP mass"], :] * -1)
 
         self.A[
             :,
             self.inputs[("Essential BoP", "GLO", "kilogram", "Essential BoP")],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
-        ] = (
-            array[self.array_inputs["fuel cell essential BoP mass"], :] * -1
-        )
+        ] = (array[self.array_inputs["fuel cell essential BoP mass"], :] * -1)
 
         self.A[
             :,
             self.inputs[("Stack", "GLO", "kilowatt", "Stack")],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
-        ] = (
-            array[self.array_inputs["fuel cell stack mass"], :] * -1
-        )
+        ] = (array[self.array_inputs["fuel cell stack mass"], :] * -1)
 
         # Start of printout
 
@@ -5868,8 +4706,7 @@ class InventoryCalculation:
         # Energy storage
 
         print(
-            "The country of use is " + self.country,
-            end="\n * ",
+            "The country of use is " + self.country, end="\n * ",
         )
 
         battery_tech = self.background_configuration["energy storage"]["electric"][
@@ -5894,9 +4731,12 @@ class InventoryCalculation:
             self.inputs[("Battery BoP", "GLO", "kilogram", "Battery BoP")],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
-            array[self.array_inputs["battery BoP mass"], :]
-            * (1 + array[self.array_inputs["battery lifetime replacements"], :])
-        ) * -1
+            (
+                array[self.array_inputs["battery BoP mass"], :]
+                * (1 + array[self.array_inputs["battery lifetime replacements"], :])
+            )
+            * -1
+        )
 
         battery_cell_label = (
             "Battery cell, " + battery_tech,
@@ -5910,15 +4750,16 @@ class InventoryCalculation:
             self.inputs[battery_cell_label],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
-            array[self.array_inputs["battery cell mass"], :]
-            * (1 + array[self.array_inputs["fuel cell lifetime replacements"], :])
-        ) * -1
+            (
+                array[self.array_inputs["battery cell mass"], :]
+                * (1 + array[self.array_inputs["fuel cell lifetime replacements"], :])
+            )
+            * -1
+        )
 
         # Set an input of electricity, given the country of manufacture
         electricity_batt = self.find_inputs(
-            "kilowatt hour",
-            f"Battery cell, {battery_tech}",
-            "unit",
+            "kilowatt hour", f"Battery cell, {battery_tech}", "unit",
         )
 
         for y in self.scope["year"]:
@@ -6058,9 +4899,7 @@ class InventoryCalculation:
             :,
             [self.inputs[c] for c in self.inputs if c[0].startswith("Passenger car")],
             [self.inputs[c] for c in self.inputs if "transport, passenger car" in c[0]],
-        ] = (
-            -1 / array[self.array_inputs["lifetime kilometers"]]
-        )
+        ] = (-1 / array[self.array_inputs["lifetime kilometers"]])
 
         try:
             sum_renew, co2_intensity_tech = self.define_renewable_rate_in_mix()
@@ -6324,9 +5163,7 @@ class InventoryCalculation:
                 # Gas leakage to air
 
                 self.A[
-                    :,
-                    self.inputs[("Methane, fossil", ("air",), "kilogram")],
-                    ind_A,
+                    :, self.inputs[("Methane, fossil", ("air",), "kilogram")], ind_A,
                 ] = (
                     (
                         array[self.array_inputs["fuel mass"], :, ind_array]
@@ -6408,13 +5245,7 @@ class InventoryCalculation:
 
                 self.A[
                     :,
-                    self.inputs[
-                        (
-                            "Carbon dioxide, non-fossil",
-                            ("air",),
-                            "kilogram",
-                        )
-                    ],
+                    self.inputs[("Carbon dioxide, non-fossil", ("air",), "kilogram",)],
                     ind_A,
                 ] = (
                     (
@@ -6432,21 +5263,16 @@ class InventoryCalculation:
 
             if "tertiary" in self.fuel_blends["diesel"]:
                 print(
-                    "{} is completed by {} and {}.".format(
-                        self.fuel_blends["diesel"]["primary"]["type"],
-                        self.fuel_blends["diesel"]["secondary"]["type"],
-                        self.fuel_blends["diesel"]["tertiary"]["type"],
-                    ),
+                    f"{self.fuel_blends['diesel']['primary']['type']} "
+                    f"is completed by {self.fuel_blends['diesel']['secondary']['type']} "
+                    f"and {self.fuel_blends['diesel']['tertiary']['type']}.",
                     end="\n \t * ",
                 )
 
             else:
-
                 print(
-                    "{} is completed by {}.".format(
-                        self.fuel_blends["diesel"]["primary"]["type"],
-                        self.fuel_blends["diesel"]["secondary"]["type"],
-                    ),
+                    f"{self.fuel_blends['diesel']['primary']['type']} "
+                    f"is completed by {self.fuel_blends['diesel']['secondary']['type']}.",
                     end="\n \t * ",
                 )
 
@@ -6457,44 +5283,32 @@ class InventoryCalculation:
                     end_str = "\n \t * "
 
                 if "tertiary" in self.fuel_blends["diesel"]:
+
+                    pct1 = np.round(
+                        self.fuel_blends["diesel"]["secondary"]["share"][y]
+                        * 100,
+                        0,
+                        )
+                    pct2 = np.round(
+                        self.fuel_blends["diesel"]["tertiary"]["share"][y]
+                        * 100,
+                        0,
+                        )
                     print(
-                        "in "
-                        + str(year)
-                        + " _________________ "
-                        + str(
-                            np.round(
-                                self.fuel_blends["diesel"]["secondary"]["share"][y]
-                                * 100,
-                                0,
-                            )
-                        )
-                        + "%"
-                        + " _________________ "
-                        + str(
-                            np.round(
-                                self.fuel_blends["diesel"]["tertiary"]["share"][y]
-                                * 100,
-                                0,
-                            )
-                        )
-                        + "%",
+                        f"in {year} _________________ {pct1}% _________________ {pct2}%",
                         end=end_str,
                     )
                 else:
-                    print(
-                        "in "
-                        + str(year)
-                        + " _________________________________________ "
-                        + str(
-                            np.round(
-                                self.fuel_blends["diesel"]["secondary"]["share"][y]
-                                * 100,
-                                0,
-                            )
+                    pct1 = np.round(
+                        self.fuel_blends["diesel"]["secondary"]["share"][y]
+                        * 100,
+                        0,
                         )
-                        + "%",
+                    print(
+                        f"in {year} ___________________________________________ {pct1}%",
                         end=end_str,
                     )
+
 
                 ind_A = [
                     self.inputs[i]
@@ -6572,9 +5386,7 @@ class InventoryCalculation:
                     :,
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
-                ] = (
-                    fuel_amount * CO2_fossil
-                )
+                ] = (fuel_amount * CO2_fossil)
 
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as concentration ratio
@@ -6584,9 +5396,7 @@ class InventoryCalculation:
                 )
 
                 self.A[
-                    :,
-                    self.inputs[("Sulfur dioxide", ("air",), "kilogram")],
-                    ind_A,
+                    :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
                 ] = (
                     fuel_amount
                     * sulfur_concentration
@@ -6627,38 +5437,25 @@ class InventoryCalculation:
 
                 self.A[
                     :,
-                    self.inputs[
-                        (
-                            "Carbon dioxide, non-fossil",
-                            ("air",),
-                            "kilogram",
-                        )
-                    ],
+                    self.inputs[("Carbon dioxide, non-fossil", ("air",), "kilogram",)],
                     ind_A,
-                ] = (
-                    fuel_amount * CO2_non_fossil
-                )
+                ] = (fuel_amount * CO2_non_fossil)
 
         if [i for i in self.scope["powertrain"] if i in ["ICEV-p", "HEV-p", "PHEV-p"]]:
             index = self.get_index_vehicle_from_array(["ICEV-p", "HEV-p", "PHEV-p"])
 
             if "tertiary" in self.fuel_blends["petrol"]:
                 print(
-                    "{} is completed by {} and {}.".format(
-                        self.fuel_blends["petrol"]["primary"]["type"],
-                        self.fuel_blends["petrol"]["secondary"]["type"],
-                        self.fuel_blends["petrol"]["tertiary"]["type"],
-                    ),
+                    f"{self.fuel_blends['petrol']['primary']['type']} "
+                    f"is completed by {self.fuel_blends['petrol']['secondary']['type']} "
+                    f"and {self.fuel_blends['petrol']['tertiary']['type']}.",
                     end="\n \t * ",
                 )
 
             else:
-
                 print(
-                    "{} is completed by {}.".format(
-                        self.fuel_blends["petrol"]["primary"]["type"],
-                        self.fuel_blends["petrol"]["secondary"]["type"],
-                    ),
+                    f"{self.fuel_blends['petrol']['primary']['type']} "
+                    f"is completed by {self.fuel_blends['petrol']['secondary']['type']}.",
                     end="\n \t * ",
                 )
 
@@ -6669,48 +5466,35 @@ class InventoryCalculation:
                     end_str = "\n \t * "
 
                 if "tertiary" in self.fuel_blends["petrol"]:
+                    pct1 = np.round(
+                        self.fuel_blends["petrol"]["secondary"]["share"][y]
+                        * 100,
+                        0,
+                        )
+                    pct2 = np.round(
+                        self.fuel_blends["petrol"]["tertiary"]["share"][y]
+                        * 100,
+                        0,
+                        )
                     print(
-                        "in "
-                        + str(year)
-                        + " _________________ "
-                        + str(
-                            np.round(
-                                self.fuel_blends["petrol"]["secondary"]["share"][y]
-                                * 100,
-                                0,
-                            )
-                        )
-                        + "%"
-                        + " _________________ "
-                        + str(
-                            np.round(
-                                self.fuel_blends["petrol"]["tertiary"]["share"][y]
-                                * 100,
-                                0,
-                            )
-                        )
-                        + "%",
+                        f"in {year} _________________ {pct1}% _________________ {pct2}%",
                         end=end_str,
                     )
                 else:
-                    print(
-                        "in "
-                        + str(year)
-                        + " _________________________________________ "
-                        + str(
-                            np.round(
-                                self.fuel_blends["petrol"]["secondary"]["share"][y]
-                                * 100,
-                                0,
-                            )
+                    pct1 = np.round(
+                        self.fuel_blends["petrol"]["secondary"]["share"][y]
+                        * 100,
+                        0,
                         )
-                        + "%",
+                    print(
+                        f"in {year} ___________________________________________ {pct1}%",
                         end=end_str,
                     )
 
+
                 ind_A = [
-                    self.inputs[i]
-                    for i in self.inputs
+                    j
+                    for i, j in self.inputs.items()
                     if str(year) in i[0]
                     and "transport, passenger" in i[0]
                     and any(x in i[0] for x in ["ICEV-p", "HEV-p", "PHEV-p"])
@@ -6743,8 +5527,8 @@ class InventoryCalculation:
                 self.A[
                     :,
                     [
-                        self.inputs[i]
-                        for i in self.inputs
+                        j
+                        for i, j in self.inputs.items()
                         if str(year) in i[0]
                         and "fuel supply for gasoline vehicles" in i[0]
                     ],
@@ -6783,9 +5567,7 @@ class InventoryCalculation:
                     :,
                     self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
                     ind_A,
-                ] = (
-                    fuel_amount * CO2_fossil
-                )
+                ] = (fuel_amount * CO2_fossil)
 
                 # Fuel-based SO2 emissions
                 # Sulfur concentration value for a given country, a given year, as a concentration ratio
@@ -6795,9 +5577,7 @@ class InventoryCalculation:
                 )
 
                 self.A[
-                    :,
-                    self.inputs[("Sulfur dioxide", ("air",), "kilogram")],
-                    ind_A,
+                    :, self.inputs[("Sulfur dioxide", ("air",), "kilogram")], ind_A,
                 ] = (
                     fuel_amount
                     * sulfur_concentration
@@ -6840,17 +5620,9 @@ class InventoryCalculation:
 
                 self.A[
                     :,
-                    self.inputs[
-                        (
-                            "Carbon dioxide, non-fossil",
-                            ("air",),
-                            "kilogram",
-                        )
-                    ],
+                    self.inputs[("Carbon dioxide, non-fossil", ("air",), "kilogram",)],
                     ind_A,
-                ] = (
-                    fuel_amount * CO2_non_fossil
-                )
+                ] = (fuel_amount * CO2_non_fossil)
 
         # Non-exhaust emissions
 
@@ -6911,9 +5683,7 @@ class InventoryCalculation:
             :,
             self.inputs[("market for road", "GLO", "meter-year", "road")],
             [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
-        ] = (
-            5.37e-7 * array[self.array_inputs["driving mass"], :] * -1
-        )
+        ] = (5.37e-7 * array[self.array_inputs["driving mass"], :] * -1)
 
         # Infrastructure maintenance
         self.A[
@@ -6922,9 +5692,7 @@ class InventoryCalculation:
                 ("market for road maintenance", "RER", "meter-year", "road maintenance")
             ],
             [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
-        ] = (
-            1.29e-3 * -1
-        )
+        ] = (1.29e-3 * -1)
 
         # Exhaust emissions
         # Non-fuel based emissions
@@ -6933,16 +5701,12 @@ class InventoryCalculation:
             np.ix_(
                 np.arange(self.iterations),
                 self.index_emissions,
-                [
-                    self.inputs[i]
-                    for i in self.inputs
-                    if "transport, passenger car" in i[0]
-                ],
+                [j for i, j in self.inputs.items() if "transport, passenger car" in i[0]],
             )
         ] = (
             array[
                 [
-                    self.array_inputs[self.map_non_fuel_emissions[self.rev_inputs[x]]]
+                    self.array_inputs[self.map_fuel_emissions[self.rev_inputs[x]]]
                     for x in self.index_emissions
                 ]
             ]
@@ -6956,11 +5720,7 @@ class InventoryCalculation:
             np.ix_(
                 np.arange(self.iterations),
                 self.index_noise,
-                [
-                    self.inputs[i]
-                    for i in self.inputs
-                    if "transport, passenger car" in i[0]
-                ],
+                [j for i, j in self.inputs.items() if "transport, passenger car" in i[0]],
             )
         ] = (
             array[
@@ -6984,26 +5744,26 @@ class InventoryCalculation:
             self.inputs[
                 ("Ethane, 1,1,1,2-tetrafluoro-, HFC-134a", ("air",), "kilogram")
             ],
-            [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
+            [j for i, j in self.inputs.items() if "transport, passenger car" in i[0]],
         ] = (
-            0.75 / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
-        ) * self.array.values[
-            self.array_inputs["cooling energy consumption"]
-        ]
+            (0.75 / self.array.values[self.array_inputs["lifetime kilometers"]] * -1)
+            * self.array.values[self.array_inputs["cooling energy consumption"]]
+        )
 
         self.A[
             :,
             self.inputs[
                 ("market for refrigerant R134a", "GLO", "kilogram", "refrigerant R134a")
             ],
-            [self.inputs[i] for i in self.inputs if "transport, passenger car" in i[0]],
+            [j for i, j in self.inputs.items() if "transport, passenger car" in i[0]],
         ] = (
-            (0.75 + 0.55)
-            / self.array.values[self.array_inputs["lifetime kilometers"]]
-            * -1
-        ) * self.array.values[
-            self.array_inputs["cooling energy consumption"]
-        ]
+            (
+                (0.75 + 0.55)
+                / self.array.values[self.array_inputs["lifetime kilometers"]]
+                * -1
+            )
+            * self.array.values[self.array_inputs["cooling energy consumption"]]
+        )
 
         print("*********************************************************************")
 
@@ -7037,8 +5797,8 @@ class InventoryCalculation:
                 "heat, central or small-scale, natural gas",
             ),
             "market heat": (
-                "market for heat, from steam, in chemical industry",
-                "RER",
+                "steam production, as energy carrier, in chemical industry",
+                "RoW",
                 "megajoule",
                 "heat, from steam, in chemical industry",
             ),
@@ -7054,29 +5814,80 @@ class InventoryCalculation:
         ]
 
         methanol_distillation = self.inputs[
-            ("Methanol distillation", "RER", "kilogram", "Purified methanol")
+            (
+                "methanol distillation, hydrogen from electrolysis, CO2 from DAC",
+                "RER",
+                "kilogram",
+                "methanol, purified",
+            )
         ]
 
         all_inds = [self.inputs[i] for i in list(d_heat_suppliers.values())]
 
-        # DAC
-        heat_amount = self.A[
-            np.ix_(range(self.A.shape[0]), all_inds, [air_capture])
-        ].sum()
+        # amount of heat for DAC
+        heat_amount = (
+            self.A[np.ix_(range(self.A.shape[0]), all_inds, [air_capture])] * -1
+        ).max() * -1
+
         # zero out the heat input
         self.A[np.ix_(range(self.A.shape[0]), all_inds, [air_capture])] = 0
-        # find index of the new supplier and set the amount
-        ind = self.inputs[d_heat_suppliers[heat_supplier]]
-        self.A[np.ix_(range(self.A.shape[0]), [ind], [air_capture])] = heat_amount
+
+        if heat_supplier == "heat pump":
+
+            # we convert the need for heat into electricity
+            # later on, this need for electricity will be provided
+            # by the country-specific mix
+            # we assume a CoP of 2.9
+
+            id_elec = self.inputs[
+                (
+                    "market group for electricity, low voltage",
+                    "ENTSO-E",
+                    "kilowatt hour",
+                    "electricity, low voltage",
+                )
+            ]
+
+            self.A[np.ix_(range(self.A.shape[0]), [id_elec], [air_capture])] = (
+                heat_amount / 2.9 / 3.6
+            )
+
+        else:
+            # find index of the new supplier and set the amount
+            ind = self.inputs[d_heat_suppliers[heat_supplier]]
+            self.A[np.ix_(range(self.A.shape[0]), [ind], [air_capture])] = heat_amount
 
         # Methanol distillation
-        heat_amount = self.A[
-            np.ix_(range(self.A.shape[0]), all_inds, [methanol_distillation])
-        ].sum()
+        heat_amount = (
+            self.A[np.ix_(range(self.A.shape[0]), all_inds, [methanol_distillation])]
+            * -1
+        ).max() * -1
+
         # zero out the heat input
         self.A[np.ix_(range(self.A.shape[0]), all_inds, [methanol_distillation])] = 0
-        # find index of the new supplier and set the amount
-        ind = self.inputs[d_heat_suppliers[heat_supplier]]
-        self.A[
-            np.ix_(range(self.A.shape[0]), [ind], [methanol_distillation])
-        ] = heat_amount
+
+        if heat_supplier == "heat pump":
+            # we convert the need for heat into electricity
+            # later on, this need for electricity will be provided
+            # by the country-specific mix
+            # we assume a CoP of 2.9
+
+            id_elec = self.inputs[
+                (
+                    "market group for electricity, low voltage",
+                    "ENTSO-E",
+                    "kilowatt hour",
+                    "electricity, low voltage",
+                )
+            ]
+
+            self.A[
+                np.ix_(range(self.A.shape[0]), [id_elec], [methanol_distillation])
+            ] = (heat_amount / 2.9 / 3.6)
+
+        else:
+            # find index of the new supplier and set the amount
+            ind = self.inputs[d_heat_suppliers[heat_supplier]]
+            self.A[
+                np.ix_(range(self.A.shape[0]), [ind], [methanol_distillation])
+            ] = heat_amount

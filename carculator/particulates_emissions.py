@@ -1,4 +1,9 @@
+"""
+particulates_emissions.py contains ParticulatesEmissionsModel which calculated the amount of
+abrasion particles emitted, given a driving cycle.
+"""
 import numpy as np
+import xarray as xr
 
 
 class ParticulatesEmissionsModel:
@@ -31,11 +36,11 @@ class ParticulatesEmissionsModel:
     :param cycle: Driving cycle. Pandas Series of second-by-second speeds (km/h) or name (str)
         of cycle e.g., "Urban delivery", "Regional delivery", "Long haul".
     :param cycle_name: name of the driving cycle. Str.
-    :type cycle: pandas.Series
+
 
     """
 
-    def __init__(self, cycle, cycle_name, mass):
+    def __init__(self, cycle: np.ndarray, cycle_name: str, mass: xr.DataArray) -> None:
 
         self.mass = mass.values / 1000  # in tons
         self.cycle = cycle
@@ -74,7 +79,7 @@ class ParticulatesEmissionsModel:
             "custom": {"urban start": 0, "urban stop": cycle[0][-1]},
         }
 
-    def get_abrasion_emissions(self):
+    def get_abrasion_emissions(self) -> np.ndarray:
 
         (
             tire_pm10_urban,

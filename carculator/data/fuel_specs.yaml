@@ -1,0 +1,243 @@
+electrolysis:
+  name:
+      - Hydrogen, gaseous, 700 bar, from electrolysis, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+smr - natural gas:
+  name:
+      - Hydrogen, gaseous, 700 bar, from SMR of NG, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+smr - natural gas with CCS:
+  name:
+      - Hydrogen, gaseous, 700 bar, from SMR of NG, with CCS, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+smr - biogas:
+  name:
+      - Hydrogen, gaseous, 700 bar, from SMR of biogas, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+smr - biogas with CCS:
+  name:
+      - Hydrogen, gaseous, 700 bar, from SMR of biogas with CCS, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+coal gasification:
+  name:
+      - Hydrogen, gaseous, 700 bar, from coal gasification, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+wood gasification:
+  name:
+      - Hydrogen, gaseous, 700 bar, from heatpipe reformer gasification of woody biomass, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+wood gasification with CCS:
+  name:
+      - Hydrogen, gaseous, 700 bar, from heatpipe reformer gasification of woody biomass with CCS, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+wood gasification with EF:
+  name:
+      - Hydrogen, gaseous, 700 bar, from gasification of woody biomass in entrained flow gasifier, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+wood gasification with EF with CCS:
+  name:
+      - Hydrogen, gaseous, 700 bar, from gasification of woody biomass in entrained flow gasifier, with CCS, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+atr - natural gas:
+  name:
+      - Hydrogen, gaseous, 700 bar, ATR of NG, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+atr - natural gas with CCS:
+  name:
+      - Hydrogen, gaseous, 700 bar, ATR of NG, with CCS, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+atr - biogas:
+  name:
+      - Hydrogen, gaseous, 700 bar, from ATR of biogas, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+atr - biogas with CCS:
+  name:
+      - Hydrogen, gaseous, 700 bar, from ATR of biogas with CCS, at fuelling station
+      - RER
+      - kilogram
+      - Hydrogen, gaseous, 700 bar
+
+petrol:
+  lhv: 42.6
+  co2: 3.14
+  name:
+      - petrol production, low-sulfur
+      - Europe without Switzerland
+      - kilogram
+      - petrol, low-sulfur
+bioethanol - wheat straw:
+  lhv: 26.5
+  co2: 1.96
+  name:
+      - Ethanol, from wheat straw pellets, at fuelling station
+      - RER
+      - kilogram
+      - ethanol, without water, in 99.7% solution state, vehicle grade
+bioethanol - maize starch:
+  lhv: 26.5
+  co2: 1.96
+  name:
+      - Ethanol, from maize starch, at fuelling station
+      - RER
+      - kilogram
+      - ethanol, without water, in 99.7% solution state, vehicle grade
+bioethanol - sugarbeet:
+  lhv: 26.5
+  co2: 1.96
+  name:
+      - Ethanol, from sugarbeet, at fuelling station
+      - RER
+      - kilogram
+      - ethanol, without water, in 99.7% solution state, vehicle grade
+bioethanol - forest residues:
+  lhv: 26.5
+  co2: 1.96
+  name:
+      - Ethanol, from forest residues, at fuelling station
+      - RER
+      - kilogram
+      - ethanol, without water, in 99.7% solution state, vehicle grade
+synthetic gasoline - economic allocation:
+  lhv: 42.4
+  co2: 3.14
+  name:
+      - gasoline production, synthetic, from methanol, hydrogen from electrolysis, CO2 from DAC, economic allocation, at fuelling station
+      - RER
+      - kilogram
+      - gasoline, synthetic, vehicle grade
+synthetic gasoline - energy allocation:
+  lhv: 42.4
+  co2: 3.14
+  name:
+      - gasoline production, synthetic, from methanol, hydrogen from electrolysis, CO2 from DAC, energy allocation, at fuelling station
+      - RER
+      - kilogram
+      - gasoline, synthetic, vehicle grade
+diesel:
+  lhv: 43
+  co2: 3.15
+  name:
+      - diesel production, low-sulfur, petroleum refinery operation
+      - Europe without Switzerland
+      - kilogram
+      - diesel, low-sulfur
+biodiesel - cooking oil:
+  lhv: 38
+  co2: 2.79
+  name:
+      - Biodiesel, from used cooking oil, at fuelling station
+      - RER
+      - kilogram
+      - biodiesel, vehicle grade
+biodiesel - algae:
+  lhv: 38
+  co2: 2.79
+  name:
+      - Biodiesel, from algae, at fuelling station
+      - RER
+      - kilogram
+      - biodiesel, vehicle grade
+biodiesel - rapeseed oil:
+  lhv: 38
+  co2: 2.79
+  name:
+      - Biodiesel, from rapeseed oil, at fuelling station
+      - RER
+      - kilogram
+      - biodiesel, vehicle grade
+biodiesel - palm oil:
+  lhv: 38
+  co2: 2.79
+  name:
+      - Biodiesel, from palm oil, at fuelling station
+      - RER
+      - kilogram
+      - biodiesel, vehicle grade
+synthetic diesel - economic allocation:
+  lhv: 43.3
+  co2: 3.15
+  name:
+      - diesel production, synthetic, from electrolysis-based hydrogen, economic allocation, at fuelling station
+      - RER
+      - kilogram
+      - diesel, synthetic, vehicle grade
+synthetic diesel - energy allocation:
+  lhv: 43.3
+  co2: 3.15
+  name:
+      - diesel production, synthetic, from electrolysis-based hydrogen, energy allocation, at fuelling station
+      - RER
+      - kilogram
+      - diesel, synthetic, vehicle grade
+cng:
+  lhv: 47.5
+  co2: 2.68
+  name:
+      - market for natural gas, high pressure, vehicle grade
+      - GLO
+      - kilogram
+      - natural gas, high pressure, vehicle grade
+biogas - sewage sludge:
+  lhv: 47.5
+  co2: 2.68
+  name:
+      - Biomethane, gaseous, 5 bar, from sewage sludge fermentation, at fuelling station
+      - RER
+      - kilogram
+      - biomethane, high pressure
+biogas - biowaste:
+  lhv: 47.5
+  co2: 2.68
+  name:
+      - biomethane from biogas upgrading - biowaste - amine scrubbing
+      - CH
+      - kilogram
+      - biomethane
+syngas:
+  lhv: 47.5
+  co2: 2.68
+  name:
+      - Methane, synthetic, gaseous, 5 bar, from electrochemical methanation, at fuelling station
+      - RER
+      - kilogram
+      - methane, high pressure
+        

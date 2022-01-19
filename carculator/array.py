@@ -1,3 +1,13 @@
+"""
+Module array.py exposes fill_xarray_from_input_parameters() which formats
+parameters contained in the CarInputParameters object into a multi-dimensional array.
+This array host input as well as not yet calculated parameters.
+Also, modify_xarray_from_custom_parameters() offers a way to modify some of the default values
+used for input parameters.
+"""
+
+from typing import Tuple, Union
+
 import numpy as np
 import pandas as pd
 import stats_arrays as sa
@@ -6,19 +16,21 @@ import xarray as xr
 from .car_input_parameters import CarInputParameters as c_i_p
 
 
-def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
+def fill_xarray_from_input_parameters(
+    cip: c_i_p, sensitivity: bool = False, scope: dict = None
+) -> Tuple[Tuple[dict, dict, dict, dict], xr.DataArray]:
 
     """Create an `xarray` labeled array from the sampled input parameters.
 
-
     This function extracts the parameters' names and values contained in the
-    `parameters` attribute of the :class:`CarInputParameters` class in :mod:`car_input_parameters` and insert them into a
+    `parameters` attribute of the :class:`CarInputParameters` class in
+    :mod:`car_input_parameters` and insert them into a
     multi-dimensional numpy-like array from the *xarray* package
     (http://xarray.pydata.org/en/stable/).
 
 
-    :param sensitivity:
     :param cip: Instance of the :class:`CarInputParameters` class in :mod:`car_input_parameters`.
+    :param sensitivity: boolean. Whether a sensitivity test is carried out.
     :param scope: a dictionary to narrow down the scope of vehicles to consider
     :returns: `tuple`, `xarray.DataArray`
     - tuple (`size_dict`, `powertrain_dict`, `parameter_dict`, `year_dict`)
@@ -53,22 +65,22 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
     # PHEV-d or PHEV-p are listed
 
     if "PHEV-p" in scope["powertrain"]:
-        for pt in ["PHEV-e", "PHEV-c-p"]:
-            if pt not in scope["powertrain"]:
-                scope["powertrain"].append(pt)
+        for pwt in ["PHEV-e", "PHEV-c-p"]:
+            if pwt not in scope["powertrain"]:
+                scope["powertrain"].append(pwt)
 
     if "PHEV-d" in scope["powertrain"]:
-        for pt in ["PHEV-e", "PHEV-c-d"]:
-            if pt not in scope["powertrain"]:
-                scope["powertrain"].append(pt)
+        for pwt in ["PHEV-e", "PHEV-c-d"]:
+            if pwt not in scope["powertrain"]:
+                scope["powertrain"].append(pwt)
 
-    if any(s for s in scope["size"] if s not in cip.sizes):
+    if any(size for size in scope["size"] if size not in cip.sizes):
         raise ValueError("One of the size types is not valid.")
 
     if any(y for y in scope["year"] if y not in cip.years):
         raise ValueError("One of the years defined is not valid.")
 
-    if any(pt for pt in scope["powertrain"] if pt not in cip.powertrains):
+    if any(pwt for pwt in scope["powertrain"] if pwt not in cip.powertrains):
         raise ValueError("One of the powertrain types is not valid.")
 
     if not sensitivity:
@@ -81,7 +93,7 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
                     len(scope["year"]),
                     cip.iterations or 1,
                 )
-            ),
+            ).astype("float32"),
             coords=[
                 scope["size"],
                 scope["powertrain"],
@@ -93,7 +105,7 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
         )
     else:
         params = ["reference"]
-        params.extend([a for a in cip.input_parameters])
+        params.extend(cip.input_parameters)
         array = xr.DataArray(
             np.zeros(
                 (
@@ -103,8 +115,14 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
                     len(scope["year"]),
                     len(params),
                 )
-            ),
-            coords=[cip.sizes, cip.powertrains, cip.parameters, cip.years, params],
+            ).astype("float32"),
+            coords=[
+                scope["size"],
+                scope["powertrain"],
+                cip.parameters,
+                scope["year"],
+                params,
+            ],
             dims=["size", "powertrain", "parameter", "year", "value"],
         )
 
@@ -192,7 +210,9 @@ def fill_xarray_from_input_parameters(cip, sensitivity=False, scope=None):
     return (size_dict, powertrain_dict, parameter_dict, year_dict), array
 
 
-def modify_xarray_from_custom_parameters(fp, array):
+def modify_xarray_from_custom_parameters(
+    filepath: Union[dict, str], array: xr.DataArray
+) -> None:
     """
     Override default parameters values in `xarray` based on values provided by the user.
 
@@ -235,86 +255,80 @@ def modify_xarray_from_custom_parameters(fp, array):
 
             }
 
-    :param array:
-    :param fp: File path of workbook with new values or dictionary.
-    :type fp: str or dict
+    :param filepath: File path of workbook with new values or dictionary.
+    :type filepath: str or dict
+    :param array: array with vehicle parameters
 
     """
 
-    if isinstance(fp, str):
+    if isinstance(filepath, str):
         try:
-            d = pd.read_excel(
-                fp,
+            param_dictionary = pd.read_excel(
+                filepath,
                 header=[0, 1],
                 index_col=[0, 1, 2, 3, 4],
                 sheet_name="Custom_parameters",
             ).to_dict(orient="index")
-        except:
-            raise FileNotFoundError("Custom parameters file not found.")
-    elif isinstance(fp, dict):
-        d = fp
+        except FileNotFoundError as err:
+            raise FileNotFoundError("Custom parameters file not found.") from err
+    elif isinstance(filepath, dict):
+        param_dictionary = filepath
     else:
         raise TypeError("The format passed as parameter is not valid.")
 
-    FORBIDDEN_KEYS = ["Driving cycle", "Background", "Functional unit"]
+    forbidden_keys = ["Driving cycle", "Background", "Functional unit"]
 
-    for k in d:
-        if k[0] not in FORBIDDEN_KEYS:
-            if not isinstance(k[1], str):
-                pt = [p.strip() for p in k[1] if p]
-                pt = [p for p in pt if p]
-                pt = list(pt)
-            elif k[1] == "all":
-                pt = array.coords["powertrain"].values
+    for key in param_dictionary:
+        if key[0] not in forbidden_keys:
+            if not isinstance(key[1], str):
+                powertrains = [p.strip() for p in key[1] if p]
+                powertrains = [p for p in powertrains if p]
+                powertrains = list(powertrains)
+            elif key[1] == "all":
+                powertrains = array.coords["powertrain"].values
             else:
-                if k[1] in array.coords["powertrain"].values:
-                    pt = [k[1]]
+                if key[1] in array.coords["powertrain"].values:
+                    powertrains = [key[1]]
                 elif all(
                     p
-                    for p in k[1].split(", ")
+                    for p in key[1].split(", ")
                     if p in array.coords["powertrain"].values
                 ):
-                    pt = [p for p in k[1].split(", ")]
+                    powertrains = key[1].split(", ")
                 else:
                     print(
-                        "{} is not a recognized powertrain. It will be skipped.".format(
-                            k[1]
-                        )
+                        f"{key[1]} is not a recognized powertrain. It will be skipped."
                     )
                     continue
 
-            if not isinstance(k[2], str):
-                sizes = [s.strip() for s in k[2] if s]
+            if not isinstance(key[2], str):
+                sizes = [s.strip() for s in key[2] if s]
                 sizes = [s for s in sizes if s]
                 sizes = list(sizes)
-            elif k[2] == "all":
+            elif key[2] == "all":
                 sizes = array.coords["size"].values
             else:
-                if k[2] in array.coords["size"].values:
-                    sizes = [k[2]]
+                if key[2] in array.coords["size"].values:
+                    sizes = [key[2]]
                 elif all(
-                    s for s in k[2].split(", ") if s in array.coords["size"].values
+                    s for s in key[2].split(", ") if s in array.coords["size"].values
                 ):
-                    sizes = [s for s in k[2].split(", ")]
+                    sizes = key[2].split(", ")
                 else:
                     print(
-                        "{} is not a recognized size category. It will be skipped.".format(
-                            k[2]
-                        )
+                        f"{key[2]} is not a recognized size category. It will be skipped."
                     )
                     continue
 
-            param = k[3]
+            param = key[3]
 
             if not param in array.coords["parameter"].values:
                 print(
-                    "{} is not a recognized parameter. It will be skipped.".format(
-                        param
-                    )
+                    f"{param} is not a recognized parameter. It will be skipped."
                 )
                 continue
 
-            val = d[k]
+            val = param_dictionary[key]
 
             distr_dic = {
                 "triangular": 5,
@@ -323,28 +337,23 @@ def modify_xarray_from_custom_parameters(fp, array):
                 "uniform": 4,
                 "none": 1,
             }
-            distr = distr_dic[k[4]]
+            distr = distr_dic[key[4]]
 
-            year = set([v[0] for v in val])
+            years = {v[0] for v in val}
 
-            for y in year:
+            for year in years:
                 # No uncertainty parameters given
                 if distr == 1:
                     # There should be at least a `loc`
-                    if ~np.isnan(val[(y, "loc")]):
-                        for s in sizes:
-                            for p in pt:
+                    if ~np.isnan(val[(year, "loc")]):
+                        for size in sizes:
+                            for pwt in powertrains:
                                 array.loc[
-                                    dict(
-                                        powertrain=p,
-                                        size=s,
-                                        year=y,
-                                        parameter=param,
-                                    )
-                                ] = val[(y, "loc")]
+                                    dict(powertrain=pwt, size=size, year=year, parameter=param,)
+                                ] = val[(year, "loc")]
                     # Otherwise warn
                     else:
-                        print("`loc`parameter missing for {} in {}.".format(param, y))
+                        print(f"`loc`parameter missing for {param} in {year}.")
                         continue
 
                 elif distr in [2, 3, 4, 5]:
@@ -354,56 +363,56 @@ def modify_xarray_from_custom_parameters(fp, array):
 
                     if distr == 5:
                         if (
-                            np.isnan(val[(y, "loc")])
-                            or np.isnan(val[(y, "minimum")])
-                            or np.isnan(val[(y, "maximum")])
+                            np.isnan(val[(year, "loc")])
+                            or np.isnan(val[(year, "minimum")])
+                            or np.isnan(val[(year, "maximum")])
                         ):
                             print(
-                                "One or more parameters for the triangular distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
-                                    param, y
-                                )
+                                "One or more parameters for the triangular distribution "
+                                f"is/are missing for {param} in {year}.\n "
+                                "The parameter is skipped and default value applies."
                             )
                             continue
 
                     # Lognormal
                     if distr == 2:
-                        if np.isnan(val[(y, "loc")]) or np.isnan(val[(y, "scale")]):
+                        if np.isnan(val[(year, "loc")]) or np.isnan(val[(year, "scale")]):
                             print(
-                                "One or more parameters for the lognormal distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
-                                    param, y
-                                )
+                                "One or more parameters for the lognormal distribution "
+                                f"is/are missing for {param} in {year}.\n "
+                                "The parameter is skipped and default value applies"
                             )
                             continue
 
                     # Normal
                     if distr == 3:
-                        if np.isnan(val[(y, "loc")]) or np.isnan(val[(y, "scale")]):
+                        if np.isnan(val[(year, "loc")]) or np.isnan(val[(year, "scale")]):
                             print(
-                                "One or more parameters for the normal distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
-                                    param, y
-                                )
+                                "One or more parameters for the normal distribution is/are missing"
+                                f" for {param} in {year}.\n"
+                                f"The parameter is skipped and default value applies"
                             )
                             continue
 
                     # Uniform
                     if distr == 4:
-                        if np.isnan(val[(y, "minimum")]) or np.isnan(
-                            val[(y, "maximum")]
+                        if np.isnan(val[(year, "minimum")]) or np.isnan(
+                            val[(year, "maximum")]
                         ):
                             print(
-                                "One or more parameters for the uniform distribution is/are missing for {} in {}.\n The parameter is skipped and default value applies".format(
-                                    param, y
-                                )
+                                "One or more parameters for the uniform distribution "
+                                f"is/are missing for {param} in {year}.\n "
+                                "The parameter is skipped and default value applies"
                             )
                             continue
 
-                    a = sa.UncertaintyBase.from_dicts(
+                    uncertainty_params = sa.UncertaintyBase.from_dicts(
                         {
-                            "loc": val[y, "loc"],
-                            "scale": val[y, "scale"],
-                            "shape": val[y, "shape"],
-                            "minimum": val[y, "minimum"],
-                            "maximum": val[y, "maximum"],
+                            "loc": val[year, "loc"],
+                            "scale": val[year, "scale"],
+                            "shape": val[year, "shape"],
+                            "minimum": val[year, "minimum"],
+                            "maximum": val[year, "maximum"],
                             "uncertainty_type": distr,
                         }
                     )
@@ -411,28 +420,27 @@ def modify_xarray_from_custom_parameters(fp, array):
                     # Stochastic mode
                     if array.sizes["value"] > 1:
 
-                        rng = sa.MCRandomNumberGenerator(a)
+                        rng = sa.MCRandomNumberGenerator(uncertainty_params)
 
-                        for s in sizes:
-                            for p in pt:
+                        for size in sizes:
+                            for pwt in powertrains:
                                 array.loc[
-                                    dict(powertrain=p, size=s, year=y, parameter=param)
+                                    dict(powertrain=pwt, size=size, year=year, parameter=param)
                                 ] = rng.generate(array.sizes["value"]).reshape((-1,))
                     else:
 
                         dist = sa.uncertainty_choices[distr]
-                        median = float(dist.ppf(a, np.array((0.5,))))
+                        median = float(dist.ppf(uncertainty_params, np.array((0.5,))))
 
-                        for s in sizes:
-                            for p in pt:
+                        for size in sizes:
+                            for pwt in powertrains:
                                 array.loc[
-                                    dict(powertrain=p, size=s, year=y, parameter=param)
+                                    dict(powertrain=pwt, size=size, year=year, parameter=param)
                                 ] = median
 
                 else:
                     print(
-                        "The uncertainty type is not recognized for {} in {}.\n The parameter is skipped and default value applies".format(
-                            param, y
-                        )
+                        f"The uncertainty type is not recognized for {param} in {year}.\n"
+                        f"The parameter is skipped and default value applies"
                     )
                     continue

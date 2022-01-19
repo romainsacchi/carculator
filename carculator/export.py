@@ -1,19 +1,26 @@
+"""
+export.py contains the class Export, which offers methods to export the inventories
+in different formats.
+"""
+
 import csv
 import datetime
 import io
 import json
 import os
 import uuid
+from typing import Dict, List, Tuple, Union
 
 import bw2io
 import numpy as np
 import pyprind
+import xarray as xr
 from bw2io.export.excel import create_valid_worksheet_name, safe_filename, xlsxwriter
 
 from . import DATA_DIR, __version__
 
 
-def load_mapping_37_to_36():
+def load_mapping_37_to_36() -> Dict[Tuple[str, str, str, str], Tuple[str, str, str, str]]:
     """Load mapping dictionary between ecoinvent 3.7 and 3.6"""
 
     # Load the matching dictionary
@@ -23,7 +30,7 @@ def load_mapping_37_to_36():
         raise FileNotFoundError(
             "The dictionary of activities flows match between ecoinvent 3.7 and 3.6 could not be found."
         )
-    with open(filepath) as f:
+    with open(filepath, encoding="utf-8") as f:
         csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
     (_, _, *header), *data = csv_list
 
@@ -49,17 +56,17 @@ def load_mapping_37_to_36():
     return dict_ei36
 
 
-def load_references():
-    """Load a dictionary with references of datasets"""
+def load_references() -> Dict[str, Dict[str, str]]:
+    """Load a dictionary with references/sources of datasets"""
 
     # Load the matching dictionary
     filename = "references.csv"
     filepath = DATA_DIR / filename
     if not filepath.is_file():
         raise FileNotFoundError("The dictionary of references could not be found.")
-    with open(filepath, encoding="latin1") as f:
-        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
-    header, *data = csv_list
+    with open(filepath, encoding="latin1") as file:
+        csv_list = [[val.strip() for val in r.split(";")] for r in file.readlines()]
+    _, *data = csv_list
 
     dict_reference = {}
     for row in data:
@@ -75,7 +82,7 @@ def load_references():
     return dict_reference
 
 
-def load_uvek_transport_distances():
+def load_uvek_transport_distances() -> Dict[str, Dict[str, float]]:
     """Load a dictionary with transport distances for inventory export to UVEK database"""
 
     # Load the matching dictionary
@@ -85,9 +92,9 @@ def load_uvek_transport_distances():
         raise FileNotFoundError(
             "The dictionary with transport distances could not be found."
         )
-    with open(filepath, encoding="latin1") as f:
-        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
-    header, *data = csv_list
+    with open(filepath, encoding="latin1") as file:
+        csv_list = [[val.strip() for val in r.split(";")] for r in file.readlines()]
+    _, *data = csv_list
 
     dict_distance = {}
     for row in data:
@@ -105,7 +112,7 @@ def load_uvek_transport_distances():
     return dict_distance
 
 
-def load_mapping_37_to_35():
+def load_mapping_37_to_35() -> Dict[Tuple[str, str, str, str], Tuple[str, str, str, str]]:
     """Load mapping dictionary between ecoinvent 3.7 and 3.5"""
 
     # Load the matching dictionary
@@ -115,9 +122,9 @@ def load_mapping_37_to_35():
         raise FileNotFoundError(
             "The dictionary of activities flows match between ecoinvent 3.7 and 3.5 could not be found."
         )
-    with open(filepath) as f:
-        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
-    (_, _, *header), *data = csv_list
+    with open(filepath, encoding="utf-8") as file:
+        csv_list = [[val.strip() for val in r.split(";")] for r in file.readlines()]
+    _, _, *data = csv_list
 
     dict_ei35 = {}
     for row in data:
@@ -141,16 +148,18 @@ def load_mapping_37_to_35():
     return dict_ei35
 
 
-def get_simapro_biosphere():
+def get_simapro_biosphere() -> Dict[str, str]:
 
     # Load the matching dictionary between ecoinvent and Simapro biosphere flows
+    # for each ecoinvent biosphere flow name, it gives the corresponding Simapro name
+
     filename = "simapro-biosphere.json"
     filepath = DATA_DIR / filename
     if not filepath.is_file():
         raise FileNotFoundError(
             "The dictionary of biosphere flow match between ecoinvent and Simapro could not be found."
         )
-    with open(filepath) as json_file:
+    with open(filepath, encoding="utf-8") as json_file:
         data = json.load(json_file)
     dict_bio = {}
     for d in data:
@@ -159,12 +168,13 @@ def get_simapro_biosphere():
     return dict_bio
 
 
-def get_simapro_technosphere():
+def get_simapro_technosphere() -> Dict[Tuple[str, str], str]:
 
     # Load the matching dictionary between ecoinvent and Simapro product flows
+
     filename = "simapro-technosphere-3.5.csv"
     filepath = DATA_DIR / filename
-    with open(filepath) as f:
+    with open(filepath, encoding="utf-8") as f:
         csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
     (_, _, *header), *data = csv_list
 
@@ -184,13 +194,16 @@ class ExportInventory:
     """
 
     def __init__(self, array, indices, db_name="carculator export"):
-        self.array = array
-        self.indices = indices
+        self.array: xr.DataArray = array
+        self.indices: Dict[int, Tuple[str, str, str, str]] = indices
+
         self.rename_vehicles()
-        self.db_name = db_name
+
+        self.db_name: str = db_name
         self.references = load_references()
+
         # See https://docs.brightwaylca.org/intro.html#uncertainty-type
-        self.uncertainty_ID = {
+        self.uncertainty_id = {
             # scipy.stats distr. params --> stats.array distr. params
             "triang": 5,  # c --> loc (mode), loc --> min, loc + scale --> max
             "weibull_min": 8,  # c --> shape, scale --> scale
@@ -209,7 +222,12 @@ class ExportInventory:
         self.tags = self.load_tags()
         self.uvek_dist = load_uvek_transport_distances()
 
-    def rename_vehicles(self):
+    def rename_vehicles(self) -> None:
+
+        """
+        Rename powertrain acronyms to full length descriptive terms
+
+        """
 
         d_names = {
             "ICEV-d": "diesel",
@@ -224,21 +242,21 @@ class ExportInventory:
         }
 
         for k, value in self.indices.items():
-            for key in d_names:
+            for key, val in d_names.items():
                 if key in value[0]:
                     new_val = list(value)
-                    new_val[0] = new_val[0].replace(key, d_names[key])
+                    new_val[0] = new_val[0].replace(key, val)
                     self.indices[k] = tuple(new_val)
 
     @staticmethod
-    def load_tags():
+    def load_tags() -> Dict[str, str]:
         """Loads dictionary of tags for further use in BW2"""
 
         filename = "tags.csv"
         filepath = DATA_DIR / filename
         if not filepath.is_file():
             raise FileNotFoundError("The dictionary of tags could not be found.")
-        with open(filepath) as f:
+        with open(filepath, encoding="utf-8") as f:
             csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
         data = csv_list
 
@@ -250,7 +268,7 @@ class ExportInventory:
         return dict_tags
 
     @staticmethod
-    def load_mapping_36_to_uvek():
+    def load_mapping_36_to_uvek() -> Dict[Tuple[str, str, str, str], Tuple[str, str, str, str]]:
         """Load mapping dictionary between ecoinvent 3.6 and UVEK"""
 
         # Load the matching dictionary between ecoinvent and Simapro biosphere flows
@@ -260,7 +278,7 @@ class ExportInventory:
             raise FileNotFoundError(
                 "The dictionary of activities flows match between ecoinvent 3.6 and UVEK could not be found."
             )
-        with open(filepath) as f:
+        with open(filepath, encoding="utf-8") as f:
             csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
         (_, _, *header), *data = csv_list
 
@@ -286,7 +304,7 @@ class ExportInventory:
         return dict_uvek
 
     @staticmethod
-    def load_mapping_36_to_uvek_for_simapro():
+    def load_mapping_36_to_uvek_for_simapro() -> Dict[Tuple[str, str, str, str], str]:
         """Load mapping dictionary between ecoinvent 3.6 and UVEK for Simapro name format"""
 
         # Load the matching dictionary between ecoinvent and Simapro biosphere flows
@@ -296,7 +314,7 @@ class ExportInventory:
             raise FileNotFoundError(
                 "The dictionary of activities flows match between ecoinvent 3.6 and UVEK could not be found."
             )
-        with open(filepath) as f:
+        with open(filepath, encoding="utf-8") as f:
             csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
         (_, _, *header), *data = csv_list
 
@@ -307,10 +325,10 @@ class ExportInventory:
                 location,
                 unit,
                 ref_prod,
-                uvek_name,
-                uvek_loc,
-                uvek_unit,
-                uvek_ref_prod,
+                _,
+                _,
+                _,
+                _,
                 simapro_name,
             ) = row
             dict_uvek[(name, location, unit, ref_prod)] = simapro_name
@@ -319,10 +337,10 @@ class ExportInventory:
 
     def write_lci(
         self,
-        presamples,
-        ecoinvent_version,
-        vehicle_specs,
-    ):
+        presamples: bool,
+        ecoinvent_version: str,
+        vehicle_specs: xr.DataArray,
+    ) -> List[Dict]:
         """
         Return the inventory as a dictionary
         If if there several values for one exchange, uncertainty information is generated.
@@ -392,8 +410,8 @@ class ExportInventory:
 
                     if tuple_input[0] in uvek_activities_to_remove:
                         continue
-                    else:
-                        tuple_input = self.map_36_to_uvek.get(tuple_input, tuple_input)
+
+                    tuple_input = self.map_36_to_uvek.get(tuple_input, tuple_input)
 
                 if len(self.array[:, row, col]) == 1:
                     # No uncertainty, only one value
@@ -499,7 +517,7 @@ class ExportInventory:
                 try:
                     key = [
                         k
-                        for k in self.references.keys()
+                        for k in self.references
                         if k.lower() in tuple_output[0].lower()
                     ][0]
                 except IndexError:
@@ -812,18 +830,18 @@ class ExportInventory:
             )
         if presamples:
             return list_act, presamples_matrix
-        else:
-            return list_act
+
+        return list_act
 
     def write_lci_to_excel(
         self,
-        ecoinvent_version,
-        software_compatibility,
-        vehicle_specs=None,
-        directory=None,
-        filename=None,
-        export_format="file",
-    ):
+        ecoinvent_version: str,
+        software_compatibility: str,
+        vehicle_specs: xr.DataArray = None,
+        directory: str = None,
+        filename: str = None,
+        export_format: str = "file",
+    ) -> Union[bytes, str]:
         """
         Export a file that can be consumed by the software defined in `software_compatibility`.
         Alternatively, exports a string representation of the file (in case the invenotry should be downloaded
@@ -847,9 +865,7 @@ class ExportInventory:
             if filename is None:
                 safe_name = (
                     safe_filename(
-                        "carculator_inventory_export_{}_brightway2".format(
-                            str(datetime.date.today())
-                        ),
+                        f"carculator_inventory_export_{datetime.date.today()}_brightway2",
                         False,
                     )
                     + ".xlsx"
@@ -865,9 +881,7 @@ class ExportInventory:
         else:
             safe_name = (
                 safe_filename(
-                    "carculator_inventory_export_{}_simapro".format(
-                        str(datetime.date.today())
-                    ),
+                    f"carculator_inventory_export_{datetime.date.today()}_simapro",
                     False,
                 )
                 + ".csv"
@@ -913,7 +927,7 @@ class ExportInventory:
                             sheet.write_number(row_index, col_index, value, frmt(value))
                         else:
                             sheet.write_string(row_index, col_index, value, frmt(value))
-                print("Inventories exported to {}.".format(filepath_export))
+                print(f"Inventories exported to {filepath_export}.")
                 workbook.close()
 
             if export_format == "string":
@@ -958,7 +972,7 @@ class ExportInventory:
                     for row in rows:
                         writer.writerow(row)
                 csvFile.close()
-                print("Inventories exported to {}.".format(filepath_export))
+                print(f"Inventories exported to {filepath_export}.")
 
             if export_format == "string":
                 csvFile = io.StringIO()
@@ -1038,7 +1052,7 @@ class ExportInventory:
 
         return rows
 
-    def format_data_for_lci_for_simapro(self, data, ei_version):
+    def format_data_for_lci_for_simapro(self, data: List[Dict], ei_version: str) -> List[List]:
 
         # not all biosphere flows exist in simapro
         simapro_biosphere_flows_to_remove = [
@@ -1937,10 +1951,10 @@ class ExportInventory:
 
     def write_lci_to_bw(
         self,
-        presamples,
-        ecoinvent_version,
-        vehicle_specs=None,
-    ):
+        presamples: bool,
+        ecoinvent_version: str,
+        vehicle_specs: xr.DataArray = None,
+    ) -> bw2io.importers.base_lci.LCIImporter:
         """
         Return a LCIImporter object with the inventory as `data` attribute.
 
@@ -2035,12 +2049,12 @@ class ExportInventory:
                 pass
 
         # Lognormal distribution
-        if self.uncertainty_ID[best_distribution.name] == 2:
+        if self.uncertainty_id[best_distribution.name] == 2:
             mu, std = st.norm.fit(data)
             return [("uncertainty type", 2), ("scale", std), ("loc", mu)]
 
         # Normal distribution
-        if self.uncertainty_ID[best_distribution.name] == 3:
+        if self.uncertainty_id[best_distribution.name] == 3:
             return [
                 ("uncertainty type", 3),
                 ("loc", best_params[0]),
@@ -2048,7 +2062,7 @@ class ExportInventory:
             ]
 
         # Uniform distribution
-        if self.uncertainty_ID[best_distribution.name] == 4:
+        if self.uncertainty_id[best_distribution.name] == 4:
             return [
                 ("uncertainty type", 4),
                 ("minimum", best_params[0]),
@@ -2056,7 +2070,7 @@ class ExportInventory:
             ]
 
         # Triangular distribution
-        if self.uncertainty_ID[best_distribution.name] == 5:
+        if self.uncertainty_id[best_distribution.name] == 5:
             return [
                 ("uncertainty type", 5),
                 ("loc", best_params[1]),
@@ -2065,7 +2079,7 @@ class ExportInventory:
             ]
 
         # Gamma distribution
-        if self.uncertainty_ID[best_distribution.name] == 9:
+        if self.uncertainty_id[best_distribution.name] == 9:
             return [
                 ("uncertainty type", 9),
                 ("shape", best_params[0]),
@@ -2074,7 +2088,7 @@ class ExportInventory:
             ]
 
         # Beta distribution
-        if self.uncertainty_ID[best_distribution.name] == 10:
+        if self.uncertainty_id[best_distribution.name] == 10:
             return [
                 ("uncertainty type", 10),
                 ("loc", best_params[0]),
@@ -2083,7 +2097,7 @@ class ExportInventory:
             ]
 
         # Weibull distribution
-        if self.uncertainty_ID[best_distribution.name] == 8:
+        if self.uncertainty_id[best_distribution.name] == 8:
             return [
                 ("uncertainty type", 8),
                 ("shape", best_params[0]),
@@ -2092,7 +2106,7 @@ class ExportInventory:
             ]
 
         # Student's T distribution
-        if self.uncertainty_ID[best_distribution.name] == 12:
+        if self.uncertainty_id[best_distribution.name] == 12:
             return [
                 ("uncertainty type", 12),
                 ("shape", best_params[0]),

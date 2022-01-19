@@ -1,4 +1,9 @@
+"""
+hot_emissions.py contains HotEmissionModel which calculated fuel-related exhaust emissions.
+"""
+
 import pickle
+from typing import List, Union
 
 import numpy as np
 import xarray as xr
@@ -6,39 +11,40 @@ import xarray as xr
 from . import DATA_DIR
 
 
-def _(o):
+def _(obj: Union[np.ndarray, xr.DataArray]) -> Union[np.ndarray, xr.DataArray]:
     """Add a trailing dimension to make input arrays broadcast correctly"""
-    if isinstance(o, (np.ndarray, xr.DataArray)):
-        return np.expand_dims(o, -1)
-    else:
-        return o
+    if isinstance(obj, (np.ndarray, xr.DataArray)):
+        return np.expand_dims(obj, -1)
+    return obj
 
 
-def get_hot_emission_factors():
-    """Hot emissions factors extracted for trucks from HBEFA 4.1
+def get_hot_emission_factors() -> xr.DataArray:
+    """Hot emissions factors extracted for passenger cars from HBEFA 4.1
     detailed by size, powertrain and EURO class for each substance.
     """
-    fp = DATA_DIR / "hot.pickle"
+    filepath = DATA_DIR / "hot.pickle"
 
-    with open(fp, "rb") as f:
-        hot = pickle.load(f)
+    with open(filepath, "rb") as file:
+        hot = pickle.load(file)
 
     return hot
 
 
-def get_non_hot_emission_factors():
+def get_non_hot_emission_factors() -> xr.DataArray:
     """Non hot emissions factors (cold start, evaporation, soak emissions) extracted for trucks from HBEFA 4.1
     detailed by size, powertrain and EURO class for each substance.
     """
-    fp = DATA_DIR / "non_hot.pickle"
+    filepath = DATA_DIR / "non_hot.pickle"
 
-    with open(fp, "rb") as f:
-        non_hot = pickle.load(f)
+    with open(filepath, "rb") as file:
+        non_hot = pickle.load(file)
 
     return non_hot
 
 
-def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
+def get_mileage_degradation_factor(
+    powertrain_type: List[str], euro_class: List[float], lifetime_km: np.ndarray
+) -> np.ndarray:
     """
     Catalyst degrade overtime, leading to increased emissions
     of CO, HC and NOX. We apply a correction factor
@@ -73,14 +79,7 @@ def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
             },
         },
         "ICEV-d": {
-            "CO": {
-                4: 1.3,
-                5: 1.3,
-                6: 1.4,
-                6.1: 1.4,
-                6.2: 1.4,
-                6.3: 1.4,
-            },
+            "CO": {4: 1.3, 5: 1.3, 6: 1.4, 6.1: 1.4, 6.2: 1.4, 6.3: 1.4,},
             "NOx": {
                 2: 1.25,
                 3: 1.2,
@@ -98,14 +97,14 @@ def get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km):
     shape[-1] = 3
     corr = np.ones(tuple(shape))
 
-    for p, pt in enumerate(powertrain_type):
-        for e, ec in enumerate(euro_class):
-            for c, co in enumerate(["CO", "HC", "NOx"]):
+    for pt, pwt in enumerate(powertrain_type):
+        for cl, euro_cl in enumerate(euro_class):
+            for sub, substance in enumerate(["CO", "HC", "NOx"]):
                 try:
-                    val = d_corr[pt][co][ec]
-                    y_max = 120000 if co == "HC" else 200000
-                    corr[:, p, e, c] = np.clip(
-                        np.interp(lifetime_km[:, p, e, 0] / 2, [0, y_max], [1, val]),
+                    val = d_corr[pwt][substance][euro_cl]
+                    y_max = 120000 if substance == "HC" else 200000
+                    corr[:, pt, cl, sub] = np.clip(
+                        np.interp(lifetime_km[:, pt, cl, 0] / 2, [0, y_max], [1, val]),
                         1,
                         None,
                     )
@@ -128,7 +127,7 @@ class HotEmissionsModel:
 
     """
 
-    def __init__(self, cycle, cycle_name):
+    def __init__(self, cycle: np.ndarray, cycle_name: str) -> None:
 
         self.cycle = cycle
         self.cycle_name = cycle_name
@@ -170,8 +169,13 @@ class HotEmissionsModel:
         self.non_hot = get_non_hot_emission_factors()
 
     def get_hot_emissions(
-        self, powertrain_type, euro_class, lifetime_km, energy_consumption, yearly_km
-    ):
+        self,
+        powertrain_type: List[str],
+        euro_class: List[int],
+        lifetime_km: xr.DataArray,
+        energy_consumption: xr.DataArray,
+        yearly_km: xr.DataArray,
+    ) -> np.ndarray:
         """
         Calculate hot pollutants emissions given a powertrain type (i.e., diesel, petrol, CNG) and a EURO pollution class, per air sub-compartment
         (i.e., urban, suburban and rural).
@@ -187,14 +191,10 @@ class HotEmissionsModel:
             * *rural*: above 80 km/h
 
         :param powertrain_type: "diesel", "petrol" or "CNG"
-        :type powertrain_type: str
         :param euro_class: integer, corresponding to the EURO pollution class
-        :type euro_class: float
         :param energy_consumption: tank-to-wheel energy consumption for each second of the driving cycle
-        :type energy_consumption: xarray
         :param yearly_km: annual mileage, to calculate cold start emissions
         :return: Pollutants emission per km driven, per air compartment.
-        :rtype: numpy.array
         """
 
         # Check if the powertrains passed are valid
@@ -202,7 +202,7 @@ class HotEmissionsModel:
             raise TypeError("Wrong powertrain!")
 
         hot_emissions = self.hot.sel(
-            powertrain=powertrain_type,
+            powertrain=[powertrain_type] if isinstance(powertrain_type, str) else powertrain_type,
             euro_class=euro_class,
             component=[
                 "HC",
@@ -238,11 +238,13 @@ class HotEmissionsModel:
         hot[7] *= 0.5
 
         # apply a mileage degradation factor for CO, HC and NOx
-        corr = get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km)
-        hot[:3] *= corr[:, :, :, :, None, None]
+
+        if powertrain_type in ["ICEV-d", "ICEV-p"]:
+            corr = get_mileage_degradation_factor(powertrain_type, euro_class, lifetime_km)
+            hot[:3] *= corr[:, :, :, :, None, None]
 
         non_hot_emissions = self.non_hot.sel(
-            powertrain=powertrain_type,
+            powertrain=[powertrain_type] if isinstance(powertrain_type, str) else powertrain_type,
             euro_class=euro_class,
             Component=[
                 "HC",
@@ -290,7 +292,7 @@ class HotEmissionsModel:
         shape = list(hot.shape)
         shape[0] = 40
 
-        arr = np.zeros(shape)
+        arr = np.zeros(shape).astype("float32")
 
         arr[
             : hot.shape[0],
@@ -355,7 +357,7 @@ class HotEmissionsModel:
             dims=["component", "size", "powertrain", "year", "value", "second"],
         )
 
-        NMHC_ratios_petrol = np.array(
+        nmhc_ratios_petrol = np.array(
             [
                 0.032,
                 0.007,
@@ -380,7 +382,7 @@ class HotEmissionsModel:
             ]
         )
 
-        NMHC_ratios_diesel = np.array(
+        nmhc_ratios_diesel = np.array(
             [
                 0.0033,
                 0.0011,
@@ -434,7 +436,7 @@ class HotEmissionsModel:
                 powertrain=[p for p in final_emissions.powertrain.values if "d" in p],
             )
         ] = (
-            NMHC_ratios_diesel.reshape((-1, 1, 1, 1, 1, 1))
+            nmhc_ratios_diesel.reshape((-1, 1, 1, 1, 1, 1))
             * final_emissions.loc[
                 dict(
                     component="NMHC",
@@ -450,9 +452,7 @@ class HotEmissionsModel:
                 component="NMHC",
                 powertrain=[p for p in final_emissions.powertrain.values if "-d" in p],
             )
-        ] *= (
-            1 - 0.45
-        )
+        ] *= (1 - 0.45)
 
         final_emissions.loc[
             dict(
@@ -460,7 +460,7 @@ class HotEmissionsModel:
                 powertrain=[p for p in final_emissions.powertrain.values if "-p" in p],
             )
         ] = (
-            NMHC_ratios_petrol.reshape((-1, 1, 1, 1, 1, 1))
+            nmhc_ratios_petrol.reshape((-1, 1, 1, 1, 1, 1))
             * final_emissions.loc[
                 dict(
                     component="NMHC",
@@ -476,9 +476,7 @@ class HotEmissionsModel:
                 component="NMHC",
                 powertrain=[p for p in final_emissions.powertrain.values if "-p" in p],
             )
-        ] *= (
-            1 - 0.492
-        )
+        ] *= (1 - 0.492)
 
         # Heavy metals emissions are dependent of fuel consumption
         # given in grams of emission per kj

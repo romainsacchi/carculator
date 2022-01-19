@@ -1,10 +1,16 @@
+"""
+noise_emissions.py contains NoiseEmissionsModel which calculates noise emissions, in joules,
+given a driving cycle and a powertrain type.
+"""
+
 import numexpr as ne
 import numpy as np
 
 
 class NoiseEmissionsModel:
     """
-    Calculate propulsion and rolling noise emissions for combustion, hybrid and electric vehicles, based on CNOSSOS model.
+    Calculate propulsion and rolling noise emissions for combustion, hybrid and electric vehicles,
+    based on CNOSSOS model.
 
     :param cycle: Driving cycle. Pandas Series of second-by-second speeds (km/h) or name (str)
         of cycle e.g., "WLTC","WLTC 3.1","WLTC 3.2","WLTC 3.3","WLTC 3.4","CADC Urban","CADC Road",
@@ -13,7 +19,7 @@ class NoiseEmissionsModel:
 
     """
 
-    def __init__(self, cycle, cycle_name):
+    def __init__(self, cycle: np.ndarray, cycle_name: str) -> None:
 
         self.cycle = cycle
         self.cycle_name = cycle_name
@@ -50,7 +56,7 @@ class NoiseEmissionsModel:
             },
         }
 
-    def rolling_noise(self):
+    def rolling_noise(self) -> np.ndarray:
         """Calculate noise from rolling friction.
         Model from CNOSSOS-EU project
         (http://publications.jrc.ec.europa.eu/repository/bitstream/JRC72550/cnossos-eu%20jrc%20reference%20report_final_on%20line%20version_10%20august%202012.pdf)
@@ -76,7 +82,7 @@ class NoiseEmissionsModel:
 
         return array
 
-    def propulsion_noise(self, powertrain_type):
+    def propulsion_noise(self, powertrain_type: str) -> np.ndarray:
         """Calculate noise from propulsion engine and gearbox.
         Model from CNOSSOS-EU project
         (http://publications.jrc.ec.europa.eu/repository/bitstream/JRC72550/cnossos-eu%20jrc%20reference%20report_final_on%20line%20version_10%20august%202012.pdf)
@@ -123,18 +129,15 @@ class NoiseEmissionsModel:
 
         return array
 
-    def get_sound_power_per_compartment(self, powertrain_type):
+    def get_sound_power_per_compartment(self, powertrain_type: str) -> np.ndarray:
         """
         Calculate sound energy (in J/s) over the driving cycle duration from sound power (in dB).
-        The sound energy sums are further divided into `geographical compartments`: urban, suburban and rural.
-
-            * *urban*: from 0 to 50 km/k
-            * *suburban*: from 51 km/h to 80 km/h
-            * *rural*: above 80 km/h
+        The sound energy sums are further divided into `geographical compartments`: urban, suburban and rural,
+        based on the profile of the driving cycle.
 
 
         :return: Sound energy (in Joules) per km driven, per geographical compartment.
-        :rtype: numpy.array
+        :rtype: numpy.ndarray
         """
 
         if powertrain_type not in ("combustion", "electric", "hybrid"):
@@ -146,10 +149,10 @@ class NoiseEmissionsModel:
         propulsion = self.propulsion_noise(powertrain_type)
 
         # sum of rolling and propulsion noise sources
-        c = self.cycle
+        cycle = self.cycle
 
         total_noise = ne.evaluate(
-            "where(c != 0, 10 * log10((10 ** (rolling / 10)) + (10 ** (propulsion / 10))), 0)"
+            "where(cycle != 0, 10 * log10((10 ** (rolling / 10)) + (10 ** (propulsion / 10))), 0)"
         )
 
         # convert dBs to Watts (or J/s)

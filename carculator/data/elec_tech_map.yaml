@@ -1,0 +1,126 @@
+Hydro:
+  - electricity production, hydro, run-of-river
+  - DE
+  - kilowatt hour
+  - electricity, high voltage
+  
+Nuclear:
+  - electricity production, nuclear, pressure water reactor
+  - DE
+  - kilowatt hour
+  - electricity, high voltage
+  
+Gas:
+  - electricity production, natural gas, conventional power plant
+  - DE
+  - kilowatt hour
+  - electricity, high voltage
+
+Solar:
+  - electricity production, photovoltaic, 3kWp slanted-roof installation, multi-Si, panel, mounted
+  - DE
+  - kilowatt hour
+  - electricity, low voltage
+
+Wind:
+  - electricity production, wind, 1-3MW turbine, onshore
+  - DE
+  - kilowatt hour
+  - electricity, high voltage
+
+Biomass:
+  - heat and power co-generation, wood chips, 6667 kW, state-of-the-art 2014
+  - DE
+  - kilowatt hour
+  - electricity, high voltage
+
+Coal:
+  - electricity production, hard coal
+  - DE
+  - kilowatt hour
+  - electricity, high voltage
+
+Oil:
+  - electricity production, oil
+  - DE
+  - kilowatt hour
+  - electricity, high voltage
+
+Geothermal:
+  - electricity production, deep geothermal
+  - DE
+  - kilowatt hour
+  - electricity, high voltage
+
+Waste:
+  - treatment of municipal solid waste, incineration
+  - DE
+  - kilowatt hour
+  - electricity, for reuse in municipal waste incineration only
+
+Biogas CCS:
+  - electricity production, at power plant/biogas, post, pipeline 200km, storage 1000m
+  - RER
+  - kilowatt hour
+  - electricity, high voltage
+
+Biomass CCS:
+  - electricity production, at BIGCC power plant 450MW, pre, pipeline 200km, storage 1000m
+  - RER
+  - kilowatt hour
+  - electricity, high voltage
+
+Coal CCS:
+  - electricity production, at power plant/hard coal, post, pipeline 200km, storage 1000m
+  - RER
+  - kilowatt hour
+  - electricity, high voltage
+
+Gas CCS:
+  - electricity production, at power plant/natural gas, post, pipeline 200km, storage 1000m
+  - RER
+  - kilowatt hour
+  - electricity, high voltage
+
+Wood CCS:
+  - electricity production, at wood burning power plant 20 MW, truck 25km, post, pipeline 200km, storage 1000m
+  - RER
+  - kilowatt hour
+  - electricity, high voltage
+
+Hydro, reservoir:
+  - electricity production, hydro, reservoir, alpine region
+  - CH
+  - kilowatt hour
+  - electricity, high voltage
+
+Gas CCGT:
+  - electricity production, natural gas, combined cycle power plant
+  - DE
+  - kilowatt hour
+  - electricity, high voltage
+
+Gas CHP:
+  - heat and power co-generation, natural gas, conventional power plant, 100MW electrical
+  - DE
+  - kilowatt hour
+  - electricity, high voltage
+
+Solar, thermal:
+  - electricity production, solar thermal parabolic trough, 50 MW
+  - ES
+  - kilowatt hour
+  - electricity, high voltage
+
+Wind, offshore:
+  - electricity production, wind, 1-3MW turbine, offshore
+  - DE
+  - kilowatt hour
+  - electricity, high voltage
+
+Lignite:
+  - electricity production, lignite
+  - DE
+  - kilowatt hour
+  - electricity, high voltage
+  

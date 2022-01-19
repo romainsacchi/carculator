@@ -20,10 +20,9 @@ __all__ = (
     "InventoryCalculation",
     "BackgroundSystemModel",
     "ExportInventory",
-    "InternalNoiseModel",
     "create_fleet_composition_from_IAM_file",
 )
-__version__ = (1, 6, 3)
+__version__ = (1, 6, 4)
 
 from pathlib import Path
 
@@ -39,7 +38,6 @@ from .car_input_parameters import CarInputParameters
 from .driving_cycles import get_standard_driving_cycle
 from .export import ExportInventory
 from .hot_emissions import HotEmissionsModel
-from .internal_noise import InternalNoiseModel
 from .inventory import InventoryCalculation
 from .model import CarModel
 from .noise_emissions import NoiseEmissionsModel

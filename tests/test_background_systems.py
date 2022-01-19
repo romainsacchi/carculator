@@ -3,8 +3,8 @@ from carculator.background_systems import BackgroundSystemModel
 
 def test_size_dictionary():
     bs = BackgroundSystemModel()
-    assert len(bs.electricity_mix) == 91
-    assert int(bs.electricity_mix.sel(country="FR").values.sum()) == 11
+    assert len(bs.electricity_mix) == 92
+    assert int(bs.electricity_mix.sel(country="FR").values.sum()) == 10
     assert int(bs.electricity_mix.sel(country="FR", year=2015).values.sum()) == 1
 
 

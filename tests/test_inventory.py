@@ -90,23 +90,25 @@ def test_fuel_blend():
     bc = {
         "fuel blend": {
             "petrol": {
-                "primary fuel": {"type": "petrol", "share": [0.9, 0.9, 0.9, 0.9]},
+                "primary fuel": {"type": "petrol", "share": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9]},
                 "secondary fuel": {
                     "type": "bioethanol - wheat straw",
-                    "share": [0.1, 0.1, 0.1, 0.1],
+                    "share": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
                 },
             },
             "diesel": {
-                "primary fuel": {"type": "diesel", "share": [0.93, 0.93, 0.93, 0.93]},
+                "primary fuel": {"type": "diesel", "share": [0.93, 0.93, 0.93, 0.93, 0.93, 0.93]},
                 "secondary fuel": {
                     "type": "biodiesel - cooking oil",
-                    "share": [0.07, 0.07, 0.07, 0.07],
+                    "share": [0.07, 0.07, 0.07, 0.07, 0.07, 0.07],
                 },
             },
             "cng": {
                 "primary fuel": {
                     "type": "biogas - sewage sludge",
                     "share": [
+                        1,
+                        1,
                         1,
                         1,
                         1,
@@ -121,9 +123,9 @@ def test_fuel_blend():
         cm.array, method="recipe", method_type="midpoint", background_configuration=bc
     )
 
-    assert ic.fuel_blends["petrol"]["primary"]["share"] == [0.9, 0.9, 0.9, 0.9]
-    assert ic.fuel_blends["petrol"]["secondary"]["share"] == [0.1, 0.1, 0.1, 0.1]
-    assert ic.fuel_blends["cng"]["primary"]["share"] == [1, 1, 1, 1]
+    assert ic.fuel_blends["petrol"]["primary"]["share"] == [0.9, 0.9, 0.9, 0.9, 0.9, 0.9]
+    assert ic.fuel_blends["petrol"]["secondary"]["share"] == [0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+    assert ic.fuel_blends["cng"]["primary"]["share"] == [1, 1, 1, 1, 1, 1]
     assert np.sum(ic.fuel_blends["cng"]["secondary"]["share"]) == 0
 
     ic.calculate_impacts()
@@ -168,10 +170,10 @@ def test_fuel_blend():
             background_configuration={
                 "fuel blend": {
                     "petrol": {
-                        "primary fuel": {"type": fuels[0], "share": [1, 1, 1, 1]},
+                        "primary fuel": {"type": fuels[0], "share": [1, 1, 1, 1, 1, 1]},
                     },
                     "diesel": {
-                        "primary fuel": {"type": fuels[1], "share": [1, 1, 1, 1]},
+                        "primary fuel": {"type": fuels[1], "share": [1, 1, 1, 1, 1, 1]},
                     },
                     "hydrogen": {
                         "primary fuel": {
@@ -181,6 +183,8 @@ def test_fuel_blend():
                                 1,
                                 1,
                                 1,
+                                1,
+                                1
                             ],
                         }
                     },
@@ -192,6 +196,8 @@ def test_fuel_blend():
                                 1,
                                 1,
                                 1,
+                                1,
+                                1
                             ],
                         }
                     },
@@ -259,7 +265,7 @@ def test_endpoint():
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
     results = ic.calculate_impacts()
     assert "human health" in [i.lower() for i in results.impact_category.values]
-    assert len(results.impact_category.values) == 4
+    assert len(results.impact_category.values) == 6
     #
     #     """Test if it errors properly if an incorrect method type is give"""
     with pytest.raises(TypeError) as wrapped_error:
@@ -284,17 +290,8 @@ def test_custom_electricity_mix():
     # Passing four mixes instead of 6
     mix_1 = np.zeros((5, 15))
     mix_1[:, 0] = 1
-    # Passing a mix inferior to 1
-    mix_2 = np.zeros((6, 15))
-    mix_2[:, 0] = 1
-    mix_2[:, 0] = 0.9
 
-    # Passing a mix superior to 1
-    mix_3 = np.zeros((6, 15))
-    mix_3[:, 0] = 1
-    mix_3[:, 1] = 0.1
-
-    mixes = [mix_1, mix_2, mix_3]
+    mixes = [mix_1]
 
     for mix in mixes:
         with pytest.raises(ValueError) as wrapped_error:

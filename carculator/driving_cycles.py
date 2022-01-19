@@ -1,3 +1,9 @@
+"""
+driving_cycles.py loads a driving cycle based on the name specific by the user.
+The driving cycle returned is a numpy array with speed levels (in km/h) for each
+second of driving.
+"""
+
 import sys
 
 import numpy as np
@@ -5,13 +11,15 @@ import numpy as np
 from . import DATA_DIR
 
 
-def get_standard_driving_cycle(name="WLTC"):
+def get_standard_driving_cycle(name: str = "WLTC") -> np.ndarray:
 
     """Get driving cycle data as a Pandas `Series`.
 
     Driving cycles are given as km/h per second up to 3200 seconds.
 
-    :param name: The name of the driving cycle. WLTC (Worldwide harmonized Light vehicles Test Cycles) is chosen by default if :param name: left unspecified.
+    :param name: The name of the driving cycle.
+    WLTC (Worldwide harmonized Light vehicles Test Cycles)
+    is chosen by default if :param name: left unspecified.
     :type name: str
 
     ``name`` should be one of:
@@ -51,11 +59,11 @@ def get_standard_driving_cycle(name="WLTC"):
         "SORT 3": 14,
     }
     try:
-        arr = np.genfromtxt(DATA_DIR / "driving_cycles.csv", delimiter=";")
-        dc = arr[1:, dict_dc_names[name]]
-        dc = dc[~np.isnan(dc)]
+        array = np.genfromtxt(DATA_DIR / "driving_cycles.csv", delimiter=";")
+        driving_cycle = array[1:, dict_dc_names[name]]
+        driving_cycle = driving_cycle[~np.isnan(driving_cycle)]
+        return driving_cycle
 
-        return dc
     except KeyError:
-        print("The specified driving cycle could not be found.")
+        print(f"The specified driving cycle {name} could not be found.")
         sys.exit(1)

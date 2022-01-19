@@ -1,3 +1,12 @@
+"""
+background_systems.py contains BackgroundSystem, which contains different arrays relating to
+the evolution of fuel blends, sulfur content in fuels, and electricity mixes in different
+countries over time.
+"""
+
+
+from typing import Dict
+
 import numpy as np
 import pandas as pd
 import xarray as xr
@@ -5,10 +14,10 @@ import xarray as xr
 from . import DATA_DIR
 
 
-def data_to_dict(csv_list):
+def data_to_dict(csv_list: list) -> dict:
     """
     Returns a dictionary from a sequence of items.
-    :param data: list
+    :param csv_list: list
     :return: dict
     """
 
@@ -16,12 +25,12 @@ def data_to_dict(csv_list):
     csv_dict = {}
     for row in data:
         key, *values = row
-        csv_dict[key] = {key: value for key, value in zip(header, values)}
+        csv_dict[key] = dict(zip(header, values))
 
     return csv_dict
 
 
-def get_electricity_losses():
+def get_electricity_losses() -> Dict[str, float]:
     """
     Retrieve cumulative electricity losses from high to medium and low voltage.
     Source: `ecoinvent v.3.6 <https://www.ecoinvent.org/>`_.
@@ -36,13 +45,13 @@ def get_electricity_losses():
         raise FileNotFoundError(
             "The CSV file that contains electricity mixes could not be found."
         )
-    with open(filepath) as f:
-        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+    with open(filepath, encoding="utf-8") as file:
+        csv_list = [[val.strip() for val in r.split(";")] for r in file.readlines()]
 
     return data_to_dict(csv_list)
 
 
-def get_region_mapping():
+def get_region_mapping() -> Dict[str, str]:
     """
     Retrieve mapping between ISO country codes and REMIND regions.
 
@@ -54,18 +63,18 @@ def get_region_mapping():
     filepath = DATA_DIR / filename
     if not filepath.is_file():
         raise FileNotFoundError(
-            "The CSV file that contains correspondences between REMIND region names and ISO country codes "
-            "could not be found."
+            "The CSV file that contains correspondences between REMIND region "
+            "names and ISO country codes could not be found."
         )
-    with open(filepath) as f:
-        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+    with open(filepath, encoding="utf-8") as file:
+        csv_list = [[val.strip() for val in r.split(";")] for r in file.readlines()]
 
     return data_to_dict(csv_list)
 
 
-def get_electricity_mix():
+def get_electricity_mix() -> xr.DataArray:
     """
-    Retrieve electricity mixes and shape them into an xarray.
+    Retrieve electricity mixes and shape them into a xarray.
     Source:
         * for European countries (`ENTSOE TYNDP 2020 scenarios <https://2020.entsos-tyndp-scenarios.eu/>`_),
         * for African countries (`TEMBA <http://www.osemosys.org/temba.html>`_ model)
@@ -82,11 +91,12 @@ def get_electricity_mix():
             "The CSV file that contains electricity mixes could not be found."
         )
 
-    df = pd.read_csv(filepath, sep=";", index_col=["country", "year"])
-    df = df.reset_index()
+    dataframe = pd.read_csv(filepath, sep=";", index_col=["country", "year"])
+    dataframe = dataframe.reset_index()
+
 
     array = (
-        df.melt(id_vars=["country", "year"], value_name="value")
+        dataframe.melt(id_vars=["country", "year"], value_name="value")
         .groupby(["country", "year", "variable"])["value"]
         .mean()
         .to_xarray()
@@ -99,7 +109,7 @@ def get_electricity_mix():
     return array
 
 
-def get_biofuel_share():
+def get_biofuel_share() -> xr.DataArray:
     """
     Retrieve shares of biofuel consumption from REMIND and shape them into an xarray.
 
@@ -113,25 +123,29 @@ def get_biofuel_share():
         raise FileNotFoundError(
             "The CSV file that contains biofuel shares could not be found."
         )
-    df = pd.read_csv(filepath, sep=";")
+    dataframe = pd.read_csv(filepath, sep=";")
 
-    country_code = df["Region"].unique()
-    scenario = df["Scenario"].unique()
-    year = df["Year"].unique()
-    tech = df.columns[3:]
+    country_codes = dataframe["Region"].unique()
+    scenarios = dataframe["Scenario"].unique()
+    year = dataframe["Year"].unique()
+    tech = dataframe.columns[3:]
     array = xr.DataArray(
-        np.zeros((len(country_code), len(year), len(scenario), len(tech), 1)),
-        coords=[country_code, year, scenario, tech, np.arange(1)],
+        np.zeros((len(country_codes), len(year), len(scenarios), len(tech), 1)),
+        coords=[country_codes, year, scenarios, tech, np.arange(1)],
         dims=["region", "year", "scenario", "fuel_type", "value"],
     )
-    for r in country_code:
-        for s in scenario:
-            val = df.loc[(df["Region"] == r) & (df["Scenario"] == s), "Biomass fuel":]
-            array.loc[dict(region=r, scenario=s, value=0)] = val
+    for country_code in country_codes:
+        for scenario in scenarios:
+            val = dataframe.loc[(dataframe["Region"] == country_code) & (dataframe["Scenario"] == scenario), "Biomass fuel":]
+            array.loc[dict(region=country_code, scenario=scenario, value=0)] = val
     return array
 
 
-def get_biomethane_share():
+def get_biomethane_share() -> xr.DataArray:
+    """
+
+    :return: Returns an xarray with share of biomethane in the fuel blend, per country, per year.
+    """
     filename = "share_bio_cng.csv"
     filepath = DATA_DIR / filename
 
@@ -139,12 +153,16 @@ def get_biomethane_share():
         raise FileNotFoundError(
             "The CSV file that contains biomethane shares could not be found."
         )
-    df = pd.read_csv(filepath, sep=";")
+    dataframe = pd.read_csv(filepath, sep=";")
 
-    return df.groupby(["country", "year"]).sum().to_xarray().to_array()
+    return dataframe.groupby(["country", "year"]).sum().to_xarray().to_array()
 
 
-def get_biogasoline_share():
+def get_biogasoline_share() -> xr.DataArray:
+    """
+
+    :return: Returns an xarray with share of bioethanol in the fuel blend, per country, per year.
+    """
     filename = "share_bio_gasoline.csv"
     filepath = DATA_DIR / filename
 
@@ -152,12 +170,16 @@ def get_biogasoline_share():
         raise FileNotFoundError(
             "The CSV file that contains biogasoline shares could not be found."
         )
-    df = pd.read_csv(filepath, sep=";")
+    dataframe = pd.read_csv(filepath, sep=";")
 
-    return df.groupby(["country", "year"]).sum().to_xarray().to_array()
+    return dataframe.groupby(["country", "year"]).sum().to_xarray().to_array()
 
 
-def get_biodiesel_share():
+def get_biodiesel_share() -> xr.DataArray:
+    """
+
+    :return: Returns an xarray with share of biodiesel in the fuel blend, per country, per year.
+    """
     filename = "share_bio_diesel.csv"
     filepath = DATA_DIR / filename
 
@@ -165,12 +187,12 @@ def get_biodiesel_share():
         raise FileNotFoundError(
             "The CSV file that contains biodiesel shares could not be found."
         )
-    df = pd.read_csv(filepath, sep=";")
+    dataframe = pd.read_csv(filepath, sep=";")
 
-    return df.groupby(["country", "year"]).sum().to_xarray().to_array()
+    return dataframe.groupby(["country", "year"]).sum().to_xarray().to_array()
 
 
-def get_sulfur_content_in_fuel():
+def get_sulfur_content_in_fuel() -> xr.DataArray:
     """
     Retrieve sulfur content per kg of petrol and diesel.
     For CH, DE, FR, AU and SE, the concentration values come from HBEFA 4.1, from 1909 to 2020 (extrapolated to 2050).
@@ -193,20 +215,20 @@ def get_sulfur_content_in_fuel():
         raise FileNotFoundError(
             "The CSV file that contains sulfur concentration values could not be found."
         )
-    df = pd.read_csv(filepath, sep=";")
-    df = df.groupby(["country", "year"]).sum().unstack()
-    df.loc[:, ("diesel", 1990)] = df["diesel"].max(1)
-    df.loc[:, ("petrol", 1990)] = df["petrol"].max(1)
+    dataframe = pd.read_csv(filepath, sep=";")
+    dataframe = dataframe.groupby(["country", "year"]).sum().unstack()
+    dataframe.loc[:, ("diesel", 1990)] = dataframe["diesel"].max(1)
+    dataframe.loc[:, ("petrol", 1990)] = dataframe["petrol"].max(1)
 
-    df.loc[df[("diesel", 2019)] > 50 / 1e6, ("diesel", 2050)] = 50 / 1e6
-    df.loc[df[("petrol", 2019)] > 50 / 1e6, ("petrol", 2050)] = 50 / 1e6
-    df.loc[:, ("diesel", 2050)] = df["diesel"].min(1)
-    df.loc[:, ("petrol", 2050)] = df["petrol"].min(1)
+    dataframe.loc[dataframe[("diesel", 2019)] > 50 / 1e6, ("diesel", 2050)] = 50 / 1e6
+    dataframe.loc[dataframe[("petrol", 2019)] > 50 / 1e6, ("petrol", 2050)] = 50 / 1e6
+    dataframe.loc[:, ("diesel", 2050)] = dataframe["diesel"].min(1)
+    dataframe.loc[:, ("petrol", 2050)] = dataframe["petrol"].min(1)
 
-    df = df.interpolate(axis=1)
-    df = df.unstack().reset_index()
-    df = df.rename(columns={"level_0": "fuel"})
-    arr = df.groupby(["country", "year", "fuel"]).sum()[0].to_xarray()
+    dataframe = dataframe.interpolate(axis=1)
+    dataframe = dataframe.unstack().reset_index()
+    dataframe = dataframe.rename(columns={"level_0": "fuel"})
+    arr = dataframe.groupby(["country", "year", "fuel"]).sum()[0].to_xarray()
     return arr
 
 
@@ -217,9 +239,11 @@ class BackgroundSystemModel:
         * gross electricity production mixes from nearly all countries in the world, from 2015 to 2050.
         * cumulative electricity transformation/transmission/distribution losses from high voltage to medium and low voltage.
         * share of biomass-derived fuel in the total consumption of liquid fuel in the transport sector. Source: REMIND.
+        * share of bioethanol, biodiesel and biomethane, for each country, for different years.
+        * share of sulfur in gasoline and diesel, for different countries and years.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.electricity_mix = get_electricity_mix()
         self.losses = get_electricity_losses()
         self.region_map = get_region_mapping()
@@ -228,3 +252,6 @@ class BackgroundSystemModel:
         self.biomethane = get_biomethane_share()
         self.biogasoline = get_biogasoline_share()
         self.biodiesel = get_biodiesel_share()
+
+    def __str__(self):
+        return self.__class__.__name__

@@ -1,0 +1,23 @@
+purchase:
+  - battery onboard charging infrastructure cost
+  - combustion exhaust treatment cost
+  - combustion powertrain cost
+  - electric powertrain cost
+  - energy battery cost
+  - fuel cell cost
+  - fuel tank cost
+  - glider cost
+  - heat pump cost
+  - lightweighting cost
+  - power battery cost
+
+markup:
+  - combustion powertrain cost
+  - component replacement cost
+  - electric powertrain cost
+  - energy battery cost
+  - fuel cell cost
+  - fuel tank cost
+  - glider cost
+  - lightweighting cost
+  - power battery cost

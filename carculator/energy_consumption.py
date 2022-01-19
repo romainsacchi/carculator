@@ -1,16 +1,24 @@
+"""
+energy_consumption.py contains the class EnergyConsumption Model which exposes two methods:
+one for calculating the auxiliary energy needs, and another one for calculating the motive
+energy needs.
+"""
+
+from typing import Any, Union
+
 import numexpr as ne
 import numpy as np
-import xarray
+import xarray as xr
 
 from .driving_cycles import get_standard_driving_cycle
 
 
-def _(o):
+def _(obj: Union[np.ndarray, xr.DataArray]) -> Union[np.ndarray, xr.DataArray]:
     """Add a trailing dimension to make input arrays broadcast correctly"""
-    if isinstance(o, (np.ndarray, xarray.DataArray)):
-        return np.expand_dims(o, -1)
-    else:
-        return o
+    if isinstance(obj, (np.ndarray, xr.DataArray)):
+        return np.expand_dims(obj, -1)
+
+    return obj
 
 
 class EnergyConsumptionModel:
@@ -29,7 +37,7 @@ class EnergyConsumptionModel:
     :param cycle: Driving cycle. Pandas Series of second-by-second speeds (km/h) or name (str)
         of cycle e.g., "WLTC","WLTC 3.1","WLTC 3.2","WLTC 3.3","WLTC 3.4","CADC Urban","CADC Road",
         "CADC Motorway","CADC Motorway 130","CADC","NEDC".
-    :type cycle: pandas.Series
+    :type cycle: np.ndarray
     :param rho_air: Mass per unit volume of air. Set to (1.225 kg/m3) by default.
     :type rho_air: float
     :param gradient: Road gradient per second of driving, in degrees. None by default. Should be passed as an array of
@@ -47,7 +55,12 @@ class EnergyConsumptionModel:
 
     """
 
-    def __init__(self, cycle, rho_air=1.204, gradient=None):
+    def __init__(
+        self,
+        cycle: Union[str, np.ndarray],
+        rho_air: float = 1.204,
+        gradient: Union[str, np.ndarray] = None,
+    ) -> None:
         # If a string is passed, the corresponding driving cycle is retrieved
         if isinstance(cycle, str):
             try:
@@ -55,10 +68,10 @@ class EnergyConsumptionModel:
                 cycle = get_standard_driving_cycle(cycle)
 
             except KeyError as err:
-                raise ("The driving cycle specified could not be found.") from err
+                raise KeyError("The driving cycle specified could not be found.") from err
         elif isinstance(cycle, np.ndarray):
             self.cycle_name = "custom"
-            pass
+
         else:
             raise TypeError("The format of the driving cycle is not valid.")
 
@@ -68,33 +81,29 @@ class EnergyConsumptionModel:
         if gradient is not None:
             try:
                 assert isinstance(gradient, np.ndarray)
-            except AssertionError:
+            except AssertionError as err:
                 raise AssertionError(
                     "The type of the gradient array is not valid. Required: numpy.ndarray."
-                )
+                ) from err
             try:
                 assert len(gradient) == len(self.cycle)
-            except AssertionError:
+            except AssertionError as err:
                 raise AssertionError(
                     "The length of the gradient array does not equal the length of the driving cycle."
-                )
+                ) from err
             self.gradient = gradient
         else:
             self.gradient = np.zeros_like(cycle)
 
-    def aux_energy_per_km(self, aux_power, efficiency=1):
+    def aux_energy_per_km(self, aux_power: Union[float, np.ndarray], efficiency: float = 1.0) -> Union[float, np.ndarray]:
         """
         Calculate energy used other than motive energy per km driven.
 
         :param aux_power: Total power needed for auxiliaries, heating, and cooling (W)
-        :type aux_power: int
         :param efficiency: Efficiency of electricity generation (dimensionless, between 0.0 and 1.0).
                 Battery electric vehicles should have efficiencies of one here, as we account for
                 battery efficiencies elsewhere.
-        :type efficiency: float
-
         :returns: total auxiliary energy in kJ/km
-        :rtype: float
 
         """
         # Unit conversion km/h to m/s
@@ -113,34 +122,23 @@ class EnergyConsumptionModel:
 
     def motive_energy_per_km(
         self,
-        driving_mass,
-        rr_coef,
-        drag_coef,
-        frontal_area,
-        ttw_efficiency,
-        sizes,
-        recuperation_efficiency=0,
-        motor_power=0,
-    ):
+        driving_mass: Union[float, np.ndarray, xr.DataArray],
+        rr_coef: Union[float, np.ndarray, xr.DataArray],
+        drag_coef: Union[float, np.ndarray, xr.DataArray],
+        frontal_area: Union[float, np.ndarray, xr.DataArray],
+        sizes: Union[str, np.ndarray, xr.DataArray],
+        motor_power: Union[float, np.ndarray, xr.DataArray] = 0
+    ) -> tuple[Union[float, Any], Any, Union[float, Any]]:
         """
         Calculate energy used and recuperated for a given vehicle per km driven.
 
         :param driving_mass: Mass of vehicle (kg)
-        :type driving_mass: int
         :param rr_coef: Rolling resistance coefficient (dimensionless, between 0.0 and 1.0)
-        :type rr_coef: float
         :param drag_coef: Aerodynamic drag coefficient (dimensionless, between 0.0 and 1.0)
-        :type drag_coef: float
         :param frontal_area: Frontal area of vehicle (m2)
-        :type frontal_area: float
-        :param ttw_efficiency: Efficiency of translating potential energy into motion (dimensionless, between 0.0 and 1.0)
-        :type ttw_efficiency: float
         :param sizes: size classes of the vehicles
-        :type sizes: list of strings
-        :param recuperation_efficiency: Fraction of energy that can be recuperated (dimensionless, between 0.0 and 1.0). Optional.
-        :type recuperation_efficiency: float
         :param motor_power: Electric motor power (watts). Optional.
-        :type motor_power: int
+        :returns: net motive energy (in kJ/km)
 
         Power to overcome rolling resistance is calculated by:
 
@@ -160,9 +158,6 @@ class EnergyConsumptionModel:
 
         where :math:`\rho_{air}` is 1.225 (kg/m3), :math:`v` is velocity (m/s), :math:`A` is frontal area (m2), and :math:`C_{d}`
         is the aerodynamic drag coefficient (dimensionless).
-
-        :returns: net motive energy (in kJ/km)
-        :rtype: float
 
         """
 
@@ -194,30 +189,30 @@ class EnergyConsumptionModel:
         # Power is in watts (kg m2 / s3)
 
         ones = np.ones_like(velocity).T[:, None, None, None]
-        dm = _(driving_mass)
-        rr = _(rr_coef)
-        fa = _(frontal_area)
-        dc = _(drag_coef)
-        v = velocity.T[:, None, None, None]
-        a = acceleration.T[:, None, None, None]
-        g = self.gradient
-        rho_air = self.rho_air
-        mp = _(motor_power)
+        driving_mass = _(driving_mass)
+        rr_coeff = _(rr_coef)
+        frontal_area = _(frontal_area)
+        drag_coef = _(drag_coef)
+        motor_power = _(motor_power)
+        velocity = velocity.T[:, None, None, None]
+        acceleration = acceleration.T[:, None, None, None]
+        gradient = self.gradient
+        self.rho_air = self.rho_air
 
         # rolling resistance + air resistance + kinetic energy + gradient resistance
-        rolling_resistance = ones * dm * rr * 9.81
-        air_resistance = np.power(v, 2) * fa * dc * rho_air / 2
+        rolling_resistance = ones * driving_mass * rr_coeff * 9.81
+        air_resistance = np.power(velocity, 2) * frontal_area * drag_coef * self.rho_air / 2
 
-        kinetic_energy = (a * dm) + (dm * 9.81 * np.sin(g))
+        kinetic_energy = (acceleration * driving_mass) + (driving_mass * 9.81 * np.sin(gradient))
         total_force = rolling_resistance + air_resistance + kinetic_energy
 
-        tv = total_force * v
+        total_force_velocity = total_force * velocity
 
         # Can only recuperate when power is less than zero, limited by recuperation efficiency
         # Motor power in kW, other power in watts
 
         recuperated_power = ne.evaluate(
-            "where(tv < (-1000 * mp), (-1000 * mp), where(tv>0, 0, tv))"
+            "where(total_force_velocity < (-1000 * motor_power), (-1000 * motor_power), where(total_force_velocity>0, 0, total_force_velocity))"
         )
 
-        return tv, recuperated_power, distance
+        return total_force_velocity, recuperated_power, distance
