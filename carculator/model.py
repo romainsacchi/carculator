@@ -96,7 +96,6 @@ class CarModel:
     def __setitem__(self, key, value):
         self.array.loc[{"parameter": key}] = value
 
-
     def set_all(self, drop_hybrids: bool = True, electric_utility_factor: float = None):
         """
         This method runs a series of other methods to obtain the tank-to-wheel energy requirement, efficiency
