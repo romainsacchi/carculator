@@ -4,7 +4,7 @@ one for calculating the auxiliary energy needs, and another one for calculating 
 energy needs.
 """
 
-from typing import Any, Union, Tuple
+from typing import Any, Tuple, Union
 
 import numexpr as ne
 import numpy as np
