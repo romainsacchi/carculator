@@ -228,7 +228,6 @@ class CarModel:
             }
         }
 
-
         self["battery cell energy density"] = self[
             f"battery cell energy density, {self.energy_storage['electric']['type'].split('-')[0].strip()}"
         ]
@@ -1122,27 +1121,14 @@ class CarModel:
         :return:
         """
 
-        self.array.loc[
-            dict(parameter="battery cell mass")
-        ] = (
-            self.array.loc[
-                dict(parameter="energy battery mass")
-            ]
-            * self.array.loc[
-                dict(parameter="battery cell mass share")
-            ]
+        self.array.loc[dict(parameter="battery cell mass")] = (
+            self.array.loc[dict(parameter="energy battery mass")]
+            * self.array.loc[dict(parameter="battery cell mass share")]
         )
 
-        self.array.loc[
-            dict(parameter="battery BoP mass")
-        ] = self.array.loc[
+        self.array.loc[dict(parameter="battery BoP mass")] = self.array.loc[
             dict(parameter="energy battery mass")
-        ] * (
-            1
-            - self.array.loc[
-                dict(parameter="battery cell mass share")
-            ]
-        )
+        ] * (1 - self.array.loc[dict(parameter="battery cell mass share")])
 
     def set_range(self) -> None:
         """
