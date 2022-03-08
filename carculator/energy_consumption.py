@@ -4,7 +4,7 @@ one for calculating the auxiliary energy needs, and another one for calculating 
 energy needs.
 """
 
-from typing import Any, Union
+from typing import Any, Union, Tuple
 
 import numexpr as ne
 import numpy as np
@@ -132,7 +132,7 @@ class EnergyConsumptionModel:
         frontal_area: Union[float, np.ndarray, xr.DataArray],
         sizes: Union[str, np.ndarray, xr.DataArray],
         motor_power: Union[float, np.ndarray, xr.DataArray] = 0,
-    ) -> tuple[Union[float, Any], Any, Union[float, Any]]:
+    ) -> Tuple[Union[float, Any], Any, Union[float, Any]]:
         """
         Calculate energy used and recuperated for a given vehicle per km driven.
 

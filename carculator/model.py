@@ -228,19 +228,13 @@ class CarModel:
             }
         }
 
-        l_pwt = [
-            i
-            for i in ["BEV", "PHEV-e", "FCEV", "HEV-p", "HEV-d"]
-            if i in self.array.powertrain
-        ]
 
-        if len(l_pwt) > 0:
-            self["battery cell energy density"] = self[
-                f"battery cell energy density, {self.energy_storage['electric']['type'].split('-')[0].strip()}"
-            ]
-            self["battery cell mass share"] = self[
-                f"battery cell mass share, {self.energy_storage['electric']['type'].split('-')[0].strip()}"
-            ]
+        self["battery cell energy density"] = self[
+            f"battery cell energy density, {self.energy_storage['electric']['type'].split('-')[0].strip()}"
+        ]
+        self["battery cell mass share"] = self[
+            f"battery cell mass share, {self.energy_storage['electric']['type'].split('-')[0].strip()}"
+        ]
 
     def adjust_cost(self) -> None:
         """
@@ -1128,89 +1122,27 @@ class CarModel:
         :return:
         """
 
-        list_combustion = [
-            i
-            for i in [
-                "ICEV-p",
-                "PHEV-c-p",
-                "PHEV-c-d",
-                "ICEV-d",
-                "ICEV-g",
-                "FCEV",
+        self.array.loc[
+            dict(parameter="battery cell mass")
+        ] = (
+            self.array.loc[
+                dict(parameter="energy battery mass")
             ]
-            if i in self.array.powertrain
-        ]
-
-        list_electric = [
-            i for i in ["BEV", "PHEV-e", "HEV-p", "HEV-d"] if i in self.array.powertrain
-        ]
-
-        if len(list_combustion) > 0:
-
-            self.array.loc[
-                dict(powertrain=list_combustion, parameter="battery power")
-            ] = self.array.loc[
-                dict(powertrain=list_combustion, parameter="electric power")
+            * self.array.loc[
+                dict(parameter="battery cell mass share")
             ]
+        )
 
-            self.array.loc[
-                dict(powertrain=list_combustion, parameter="battery cell mass")
-            ] = (
-                self.array.loc[
-                    dict(powertrain=list_combustion, parameter="battery power")
-                ]
-                / self.array.loc[
-                    dict(
-                        powertrain=list_combustion,
-                        parameter="battery cell power density",
-                    )
-                ]
-            )
-
-            self.array.loc[
-                dict(powertrain=list_combustion, parameter="battery cell mass share")
-            ] = self.array.loc[
-                dict(powertrain=list_combustion, parameter="battery cell mass share")
-            ].clip(
-                min=0, max=1
-            )
-
-            self.array.loc[
-                dict(powertrain=list_combustion, parameter="battery BoP mass")
-            ] = self.array.loc[
-                dict(powertrain=list_combustion, parameter="battery cell mass")
-            ] * (
-                1
-                - self.array.loc[
-                    dict(
-                        powertrain=list_combustion, parameter="battery cell mass share"
-                    )
-                ]
-            )
-
-        if len(list_electric) > 0:
-
-            self.array.loc[
-                dict(powertrain=list_electric, parameter="battery cell mass")
-            ] = (
-                self.array.loc[
-                    dict(powertrain=list_electric, parameter="energy battery mass")
-                ]
-                * self.array.loc[
-                    dict(powertrain=list_electric, parameter="battery cell mass share")
-                ]
-            )
-
-            self.array.loc[
-                dict(powertrain=list_electric, parameter="battery BoP mass")
-            ] = self.array.loc[
-                dict(powertrain=list_electric, parameter="energy battery mass")
-            ] * (
-                1
-                - self.array.loc[
-                    dict(powertrain=list_electric, parameter="battery cell mass share")
-                ]
-            )
+        self.array.loc[
+            dict(parameter="battery BoP mass")
+        ] = self.array.loc[
+            dict(parameter="energy battery mass")
+        ] * (
+            1
+            - self.array.loc[
+                dict(parameter="battery cell mass share")
+            ]
+        )
 
     def set_range(self) -> None:
         """
