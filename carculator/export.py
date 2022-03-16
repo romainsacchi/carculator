@@ -20,6 +20,43 @@ from bw2io.export.excel import create_valid_worksheet_name, safe_filename, xlsxw
 from . import DATA_DIR, __version__
 
 
+def load_mapping_38_to_37() -> Dict[
+    Tuple[str, str, str, str], Tuple[str, str, str, str]
+]:
+    """Load mapping dictionary between ecoinvent 3.7 and 3.6"""
+
+    # Load the matching dictionary
+    filename = "ei38_to_ei37.csv"
+    filepath = DATA_DIR / filename
+    if not filepath.is_file():
+        raise FileNotFoundError(
+            "The dictionary of activities flows match between ecoinvent 3.7 and 3.6 could not be found."
+        )
+    with open(filepath, encoding="utf-8") as f:
+        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+    (_, _, *header), *data = csv_list
+
+    dict_ei36 = {}
+    for row in data:
+        (
+            name,
+            location,
+            unit,
+            ref_prod,
+            name_36,
+            location_36,
+            unit_36,
+            ref_prod_36,
+        ) = row
+        dict_ei36[(name, location, unit, ref_prod)] = (
+            name_36,
+            location_36,
+            unit_36,
+            ref_prod_36,
+        )
+
+    return dict_ei36
+
 def load_mapping_37_to_36() -> Dict[
     Tuple[str, str, str, str], Tuple[str, str, str, str]
 ]:
@@ -219,6 +256,7 @@ class ExportInventory:
             "t": 12,  # df --> shape, loc --> loc, scale --> scale
         }
 
+        self.map_38_to_37 = load_mapping_38_to_37()
         self.map_37_to_36 = load_mapping_37_to_36()
         self.map_37_to_35 = load_mapping_37_to_35()
         self.map_36_to_uvek = self.load_mapping_36_to_uvek()
@@ -395,6 +433,10 @@ class ExportInventory:
                 tuple_output = self.indices[col]
                 tuple_input = self.indices[row]
                 mult_factor = 1
+
+                if ecoinvent_version in ["3.7", "3.7.1"]:
+                    tuple_output = self.map_38_to_37.get(tuple_output, tuple_output)
+                    tuple_input = self.map_38_to_37.get(tuple_input, tuple_input)
 
                 if ecoinvent_version == "3.6":
                     tuple_output = self.map_37_to_36.get(tuple_output, tuple_output)
