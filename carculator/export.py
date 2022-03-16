@@ -57,6 +57,7 @@ def load_mapping_38_to_37() -> Dict[
 
     return dict_ei36
 
+
 def load_mapping_37_to_36() -> Dict[
     Tuple[str, str, str, str], Tuple[str, str, str, str]
 ]:
