@@ -36,7 +36,7 @@ def load_mapping_38_to_37() -> Dict[
         csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
     (_, _, *header), *data = csv_list
 
-    dict_ei36 = {}
+    dict_ei38 = {}
     for row in data:
         (
             name,
@@ -48,14 +48,14 @@ def load_mapping_38_to_37() -> Dict[
             unit_36,
             ref_prod_36,
         ) = row
-        dict_ei36[(name, location, unit, ref_prod)] = (
+        dict_ei38[(name, location, unit, ref_prod)] = (
             name_36,
             location_36,
             unit_36,
             ref_prod_36,
         )
 
-    return dict_ei36
+    return dict_ei38
 
 
 def load_mapping_37_to_36() -> Dict[

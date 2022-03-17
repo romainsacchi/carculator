@@ -1697,7 +1697,7 @@ class InventoryCalculation:
             self.set_inputs_in_A_matrix(self.array.values)
 
         # Add rows for fleet vehicles, if any
-        if isinstance(self.fleet, xr.core.dataarray.DataArray):
+        if isinstance(self.fleet, xr.DataArray):
             print("Building fleet average vehicles...")
             self.build_fleet_vehicles()
 
