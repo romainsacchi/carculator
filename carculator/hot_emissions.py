@@ -2,11 +2,11 @@
 hot_emissions.py contains HotEmissionModel which calculated fuel-related exhaust emissions.
 """
 
-import pickle
 from typing import List, Union
 
 import numpy as np
 import xarray as xr
+import pandas as pd
 
 from . import DATA_DIR
 
@@ -22,10 +22,9 @@ def get_hot_emission_factors() -> xr.DataArray:
     """Hot emissions factors extracted for passenger cars from HBEFA 4.1
     detailed by size, powertrain and EURO class for each substance.
     """
-    filepath = DATA_DIR / "hot.pickle"
+    filepath = DATA_DIR / "hot.csv"
 
-    with open(filepath, "rb") as file:
-        hot = pickle.load(file)
+    hot = pd.read_csv(filepath).groupby(["variable", "powertrain", "euro_class", "component"])["hot"].mean().to_xarray()
 
     return hot
 
@@ -34,10 +33,9 @@ def get_non_hot_emission_factors() -> xr.DataArray:
     """Non hot emissions factors (cold start, evaporation, soak emissions) extracted for trucks from HBEFA 4.1
     detailed by size, powertrain and EURO class for each substance.
     """
-    filepath = DATA_DIR / "non_hot.pickle"
+    filepath = DATA_DIR / "non_hot.csv"
 
-    with open(filepath, "rb") as file:
-        non_hot = pickle.load(file)
+    non_hot = pd.read_csv(filepath).groupby(["powertrain", "euro_class", "type", "Component"])["hot"].mean().to_xarray()
 
     return non_hot
 
