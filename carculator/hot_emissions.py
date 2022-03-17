@@ -5,8 +5,8 @@ hot_emissions.py contains HotEmissionModel which calculated fuel-related exhaust
 from typing import List, Union
 
 import numpy as np
-import xarray as xr
 import pandas as pd
+import xarray as xr
 
 from . import DATA_DIR
 
@@ -24,7 +24,12 @@ def get_hot_emission_factors() -> xr.DataArray:
     """
     filepath = DATA_DIR / "hot.csv"
 
-    hot = pd.read_csv(filepath).groupby(["variable", "powertrain", "euro_class", "component"])["hot"].mean().to_xarray()
+    hot = (
+        pd.read_csv(filepath)
+        .groupby(["variable", "powertrain", "euro_class", "component"])["hot"]
+        .mean()
+        .to_xarray()
+    )
 
     return hot
 
@@ -35,7 +40,12 @@ def get_non_hot_emission_factors() -> xr.DataArray:
     """
     filepath = DATA_DIR / "non_hot.csv"
 
-    non_hot = pd.read_csv(filepath).groupby(["powertrain", "euro_class", "type", "Component"])["hot"].mean().to_xarray()
+    non_hot = (
+        pd.read_csv(filepath)
+        .groupby(["powertrain", "euro_class", "type", "Component"])["hot"]
+        .mean()
+        .to_xarray()
+    )
 
     return non_hot
 
