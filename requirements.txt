@@ -6,7 +6,7 @@ numpy
 klausen
 xlrd
 numexpr
-bw2io>0.8.0
+bw2io
 pycountry
 wurst
 pyyaml
