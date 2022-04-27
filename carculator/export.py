@@ -19,6 +19,73 @@ from bw2io.export.excel import create_valid_worksheet_name, safe_filename, xlsxw
 
 from . import DATA_DIR, __version__
 
+def load_mapping_36_to_uvek() -> Dict[
+    Tuple[str, str, str, str], Tuple[str, str, str, str]
+]:
+    """Load mapping dictionary between ecoinvent 3.6 and UVEK"""
+
+    # Load the matching dictionary between ecoinvent and Simapro biosphere flows
+    filename = "uvek_mapping.csv"
+    filepath = DATA_DIR / filename
+    if not filepath.is_file():
+        raise FileNotFoundError(
+            "The dictionary of activities flows match between ecoinvent 3.6 and UVEK could not be found."
+        )
+    with open(filepath, encoding="utf-8") as f:
+        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+    (_, _, *header), *data = csv_list
+
+    dict_uvek = {}
+    for row in data:
+        (
+            name,
+            location,
+            unit,
+            ref_prod,
+            uvek_name,
+            uvek_loc,
+            uvek_unit,
+            uvek_ref_prod,
+            simapro_name,
+        ) = row
+        dict_uvek[(name, ref_prod, unit, location)] = (
+            uvek_name,
+            uvek_ref_prod,
+            uvek_unit,
+            uvek_loc,
+        )
+    return dict_uvek
+
+def load_mapping_36_to_uvek_for_simapro() -> Dict[Tuple[str, str, str, str], str]:
+    """Load mapping dictionary between ecoinvent 3.6 and UVEK for Simapro name format"""
+
+    # Load the matching dictionary between ecoinvent and Simapro biosphere flows
+    filename = "uvek_mapping.csv"
+    filepath = DATA_DIR / filename
+    if not filepath.is_file():
+        raise FileNotFoundError(
+            "The dictionary of activities flows match between ecoinvent 3.6 and UVEK could not be found."
+        )
+    with open(filepath, encoding="utf-8") as f:
+        csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
+    (_, _, *header), *data = csv_list
+
+    dict_uvek = {}
+    for row in data:
+        (
+            name,
+            location,
+            unit,
+            ref_prod,
+            _,
+            _,
+            _,
+            _,
+            simapro_name,
+        ) = row
+        dict_uvek[(name, location, unit, ref_prod)] = simapro_name
+
+    return dict_uvek
 
 def load_mapping_38_to_37() -> Dict[
     Tuple[str, str, str, str], Tuple[str, str, str, str]
@@ -259,8 +326,8 @@ class ExportInventory:
         self.map_38_to_37 = load_mapping_38_to_37()
         self.map_37_to_36 = load_mapping_37_to_36()
         self.map_37_to_35 = load_mapping_37_to_35()
-        self.map_36_to_uvek = self.load_mapping_36_to_uvek()
-        self.map_36_to_uvek_for_simapro = self.load_mapping_36_to_uvek_for_simapro()
+        self.map_36_to_uvek = load_mapping_36_to_uvek()
+        self.map_36_to_uvek_for_simapro = load_mapping_36_to_uvek_for_simapro()
         self.tags = self.load_tags()
         self.uvek_dist = load_uvek_transport_distances()
 
@@ -309,75 +376,7 @@ class ExportInventory:
 
         return dict_tags
 
-    @staticmethod
-    def load_mapping_36_to_uvek() -> Dict[
-        Tuple[str, str, str, str], Tuple[str, str, str, str]
-    ]:
-        """Load mapping dictionary between ecoinvent 3.6 and UVEK"""
 
-        # Load the matching dictionary between ecoinvent and Simapro biosphere flows
-        filename = "uvek_mapping.csv"
-        filepath = DATA_DIR / filename
-        if not filepath.is_file():
-            raise FileNotFoundError(
-                "The dictionary of activities flows match between ecoinvent 3.6 and UVEK could not be found."
-            )
-        with open(filepath, encoding="utf-8") as f:
-            csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
-        (_, _, *header), *data = csv_list
-
-        dict_uvek = {}
-        for row in data:
-            (
-                name,
-                location,
-                unit,
-                ref_prod,
-                uvek_name,
-                uvek_loc,
-                uvek_unit,
-                uvek_ref_prod,
-                simapro_name,
-            ) = row
-            dict_uvek[(name, ref_prod, unit, location)] = (
-                uvek_name,
-                uvek_ref_prod,
-                uvek_unit,
-                uvek_loc,
-            )
-        return dict_uvek
-
-    @staticmethod
-    def load_mapping_36_to_uvek_for_simapro() -> Dict[Tuple[str, str, str, str], str]:
-        """Load mapping dictionary between ecoinvent 3.6 and UVEK for Simapro name format"""
-
-        # Load the matching dictionary between ecoinvent and Simapro biosphere flows
-        filename = "uvek_mapping.csv"
-        filepath = DATA_DIR / filename
-        if not filepath.is_file():
-            raise FileNotFoundError(
-                "The dictionary of activities flows match between ecoinvent 3.6 and UVEK could not be found."
-            )
-        with open(filepath, encoding="utf-8") as f:
-            csv_list = [[val.strip() for val in r.split(";")] for r in f.readlines()]
-        (_, _, *header), *data = csv_list
-
-        dict_uvek = {}
-        for row in data:
-            (
-                name,
-                location,
-                unit,
-                ref_prod,
-                _,
-                _,
-                _,
-                _,
-                simapro_name,
-            ) = row
-            dict_uvek[(name, location, unit, ref_prod)] = simapro_name
-
-        return dict_uvek
 
     def write_lci(
         self,

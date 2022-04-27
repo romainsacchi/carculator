@@ -1643,7 +1643,7 @@ class CarModel:
             ],
         )
 
-        response.coords["variables"] = list_cost_cat
+        response.coords["parameter"] = list_cost_cat
 
         if not sensitivity:
             return response
