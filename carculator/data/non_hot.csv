@@ -1,0 +1,1585 @@
+,powertrain,euro_class,type,Component,hot
+0,ICEV-d,0.0,cold start,Benzene,0.00703805312514305
+1,ICEV-d,0.0,cold start,CH4,0.0144370319321752
+2,ICEV-d,0.0,cold start,CO,3.09511065483093
+3,ICEV-d,0.0,cold start,FC_MJ,1.4321311712265001
+4,ICEV-d,0.0,cold start,HC,0.601543009281158
+5,ICEV-d,0.0,cold start,N2O,0.0
+6,ICEV-d,0.0,cold start,NH3,0.0
+7,ICEV-d,0.0,cold start,NMHC,0.587105989456177
+8,ICEV-d,0.0,cold start,NO2,0.170803412795067
+9,ICEV-d,0.0,cold start,NOx,0.268405348062515
+10,ICEV-d,0.0,cold start,PM2.5,0.083287850022316
+11,ICEV-d,0.0,cold start,Pb,0.0
+12,ICEV-d,0.0,diurnal,Benzene,0.0
+13,ICEV-d,0.0,diurnal,CH4,0.0
+14,ICEV-d,0.0,diurnal,CO,0.0
+15,ICEV-d,0.0,diurnal,FC_MJ,0.0
+16,ICEV-d,0.0,diurnal,HC,0.0
+17,ICEV-d,0.0,diurnal,N2O,0.0
+18,ICEV-d,0.0,diurnal,NH3,0.0
+19,ICEV-d,0.0,diurnal,NMHC,0.0
+20,ICEV-d,0.0,diurnal,NO2,0.0
+21,ICEV-d,0.0,diurnal,NOx,0.0
+22,ICEV-d,0.0,diurnal,PM2.5,0.0
+23,ICEV-d,0.0,diurnal,Pb,0.0
+24,ICEV-d,0.0,running losses,Benzene,0.0
+25,ICEV-d,0.0,running losses,CH4,0.0
+26,ICEV-d,0.0,running losses,CO,0.0
+27,ICEV-d,0.0,running losses,FC_MJ,0.0
+28,ICEV-d,0.0,running losses,HC,0.0
+29,ICEV-d,0.0,running losses,N2O,0.0
+30,ICEV-d,0.0,running losses,NH3,0.0
+31,ICEV-d,0.0,running losses,NMHC,0.0
+32,ICEV-d,0.0,running losses,NO2,0.0
+33,ICEV-d,0.0,running losses,NOx,0.0
+34,ICEV-d,0.0,running losses,PM2.5,0.0
+35,ICEV-d,0.0,running losses,Pb,0.0
+36,ICEV-d,0.0,soak,Benzene,0.0
+37,ICEV-d,0.0,soak,CH4,0.0
+38,ICEV-d,0.0,soak,CO,0.0
+39,ICEV-d,0.0,soak,FC_MJ,0.0
+40,ICEV-d,0.0,soak,HC,0.0
+41,ICEV-d,0.0,soak,N2O,0.0
+42,ICEV-d,0.0,soak,NH3,0.0
+43,ICEV-d,0.0,soak,NMHC,0.0
+44,ICEV-d,0.0,soak,NO2,0.0
+45,ICEV-d,0.0,soak,NOx,0.0
+46,ICEV-d,0.0,soak,PM2.5,0.0
+47,ICEV-d,0.0,soak,Pb,0.0
+48,ICEV-d,1.0,cold start,Benzene,0.00703953579068184
+49,ICEV-d,1.0,cold start,CH4,0.0144400736317039
+50,ICEV-d,1.0,cold start,CO,3.09460926055908
+51,ICEV-d,1.0,cold start,FC_MJ,1.31782197952271
+52,ICEV-d,1.0,cold start,HC,0.601669728755951
+53,ICEV-d,1.0,cold start,N2O,0.0
+54,ICEV-d,1.0,cold start,NH3,0.0
+55,ICEV-d,1.0,cold start,NMHC,0.587229669094086
+56,ICEV-d,1.0,cold start,NO2,0.170784696936607
+57,ICEV-d,1.0,cold start,NOx,0.268375933170319
+58,ICEV-d,1.0,cold start,PM2.5,0.0832085162401199
+59,ICEV-d,1.0,cold start,Pb,0.0
+60,ICEV-d,1.0,diurnal,Benzene,0.0
+61,ICEV-d,1.0,diurnal,CH4,0.0
+62,ICEV-d,1.0,diurnal,CO,0.0
+63,ICEV-d,1.0,diurnal,FC_MJ,0.0
+64,ICEV-d,1.0,diurnal,HC,0.0
+65,ICEV-d,1.0,diurnal,N2O,0.0
+66,ICEV-d,1.0,diurnal,NH3,0.0
+67,ICEV-d,1.0,diurnal,NMHC,0.0
+68,ICEV-d,1.0,diurnal,NO2,0.0
+69,ICEV-d,1.0,diurnal,NOx,0.0
+70,ICEV-d,1.0,diurnal,PM2.5,0.0
+71,ICEV-d,1.0,diurnal,Pb,0.0
+72,ICEV-d,1.0,running losses,Benzene,0.0
+73,ICEV-d,1.0,running losses,CH4,0.0
+74,ICEV-d,1.0,running losses,CO,0.0
+75,ICEV-d,1.0,running losses,FC_MJ,0.0
+76,ICEV-d,1.0,running losses,HC,0.0
+77,ICEV-d,1.0,running losses,N2O,0.0
+78,ICEV-d,1.0,running losses,NH3,0.0
+79,ICEV-d,1.0,running losses,NMHC,0.0
+80,ICEV-d,1.0,running losses,NO2,0.0
+81,ICEV-d,1.0,running losses,NOx,0.0
+82,ICEV-d,1.0,running losses,PM2.5,0.0
+83,ICEV-d,1.0,running losses,Pb,0.0
+84,ICEV-d,1.0,soak,Benzene,0.0
+85,ICEV-d,1.0,soak,CH4,0.0
+86,ICEV-d,1.0,soak,CO,0.0
+87,ICEV-d,1.0,soak,FC_MJ,0.0
+88,ICEV-d,1.0,soak,HC,0.0
+89,ICEV-d,1.0,soak,N2O,0.0
+90,ICEV-d,1.0,soak,NH3,0.0
+91,ICEV-d,1.0,soak,NMHC,0.0
+92,ICEV-d,1.0,soak,NO2,0.0
+93,ICEV-d,1.0,soak,NOx,0.0
+94,ICEV-d,1.0,soak,PM2.5,0.0
+95,ICEV-d,1.0,soak,Pb,0.0
+96,ICEV-d,2.0,cold start,Benzene,0.00540378363803029
+97,ICEV-d,2.0,cold start,CH4,0.0110846841707826
+98,ICEV-d,2.0,cold start,CO,2.50515818595886
+99,ICEV-d,2.0,cold start,FC_MJ,1.2444904446601899
+100,ICEV-d,2.0,cold start,HC,0.461861848831177
+101,ICEV-d,2.0,cold start,N2O,0.0
+102,ICEV-d,2.0,cold start,NH3,0.0
+103,ICEV-d,2.0,cold start,NMHC,0.450777173042297
+104,ICEV-d,2.0,cold start,NO2,0.168607234954834
+105,ICEV-d,2.0,cold start,NOx,0.264954209327698
+106,ICEV-d,2.0,cold start,PM2.5,0.0806173458695412
+107,ICEV-d,2.0,cold start,Pb,0.0
+108,ICEV-d,2.0,diurnal,Benzene,0.0
+109,ICEV-d,2.0,diurnal,CH4,0.0
+110,ICEV-d,2.0,diurnal,CO,0.0
+111,ICEV-d,2.0,diurnal,FC_MJ,0.0
+112,ICEV-d,2.0,diurnal,HC,0.0
+113,ICEV-d,2.0,diurnal,N2O,0.0
+114,ICEV-d,2.0,diurnal,NH3,0.0
+115,ICEV-d,2.0,diurnal,NMHC,0.0
+116,ICEV-d,2.0,diurnal,NO2,0.0
+117,ICEV-d,2.0,diurnal,NOx,0.0
+118,ICEV-d,2.0,diurnal,PM2.5,0.0
+119,ICEV-d,2.0,diurnal,Pb,0.0
+120,ICEV-d,2.0,running losses,Benzene,0.0
+121,ICEV-d,2.0,running losses,CH4,0.0
+122,ICEV-d,2.0,running losses,CO,0.0
+123,ICEV-d,2.0,running losses,FC_MJ,0.0
+124,ICEV-d,2.0,running losses,HC,0.0
+125,ICEV-d,2.0,running losses,N2O,0.0
+126,ICEV-d,2.0,running losses,NH3,0.0
+127,ICEV-d,2.0,running losses,NMHC,0.0
+128,ICEV-d,2.0,running losses,NO2,0.0
+129,ICEV-d,2.0,running losses,NOx,0.0
+130,ICEV-d,2.0,running losses,PM2.5,0.0
+131,ICEV-d,2.0,running losses,Pb,0.0
+132,ICEV-d,2.0,soak,Benzene,0.0
+133,ICEV-d,2.0,soak,CH4,0.0
+134,ICEV-d,2.0,soak,CO,0.0
+135,ICEV-d,2.0,soak,FC_MJ,0.0
+136,ICEV-d,2.0,soak,HC,0.0
+137,ICEV-d,2.0,soak,N2O,0.0
+138,ICEV-d,2.0,soak,NH3,0.0
+139,ICEV-d,2.0,soak,NMHC,0.0
+140,ICEV-d,2.0,soak,NO2,0.0
+141,ICEV-d,2.0,soak,NOx,0.0
+142,ICEV-d,2.0,soak,PM2.5,0.0
+143,ICEV-d,2.0,soak,Pb,0.0
+144,ICEV-d,3.0,cold start,Benzene,0.00369171984493732
+145,ICEV-d,3.0,cold start,CH4,0.00757275894284248
+146,ICEV-d,3.0,cold start,CO,1.863654255867
+147,ICEV-d,3.0,cold start,FC_MJ,1.000411093235015
+148,ICEV-d,3.0,cold start,HC,0.315531611442566
+149,ICEV-d,3.0,cold start,N2O,0.0
+150,ICEV-d,3.0,cold start,NH3,0.0
+151,ICEV-d,3.0,cold start,NMHC,0.307958871126175
+152,ICEV-d,3.0,cold start,NO2,-0.00252613960765302
+153,ICEV-d,3.0,cold start,NOx,-0.00389345386065543
+154,ICEV-d,3.0,cold start,PM2.5,0.04118407121859491
+155,ICEV-d,3.0,cold start,Pb,0.0
+156,ICEV-d,3.0,diurnal,Benzene,0.0
+157,ICEV-d,3.0,diurnal,CH4,0.0
+158,ICEV-d,3.0,diurnal,CO,0.0
+159,ICEV-d,3.0,diurnal,FC_MJ,0.0
+160,ICEV-d,3.0,diurnal,HC,0.0
+161,ICEV-d,3.0,diurnal,N2O,0.0
+162,ICEV-d,3.0,diurnal,NH3,0.0
+163,ICEV-d,3.0,diurnal,NMHC,0.0
+164,ICEV-d,3.0,diurnal,NO2,0.0
+165,ICEV-d,3.0,diurnal,NOx,0.0
+166,ICEV-d,3.0,diurnal,PM2.5,0.0
+167,ICEV-d,3.0,diurnal,Pb,0.0
+168,ICEV-d,3.0,running losses,Benzene,0.0
+169,ICEV-d,3.0,running losses,CH4,0.0
+170,ICEV-d,3.0,running losses,CO,0.0
+171,ICEV-d,3.0,running losses,FC_MJ,0.0
+172,ICEV-d,3.0,running losses,HC,0.0
+173,ICEV-d,3.0,running losses,N2O,0.0
+174,ICEV-d,3.0,running losses,NH3,0.0
+175,ICEV-d,3.0,running losses,NMHC,0.0
+176,ICEV-d,3.0,running losses,NO2,0.0
+177,ICEV-d,3.0,running losses,NOx,0.0
+178,ICEV-d,3.0,running losses,PM2.5,0.0
+179,ICEV-d,3.0,running losses,Pb,0.0
+180,ICEV-d,3.0,soak,Benzene,0.0
+181,ICEV-d,3.0,soak,CH4,0.0
+182,ICEV-d,3.0,soak,CO,0.0
+183,ICEV-d,3.0,soak,FC_MJ,0.0
+184,ICEV-d,3.0,soak,HC,0.0
+185,ICEV-d,3.0,soak,N2O,0.0
+186,ICEV-d,3.0,soak,NH3,0.0
+187,ICEV-d,3.0,soak,NMHC,0.0
+188,ICEV-d,3.0,soak,NO2,0.0
+189,ICEV-d,3.0,soak,NOx,0.0
+190,ICEV-d,3.0,soak,PM2.5,0.0
+191,ICEV-d,3.0,soak,Pb,0.0
+192,ICEV-d,4.0,cold start,Benzene,0.00190308375749737
+193,ICEV-d,4.0,cold start,CH4,0.00390376173891127
+194,ICEV-d,4.0,cold start,CO,1.172242999076845
+195,ICEV-d,4.0,cold start,FC_MJ,0.930938065052032
+196,ICEV-d,4.0,cold start,HC,0.162656739354134
+197,ICEV-d,4.0,cold start,N2O,0.0
+198,ICEV-d,4.0,cold start,NH3,0.0
+199,ICEV-d,4.0,cold start,NMHC,0.158752977848053
+200,ICEV-d,4.0,cold start,NO2,-0.22276981174945798
+201,ICEV-d,4.0,cold start,NOx,-0.2768890708684925
+202,ICEV-d,4.0,cold start,PM2.5,0.04134796909056606
+203,ICEV-d,4.0,cold start,Pb,0.0
+204,ICEV-d,4.0,diurnal,Benzene,0.0
+205,ICEV-d,4.0,diurnal,CH4,0.0
+206,ICEV-d,4.0,diurnal,CO,0.0
+207,ICEV-d,4.0,diurnal,FC_MJ,0.0
+208,ICEV-d,4.0,diurnal,HC,0.0
+209,ICEV-d,4.0,diurnal,N2O,0.0
+210,ICEV-d,4.0,diurnal,NH3,0.0
+211,ICEV-d,4.0,diurnal,NMHC,0.0
+212,ICEV-d,4.0,diurnal,NO2,0.0
+213,ICEV-d,4.0,diurnal,NOx,0.0
+214,ICEV-d,4.0,diurnal,PM2.5,0.0
+215,ICEV-d,4.0,diurnal,Pb,0.0
+216,ICEV-d,4.0,running losses,Benzene,0.0
+217,ICEV-d,4.0,running losses,CH4,0.0
+218,ICEV-d,4.0,running losses,CO,0.0
+219,ICEV-d,4.0,running losses,FC_MJ,0.0
+220,ICEV-d,4.0,running losses,HC,0.0
+221,ICEV-d,4.0,running losses,N2O,0.0
+222,ICEV-d,4.0,running losses,NH3,0.0
+223,ICEV-d,4.0,running losses,NMHC,0.0
+224,ICEV-d,4.0,running losses,NO2,0.0
+225,ICEV-d,4.0,running losses,NOx,0.0
+226,ICEV-d,4.0,running losses,PM2.5,0.0
+227,ICEV-d,4.0,running losses,Pb,0.0
+228,ICEV-d,4.0,soak,Benzene,0.0
+229,ICEV-d,4.0,soak,CH4,0.0
+230,ICEV-d,4.0,soak,CO,0.0
+231,ICEV-d,4.0,soak,FC_MJ,0.0
+232,ICEV-d,4.0,soak,HC,0.0
+233,ICEV-d,4.0,soak,N2O,0.0
+234,ICEV-d,4.0,soak,NH3,0.0
+235,ICEV-d,4.0,soak,NMHC,0.0
+236,ICEV-d,4.0,soak,NO2,0.0
+237,ICEV-d,4.0,soak,NOx,0.0
+238,ICEV-d,4.0,soak,PM2.5,0.0
+239,ICEV-d,4.0,soak,Pb,0.0
+240,ICEV-d,5.0,cold start,Benzene,0.00106442591641098
+241,ICEV-d,5.0,cold start,CH4,0.00218343804590404
+242,ICEV-d,5.0,cold start,CO,0.987690389156342
+243,ICEV-d,5.0,cold start,FC_MJ,0.960799396038055
+244,ICEV-d,5.0,cold start,HC,0.0909765809774399
+245,ICEV-d,5.0,cold start,N2O,0.0
+246,ICEV-d,5.0,cold start,NH3,0.0
+247,ICEV-d,5.0,cold start,NMHC,0.0887931436300278
+248,ICEV-d,5.0,cold start,NO2,0.359947949647903
+249,ICEV-d,5.0,cold start,NOx,0.395942717790604
+250,ICEV-d,5.0,cold start,PM2.5,0.00420173211023211
+251,ICEV-d,5.0,cold start,Pb,0.0
+252,ICEV-d,5.0,diurnal,Benzene,0.0
+253,ICEV-d,5.0,diurnal,CH4,0.0
+254,ICEV-d,5.0,diurnal,CO,0.0
+255,ICEV-d,5.0,diurnal,FC_MJ,0.0
+256,ICEV-d,5.0,diurnal,HC,0.0
+257,ICEV-d,5.0,diurnal,N2O,0.0
+258,ICEV-d,5.0,diurnal,NH3,0.0
+259,ICEV-d,5.0,diurnal,NMHC,0.0
+260,ICEV-d,5.0,diurnal,NO2,0.0
+261,ICEV-d,5.0,diurnal,NOx,0.0
+262,ICEV-d,5.0,diurnal,PM2.5,0.0
+263,ICEV-d,5.0,diurnal,Pb,0.0
+264,ICEV-d,5.0,running losses,Benzene,0.0
+265,ICEV-d,5.0,running losses,CH4,0.0
+266,ICEV-d,5.0,running losses,CO,0.0
+267,ICEV-d,5.0,running losses,FC_MJ,0.0
+268,ICEV-d,5.0,running losses,HC,0.0
+269,ICEV-d,5.0,running losses,N2O,0.0
+270,ICEV-d,5.0,running losses,NH3,0.0
+271,ICEV-d,5.0,running losses,NMHC,0.0
+272,ICEV-d,5.0,running losses,NO2,0.0
+273,ICEV-d,5.0,running losses,NOx,0.0
+274,ICEV-d,5.0,running losses,PM2.5,0.0
+275,ICEV-d,5.0,running losses,Pb,0.0
+276,ICEV-d,5.0,soak,Benzene,0.0
+277,ICEV-d,5.0,soak,CH4,0.0
+278,ICEV-d,5.0,soak,CO,0.0
+279,ICEV-d,5.0,soak,FC_MJ,0.0
+280,ICEV-d,5.0,soak,HC,0.0
+281,ICEV-d,5.0,soak,N2O,0.0
+282,ICEV-d,5.0,soak,NH3,0.0
+283,ICEV-d,5.0,soak,NMHC,0.0
+284,ICEV-d,5.0,soak,NO2,0.0
+285,ICEV-d,5.0,soak,NOx,0.0
+286,ICEV-d,5.0,soak,PM2.5,0.0
+287,ICEV-d,5.0,soak,Pb,0.0
+288,ICEV-d,6.0,cold start,Benzene,0.00127709133084863
+289,ICEV-d,6.0,cold start,CH4,0.00261967466212809
+290,ICEV-d,6.0,cold start,CO,1.20332360267639
+291,ICEV-d,6.0,cold start,FC_MJ,0.960799396038055
+292,ICEV-d,6.0,cold start,HC,0.109153106808662
+293,ICEV-d,6.0,cold start,N2O,0.0
+294,ICEV-d,6.0,cold start,NH3,0.0
+295,ICEV-d,6.0,cold start,NMHC,0.10653343051672
+296,ICEV-d,6.0,cold start,NO2,-0.16088043153286
+297,ICEV-d,6.0,cold start,NOx,-0.193056508898735
+298,ICEV-d,6.0,cold start,PM2.5,0.00268444023095071
+299,ICEV-d,6.0,cold start,Pb,0.0
+300,ICEV-d,6.0,diurnal,Benzene,0.0
+301,ICEV-d,6.0,diurnal,CH4,0.0
+302,ICEV-d,6.0,diurnal,CO,0.0
+303,ICEV-d,6.0,diurnal,FC_MJ,0.0
+304,ICEV-d,6.0,diurnal,HC,0.0
+305,ICEV-d,6.0,diurnal,N2O,0.0
+306,ICEV-d,6.0,diurnal,NH3,0.0
+307,ICEV-d,6.0,diurnal,NMHC,0.0
+308,ICEV-d,6.0,diurnal,NO2,0.0
+309,ICEV-d,6.0,diurnal,NOx,0.0
+310,ICEV-d,6.0,diurnal,PM2.5,0.0
+311,ICEV-d,6.0,diurnal,Pb,0.0
+312,ICEV-d,6.0,running losses,Benzene,0.0
+313,ICEV-d,6.0,running losses,CH4,0.0
+314,ICEV-d,6.0,running losses,CO,0.0
+315,ICEV-d,6.0,running losses,FC_MJ,0.0
+316,ICEV-d,6.0,running losses,HC,0.0
+317,ICEV-d,6.0,running losses,N2O,0.0
+318,ICEV-d,6.0,running losses,NH3,0.0
+319,ICEV-d,6.0,running losses,NMHC,0.0
+320,ICEV-d,6.0,running losses,NO2,0.0
+321,ICEV-d,6.0,running losses,NOx,0.0
+322,ICEV-d,6.0,running losses,PM2.5,0.0
+323,ICEV-d,6.0,running losses,Pb,0.0
+324,ICEV-d,6.0,soak,Benzene,0.0
+325,ICEV-d,6.0,soak,CH4,0.0
+326,ICEV-d,6.0,soak,CO,0.0
+327,ICEV-d,6.0,soak,FC_MJ,0.0
+328,ICEV-d,6.0,soak,HC,0.0
+329,ICEV-d,6.0,soak,N2O,0.0
+330,ICEV-d,6.0,soak,NH3,0.0
+331,ICEV-d,6.0,soak,NMHC,0.0
+332,ICEV-d,6.0,soak,NO2,0.0
+333,ICEV-d,6.0,soak,NOx,0.0
+334,ICEV-d,6.0,soak,PM2.5,0.0
+335,ICEV-d,6.0,soak,Pb,0.0
+336,ICEV-d,6.1,cold start,Benzene,0.000849332951474935
+337,ICEV-d,6.1,cold start,CH4,0.0017422215314582
+338,ICEV-d,6.1,cold start,CO,0.818297505378723
+339,ICEV-d,6.1,cold start,FC_MJ,0.960799396038055
+340,ICEV-d,6.1,cold start,HC,0.0725925639271736
+341,ICEV-d,6.1,cold start,N2O,0.0
+342,ICEV-d,6.1,cold start,NH3,0.0
+343,ICEV-d,6.1,cold start,NMHC,0.0708503425121307
+344,ICEV-d,6.1,cold start,NO2,0.0666904076933861
+345,ICEV-d,6.1,cold start,NOx,0.0
+346,ICEV-d,6.1,cold start,PM2.5,0.00268444023095071
+347,ICEV-d,6.1,cold start,Pb,0.0
+348,ICEV-d,6.1,diurnal,Benzene,0.0
+349,ICEV-d,6.1,diurnal,CH4,0.0
+350,ICEV-d,6.1,diurnal,CO,0.0
+351,ICEV-d,6.1,diurnal,FC_MJ,0.0
+352,ICEV-d,6.1,diurnal,HC,0.0
+353,ICEV-d,6.1,diurnal,N2O,0.0
+354,ICEV-d,6.1,diurnal,NH3,0.0
+355,ICEV-d,6.1,diurnal,NMHC,0.0
+356,ICEV-d,6.1,diurnal,NO2,0.0
+357,ICEV-d,6.1,diurnal,NOx,0.0
+358,ICEV-d,6.1,diurnal,PM2.5,0.0
+359,ICEV-d,6.1,diurnal,Pb,0.0
+360,ICEV-d,6.1,running losses,Benzene,0.0
+361,ICEV-d,6.1,running losses,CH4,0.0
+362,ICEV-d,6.1,running losses,CO,0.0
+363,ICEV-d,6.1,running losses,FC_MJ,0.0
+364,ICEV-d,6.1,running losses,HC,0.0
+365,ICEV-d,6.1,running losses,N2O,0.0
+366,ICEV-d,6.1,running losses,NH3,0.0
+367,ICEV-d,6.1,running losses,NMHC,0.0
+368,ICEV-d,6.1,running losses,NO2,0.0
+369,ICEV-d,6.1,running losses,NOx,0.0
+370,ICEV-d,6.1,running losses,PM2.5,0.0
+371,ICEV-d,6.1,running losses,Pb,0.0
+372,ICEV-d,6.1,soak,Benzene,0.0
+373,ICEV-d,6.1,soak,CH4,0.0
+374,ICEV-d,6.1,soak,CO,0.0
+375,ICEV-d,6.1,soak,FC_MJ,0.0
+376,ICEV-d,6.1,soak,HC,0.0
+377,ICEV-d,6.1,soak,N2O,0.0
+378,ICEV-d,6.1,soak,NH3,0.0
+379,ICEV-d,6.1,soak,NMHC,0.0
+380,ICEV-d,6.1,soak,NO2,0.0
+381,ICEV-d,6.1,soak,NOx,0.0
+382,ICEV-d,6.1,soak,PM2.5,0.0
+383,ICEV-d,6.1,soak,Pb,0.0
+384,ICEV-d,6.2,cold start,Benzene,0.000482473755255342
+385,ICEV-d,6.2,cold start,CH4,0.000989689840935171
+386,ICEV-d,6.2,cold start,CO,0.444678544998169
+387,ICEV-d,6.2,cold start,FC_MJ,0.960799396038055
+388,ICEV-d,6.2,cold start,HC,0.0412370748817921
+389,ICEV-d,6.2,cold start,N2O,0.0
+390,ICEV-d,6.2,cold start,NH3,0.0
+391,ICEV-d,6.2,cold start,NMHC,0.0402473844587803
+392,ICEV-d,6.2,cold start,NO2,0.0402688346803188
+393,ICEV-d,6.2,cold start,NOx,0.332217872142792
+394,ICEV-d,6.2,cold start,PM2.5,0.00268444023095071
+395,ICEV-d,6.2,cold start,Pb,0.0
+396,ICEV-d,6.2,diurnal,Benzene,0.0
+397,ICEV-d,6.2,diurnal,CH4,0.0
+398,ICEV-d,6.2,diurnal,CO,0.0
+399,ICEV-d,6.2,diurnal,FC_MJ,0.0
+400,ICEV-d,6.2,diurnal,HC,0.0
+401,ICEV-d,6.2,diurnal,N2O,0.0
+402,ICEV-d,6.2,diurnal,NH3,0.0
+403,ICEV-d,6.2,diurnal,NMHC,0.0
+404,ICEV-d,6.2,diurnal,NO2,0.0
+405,ICEV-d,6.2,diurnal,NOx,0.0
+406,ICEV-d,6.2,diurnal,PM2.5,0.0
+407,ICEV-d,6.2,diurnal,Pb,0.0
+408,ICEV-d,6.2,running losses,Benzene,0.0
+409,ICEV-d,6.2,running losses,CH4,0.0
+410,ICEV-d,6.2,running losses,CO,0.0
+411,ICEV-d,6.2,running losses,FC_MJ,0.0
+412,ICEV-d,6.2,running losses,HC,0.0
+413,ICEV-d,6.2,running losses,N2O,0.0
+414,ICEV-d,6.2,running losses,NH3,0.0
+415,ICEV-d,6.2,running losses,NMHC,0.0
+416,ICEV-d,6.2,running losses,NO2,0.0
+417,ICEV-d,6.2,running losses,NOx,0.0
+418,ICEV-d,6.2,running losses,PM2.5,0.0
+419,ICEV-d,6.2,running losses,Pb,0.0
+420,ICEV-d,6.2,soak,Benzene,0.0
+421,ICEV-d,6.2,soak,CH4,0.0
+422,ICEV-d,6.2,soak,CO,0.0
+423,ICEV-d,6.2,soak,FC_MJ,0.0
+424,ICEV-d,6.2,soak,HC,0.0
+425,ICEV-d,6.2,soak,N2O,0.0
+426,ICEV-d,6.2,soak,NH3,0.0
+427,ICEV-d,6.2,soak,NMHC,0.0
+428,ICEV-d,6.2,soak,NO2,0.0
+429,ICEV-d,6.2,soak,NOx,0.0
+430,ICEV-d,6.2,soak,PM2.5,0.0
+431,ICEV-d,6.2,soak,Pb,0.0
+432,ICEV-d,6.3,cold start,Benzene,0.000482473755255342
+433,ICEV-d,6.3,cold start,CH4,0.000989689840935171
+434,ICEV-d,6.3,cold start,CO,0.444678544998169
+435,ICEV-d,6.3,cold start,FC_MJ,0.953754723072052
+436,ICEV-d,6.3,cold start,HC,0.0412370748817921
+437,ICEV-d,6.3,cold start,N2O,0.0
+438,ICEV-d,6.3,cold start,NH3,0.0
+439,ICEV-d,6.3,cold start,NMHC,0.0402473844587803
+440,ICEV-d,6.3,cold start,NO2,0.0402688346803188
+441,ICEV-d,6.3,cold start,NOx,0.332217872142792
+442,ICEV-d,6.3,cold start,PM2.5,0.00268444023095071
+443,ICEV-d,6.3,cold start,Pb,0.0
+444,ICEV-d,6.3,diurnal,Benzene,0.0
+445,ICEV-d,6.3,diurnal,CH4,0.0
+446,ICEV-d,6.3,diurnal,CO,0.0
+447,ICEV-d,6.3,diurnal,FC_MJ,0.0
+448,ICEV-d,6.3,diurnal,HC,0.0
+449,ICEV-d,6.3,diurnal,N2O,0.0
+450,ICEV-d,6.3,diurnal,NH3,0.0
+451,ICEV-d,6.3,diurnal,NMHC,0.0
+452,ICEV-d,6.3,diurnal,NO2,0.0
+453,ICEV-d,6.3,diurnal,NOx,0.0
+454,ICEV-d,6.3,diurnal,PM2.5,0.0
+455,ICEV-d,6.3,diurnal,Pb,0.0
+456,ICEV-d,6.3,running losses,Benzene,0.0
+457,ICEV-d,6.3,running losses,CH4,0.0
+458,ICEV-d,6.3,running losses,CO,0.0
+459,ICEV-d,6.3,running losses,FC_MJ,0.0
+460,ICEV-d,6.3,running losses,HC,0.0
+461,ICEV-d,6.3,running losses,N2O,0.0
+462,ICEV-d,6.3,running losses,NH3,0.0
+463,ICEV-d,6.3,running losses,NMHC,0.0
+464,ICEV-d,6.3,running losses,NO2,0.0
+465,ICEV-d,6.3,running losses,NOx,0.0
+466,ICEV-d,6.3,running losses,PM2.5,0.0
+467,ICEV-d,6.3,running losses,Pb,0.0
+468,ICEV-d,6.3,soak,Benzene,0.0
+469,ICEV-d,6.3,soak,CH4,0.0
+470,ICEV-d,6.3,soak,CO,0.0
+471,ICEV-d,6.3,soak,FC_MJ,0.0
+472,ICEV-d,6.3,soak,HC,0.0
+473,ICEV-d,6.3,soak,N2O,0.0
+474,ICEV-d,6.3,soak,NH3,0.0
+475,ICEV-d,6.3,soak,NMHC,0.0
+476,ICEV-d,6.3,soak,NO2,0.0
+477,ICEV-d,6.3,soak,NOx,0.0
+478,ICEV-d,6.3,soak,PM2.5,0.0
+479,ICEV-d,6.3,soak,Pb,0.0
+480,ICEV-d,7.0,cold start,Benzene,0.000482473755255342
+481,ICEV-d,7.0,cold start,CH4,0.000989689840935171
+482,ICEV-d,7.0,cold start,CO,0.444678544998169
+483,ICEV-d,7.0,cold start,FC_MJ,0.946761727333069
+484,ICEV-d,7.0,cold start,HC,0.0412370748817921
+485,ICEV-d,7.0,cold start,N2O,0.0
+486,ICEV-d,7.0,cold start,NH3,0.0
+487,ICEV-d,7.0,cold start,NMHC,0.0402473844587803
+488,ICEV-d,7.0,cold start,NO2,0.0402688346803188
+489,ICEV-d,7.0,cold start,NOx,0.332217872142792
+490,ICEV-d,7.0,cold start,PM2.5,0.00268444023095071
+491,ICEV-d,7.0,cold start,Pb,0.0
+492,ICEV-d,7.0,diurnal,Benzene,0.0
+493,ICEV-d,7.0,diurnal,CH4,0.0
+494,ICEV-d,7.0,diurnal,CO,0.0
+495,ICEV-d,7.0,diurnal,FC_MJ,0.0
+496,ICEV-d,7.0,diurnal,HC,0.0
+497,ICEV-d,7.0,diurnal,N2O,0.0
+498,ICEV-d,7.0,diurnal,NH3,0.0
+499,ICEV-d,7.0,diurnal,NMHC,0.0
+500,ICEV-d,7.0,diurnal,NO2,0.0
+501,ICEV-d,7.0,diurnal,NOx,0.0
+502,ICEV-d,7.0,diurnal,PM2.5,0.0
+503,ICEV-d,7.0,diurnal,Pb,0.0
+504,ICEV-d,7.0,running losses,Benzene,0.0
+505,ICEV-d,7.0,running losses,CH4,0.0
+506,ICEV-d,7.0,running losses,CO,0.0
+507,ICEV-d,7.0,running losses,FC_MJ,0.0
+508,ICEV-d,7.0,running losses,HC,0.0
+509,ICEV-d,7.0,running losses,N2O,0.0
+510,ICEV-d,7.0,running losses,NH3,0.0
+511,ICEV-d,7.0,running losses,NMHC,0.0
+512,ICEV-d,7.0,running losses,NO2,0.0
+513,ICEV-d,7.0,running losses,NOx,0.0
+514,ICEV-d,7.0,running losses,PM2.5,0.0
+515,ICEV-d,7.0,running losses,Pb,0.0
+516,ICEV-d,7.0,soak,Benzene,0.0
+517,ICEV-d,7.0,soak,CH4,0.0
+518,ICEV-d,7.0,soak,CO,0.0
+519,ICEV-d,7.0,soak,FC_MJ,0.0
+520,ICEV-d,7.0,soak,HC,0.0
+521,ICEV-d,7.0,soak,N2O,0.0
+522,ICEV-d,7.0,soak,NH3,0.0
+523,ICEV-d,7.0,soak,NMHC,0.0
+524,ICEV-d,7.0,soak,NO2,0.0
+525,ICEV-d,7.0,soak,NOx,0.0
+526,ICEV-d,7.0,soak,PM2.5,0.0
+527,ICEV-d,7.0,soak,Pb,0.0
+528,ICEV-g,0.0,cold start,Benzene,0.0
+529,ICEV-g,0.0,cold start,CH4,0.0
+530,ICEV-g,0.0,cold start,CO,0.0
+531,ICEV-g,0.0,cold start,FC_MJ,0.0
+532,ICEV-g,0.0,cold start,HC,0.0
+533,ICEV-g,0.0,cold start,N2O,0.0
+534,ICEV-g,0.0,cold start,NH3,0.0
+535,ICEV-g,0.0,cold start,NMHC,0.0
+536,ICEV-g,0.0,cold start,NO2,0.0
+537,ICEV-g,0.0,cold start,NOx,0.0
+538,ICEV-g,0.0,cold start,PM2.5,0.0
+539,ICEV-g,0.0,cold start,Pb,0.0
+540,ICEV-g,0.0,diurnal,Benzene,0.0
+541,ICEV-g,0.0,diurnal,CH4,0.0
+542,ICEV-g,0.0,diurnal,CO,0.0
+543,ICEV-g,0.0,diurnal,FC_MJ,0.0
+544,ICEV-g,0.0,diurnal,HC,0.0
+545,ICEV-g,0.0,diurnal,N2O,0.0
+546,ICEV-g,0.0,diurnal,NH3,0.0
+547,ICEV-g,0.0,diurnal,NMHC,0.0
+548,ICEV-g,0.0,diurnal,NO2,0.0
+549,ICEV-g,0.0,diurnal,NOx,0.0
+550,ICEV-g,0.0,diurnal,PM2.5,0.0
+551,ICEV-g,0.0,diurnal,Pb,0.0
+552,ICEV-g,0.0,running losses,Benzene,0.0
+553,ICEV-g,0.0,running losses,CH4,0.0
+554,ICEV-g,0.0,running losses,CO,0.0
+555,ICEV-g,0.0,running losses,FC_MJ,0.0
+556,ICEV-g,0.0,running losses,HC,0.0
+557,ICEV-g,0.0,running losses,N2O,0.0
+558,ICEV-g,0.0,running losses,NH3,0.0
+559,ICEV-g,0.0,running losses,NMHC,0.0
+560,ICEV-g,0.0,running losses,NO2,0.0
+561,ICEV-g,0.0,running losses,NOx,0.0
+562,ICEV-g,0.0,running losses,PM2.5,0.0
+563,ICEV-g,0.0,running losses,Pb,0.0
+564,ICEV-g,0.0,soak,Benzene,0.0
+565,ICEV-g,0.0,soak,CH4,0.0
+566,ICEV-g,0.0,soak,CO,0.0
+567,ICEV-g,0.0,soak,FC_MJ,0.0
+568,ICEV-g,0.0,soak,HC,0.0
+569,ICEV-g,0.0,soak,N2O,0.0
+570,ICEV-g,0.0,soak,NH3,0.0
+571,ICEV-g,0.0,soak,NMHC,0.0
+572,ICEV-g,0.0,soak,NO2,0.0
+573,ICEV-g,0.0,soak,NOx,0.0
+574,ICEV-g,0.0,soak,PM2.5,0.0
+575,ICEV-g,0.0,soak,Pb,0.0
+576,ICEV-g,1.0,cold start,Benzene,0.0
+577,ICEV-g,1.0,cold start,CH4,0.0
+578,ICEV-g,1.0,cold start,CO,0.0
+579,ICEV-g,1.0,cold start,FC_MJ,0.0
+580,ICEV-g,1.0,cold start,HC,0.0
+581,ICEV-g,1.0,cold start,N2O,0.0
+582,ICEV-g,1.0,cold start,NH3,0.0
+583,ICEV-g,1.0,cold start,NMHC,0.0
+584,ICEV-g,1.0,cold start,NO2,0.0
+585,ICEV-g,1.0,cold start,NOx,0.0
+586,ICEV-g,1.0,cold start,PM2.5,0.0
+587,ICEV-g,1.0,cold start,Pb,0.0
+588,ICEV-g,1.0,diurnal,Benzene,0.0
+589,ICEV-g,1.0,diurnal,CH4,0.0
+590,ICEV-g,1.0,diurnal,CO,0.0
+591,ICEV-g,1.0,diurnal,FC_MJ,0.0
+592,ICEV-g,1.0,diurnal,HC,0.0
+593,ICEV-g,1.0,diurnal,N2O,0.0
+594,ICEV-g,1.0,diurnal,NH3,0.0
+595,ICEV-g,1.0,diurnal,NMHC,0.0
+596,ICEV-g,1.0,diurnal,NO2,0.0
+597,ICEV-g,1.0,diurnal,NOx,0.0
+598,ICEV-g,1.0,diurnal,PM2.5,0.0
+599,ICEV-g,1.0,diurnal,Pb,0.0
+600,ICEV-g,1.0,running losses,Benzene,0.0
+601,ICEV-g,1.0,running losses,CH4,0.0
+602,ICEV-g,1.0,running losses,CO,0.0
+603,ICEV-g,1.0,running losses,FC_MJ,0.0
+604,ICEV-g,1.0,running losses,HC,0.0
+605,ICEV-g,1.0,running losses,N2O,0.0
+606,ICEV-g,1.0,running losses,NH3,0.0
+607,ICEV-g,1.0,running losses,NMHC,0.0
+608,ICEV-g,1.0,running losses,NO2,0.0
+609,ICEV-g,1.0,running losses,NOx,0.0
+610,ICEV-g,1.0,running losses,PM2.5,0.0
+611,ICEV-g,1.0,running losses,Pb,0.0
+612,ICEV-g,1.0,soak,Benzene,0.0
+613,ICEV-g,1.0,soak,CH4,0.0
+614,ICEV-g,1.0,soak,CO,0.0
+615,ICEV-g,1.0,soak,FC_MJ,0.0
+616,ICEV-g,1.0,soak,HC,0.0
+617,ICEV-g,1.0,soak,N2O,0.0
+618,ICEV-g,1.0,soak,NH3,0.0
+619,ICEV-g,1.0,soak,NMHC,0.0
+620,ICEV-g,1.0,soak,NO2,0.0
+621,ICEV-g,1.0,soak,NOx,0.0
+622,ICEV-g,1.0,soak,PM2.5,0.0
+623,ICEV-g,1.0,soak,Pb,0.0
+624,ICEV-g,2.0,cold start,Benzene,0.288264840841293
+625,ICEV-g,2.0,cold start,CH4,0.231543123722076
+626,ICEV-g,2.0,cold start,CO,18.966833114624
+627,ICEV-g,2.0,cold start,FC_MJ,1.32973563671112
+628,ICEV-g,2.0,cold start,HC,4.23296403884888
+629,ICEV-g,2.0,cold start,N2O,0.0
+630,ICEV-g,2.0,cold start,NH3,0.0
+631,ICEV-g,2.0,cold start,NMHC,4.00142097473145
+632,ICEV-g,2.0,cold start,NO2,0.041495319455862
+633,ICEV-g,2.0,cold start,NOx,0.946578919887543
+634,ICEV-g,2.0,cold start,PM2.5,0.0
+635,ICEV-g,2.0,cold start,Pb,3.16466030199081e-05
+636,ICEV-g,2.0,diurnal,Benzene,0.0084862457588315
+637,ICEV-g,2.0,diurnal,CH4,0.0
+638,ICEV-g,2.0,diurnal,CO,0.0
+639,ICEV-g,2.0,diurnal,FC_MJ,0.0
+640,ICEV-g,2.0,diurnal,HC,1.06078064441681
+641,ICEV-g,2.0,diurnal,N2O,0.0
+642,ICEV-g,2.0,diurnal,NH3,0.0
+643,ICEV-g,2.0,diurnal,NMHC,1.06078064441681
+644,ICEV-g,2.0,diurnal,NO2,0.0
+645,ICEV-g,2.0,diurnal,NOx,0.0
+646,ICEV-g,2.0,diurnal,PM2.5,0.0
+647,ICEV-g,2.0,diurnal,Pb,0.0
+648,ICEV-g,2.0,running losses,Benzene,1.0247330313480527e-05
+649,ICEV-g,2.0,running losses,CH4,0.0
+650,ICEV-g,2.0,running losses,CO,0.0
+651,ICEV-g,2.0,running losses,FC_MJ,0.0
+652,ICEV-g,2.0,running losses,HC,0.0012809162144549193
+653,ICEV-g,2.0,running losses,N2O,0.0
+654,ICEV-g,2.0,running losses,NH3,0.0
+655,ICEV-g,2.0,running losses,NMHC,0.0012809162144549193
+656,ICEV-g,2.0,running losses,NO2,0.0
+657,ICEV-g,2.0,running losses,NOx,0.0
+658,ICEV-g,2.0,running losses,PM2.5,0.0
+659,ICEV-g,2.0,running losses,Pb,0.0
+660,ICEV-g,2.0,soak,Benzene,0.000352899311110377
+661,ICEV-g,2.0,soak,CH4,0.0
+662,ICEV-g,2.0,soak,CO,0.0
+663,ICEV-g,2.0,soak,FC_MJ,0.0
+664,ICEV-g,2.0,soak,HC,0.0441124103963375
+665,ICEV-g,2.0,soak,N2O,0.0
+666,ICEV-g,2.0,soak,NH3,0.0
+667,ICEV-g,2.0,soak,NMHC,0.0441124103963375
+668,ICEV-g,2.0,soak,NO2,0.0
+669,ICEV-g,2.0,soak,NOx,0.0
+670,ICEV-g,2.0,soak,PM2.5,0.0
+671,ICEV-g,2.0,soak,Pb,0.0
+672,ICEV-g,3.0,cold start,Benzene,0.17540742456913
+673,ICEV-g,3.0,cold start,CH4,0.140892595052719
+674,ICEV-g,3.0,cold start,CO,14.5953254699707
+675,ICEV-g,3.0,cold start,FC_MJ,1.34643447399139
+676,ICEV-g,3.0,cold start,HC,2.57573318481445
+677,ICEV-g,3.0,cold start,N2O,0.0
+678,ICEV-g,3.0,cold start,NH3,0.0
+679,ICEV-g,3.0,cold start,NMHC,2.43484044075012
+680,ICEV-g,3.0,cold start,NO2,0.0106398249045014
+681,ICEV-g,3.0,cold start,NOx,0.246650487184525
+682,ICEV-g,3.0,cold start,PM2.5,0.0
+683,ICEV-g,3.0,cold start,Pb,3.20440231007524e-05
+684,ICEV-g,3.0,diurnal,Benzene,0.00904757063835859
+685,ICEV-g,3.0,diurnal,CH4,0.0
+686,ICEV-g,3.0,diurnal,CO,0.0
+687,ICEV-g,3.0,diurnal,FC_MJ,0.0
+688,ICEV-g,3.0,diurnal,HC,1.13094627857208
+689,ICEV-g,3.0,diurnal,N2O,0.0
+690,ICEV-g,3.0,diurnal,NH3,0.0
+691,ICEV-g,3.0,diurnal,NMHC,1.13094627857208
+692,ICEV-g,3.0,diurnal,NO2,0.0
+693,ICEV-g,3.0,diurnal,NOx,0.0
+694,ICEV-g,3.0,diurnal,PM2.5,0.0
+695,ICEV-g,3.0,diurnal,Pb,0.0
+696,ICEV-g,3.0,running losses,Benzene,1.0247330313480527e-05
+697,ICEV-g,3.0,running losses,CH4,0.0
+698,ICEV-g,3.0,running losses,CO,0.0
+699,ICEV-g,3.0,running losses,FC_MJ,0.0
+700,ICEV-g,3.0,running losses,HC,0.0012809162144549193
+701,ICEV-g,3.0,running losses,N2O,0.0
+702,ICEV-g,3.0,running losses,NH3,0.0
+703,ICEV-g,3.0,running losses,NMHC,0.0012809162144549193
+704,ICEV-g,3.0,running losses,NO2,0.0
+705,ICEV-g,3.0,running losses,NOx,0.0
+706,ICEV-g,3.0,running losses,PM2.5,0.0
+707,ICEV-g,3.0,running losses,Pb,0.0
+708,ICEV-g,3.0,soak,Benzene,0.000352899311110377
+709,ICEV-g,3.0,soak,CH4,0.0
+710,ICEV-g,3.0,soak,CO,0.0
+711,ICEV-g,3.0,soak,FC_MJ,0.0
+712,ICEV-g,3.0,soak,HC,0.0441124103963375
+713,ICEV-g,3.0,soak,N2O,0.0
+714,ICEV-g,3.0,soak,NH3,0.0
+715,ICEV-g,3.0,soak,NMHC,0.0441124103963375
+716,ICEV-g,3.0,soak,NO2,0.0
+717,ICEV-g,3.0,soak,NOx,0.0
+718,ICEV-g,3.0,soak,PM2.5,0.0
+719,ICEV-g,3.0,soak,Pb,0.0
+720,ICEV-g,4.0,cold start,Benzene,0.161836192011833
+721,ICEV-g,4.0,cold start,CH4,0.129991769790649
+722,ICEV-g,4.0,cold start,CO,10.2071132659912
+723,ICEV-g,4.0,cold start,FC_MJ,1.82754874229431
+724,ICEV-g,4.0,cold start,HC,2.37644934654236
+725,ICEV-g,4.0,cold start,N2O,0.0
+726,ICEV-g,4.0,cold start,NH3,0.0
+727,ICEV-g,4.0,cold start,NMHC,2.24645757675171
+728,ICEV-g,4.0,cold start,NO2,0.0118744047358632
+729,ICEV-g,4.0,cold start,NOx,0.369330614805222
+730,ICEV-g,4.0,cold start,PM2.5,0.0
+731,ICEV-g,4.0,cold start,Pb,4.34941393905319e-05
+732,ICEV-g,4.0,diurnal,Benzene,0.00859267916530371
+733,ICEV-g,4.0,diurnal,CH4,0.0
+734,ICEV-g,4.0,diurnal,CO,0.0
+735,ICEV-g,4.0,diurnal,FC_MJ,0.0
+736,ICEV-g,4.0,diurnal,HC,1.07408487796783
+737,ICEV-g,4.0,diurnal,N2O,0.0
+738,ICEV-g,4.0,diurnal,NH3,0.0
+739,ICEV-g,4.0,diurnal,NMHC,1.07408487796783
+740,ICEV-g,4.0,diurnal,NO2,0.0
+741,ICEV-g,4.0,diurnal,NOx,0.0
+742,ICEV-g,4.0,diurnal,PM2.5,0.0
+743,ICEV-g,4.0,diurnal,Pb,0.0
+744,ICEV-g,4.0,running losses,Benzene,1.0247330313480527e-05
+745,ICEV-g,4.0,running losses,CH4,0.0
+746,ICEV-g,4.0,running losses,CO,0.0
+747,ICEV-g,4.0,running losses,FC_MJ,0.0
+748,ICEV-g,4.0,running losses,HC,0.0012809162144549193
+749,ICEV-g,4.0,running losses,N2O,0.0
+750,ICEV-g,4.0,running losses,NH3,0.0
+751,ICEV-g,4.0,running losses,NMHC,0.0012809162144549193
+752,ICEV-g,4.0,running losses,NO2,0.0
+753,ICEV-g,4.0,running losses,NOx,0.0
+754,ICEV-g,4.0,running losses,PM2.5,0.0
+755,ICEV-g,4.0,running losses,Pb,0.0
+756,ICEV-g,4.0,soak,Benzene,0.000352899311110377
+757,ICEV-g,4.0,soak,CH4,0.0
+758,ICEV-g,4.0,soak,CO,0.0
+759,ICEV-g,4.0,soak,FC_MJ,0.0
+760,ICEV-g,4.0,soak,HC,0.0441124103963375
+761,ICEV-g,4.0,soak,N2O,0.0
+762,ICEV-g,4.0,soak,NH3,0.0
+763,ICEV-g,4.0,soak,NMHC,0.0441124103963375
+764,ICEV-g,4.0,soak,NO2,0.0
+765,ICEV-g,4.0,soak,NOx,0.0
+766,ICEV-g,4.0,soak,PM2.5,0.0
+767,ICEV-g,4.0,soak,Pb,0.0
+768,ICEV-g,5.0,cold start,Benzene,0.101506397128105
+769,ICEV-g,5.0,cold start,CH4,0.0815330371260643
+770,ICEV-g,5.0,cold start,CO,7.40978908538818
+771,ICEV-g,5.0,cold start,FC_MJ,1.0998193025589
+772,ICEV-g,5.0,cold start,HC,1.4905492067337
+773,ICEV-g,5.0,cold start,N2O,0.0
+774,ICEV-g,5.0,cold start,NH3,0.0
+775,ICEV-g,5.0,cold start,NMHC,1.40901613235474
+776,ICEV-g,5.0,cold start,NO2,0.0162468515336514
+777,ICEV-g,5.0,cold start,NOx,0.324937015771866
+778,ICEV-g,5.0,cold start,PM2.5,0.0
+779,ICEV-g,5.0,cold start,Pb,2.617478457978e-05
+780,ICEV-g,5.0,diurnal,Benzene,0.00830024946480989
+781,ICEV-g,5.0,diurnal,CH4,0.0
+782,ICEV-g,5.0,diurnal,CO,0.0
+783,ICEV-g,5.0,diurnal,FC_MJ,0.0
+784,ICEV-g,5.0,diurnal,HC,1.03753113746643
+785,ICEV-g,5.0,diurnal,N2O,0.0
+786,ICEV-g,5.0,diurnal,NH3,0.0
+787,ICEV-g,5.0,diurnal,NMHC,1.03753113746643
+788,ICEV-g,5.0,diurnal,NO2,0.0
+789,ICEV-g,5.0,diurnal,NOx,0.0
+790,ICEV-g,5.0,diurnal,PM2.5,0.0
+791,ICEV-g,5.0,diurnal,Pb,0.0
+792,ICEV-g,5.0,running losses,Benzene,1.0247330313480527e-05
+793,ICEV-g,5.0,running losses,CH4,0.0
+794,ICEV-g,5.0,running losses,CO,0.0
+795,ICEV-g,5.0,running losses,FC_MJ,0.0
+796,ICEV-g,5.0,running losses,HC,0.0012809162144549193
+797,ICEV-g,5.0,running losses,N2O,0.0
+798,ICEV-g,5.0,running losses,NH3,0.0
+799,ICEV-g,5.0,running losses,NMHC,0.0012809162144549193
+800,ICEV-g,5.0,running losses,NO2,0.0
+801,ICEV-g,5.0,running losses,NOx,0.0
+802,ICEV-g,5.0,running losses,PM2.5,0.0
+803,ICEV-g,5.0,running losses,Pb,0.0
+804,ICEV-g,5.0,soak,Benzene,0.000352899311110377
+805,ICEV-g,5.0,soak,CH4,0.0
+806,ICEV-g,5.0,soak,CO,0.0
+807,ICEV-g,5.0,soak,FC_MJ,0.0
+808,ICEV-g,5.0,soak,HC,0.0441124103963375
+809,ICEV-g,5.0,soak,N2O,0.0
+810,ICEV-g,5.0,soak,NH3,0.0
+811,ICEV-g,5.0,soak,NMHC,0.0441124103963375
+812,ICEV-g,5.0,soak,NO2,0.0
+813,ICEV-g,5.0,soak,NOx,0.0
+814,ICEV-g,5.0,soak,PM2.5,0.0
+815,ICEV-g,5.0,soak,Pb,0.0
+816,ICEV-g,6.0,cold start,Benzene,0.0756470337510109
+817,ICEV-g,6.0,cold start,CH4,0.0607620067894459
+818,ICEV-g,6.0,cold start,CO,6.93474864959717
+819,ICEV-g,6.0,cold start,FC_MJ,1.0998193025589
+820,ICEV-g,6.0,cold start,HC,1.11082279682159
+821,ICEV-g,6.0,cold start,N2O,0.0
+822,ICEV-g,6.0,cold start,NH3,0.0
+823,ICEV-g,6.0,cold start,NMHC,1.05006074905396
+824,ICEV-g,6.0,cold start,NO2,0.0162468515336514
+825,ICEV-g,6.0,cold start,NOx,0.324937015771866
+826,ICEV-g,6.0,cold start,PM2.5,0.0
+827,ICEV-g,6.0,cold start,Pb,2.617478457978e-05
+828,ICEV-g,6.0,diurnal,Benzene,0.00800781883299351
+829,ICEV-g,6.0,diurnal,CH4,0.0
+830,ICEV-g,6.0,diurnal,CO,0.0
+831,ICEV-g,6.0,diurnal,FC_MJ,0.0
+832,ICEV-g,6.0,diurnal,HC,1.00097727775574
+833,ICEV-g,6.0,diurnal,N2O,0.0
+834,ICEV-g,6.0,diurnal,NH3,0.0
+835,ICEV-g,6.0,diurnal,NMHC,1.00097727775574
+836,ICEV-g,6.0,diurnal,NO2,0.0
+837,ICEV-g,6.0,diurnal,NOx,0.0
+838,ICEV-g,6.0,diurnal,PM2.5,0.0
+839,ICEV-g,6.0,diurnal,Pb,0.0
+840,ICEV-g,6.0,running losses,Benzene,1.0247330313480527e-05
+841,ICEV-g,6.0,running losses,CH4,0.0
+842,ICEV-g,6.0,running losses,CO,0.0
+843,ICEV-g,6.0,running losses,FC_MJ,0.0
+844,ICEV-g,6.0,running losses,HC,0.0012809162144549193
+845,ICEV-g,6.0,running losses,N2O,0.0
+846,ICEV-g,6.0,running losses,NH3,0.0
+847,ICEV-g,6.0,running losses,NMHC,0.0012809162144549193
+848,ICEV-g,6.0,running losses,NO2,0.0
+849,ICEV-g,6.0,running losses,NOx,0.0
+850,ICEV-g,6.0,running losses,PM2.5,0.0
+851,ICEV-g,6.0,running losses,Pb,0.0
+852,ICEV-g,6.0,soak,Benzene,0.000352899311110377
+853,ICEV-g,6.0,soak,CH4,0.0
+854,ICEV-g,6.0,soak,CO,0.0
+855,ICEV-g,6.0,soak,FC_MJ,0.0
+856,ICEV-g,6.0,soak,HC,0.0441124103963375
+857,ICEV-g,6.0,soak,N2O,0.0
+858,ICEV-g,6.0,soak,NH3,0.0
+859,ICEV-g,6.0,soak,NMHC,0.0441124103963375
+860,ICEV-g,6.0,soak,NO2,0.0
+861,ICEV-g,6.0,soak,NOx,0.0
+862,ICEV-g,6.0,soak,PM2.5,0.0
+863,ICEV-g,6.0,soak,Pb,0.0
+864,ICEV-g,6.1,cold start,Benzene,0.0
+865,ICEV-g,6.1,cold start,CH4,0.0
+866,ICEV-g,6.1,cold start,CO,0.0
+867,ICEV-g,6.1,cold start,FC_MJ,0.0
+868,ICEV-g,6.1,cold start,HC,0.0
+869,ICEV-g,6.1,cold start,N2O,0.0
+870,ICEV-g,6.1,cold start,NH3,0.0
+871,ICEV-g,6.1,cold start,NMHC,0.0
+872,ICEV-g,6.1,cold start,NO2,0.0
+873,ICEV-g,6.1,cold start,NOx,0.0
+874,ICEV-g,6.1,cold start,PM2.5,0.0
+875,ICEV-g,6.1,cold start,Pb,0.0
+876,ICEV-g,6.1,diurnal,Benzene,0.0
+877,ICEV-g,6.1,diurnal,CH4,0.0
+878,ICEV-g,6.1,diurnal,CO,0.0
+879,ICEV-g,6.1,diurnal,FC_MJ,0.0
+880,ICEV-g,6.1,diurnal,HC,0.0
+881,ICEV-g,6.1,diurnal,N2O,0.0
+882,ICEV-g,6.1,diurnal,NH3,0.0
+883,ICEV-g,6.1,diurnal,NMHC,0.0
+884,ICEV-g,6.1,diurnal,NO2,0.0
+885,ICEV-g,6.1,diurnal,NOx,0.0
+886,ICEV-g,6.1,diurnal,PM2.5,0.0
+887,ICEV-g,6.1,diurnal,Pb,0.0
+888,ICEV-g,6.1,running losses,Benzene,0.0
+889,ICEV-g,6.1,running losses,CH4,0.0
+890,ICEV-g,6.1,running losses,CO,0.0
+891,ICEV-g,6.1,running losses,FC_MJ,0.0
+892,ICEV-g,6.1,running losses,HC,0.0
+893,ICEV-g,6.1,running losses,N2O,0.0
+894,ICEV-g,6.1,running losses,NH3,0.0
+895,ICEV-g,6.1,running losses,NMHC,0.0
+896,ICEV-g,6.1,running losses,NO2,0.0
+897,ICEV-g,6.1,running losses,NOx,0.0
+898,ICEV-g,6.1,running losses,PM2.5,0.0
+899,ICEV-g,6.1,running losses,Pb,0.0
+900,ICEV-g,6.1,soak,Benzene,0.0
+901,ICEV-g,6.1,soak,CH4,0.0
+902,ICEV-g,6.1,soak,CO,0.0
+903,ICEV-g,6.1,soak,FC_MJ,0.0
+904,ICEV-g,6.1,soak,HC,0.0
+905,ICEV-g,6.1,soak,N2O,0.0
+906,ICEV-g,6.1,soak,NH3,0.0
+907,ICEV-g,6.1,soak,NMHC,0.0
+908,ICEV-g,6.1,soak,NO2,0.0
+909,ICEV-g,6.1,soak,NOx,0.0
+910,ICEV-g,6.1,soak,PM2.5,0.0
+911,ICEV-g,6.1,soak,Pb,0.0
+912,ICEV-g,6.2,cold start,Benzene,0.0
+913,ICEV-g,6.2,cold start,CH4,0.0
+914,ICEV-g,6.2,cold start,CO,0.0
+915,ICEV-g,6.2,cold start,FC_MJ,0.0
+916,ICEV-g,6.2,cold start,HC,0.0
+917,ICEV-g,6.2,cold start,N2O,0.0
+918,ICEV-g,6.2,cold start,NH3,0.0
+919,ICEV-g,6.2,cold start,NMHC,0.0
+920,ICEV-g,6.2,cold start,NO2,0.0
+921,ICEV-g,6.2,cold start,NOx,0.0
+922,ICEV-g,6.2,cold start,PM2.5,0.0
+923,ICEV-g,6.2,cold start,Pb,0.0
+924,ICEV-g,6.2,diurnal,Benzene,0.0
+925,ICEV-g,6.2,diurnal,CH4,0.0
+926,ICEV-g,6.2,diurnal,CO,0.0
+927,ICEV-g,6.2,diurnal,FC_MJ,0.0
+928,ICEV-g,6.2,diurnal,HC,0.0
+929,ICEV-g,6.2,diurnal,N2O,0.0
+930,ICEV-g,6.2,diurnal,NH3,0.0
+931,ICEV-g,6.2,diurnal,NMHC,0.0
+932,ICEV-g,6.2,diurnal,NO2,0.0
+933,ICEV-g,6.2,diurnal,NOx,0.0
+934,ICEV-g,6.2,diurnal,PM2.5,0.0
+935,ICEV-g,6.2,diurnal,Pb,0.0
+936,ICEV-g,6.2,running losses,Benzene,0.0
+937,ICEV-g,6.2,running losses,CH4,0.0
+938,ICEV-g,6.2,running losses,CO,0.0
+939,ICEV-g,6.2,running losses,FC_MJ,0.0
+940,ICEV-g,6.2,running losses,HC,0.0
+941,ICEV-g,6.2,running losses,N2O,0.0
+942,ICEV-g,6.2,running losses,NH3,0.0
+943,ICEV-g,6.2,running losses,NMHC,0.0
+944,ICEV-g,6.2,running losses,NO2,0.0
+945,ICEV-g,6.2,running losses,NOx,0.0
+946,ICEV-g,6.2,running losses,PM2.5,0.0
+947,ICEV-g,6.2,running losses,Pb,0.0
+948,ICEV-g,6.2,soak,Benzene,0.0
+949,ICEV-g,6.2,soak,CH4,0.0
+950,ICEV-g,6.2,soak,CO,0.0
+951,ICEV-g,6.2,soak,FC_MJ,0.0
+952,ICEV-g,6.2,soak,HC,0.0
+953,ICEV-g,6.2,soak,N2O,0.0
+954,ICEV-g,6.2,soak,NH3,0.0
+955,ICEV-g,6.2,soak,NMHC,0.0
+956,ICEV-g,6.2,soak,NO2,0.0
+957,ICEV-g,6.2,soak,NOx,0.0
+958,ICEV-g,6.2,soak,PM2.5,0.0
+959,ICEV-g,6.2,soak,Pb,0.0
+960,ICEV-g,6.3,cold start,Benzene,0.0
+961,ICEV-g,6.3,cold start,CH4,0.0
+962,ICEV-g,6.3,cold start,CO,0.0
+963,ICEV-g,6.3,cold start,FC_MJ,0.0
+964,ICEV-g,6.3,cold start,HC,0.0
+965,ICEV-g,6.3,cold start,N2O,0.0
+966,ICEV-g,6.3,cold start,NH3,0.0
+967,ICEV-g,6.3,cold start,NMHC,0.0
+968,ICEV-g,6.3,cold start,NO2,0.0
+969,ICEV-g,6.3,cold start,NOx,0.0
+970,ICEV-g,6.3,cold start,PM2.5,0.0
+971,ICEV-g,6.3,cold start,Pb,0.0
+972,ICEV-g,6.3,diurnal,Benzene,0.0
+973,ICEV-g,6.3,diurnal,CH4,0.0
+974,ICEV-g,6.3,diurnal,CO,0.0
+975,ICEV-g,6.3,diurnal,FC_MJ,0.0
+976,ICEV-g,6.3,diurnal,HC,0.0
+977,ICEV-g,6.3,diurnal,N2O,0.0
+978,ICEV-g,6.3,diurnal,NH3,0.0
+979,ICEV-g,6.3,diurnal,NMHC,0.0
+980,ICEV-g,6.3,diurnal,NO2,0.0
+981,ICEV-g,6.3,diurnal,NOx,0.0
+982,ICEV-g,6.3,diurnal,PM2.5,0.0
+983,ICEV-g,6.3,diurnal,Pb,0.0
+984,ICEV-g,6.3,running losses,Benzene,0.0
+985,ICEV-g,6.3,running losses,CH4,0.0
+986,ICEV-g,6.3,running losses,CO,0.0
+987,ICEV-g,6.3,running losses,FC_MJ,0.0
+988,ICEV-g,6.3,running losses,HC,0.0
+989,ICEV-g,6.3,running losses,N2O,0.0
+990,ICEV-g,6.3,running losses,NH3,0.0
+991,ICEV-g,6.3,running losses,NMHC,0.0
+992,ICEV-g,6.3,running losses,NO2,0.0
+993,ICEV-g,6.3,running losses,NOx,0.0
+994,ICEV-g,6.3,running losses,PM2.5,0.0
+995,ICEV-g,6.3,running losses,Pb,0.0
+996,ICEV-g,6.3,soak,Benzene,0.0
+997,ICEV-g,6.3,soak,CH4,0.0
+998,ICEV-g,6.3,soak,CO,0.0
+999,ICEV-g,6.3,soak,FC_MJ,0.0
+1000,ICEV-g,6.3,soak,HC,0.0
+1001,ICEV-g,6.3,soak,N2O,0.0
+1002,ICEV-g,6.3,soak,NH3,0.0
+1003,ICEV-g,6.3,soak,NMHC,0.0
+1004,ICEV-g,6.3,soak,NO2,0.0
+1005,ICEV-g,6.3,soak,NOx,0.0
+1006,ICEV-g,6.3,soak,PM2.5,0.0
+1007,ICEV-g,6.3,soak,Pb,0.0
+1008,ICEV-g,7.0,cold start,Benzene,0.0
+1009,ICEV-g,7.0,cold start,CH4,0.0
+1010,ICEV-g,7.0,cold start,CO,0.0
+1011,ICEV-g,7.0,cold start,FC_MJ,0.0
+1012,ICEV-g,7.0,cold start,HC,0.0
+1013,ICEV-g,7.0,cold start,N2O,0.0
+1014,ICEV-g,7.0,cold start,NH3,0.0
+1015,ICEV-g,7.0,cold start,NMHC,0.0
+1016,ICEV-g,7.0,cold start,NO2,0.0
+1017,ICEV-g,7.0,cold start,NOx,0.0
+1018,ICEV-g,7.0,cold start,PM2.5,0.0
+1019,ICEV-g,7.0,cold start,Pb,0.0
+1020,ICEV-g,7.0,diurnal,Benzene,0.0
+1021,ICEV-g,7.0,diurnal,CH4,0.0
+1022,ICEV-g,7.0,diurnal,CO,0.0
+1023,ICEV-g,7.0,diurnal,FC_MJ,0.0
+1024,ICEV-g,7.0,diurnal,HC,0.0
+1025,ICEV-g,7.0,diurnal,N2O,0.0
+1026,ICEV-g,7.0,diurnal,NH3,0.0
+1027,ICEV-g,7.0,diurnal,NMHC,0.0
+1028,ICEV-g,7.0,diurnal,NO2,0.0
+1029,ICEV-g,7.0,diurnal,NOx,0.0
+1030,ICEV-g,7.0,diurnal,PM2.5,0.0
+1031,ICEV-g,7.0,diurnal,Pb,0.0
+1032,ICEV-g,7.0,running losses,Benzene,0.0
+1033,ICEV-g,7.0,running losses,CH4,0.0
+1034,ICEV-g,7.0,running losses,CO,0.0
+1035,ICEV-g,7.0,running losses,FC_MJ,0.0
+1036,ICEV-g,7.0,running losses,HC,0.0
+1037,ICEV-g,7.0,running losses,N2O,0.0
+1038,ICEV-g,7.0,running losses,NH3,0.0
+1039,ICEV-g,7.0,running losses,NMHC,0.0
+1040,ICEV-g,7.0,running losses,NO2,0.0
+1041,ICEV-g,7.0,running losses,NOx,0.0
+1042,ICEV-g,7.0,running losses,PM2.5,0.0
+1043,ICEV-g,7.0,running losses,Pb,0.0
+1044,ICEV-g,7.0,soak,Benzene,0.0
+1045,ICEV-g,7.0,soak,CH4,0.0
+1046,ICEV-g,7.0,soak,CO,0.0
+1047,ICEV-g,7.0,soak,FC_MJ,0.0
+1048,ICEV-g,7.0,soak,HC,0.0
+1049,ICEV-g,7.0,soak,N2O,0.0
+1050,ICEV-g,7.0,soak,NH3,0.0
+1051,ICEV-g,7.0,soak,NMHC,0.0
+1052,ICEV-g,7.0,soak,NO2,0.0
+1053,ICEV-g,7.0,soak,NOx,0.0
+1054,ICEV-g,7.0,soak,PM2.5,0.0
+1055,ICEV-g,7.0,soak,Pb,0.0
+1056,ICEV-p,0.0,cold start,Benzene,0.3196880353821651
+1057,ICEV-p,0.0,cold start,CH4,0.8971381054984201
+1058,ICEV-p,0.0,cold start,CO,51.93474070231116
+1059,ICEV-p,0.0,cold start,FC_MJ,1.4901763068305112
+1060,ICEV-p,0.0,cold start,HC,8.523552523718935
+1061,ICEV-p,0.0,cold start,N2O,0.0
+1062,ICEV-p,0.0,cold start,NH3,0.0
+1063,ICEV-p,0.0,cold start,NMHC,7.626414246029329
+1064,ICEV-p,0.0,cold start,NO2,0.0038435724046495226
+1065,ICEV-p,0.0,cold start,NOx,0.09395305977927267
+1066,ICEV-p,0.0,cold start,PM2.5,0.0
+1067,ICEV-p,0.0,cold start,Pb,3.54531633396012e-05
+1068,ICEV-p,0.0,diurnal,Benzene,0.023730791070395062
+1069,ICEV-p,0.0,diurnal,CH4,0.0
+1070,ICEV-p,0.0,diurnal,CO,0.0
+1071,ICEV-p,0.0,diurnal,FC_MJ,0.0
+1072,ICEV-p,0.0,diurnal,HC,2.966348859998914
+1073,ICEV-p,0.0,diurnal,N2O,0.0
+1074,ICEV-p,0.0,diurnal,NH3,0.0
+1075,ICEV-p,0.0,diurnal,NMHC,2.966348859998914
+1076,ICEV-p,0.0,diurnal,NO2,0.0
+1077,ICEV-p,0.0,diurnal,NOx,0.0
+1078,ICEV-p,0.0,diurnal,PM2.5,0.0
+1079,ICEV-p,0.0,diurnal,Pb,0.0
+1080,ICEV-p,0.0,running losses,Benzene,0.001122120966741663
+1081,ICEV-p,0.0,running losses,CH4,0.0
+1082,ICEV-p,0.0,running losses,CO,0.0
+1083,ICEV-p,0.0,running losses,FC_MJ,0.0
+1084,ICEV-p,0.0,running losses,HC,0.14026511494604962
+1085,ICEV-p,0.0,running losses,N2O,0.0
+1086,ICEV-p,0.0,running losses,NH3,0.0
+1087,ICEV-p,0.0,running losses,NMHC,0.14026511494604962
+1088,ICEV-p,0.0,running losses,NO2,0.0
+1089,ICEV-p,0.0,running losses,NOx,0.0
+1090,ICEV-p,0.0,running losses,PM2.5,0.0
+1091,ICEV-p,0.0,running losses,Pb,0.0
+1092,ICEV-p,0.0,soak,Benzene,0.018096860032528656
+1093,ICEV-p,0.0,soak,CH4,0.0
+1094,ICEV-p,0.0,soak,CO,0.0
+1095,ICEV-p,0.0,soak,FC_MJ,0.0
+1096,ICEV-p,0.0,soak,HC,2.262107444306217
+1097,ICEV-p,0.0,soak,N2O,0.0
+1098,ICEV-p,0.0,soak,NH3,0.0
+1099,ICEV-p,0.0,soak,NMHC,2.262107444306217
+1100,ICEV-p,0.0,soak,NO2,0.0
+1101,ICEV-p,0.0,soak,NOx,0.0
+1102,ICEV-p,0.0,soak,PM2.5,0.0
+1103,ICEV-p,0.0,soak,Pb,0.0
+1104,ICEV-p,1.0,cold start,Benzene,0.351419985294342
+1105,ICEV-p,1.0,cold start,CH4,0.282271265983582
+1106,ICEV-p,1.0,cold start,CO,23.3218765258789
+1107,ICEV-p,1.0,cold start,FC_MJ,1.3174957036972
+1108,ICEV-p,1.0,cold start,HC,5.16035223007202
+1109,ICEV-p,1.0,cold start,N2O,0.0
+1110,ICEV-p,1.0,cold start,NH3,0.0
+1111,ICEV-p,1.0,cold start,NMHC,4.87808084487915
+1112,ICEV-p,1.0,cold start,NO2,0.0734147951006889
+1113,ICEV-p,1.0,cold start,NOx,1.67471671104431
+1114,ICEV-p,1.0,cold start,PM2.5,0.0
+1115,ICEV-p,1.0,cold start,Pb,3.13553027808666e-05
+1116,ICEV-p,1.0,diurnal,Benzene,0.00894113816320896
+1117,ICEV-p,1.0,diurnal,CH4,0.0
+1118,ICEV-p,1.0,diurnal,CO,0.0
+1119,ICEV-p,1.0,diurnal,FC_MJ,0.0
+1120,ICEV-p,1.0,diurnal,HC,1.11764216423035
+1121,ICEV-p,1.0,diurnal,N2O,0.0
+1122,ICEV-p,1.0,diurnal,NH3,0.0
+1123,ICEV-p,1.0,diurnal,NMHC,1.11764216423035
+1124,ICEV-p,1.0,diurnal,NO2,0.0
+1125,ICEV-p,1.0,diurnal,NOx,0.0
+1126,ICEV-p,1.0,diurnal,PM2.5,0.0
+1127,ICEV-p,1.0,diurnal,Pb,0.0
+1128,ICEV-p,1.0,running losses,Benzene,1.0247330313480527e-05
+1129,ICEV-p,1.0,running losses,CH4,0.0
+1130,ICEV-p,1.0,running losses,CO,0.0
+1131,ICEV-p,1.0,running losses,FC_MJ,0.0
+1132,ICEV-p,1.0,running losses,HC,0.0012809162144549193
+1133,ICEV-p,1.0,running losses,N2O,0.0
+1134,ICEV-p,1.0,running losses,NH3,0.0
+1135,ICEV-p,1.0,running losses,NMHC,0.0012809162144549193
+1136,ICEV-p,1.0,running losses,NO2,0.0
+1137,ICEV-p,1.0,running losses,NOx,0.0
+1138,ICEV-p,1.0,running losses,PM2.5,0.0
+1139,ICEV-p,1.0,running losses,Pb,0.0
+1140,ICEV-p,1.0,soak,Benzene,0.000352899311110377
+1141,ICEV-p,1.0,soak,CH4,0.0
+1142,ICEV-p,1.0,soak,CO,0.0
+1143,ICEV-p,1.0,soak,FC_MJ,0.0
+1144,ICEV-p,1.0,soak,HC,0.0441124103963375
+1145,ICEV-p,1.0,soak,N2O,0.0
+1146,ICEV-p,1.0,soak,NH3,0.0
+1147,ICEV-p,1.0,soak,NMHC,0.0441124103963375
+1148,ICEV-p,1.0,soak,NO2,0.0
+1149,ICEV-p,1.0,soak,NOx,0.0
+1150,ICEV-p,1.0,soak,PM2.5,0.0
+1151,ICEV-p,1.0,soak,Pb,0.0
+1152,ICEV-p,2.0,cold start,Benzene,0.288264840841293
+1153,ICEV-p,2.0,cold start,CH4,0.231543123722076
+1154,ICEV-p,2.0,cold start,CO,18.966833114624
+1155,ICEV-p,2.0,cold start,FC_MJ,1.3380640745163
+1156,ICEV-p,2.0,cold start,HC,4.23296403884888
+1157,ICEV-p,2.0,cold start,N2O,0.0
+1158,ICEV-p,2.0,cold start,NH3,0.0
+1159,ICEV-p,2.0,cold start,NMHC,4.00142097473145
+1160,ICEV-p,2.0,cold start,NO2,0.041495319455862
+1161,ICEV-p,2.0,cold start,NOx,0.946578919887543
+1162,ICEV-p,2.0,cold start,PM2.5,0.0
+1163,ICEV-p,2.0,cold start,Pb,3.18448110192548e-05
+1164,ICEV-p,2.0,diurnal,Benzene,0.0084862457588315
+1165,ICEV-p,2.0,diurnal,CH4,0.0
+1166,ICEV-p,2.0,diurnal,CO,0.0
+1167,ICEV-p,2.0,diurnal,FC_MJ,0.0
+1168,ICEV-p,2.0,diurnal,HC,1.06078064441681
+1169,ICEV-p,2.0,diurnal,N2O,0.0
+1170,ICEV-p,2.0,diurnal,NH3,0.0
+1171,ICEV-p,2.0,diurnal,NMHC,1.06078064441681
+1172,ICEV-p,2.0,diurnal,NO2,0.0
+1173,ICEV-p,2.0,diurnal,NOx,0.0
+1174,ICEV-p,2.0,diurnal,PM2.5,0.0
+1175,ICEV-p,2.0,diurnal,Pb,0.0
+1176,ICEV-p,2.0,running losses,Benzene,1.0247330313480527e-05
+1177,ICEV-p,2.0,running losses,CH4,0.0
+1178,ICEV-p,2.0,running losses,CO,0.0
+1179,ICEV-p,2.0,running losses,FC_MJ,0.0
+1180,ICEV-p,2.0,running losses,HC,0.0012809162144549193
+1181,ICEV-p,2.0,running losses,N2O,0.0
+1182,ICEV-p,2.0,running losses,NH3,0.0
+1183,ICEV-p,2.0,running losses,NMHC,0.0012809162144549193
+1184,ICEV-p,2.0,running losses,NO2,0.0
+1185,ICEV-p,2.0,running losses,NOx,0.0
+1186,ICEV-p,2.0,running losses,PM2.5,0.0
+1187,ICEV-p,2.0,running losses,Pb,0.0
+1188,ICEV-p,2.0,soak,Benzene,0.000352899311110377
+1189,ICEV-p,2.0,soak,CH4,0.0
+1190,ICEV-p,2.0,soak,CO,0.0
+1191,ICEV-p,2.0,soak,FC_MJ,0.0
+1192,ICEV-p,2.0,soak,HC,0.0441124103963375
+1193,ICEV-p,2.0,soak,N2O,0.0
+1194,ICEV-p,2.0,soak,NH3,0.0
+1195,ICEV-p,2.0,soak,NMHC,0.0441124103963375
+1196,ICEV-p,2.0,soak,NO2,0.0
+1197,ICEV-p,2.0,soak,NOx,0.0
+1198,ICEV-p,2.0,soak,PM2.5,0.0
+1199,ICEV-p,2.0,soak,Pb,0.0
+1200,ICEV-p,3.0,cold start,Benzene,0.17540742456913
+1201,ICEV-p,3.0,cold start,CH4,0.140892595052719
+1202,ICEV-p,3.0,cold start,CO,14.5953254699707
+1203,ICEV-p,3.0,cold start,FC_MJ,1.3548675775528
+1204,ICEV-p,3.0,cold start,HC,2.57573318481445
+1205,ICEV-p,3.0,cold start,N2O,0.0
+1206,ICEV-p,3.0,cold start,NH3,0.0
+1207,ICEV-p,3.0,cold start,NMHC,2.43484044075012
+1208,ICEV-p,3.0,cold start,NO2,0.0106398249045014
+1209,ICEV-p,3.0,cold start,NOx,0.246650487184525
+1210,ICEV-p,3.0,cold start,PM2.5,0.0
+1211,ICEV-p,3.0,cold start,Pb,3.2244723115582e-05
+1212,ICEV-p,3.0,diurnal,Benzene,0.00904757063835859
+1213,ICEV-p,3.0,diurnal,CH4,0.0
+1214,ICEV-p,3.0,diurnal,CO,0.0
+1215,ICEV-p,3.0,diurnal,FC_MJ,0.0
+1216,ICEV-p,3.0,diurnal,HC,1.13094627857208
+1217,ICEV-p,3.0,diurnal,N2O,0.0
+1218,ICEV-p,3.0,diurnal,NH3,0.0
+1219,ICEV-p,3.0,diurnal,NMHC,1.13094627857208
+1220,ICEV-p,3.0,diurnal,NO2,0.0
+1221,ICEV-p,3.0,diurnal,NOx,0.0
+1222,ICEV-p,3.0,diurnal,PM2.5,0.0
+1223,ICEV-p,3.0,diurnal,Pb,0.0
+1224,ICEV-p,3.0,running losses,Benzene,1.0247330313480527e-05
+1225,ICEV-p,3.0,running losses,CH4,0.0
+1226,ICEV-p,3.0,running losses,CO,0.0
+1227,ICEV-p,3.0,running losses,FC_MJ,0.0
+1228,ICEV-p,3.0,running losses,HC,0.0012809162144549193
+1229,ICEV-p,3.0,running losses,N2O,0.0
+1230,ICEV-p,3.0,running losses,NH3,0.0
+1231,ICEV-p,3.0,running losses,NMHC,0.0012809162144549193
+1232,ICEV-p,3.0,running losses,NO2,0.0
+1233,ICEV-p,3.0,running losses,NOx,0.0
+1234,ICEV-p,3.0,running losses,PM2.5,0.0
+1235,ICEV-p,3.0,running losses,Pb,0.0
+1236,ICEV-p,3.0,soak,Benzene,0.000352899311110377
+1237,ICEV-p,3.0,soak,CH4,0.0
+1238,ICEV-p,3.0,soak,CO,0.0
+1239,ICEV-p,3.0,soak,FC_MJ,0.0
+1240,ICEV-p,3.0,soak,HC,0.0441124103963375
+1241,ICEV-p,3.0,soak,N2O,0.0
+1242,ICEV-p,3.0,soak,NH3,0.0
+1243,ICEV-p,3.0,soak,NMHC,0.0441124103963375
+1244,ICEV-p,3.0,soak,NO2,0.0
+1245,ICEV-p,3.0,soak,NOx,0.0
+1246,ICEV-p,3.0,soak,PM2.5,0.0
+1247,ICEV-p,3.0,soak,Pb,0.0
+1248,ICEV-p,4.0,cold start,Benzene,0.161836192011833
+1249,ICEV-p,4.0,cold start,CH4,0.129991769790649
+1250,ICEV-p,4.0,cold start,CO,10.2071132659912
+1251,ICEV-p,4.0,cold start,FC_MJ,1.83899521827698
+1252,ICEV-p,4.0,cold start,HC,2.37644934654236
+1253,ICEV-p,4.0,cold start,N2O,0.0
+1254,ICEV-p,4.0,cold start,NH3,0.0
+1255,ICEV-p,4.0,cold start,NMHC,2.24645757675171
+1256,ICEV-p,4.0,cold start,NO2,0.0118744047358632
+1257,ICEV-p,4.0,cold start,NOx,0.369330614805222
+1258,ICEV-p,4.0,cold start,PM2.5,0.0
+1259,ICEV-p,4.0,cold start,Pb,4.37665548815858e-05
+1260,ICEV-p,4.0,diurnal,Benzene,0.00859267916530371
+1261,ICEV-p,4.0,diurnal,CH4,0.0
+1262,ICEV-p,4.0,diurnal,CO,0.0
+1263,ICEV-p,4.0,diurnal,FC_MJ,0.0
+1264,ICEV-p,4.0,diurnal,HC,1.07408487796783
+1265,ICEV-p,4.0,diurnal,N2O,0.0
+1266,ICEV-p,4.0,diurnal,NH3,0.0
+1267,ICEV-p,4.0,diurnal,NMHC,1.07408487796783
+1268,ICEV-p,4.0,diurnal,NO2,0.0
+1269,ICEV-p,4.0,diurnal,NOx,0.0
+1270,ICEV-p,4.0,diurnal,PM2.5,0.0
+1271,ICEV-p,4.0,diurnal,Pb,0.0
+1272,ICEV-p,4.0,running losses,Benzene,1.0247330313480527e-05
+1273,ICEV-p,4.0,running losses,CH4,0.0
+1274,ICEV-p,4.0,running losses,CO,0.0
+1275,ICEV-p,4.0,running losses,FC_MJ,0.0
+1276,ICEV-p,4.0,running losses,HC,0.0012809162144549193
+1277,ICEV-p,4.0,running losses,N2O,0.0
+1278,ICEV-p,4.0,running losses,NH3,0.0
+1279,ICEV-p,4.0,running losses,NMHC,0.0012809162144549193
+1280,ICEV-p,4.0,running losses,NO2,0.0
+1281,ICEV-p,4.0,running losses,NOx,0.0
+1282,ICEV-p,4.0,running losses,PM2.5,0.0
+1283,ICEV-p,4.0,running losses,Pb,0.0
+1284,ICEV-p,4.0,soak,Benzene,0.000352899311110377
+1285,ICEV-p,4.0,soak,CH4,0.0
+1286,ICEV-p,4.0,soak,CO,0.0
+1287,ICEV-p,4.0,soak,FC_MJ,0.0
+1288,ICEV-p,4.0,soak,HC,0.0441124103963375
+1289,ICEV-p,4.0,soak,N2O,0.0
+1290,ICEV-p,4.0,soak,NH3,0.0
+1291,ICEV-p,4.0,soak,NMHC,0.0441124103963375
+1292,ICEV-p,4.0,soak,NO2,0.0
+1293,ICEV-p,4.0,soak,NOx,0.0
+1294,ICEV-p,4.0,soak,PM2.5,0.0
+1295,ICEV-p,4.0,soak,Pb,0.0
+1296,ICEV-p,5.0,cold start,Benzene,0.101506397128105
+1297,ICEV-p,5.0,cold start,CH4,0.0815330371260643
+1298,ICEV-p,5.0,cold start,CO,7.40978908538818
+1299,ICEV-p,5.0,cold start,FC_MJ,1.10670781135559
+1300,ICEV-p,5.0,cold start,HC,1.4905492067337
+1301,ICEV-p,5.0,cold start,N2O,0.0
+1302,ICEV-p,5.0,cold start,NH3,0.0
+1303,ICEV-p,5.0,cold start,NMHC,1.40901613235474
+1304,ICEV-p,5.0,cold start,NO2,0.0162468515336514
+1305,ICEV-p,5.0,cold start,NOx,0.324937015771866
+1306,ICEV-p,5.0,cold start,PM2.5,0.0
+1307,ICEV-p,5.0,cold start,Pb,2.63387246377533e-05
+1308,ICEV-p,5.0,diurnal,Benzene,0.00830024946480989
+1309,ICEV-p,5.0,diurnal,CH4,0.0
+1310,ICEV-p,5.0,diurnal,CO,0.0
+1311,ICEV-p,5.0,diurnal,FC_MJ,0.0
+1312,ICEV-p,5.0,diurnal,HC,1.03753113746643
+1313,ICEV-p,5.0,diurnal,N2O,0.0
+1314,ICEV-p,5.0,diurnal,NH3,0.0
+1315,ICEV-p,5.0,diurnal,NMHC,1.03753113746643
+1316,ICEV-p,5.0,diurnal,NO2,0.0
+1317,ICEV-p,5.0,diurnal,NOx,0.0
+1318,ICEV-p,5.0,diurnal,PM2.5,0.0
+1319,ICEV-p,5.0,diurnal,Pb,0.0
+1320,ICEV-p,5.0,running losses,Benzene,1.0247330313480527e-05
+1321,ICEV-p,5.0,running losses,CH4,0.0
+1322,ICEV-p,5.0,running losses,CO,0.0
+1323,ICEV-p,5.0,running losses,FC_MJ,0.0
+1324,ICEV-p,5.0,running losses,HC,0.0012809162144549193
+1325,ICEV-p,5.0,running losses,N2O,0.0
+1326,ICEV-p,5.0,running losses,NH3,0.0
+1327,ICEV-p,5.0,running losses,NMHC,0.0012809162144549193
+1328,ICEV-p,5.0,running losses,NO2,0.0
+1329,ICEV-p,5.0,running losses,NOx,0.0
+1330,ICEV-p,5.0,running losses,PM2.5,0.0
+1331,ICEV-p,5.0,running losses,Pb,0.0
+1332,ICEV-p,5.0,soak,Benzene,0.000352899311110377
+1333,ICEV-p,5.0,soak,CH4,0.0
+1334,ICEV-p,5.0,soak,CO,0.0
+1335,ICEV-p,5.0,soak,FC_MJ,0.0
+1336,ICEV-p,5.0,soak,HC,0.0441124103963375
+1337,ICEV-p,5.0,soak,N2O,0.0
+1338,ICEV-p,5.0,soak,NH3,0.0
+1339,ICEV-p,5.0,soak,NMHC,0.0441124103963375
+1340,ICEV-p,5.0,soak,NO2,0.0
+1341,ICEV-p,5.0,soak,NOx,0.0
+1342,ICEV-p,5.0,soak,PM2.5,0.0
+1343,ICEV-p,5.0,soak,Pb,0.0
+1344,ICEV-p,6.0,cold start,Benzene,0.0756470337510109
+1345,ICEV-p,6.0,cold start,CH4,0.0607620067894459
+1346,ICEV-p,6.0,cold start,CO,6.93474864959717
+1347,ICEV-p,6.0,cold start,FC_MJ,1.10670781135559
+1348,ICEV-p,6.0,cold start,HC,1.11082279682159
+1349,ICEV-p,6.0,cold start,N2O,0.0
+1350,ICEV-p,6.0,cold start,NH3,0.0
+1351,ICEV-p,6.0,cold start,NMHC,1.05006074905396
+1352,ICEV-p,6.0,cold start,NO2,0.0162468515336514
+1353,ICEV-p,6.0,cold start,NOx,0.324937015771866
+1354,ICEV-p,6.0,cold start,PM2.5,0.0
+1355,ICEV-p,6.0,cold start,Pb,2.63387246377533e-05
+1356,ICEV-p,6.0,diurnal,Benzene,0.00800781883299351
+1357,ICEV-p,6.0,diurnal,CH4,0.0
+1358,ICEV-p,6.0,diurnal,CO,0.0
+1359,ICEV-p,6.0,diurnal,FC_MJ,0.0
+1360,ICEV-p,6.0,diurnal,HC,1.00097727775574
+1361,ICEV-p,6.0,diurnal,N2O,0.0
+1362,ICEV-p,6.0,diurnal,NH3,0.0
+1363,ICEV-p,6.0,diurnal,NMHC,1.00097727775574
+1364,ICEV-p,6.0,diurnal,NO2,0.0
+1365,ICEV-p,6.0,diurnal,NOx,0.0
+1366,ICEV-p,6.0,diurnal,PM2.5,0.0
+1367,ICEV-p,6.0,diurnal,Pb,0.0
+1368,ICEV-p,6.0,running losses,Benzene,1.0247330313480527e-05
+1369,ICEV-p,6.0,running losses,CH4,0.0
+1370,ICEV-p,6.0,running losses,CO,0.0
+1371,ICEV-p,6.0,running losses,FC_MJ,0.0
+1372,ICEV-p,6.0,running losses,HC,0.0012809162144549193
+1373,ICEV-p,6.0,running losses,N2O,0.0
+1374,ICEV-p,6.0,running losses,NH3,0.0
+1375,ICEV-p,6.0,running losses,NMHC,0.0012809162144549193
+1376,ICEV-p,6.0,running losses,NO2,0.0
+1377,ICEV-p,6.0,running losses,NOx,0.0
+1378,ICEV-p,6.0,running losses,PM2.5,0.0
+1379,ICEV-p,6.0,running losses,Pb,0.0
+1380,ICEV-p,6.0,soak,Benzene,0.000352899311110377
+1381,ICEV-p,6.0,soak,CH4,0.0
+1382,ICEV-p,6.0,soak,CO,0.0
+1383,ICEV-p,6.0,soak,FC_MJ,0.0
+1384,ICEV-p,6.0,soak,HC,0.0441124103963375
+1385,ICEV-p,6.0,soak,N2O,0.0
+1386,ICEV-p,6.0,soak,NH3,0.0
+1387,ICEV-p,6.0,soak,NMHC,0.0441124103963375
+1388,ICEV-p,6.0,soak,NO2,0.0
+1389,ICEV-p,6.0,soak,NOx,0.0
+1390,ICEV-p,6.0,soak,PM2.5,0.0
+1391,ICEV-p,6.0,soak,Pb,0.0
+1392,ICEV-p,6.1,cold start,Benzene,0.0756470337510109
+1393,ICEV-p,6.1,cold start,CH4,0.0607620067894459
+1394,ICEV-p,6.1,cold start,CO,6.93474864959717
+1395,ICEV-p,6.1,cold start,FC_MJ,1.10670781135559
+1396,ICEV-p,6.1,cold start,HC,1.11082279682159
+1397,ICEV-p,6.1,cold start,N2O,0.0
+1398,ICEV-p,6.1,cold start,NH3,0.0
+1399,ICEV-p,6.1,cold start,NMHC,1.05006074905396
+1400,ICEV-p,6.1,cold start,NO2,0.0120416227728128
+1401,ICEV-p,6.1,cold start,NOx,0.240832433104515
+1402,ICEV-p,6.1,cold start,PM2.5,0.0
+1403,ICEV-p,6.1,cold start,Pb,2.63387246377533e-05
+1404,ICEV-p,6.1,diurnal,Benzene,0.00765040377154946
+1405,ICEV-p,6.1,diurnal,CH4,0.0
+1406,ICEV-p,6.1,diurnal,CO,0.0
+1407,ICEV-p,6.1,diurnal,FC_MJ,0.0
+1408,ICEV-p,6.1,diurnal,HC,0.956300437450409
+1409,ICEV-p,6.1,diurnal,N2O,0.0
+1410,ICEV-p,6.1,diurnal,NH3,0.0
+1411,ICEV-p,6.1,diurnal,NMHC,0.956300437450409
+1412,ICEV-p,6.1,diurnal,NO2,0.0
+1413,ICEV-p,6.1,diurnal,NOx,0.0
+1414,ICEV-p,6.1,diurnal,PM2.5,0.0
+1415,ICEV-p,6.1,diurnal,Pb,0.0
+1416,ICEV-p,6.1,running losses,Benzene,1.0247330313480527e-05
+1417,ICEV-p,6.1,running losses,CH4,0.0
+1418,ICEV-p,6.1,running losses,CO,0.0
+1419,ICEV-p,6.1,running losses,FC_MJ,0.0
+1420,ICEV-p,6.1,running losses,HC,0.0012809162144549193
+1421,ICEV-p,6.1,running losses,N2O,0.0
+1422,ICEV-p,6.1,running losses,NH3,0.0
+1423,ICEV-p,6.1,running losses,NMHC,0.0012809162144549193
+1424,ICEV-p,6.1,running losses,NO2,0.0
+1425,ICEV-p,6.1,running losses,NOx,0.0
+1426,ICEV-p,6.1,running losses,PM2.5,0.0
+1427,ICEV-p,6.1,running losses,Pb,0.0
+1428,ICEV-p,6.1,soak,Benzene,0.000352899311110377
+1429,ICEV-p,6.1,soak,CH4,0.0
+1430,ICEV-p,6.1,soak,CO,0.0
+1431,ICEV-p,6.1,soak,FC_MJ,0.0
+1432,ICEV-p,6.1,soak,HC,0.0441124103963375
+1433,ICEV-p,6.1,soak,N2O,0.0
+1434,ICEV-p,6.1,soak,NH3,0.0
+1435,ICEV-p,6.1,soak,NMHC,0.0441124103963375
+1436,ICEV-p,6.1,soak,NO2,0.0
+1437,ICEV-p,6.1,soak,NOx,0.0
+1438,ICEV-p,6.1,soak,PM2.5,0.0
+1439,ICEV-p,6.1,soak,Pb,0.0
+1440,ICEV-p,6.2,cold start,Benzene,0.0756470337510109
+1441,ICEV-p,6.2,cold start,CH4,0.0607620067894459
+1442,ICEV-p,6.2,cold start,CO,6.93474864959717
+1443,ICEV-p,6.2,cold start,FC_MJ,1.09297370910645
+1444,ICEV-p,6.2,cold start,HC,1.11082279682159
+1445,ICEV-p,6.2,cold start,N2O,0.0
+1446,ICEV-p,6.2,cold start,NH3,0.0
+1447,ICEV-p,6.2,cold start,NMHC,1.05006074905396
+1448,ICEV-p,6.2,cold start,NO2,0.0120416227728128
+1449,ICEV-p,6.2,cold start,NOx,0.240832433104515
+1450,ICEV-p,6.2,cold start,PM2.5,0.0
+1451,ICEV-p,6.2,cold start,Pb,2.60118667938514e-05
+1452,ICEV-p,6.2,diurnal,Benzene,0.00745545001700521
+1453,ICEV-p,6.2,diurnal,CH4,0.0
+1454,ICEV-p,6.2,diurnal,CO,0.0
+1455,ICEV-p,6.2,diurnal,FC_MJ,0.0
+1456,ICEV-p,6.2,diurnal,HC,0.93193119764328
+1457,ICEV-p,6.2,diurnal,N2O,0.0
+1458,ICEV-p,6.2,diurnal,NH3,0.0
+1459,ICEV-p,6.2,diurnal,NMHC,0.93193119764328
+1460,ICEV-p,6.2,diurnal,NO2,0.0
+1461,ICEV-p,6.2,diurnal,NOx,0.0
+1462,ICEV-p,6.2,diurnal,PM2.5,0.0
+1463,ICEV-p,6.2,diurnal,Pb,0.0
+1464,ICEV-p,6.2,running losses,Benzene,1.0247330313480527e-05
+1465,ICEV-p,6.2,running losses,CH4,0.0
+1466,ICEV-p,6.2,running losses,CO,0.0
+1467,ICEV-p,6.2,running losses,FC_MJ,0.0
+1468,ICEV-p,6.2,running losses,HC,0.0012809162144549193
+1469,ICEV-p,6.2,running losses,N2O,0.0
+1470,ICEV-p,6.2,running losses,NH3,0.0
+1471,ICEV-p,6.2,running losses,NMHC,0.0012809162144549193
+1472,ICEV-p,6.2,running losses,NO2,0.0
+1473,ICEV-p,6.2,running losses,NOx,0.0
+1474,ICEV-p,6.2,running losses,PM2.5,0.0
+1475,ICEV-p,6.2,running losses,Pb,0.0
+1476,ICEV-p,6.2,soak,Benzene,0.000352899311110377
+1477,ICEV-p,6.2,soak,CH4,0.0
+1478,ICEV-p,6.2,soak,CO,0.0
+1479,ICEV-p,6.2,soak,FC_MJ,0.0
+1480,ICEV-p,6.2,soak,HC,0.0441124103963375
+1481,ICEV-p,6.2,soak,N2O,0.0
+1482,ICEV-p,6.2,soak,NH3,0.0
+1483,ICEV-p,6.2,soak,NMHC,0.0441124103963375
+1484,ICEV-p,6.2,soak,NO2,0.0
+1485,ICEV-p,6.2,soak,NOx,0.0
+1486,ICEV-p,6.2,soak,PM2.5,0.0
+1487,ICEV-p,6.2,soak,Pb,0.0
+1488,ICEV-p,6.3,cold start,Benzene,0.0756470337510109
+1489,ICEV-p,6.3,cold start,CH4,0.0607620067894459
+1490,ICEV-p,6.3,cold start,CO,6.93474864959717
+1491,ICEV-p,6.3,cold start,FC_MJ,1.0998193025589
+1492,ICEV-p,6.3,cold start,HC,1.11082279682159
+1493,ICEV-p,6.3,cold start,N2O,0.0
+1494,ICEV-p,6.3,cold start,NH3,0.0
+1495,ICEV-p,6.3,cold start,NMHC,1.05006074905396
+1496,ICEV-p,6.3,cold start,NO2,0.0120416227728128
+1497,ICEV-p,6.3,cold start,NOx,0.240832433104515
+1498,ICEV-p,6.3,cold start,PM2.5,0.0
+1499,ICEV-p,6.3,cold start,Pb,2.617478457978e-05
+1500,ICEV-p,6.3,diurnal,Benzene,0.00726049626246095
+1501,ICEV-p,6.3,diurnal,CH4,0.0
+1502,ICEV-p,6.3,diurnal,CO,0.0
+1503,ICEV-p,6.3,diurnal,FC_MJ,0.0
+1504,ICEV-p,6.3,diurnal,HC,0.907562017440796
+1505,ICEV-p,6.3,diurnal,N2O,0.0
+1506,ICEV-p,6.3,diurnal,NH3,0.0
+1507,ICEV-p,6.3,diurnal,NMHC,0.907562017440796
+1508,ICEV-p,6.3,diurnal,NO2,0.0
+1509,ICEV-p,6.3,diurnal,NOx,0.0
+1510,ICEV-p,6.3,diurnal,PM2.5,0.0
+1511,ICEV-p,6.3,diurnal,Pb,0.0
+1512,ICEV-p,6.3,running losses,Benzene,1.0247330313480527e-05
+1513,ICEV-p,6.3,running losses,CH4,0.0
+1514,ICEV-p,6.3,running losses,CO,0.0
+1515,ICEV-p,6.3,running losses,FC_MJ,0.0
+1516,ICEV-p,6.3,running losses,HC,0.0012809162144549193
+1517,ICEV-p,6.3,running losses,N2O,0.0
+1518,ICEV-p,6.3,running losses,NH3,0.0
+1519,ICEV-p,6.3,running losses,NMHC,0.0012809162144549193
+1520,ICEV-p,6.3,running losses,NO2,0.0
+1521,ICEV-p,6.3,running losses,NOx,0.0
+1522,ICEV-p,6.3,running losses,PM2.5,0.0
+1523,ICEV-p,6.3,running losses,Pb,0.0
+1524,ICEV-p,6.3,soak,Benzene,0.000352899311110377
+1525,ICEV-p,6.3,soak,CH4,0.0
+1526,ICEV-p,6.3,soak,CO,0.0
+1527,ICEV-p,6.3,soak,FC_MJ,0.0
+1528,ICEV-p,6.3,soak,HC,0.0441124103963375
+1529,ICEV-p,6.3,soak,N2O,0.0
+1530,ICEV-p,6.3,soak,NH3,0.0
+1531,ICEV-p,6.3,soak,NMHC,0.0441124103963375
+1532,ICEV-p,6.3,soak,NO2,0.0
+1533,ICEV-p,6.3,soak,NOx,0.0
+1534,ICEV-p,6.3,soak,PM2.5,0.0
+1535,ICEV-p,6.3,soak,Pb,0.0
+1536,ICEV-p,7.0,cold start,Benzene,0.0756470337510109
+1537,ICEV-p,7.0,cold start,CH4,0.0607620067894459
+1538,ICEV-p,7.0,cold start,CO,6.93474864959717
+1539,ICEV-p,7.0,cold start,FC_MJ,1.08617079257965
+1540,ICEV-p,7.0,cold start,HC,1.11082279682159
+1541,ICEV-p,7.0,cold start,N2O,0.0
+1542,ICEV-p,7.0,cold start,NH3,0.0
+1543,ICEV-p,7.0,cold start,NMHC,1.05006074905396
+1544,ICEV-p,7.0,cold start,NO2,0.0120416227728128
+1545,ICEV-p,7.0,cold start,NOx,0.240832433104515
+1546,ICEV-p,7.0,cold start,PM2.5,0.0
+1547,ICEV-p,7.0,cold start,Pb,2.58499603660312e-05
+1548,ICEV-p,7.0,diurnal,Benzene,0.00726049626246095
+1549,ICEV-p,7.0,diurnal,CH4,0.0
+1550,ICEV-p,7.0,diurnal,CO,0.0
+1551,ICEV-p,7.0,diurnal,FC_MJ,0.0
+1552,ICEV-p,7.0,diurnal,HC,0.907562017440796
+1553,ICEV-p,7.0,diurnal,N2O,0.0
+1554,ICEV-p,7.0,diurnal,NH3,0.0
+1555,ICEV-p,7.0,diurnal,NMHC,0.907562017440796
+1556,ICEV-p,7.0,diurnal,NO2,0.0
+1557,ICEV-p,7.0,diurnal,NOx,0.0
+1558,ICEV-p,7.0,diurnal,PM2.5,0.0
+1559,ICEV-p,7.0,diurnal,Pb,0.0
+1560,ICEV-p,7.0,running losses,Benzene,1.0247330313480527e-05
+1561,ICEV-p,7.0,running losses,CH4,0.0
+1562,ICEV-p,7.0,running losses,CO,0.0
+1563,ICEV-p,7.0,running losses,FC_MJ,0.0
+1564,ICEV-p,7.0,running losses,HC,0.0012809162144549193
+1565,ICEV-p,7.0,running losses,N2O,0.0
+1566,ICEV-p,7.0,running losses,NH3,0.0
+1567,ICEV-p,7.0,running losses,NMHC,0.0012809162144549193
+1568,ICEV-p,7.0,running losses,NO2,0.0
+1569,ICEV-p,7.0,running losses,NOx,0.0
+1570,ICEV-p,7.0,running losses,PM2.5,0.0
+1571,ICEV-p,7.0,running losses,Pb,0.0
+1572,ICEV-p,7.0,soak,Benzene,0.000352899311110377
+1573,ICEV-p,7.0,soak,CH4,0.0
+1574,ICEV-p,7.0,soak,CO,0.0
+1575,ICEV-p,7.0,soak,FC_MJ,0.0
+1576,ICEV-p,7.0,soak,HC,0.0441124103963375
+1577,ICEV-p,7.0,soak,N2O,0.0
+1578,ICEV-p,7.0,soak,NH3,0.0
+1579,ICEV-p,7.0,soak,NMHC,0.0441124103963375
+1580,ICEV-p,7.0,soak,NO2,0.0
+1581,ICEV-p,7.0,soak,NOx,0.0
+1582,ICEV-p,7.0,soak,PM2.5,0.0
+1583,ICEV-p,7.0,soak,Pb,0.0

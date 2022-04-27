@@ -327,7 +327,7 @@ def test_export_to_excel():
     """Test that inventories export successfully to Excel/CSV"""
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
 
-    for b in ("3.5", "3.6", "3.7", "3.8", "uvek"):
+    for b in ("3.5", "3.6", "3.7", "3.7.1", "3.8", "uvek"):
         for c in (True, False):
             for d in ("file", "string"):
                 #
