@@ -19,6 +19,7 @@ from bw2io.export.excel import create_valid_worksheet_name, safe_filename, xlsxw
 
 from . import DATA_DIR, __version__
 
+
 def load_mapping_36_to_uvek() -> Dict[
     Tuple[str, str, str, str], Tuple[str, str, str, str]
 ]:
@@ -56,6 +57,7 @@ def load_mapping_36_to_uvek() -> Dict[
         )
     return dict_uvek
 
+
 def load_mapping_36_to_uvek_for_simapro() -> Dict[Tuple[str, str, str, str], str]:
     """Load mapping dictionary between ecoinvent 3.6 and UVEK for Simapro name format"""
 
@@ -86,6 +88,7 @@ def load_mapping_36_to_uvek_for_simapro() -> Dict[Tuple[str, str, str, str], str
         dict_uvek[(name, location, unit, ref_prod)] = simapro_name
 
     return dict_uvek
+
 
 def load_mapping_38_to_37() -> Dict[
     Tuple[str, str, str, str], Tuple[str, str, str, str]
@@ -376,8 +379,6 @@ class ExportInventory:
             dict_tags[name] = tag
 
         return dict_tags
-
-
 
     def write_lci(
         self,
