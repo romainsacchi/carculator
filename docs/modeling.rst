@@ -133,7 +133,7 @@ Example of Lower medium car (VW Golf), Medium car (Peugeot 408) and Large car (T
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image4.png
     :width: 30%
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image5.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image5.jpeg
     :width: 30%
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image6.png
     :width: 30%
@@ -264,45 +264,18 @@ matches roughly with the value given for an Audi e-Tron in Table 3) and
 
 Table 3 Amount of aluminium in European passenger cars. Source: [2]
 
-+---------+-------+---------+---------+---------+-------+---------+
-| Used in | Basic | Sub-    | Compact | Midsize | Large | Audi    |
-| source  |       | Compact |         |         |       | e-Tron  |
-+=========+=======+=========+=========+=========+=======+=========+
-| Used in | Small | Medium  | Large   | Large   |       |         |
-| *carc   |       |         |         | SUV     |       |         |
-| ulator* |       |         |         | (BEV)   |       |         |
-+---------+-------+---------+---------+---------+-------+---------+
-| Average | 77    | 98      | 152     | 266     | 442   | 804     |
-| al      |       |         |         |         |       |         |
-| uminium |       |         |         |         |       |         |
-| content |       |         |         |         |       |         |
-| per     |       |         |         |         |       |         |
-| vehicle |       |         |         |         |       |         |
-| [kg]    |       |         |         |         |       |         |
-+---------+-------+---------+---------+---------+-------+---------+
-| Share   | 66%   |         |         |         |       |         |
-| of      |       |         |         |         |       |         |
-| al      |       |         |         |         |       |         |
-| uminium |       |         |         |         |       |         |
-| mass in |       |         |         |         |       |         |
-| com     |       |         |         |         |       |         |
-| ponents |       |         |         |         |       |         |
-| other   |       |         |         |         |       |         |
-| than    |       |         |         |         |       |         |
-| engine  |       |         |         |         |       |         |
-| and     |       |         |         |         |       |         |
-| trans   |       |         |         |         |       |         |
-| mission |       |         |         |         |       |         |
-| [%]     |       |         |         |         |       |         |
-+---------+-------+---------+---------+---------+-------+---------+
-| Al      | 65    | 175     | 292     | 530     |       |         |
-| uminium |       |         |         |         |       |         |
-| to be   |       |         |         |         |       |         |
-| added   |       |         |         |         |       |         |
-| to the  |       |         |         |         |       |         |
-| glider  |       |         |         |         |       |         |
-| [%]     |       |         |         |         |       |         |
-+---------+-------+---------+---------+---------+-------+---------+
++-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
+| Used in source                                                                | Basic  | Sub-Compact  | Compact  |      | Midsize  | Large  |      | Audi e-Tron      |
++===============================================================================+========+==============+==========+======+==========+========+======+==================+
+| Used in carculator                                                            | Small  |              |          |      | Medium   | Large  |      | Large SUV (BEV)  |
++-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
+| Average aluminium content per vehicle [kg]                                    | 77     | 98           | 152      |      | 266      | 442    |      | 804              |
++-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
+| Share of aluminium mass in components other than engine and transmission [%]  | 66%    |              |          |      |          |        |      |                  |
++-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
+| Aluminium to be added to the glider [%]                                       | 65     |              |          | 175  |          | 292    | 530  |                  |
++-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
+
 
 The final curb mass obtained for each vehicle is calibrated against the
 European Commission's database for CO\ :sub:`2` emission tests for
@@ -522,7 +495,7 @@ at 0.15 kWh/kg (but benefits from a high cell-to-pack ratio)..
 Table 6 Specifications for the different battery types
 
 +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
-| -                                                                           | Lithium Nickel Manganese Cobalt Oxide (LiNiMnCoO2) — NMC  | Lithium Iron Phosphate(LiFePO4) — LFP  | Lithium Nickel Cobalt Aluminum Oxide (LiNiCoAlO2) — NCA  | Source                              |
+|                                                                             | Lithium Nickel Manganese Cobalt Oxide (LiNiMnCoO2) — NMC  | Lithium Iron Phosphate(LiFePO4) — LFP  | Lithium Nickel Cobalt Aluminum Oxide (LiNiCoAlO2) — NCA  | Source                              |
 +=============================================================================+===========================================================+========================================+==========================================================+=====================================+
 | Cell energy density [kWh/kg]                                                | 0.2 (0.5 in 2050)                                         | 0.15                                   | 0.23 (0.5 in 2050)                                       | [11]                                |
 +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
@@ -544,6 +517,10 @@ Table 6 Specifications for the different battery types
 +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
 | Discharge efficiency                                                        | 88% in 2020, 89% in 2050                                  |                                        |                                                          | [5,16]                              |
 +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+
+Note that the NMC battery cell used by default corresponds to a so-called NMC 6-2-2 chemistry: it exhibits three times the mass amount of Ni
+compared to Mn, and Co, while Mn and Co are present in equal amount. Development aims at reducing the content of Cobalt and increasing the
+Nickel share. A selection of other chemistries can be chosen from.
 
 
 On account that:
@@ -1684,226 +1661,111 @@ of the results against a larger number of impact assessment methods.
 References
 ==========
 
-[1] Thiel C, Schmidt J, Van Zyl A, Schmid E. Cost and well-to-wheel
-implications of the vehicle fleet CO2 emission regulation in the
-European Union. Transp Res Part A Policy Pract 2014;63:25-42.
-https://doi.org/10.1016/j.tra.2014.02.018.[2] Ducker Frontier. Aluminum
-Content in European Passenger Cars. Eur Alum 2019:13.[3] European
-Commission. Monitoring of CO2 emissions from passenger cars - Regulation
-(EU) 2019/631 — European Environment Agency 2021.
-https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-19
-(accessed June 17, 2021).[4] European Environment Agency. Monitoring of
-CO2 emissions from passenger cars - Regulation (EC) No 443/2009 —
-European Environment Agency 2019.
-https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
-(accessed January 25, 2020).[5] Cox B, Bauer C, Mendoza Beltran A, van
-Vuuren DP, Mutel C. Life cycle environmental and cost comparison of
-current and future passenger cars under different energy scenarios. Appl
-Energy2 2020.[6] Bauer C, Cox B, Heck T, Hirschberg S, Hofer J, Schenler
-W, et al. Opportunities and challenges for electric mobility: an
-interdisciplinary assessment of passenger vehicles Final report of the
-THELMA project in co-operation with the Swiss Competence Center for
-Energy Research "Efficient technologies and systems for mobility."
-2016.[7] Sacchi R, Bauer C, Cox B, Mutel CL. carculator: an open-source
-tool for prospective environmental and economic life cycle assessment of
-vehicles. When, Where and How can battery-electric vehicles help reduce
-greenhouse gas emissions? Renew Sustain Energy Rev 2020.[8] Veronika
-Henze. China Dominates the Lithium-ion Battery Supply Chain, but Europe
-is on the Rise. BloombergNEF 2020.
-https://about.bnef.com/blog/china-dominates-the-lithium-ion-battery-supply-chain-but-europe-is-on-the-rise/
-(accessed August 3, 2021).[9] Xinhua. China's CATL unveils cell-to-pack
-battery platform.
-Http://WwwXinhuanetCom/English/2019-09/13/C_138389934Htm 2019.
-http://www.xinhuanet.com/english/2019-09/13/c_138389934.htm (accessed
-November 14, 2021).[10] Mark K. BYD's New Blade Battery Set to Redefine
-EV safety Standards. INSIDEEVs 2020:1-2.[11] BatteryUniversity. BU-216:
-Summary Table of Lithium-based Batteries - Battery University 2021.
-https://batteryuniversity.com/article/bu-216-summary-table-of-lithium-based-batteries
-(accessed June 17, 2021).[12] Yang X-G, Liu T, Wang C-Y. Thermally
-modulated lithium iron phosphate batteries for mass-market electric
-vehicles. Nat Energy 2021 62 2021;6:176-85.
-https://doi.org/10.1038/s41560-020-00757-7.[13] Göhlich D, Fay TA,
-Jefferies D, Lauth E, Kunith A, Zhang X. Design of urban electric bus
-systems. Des Sci 2018;4. https://doi.org/10.1017/dsj.2018.10.[14] Preger
-Y, Barkholtz HM, Fresquez A, Campbell DL, Juba BW, Romàn-Kustas J, et
-al. Degradation of Commercial Lithium-Ion Cells as a Function of
-Chemistry and Cycling Conditions. J Electrochem Soc 2020;167:120532.
-https://doi.org/10.1149/1945-7111/abae37.[15] Cox B, Althaus H-J,
-Christian Bauer I, Sacchi R, Mutel C, Mireille Faist Emmenegger P, et
-al. Umweltauswirkungen von Fahrzeugen im urbanen Kontext Schlussbericht.
-2020.[16] Schwertner M, Weidmann U. Comparison of well-to-wheel
-efficiencies for different drivetrain configurations of transit buses.
-Transp Res Rec 2016;2539:55-64. https://doi.org/10.3141/2539-07.[17]
-Simons A, Bauer C. A life-cycle perspective on automotive fuel cells.
-Appl Energy 2015;157:884-96.
-https://doi.org/10.1016/j.apenergy.2015.02.049.[18] Eudy L, Post M. Fuel
-Cell Buses in U.S. Transit Fleets: Current Status 2020. 2020.[19] Kurtz
-J, Sprik S, Saur G, Onorato S. Fuel Cell Electric Vehicle Durability and
-Fuel Cell Performance. 2018.[20] Mock P. Footprint versus mass: How to
-best account for weight reduction in the european vehicle CO2
-regulation. vol. 2020. 2017.[21] Sebastian BM, Thimons MA. Life Cycle
-Greenhouse Gas and Energy Study of Automotive Lightweighting. 2017.[22]
-Hottle T, Caffrey C, McDonald J, Dodder R. Critical factors affecting
-life cycle assessments of material choice for vehicle mass reduction.
-Transp Res Part D, Transp Environ 2017;56:241.
-https://doi.org/10.1016/J.TRD.2017.08.010.[23] World Steel Association.
-STEEL IN THE CIRCULAR ECONOMY A life cycle perspective. Worldsteel
-Asscociation 2015:16.[24] Plötz P, Moll C, Bieker G, Mock P, Li Y.
-REAL-WORLD USAGE OF PLUG-IN HYBRID ELECTRIC VEHICLES FUEL CONSUMPTION,
-ELECTRIC DRIVING, AND CO 2 EMISSIONS. 2020.[25] Spielmann M, Dones R,
-Bauer C. Life Cycle Inventories of Transport Services. Final report. .
-Dübendorf and Villigen, CH: 2007.[26] Notter B, Keller M, Cox B.
-Handbook emission factors for road transport 4.1 Quick reference.
-2019.[27] Swiss Federal Office for the Environment. Switzerland's
-National Inventory Report 2021. 2021.[28] Miller J, Jin L. Global
-Progress Toward Soot-Free Diesel Vehicles in 2019. Icct, Ccac 2019:35.
-https://theicct.org/sites/default/files/publications/Global_progress_sootfree_diesel_2019_20190920.pdf
-(accessed January 13, 2022).[29] International Energy Agency (IEA).
-Extended world energy balances 2021.
-https://doi.org/https://doi.org/10.1787/data-00513-en.[30] INFRAS.
-Handbook Emission Factors for Road Transport 2019.
-https://www.hbefa.net/e/index.html.[31] European Environment Agency. Air
-pollutant emission inventory guidebook 2019 2019.
-https://www.eea.europa.eu/publications/emep-eea-guidebook-2019/part-b-sectoral-guidance-chapters/1-energy/1-a-combustion/1-a-3-b-i/view
-(accessed November 2, 2020).[32] Beddows DCS, Harrison RM. PM10 and
-PM2.5 emission factors for non-exhaust particles from road vehicles:
-Dependence upon vehicle mass and implications for battery electric
-vehicles. Atmos Environ 2021;244:117886.
-https://doi.org/10.1016/J.ATMOSENV.2020.117886.[33] US EPA. Emission
-Factor Documentation for AP-42, Section 13.2.1: Paved Roads. Measurement
-Policy Group, Office of Air Quality Planning and Standards. 2011.[34]
-Stolz P, Messmer A, Frischknecht R. Life Cycle Inventories of Road and
-Non-Road Transport Services. 2016.[35] Stylianos Kephalopoulos, Marco
-Paviotti FA-L. Common Noise Assessment Methods in Europe (CNOSSOS-EU).
-vol. 122. 2012.[36] Pallas MA, Bérengier M, Chatagnon R, Czuka M, Conter
-M, Muirhead M. Towards a model for electric vehicle noise emission in
-the European prediction method CNOSSOS-EU. Appl Acoust 2016;113:89-101.
-https://doi.org/10.1016/j.apacoust.2016.06.012.[37] Cucurachi S, Schiess
-S, Froemelt A, Hellweg S. Noise footprint from personal land-based
-mobility. J Ind Ecol 2019;23:1028-38.
-https://doi.org/10.1111/jiec.12837.[38] Entso-e. ENTSO-E Ten-Year
-Network Development Plan 2020 - Main Report - November 2020 - Version
-for public consultation 2020.[39] Sacchi R, Terlouw T, Siala K,
-Dirnaichner A, Bauer C, Cox B, et al. PRospective EnvironMental Impact
-asSEment (premise): a streamlined approach to producing databases for
-prospective Life Cycle Assessment using Integrated Assessment Models.
-Renew Sustain Energy Rev n.d.[40] Cozzolini F. Life Cycle Assessment of
-Biofuels in EU/CH. 2018.[41] Hank C, Lazar L, Mantei F, Ouda M, White
-RJ, Smolinka T, et al. Comparative well-to-wheel life cycle assessment
-of OME3-5 synfuel production via the power-to-liquid pathway. Sustain
-Energy Fuels 2019;3:3219-33. https://doi.org/10.1039/c9se00658c.[42] Van
-Der Giesen C, Kleijn R, Kramer GJ. Energy and climate impacts of
-producing synthetic hydrocarbon fuels from CO2. Environ Sci Technol
-2014;48:7111-21. https://doi.org/10.1021/es500191g.[43] Zhang X, Witte
-J, Schildhauer T, Bauer C. Life cycle assessment of power-to-gas with
-biogas as the carbon source. Sustain Energy Fuels 2020.
-https://doi.org/10.1039/c9se00986h.[44] Antonini C, Treyer K, Moioli E,
-Bauer C, Mazzotti M. Hydrogen from wood gasification with CCS - a
-techno-environmental analysis of production and use as transport fuel.
-ChemRxiv 2020. https://doi.org/10.26434/chemrxiv.13213553.v1.[45]
-Antonini C, Treyer K, Streb A, van der Spek M, Bauer C, Mazzotti M.
-Hydrogen production from natural gas and biomethane with carbon capture
-and storage - A techno-environmental analysis. Sustain Energy Fuels
-2020;4:2967-86. https://doi.org/10.1039/d0se00222d.[46] Bauer C, Desai
-H, Heck T, Schneider S, Terlouw T, Treyer K, et al. Electricity storage
-and hydrogen: Technologies, costs and environmental burdens. 2021.[47]
-Zhang X, Bauer C, Mutel CL, Volkart K. Life Cycle Assessment of
-Power-to-Gas: Approaches, system variations and their environmental
-implications. Appl Energy 2017;190:326-38.
-https://doi.org/10.1016/j.apenergy.2016.12.098.[48] Dai Q, Kelly JC,
-Gaines L, Wang M. Life Cycle Analysis of Lithium-Ion Batteries for
-Automotive Applications. Batter 2019, Vol 5, Page 48 2019;5:48.
-https://doi.org/10.3390/BATTERIES5020048.[49] Wernet G, Bauer C,
-Steubing B, Reinhard J, Moreno-Ruiz E, Weidema B. The ecoinvent database
-version 3 (part I): overview and methodology. Int J Life Cycle Assess
-2016;21:1218-30.[50] Supply Chain Looms as Serious Threat to Batteries'
-Green Reputation \| Greentech Media n.d.
-https://www.greentechmedia.com/articles/read/graphite-the-biggest-threat-to-batteries-green-reputation
-(accessed January 16, 2022).[51] Engels P, Cerdas F, Dettmer T, Frey C,
-Hentschel J, Herrmann C, et al. Life cycle assessment of natural
-graphite production for lithium-ion battery anodes based on industrial
-primary data. J Clean Prod 2022;336:130474.
-https://doi.org/10.1016/J.JCLEPRO.2022.130474.[52] Simons A, Bauer C. A
-life-cycle perspective on automotive fuel cells. Appl Energy
-2015;157:884-96. https://doi.org/10.1016/J.APENERGY.2015.02.049.[53]
-Benitez A, Wulf C, de Palmenaer A, Lengersdorf M, Röding T, Grube T, et
-al. Ecological assessment of fuel cell electric vehicles with special
-focus on type IV carbon fiber hydrogen tank. J Clean Prod
-2021;278:123277. https://doi.org/10.1016/j.jclepro.2020.123277.[54]
-Evangelisti S, Tagliaferri C, Brett DJL, Lettieri P. Life cycle
-assessment of a polymer electrolyte membrane fuel cell system for
-passenger vehicles. J Clean Prod 2017;142:4339-55.
-https://doi.org/10.1016/j.jclepro.2016.11.159.
+.. [1] Thiel C, Schmidt J, Van Zyl A, Schmid E. Cost and well-to-wheel implications of the vehicle fleet CO2 emission regulation in the European Union. Transp Res Part A Policy Pract 2014;63:25-42. https://doi.org/10.1016/j.tra.2014.02.018.
 
-.. [1]
-   The NMC battery cell used by default corresponds to a so-called NMC
-   6-2-2 chemistry: it exhibits three times the mass amount of Ni
-   compared to Mn, and Co, while Mn and Co are present in equal amount.
-   Development aims at reducing the content of Cobalt and increasing the
-   Nickel share. A selection of other chemistries can be chosen from.
+.. [2] Ducker Frontier. Aluminum Content in European Passenger Cars. Eur Alum 2019:13.
 
-.. [2]
-   The NMC battery cell used by default corresponds to a so-called NMC
-   6-2-2 chemistry: it exhibits three times the mass amount of Ni
-   compared to Mn, and Co, while Mn and Co are present in equal amount.
-   Development aims at reducing the content of Cobalt and increasing the
-   Nickel share. A selection of other chemistries can be chosen from.
+.. [3] European Commission. Monitoring of CO2 emissions from passenger cars - Regulation (EU) 2019/631 — European Environment Agency 2021. https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-19 (accessed June 17, 2021).
 
-.. [3]
-   The NMC battery cell used by default corresponds to a so-called NMC
-   6-2-2 chemistry: it exhibits three times the mass amount of Ni
-   compared to Mn, and Co, while Mn and Co are present in equal amount.
-   Development aims at reducing the content of Cobalt and increasing the
-   Nickel share. A selection of other chemistries can be chosen from.
+.. [4] European Environment Agency. Monitoring of CO2 emissions from passenger cars - Regulation (EC) No 443/2009 - European Environment Agency 2019. https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16 (accessed January 25, 2020).
 
-.. |This is not a car! \| Microlino - microlino-car.com| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image1.png
-:width: 1.76761in
-:height: 1.32669in
-.. |Die Elektroautos von smart \| smart Schweiz| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image2.jpeg
-:width: 2.17043in
-:height: 1.24399in
-.. |image1| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image3.png
-   :width: 2.08559in
-   :height: 1.23039in
-.. |image2| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image4.png
-   :width: 1.82353in
-   :height: 0.85125in
-.. |Peugeot 408 - Spezifikationen zu Reifen, Lochkreisdurchmesser, Einpresstiefe, Stahlfelgen und Alufelgen - Reifen-Größen.de| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image5.jpeg
-   :width: 1.71569in
-   :height: 0.91674in
-.. |Model 3 \| Tesla Deutschland| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image6.png
-:width: 2.09269in
-:height: 0.87712in
-.. |Offizielle Sicherheitsbewertung Peugeot 2008 2019| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image7.png
-   :width: 1.82746in
-   :height: 1.04412in
-.. |Audi Q7 Black Edition, HD Png Download - kindpng| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image8.png
-   :width: 1.90686in
-   :height: 1.01389in
-.. |New Fiat Professional Van Range \| Ducato Talento Doblo Fiorino \| Maidstone, Kent \| Haynes Trucks| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image9.png
-:width: 2.0049in
-:height: 1.04714in
-.. |image3| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image3.png
-   :width: 2.08559in
-   :height: 1.23039in
-.. |image4| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image4.png
-   :width: 1.82353in
-   :height: 0.85125in
-.. |image5| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image3.png
-   :width: 2.08559in
-   :height: 1.23039in
-.. |image6| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image4.png
-   :width: 1.82353in
-   :height: 0.85125in
-.. |image7| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image14.png
-   :width: 1.48352in
-   :height: 0.79868in
-.. |image8| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image15.png
-   :width: 6.26806in
-   :height: 1.49107in
-.. |image9| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image27.png
-   :width: 4.23618in
-   :height: 2.86458in
-.. |image10| image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image28.png
-   :width: 1.94236in
-   :height: 2.88229in
+.. [5] Cox B, Bauer C, Mendoza Beltran A, van Vuuren DP, Mutel C. Life cycle environmental and cost comparison of current and future passenger cars under different energy scenarios. Appl Energy2 2020.
+
+.. [6] Bauer C, Cox B, Heck T, Hirschberg S, Hofer J, Schenler W, et al. Opportunities and challenges for electric mobility: an interdisciplinary assessment of passenger vehicles Final report of the THELMA project in co-operation with the Swiss Competence Center for Energy Research "Efficient technologies and systems for mobility." 2016.
+
+.. [7] Sacchi R, Bauer C, Cox B, When, Where and How can battery-electric vehicles help reduce greenhouse gas emissions? Renew Sustain Energy Rev 2022.
+
+.. [8] Veronika Henze. China Dominates the Lithium-ion Battery Supply Chain, but Europe is on the Rise. BloombergNEF 2020. https://about.bnef.com/blog/china-dominates-the-lithium-ion-battery-supply-chain-but-europe-is-on-the-rise/ (accessed August 3, 2021).
+
+.. [9] Xinhua. China's CATL unveils cell-to-pack battery platform. 2019. http://www.xinhuanet.com/english/2019-09/13/c_138389934.htm (accessed November 14, 2021).
+
+.. [10] Mark K. BYD's New Blade Battery Set to Redefine EV safety Standards. INSIDEEVs 2020:1-2.
+
+.. [11] BatteryUniversity. BU-216: Summary Table of Lithium-based Batteries - Battery University 2021. https://batteryuniversity.com/article/bu-216-summary-table-of-lithium-based-batteries (accessed June 17, 2021).
+
+.. [12] Yang X-G, Liu T, Wang C-Y. Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nat Energy 2021 62 2021;6:176-85. https://doi.org/10.1038/s41560-020-00757-7.
+
+.. [13] Göhlich D, Fay TA, Jefferies D, Lauth E, Kunith A, Zhang X. Design of urban electric bus systems. Des Sci 2018;4. https://doi.org/10.1017/dsj.2018.10.
+
+.. [14] Preger Y, Barkholtz HM, Fresquez A, Campbell DL, Juba BW, Romàn-Kustas J, et al. Degradation of Commercial Lithium-Ion Cells as a Function of Chemistry and Cycling Conditions. J Electrochem Soc 2020;167:120532. https://doi.org/10.1149/1945-7111/abae37.
+
+.. [15] Cox B, Althaus H-J, Christian Bauer I, Sacchi R, Mutel C, Mireille Faist Emmenegger P, et al. Umweltauswirkungen von Fahrzeugen im urbanen Kontext Schlussbericht. 2020.
+
+.. [16] Schwertner M, Weidmann U. Comparison of well-to-wheel efficiencies for different drivetrain configurations of transit buses. Transp Res Rec 2016;2539:55-64. https://doi.org/10.3141/2539-07.
+
+.. [17] Simons A, Bauer C. A life-cycle perspective on automotive fuel cells. Appl Energy 2015;157:884-96. https://doi.org/10.1016/j.apenergy.2015.02.049.[18] Eudy L, Post M. Fuel Cell Buses in U.S. Transit Fleets: Current Status 2020. 2020.
+
+.. [19] Kurtz J, Sprik S, Saur G, Onorato S. Fuel Cell Electric Vehicle Durability and Fuel Cell Performance. 2018.
+
+.. [20] Mock P. Footprint versus mass: How to best account for weight reduction in the european vehicle CO2 regulation. vol. 2020. 2017.
+
+.. [21] Sebastian BM, Thimons MA. Life Cycle Greenhouse Gas and Energy Study of Automotive Lightweighting. 2017.
+
+.. [22] Hottle T, Caffrey C, McDonald J, Dodder R. Critical factors affecting life cycle assessments of material choice for vehicle mass reduction. Transp Res Part D, Transp Environ 2017;56:241. https://doi.org/10.1016/J.TRD.2017.08.010.
+
+.. [23] World Steel Association. STEEL IN THE CIRCULAR ECONOMY A life cycle perspective. Worldsteel Asscociation 2015:16.
+
+.. [24] Plötz P, Moll C, Bieker G, Mock P, Li Y. REAL-WORLD USAGE OF PLUG-IN HYBRID ELECTRIC VEHICLES FUEL CONSUMPTION, ELECTRIC DRIVING, AND CO2 EMISSIONS. 2020.
+
+.. [25] Spielmann M, Dones R, Bauer C. Life Cycle Inventories of Transport Services. Final report. Dübendorf and Villigen, CH: 2007.
+
+.. [26] Notter B, Keller M, Cox B. Handbook emission factors for road transport 4.1 Quick reference. 2019.
+
+.. [27] Swiss Federal Office for the Environment. Switzerland's National Inventory Report 2021. 2021.
+
+.. [28] Miller J, Jin L. Global Progress Toward Soot-Free Diesel Vehicles in 2019. Icct, Ccac 2019:35. https://theicct.org/sites/default/files/publications/Global_progress_sootfree_diesel_2019_20190920.pdf (accessed January 13, 2022).
+
+.. [29] International Energy Agency (IEA). Extended world energy balances 2021. https://doi.org/https://doi.org/10.1787/data-00513-en.
+
+.. [30] INFRAS. Handbook Emission Factors for Road Transport 2019. https://www.hbefa.net/e/index.html.
+
+.. [31] European Environment Agency. Air pollutant emission inventory guidebook 2019 2019. https://www.eea.europa.eu/publications/emep-eea-guidebook-2019/part-b-sectoral-guidance-chapters/1-energy/1-a-combustion/1-a-3-b-i/view (accessed November 2, 2020).
+
+.. [32] Beddows DCS, Harrison RM. PM10 and PM2.5 emission factors for non-exhaust particles from road vehicles: Dependence upon vehicle mass and implications for battery electric vehicles. Atmos Environ 2021;244:117886. https://doi.org/10.1016/J.ATMOSENV.2020.117886.
+
+.. [33] US EPA. Emission Factor Documentation for AP-42, Section 13.2.1: Paved Roads. Measurement Policy Group, Office of Air Quality Planning and Standards. 2011.
+
+.. [34] Stolz P, Messmer A, Frischknecht R. Life Cycle Inventories of Road and Non-Road Transport Services. 2016.
+
+.. [35] Stylianos Kephalopoulos, Marco Paviotti FA-L. Common Noise Assessment Methods in Europe (CNOSSOS-EU). vol. 122. 2012.
+
+.. [36] Pallas MA, Bérengier M, Chatagnon R, Czuka M, Conter M, Muirhead M. Towards a model for electric vehicle noise emission in the European prediction method CNOSSOS-EU. Appl Acoust 2016;113:89-101. https://doi.org/10.1016/j.apacoust.2016.06.012.
+
+.. [37] Cucurachi S, Schiess S, Froemelt A, Hellweg S. Noise footprint from personal land-based mobility. J Ind Ecol 2019;23:1028-38. https://doi.org/10.1111/jiec.12837.
+
+.. [38] Entso-e. ENTSO-E Ten-Year Network Development Plan 2020 - Main Report - November 2020 - Version for public consultation 2020.
+
+.. [39] Sacchi R, Terlouw T, Siala K, Dirnaichner A, Bauer C, Cox B, et al. PRospective EnvironMental Impact asSEment (premise): a streamlined approach to producing databases for prospective Life Cycle Assessment using Integrated Assessment Models. Renew Sustain Energy Rev 2022.
+
+.. [40] Cozzolini F. Life Cycle Assessment of Biofuels in EU/CH. 2018.
+
+.. [41] Hank C, Lazar L, Mantei F, Ouda M, White RJ, Smolinka T, et al. Comparative well-to-wheel life cycle assessment of OME3-5 synfuel production via the power-to-liquid pathway. Sustain Energy Fuels 2019;3:3219-33. https://doi.org/10.1039/c9se00658c.
+
+.. [42] Van Der Giesen C, Kleijn R, Kramer GJ. Energy and climate impacts of producing synthetic hydrocarbon fuels from CO2. Environ Sci Technol 2014;48:7111-21. https://doi.org/10.1021/es500191g.
+
+.. [43] Zhang X, Witte J, Schildhauer T, Bauer C. Life cycle assessment of power-to-gas with biogas as the carbon source. Sustain Energy Fuels 2020. https://doi.org/10.1039/c9se00986h.
+
+.. [44] Antonini C, Treyer K, Moioli E, Bauer C, Mazzotti M. Hydrogen from wood gasification with CCS - a techno-environmental analysis of production and use as transport fuel. ChemRxiv 2020. https://doi.org/10.26434/chemrxiv.13213553.v1.
+
+.. [45] Antonini C, Treyer K, Streb A, van der Spek M, Bauer C, Mazzotti M. Hydrogen production from natural gas and biomethane with carbon capture and storage - A techno-environmental analysis. Sustain Energy Fuels 2020;4:2967-86. https://doi.org/10.1039/d0se00222d.
+
+.. [46] Bauer C, Desai H, Heck T, Schneider S, Terlouw T, Treyer K, et al. Electricity storage and hydrogen: Technologies, costs and environmental burdens. 2021.
+
+.. [47] Zhang X, Bauer C, Mutel CL, Volkart K. Life Cycle Assessment of Power-to-Gas: Approaches, system variations and their environmental implications. Appl Energy 2017;190:326-38. https://doi.org/10.1016/j.apenergy.2016.12.098.
+
+.. [48] Dai Q, Kelly JC, Gaines L, Wang M. Life Cycle Analysis of Lithium-Ion Batteries for Automotive Applications. Batter 2019, Vol 5, Page 48 2019;5:48. https://doi.org/10.3390/BATTERIES5020048.
+
+.. [49] Wernet G, Bauer C, Steubing B, Reinhard J, Moreno-Ruiz E, Weidema B. The ecoinvent database version 3 (part I): overview and methodology. Int J Life Cycle Assess 2016;21:1218-30.
+
+.. [50] Supply Chain Looms as Serious Threat to Batteries' Green Reputation \| Greentech Media n.d. https://www.greentechmedia.com/articles/read/graphite-the-biggest-threat-to-batteries-green-reputation (accessed January 16, 2022).
+
+.. [51] Engels P, Cerdas F, Dettmer T, Frey C, Hentschel J, Herrmann C, et al. Life cycle assessment of natural graphite production for lithium-ion battery anodes based on industrial primary data. J Clean Prod 2022;336:130474. https://doi.org/10.1016/J.JCLEPRO.2022.130474.
+
+.. [52] Simons A, Bauer C. A life-cycle perspective on automotive fuel cells. Appl Energy 2015;157:884-96. https://doi.org/10.1016/J.APENERGY.2015.02.049.
+
+.. [53] Benitez A, Wulf C, de Palmenaer A, Lengersdorf M, Röding T, Grube T, et al. Ecological assessment of fuel cell electric vehicles with special focus on type IV carbon fiber hydrogen tank. J Clean Prod 2021;278:123277. https://doi.org/10.1016/j.jclepro.2020.123277.
+
+.. [54] Evangelisti S, Tagliaferri C, Brett DJL, Lettieri P. Life cycle assessment of a polymer electrolyte membrane fuel cell system for passenger vehicles. J Clean Prod 2017;142:4339-55. https://doi.org/10.1016/j.jclepro.2016.11.159.
+
+
+
