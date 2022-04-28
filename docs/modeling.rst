@@ -1665,9 +1665,9 @@ References
 
 .. [2] Ducker Frontier. Aluminum Content in European Passenger Cars. Eur Alum 2019:13.
 
-.. [3] European Commission. Monitoring of CO2 emissions from passenger cars - Regulation (EU) 2019/631 — European Environment Agency 2021. https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-19 (accessed June 17, 2021).
+.. [3] European Commission. Monitoring of CO2 emissions from passenger cars - Regulation (EU) 2019/631 — European Environment Agency 2021. https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-19
 
-.. [4] European Environment Agency. Monitoring of CO2 emissions from passenger cars - Regulation (EC) No 443/2009 - European Environment Agency 2019. https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16 (accessed January 25, 2020).
+.. [4] European Environment Agency. Monitoring of CO2 emissions from passenger cars - Regulation (EC) No 443/2009 - European Environment Agency 2019. https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
 
 .. [5] Cox B, Bauer C, Mendoza Beltran A, van Vuuren DP, Mutel C. Life cycle environmental and cost comparison of current and future passenger cars under different energy scenarios. Appl Energy2 2020.
 
@@ -1675,13 +1675,13 @@ References
 
 .. [7] Sacchi R, Bauer C, Cox B, When, Where and How can battery-electric vehicles help reduce greenhouse gas emissions? Renew Sustain Energy Rev 2022.
 
-.. [8] Veronika Henze. China Dominates the Lithium-ion Battery Supply Chain, but Europe is on the Rise. BloombergNEF 2020. https://about.bnef.com/blog/china-dominates-the-lithium-ion-battery-supply-chain-but-europe-is-on-the-rise/ (accessed August 3, 2021).
+.. [8] Veronika Henze. China Dominates the Lithium-ion Battery Supply Chain, but Europe is on the Rise. BloombergNEF 2020. https://about.bnef.com/blog/china-dominates-the-lithium-ion-battery-supply-chain-but-europe-is-on-the-rise/
 
 .. [9] Xinhua. China's CATL unveils cell-to-pack battery platform. 2019. http://www.xinhuanet.com/english/2019-09/13/c_138389934.htm (accessed November 14, 2021).
 
 .. [10] Mark K. BYD's New Blade Battery Set to Redefine EV safety Standards. INSIDEEVs 2020:1-2.
 
-.. [11] BatteryUniversity. BU-216: Summary Table of Lithium-based Batteries - Battery University 2021. https://batteryuniversity.com/article/bu-216-summary-table-of-lithium-based-batteries (accessed June 17, 2021).
+.. [11] BatteryUniversity. BU-216: Summary Table of Lithium-based Batteries - Battery University 2021. https://batteryuniversity.com/article/bu-216-summary-table-of-lithium-based-batteries
 
 .. [12] Yang X-G, Liu T, Wang C-Y. Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nat Energy 2021 62 2021;6:176-85. https://doi.org/10.1038/s41560-020-00757-7.
 
@@ -1713,13 +1713,13 @@ References
 
 .. [27] Swiss Federal Office for the Environment. Switzerland's National Inventory Report 2021. 2021.
 
-.. [28] Miller J, Jin L. Global Progress Toward Soot-Free Diesel Vehicles in 2019. Icct, Ccac 2019:35. https://theicct.org/sites/default/files/publications/Global_progress_sootfree_diesel_2019_20190920.pdf (accessed January 13, 2022).
+.. [28] Miller J, Jin L. Global Progress Toward Soot-Free Diesel Vehicles in 2019. Icct, Ccac 2019:35. https://theicct.org/sites/default/files/publications/Global_progress_sootfree_diesel_2019_20190920.pdf
 
 .. [29] International Energy Agency (IEA). Extended world energy balances 2021. https://doi.org/https://doi.org/10.1787/data-00513-en.
 
 .. [30] INFRAS. Handbook Emission Factors for Road Transport 2019. https://www.hbefa.net/e/index.html.
 
-.. [31] European Environment Agency. Air pollutant emission inventory guidebook 2019 2019. https://www.eea.europa.eu/publications/emep-eea-guidebook-2019/part-b-sectoral-guidance-chapters/1-energy/1-a-combustion/1-a-3-b-i/view (accessed November 2, 2020).
+.. [31] European Environment Agency. Air pollutant emission inventory guidebook 2019 2019. https://www.eea.europa.eu/publications/emep-eea-guidebook-2019/part-b-sectoral-guidance-chapters/1-energy/1-a-combustion/1-a-3-b-i/view.
 
 .. [32] Beddows DCS, Harrison RM. PM10 and PM2.5 emission factors for non-exhaust particles from road vehicles: Dependence upon vehicle mass and implications for battery electric vehicles. Atmos Environ 2021;244:117886. https://doi.org/10.1016/J.ATMOSENV.2020.117886.
 
@@ -1757,7 +1757,7 @@ References
 
 .. [49] Wernet G, Bauer C, Steubing B, Reinhard J, Moreno-Ruiz E, Weidema B. The ecoinvent database version 3 (part I): overview and methodology. Int J Life Cycle Assess 2016;21:1218-30.
 
-.. [50] Supply Chain Looms as Serious Threat to Batteries' Green Reputation \| Greentech Media n.d. https://www.greentechmedia.com/articles/read/graphite-the-biggest-threat-to-batteries-green-reputation (accessed January 16, 2022).
+.. [50] Supply Chain Looms as Serious Threat to Batteries' Green Reputation \| Greentech Media n.d. https://www.greentechmedia.com/articles/read/graphite-the-biggest-threat-to-batteries-green-reputation
 
 .. [51] Engels P, Cerdas F, Dettmer T, Frey C, Hentschel J, Herrmann C, et al. Life cycle assessment of natural graphite production for lithium-ion battery anodes based on industrial primary data. J Clean Prod 2022;336:130474. https://doi.org/10.1016/J.JCLEPRO.2022.130474.
 
