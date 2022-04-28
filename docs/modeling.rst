@@ -1,5 +1,5 @@
-Contents
-========
+Sections
+********
 
 `1 Overview of carculator modules <#overview-of-carculator-modules>`__
 
@@ -66,7 +66,7 @@ is also an online graphical user interface available at
 https://carculator.psi.ch.
 
 Overview of *carculator* modules
-================================
+********************************
 
 Figure 1 represents graphically the different modules of *carculator*,
 and how they relate to one another. The main module *model.py* builds
@@ -81,14 +81,14 @@ can be passed to *export.py* to be exported to various LCA software.
 Figure 1 Foreground vehicle model
 
 Vehicle modelling
-=================
+*****************
 
 The modelling of vehicles along powertrain types, time and size classes
 is described in this section. It is also referred to as *foreground*
 modelling.
 
 Size classes
-============
+------------
 
 Originally, *carculator* defines nine size classes, namely: Micro, Mini,
 Small, Lower medium, Medium, Large, Medium SUV, Large SUV and Van,
@@ -164,7 +164,7 @@ represent SUV models with a very high curb mass (2'000 kg and above) and
 footprint.
 
 Manufacture year and emission standard
-======================================
+--------------------------------------
 
 Several emission standards are considered. For simplicity, it is assumed
 that the vehicle manufacture year corresponds to the registration year,
@@ -195,7 +195,7 @@ used in *carculator*
 +----------------+----------------+----------------+----------------+
 
 Size and mass-related parameters and modeling
-=============================================
+---------------------------------------------
 
 The vehicle glider and its components (powertrain, energy storage, etc.)
 are sized according to engine power, which itself is conditioned by the
@@ -463,7 +463,7 @@ percentiles). The whiskers represent 90% of the distribution
 for vehicle tank-to-wheel energy consumption measurements: [4]_
 
 Electric energy storage
-=======================
+-----------------------
 
 Battery electric vehicles can use different battery chemistries (Li-ion
 NMC, Li-ion LFP, Li-ion NCA and Li-LTO) depending on the manufacturer's
@@ -554,7 +554,7 @@ Users are encouraged to test the sensitivity of end-results on the
 number of battery replacements.
 
 Fuel cell stack
-===============
+---------------
 
 All fuel cell electric vehicles use a proton exchange membrane
 (PEM)-based fuel cell system.
@@ -606,7 +606,7 @@ Table 8 Specifications for fuel cell stack systems
 +-----------------------+----------+--------+-----------------------+
 
 Light weighting
-===============
+---------------
 
 The automotive industry has been increasingly using light weighting
 materials to replace steel in engine blocks, chassis, wheels rims and
@@ -650,10 +650,10 @@ conventional primary low-alloyed steel from a basic oxygen furnace route
 to represent the use of AHSS.
 
 Sizing of onboard energy storage
-================================
+--------------------------------
 
 Sizing of battery
-=================
+_________________
 
 The sizing of batteries for battery electric vehicles is conditioned by
 the battery mass, which is defined as an input parameter for each size
@@ -754,7 +754,7 @@ it. For example, the Toyota Mirai is equipped with a 1.6 kWh
 nickel-based battery.
 
 Electric utility factor
-=======================
+-----------------------
 
 Diesel and gasoline plugin hybrid vehicles are modeled as a composition
 of an ICE vehicle and a battery electric vehicle to the extent
@@ -791,13 +791,13 @@ Table 11 Data points used to interpolate the electric utility factor
 +----------------------------------+----------------------------------+
 
 Inventory modelling
-===================
+*******************
 
 Once the vehicles are modeled, the calculated parameters of each of them
 is passed to the inventory.py calculation module to derive inventories.
 
 Road demand
-===========
+-----------
 
 The demand for construction and maintenance of roads and road-related
 infrastructure is calculated on the following basis:
@@ -822,7 +822,7 @@ ecoinvent as a renewal rate over the year in the road construction
 dataset.
 
 Fuel properties
-===============
+---------------
 
 For all vehicles with an internal combustion engine, carbon dioxide
 (CO\ :sub:`2`) and sulfur dioxide (SO\ :sub:`2`) emissions are
@@ -862,7 +862,7 @@ Because large variations are observed in terms of sulfur concentration
 in biofuels, similar values than that of conventional fuels are used.
 
 Exhaust emissions
-=================
+-----------------
 
 Emissions of regulated and non-regulated substances during driving are
 approximated using emission factors from HBEFA 4.1 [26]_. Emission
@@ -1039,7 +1039,7 @@ average emission factors. Red dots: modeled emissions calculated by
 consumption and amounts emitted.
 
 NMHC speciation
-===============
+_______________
 
 After NMHC emissions are quantified, EEA/EMEP's 2019 Air Pollutant
 Emission Inventory Guidebook provides factors to further specify some of
@@ -1074,13 +1074,13 @@ NMVOC, unspecified  50.8                      55
 =================== ========================= =======================
 
 Non-exhaust emissions
-=====================
+---------------------
 
 A number of emission sources besides exhaust emissions are considered.
 They are described in the following sub-sections.
 
 Engine wear emissions
-=====================
+_____________________
 
 Metals and other substances are emitted during the combustion of fuel
 because of engine wear. These emissions are scaled based on the fuel
@@ -1106,7 +1106,7 @@ Cadmium     2.54E-10                  2.02E-10
 =========== ========================= =======================
 
 Abrasion emissions
-==================
+__________________
 
 We distinguish four types of abrasion emissions, besides engine wear
 emissions:
@@ -1251,7 +1251,7 @@ Re-suspended road dust emissions are assumed to be evenly composed of
 brake wear (33.3%), tire wear (33.3%) and road wear (33.3%) particles.
 
 Refrigerant emissions
-=====================
+_____________________
 
 The use of refrigerant for onboard air conditioning systems is
 considered for passenger cars. The supply of refrigerant gas R134a is
@@ -1283,7 +1283,7 @@ an increasing, but still minor, share of electric vehicles now use a
 Hence, no supply or leakage of refrigerant is considered for those.
 
 Noise emissions
-===============
+---------------
 
 Noise emissions along the driving cycle of the vehicle are quantified
 using the method developed within the CNOSSOS project [35]_, which are
@@ -1381,7 +1381,7 @@ on the driving cycle WLTC. b) Summed sound energy comparison between
 ICEV, BEV and PHEV, over the duration of the WLTC driving cycle.
 
 Electricity mix calculation
-===========================
+---------------------------
 
 Electricity supply mix are calculated based on the weighting from the
 distribution the lifetime kilometers of the vehicles over the years of
@@ -1456,7 +1456,7 @@ next 16 years.
 
 
 Inventories for fuel pathways
-=============================
+-----------------------------
 
 A number of inventories for fuel production and supply are used by
 *carculator*. They represent an update in comparison to the inventories
@@ -1547,7 +1547,7 @@ and not present as generic ecoinvent datasets.
 |           |                           | CO\ :sub:`2` from direct  |
 |           |                           | air capture.              |
 +-----------+---------------------------+---------------------------+
-|[44]_ [45]_| Hydrogen from             | The electricity           |
+| [44, 45]_ | Hydrogen from             | The electricity           |
 |           | electrolysis              | requirement to operate    |
 |           |                           | the electrolyzer changes  |
 |           |                           | over time: from 58 kWh    |
@@ -1555,7 +1555,7 @@ and not present as generic ecoinvent datasets.
 |           |                           | 2010, down to 44 kWh in   |
 |           |                           | 2050, according to [46]_.  |
 +-----------+---------------------------+---------------------------+
-|[45]_ [47]_| Hydrogen from Steam       | Available for natural gas |
+| [45, 47]_ | Hydrogen from Steam       | Available for natural gas |
 |           | Methane Reforming         | and biomethane, with and  |
 |           |                           | without Carbon Capture    |
 |           |                           | and Storage (CCS).        |
@@ -1568,7 +1568,7 @@ and not present as generic ecoinvent datasets.
 Table 25 List of inventories for different fuel types
 
 Inventories for energy storage components
-=========================================
+-----------------------------------------
 
 The source for the inventories used to model energy storage components
 are listed in Table 26.
@@ -1619,7 +1619,7 @@ are listed in Table 26.
 Table 26 List of inventories for different energy storage solutions
 
 Life cycle impact assessment
-============================
+****************************
 
 To build the inventory of every vehicle, *carculator* populates a
 three-dimensional array *A* (i.e., a tensor) such as:
@@ -1693,7 +1693,9 @@ References
 
 .. [16] Schwertner M, Weidmann U. Comparison of well-to-wheel efficiencies for different drivetrain configurations of transit buses. Transp Res Rec 2016;2539:55-64. https://doi.org/10.3141/2539-07.
 
-.. [17] Simons A, Bauer C. A life-cycle perspective on automotive fuel cells. Appl Energy 2015;157:884-96. https://doi.org/10.1016/j.apenergy.2015.02.049.[18] Eudy L, Post M. Fuel Cell Buses in U.S. Transit Fleets: Current Status 2020. 2020.
+.. [17] Simons A, Bauer C. A life-cycle perspective on automotive fuel cells. Appl Energy 2015;157:884-96. https://doi.org/10.1016/j.apenergy.2015.02.049.
+
+.. [18] Eudy L, Post M. Fuel Cell Buses in U.S. Transit Fleets: Current Status 2020. 2020.
 
 .. [19] Kurtz J, Sprik S, Saur G, Onorato S. Fuel Cell Electric Vehicle Durability and Fuel Cell Performance. 2018.
 
