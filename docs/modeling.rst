@@ -104,17 +104,17 @@ Table 1 Criteria for size classes
 +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
 | A           | Mini cars                      | Mini          |                                                       | 3.4                     |                         | 1050                    | Renault Twingo, Smart ForTwo, Toyota Aygo                              |
 +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| B           | Small cars                     | Small         | 3.4                                                   | 3.8                     | 900                     | 1’100                   | Renault Clio, VW Polo, Toyota Yaris                                    |
+| B           | Small cars                     | Small         | 3.4                                                   | 3.8                     | 900                     | 1'100                   | Renault Clio, VW Polo, Toyota Yaris                                    |
 +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| C           | Medium cars                    | Lower medium  | 3.8                                                   | 4.3                     | 1’250                   | 1’500                   | VW Golf, Ford Focus, Mercedes Class A                                  |
+| C           | Medium cars                    | Lower medium  | 3.8                                                   | 4.3                     | 1'250                   | 1'500                   | VW Golf, Ford Focus, Mercedes Class A                                  |
 +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| C           |                                | Medium        | 3.9                                                   | 4.4                     | 1’500                   | 1’750                   | VW Passat, Audi A4, Mercedes Class C                                   |
+| C           |                                | Medium        | 3.9                                                   | 4.4                     | 1'500                   | 1'750                   | VW Passat, Audi A4, Mercedes Class C                                   |
 +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| D           | Large/Executive                | Large         | 4.4                                                   |                         | 1’450                   | 2’000                   | Tesla Model 3, BMW 5 Series, Mercedes E series                         |
+| D           | Large/Executive                | Large         | 4.4                                                   |                         | 1'450                   | 2'000                   | Tesla Model 3, BMW 5 Series, Mercedes E series                         |
 +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| J           | Sport Utility                  | Medium SUV    | 4.5                                                   |                         | 1’300                   | 2’000                   | Toyota RAV4, Peugeot 2008, Dacia Duster                                |
+| J           | Sport Utility                  | Medium SUV    | 4.5                                                   |                         | 1'300                   | 2'000                   | Toyota RAV4, Peugeot 2008, Dacia Duster                                |
 +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| J           | Sport Utility                  | Large SUV     | 6                                                     |                         | 2’000                   | 2’500                   | Audi Q7, BMW X7, Mercedes-Benz GLS, Toyota Landcruiser, Jaguar f-Pace  |
+| J           | Sport Utility                  | Large SUV     | 6                                                     |                         | 2'000                   | 2'500                   | Audi Q7, BMW X7, Mercedes-Benz GLS, Toyota Landcruiser, Jaguar f-Pace  |
 +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
 | M           | Multi-Purpose Vehicles         | Van           | Defined by body type rather than mass and footprint.  |                         |                         |                         | VW Transporter, Mercedes Sprinter, Ford Transit                        |
 +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
@@ -156,11 +156,11 @@ battery electric powertrain.
 as a body type than a size class. These vehicles have distinct
 aerodynamic properties, but their curb mass can be as light as that of a
 VW Polo or a Renault Clio (i.e., the Dacia Duster or Peugeot 2008 have a
-curb mass of 1’150 kg, against 1’100-1’300 kg for a VW Polo) or as heavy
+curb mass of 1'150 kg, against 1'100-1'300 kg for a VW Polo) or as heavy
 as a Mercedes Class E (i.e., the Audi Q7 has a minimum curb mass of
-2’000 kg, against 1’900 kg for a Mercedes Class E). To assess the
-impacts of very large SUV, the “Large SUV” category has been added, to
-represent SUV models with a very high curb mass (2’000 kg and above) and
+2'000 kg, against 1'900 kg for a Mercedes Class E). To assess the
+impacts of very large SUV, the "Large SUV" category has been added, to
+represent SUV models with a very high curb mass (2'000 kg and above) and
 footprint.
 
 Manufacture year and emission standard
@@ -203,7 +203,7 @@ curb mass of the vehicle. The curb mass of the vehicle being the sum of
 the vehicle components (excluding the driver and possible cargo) as
 represented in Figure 2.
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image10.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image10.png
    :width: 6.26806in
    :height: 3.04067in
 
@@ -212,8 +212,7 @@ Figure 2 Vehicle mass calculation workflow
 This is an iterative process that stops when the curb mass of the
 vehicle converges, as illustrated in Figure 3.
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image11.png
-   :alt: https://lh6.googleusercontent.com/IE2L0FCQi8x38D1O6zP6PHY81y5qZnzY_5SRKsCiXdgehgHX6QWYFzdNh1zlheZRuGdnfcOR9DJJxhTIocTOPucpBSgoyeco1V2GHxPBzuq0PJgwqo0miuu_QCKLd2xeus135vuU
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image11.png
    :width: 6.26667in
    :height: 3.99167in
 
@@ -227,8 +226,8 @@ calculated (i.e., to size the energy storage components, calculate the
 fuel consumption, etc.), as described later in this section.
 
 Because the LCI dataset used to represent the glider of the vehicle is
-not representative of todays’ use of light weighting materials, such as
-aluminium (i.e., the dataset “glider for passenger cars” only contains
+not representative of todays' use of light weighting materials, such as
+aluminium (i.e., the dataset "glider for passenger cars" only contains
 0.5% of its mass in aluminium) and advanced high strength steel (AHSS),
 an amount of such light-weighting materials is introduced to substitute
 conventional steel and thereby reduce the mass of the glider.
@@ -257,11 +256,11 @@ compensate for the extra mass represented by the battery.
 These light weighting rates have been fine adjusted to match the curb
 mass of a given size class, while preserving the battery capacity. For
 example, in the case of the Large SUV, its curb mass should
-approximately be 2’200 kg, with an 80 kWh battery weighting 660 kg
+approximately be 2'200 kg, with an 80 kWh battery weighting 660 kg
 (e.g., Jaguar i-Pace). This is possible with a 30% light weighting rate,
 introducing approximately 460 kg of aluminium in the chassis (which
 matches roughly with the value given for an Audi e-Tron in Table 3) and
-1’008 kg of AHSS, in lieu of 2’034 kg of regular steel.
+1'008 kg of AHSS, in lieu of 2'034 kg of regular steel.
 
 Table 3 Amount of aluminium in European passenger cars. Source: [2]
 
@@ -322,7 +321,7 @@ vehicles with. Green vertical bars represent the span of 50% of the curb
 mass distribution, and the red dots are the curb mass values modeled by
 *carculator*.
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image12.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image12.png
 
 Figure 4 Calibration of the curb mass of the passenger car model against
 the EC-CO2-PC database. Red dots: values modeled by carculator. Green
@@ -335,78 +334,45 @@ tank-to-wheel energy consumption measurements: [4]
 
 Table 4 shows the mass distribution for gasoline and battery electric
 passenger cars resulting from the calibration. Mass information on other
-vehicles is available in the vehicles’ specifications spreadsheet.
+vehicles is available in the vehicles' specifications spreadsheet.
 
 Table 4 Mass distribution for gasoline and battery electric passenger
 cars *in 2021*
 
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-|       | **    | **Ba  |       |       |       |       |       |       |       |
-|       | Gasol | ttery |       |       |       |       |       |       |       |
-|       | ine** | elect |       |       |       |       |       |       |       |
-|       |       | ric** |       |       |       |       |       |       |       |
-+=======+=======+=======+=======+=======+=======+=======+=======+=======+=======+
-| in    | Small | M     | Large | Large | Micro | Small | M     | Large | Large |
-| kilo  |       | edium |       | SUV   |       |       | edium |       | SUV   |
-| grams |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| G     | 998   | 1'170 | 1'550 | 1'900 | 350   | 998   | 1'170 | 1'550 | 1'900 |
-| lider |       |       |       |       |       |       |       |       |       |
-| base  |       |       |       |       |       |       |       |       |       |
-| mass  |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| Light | -110  | -129  | -171  | -209  | -35   | -140  | -164  | -434  | -570  |
-| weig  |       |       |       |       |       |       |       |       |       |
-| hting |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| G     | 888   | 1'041 | 1'380 | 1'691 | 315   | 858   | 1'006 | 1'116 | 1'330 |
-| lider |       |       |       |       |       |       |       |       |       |
-| mass  |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| Power | 96    | 106   | 132   | 140   | 42    | 67    | 77    | 94    | 100   |
-| train |       |       |       |       |       |       |       |       |       |
-| mass  |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| E     | 111   | 125   | 157   | 168   | 29    | 61    | 73    | 96    | 102   |
-| ngine |       |       |       |       |       |       |       |       |       |
-| or    |       |       |       |       |       |       |       |       |       |
-| motor |       |       |       |       |       |       |       |       |       |
-| mass  |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| E     | 72    | 85    | 104   | 104   | 120   | 276   | 360   | 580   | 660   |
-| nergy |       |       |       |       |       |       |       |       |       |
-| st    |       |       |       |       |       |       |       |       |       |
-| orage |       |       |       |       |       |       |       |       |       |
-| mass  |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| E     | 3     | 4     | 5     | 7     | 23    | 23    | 23    | 23    | 23    |
-| lectr |       |       |       |       |       |       |       |       |       |
-| onics |       |       |       |       |       |       |       |       |       |
-| mass  |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| *     | **1'  | **1'  | **1'  | **2'  | **    | **1'  | **1'  | **1'  | **2'  |
-| *Curb | 170** | 361** | 777** | 110** | 529** | 285** | 540** | 910** | 215** |
-| m     |       |       |       |       |       |       |       |       |       |
-| ass** |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| Pass  | 120   | 120   | 120   | 120   | 120   | 120   | 120   | 120   | 120   |
-| enger |       |       |       |       |       |       |       |       |       |
-| mass  |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| Cargo | 20    | 20    | 20    | 20    | 20    | 20    | 20    | 20    | 20    |
-| mass  |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **Dr  | 1'310 | 1'501 | 1'917 | 2'250 | 669   | 1'425 | 1'680 | 2'050 | 2'355 |
-| iving |       |       |       |       |       |       |       |       |       |
-| m     |       |       |       |       |       |       |       |       |       |
-| ass** |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+| Gasoline              |        |         |        | Battery electric  |        |        |         |        |            |
++=======================+========+=========+========+===================+========+========+=========+========+============+
+| in kilograms          | Small  | Medium  | Large  | Large SUV         | Micro  | Small  | Medium  | Large  | Large SUV  |
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+| Glider base mass      | 998    | 1'170   | 1'550  | 1'900             | 350    | 998    | 1'170   | 1'550  | 1'900      |
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+| Light weighting       | -110   | -129    | -171   | -209              | -35    | -140   | -164    | -434   | -570       |
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+| Glider mass           | 888    | 1'041   | 1'380  | 1'691             | 315    | 858    | 1'006   | 1'116  | 1'330      |
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+| Powertrain mass       | 96     | 106     | 132    | 140               | 42     | 67     | 77      | 94     | 100        |
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+| Engine or motor mass  | 111    | 125     | 157    | 168               | 29     | 61     | 73      | 96     | 102        |
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+| Energy storage mass   | 72     | 85      | 104    | 104               | 120    | 276    | 360     | 580    | 660        |
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+| Electronics mass      | 3      | 4       | 5      | 7                 | 23     | 23     | 23      | 23     | 23         |
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+| Curb mass             | 1'170  | 1'361   | 1'777  | 2'110             | 529    | 1'285  | 1'540   | 1'910  | 2'215      |
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+| Passenger mass        | 120    | 120     | 120    | 120               | 120    | 120    | 120     | 120    | 120        |
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+| Cargo mass            | 20     | 20      | 20     | 20                | 20     | 20     | 20      | 20     | 20         |
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+| Driving mass          | 1'310  | 1'501   | 1'917  | 2'250             | 669    | 1'425  | 1'680   | 2'050  | 2'355      |
++-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+
 
 The energy consumption model of *carculator* calculates the energy
 required at the wheels by considering different types of resistance.
 Some of these resistances are related to the vehicle size class. For
 example, the frontal area of the vehicle influences the aerodynamic
-drag. Also, the kinetic energy to overcome the vehicle’s inertia is
+drag. Also, the kinetic energy to overcome the vehicle's inertia is
 influenced by the mass of the vehicle (which partially correlates to
 with the size class or body type), but also by the acceleration required
 by the driving cycle. Other resistances, such as the climbing effort,
@@ -426,14 +392,17 @@ is subtracted from the recuperated energy. For hybrid vehicles (i.e.,
 HEV-p, HEV-d), this allows to downsize the combustion engine and improve
 the overall tank-to-wheel efficiency, as explained in [5].
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image13.png
-   :alt: https://lh4.googleusercontent.com/qHIzpKx5cy0UrqGLLQ2KfJHDw_O1ALUJcmfZo2p_gpaziACKQbgrbDX5qs7E84mDrSVuVfY9jxPW2ttgA2vc0FWD_ekM-TluXzCnVKYRfEm7aCBWuJhLlHrkuhvi7_0W_wdRvnrS
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image13.png
    :width: 6.26667in
    :height: 2.49167in
 
 Figure 5 Representation of the different types of resistance considered.
 
-|image7|\ |image8|
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image15.png
+   :width: 80%
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image14.png
+   :width: 10%
+
 
 Figure 6 Motive energy calculation workflow
 
@@ -450,31 +419,15 @@ based on maximum demand and share of operation.
 
 Table 5 Auxiliary power demand. Source : [6]
 
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-|       | *     | **He  | **Co  |       |       |       |       |       |       |       |       |
-|       | *Auxi | ating | oling |       |       |       |       |       |       |       |       |
-|       | liary | power | power |       |       |       |       |       |       |       |       |
-|       | power | d     | d     |       |       |       |       |       |       |       |       |
-|       | base  | emand | emand |       |       |       |       |       |       |       |       |
-|       | d     | [W]** | [W]** |       |       |       |       |       |       |       |       |
-|       | emand |       |       |       |       |       |       |       |       |       |       |
-|       | [W]** |       |       |       |       |       |       |       |       |       |       |
-+=======+=======+=======+=======+=======+=======+=======+=======+=======+=======+=======+=======+
-|       |       | **Mi  | **Sm  | **Med | **La  | **    | **Mi  | **Sm  | **Med | **La  | **    |
-|       |       | cro** | all** | ium** | rge** | Large | cro** | all** | ium** | rge** | Large |
-|       |       |       |       |       |       | SUV** |       |       |       |       | SUV** |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **    | 94    |       | Pro   |       | 250   | 320   | 350   | 350   |       |       |       |
-| ICEV, |       |       | vided |       |       |       |       |       |       |       |       |
-| HEV,  |       |       | by    |       |       |       |       |       |       |       |       |
-| P     |       |       | e     |       |       |       |       |       |       |       |       |
-| HEV** |       |       | ngine |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| *     | 75    | 200   | 250   | 320   | 350   | 350   | 0     | 250   | 320   | 350   | 350   |
-| *BEV, |       |       |       |       |       |       |       |       |       |       |       |
-| F     |       |       |       |       |       |       |       |       |       |       |       |
-| CEV** |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
++----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
+| Auxiliary power base demand [W]  | Heating power demand [W]  |        |                     |         |        | Cooling power demand [W]  |        |        |         |        |            |
++==================================+===========================+========+=====================+=========+========+===========================+========+========+=========+========+============+
+|                                  |                           | Micro  | Small               | Medium  | Large  | Large SUV                 | Micro  | Small  | Medium  | Large  | Large SUV  |
++----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
+| ICEV, HEV, PHEV                  | 94                        |        | Provided by engine  |         |        |                           |        | 250    | 320     | 350    | 350        |
++----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
+| BEV, FCEV                        | 75                        | 200    | 250                 | 320     | 350    | 350                       | 0      | 250    | 320     | 350    | 350        |
++----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
 
 **Important remark:** Micro cars are not equipped with an air
 conditioning system. Hence, their cooling energy requirement is set to
@@ -484,21 +437,20 @@ A driving cycle is used to calculate the tank-to-wheel energy required
 by the vehicle to drive over one kilometer. For example, the WLTC
 driving cycle comprises a mix of urban, sub-urban and highway driving.
 It is assumed representative of average Swiss and European driving
-profile – although this would likely differ in the case of intensive
+profile - although this would likely differ in the case of intensive
 mountain driving.
 
 Figure 7 exemplifies such calculation for a medium battery electric
 passenger car manufactured in 2020, using the WLTC driving cycle.
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image16.png
-   :alt: https://lh4.googleusercontent.com/uM6NlA6tM7b4IlKcVxZkj_7vOgFPSw1o6HK5UHT_gQdn7nyS2SW6BFLzv21mZdObBwgGnczllPMKrtPVAWqjjdt1v8BE7KQgigEzY0WnRj0noCSuq3nvfWsaKZ_mOAAQ8369EGqN
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image16.png
    :width: 4.46667in
    :height: 2.69742in
 
 Figure 7 Cumulated tank-to-wheel energy consumption, along the WLTC
 driving cycle, for a mid-size battery electric vehicle from 2020
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image17.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image17.png
    :width: 3.84722in
    :height: 1.94653in
 
@@ -523,8 +475,7 @@ Engine and transmission efficiencies for the different powertrains are
 fine-tuned until it aligns reasonably well with the fuel consumption
 values from the EC-CO2-PC database, as shown in Figure 9.
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image18.png
-   :alt: EU_energy_comparison
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image18.png
    :width: 6.25833in
    :height: 3.46667in
 
@@ -542,11 +493,11 @@ Electric energy storage
 =======================
 
 Battery electric vehicles can use different battery chemistries (Li-ion
-NMC, Li-ion LFP, Li-ion NCA and Li-LTO) depending on the manufacturer’s
+NMC, Li-ion LFP, Li-ion NCA and Li-LTO) depending on the manufacturer's
 preference or the location of the battery supplier. Unless specified
 otherwise, all battery types are produced in China, as several sources,
 among which BloombergNEF [8], seem to indicate that more than 75% of the
-world’s cell capacity is manufactured there.
+world's cell capacity is manufactured there.
 
 Accordingly, the electricity mix used for battery cells manufacture and
 drying, as well as the provision of heat are assumed to be
@@ -554,7 +505,7 @@ representative of the country (i.e., the corresponding providers are
 selected from the LCI background database).
 
 The battery-related parameters considered in *carculator* for 2020 are
-shown in Table 6. For LFP batteries, “blade battery” or “cell-to-pack”
+shown in Table 6. For LFP batteries, "blade battery" or "cell-to-pack"
 battery configurations are considered, as introduced by CATL [9] and BYD
 [10], two major LFP battery suppliers in Asia. This greatly increases
 the cell-to-pack ratio and the gravimetric energy density at the pack
@@ -570,65 +521,30 @@ at 0.15 kWh/kg (but benefits from a high cell-to-pack ratio)..
 
 Table 6 Specifications for the different battery types
 
-+-------------+-------------+-------------+-------------+-------------+
-|             | Lithium     | Lithium     | Lithium     | Source      |
-|             | Nickel      | Iron        | Nickel      |             |
-|             | Manganese   | Phosp       | Cobalt      |             |
-|             | Cobalt      | hate(LiFePO | Aluminum    |             |
-|             | Oxide       | \ :sub:`4`) | Oxide       |             |
-|             | (LiNiMnCoO  | — LFP       | (LiNiCoAlO  |             |
-|             | \ :sub:`2`) |             | \ :sub:`2`) |             |
-|             | — NMC [3]_  |             | — NCA       |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Cell energy | 0.2 (0.5 in | 0.15        | 0.23 (0.5   | [11]        |
-| density     | 2050)       |             | in 2050)    |             |
-| [kWh/kg]    |             |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
-| C           | 0.6 (0.65   | 0.8 (0.9 in | 0.5 (0.55   | [12]        |
-| ell-to-pack | in 2050)    | 2050)       | in 2050)    |             |
-| ratio       |             |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Pack-level  | 0.12        | 0.12        | 0.14        | Calculated  |
-| gravimetric |             |             |             | from the    |
-| energy      |             |             |             | two rows    |
-| density     |             |             |             | above       |
-| [kWh/kg]    |             |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Share of    | 60 to 80%   | [5,12]      |             |             |
-| cell mass   | (depending  |             |             |             |
-| in battery  | on          |             |             |             |
-| system [%]  | chemistry,  |             |             |             |
-|             | see third   |             |             |             |
-|             | row above)  |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Maximum     | 100%        | 100%        | 100%        | [11,13]     |
-| state of    |             |             |             |             |
-| charge [%]  |             |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Minimum     | 20%         | 20%         | 20%         |             |
-| state of    |             |             |             |             |
-| charge [%]  |             |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Cycle life  | 2’000       | 7’000+      | 1’000       | [14]        |
-| to reach    |             |             |             |             |
-| 20% initial |             |             |             |             |
-| capacity    |             |             |             |             |
-| loss        |             |             |             |             |
-| (80%-20%    |             |             |             |             |
-| SoC charge  |             |             |             |             |
-| cycle)      |             |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Corrected   | 3’000       | 7’000       | 1’500       | Assumption  |
-| cycle life  |             |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Charge      | 85% in      | [5,15] for  |             |             |
-| efficiency  | 2020, 86%   | passenger   |             |             |
-|             | in 2050     | cars.       |             |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Discharge   | 88% in      | [5,16]      |             |             |
-| efficiency  | 2020, 89%   |             |             |             |
-|             | in 2050     |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
++-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+| -                                                                           | Lithium Nickel Manganese Cobalt Oxide (LiNiMnCoO2) — NMC  | Lithium Iron Phosphate(LiFePO4) — LFP  | Lithium Nickel Cobalt Aluminum Oxide (LiNiCoAlO2) — NCA  | Source                              |
++=============================================================================+===========================================================+========================================+==========================================================+=====================================+
+| Cell energy density [kWh/kg]                                                | 0.2 (0.5 in 2050)                                         | 0.15                                   | 0.23 (0.5 in 2050)                                       | [11]                                |
++-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+| Cell-to-pack ratio                                                          | 0.6 (0.65 in 2050)                                        | 0.8 (0.9 in 2050)                      | 0.5 (0.55 in 2050)                                       | [12]                                |
++-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+| Pack-level gravimetric energy density [kWh/kg]                              | 0.12                                                      | 0.12                                   | 0.14                                                     | Calculated from the two rows above  |
++-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+| Share of cell mass in battery system [%]                                    | 60 to 80% (depending on chemistry, see third row above)   |                                        |                                                          | [5,12]                              |
++-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+| Maximum state of charge [%]                                                 | 100%                                                      | 100%                                   | 100%                                                     | [11,13]                             |
++-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+| Minimum state of charge [%]                                                 | 20%                                                       | 20%                                    | 20%                                                      |                                     |
++-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+| Cycle life to reach 20% initial capacity loss  (80%-20% SoC charge cycle)   | 2'000                                                     | 7'000+                                 | 1'000                                                    | [14]                                |
++-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+| Corrected cycle life                                                        | 3'000                                                     | 7'000                                  | 1'500                                                    | Assumption                          |
++-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+| Charge efficiency                                                           | 85% in 2020, 86% in 2050                                  |                                        |                                                          | [5,15] for passenger cars.          |
++-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+| Discharge efficiency                                                        | 88% in 2020, 89% in 2050                                  |                                        |                                                          | [5,16]                              |
++-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+
 
 On account that:
 
@@ -669,7 +585,7 @@ All fuel cell electric vehicles use a proton exchange membrane
 Table 8 lists the specifications of the fuel cell stack and system used
 in *carculator* in 2020. The durability of the fuel cell stack,
 expressed in hours, is used to determine the number of replacements
-needed – the expected kilometric lifetime of the vehicle as well as the
+needed - the expected kilometric lifetime of the vehicle as well as the
 average speed specified by the driving cycle gives the number of hours
 of operation. The environmental burden associated with the manufacture
 of spare fuel cell systems is entirely allocated to vehicle use as no
@@ -702,7 +618,7 @@ Table 8 Specifications for fuel cell stack systems
 | Platinum loading      | 0.13     |        |                       |
 | [mg/cm2]              |          |        |                       |
 +-----------------------+----------+--------+-----------------------+
-| Fuel cell stack       | 4’000    | 5’625  | [18,19]               |
+| Fuel cell stack       | 4 000    | 5 625  | [18,19]               |
 | durability [hours to  |          |        |                       |
 | reach 20% cell        |          |        |                       |
 | voltage degradation]  |          |        |                       |
@@ -724,7 +640,7 @@ passenger cars in the EU in 2016 were on average 10% heavier than in
 2000.
 
 The dataset used to represent the chassis of passenger cars (i.e.,
-“glider, for passenger car”) does not reflect today’s use of light
+"glider, for passenger car") does not reflect today's use of light
 weighting materials, such as aluminium and advanced high strength steel
 (AHSS).
 
@@ -767,10 +683,10 @@ the battery mass, which is defined as an input parameter for each size
 class. The battery masses given for the different size classes are
 presented in Figure 10 using the battery chemistry NMC, and is based on
 representative battery storage capacities available today on the market
-– which are represented in relation to the curb mass. The data is
-collected from the vehicle’s registry of Touring Club Switzerland.
+- which are represented in relation to the curb mass. The data is
+collected from the vehicle's registry of Touring Club Switzerland.
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image19.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image19.png
    :width: 6.24306in
    :height: 3.25326in
 
@@ -788,137 +704,69 @@ calculate the available storage capacity.
 Table 9 Parameters for battery sizing for battery electric vehicles
 using NMC battery chemistry
 
-+---------+---------+---------+---------+---------+---------+---------+
-|         | Unit    | Micro   | Small   | Medium  | Large   | Large   |
-|         |         |         |         |         |         | SUV     |
-+=========+=========+=========+=========+=========+=========+=========+
-| Storage | kWh     | 14      | 35      | 45      | 70      | 80      |
-| c       |         |         |         |         |         |         |
-| apacity |         |         |         |         |         |         |
-| (ref    |         |         |         |         |         |         |
-| erence) |         |         |         |         |         |         |
-+---------+---------+---------+---------+---------+---------+---------+
-| Com     |         | Mic     | VW      | Citroën | Audi    | Jaguar  |
-| mercial |         | rolino, | e-Up!,  | ë-C4,   | e-Tron, | i-Pace  |
-| models  |         | Renault | BMW i3  | DS 3    | Tesla   |         |
-| with    |         | Twizzy  |         | E       | Model 3 |         |
-| similar |         |         |         | .Tense, |         |         |
-| energy  |         |         |         | Peugeot |         |         |
-| storage |         |         |         | 2008,   |         |         |
-| c       |         |         |         | Peugeot |         |         |
-| apacity |         |         |         | 208,    |         |         |
-|         |         |         |         | Opel    |         |         |
-|         |         |         |         | C       |         |         |
-|         |         |         |         | orsa-e, |         |         |
-|         |         |         |         | VW ID.3 |         |         |
-+---------+---------+---------+---------+---------+---------+---------+
-| Battery | K       | 120     | 291     | 375     | 583     | 660     |
-| mass    | ilogram |         |         |         |         |         |
-| (       |         |         |         |         |         |         |
-| system) |         |         |         |         |         |         |
-+---------+---------+---------+---------+---------+---------+---------+
-| Battery | %       | ~60%    |         |         |         |         |
-| cell    |         |         |         |         |         |         |
-| mass    |         |         |         |         |         |         |
-+---------+---------+---------+---------+---------+---------+---------+
-| Battery | K       | 72      | 175     | 225     | 330     | 400     |
-| cell    | ilogram |         |         |         |         |         |
-| mass    |         |         |         |         |         |         |
-+---------+---------+---------+---------+---------+---------+---------+
-| Balance | K       | 48      | 116     | 150     | 233     | 260     |
-| of      | ilogram |         |         |         |         |         |
-| Plant   |         |         |         |         |         |         |
-| mass    |         |         |         |         |         |         |
-+---------+---------+---------+---------+---------+---------+---------+
-| Energy  | kWh/kg  | 0.2     |         |         |         |         |
-| density |         |         |         |         |         |         |
-+---------+---------+---------+---------+---------+---------+---------+
-| Storage | kWh     |         | 35      | 45      | 70      | 80      |
-| c       |         |         |         |         |         |         |
-| apacity |         |         |         |         |         |         |
-+---------+---------+---------+---------+---------+---------+---------+
-| Depth   | %       | 80%     |         |         |         |         |
-| of      |         |         |         |         |         |         |
-| di      |         |         |         |         |         |         |
-| scharge |         |         |         |         |         |         |
-+---------+---------+---------+---------+---------+---------+---------+
-| Storage | kWh     | 14      | 28      | 36      | 56      | 65      |
-| c       |         |         |         |         |         |         |
-| apacity |         |         |         |         |         |         |
-| (ava    |         |         |         |         |         |         |
-| ilable) |         |         |         |         |         |         |
-+---------+---------+---------+---------+---------+---------+---------+
++---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+| Unit                                                    | Micro     | Small                      | Medium            | Large                                                                         | Large SUV                   |                |
++=========================================================+===========+============================+===================+===============================================================================+=============================+================+
+| Storage capacity (reference)                            | kWh       | 14                         | 35                | 45                                                                            | 70                          | 80             |
++---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+| Commercial models with similar energy storage capacity  |           | Microlino, Renault Twizzy  | VW e-Up!, BMW i3  | Citroen e-C4, DS 3 E.Tense, Peugeot 2008, Peugeot 208, Opel Corsa-e, VW ID.3  | Audi e-Tron, Tesla Model 3  | Jaguar i-Pace  |
++---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+| Battery mass (system)                                   | Kilogram  | 120                        | 291               | 375                                                                           | 583                         | 660            |
++---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+| Battery cell mass                                       | %         | ~60%                       |                   |                                                                               |                             |                |
++---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+| Battery cell mass                                       | Kilogram  | 72                         | 175               | 225                                                                           | 330                         | 400            |
++---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+| Balance of Plant mass                                   | Kilogram  | 48                         | 116               | 150                                                                           | 233                         | 260            |
++---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+| Energy density                                          | kWh/kg    | 0.2                        |                   |                                                                               |                             |                |
++---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+| Storage capacity                                        | kWh       |                            | 35                | 45                                                                            | 70                          | 80             |
++---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+| Depth of discharge                                      | %         | 80%                        |                   |                                                                               |                             |                |
++---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+| Storage capacity (available)                            | kWh       | 14                         | 28                | 36                                                                            | 56                          | 65             |
++---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+
 
 Similarly, plug-in hybrid vehicles are dimensioned to obtain an energy
 storage capacity of the battery that corresponds with the capacity of
 models available today. The sizing of the battery is similar to what is
 described above for battery electric vehicles. The energy storage
 capacity of the battery is particularly important for plugin hybrid
-vehicles, as it conditions the electric utility factor – the share of
-kilometers driven in battery-depleting mode – which calculation is
+vehicles, as it conditions the electric utility factor (the share of
+kilometers driven in battery-depleting mode) which calculation is
 described in the next section.
 
 Table 10 Parameters for battery sizing for plug-in hybrid vehicles using
 NMC battery chemistry
 
-+----------+----------+----------+----------+----------+----------+
-|          | Unit     | Small    | Medium   | Large    | Large    |
-|          |          |          |          |          | SUV      |
-+==========+==========+==========+==========+==========+==========+
-| Battery  | kWh      | 9        | 13       | 18       |          |
-| storage  |          |          |          |          |          |
-| capacity |          |          |          |          |          |
-| (re      |          |          |          |          |          |
-| ference) |          |          |          |          |          |
-+----------+----------+----------+----------+----------+----------+
-| Co       |          | Kia      | Skoda    | Suzuki   |          |
-| mmercial |          | Niro,    | Octavia, | Across,  |          |
-| models   |          | Kia      | VW Golf, | VW       |          |
-| with     |          | Xceed    | Cupra    | Touareg  |          |
-| similar  |          |          | Leon     |          |          |
-| electric |          |          |          |          |          |
-| and fuel |          |          |          |          |          |
-| storage  |          |          |          |          |          |
-| capacity |          |          |          |          |          |
-+----------+----------+----------+----------+----------+----------+
-| Battery  | Kilogram | 80       | 105      | 160      |          |
-| mass     |          |          |          |          |          |
-| (system) |          |          |          |          |          |
-+----------+----------+----------+----------+----------+----------+
-| Battery  | %        | 60%      |          |          |          |
-| cell     |          |          |          |          |          |
-| mass     |          |          |          |          |          |
-+----------+----------+----------+----------+----------+----------+
-| Battery  | Kilogram | 48       | 63       | 96       |          |
-| cell     |          |          |          |          |          |
-| mass     |          |          |          |          |          |
-+----------+----------+----------+----------+----------+----------+
-| Balance  | Kilogram | 32       | 42       | 64       |          |
-| of Plant |          |          |          |          |          |
-| mass     |          |          |          |          |          |
-+----------+----------+----------+----------+----------+----------+
-| Energy   | kWh/kg   | 0.2      |          |          |          |
-| density  |          |          |          |          |          |
-+----------+----------+----------+----------+----------+----------+
-| Battery  | kWh      | 9        | 13       | 19       |          |
-| storage  |          |          |          |          |          |
-| capacity |          |          |          |          |          |
-+----------+----------+----------+----------+----------+----------+
-| Depth of | %        | 80%      |          |          |          |
-| d        |          |          |          |          |          |
-| ischarge |          |          |          |          |          |
-+----------+----------+----------+----------+----------+----------+
-| Battery  | kWh      | 7.2      | 10.4     | 15.6     |          |
-| storage  |          |          |          |          |          |
-| capacity |          |          |          |          |          |
-| (av      |          |          |          |          |          |
-| ailable) |          |          |          |          |          |
-+----------+----------+----------+----------+----------+----------+
-| Fuel     | L        | 45       | 52       | 64       |          |
-| tank     |          |          |          |          |          |
-| storage  |          |          |          |          |          |
-| capacity |          |          |          |          |          |
-+----------+----------+----------+----------+----------+----------+
++--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+---------------+------------+
+|                                                                    | Unit      | Small                | Medium                               | Large         | Large SUV  |
++====================================================================+===========+======================+======================================+===============+============+
+| Battery storage capacity (reference)                               | kWh       | 9                    | 13                                   | 18                         |
++--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+| Commercial models with similar electric and fuel storage capacity  |           | Kia Niro, Kia Xceed  | Skoda Octavia, VW Golf, Cupra Leon   | Suzuki Across, VW Touareg  |
++--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+| Battery mass (system)                                              | Kilogram  | 80                   | 105                                  | 160                        |
++--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+| Battery cell mass                                                  | %         | 60%                                                                                      |
++--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+| Battery cell mass                                                  | Kilogram  | 48                   | 63                                   | 96                         |
++--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+| Balance of Plant mass                                              | Kilogram  | 32                   | 42                                   | 64                         |
++--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+| Energy density                                                     | kWh/kg    | 0.2                  |                                                                   |
++--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+| Battery storage capacity                                           | kWh       | 9                    | 13                                   | 19                         |
++--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+| Depth of discharge                                                 | %         | 80%                  |                                                                   |
++--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+| Battery storage capacity (available)                               | kWh       | 7.2                  | 10.4                                 | 15.6                       |
++--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+| Fuel tank storage capacity                                         | L         | 45                   | 52                                   | 64                         |
++--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+
 
 Note that carculator only considers NMC batteries for plugin hybrid
 vehicles.
@@ -934,9 +782,9 @@ Electric utility factor
 Diesel and gasoline plugin hybrid vehicles are modeled as a composition
 of an ICE vehicle and a battery electric vehicle to the extent
 determined by the share of km driven in battery-depleting mode (also
-called “electric utility factor”). This electric utility factor is
+called "electric utility factor"). This electric utility factor is
 calculated based on a report from the ICCT [24], which provides measured
-electricity utility factors for 6’000 PHEV *private* owners in Germany
+electricity utility factors for 6'000 PHEV *private* owners in Germany
 in relation to the vehicle range in battery-depleting mode.
 
 A first step consists in determining the energy consumption of the PHEV
@@ -1010,35 +858,28 @@ used for fuels purchased in Switzerland.
 
 Table 12 Fuels characteristics
 
-+-------------+-------------+-------------+-------------+-------------+
-|             | Volumetric  | Lower       | C           | S           |
-|             | mass        | heating     | O\ :sub:`2` | O\ :sub:`2` |
-|             | density     | value       | emission    | emission    |
-|             | [kg/l]      | [MJ/kg]     | factor [kg  | factor [kg  |
-|             |             |             | CO\ :       | SO\ :       |
-|             |             |             | sub:`2`/kg] | sub:`2`/kg] |
-+-------------+-------------+-------------+-------------+-------------+
-| Gasoline    | 0.75        | 42.6        | 3.14        | 1.6e-5      |
-+-------------+-------------+-------------+-------------+-------------+
-| Bioethanol  | 0.75        | 26.5        | 1.96        | 1.6e-5      |
-+-------------+-------------+-------------+-------------+-------------+
-| Synthetic   | 0.75        | 43          | 3.14        | 0           |
-| gasoline    |             |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Diesel      | 0.85        | 43          | 3.15        | 8.85e-4     |
-+-------------+-------------+-------------+-------------+-------------+
-| Biodiesel   | 0.85        | 38          | 2.79        | 8.85e-4     |
-+-------------+-------------+-------------+-------------+-------------+
-| Synthetic   | 0.85        | 43          | 3.15        | 0           |
-| diesel      |             |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Natural gas |             | 47.5        | 2.68        |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Bio-methane |             | 47.5        | 2.68        |             |
-+-------------+-------------+-------------+-------------+-------------+
-| Synthetic   |             | 47.5        | 2.68        |             |
-| methane     |             |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
++---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+|                                       | Volumetric mass density [kg/l]  | Lower heating value [MJ/kg]  | CO2 emission factor [kg CO2/kg]  | SO2 emission factor [kg SO2/kg]  |
++=======================================+=================================+==============================+==================================+==================================+
+| Gasoline                              | 0.75                            | 42.6                         | 3.14                             | 1.6e-5                           |
++---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+| Bioethanol                            | 0.75                            | 26.5                         | 1.96                             | 1.6e-5                           |
++---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+| Synthetic gasoline                    | 0.75                            | 43                           | 3.14                             | 0                                |
++---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+| Diesel                                | 0.85                            | 43                           | 3.15                             | 8.85e-4                          |
++---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+| Biodiesel                             | 0.85                            | 38                           | 2.79                             | 8.85e-4                          |
++---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+| Synthetic diesel                      | 0.85                            | 43                           | 3.15                             | 0                                |
++---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+| Natural gas                           |                                 | 47.5                         | 2.68                             |                                  |
++---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+| Bio-methane                           |                                 | 47.5                         | 2.68                             |                                  |
++---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+| Synthetic methane                     |                                 | 47.5                         | 2.68                             |                                  |
++---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+
 
 Because large variations are observed in terms of sulfur concentration
 in biofuels, similar values than that of conventional fuels are used.
@@ -1055,7 +896,7 @@ running, evaporation and diurnal losses are accounted for, also sourced
 from HBEFA 4.1 [26].
 
 For vehicles with an internal combustion engine, the sulfur
-concentration values in the fuel can slightly differ across regions –
+concentration values in the fuel can slightly differ across regions -
 although this remains rather limited within Europe. The values provided
 by HBEFA 4.1 are used for Switzerland, France, Germany, Austria and
 Sweden. For other countries, values from [28] are used.
@@ -1070,7 +911,7 @@ Gasoline                  8               8
 Diesel                    10              8
 ========================= =============== ==========
 
-Country-specific fuel blends are sourced from the IEA’s Extended World
+Country-specific fuel blends are sourced from the IEA's Extended World
 Energy Balances database [29]. By default, the biofuel used is assumed
 to be produced from biomass residues (i.e., second-generation fuel):
 fermentation of crop residues for bioethanol, esterification of used
@@ -1099,12 +940,12 @@ Six sources of emissions are considered:
 
 -  Cold start emissions: emissions when starting the engine. The factor
    is given in grams per engine start. 2.3 engine starts per day are
-   considered [27] and an annual mileage of 12’000 km.
+   considered [27] and an annual mileage of 12'000 km.
 
 -  Diurnal emissions: evaporation of the fuel due to a temperature
    increase of the vehicle. The factor is given in grams per day.
    Emissions are distributed evenly along the driving cycle, based on an
-   annual mileage of 12’000 km per year.
+   annual mileage of 12'000 km per year.
 
 -  Hot soak emissions: evaporative emissions occurring after the vehicle
    has been used. The factor is given in grams per trip. The emission is
@@ -1118,8 +959,7 @@ Six sources of emissions are considered:
 -  Other non-exhaust emissions: brake, tire road wear and re-suspended
    road dust emissions, as well as emissions of refrigerant.
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image20.png
-   :alt: https://lh5.googleusercontent.com/TUid44rDwhaPxWa816J4Al4kgfij_JE6kpLdyqV7QLOabDQuCbnI3SvTIuxSETzOCdYtq5dcckZmh_5yDKJo5NoqbN2RxhGl33xiKG-JcmrhLlEJH1bhfKDRKqwpDVOBcCi_2aeQ
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image20.png
    :width: 4.38333in
    :height: 2.325in
 
@@ -1141,45 +981,33 @@ diesel and gasoline cars (i.e., catalytic converters) is accounted for
 as indicated by HBEFA, by applying a degradation factor on the emission
 factors for CO, HC and NO\ :sub:`x` for gasoline cars, as well as on CO
 and NO\ :sub:`x` for diesel cars. These factors are shown in Table 15
-for passenger cars with a mileage of 200’000 km, which is the default
+for passenger cars with a mileage of 200'000 km, which is the default
 lifetime value in *carculator*. The degradation factor corresponding to
 half of the vehicle kilometric lifetime is used, to obtain a
 lifetime-weighted average degradation factor.
 
 Table 15 Degradation factors at 200'000 km for passenger cars
 
-+----------+----------+----------+----------+--------+----------+
-| Deg      | **       | **Diesel |          |        |          |
-| radation | Gasoline | p        |          |        |          |
-| factor   | p        | assenger |          |        |          |
-| at       | assenger | cars**   |          |        |          |
-| 200’000  | cars**   |          |          |        |          |
-| km       |          |          |          |        |          |
-+==========+==========+==========+==========+========+==========+
-|          | **CO**   | **HC**   | *        | **CO** | *        |
-|          |          |          | *NO\ x** |        | *NO\ x** |
-+----------+----------+----------+----------+--------+----------+
-| **       | 1.9      | 1.59     | 2.5      |        |          |
-| EURO-1** |          |          |          |        |          |
-+----------+----------+----------+----------+--------+----------+
-| **       | 1.6      | 1.59     | 2.3      |        | 1.25     |
-| EURO-2** |          |          |          |        |          |
-+----------+----------+----------+----------+--------+----------+
-| **       | 1.75     | 1.02     | 2.9      |        | 1.2      |
-| EURO-3** |          |          |          |        |          |
-+----------+----------+----------+----------+--------+----------+
-| **       | 1.9      | 1.02     | 2        | 1.3    | 1.06     |
-| EURO-4** |          |          |          |        |          |
-+----------+----------+----------+----------+--------+----------+
-| **       | 2        |          | 2.5      | 1.3    | 1.03     |
-| EURO-5** |          |          |          |        |          |
-+----------+----------+----------+----------+--------+----------+
-| **       | 1.3      |          | 1.3      | 1.4    | 1.15     |
-| EURO-6** |          |          |          |        |          |
-+----------+----------+----------+----------+--------+----------+
++-----------------------------------+--------------------------+-------+------+------------------------+------+
+| Degradation factor at 200 000 km  | Gasoline passenger cars  |       |      | Diesel passenger cars  |      |
++===================================+==========================+=======+======+========================+======+
+|                                   | CO                       | HC    | NOx  | CO                     | NOx  |
++-----------------------------------+--------------------------+-------+------+------------------------+------+
+| EURO-1                            | 1.9                      | 1.59  | 2.5  |                        |      |
++-----------------------------------+--------------------------+-------+------+------------------------+------+
+| EURO-2                            | 1.6                      | 1.59  | 2.3  |                        | 1.25 |
++-----------------------------------+--------------------------+-------+------+------------------------+------+
+| EURO-3                            | 1.75                     | 1.02  | 2.9  |                        | 1.2  |
++-----------------------------------+--------------------------+-------+------+------------------------+------+
+| EURO-4                            | 1.9                      | 1.02  | 2    | 1.3                    | 1.06 |
++-----------------------------------+--------------------------+-------+------+------------------------+------+
+| EURO-5                            | 2                        |       | 2.5  | 1.3                    | 1.03 |
++-----------------------------------+--------------------------+-------+------+------------------------+------+
+| EURO-6                            | 1.3                      |       | 1.3  | 1.4                    | 1.15 |
++-----------------------------------+--------------------------+-------+------+------------------------+------+
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image21.png
-   :alt: C:\Users\sacchi_r\AppData\Local\Microsoft\Windows\INetCache\Content.MSO\42B7A2F2.tmp
+
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image21.png
    :width: 6.27014in
    :height: 7.84756in
 
@@ -1212,22 +1040,21 @@ modeled emission and the traffic-situation-weighted average is
 reasonable.
 
 **Important remark**: NO\ :sub:`x` emissions for emission standards
-EURO-4 and 5 tend to be under-estimated compared to HBEFA’s values. It
-is also important to highlight that, in some traffic situations, HBEFA’s
+EURO-4 and 5 tend to be under-estimated compared to HBEFA's values. It
+is also important to highlight that, in some traffic situations, HBEFA's
 values show that emissions of CO, HC, NMHC and PMs for vehicles with
 early emission standards can be much higher that what is assumed in
 *carculator*. There is overall a good agreement between traffic
 situation-weighted average emission factors and those used in
 *carculator*.
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image22.png
-   :alt: C:\Users\sacchi_r\AppData\Local\Microsoft\Windows\INetCache\Content.MSO\F3C29C57.tmp
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image22.png
    :width: 6.27014in
    :height: 5.97153in
 
 Figure 13 Validation of the exhaust emissions model with the emission
 factors provided by HBEFA 4.1 for a medium size diesel-powered passenger
-car. Box-and-whiskers: distribution of HBEFA’s emission factors for
+car. Box-and-whiskers: distribution of HBEFA's emission factors for
 different traffic situations (box: 50% of the distribution, whiskers:
 90% of the distribution). Yellow dots: traffic situation-weighted
 average emission factors. Red dots: modeled emissions calculated by
@@ -1237,7 +1064,7 @@ consumption and amounts emitted.
 NMHC speciation
 ===============
 
-After NMHC emissions are quantified, EEA/EMEP’s 2019 Air Pollutant
+After NMHC emissions are quantified, EEA/EMEP's 2019 Air Pollutant
 Emission Inventory Guidebook provides factors to further specify some of
 them into the substances listed in Table 16.
 
@@ -1288,7 +1115,7 @@ combusted
 
 =========== ========================= =======================
 \           **All gasoline vehicles** **All diesel vehicles**
-\           *kg/kg fuel*              *kg/kg fuel*
+\           *kg/MJ fuel*              *kg/MJ fuel*
 PAH         8.19E-10                  1.32E-09
 Arsenic     7.06E-12                  2.33E-12
 Selenium    4.71E-12                  2.33E-12
@@ -1316,25 +1143,27 @@ emissions:
 -  road wear emissions: from the wearing out of the road pavement
 
 and re-suspended road dust: dust on the road surface that is
-re-suspended as a result of passing traffic, “due either to shear forces
+re-suspended as a result of passing traffic, "due either to shear forces
 at the tire/road surface interface, or air turbulence in the wake of a
-moving vehicle” [32].
+moving vehicle" [32].
 
 [32] provides an approach for estimating the mass and extent of these
 abrasion emissions. They propose to disaggregate the abrasion emission
-factors presented in the EMEP’s 2019 Emission inventory guidebook [31]
+factors presented in the EMEP's 2019 Emission inventory guidebook [31]
 for two-wheelers, passenger cars, buses and heavy good vehicles, to
 re-quantify them as a function of vehicle mass, but also traffic
 situations (urban, rural and motorway). Additionally, they present an
 approach to calculate re-suspended road dust according to the method
-presented in [33] – such factors are not present in the EMEP’s 2019
-Emission inventory guidebook – using representative values for dust load
+presented in [33] - such factors are not present in the EMEP's 2019
+Emission inventory guidebook - using representative values for dust load
 on European roads.
 
 The equation to calculate brake, tire, road and re-suspended road dust
 emissions is the following:
 
-.. math:: EF = b.W^{\frac{1}{c}}
+.. math::
+
+    EF=b.W^{\frac{1}{c}}
 
 With:
 
@@ -1347,21 +1176,18 @@ With:
 
 Table 18 Regression coefficients to estimate abrasion emissions
 
-+--------+---------+---------+---------+---------+-------+---------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
-|        | Tire    | Brake   | Road    | Re-su   |       |         |     |     |     |     |     |     |     |     |     |     |
-|        | wear    | wear    | wear    | spended |       |         |     |     |     |     |     |     |     |     |     |     |
-|        |         |         |         | road    |       |         |     |     |     |     |     |     |     |     |     |     |
-|        |         |         |         | dust    |       |         |     |     |     |     |     |     |     |     |     |     |
-+========+=========+=========+=========+=========+=======+=========+=====+=====+=====+=====+=====+=====+=====+=====+=====+=====+
-|        | Urban   | Rural   | M       | Urban   | Rural | M       |     |     |     |     |     |     |     |     |     |     |
-|        |         |         | otorway |         |       | otorway |     |     |     |     |     |     |     |     |     |     |
-+--------+---------+---------+---------+---------+-------+---------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
-|        | b       | c       | b       | c       | b     | c       | b   | c   | b   | c   | b   | c   | b   | c   | b   | c   |
-+--------+---------+---------+---------+---------+-------+---------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
-| PM 10  | 5.8     | 2.3     | 4.5     | 2.3     | 3.8   | 2.3     | 4.2 | 1.9 | 1.8 | 1.5 | 0.4 | 1.3 | 2.8 | 1.5 | 2   | 1.1 |
-+--------+---------+---------+---------+---------+-------+---------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
-| PM 2.5 | 8.2     | 2.3     | 6.4     | 2.3     | 5.5   | 2.3     | 11  | 1.9 | 4.5 | 1.5 | 1   | 1.3 | 5.1 | 1.5 | 8.2 | 1.1 |
-+--------+---------+---------+---------+---------+-------+---------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
++--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
+|        | Tire wear  |      |        |      |           |      | Brake wear  |      |        |      |           |      | Road wear  |      | Re-suspended road dust  |      |
++========+============+======+========+======+===========+======+=============+======+========+======+===========+======+============+======+=========================+======+
+|        | Urban      |      | Rural  |      | Motorway  |      | Urban       |      | Rural  |      | Motorway  |      |            |      |                         |      |
++--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
+|        | b          | c    | b      | c    | b         | c    | b           | c    | b      | c    | b         | c    | b          | c    | b                       | c    |
++--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
+| PM 10  | 5.8        | 2.3  | 4.5    | 2.3  | 3.8       | 2.3  | 4.2         | 1.9  | 1.8    | 1.5  | 0.4       | 1.3  | 2.8        | 1.5  | 2                       | 1.1  |
++--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
+| PM 2.5 | 8.2        | 2.3  | 6.4    | 2.3  | 5.5       | 2.3  | 11          | 1.9  | 4.5    | 1.5  | 1         | 1.3  | 5.1        | 1.5  | 8.2                     | 1.1  |
++--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
+
 
 The respective amounts of brake and tire wear emissions in urban, rural
 and motorway driving conditions are weighted, to represent the driving
@@ -1392,8 +1218,7 @@ energy and the total negative motive energy corresponds to the amount of
 energy that needs to be provided by mechanical brakes. Table 20 lists
 such reduction actors for the different powertrains.
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image23.png
-   :alt: C:\Users\sacchi_r\AppData\Local\Microsoft\Windows\INetCache\Content.MSO\D53A1AF.tmp
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image23.png
    :width: 4.1546in
    :height: 2.85in
 
@@ -1438,7 +1263,7 @@ evenly distributed between brake, road and tire wear particles.
 Figure 15 shows the calculated abrasion emissions for passenger cars in
 mg per vehicle-kilometer, following the approach presented above.
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image24.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image24.png
    :width: 6.26667in
    :height: 3.00136in
 
@@ -1459,7 +1284,7 @@ is included in the transportation dataset of the corresponding vehicle.
 The overall supply of refrigerant amounts to the initial charge plus the
 amount leaked throughout the lifetime of the vehicle, both listed in
 Table 22. This is an important aspect, as the refrigerant gas R134a has
-a Global Warming potential of 2’400 kg CO\ :sub:`2`-eq./kg released in
+a Global Warming potential of 2'400 kg CO\ :sub:`2`-eq./kg released in
 the atmosphere.
 
 Table 22 Use and loss of refrigerant gas for onboard air conditioning
@@ -1490,7 +1315,7 @@ noise emissions are quantified separately.
 
 The sound power level of rolling noise is calculated using:
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image25.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image25.png
    :width: 3.45in
    :height: 0.65in
 
@@ -1500,21 +1325,17 @@ With:
 
 -  *V\ ref* being the reference speed of 70 km/h
 
-And *A\ R,i,m* and *B\ R,i,m*\ are unitless and given in
-
-Table 23.
+And *A\ R,i,m* and *B\ R,i,m*\ are unitless and given in Table 23.
 
 The propulsion noise level is calculated using:
 
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image26.png
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image26.png
    :width: 3.6in
    :height: 0.625in
 
 With:
 
-And *A\ P,i,m* and *B\ P,i,m*\ are unitless and given in
-
-Table 23.
+And *A\ P,i,m* and *B\ P,i,m*\ are unitless and given in Table 23.
 
 Table 23 Noise level coefficients for passenger cars
 
@@ -1556,7 +1377,7 @@ BEV as calculated by the tool, over the driving cycle WLTC. In this
 figure, the noise levels at different frequency ranges have been summed
 together to obtain a total noise level (in dB), and converted to dB(A)
 using the A-weighting correction factor, to better represent the
-“loudness” or discomfort to the human ear. Typically, propulsion noise
+"loudness" or discomfort to the human ear. Typically, propulsion noise
 emissions dominate in urban environments (which corresponds to the
 section 3.1 of the driving cycle), thereby justifying the use of
 electric vehicles in that regard. This is represented by the difference
@@ -1570,17 +1391,16 @@ cycle.
 
 The study from Cucurachi and Heijungs [37] provides compartment-specific
 noise emission characterization factors against midpoint and endpoint
-indicators – expressed in Person-Pascal-second and Disability-Adjusted
+indicators - expressed in Person-Pascal-second and Disability-Adjusted
 Life Year, respectively.
 
-======== =========
-|image9| |image10|
-======== =========
-a)       b)
-======== =========
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image27.png
+   :width: 60%
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image28.png
+   :width: 30%
 
 Figure 16 a) Noise emission level comparison between ICEV and BEV, based
-on the driving cycle WLTC. b) – Summed sound energy comparison between
+on the driving cycle WLTC. b) Summed sound energy comparison between
 ICEV, BEV and PHEV, over the duration of the WLTC driving cycle.
 
 Electricity mix calculation
@@ -1591,7 +1411,7 @@ distribution the lifetime kilometers of the vehicles over the years of
 use. For example, should a BEV enter the fleet in Poland in 2020, most
 LCA models of passenger vehicles would use the electricity mix for
 Poland corresponding to that year, which corresponds to the row of the
-year 2020 in Table 24, based on ENTSO-E’s TYNDP 2020 projections
+year 2020 in Table 24, based on ENTSO-E's TYNDP 2020 projections
 (National Trends scenario) [38]. *carculator* calculates instead the
 average electricity mix obtained from distributing the annual kilometers
 driven along the vehicle lifetime, assuming an equal number of
@@ -1619,64 +1439,44 @@ km-distributed electricity supply mix for Poland, along with the per kWh
 GHG-intensity, for a vehicle first driven in 2020 and driven for the
 next 16 years.
 
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **y   | *     | **C   | **    | **Gas | **Gas | **Hy  | **H   | *     | *     | **    | **So  | **Wa  | **W   | **    | **g   |
-| ear** | *Biom | oal** | Gas** | C     | CHP** | dro** | ydro, | *Lign | *Nucl | Oil** | lar** | ste** | ind** | Wind, | CO\ 2 |
-|       | ass** |       |       | CGT** |       |       | r     | ite** | ear** |       |       |       |       | offsh | -eq./ |
-|       |       |       |       |       |       |       | eserv |       |       |       |       |       |       | ore** | kWh** |
-|       |       |       |       |       |       |       | oir** |       |       |       |       |       |       |       |       |
-+=======+=======+=======+=======+=======+=======+=======+=======+=======+=======+=======+=======+=======+=======+=======+=======+
-| **2   | 3%    | 46%   | 2%    | 3%    | 0%    | 3%    | 1%    | 29%   | 3%    | 0%    | 0%    | 0%    | 9%    | 0%    | **    |
-| 020** |       |       |       |       |       |       |       |       |       |       |       |       |       |       | 863** |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 2%    | 43%   | 2%    | 4%    | 1%    | 3%    | 1%    | 29%   | 2%    | 0%    | 1%    | 3%    | 9%    | 0%    | 841   |
-| 021** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 2%    | 41%   | 1%    | 5%    | 1%    | 3%    | 1%    | 28%   | 2%    | 0%    | 2%    | 5%    | 9%    | 0%    | 807   |
-| 022** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 1%    | 38%   | 1%    | 5%    | 2%    | 2%    | 1%    | 28%   | 1%    | 0%    | 3%    | 8%    | 10%   | 0%    | 781   |
-| 023** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 1%    | 36%   | 0%    | 6%    | 2%    | 2%    | 0%    | 27%   | 1%    | 0%    | 3%    | 11%   | 10%   | 0%    | 745   |
-| 024** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 0%    | 33%   | 0%    | 7%    | 3%    | 2%    | 0%    | 27%   | 0%    | 0%    | 4%    | 13%   | 10%   | 0%    | 724   |
-| 025** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 0%    | 31%   | 0%    | 8%    | 3%    | 2%    | 0%    | 25%   | 0%    | 0%    | 5%    | 13%   | 11%   | 2%    | 684   |
-| 026** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 0%    | 28%   | 0%    | 9%    | 4%    | 2%    | 0%    | 24%   | 0%    | 0%    | 6%    | 12%   | 12%   | 3%    | 652   |
-| 027** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 0%    | 25%   | 0%    | 9%    | 5%    | 2%    | 0%    | 23%   | 0%    | 0%    | 6%    | 12%   | 13%   | 5%    | 614   |
-| 028** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 0%    | 23%   | 0%    | 10%   | 6%    | 2%    | 0%    | 21%   | 0%    | 0%    | 7%    | 11%   | 14%   | 6%    | 580   |
-| 029** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 0%    | 20%   | 0%    | 11%   | 6%    | 2%    | 0%    | 20%   | 0%    | 0%    | 8%    | 10%   | 15%   | 8%    | 542   |
-| 030** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 0%    | 19%   | 0%    | 11%   | 7%    | 2%    | 0%    | 18%   | 1%    | 0%    | 9%    | 10%   | 16%   | 8%    | 514   |
-| 031** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 0%    | 17%   | 0%    | 10%   | 8%    | 2%    | 0%    | 16%   | 3%    | 0%    | 9%    | 9%    | 17%   | 9%    | 470   |
-| 032** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 0%    | 16%   | 0%    | 10%   | 8%    | 2%    | 0%    | 14%   | 4%    | 0%    | 10%   | 8%    | 17%   | 10%   | 437   |
-| 033** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 0%    | 15%   | 0%    | 10%   | 9%    | 2%    | 0%    | 12%   | 5%    | 0%    | 10%   | 8%    | 18%   | 11%   | 408   |
-| 034** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **2   | 0%    | 13%   | 0%    | 9%    | 10%   | 2%    | 0%    | 11%   | 7%    | 0%    | 11%   | 7%    | 19%   | 12%   | 377   |
-| 035** |       |       |       |       |       |       |       |       |       |       |       |       |       |       |       |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-| **    | 0%    | 26%   | 0%    | 7%    | 5%    | 2%    | 0%    | 21%   | 2%    | 0%    | 6%    | 8%    | 13%   | 5%    | **    |
-| Mix** |       |       |       |       |       |       |       |       |       |       |       |       |       |       | 668** |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| year  | Biomass  | Coal  | Gas  | Gas CCGT  | Gas CHP  | Hydro  | Hydro, reservoir  | Lignite  | Nuclear  | Oil  | Solar  | Waste  | Wind  | Wind, offshore  | g CO2-eq./kWh  |
++=======+==========+=======+======+===========+==========+========+===================+==========+==========+======+========+========+=======+=================+================+
+| 2020  | 3%       | 46%   | 2%   | 3%        | 0%       | 3%     | 1%                | 29%      | 3%       | 0%   | 0%     | 0%     | 9%    | 0%              | 863            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2021  | 2%       | 43%   | 2%   | 4%        | 1%       | 3%     | 1%                | 29%      | 2%       | 0%   | 1%     | 3%     | 9%    | 0%              | 841            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2022  | 2%       | 41%   | 1%   | 5%        | 1%       | 3%     | 1%                | 28%      | 2%       | 0%   | 2%     | 5%     | 9%    | 0%              | 807            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2023  | 1%       | 38%   | 1%   | 5%        | 2%       | 2%     | 1%                | 28%      | 1%       | 0%   | 3%     | 8%     | 10%   | 0%              | 781            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2024  | 1%       | 36%   | 0%   | 6%        | 2%       | 2%     | 0%                | 27%      | 1%       | 0%   | 3%     | 11%    | 10%   | 0%              | 745            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2025  | 0%       | 33%   | 0%   | 7%        | 3%       | 2%     | 0%                | 27%      | 0%       | 0%   | 4%     | 13%    | 10%   | 0%              | 724            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2026  | 0%       | 31%   | 0%   | 8%        | 3%       | 2%     | 0%                | 25%      | 0%       | 0%   | 5%     | 13%    | 11%   | 2%              | 684            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2027  | 0%       | 28%   | 0%   | 9%        | 4%       | 2%     | 0%                | 24%      | 0%       | 0%   | 6%     | 12%    | 12%   | 3%              | 652            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2028  | 0%       | 25%   | 0%   | 9%        | 5%       | 2%     | 0%                | 23%      | 0%       | 0%   | 6%     | 12%    | 13%   | 5%              | 614            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2029  | 0%       | 23%   | 0%   | 10%       | 6%       | 2%     | 0%                | 21%      | 0%       | 0%   | 7%     | 11%    | 14%   | 6%              | 580            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2030  | 0%       | 20%   | 0%   | 11%       | 6%       | 2%     | 0%                | 20%      | 0%       | 0%   | 8%     | 10%    | 15%   | 8%              | 542            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2031  | 0%       | 19%   | 0%   | 11%       | 7%       | 2%     | 0%                | 18%      | 1%       | 0%   | 9%     | 10%    | 16%   | 8%              | 514            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2032  | 0%       | 17%   | 0%   | 10%       | 8%       | 2%     | 0%                | 16%      | 3%       | 0%   | 9%     | 9%     | 17%   | 9%              | 470            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2033  | 0%       | 16%   | 0%   | 10%       | 8%       | 2%     | 0%                | 14%      | 4%       | 0%   | 10%    | 8%     | 17%   | 10%             | 437            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2034  | 0%       | 15%   | 0%   | 10%       | 9%       | 2%     | 0%                | 12%      | 5%       | 0%   | 10%    | 8%     | 18%   | 11%             | 408            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| 2035  | 0%       | 13%   | 0%   | 9%        | 10%      | 2%     | 0%                | 11%      | 7%       | 0%   | 11%    | 7%     | 19%   | 12%             | 377            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+| Mix   | 0%       | 26%   | 0%   | 7%        | 5%       | 2%     | 0%                | 21%      | 2%       | 0%   | 6%     | 8%     | 13%   | 5%              | 668            |
++-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+
 
 Inventories for fuel pathways
 =============================
@@ -1737,7 +1537,7 @@ and not present as generic ecoinvent datasets.
 |           | cooking oil               |                           |
 +-----------+---------------------------+---------------------------+
 | [42]      | e-Diesel                  | Diesel produced from      |
-|           | (Fischer-Tropsch)         | “blue crude” via a        |
+|           | (Fischer-Tropsch)         | "blue crude" via a        |
 |           |                           | Fischer-Tropsch process.  |
 |           |                           | The H\ :sub:`2` is        |
 |           |                           | produced via              |
@@ -1818,9 +1618,9 @@ are listed in Table 26.
 |           |                           | [50]. Inventories for     |
 |           |                           | natural graphite are from |
 |           |                           | [51].                     |
-+-----------+---------------------------+---------------------------+
++-----------+---------------------------+                           |
 |           | NCA battery               |                           |
-+-----------+---------------------------+---------------------------+
++-----------+---------------------------+                           |
 |           | LFP battery               |                           |
 +-----------+---------------------------+---------------------------+
 | [52]      | Type IV hydrogen tank,    | Carbon fiber being one of |
@@ -1872,7 +1672,7 @@ number of impact assessment methods (as rows) for every activity in *A*
 characterization matrices *B*, which contain pre-calculated values for
 activities for a given year, depending on the year of production of the
 vehicle as well as the REMIND climate scenario considered (i.e.,
-“SSP2-Baseline”, “SSP2-PkBudg1300” or “SSP2-PkBudg900”). Midpoint and
+"SSP2-Baseline", "SSP2-PkBudg1300" or "SSP2-PkBudg900"). Midpoint and
 endpoint (i.e., human health, ecosystem impacts and resources use)
 indicators include those of the ReCiPe 2008 v.1.13 impact assessment
 method, as well as those of ILCD 2018. Additionally, it is possible to
@@ -1880,984 +1680,20 @@ export the inventories in a format compatible with the LCA framework
 Brightway2 [51] or Simapro [52], thereby allowing the characterization
 of the results against a larger number of impact assessment methods.
 
-Additional results
-==================
-
-In the main manuscript, the technical and life cycle performances of a
-battery electric and gasoline hybrid vehicle are presented. Here, the
-analysis is extended to a fuel cell electric, diesel and gasoline
-vehicle.
-
-Specifications of the vehicles
-==============================
-
-The technical specifications calculated for the vehicles that are
-considered in the comparative analysis are given in Table 27.
-
-Table 27 Calculated parameters for the mid-size vehicles considered in
-the comparative analysis
-
-+-------+-------+------+-------+-------+-------+-------+-------+
-| calcu | unit  | year | I     | I     | FCEV  | BEV   | HEV-p |
-| lated |       |      | CEV-p | CEV-d |       |       |       |
-| param |       |      |       |       |       |       |       |
-| eters |       |      |       |       |       |       |       |
-+=======+=======+======+=======+=======+=======+=======+=======+
-| **    | km    | 2020 | 20    | 20    | 20    | 20    | 20    |
-| Lifet |       |      | 0'000 | 0'000 | 0'000 | 0'000 | 0'000 |
-| ime** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Used  |       |      |       |       |       |       |       |
-| to    |       |      |       |       |       |       |       |
-| norm  |       |      |       |       |       |       |       |
-| alize |       |      |       |       |       |       |       |
-| life  |       |      |       |       |       |       |       |
-| cycle |       |      |       |       |       |       |       |
-| im    |       |      |       |       |       |       |       |
-| pacts |       |      |       |       |       |       |       |
-| per   |       |      |       |       |       |       |       |
-| veh   |       |      |       |       |       |       |       |
-| icle- |       |      |       |       |       |       |       |
-| kilom |       |      |       |       |       |       |       |
-| eter. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 20    | 20    | 20    | 20    | 20    |
-|       |       |      | 0'000 | 0'000 | 0'000 | 0'000 | 0'000 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 20    | 20    | 20    | 20    | 20    |
-|       |       |      | 0'000 | 0'000 | 0'000 | 0'000 | 0'000 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 20    | 20    | 20    | 20    | 20    |
-|       |       |      | 0'000 | 0'000 | 0'000 | 0'000 | 0'000 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **    | year  | 2020 | 16.7  | 16.7  | 16.7  | 16.7  | 16.7  |
-| Lifet |       |      |       |       |       |       |       |
-| ime** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Same  |       |      |       |       |       |       |       |
-| as    |       |      |       |       |       |       |       |
-| a     |       |      |       |       |       |       |       |
-| bove, |       |      |       |       |       |       |       |
-| in    |       |      |       |       |       |       |       |
-| y     |       |      |       |       |       |       |       |
-| ears. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 16.7  | 16.7  | 16.7  | 16.7  | 16.7  |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 16.7  | 16.7  | 16.7  | 16.7  | 16.7  |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 16.7  | 16.7  | 16.7  | 16.7  | 16.7  |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **A   | km    | 2020 | 1     | 1     | 1     | 1     | 1     |
-| nnual | /year |      | 2'000 | 2'000 | 2'000 | 2'000 | 2'000 |
-| ki    |       |      |       |       |       |       |       |
-| lomet |       |      |       |       |       |       |       |
-| ers** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| A     |       |      |       |       |       |       |       |
-| nnual |       |      |       |       |       |       |       |
-| mil   |       |      |       |       |       |       |       |
-| eage. |       |      |       |       |       |       |       |
-| Used  |       |      |       |       |       |       |       |
-| to    |       |      |       |       |       |       |       |
-| calc  |       |      |       |       |       |       |       |
-| ulate |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| km-d  |       |      |       |       |       |       |       |
-| istri |       |      |       |       |       |       |       |
-| buted |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| lectr |       |      |       |       |       |       |       |
-| icity |       |      |       |       |       |       |       |
-| s     |       |      |       |       |       |       |       |
-| upply |       |      |       |       |       |       |       |
-| mix.  |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 1     | 1     | 1     | 1     | 1     |
-|       |       |      | 2'000 | 2'000 | 2'000 | 2'000 | 2'000 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 1     | 1     | 1     | 1     | 1     |
-|       |       |      | 2'000 | 2'000 | 2'000 | 2'000 | 2'000 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 1     | 1     | 1     | 1     | 1     |
-|       |       |      | 2'000 | 2'000 | 2'000 | 2'000 | 2'000 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **Tan | %     | 2020 | 24%   | 29%   | 38%   | 71%   | 26%   |
-| k-to- |       |      |       |       |       |       |       |
-| wheel |       |      |       |       |       |       |       |
-| ef    |       |      |       |       |       |       |       |
-| ficie |       |      |       |       |       |       |       |
-| ncy** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| A     |       |      |       |       |       |       |       |
-| mount |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| nergy |       |      |       |       |       |       |       |
-| from  |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| fuel  |       |      |       |       |       |       |       |
-| ta    |       |      |       |       |       |       |       |
-| nk/ba |       |      |       |       |       |       |       |
-| ttery |       |      |       |       |       |       |       |
-| that  |       |      |       |       |       |       |       |
-| re    |       |      |       |       |       |       |       |
-| aches |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| wh    |       |      |       |       |       |       |       |
-| eels. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 24%   | 29%   | 42%   | 74%   | 26%   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 24%   | 29%   | 46%   | 77%   | 26%   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 24%   | 29%   | 46%   | 77%   | 26%   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **Tan | ki    | 2020 | 1'975 | 1'724 | 1'247 | 655   | 1'839 |
-| k-to- | lojou |      |       |       |       |       |       |
-| wheel | le/km |      |       |       |       |       |       |
-| ene   |       |      |       |       |       |       |       |
-| rgy** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| A     |       |      |       |       |       |       |       |
-| mount |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| nergy |       |      |       |       |       |       |       |
-| n     |       |      |       |       |       |       |       |
-| eeded |       |      |       |       |       |       |       |
-| to    |       |      |       |       |       |       |       |
-| move  |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| ve    |       |      |       |       |       |       |       |
-| hicle |       |      |       |       |       |       |       |
-| over  |       |      |       |       |       |       |       |
-| 1 km, |       |      |       |       |       |       |       |
-| c     |       |      |       |       |       |       |       |
-| onsid |       |      |       |       |       |       |       |
-| ering |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| va    |       |      |       |       |       |       |       |
-| rious |       |      |       |       |       |       |       |
-| l     |       |      |       |       |       |       |       |
-| osses |       |      |       |       |       |       |       |
-| be    |       |      |       |       |       |       |       |
-| tween |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| w     |       |      |       |       |       |       |       |
-| heels |       |      |       |       |       |       |       |
-| and   |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| tan   |       |      |       |       |       |       |       |
-| k/bat |       |      |       |       |       |       |       |
-| tery. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 1'815 | 1'540 | 1'035 | 579   | 1'648 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 1'815 | 1'540 | 855   | 507   | 1'648 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 1'815 | 1'540 | 855   | 507   | 1'648 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| *     | ki    | 2020 | 101   | 84    | 57    | 51    | 94    |
-| *Auxi | lojou |      |       |       |       |       |       |
-| liary | le/km |      |       |       |       |       |       |
-| ene   |       |      |       |       |       |       |       |
-| rgy** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| A     |       |      |       |       |       |       |       |
-| mount |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| nergy |       |      |       |       |       |       |       |
-| per   |       |      |       |       |       |       |       |
-| km    |       |      |       |       |       |       |       |
-| n     |       |      |       |       |       |       |       |
-| eeded |       |      |       |       |       |       |       |
-| to    |       |      |       |       |       |       |       |
-| power |       |      |       |       |       |       |       |
-| on    |       |      |       |       |       |       |       |
-| board |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| lectr |       |      |       |       |       |       |       |
-| onics |       |      |       |       |       |       |       |
-| as    |       |      |       |       |       |       |       |
-| well  |       |      |       |       |       |       |       |
-| as to |       |      |       |       |       |       |       |
-| sa    |       |      |       |       |       |       |       |
-| tisfy |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| needs |       |      |       |       |       |       |       |
-| for   |       |      |       |       |       |       |       |
-| he    |       |      |       |       |       |       |       |
-| ating |       |      |       |       |       |       |       |
-| and   |       |      |       |       |       |       |       |
-| coo   |       |      |       |       |       |       |       |
-| ling. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 92    | 75    | 50    | 46    | 84    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 92    | 75    | 43    | 41    | 84    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 92    | 75    | 43    | 41    | 84    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **E   | k     | 2020 | 0.00  | 0.00  | 0.00  | 0.21  | 0.00  |
-| lectr | Wh/km |      |       |       |       |       |       |
-| icity |       |      |       |       |       |       |       |
-| con   |       |      |       |       |       |       |       |
-| sumpt |       |      |       |       |       |       |       |
-| ion** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| A     |       |      |       |       |       |       |       |
-| mount |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| lectr |       |      |       |       |       |       |       |
-| icity |       |      |       |       |       |       |       |
-| at    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| “wall |       |      |       |       |       |       |       |
-| so    |       |      |       |       |       |       |       |
-| cket” |       |      |       |       |       |       |       |
-| n     |       |      |       |       |       |       |       |
-| eeded |       |      |       |       |       |       |       |
-| per   |       |      |       |       |       |       |       |
-| km.   |       |      |       |       |       |       |       |
-| This  |       |      |       |       |       |       |       |
-| inc   |       |      |       |       |       |       |       |
-| ludes |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| char  |       |      |       |       |       |       |       |
-| ger’s |       |      |       |       |       |       |       |
-| l     |       |      |       |       |       |       |       |
-| osses |       |      |       |       |       |       |       |
-| as    |       |      |       |       |       |       |       |
-| well  |       |      |       |       |       |       |       |
-| as    |       |      |       |       |       |       |       |
-| ba    |       |      |       |       |       |       |       |
-| ttery |       |      |       |       |       |       |       |
-| c     |       |      |       |       |       |       |       |
-| harge |       |      |       |       |       |       |       |
-| lo    |       |      |       |       |       |       |       |
-| sses. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 0.00  | 0.00  | 0.00  | 0.19  | 0.00  |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 0.00  | 0.00  | 0.00  | 0.16  | 0.00  |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 0.00  | 0.00  | 0.00  | 0.16  | 0.00  |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| *     | W     | 2020 | 384   | 384   | 365   | 656   | 365   |
-| *Auxi |       |      |       |       |       |       |       |
-| liary |       |      |       |       |       |       |       |
-| power |       |      |       |       |       |       |       |
-| dem   |       |      |       |       |       |       |       |
-| and** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| A     |       |      |       |       |       |       |       |
-| mount |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| power |       |      |       |       |       |       |       |
-| drawn |       |      |       |       |       |       |       |
-| by    |       |      |       |       |       |       |       |
-| on    |       |      |       |       |       |       |       |
-| board |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| lectr |       |      |       |       |       |       |       |
-| onics |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 341   | 341   | 332   | 590   | 332   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 341   | 341   | 299   | 527   | 332   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 341   | 341   | 299   | 527   | 332   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **    | kg    | 2020 | 106   | 107   | 75    | 77    | 109   |
-| Power |       |      |       |       |       |       |       |
-| train |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| ass** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Mass  |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| en    |       |      |       |       |       |       |       |
-| gine, |       |      |       |       |       |       |       |
-| ge    |       |      |       |       |       |       |       |
-| arbox |       |      |       |       |       |       |       |
-| and   |       |      |       |       |       |       |       |
-| tr    |       |      |       |       |       |       |       |
-| ansmi |       |      |       |       |       |       |       |
-| ssion |       |      |       |       |       |       |       |
-| line. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 101   | 101   | 69    | 72    | 102   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 101   | 101   | 63    | 67    | 102   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 101   | 101   | 63    | 67    | 102   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| *     | kg    | 2020 | 40    | 40    | 88    | -     | 31    |
-| *Fuel |       |      |       |       |       |       |       |
-| tank  |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| ass** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Mass  |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| fuel  |       |      |       |       |       |       |       |
-| tank, |       |      |       |       |       |       |       |
-| wi    |       |      |       |       |       |       |       |
-| thout |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| fuel. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 36    | 36    | 82    | -     | 28    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 36    | 36    | 75    | -     | 28    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 36    | 36    | 75    | -     | 28    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| *     | kg    | 2020 | -     | -     | 34    | -     | -     |
-| *Fuel |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| anci  |       |      |       |       |       |       |       |
-| llary |       |      |       |       |       |       |       |
-| Ba    |       |      |       |       |       |       |       |
-| lance |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| Plant |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| ass** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Mass  |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| anci  |       |      |       |       |       |       |       |
-| llary |       |      |       |       |       |       |       |
-| compo |       |      |       |       |       |       |       |
-| nents |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| fuel  |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| stack |       |      |       |       |       |       |       |
-| ba    |       |      |       |       |       |       |       |
-| lance |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| p     |       |      |       |       |       |       |       |
-| lant. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | -     | -     | 29    | -     | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | -     | -     | 24    | -     | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | -     | -     | 24    | -     | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| *     | kg    | 2020 | -     | -     | 85    | -     | -     |
-| *Fuel |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| esse  |       |      |       |       |       |       |       |
-| ntial |       |      |       |       |       |       |       |
-| Ba    |       |      |       |       |       |       |       |
-| lance |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| Plant |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| ass** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Mass  |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| anci  |       |      |       |       |       |       |       |
-| llary |       |      |       |       |       |       |       |
-| compo |       |      |       |       |       |       |       |
-| nents |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| fuel  |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| stack |       |      |       |       |       |       |       |
-| ba    |       |      |       |       |       |       |       |
-| lance |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| p     |       |      |       |       |       |       |       |
-| lant. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | -     | -     | 70    | -     | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | -     | -     | 55    | -     | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | -     | -     | 55    | -     | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| *     | kg    | 2020 | -     | -     | 40    | -     | -     |
-| *Fuel |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| stack |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| ass** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Mass  |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| fuel  |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| s     |       |      |       |       |       |       |       |
-| tack. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | -     | -     | 36    | -     | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | -     | -     | 32    | -     | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | -     | -     | 32    | -     | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **Ba  | kg    | 2020 | -     | -     | 5     | 144   | 6     |
-| ttery |       |      |       |       |       |       |       |
-| Ba    |       |      |       |       |       |       |       |
-| lance |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| Plant |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| ass** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Mass  |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| ba    |       |      |       |       |       |       |       |
-| lance |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| plant |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| ba    |       |      |       |       |       |       |       |
-| ttery |       |      |       |       |       |       |       |
-| sy    |       |      |       |       |       |       |       |
-| stem. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 1     | 1     | 4     | 135   | 4     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 1     | 1     | 3     | 126   | 4     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 1     | 1     | 3     | 126   | 4     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **Ba  | kg    | 2020 | -     | -     | 10    | 216   | 12    |
-| ttery |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| ass** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Mass  |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| cells |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| ba    |       |      |       |       |       |       |       |
-| ttery |       |      |       |       |       |       |       |
-| sy    |       |      |       |       |       |       |       |
-| stem. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 2     | 2     | 8     | 225   | 9     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 2     | 2     | 7     | 234   | 9     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 2     | 2     | 7     | 234   | 9     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **    | kg    | 2020 | 125   | 144   | -     | -     | 111   |
-| Combu |       |      |       |       |       |       |       |
-| stion |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| ngine |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| ass** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Mass  |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| int   |       |      |       |       |       |       |       |
-| ernal |       |      |       |       |       |       |       |
-| combu |       |      |       |       |       |       |       |
-| stion |       |      |       |       |       |       |       |
-| en    |       |      |       |       |       |       |       |
-| gine. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 114   | 132   | -     | -     | 102   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 114   | 132   | -     | -     | 102   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 114   | 132   | -     | -     | 102   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **Ele | kg    | 2020 | -     | -     | 71    | 73    | 32    |
-| ctric |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| ngine |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| ass** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Mass  |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| ele   |       |      |       |       |       |       |       |
-| ctric |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| otor. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 17    | 17    | 66    | 71    | 29    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 17    | 17    | 62    | 68    | 29    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 17    | 17    | 62    | 68    | 29    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| *     | kg    | 2020 | 1'361 | 1'382 | 1'476 | 1'540 | 1'449 |
-| *Curb |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| ass** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Mass  |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| ve    |       |      |       |       |       |       |       |
-| hicle |       |      |       |       |       |       |       |
-| in    |       |      |       |       |       |       |       |
-| wo    |       |      |       |       |       |       |       |
-| rking |       |      |       |       |       |       |       |
-| o     |       |      |       |       |       |       |       |
-| rder, |       |      |       |       |       |       |       |
-| with  |       |      |       |       |       |       |       |
-| fuel, |       |      |       |       |       |       |       |
-| but   |       |      |       |       |       |       |       |
-| wi    |       |      |       |       |       |       |       |
-| thout |       |      |       |       |       |       |       |
-| cargo |       |      |       |       |       |       |       |
-| or    |       |      |       |       |       |       |       |
-| p     |       |      |       |       |       |       |       |
-| assen |       |      |       |       |       |       |       |
-| gers. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 1'331 | 1'341 | 1'404 | 1'526 | 1'357 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 1'331 | 1'341 | 1'336 | 1'512 | 1'357 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 1'331 | 1'341 | 1'336 | 1'512 | 1'357 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **    | kg    | 2020 | 140   | 140   | 140   | 140   | 140   |
-| Total |       |      |       |       |       |       |       |
-| cargo |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| ass** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Mass  |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| c     |       |      |       |       |       |       |       |
-| argo, |       |      |       |       |       |       |       |
-| incl  |       |      |       |       |       |       |       |
-| uding |       |      |       |       |       |       |       |
-| 1.6   |       |      |       |       |       |       |       |
-| p     |       |      |       |       |       |       |       |
-| assen |       |      |       |       |       |       |       |
-| gers. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 140   | 140   | 140   | 140   | 140   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 140   | 140   | 140   | 140   | 140   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 140   | 140   | 140   | 140   | 140   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **Dr  | kg    | 2020 | 1'501 | 1'522 | 1'616 | 1'680 | 1'589 |
-| iving |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| ass** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Curb  |       |      |       |       |       |       |       |
-| mass, |       |      |       |       |       |       |       |
-| tog   |       |      |       |       |       |       |       |
-| ether |       |      |       |       |       |       |       |
-| with  |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| cargo |       |      |       |       |       |       |       |
-| mass. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 1'471 | 1'481 | 1'544 | 1'666 | 1'497 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 1'471 | 1'481 | 1'476 | 1'652 | 1'497 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 1'471 | 1'481 | 1'476 | 1'652 | 1'497 |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **Ba  | unit  | 2020 | 0     | 0     | 0     | 0     | 0     |
-| ttery |       |      |       |       |       |       |       |
-| lif   |       |      |       |       |       |       |       |
-| etime |       |      |       |       |       |       |       |
-| repl  |       |      |       |       |       |       |       |
-| aceme |       |      |       |       |       |       |       |
-| nts** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| N     |       |      |       |       |       |       |       |
-| umber |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| ba    |       |      |       |       |       |       |       |
-| ttery |       |      |       |       |       |       |       |
-| re    |       |      |       |       |       |       |       |
-| place |       |      |       |       |       |       |       |
-| ments |       |      |       |       |       |       |       |
-| over  |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| vehi  |       |      |       |       |       |       |       |
-| cle’s |       |      |       |       |       |       |       |
-| life  |       |      |       |       |       |       |       |
-| time. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 0     | 0     | 0     | 0     | 0     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 0     | 0     | 0     | 0     | 0     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 0     | 0     | 0     | 0     | 0     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **    | kW    | 2020 | 95    | 97    | 103   | 108   | 101   |
-| Total |       |      |       |       |       |       |       |
-| po    |       |      |       |       |       |       |       |
-| wer** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Power |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| combu |       |      |       |       |       |       |       |
-| stion |       |      |       |       |       |       |       |
-| and   |       |      |       |       |       |       |       |
-| ele   |       |      |       |       |       |       |       |
-| ctric |       |      |       |       |       |       |       |
-| eng   |       |      |       |       |       |       |       |
-| ines. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 93    | 94    | 98    | 107   | 95    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 93    | 94    | 93    | 106   | 95    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 93    | 94    | 93    | 106   | 95    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **    | kW    | 2020 | 95    | 97    | -     | -     | 76    |
-| Combu |       |      |       |       |       |       |       |
-| stion |       |      |       |       |       |       |       |
-| po    |       |      |       |       |       |       |       |
-| wer** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Power |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| combu |       |      |       |       |       |       |       |
-| stion |       |      |       |       |       |       |       |
-| en    |       |      |       |       |       |       |       |
-| gine. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 88    | 89    | -     | -     | 71    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 88    | 89    | -     | -     | 71    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 88    | 89    | -     | -     | 71    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **Ele | kW    | 2020 | -     | -     | 103   | 108   | 25    |
-| ctric |       |      |       |       |       |       |       |
-| po    |       |      |       |       |       |       |       |
-| wer** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Power |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| ele   |       |      |       |       |       |       |       |
-| ctric |       |      |       |       |       |       |       |
-| m     |       |      |       |       |       |       |       |
-| otor. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 5     | 5     | 98    | 107   | 24    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 5     | 5     | 93    | 106   | 24    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 5     | 5     | 93    | 106   | 24    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| *     | kW    | 2020 | -     | -     | 89    | -     | -     |
-| *Fuel |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| po    |       |      |       |       |       |       |       |
-| wer** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Power |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| fuel  |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| s     |       |      |       |       |       |       |       |
-| tack. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | -     | -     | 84    | -     | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | -     | -     | 79    | -     | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | -     | -     | 79    | -     | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **Ba  | W     | 2020 | -     | -     | 22    | -     | 25    |
-| ttery |       |      |       |       |       |       |       |
-| po    |       |      |       |       |       |       |       |
-| wer** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Power |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| ba    |       |      |       |       |       |       |       |
-| ttery |       |      |       |       |       |       |       |
-| (l    |       |      |       |       |       |       |       |
-| ead-a |       |      |       |       |       |       |       |
-| cid). |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 5     | 5     | 21    | -     | 24    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 5     | 5     | 20    | -     | 24    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 5     | 5     | 20    | -     | 24    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **Ele | kWh   | 2020 | -     | -     | -     | 43    | -     |
-| ctric |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| nergy |       |      |       |       |       |       |       |
-| sto   |       |      |       |       |       |       |       |
-| red** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Ba    |       |      |       |       |       |       |       |
-| ttery |       |      |       |       |       |       |       |
-| capa  |       |      |       |       |       |       |       |
-| city. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | -     | -     | -     | 68    | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | -     | -     | -     | 94    | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | -     | -     | -     | 117   | -     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| *     | kWh   | 2020 | 530   | 535   | 150   | -     | 412   |
-| *Oxid |       |      |       |       |       |       |       |
-| ation |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| nergy |       |      |       |       |       |       |       |
-| sto   |       |      |       |       |       |       |       |
-| red** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Liqu  |       |      |       |       |       |       |       |
-| id/ga |       |      |       |       |       |       |       |
-| seous |       |      |       |       |       |       |       |
-| fuel  |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| nergy |       |      |       |       |       |       |       |
-| capa  |       |      |       |       |       |       |       |
-| city. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 477   | 482   | 150   | -     | 377   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 477   | 482   | 150   | -     | 377   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 477   | 482   | 150   | -     | 377   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| *     | unit  | 2020 | 0     | 0     | 1     | 0     | 0     |
-| *Fuel |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| lif   |       |      |       |       |       |       |       |
-| etime |       |      |       |       |       |       |       |
-| repl  |       |      |       |       |       |       |       |
-| aceme |       |      |       |       |       |       |       |
-| nts** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| N     |       |      |       |       |       |       |       |
-| umber |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| fuel  |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| stack |       |      |       |       |       |       |       |
-| re    |       |      |       |       |       |       |       |
-| place |       |      |       |       |       |       |       |
-| ments |       |      |       |       |       |       |       |
-| over  |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| vehi  |       |      |       |       |       |       |       |
-| cle’s |       |      |       |       |       |       |       |
-| life  |       |      |       |       |       |       |       |
-| time. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 0     | 0     | 0     | 0     | 0     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 0     | 0     | 0     | 0     | 0     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 0     | 0     | 0     | 0     | 0     |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| *     | %     | 2020 | 0%    | 0%    | 50%   | 0%    | 0%    |
-| *Fuel |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| s     |       |      |       |       |       |       |       |
-| ystem |       |      |       |       |       |       |       |
-| ef    |       |      |       |       |       |       |       |
-| ficie |       |      |       |       |       |       |       |
-| ncy** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Effic |       |      |       |       |       |       |       |
-| iency |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| fuel  |       |      |       |       |       |       |       |
-| cell  |       |      |       |       |       |       |       |
-| s     |       |      |       |       |       |       |       |
-| ystem |       |      |       |       |       |       |       |
-| (incl |       |      |       |       |       |       |       |
-| uding |       |      |       |       |       |       |       |
-| own   |       |      |       |       |       |       |       |
-| con   |       |      |       |       |       |       |       |
-| sumpt |       |      |       |       |       |       |       |
-| ion). |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 0%    | 0%    | 52%   | 0%    | 0%    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 0%    | 0%    | 53%   | 0%    | 0%    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 0%    | 0%    | 53%   | 0%    | 0%    |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **Ra  | km    | 2020 | 966   | 1'117 | 433   | 190   | 807   |
-| nge** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Range |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| ve    |       |      |       |       |       |       |       |
-| hicle |       |      |       |       |       |       |       |
-| on a  |       |      |       |       |       |       |       |
-| full  |       |      |       |       |       |       |       |
-| tan   |       |      |       |       |       |       |       |
-| k/bat |       |      |       |       |       |       |       |
-| tery. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 946   | 1'126 | 522   | 336   | 823   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 946   | 1'126 | 631   | 531   | 823   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 946   | 1'126 | 631   | 664   | 823   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **Br  | %     | 2020 | 69%   | 69%   | 77%   | 77%   | 73%   |
-| aking |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| nergy |       |      |       |       |       |       |       |
-| re    |       |      |       |       |       |       |       |
-| cuper |       |      |       |       |       |       |       |
-| ation |       |      |       |       |       |       |       |
-| ef    |       |      |       |       |       |       |       |
-| ficie |       |      |       |       |       |       |       |
-| ncy** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Share |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| br    |       |      |       |       |       |       |       |
-| aking |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| nergy |       |      |       |       |       |       |       |
-| that  |       |      |       |       |       |       |       |
-| can   |       |      |       |       |       |       |       |
-| be    |       |      |       |       |       |       |       |
-| re    |       |      |       |       |       |       |       |
-| cuper |       |      |       |       |       |       |       |
-| ated. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 71%   | 71%   | 78%   | 78%   | 74%   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 71%   | 71%   | 80%   | 80%   | 74%   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 71%   | 71%   | 80%   | 80%   | 74%   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-| **    | %     | 2020 | 0%    | 0%    | 77%   | 77%   | 72%   |
-| Share |       |      |       |       |       |       |       |
-| r     |       |      |       |       |       |       |       |
-| ecupe |       |      |       |       |       |       |       |
-| rated |       |      |       |       |       |       |       |
-| br    |       |      |       |       |       |       |       |
-| aking |       |      |       |       |       |       |       |
-| ene   |       |      |       |       |       |       |       |
-| rgy** |       |      |       |       |       |       |       |
-|       |       |      |       |       |       |       |       |
-| Share |       |      |       |       |       |       |       |
-| of    |       |      |       |       |       |       |       |
-| the   |       |      |       |       |       |       |       |
-| br    |       |      |       |       |       |       |       |
-| aking |       |      |       |       |       |       |       |
-| e     |       |      |       |       |       |       |       |
-| nergy |       |      |       |       |       |       |       |
-| re    |       |      |       |       |       |       |       |
-| cuper |       |      |       |       |       |       |       |
-| ated. |       |      |       |       |       |       |       |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2030 | 35%   | 35%   | 78%   | 78%   | 73%   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2040 | 35%   | 35%   | 80%   | 80%   | 73%   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-|       |       | 2050 | 35%   | 35%   | 80%   | 80%   | 73%   |
-+-------+-------+------+-------+-------+-------+-------+-------+
-
-Calculated parameters for other powertrains
-===========================================
-
-Figure 17 presents some of the performance parameters of the vehicles
-considered, from 2020 to 2050. As explained in the main manuscript, for
-this analysis, the technological development of all ICE vehicles (diesel
-and gasoline) are frozen past 2035.
-
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image29.png
-   :alt: BEV_ICEV-p_ICEV-d_FCEV
-   :width: 6.26667in
-   :height: 4.7in
-
-Figure 17 Calculated parameters for a mid-size battery electric, fuel
-cell electric, diesel and gasoline vehicle. Results are calculated over
-a Monte Carlo analysis (1,000 iterations). The upper and lower bounds
-represent the 25\ :sup:`th` and 75\ :sup:`th` quantiles. The dashed line
-represents the median.
-
-Greenhouse gas emissions comparison with other powertrains
-==========================================================
-
-The comparative analysis presented in the Results section of the main
-manuscript is extended here with additional powertrains: a fuel cell
-electric vehicle fueled by electrolysis-based hydrogen, as well as
-gasoline and diesel-powered vehicles, fueled by conventional and
-synthetic fuel. The conclusions drawn from the main analysis in the
-manuscript are still valid here. In fact, the difference in GHG
-emissions between a conventional vehicle and a battery electric vehicle
-is larger than when compared with a more performant hybrid vehicle. Fuel
-cell electric vehicles, running on electrolysis-based hydrogen only
-perform well with very low-carbon electricity networks, such as those of
-Norway and Sweden. In most countries, the fuel cell option only competes
-with battery electric vehicles past 2040, if at all.
-
-.. image:: vertopal_757417cf02584d819f4a32ea8985e299/media/image30.png
-   :alt: C:\Users\sacchi_r\AppData\Local\Microsoft\Windows\INetCache\Content.Word\LCIA_BEV_ICEV-p_ICEV-d_FCEV.png
-   :width: 6.45741in
-   :height: 6.01667in
-
-Figure 18 Life cycle GHG emissions of a mid-size BEV and gasoline HEV
-(using both fossil and synthetic gasoline) in European countries, as
-well as Brazil, China, India, Japan and the United States, including
-error propagation analysis. The amount of biofuel in the fuel blend is
-indicated for each country. Lower interval boundary: 25th percentile of
-Monte Carlo distribution using the “<2 ºC” climate scenario in the
-background inventory database. Upper interval boundary: 75th percentile
-of Monte Carlo distribution using the “3.5 ºC” climate scenario in the
-background inventory database.
 
 References
 ==========
 
 [1] Thiel C, Schmidt J, Van Zyl A, Schmid E. Cost and well-to-wheel
 implications of the vehicle fleet CO2 emission regulation in the
-European Union. Transp Res Part A Policy Pract 2014;63:25–42.
+European Union. Transp Res Part A Policy Pract 2014;63:25-42.
 https://doi.org/10.1016/j.tra.2014.02.018.[2] Ducker Frontier. Aluminum
 Content in European Passenger Cars. Eur Alum 2019:13.[3] European
-Commission. Monitoring of CO2 emissions from passenger cars – Regulation
+Commission. Monitoring of CO2 emissions from passenger cars - Regulation
 (EU) 2019/631 — European Environment Agency 2021.
 https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-19
 (accessed June 17, 2021).[4] European Environment Agency. Monitoring of
-CO2 emissions from passenger cars – Regulation (EC) No 443/2009 —
+CO2 emissions from passenger cars - Regulation (EC) No 443/2009 —
 European Environment Agency 2019.
 https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
 (accessed January 25, 2020).[5] Cox B, Bauer C, Mendoza Beltran A, van
@@ -2867,7 +1703,7 @@ Energy2 2020.[6] Bauer C, Cox B, Heck T, Hirschberg S, Hofer J, Schenler
 W, et al. Opportunities and challenges for electric mobility: an
 interdisciplinary assessment of passenger vehicles Final report of the
 THELMA project in co-operation with the Swiss Competence Center for
-Energy Research “Efficient technologies and systems for mobility.”
+Energy Research "Efficient technologies and systems for mobility."
 2016.[7] Sacchi R, Bauer C, Cox B, Mutel CL. carculator: an open-source
 tool for prospective environmental and economic life cycle assessment of
 vehicles. When, Where and How can battery-electric vehicles help reduce
@@ -2875,17 +1711,17 @@ greenhouse gas emissions? Renew Sustain Energy Rev 2020.[8] Veronika
 Henze. China Dominates the Lithium-ion Battery Supply Chain, but Europe
 is on the Rise. BloombergNEF 2020.
 https://about.bnef.com/blog/china-dominates-the-lithium-ion-battery-supply-chain-but-europe-is-on-the-rise/
-(accessed August 3, 2021).[9] Xinhua. China’s CATL unveils cell-to-pack
+(accessed August 3, 2021).[9] Xinhua. China's CATL unveils cell-to-pack
 battery platform.
 Http://WwwXinhuanetCom/English/2019-09/13/C_138389934Htm 2019.
 http://www.xinhuanet.com/english/2019-09/13/c_138389934.htm (accessed
-November 14, 2021).[10] Mark K. BYD’s New Blade Battery Set to Redefine
-EV safety Standards. INSIDEEVs 2020:1–2.[11] BatteryUniversity. BU-216:
+November 14, 2021).[10] Mark K. BYD's New Blade Battery Set to Redefine
+EV safety Standards. INSIDEEVs 2020:1-2.[11] BatteryUniversity. BU-216:
 Summary Table of Lithium-based Batteries - Battery University 2021.
 https://batteryuniversity.com/article/bu-216-summary-table-of-lithium-based-batteries
 (accessed June 17, 2021).[12] Yang X-G, Liu T, Wang C-Y. Thermally
 modulated lithium iron phosphate batteries for mass-market electric
-vehicles. Nat Energy 2021 62 2021;6:176–85.
+vehicles. Nat Energy 2021 62 2021;6:176-85.
 https://doi.org/10.1038/s41560-020-00757-7.[13] Göhlich D, Fay TA,
 Jefferies D, Lauth E, Kunith A, Zhang X. Design of urban electric bus
 systems. Des Sci 2018;4. https://doi.org/10.1017/dsj.2018.10.[14] Preger
@@ -2897,9 +1733,9 @@ Christian Bauer I, Sacchi R, Mutel C, Mireille Faist Emmenegger P, et
 al. Umweltauswirkungen von Fahrzeugen im urbanen Kontext Schlussbericht.
 2020.[16] Schwertner M, Weidmann U. Comparison of well-to-wheel
 efficiencies for different drivetrain configurations of transit buses.
-Transp Res Rec 2016;2539:55–64. https://doi.org/10.3141/2539-07.[17]
+Transp Res Rec 2016;2539:55-64. https://doi.org/10.3141/2539-07.[17]
 Simons A, Bauer C. A life-cycle perspective on automotive fuel cells.
-Appl Energy 2015;157:884–96.
+Appl Energy 2015;157:884-96.
 https://doi.org/10.1016/j.apenergy.2015.02.049.[18] Eudy L, Post M. Fuel
 Cell Buses in U.S. Transit Fleets: Current Status 2020. 2020.[19] Kurtz
 J, Sprik S, Saur G, Onorato S. Fuel Cell Electric Vehicle Durability and
@@ -2918,7 +1754,7 @@ ELECTRIC DRIVING, AND CO 2 EMISSIONS. 2020.[25] Spielmann M, Dones R,
 Bauer C. Life Cycle Inventories of Transport Services. Final report. .
 Dübendorf and Villigen, CH: 2007.[26] Notter B, Keller M, Cox B.
 Handbook emission factors for road transport 4.1 Quick reference.
-2019.[27] Swiss Federal Office for the Environment. Switzerland’s
+2019.[27] Swiss Federal Office for the Environment. Switzerland's
 National Inventory Report 2021. 2021.[28] Miller J, Jin L. Global
 Progress Toward Soot-Free Diesel Vehicles in 2019. Icct, Ccac 2019:35.
 https://theicct.org/sites/default/files/publications/Global_progress_sootfree_diesel_2019_20190920.pdf
@@ -2941,12 +1777,12 @@ Non-Road Transport Services. 2016.[35] Stylianos Kephalopoulos, Marco
 Paviotti FA-L. Common Noise Assessment Methods in Europe (CNOSSOS-EU).
 vol. 122. 2012.[36] Pallas MA, Bérengier M, Chatagnon R, Czuka M, Conter
 M, Muirhead M. Towards a model for electric vehicle noise emission in
-the European prediction method CNOSSOS-EU. Appl Acoust 2016;113:89–101.
+the European prediction method CNOSSOS-EU. Appl Acoust 2016;113:89-101.
 https://doi.org/10.1016/j.apacoust.2016.06.012.[37] Cucurachi S, Schiess
 S, Froemelt A, Hellweg S. Noise footprint from personal land-based
-mobility. J Ind Ecol 2019;23:1028–38.
+mobility. J Ind Ecol 2019;23:1028-38.
 https://doi.org/10.1111/jiec.12837.[38] Entso-e. ENTSO-E Ten-Year
-Network Development Plan 2020 – Main Report – November 2020 – Version
+Network Development Plan 2020 - Main Report - November 2020 - Version
 for public consultation 2020.[39] Sacchi R, Terlouw T, Siala K,
 Dirnaichner A, Bauer C, Cox B, et al. PRospective EnvironMental Impact
 asSEment (premise): a streamlined approach to producing databases for
@@ -2955,10 +1791,10 @@ Renew Sustain Energy Rev n.d.[40] Cozzolini F. Life Cycle Assessment of
 Biofuels in EU/CH. 2018.[41] Hank C, Lazar L, Mantei F, Ouda M, White
 RJ, Smolinka T, et al. Comparative well-to-wheel life cycle assessment
 of OME3-5 synfuel production via the power-to-liquid pathway. Sustain
-Energy Fuels 2019;3:3219–33. https://doi.org/10.1039/c9se00658c.[42] Van
+Energy Fuels 2019;3:3219-33. https://doi.org/10.1039/c9se00658c.[42] Van
 Der Giesen C, Kleijn R, Kramer GJ. Energy and climate impacts of
 producing synthetic hydrocarbon fuels from CO2. Environ Sci Technol
-2014;48:7111–21. https://doi.org/10.1021/es500191g.[43] Zhang X, Witte
+2014;48:7111-21. https://doi.org/10.1021/es500191g.[43] Zhang X, Witte
 J, Schildhauer T, Bauer C. Life cycle assessment of power-to-gas with
 biogas as the carbon source. Sustain Energy Fuels 2020.
 https://doi.org/10.1039/c9se00986h.[44] Antonini C, Treyer K, Moioli E,
@@ -2968,19 +1804,19 @@ ChemRxiv 2020. https://doi.org/10.26434/chemrxiv.13213553.v1.[45]
 Antonini C, Treyer K, Streb A, van der Spek M, Bauer C, Mazzotti M.
 Hydrogen production from natural gas and biomethane with carbon capture
 and storage - A techno-environmental analysis. Sustain Energy Fuels
-2020;4:2967–86. https://doi.org/10.1039/d0se00222d.[46] Bauer C, Desai
+2020;4:2967-86. https://doi.org/10.1039/d0se00222d.[46] Bauer C, Desai
 H, Heck T, Schneider S, Terlouw T, Treyer K, et al. Electricity storage
 and hydrogen: Technologies, costs and environmental burdens. 2021.[47]
 Zhang X, Bauer C, Mutel CL, Volkart K. Life Cycle Assessment of
 Power-to-Gas: Approaches, system variations and their environmental
-implications. Appl Energy 2017;190:326–38.
+implications. Appl Energy 2017;190:326-38.
 https://doi.org/10.1016/j.apenergy.2016.12.098.[48] Dai Q, Kelly JC,
 Gaines L, Wang M. Life Cycle Analysis of Lithium-Ion Batteries for
 Automotive Applications. Batter 2019, Vol 5, Page 48 2019;5:48.
 https://doi.org/10.3390/BATTERIES5020048.[49] Wernet G, Bauer C,
 Steubing B, Reinhard J, Moreno-Ruiz E, Weidema B. The ecoinvent database
 version 3 (part I): overview and methodology. Int J Life Cycle Assess
-2016;21:1218–30.[50] Supply Chain Looms as Serious Threat to Batteries’
+2016;21:1218-30.[50] Supply Chain Looms as Serious Threat to Batteries'
 Green Reputation \| Greentech Media n.d.
 https://www.greentechmedia.com/articles/read/graphite-the-biggest-threat-to-batteries-green-reputation
 (accessed January 16, 2022).[51] Engels P, Cerdas F, Dettmer T, Frey C,
@@ -2989,14 +1825,14 @@ graphite production for lithium-ion battery anodes based on industrial
 primary data. J Clean Prod 2022;336:130474.
 https://doi.org/10.1016/J.JCLEPRO.2022.130474.[52] Simons A, Bauer C. A
 life-cycle perspective on automotive fuel cells. Appl Energy
-2015;157:884–96. https://doi.org/10.1016/J.APENERGY.2015.02.049.[53]
+2015;157:884-96. https://doi.org/10.1016/J.APENERGY.2015.02.049.[53]
 Benitez A, Wulf C, de Palmenaer A, Lengersdorf M, Röding T, Grube T, et
 al. Ecological assessment of fuel cell electric vehicles with special
 focus on type IV carbon fiber hydrogen tank. J Clean Prod
 2021;278:123277. https://doi.org/10.1016/j.jclepro.2020.123277.[54]
 Evangelisti S, Tagliaferri C, Brett DJL, Lettieri P. Life cycle
 assessment of a polymer electrolyte membrane fuel cell system for
-passenger vehicles. J Clean Prod 2017;142:4339–55.
+passenger vehicles. J Clean Prod 2017;142:4339-55.
 https://doi.org/10.1016/j.jclepro.2016.11.159.
 
 .. [1]
