@@ -51,8 +51,7 @@ Contents
 
 `4 Life cycle impact assessment <#life-cycle-impact-assessment>`__
 
-
-`References 44 <#references>`__
+`References <#references>`__
 
 This document intends to describe the *carculator* model, assumptions
 and inventories as exhaustively as possible. It also extends the
@@ -120,51 +119,33 @@ Table 1 Criteria for size classes
 | M           | Multi-Purpose Vehicles         | Van           | Defined by body type rather than mass and footprint.  |                         |                         |                         | VW Transporter, Mercedes Sprinter, Ford Transit                        |
 +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
 
-Example of Micro car (Microlino)
+Example of Micro car (Microlino), Mini car (Smart) and Small/Compact car (VW Polo)
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image1.png
-    :width: 400
-    :alt: Alternative text
-
-Example of Mini car (Smart)
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image2.png
-    :width: 400
-    :alt: Alternative text
-
-Example of Small/Compact car (VW Polo)
+    :width: 30%
+.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image2.jpeg
+    :width: 30%
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image3.png
-    :width: 400
-    :alt: Alternative text
+    :width: 30%
 
-Example of Lower medium car (VW Golf)
+Example of Lower medium car (VW Golf), Medium car (Peugeot 408) and Large car (Tesla Model 3)
+
+
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image4.png
-    :width: 400
-    :alt: Alternative text
-
-Example of Medium car (Peugeot 408)
+    :width: 30%
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image5.png
-    :width: 400
-    :alt: Alternative text
-
-Example of Large car (Tesla Model 3)
+    :width: 30%
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image6.png
-    :width: 400
-    :alt: Alternative text
+    :width: 30%
 
-Example of Medium SUV car (Peugeot 2008)
+Example of Medium SUV car (Peugeot 2008), Large SUV car (Audi Q7) and Van (Fiat Ducato)
+
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image7.png
-    :width: 400
-    :alt: Alternative text
-
-Example of Large SUV car (Audi Q7)
+    :width: 30%
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image8.png
-    :width: 400
-    :alt: Alternative text
-
-Example of Van (Fiat Ducato)
+    :width: 30%
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image9.png
-    :width: 400
-    :alt: Alternative text
+    :width: 30%
 
 **Important remark**: Micro cars are not considered passenger cars in
 the Swiss and European legislation, but heavy quadricycles. We do
@@ -262,7 +243,7 @@ Table 3, and comes in addition to the aluminium already contained in the
 LCI datasets for the engine and transmission.
 
 **Important remark:** the light weighting rate is for most vehicles
-approximately 11% relative to 2000. However, battery-equipped vehicles
+approximately 11% in 2020 relative to 2000. However, battery-equipped vehicles
 are an exception to this: Medium, Large and Large SUV vehicles have
 significantly higher light weighting rates to partially compensate for
 the additional mass of their batteries. In order to match the battery
