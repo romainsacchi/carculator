@@ -9,9 +9,9 @@ vehicle configurations, according to selected:
 * and sizes (7): Mini, Large, etc.
 
 The methodology used to develop `carculator` is explained in:
-carculator: an open-source tool for prospective environmental and economic life cycle assessment of vehicles. When, Where and How can battery-electric vehicles help reduce greenhouse gas emissions?
+When, where and how can the electrification of passenger cars reduce greenhouse gas emissions?
 Romain Sacchi, Christian Bauer, Brian Cox, Christopher Mutel
-Environmental Modelling and Software (2020, submitted)
+Renewable and Sustainable Energy Reviews `https://doi.org/10.1016/j.rser.2022.112475 <https://doi.org/10.1016/j.rser.2022.112475>`_
 
 At the moment, the tool has a focus on passenger cars.
 
@@ -22,7 +22,7 @@ More specifically, ``carculator`` generates `Brightway2 <https://brightwaylca.or
 results against several midpoint indicators from the impact assessment method ReCiPe as well as life cycle cost indicators.
 
 ``carculator`` is a special in the way that it uses time- and energy-scenario-differentiated background inventories for the future,
-resulting from the coupling between the `ecoinvent 3.6 database <https://ecoinvent.org>`_ and the scenario outputs of PIK's
+resulting from the coupling between the `ecoinvent database <https://ecoinvent.org>`_ and the scenario outputs of PIK's
 integrated assessment model `REMIND <https://www.pik-potsdam.de/research/transformation-pathways/models/remind/remind>`_.
 This allows to perform prospective study while consider future expected changes in regard to the production of electricity,
 cement, steel, heat, etc.
@@ -52,7 +52,7 @@ Finally, beside being more flexible and transparent, ``carculator`` provides int
 * possibility to override any or all of the 200+ default input car parameters (e.g., number of passengers, drag coefficient) but also calculated parameters (e.g., driving mass).
 * hot pollutants emissions as a function of the driving cycle, using `HBEFA <https://www.hbefa.net/e/index.html>`_ 4.1 data, further divided between rural, suburban and urban areas
 * noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_ for inventory modelling and mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban and urban areas
-* export of inventories as an Excel/CSV file, to be used with Brightway2 or Simapro, including uncertainty information. This requires the user to have `ecoinvent 3.6 cutoff` installed on the LCA software the car inventories are exported to.
+* export of inventories as an Excel/CSV file, to be used with Brightway2 or Simapro, including uncertainty information. This requires the user to have `ecoinvent` installed on the LCA software the car inventories are exported to.
 * export inventories directly into Brightway2, as a LCIImporter object to be registered. Additionally, when run in stochastic mode, it is possible to export arrays of pre-sampled values using the `presamples <https://pypi.org/project/presamples/>`_ library to be used together with the Monte Carlo function of Brightway2.
 * development of an online graphical user interface: `carculator online <https://carculator.psi.ch>`_
 
@@ -458,12 +458,14 @@ But in any case, the following script should successfully import the inventory i
     i = bw2io.ExcelImporter(fp)
     i.apply_strategies()
 
-    if 'additional_biosphere' not in bw.databases:
-        i.create_new_biosphere('additional_biosphere')
     i.match_database("name_of_the_ecoinvent_db", fields=('name', 'unit', 'location', 'reference product'))
     i.match_database("biosphere3", fields=('name', 'unit', 'categories'))
     i.match_database("additional_biosphere", fields=('name', 'unit', 'categories'))
     i.match_database(fields=('name', 'unit', 'location'))
 
     i.statistics()
+
+    # if there are some unlinked left
+    i.add_unlinked_flows_to_biosphere_database()
+
     i.write_database()

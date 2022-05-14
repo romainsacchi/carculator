@@ -7,7 +7,6 @@ Index
    :caption: Contents
 
    introduction
-   structure
    modeling
    validity
 

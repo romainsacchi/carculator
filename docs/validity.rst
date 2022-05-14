@@ -200,31 +200,3 @@ The same exercise is done with vehicles between 2008 and 2012 to calibrate the c
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/mass_comparison.png
     :width: 900
     :alt: Alternative text
-    
-
-Tank-to-wheel energy
---------------------
-The European Commission monitors all new registered cars for emissions and energy consumption according to the WLTC driving cycle (v.3).
-See: https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
-
-However, this database does not directly give energy consumption.
-But we can use CO2 emission measurements with the lower heating value of the corresponding fuel to back-calculate the energy consumption.
-Here is an example, where the 2020 vehicle fuel consumption is calibrated against 15,000,000+ measurements found in the EU database for vehicles registered between 2010 and 2019.
-
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/EU_energy_comparison.png
-    :width: 900
-    :alt: Alternative text
-    
-End-of-pipe CO2 emissions
--------------------------
-Similarly, we can plot the CO2 measurements from the EU emissions monitoring database against the values returned by
-``carculator`` for fossil fuel-powered vehicles.
-
-
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/EU_CO2_comparison.png
-    :width: 900
-    :alt: Alternative text
-
-There seems to be a general alignment between measured figures from the EU emissions monitoring programme and the figures produced
-by ``carculator``.
-
