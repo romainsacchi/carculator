@@ -235,13 +235,7 @@ def test_countries():
 
 def test_IAM_regions():
     """Test that calculation works with all IAM regions"""
-    for c in [
-        "BRA",
-        "CAN",
-        "CEU",
-        "CHN",
-        "EAF"
-    ]:
+    for c in ["BRA", "CAN", "CEU", "CHN", "EAF"]:
         ic = InventoryCalculation(
             cm.array,
             method="recipe",
