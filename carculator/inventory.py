@@ -1179,14 +1179,14 @@ class InventoryCalculation:
                     + "/*recipe_midpoint*{}*.csv".format(self.scenario)
                 )
                 list_file_names = sorted(list_file_names)
-                B = np.zeros((len(list_file_names), 22, len(self.inputs)))
+                B = np.zeros((len(list_file_names), 23, len(self.inputs)))
             elif self.method_type == "endpoint":
                 list_file_names = glob.glob(
                     str(IAM_FILES_DIR)
                     + "/*recipe_endpoint*{}*.csv".format(self.scenario)
                 )
                 list_file_names = sorted(list_file_names)
-                B = np.zeros((len(list_file_names), 6, len(self.inputs)))
+                B = np.zeros((len(list_file_names), 4, len(self.inputs)))
             else:
                 raise TypeError(
                     "The LCIA method type should be either 'midpoint' or 'endpoint'."

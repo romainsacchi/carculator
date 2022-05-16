@@ -220,14 +220,6 @@ def test_countries():
         "AT",
         "AU",
         "BE",
-        # "BF","BG","BI","BJ","BR","BW","CA","CD","CF",
-        # "CG","CH","CI","CL","CM","CN","CY","CZ","DE","DJ","DK","DZ","EE",
-        # "EG","ER","ES","ET","FI","FR","GA",
-        # "GB","GH","GM","GN","GQ","GR","GW","HR","HU","IE",
-        # "IN","IT", "IS", "JP", "KE", "LR","LS","LT","LU","LV","LY","MA","ML","MR","MT","MW","MZ",
-        # "NE", "NG","NL","NM","NO","PL","PT","RER","RO","RU","RW","SD","SE","SI","SK","SL","SN","SO","SS","SZ",
-        # "TD","TG","TN","TZ","UG","UK","US","ZA","ZM",
-        # "ZW",
     ]:
         ic = InventoryCalculation(
             cm.array,
@@ -249,10 +241,6 @@ def test_IAM_regions():
         "CEU",
         "CHN",
         "EAF"
-        # "INDIA","INDO","JAP","KOR","ME","MEX",
-        #        #     "NAF","OCE","RCAM","RSAF","RSAM","RSAS","RUS","SAF","SEAS","STAN","TUR",
-        #        #  "UKR","USA","WAF","WEU","LAM","CAZ","EUR","CHA","SSA","IND","OAS","JPN","MEA",
-        #        # "REF","USA",
     ]:
         ic = InventoryCalculation(
             cm.array,
@@ -271,7 +259,7 @@ def test_endpoint():
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
     results = ic.calculate_impacts()
     assert "human health" in [i.lower() for i in results.impact_category.values]
-    assert len(results.impact_category.values) == 6
+    assert len(results.impact_category.values) == 4
     #
     #     """Test if it errors properly if an incorrect method type is give"""
     with pytest.raises(TypeError) as wrapped_error:

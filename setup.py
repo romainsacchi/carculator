@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from setuptools import setup
 
@@ -6,6 +7,10 @@ packages = []
 root_dir = os.path.dirname(__file__)
 if root_dir:
     os.chdir(root_dir)
+    
+# read the contents of your README file
+this_directory = Path(__file__).parent
+README = (this_directory / "README.md").read_text()
 
 # Probably should be changed, __init__.py is no longer required for Python 3
 for dirpath, dirnames, filenames in os.walk("carculator"):
@@ -49,6 +54,8 @@ setup(
     ],
     url="https://github.com/romainsacchi/carculator",
     description="Prospective environmental and economic life cycle assessment of vehicles made blazing fast",
+    long_description_content_type="text/markdown",
+    long_description=README,
     classifiers=[
         "Intended Audience :: End Users/Desktop",
         "Intended Audience :: Developers",
