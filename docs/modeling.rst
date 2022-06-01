@@ -224,10 +224,42 @@ ________________________
 
 .. math::
 
-    m_curb = sum(m_{fuel}, m_{charger}, m_{conv},\\
+    m_{curb} = sum(m_{fuel}, m_{charger}, m_{conv},\\
             m_{inv}, m_{distr}, m_{comb}, m_{elec},\\
             m_{pwt}, m_{fcstack}, m_{fcauxbop}, m_{fcessbop},\\
             m_{battcell}, m_{battbop}, m_{fueltank})
+
+With:
+
+-  *m_{curb}* being the emission factor, in mg per vehicle-kilometer
+
+-  *m_{fuel}* being the vehicle mass, in tons
+
+-  *m_{charger}*
+
+-  *m_{conv}*
+
+-  *m_{inv}*
+
+-  *m_{distr}*
+
+-  *m_{comb}*
+
+-  *m_{elec}*
+
+-  *m_{pwt}*
+
+-  *m_{fcstack}*
+
+-  *m_{fcauxbop}*
+
+-  *m_{battcell}*
+
+-  *m_{battbop}*
+
+-  *m_{fcessbop}*
+
+-  *m_{fueltank}*
 
 
 
