@@ -224,10 +224,10 @@ ________________________
 
 .. math::
 
-    m_{curb} = sum(m_{fuel}, m_{charger}, m_{conv},\\
+    m_{curb} = sum(m_{glider}, m_{charger}, m_{conv},\\
             m_{inv}, m_{distr}, m_{comb}, m_{elec},\\
             m_{pwt}, m_{fcstack}, m_{fcauxbop}, m_{fcessbop},\\
-            m_{battcell}, m_{battbop}, m_{fueltank})
+            m_{battcell}, m_{battbop}, m_{fueltank}, m_{fuel})
 
 With:
 
