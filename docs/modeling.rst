@@ -231,7 +231,7 @@ ________________________
 
 With:
 
--  *m_{curb}* being the emission factor, in mg per vehicle-kilometer
+-  *m:sub:curb* being the emission factor, in mg per vehicle-kilometer
 
 -  *m_{fuel}* being the vehicle mass, in tons
 
