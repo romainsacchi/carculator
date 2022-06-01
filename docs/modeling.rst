@@ -224,12 +224,12 @@ ________________________
 
 .. math::
 
-    curb_mass = sum(fuel mass, charger mass, converter mass,
-            inverter mass, power distribution unit mass,
-            combustion engine mass, electric engine mass,
-            powertrain mass, fuel cell stack mass,
-            fuel cell ancillary BoP mass, fuel cell essential BoP mass,
-            battery cell mass, battery BoP mass, fuel tank mass)
+    m_curb = sum(m_fuel, m_charger, m_conv,
+            m_inv, m_distr,
+            m_comb, m_elec,
+            m_pwt, m_fcstack,
+            m_fcauxbop, m_fcessbop,
+            m_battcell, m_battbop, m_fueltank)
 
 
 
