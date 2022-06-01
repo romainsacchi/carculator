@@ -7,7 +7,7 @@ packages = []
 root_dir = os.path.dirname(__file__)
 if root_dir:
     os.chdir(root_dir)
-    
+
 # read the contents of your README file
 this_directory = Path(__file__).parent
 README = (this_directory / "README.md").read_text()
