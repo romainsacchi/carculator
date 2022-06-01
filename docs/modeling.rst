@@ -225,10 +225,8 @@ ________________________
 .. math::
 
     m_curb = sum(m_{fuel}, m_charger, m_conv,\\
-            m_inv, m_distr,
-            m_comb, m_elec,
-            m_pwt, m_fcstack,
-            m_fcauxbop, m_fcessbop,
+            m_inv, m_distr, m_comb, m_elec,\\
+            m_pwt, m_fcstack, m_fcauxbop, m_fcessbop,\\
             m_battcell, m_battbop, m_fueltank)
 
 
