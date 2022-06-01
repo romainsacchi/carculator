@@ -219,6 +219,16 @@ class CarModel:
                         size="Micro", parameter="lifetime kilometers", powertrain="BEV"
                     )
                 ]
+                self.array.loc[dict(size="Micro")] = self.array.loc[
+                    dict(size="Micro")
+                ].fillna(1)
+                self.array.loc[
+                    dict(size="Micro", parameter="kilometers per year")
+                ] = self.array.loc[
+                    dict(
+                        size="Micro", parameter="kilometers per year", powertrain="BEV"
+                    )
+                ]
 
     def set_battery_preferences(self, energy_storage):
 

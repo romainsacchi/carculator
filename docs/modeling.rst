@@ -199,7 +199,7 @@ Size and mass-related parameters and modeling
 
 The vehicle glider and its components (powertrain, energy storage, etc.)
 are sized according to engine power, which itself is conditioned by the
-curb mass of the vehicle. The curb mass of the vehicle being the sum of
+curb mass of the vehicle. The curb mass of the vehicle is the sum of
 the vehicle components (excluding the driver and possible cargo) as
 represented in Figure 2.
 
@@ -218,6 +218,21 @@ vehicle converges, as illustrated in Figure 3.
 
 Figure 3 Representation of the convergence of the sizing of the
 passenger car model
+
+Curb mass of the vehicle
+________________________
+
+.. math::
+
+    curb_mass = sum(fuel mass, charger mass, converter mass,
+            inverter mass, power distribution unit mass,
+            combustion engine mass, electric engine mass,
+            powertrain mass, fuel cell stack mass,
+            fuel cell ancillary BoP mass, fuel cell essential BoP mass,
+            battery cell mass, battery BoP mass, fuel tank mass)
+
+
+
 
 For each iteration, the tank-to-wheel energy consumption (i.e., the
 motive energy minus any recuperated braking energy, together with the
@@ -503,7 +518,7 @@ Table 6 Specifications for the different battery types
 +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
 | Pack-level gravimetric energy density [kWh/kg]                              | 0.12                                                      | 0.12                                   | 0.14                                                     | Calculated from the two rows above  |
 +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
-| Share of cell mass in battery system [%]                                    | 60 to 80% (depending on chemistry, see third row above)   |                                        |                                                          | [5,12]_                              |
+| Share of cell mass in battery system [%]                                    | 70 to 80% (depending on chemistry, see third row above)   |                                        |                                                          | [5,12]_                              |
 +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
 | Maximum state of charge [%]                                                 | 100%                                                      | 100%                                   | 100%                                                     | [11,13]_                             |
 +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+

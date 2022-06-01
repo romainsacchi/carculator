@@ -12,6 +12,7 @@ import numpy as np
 import xarray as xr
 import yaml
 from scipy import sparse
+import re
 
 from . import DATA_DIR
 from .background_systems import BackgroundSystemModel
@@ -4512,31 +4513,39 @@ class InventoryCalculation:
         # Leakage assumed to amount to 750g/lifetime according to
         # https://treeze.ch/fileadmin/user_upload/downloads/Publications/Case_Studies/Mobility/544-LCI-Road-NonRoad-Transport-Services-v2.0.pdf
         # but only to cars with an AC system (meaning, with a cooling energy consumption)
+        # and only cars from before 2021 (in the EU)
+
+        idx_cars_before_2022 = [self.inputs[i] for i in self.inputs
+                                if "transport, passenger car, " in i[0]
+                                and int(re.findall('([, ]+[0-9]+)', i[0])[0].replace(", ", "")) < 2022]
+        index = self.get_index_vehicle_from_array([i for i in self.scope["year"] if i < 2022])
+
+
         self.A[
             :,
             self.inputs[
                 ("Ethane, 1,1,1,2-tetrafluoro-, HFC-134a", ("air",), "kilogram")
             ],
-            -self.number_of_cars :,
-        ] = (
-            0.750 / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
+            idx_cars_before_2022,
+        ] = ((
+            0.750 / self.array.values[self.array_inputs["lifetime kilometers"], :, index] * -1
         ) * self.array.values[
-            self.array_inputs["cooling energy consumption"]
-        ]
+            self.array_inputs["cooling energy consumption"], :, index
+        ]).T
 
         self.A[
             :,
             self.inputs[
                 ("market for refrigerant R134a", "GLO", "kilogram", "refrigerant R134a")
             ],
-            -self.number_of_cars :,
-        ] = (
+            idx_cars_before_2022,
+        ] = ((
             (0.75 + 0.55)
-            / self.array.values[self.array_inputs["lifetime kilometers"]]
+            / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
             * -1
         ) * self.array.values[
-            self.array_inputs["cooling energy consumption"]
-        ]
+            self.array_inputs["cooling energy consumption"], :, index
+        ]).T
 
         print("*********************************************************************")
 
@@ -5870,6 +5879,38 @@ class InventoryCalculation:
         # Leakage assumed to amount to 53g according to
         # https://treeze.ch/fileadmin/user_upload/downloads/Publications/Case_Studies/Mobility/544-LCI-Road-NonRoad-Transport-Services-v2.0.pdf
         # but only to cars with an AC system (meaning, with a cooling energy consumption)
+        # and only for vehicles before 2022
+
+        idx_cars_before_2022 = [self.inputs[i] for i in self.inputs
+                                if "transport, passenger car, " in i[0]
+                                and int(re.findall('([, ]+[0-9]+)', i[0])[0].replace(", ", "")) < 2022]
+        index = self.get_index_vehicle_from_array([i for i in self.scope["year"] if i < 2022])
+
+        self.A[
+        :,
+        self.inputs[
+            ("Ethane, 1,1,1,2-tetrafluoro-, HFC-134a", ("air",), "kilogram")
+        ],
+        idx_cars_before_2022,
+        ] = ((
+                     0.750 / self.array.values[self.array_inputs["lifetime kilometers"], :, index] * -1
+             ) * self.array.values[
+                 self.array_inputs["cooling energy consumption"], :, index
+                 ]).T
+
+        self.A[
+        :,
+        self.inputs[
+            ("market for refrigerant R134a", "GLO", "kilogram", "refrigerant R134a")
+        ],
+        idx_cars_before_2022,
+        ] = ((
+                     (0.75 + 0.55)
+                     / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
+                     * -1
+             ) * self.array.values[
+                 self.array_inputs["cooling energy consumption"], :, index
+                 ]).T
 
         self.A[
             :,
@@ -5883,19 +5924,6 @@ class InventoryCalculation:
             self.array_inputs["cooling energy consumption"]
         ]
 
-        self.A[
-            :,
-            self.inputs[
-                ("market for refrigerant R134a", "GLO", "kilogram", "refrigerant R134a")
-            ],
-            [j for i, j in self.inputs.items() if "transport, passenger car" in i[0]],
-        ] = (
-            (0.75 + 0.55)
-            / self.array.values[self.array_inputs["lifetime kilometers"]]
-            * -1
-        ) * self.array.values[
-            self.array_inputs["cooling energy consumption"]
-        ]
 
         print("*********************************************************************")
 
