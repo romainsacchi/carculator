@@ -224,7 +224,7 @@ ________________________
 
 .. math::
 
-    m_curb = sum(m_fuel, m_charger, m_conv,\\
+    m_curb = sum(m_{fuel}, m_charger, m_conv,\\
             m_inv, m_distr,
             m_comb, m_elec,
             m_pwt, m_fcstack,
