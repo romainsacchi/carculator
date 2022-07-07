@@ -268,6 +268,31 @@ needed auxiliary energy to power onboard electronics) of the vehicle is
 calculated (i.e., to size the energy storage components, calculate the
 fuel consumption, etc.), as described later in this section.
 
+Cargo and driving mass of the vehicle
+-------------------------------------
+
+The cargo mass of the vehicle is the sum of the cargo mass and the
+passenger mass.
+
+.. math::
+
+    m_{cargo} = m_{cargo} + m_{passenger}
+
+where :math:`m_{cargo}` is the cargo mass, in kg,
+and :math:`m_{passenger}` is the passenger mass.
+
+The driving mass of the vehicle is the sum of the curb mass and the cargo mass.
+
+.. math::
+
+    m_{driving} = m_{curb} + m_{cargo}
+
+where :math:`m_{curb}` is the curb mass, in kg, and :math:`m_{cargo}` is the
+cargo mass, in kg, and :math:`m_{driving}` is the driving mass, in kg.
+
+Light-weight rates
+------------------
+
 Because the LCI dataset used to represent the glider of the vehicle is
 not representative of todays' use of light-weighting materials, such as
 aluminium (i.e., the dataset "glider for passenger cars" only contains
@@ -319,6 +344,8 @@ Table 3 Amount of aluminium in European passenger cars. Source: [2]_
 | Aluminium to be added to the glider [%]                                       | 65     |              |          | 175  |          | 292    | 530  |                  |
 +-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
 
+Curb mass calibration
+---------------------
 
 The final curb mass obtained for each vehicle is calibrated against the
 European Commission's database for CO\ :sub:`2` emission tests for
