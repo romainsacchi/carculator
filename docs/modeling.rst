@@ -233,33 +233,33 @@ With:
 
 -  :math:`m_{curb}` being the vehicle curb mass, in kg
 
--  *m\ :sub:`fuel`* being the fuel mass, in kg
+-  :math:`fuel` being the fuel mass, in kg
 
--  *m\ :sub:`charger`* being the electric onboard charge mass, in kg
+-  :math:`charger` being the electric onboard charge mass, in kg
 
--  *m\ :sub:`conv`* being the current converter, in kg
+-  :math:`conv` being the current converter, in kg
 
--  *m\ :sub:`inv`* being the current AC/DC inverter, in kg
+-  :math:`inv` being the current AC/DC inverter, in kg
 
--  *m\ :sub:`distr`* being the power distribution unit, in kg
+-  :math:`distr` being the power distribution unit, in kg
 
--  *m\ :sub:`comb`* being the combustion engine mass, in kg
+-  :math:`comb` being the combustion engine mass, in kg
 
--  *m\ :sub:`elec`* being the electric motor mass, in kg
+-  :math:`elec` being the electric motor mass, in kg
 
--  *m\ :sub:`pwt`* being the powertrain mass, in kg
+-  :math:`pwt` being the powertrain mass, in kg
 
--  *m\ :sub:`fcstack`* being the fuel cell stack mass, in kg
+-  :math:`fcstack` being the fuel cell stack mass, in kg
 
--  *m\ :sub:`fcauxbop`* being the fuel cell auxiliary components mass, in kg
+-  :math:`fcauxbop` being the fuel cell auxiliary components mass, in kg
 
--  *m\ :sub:`battcell`* being the battery cell mass, in kg
+-  :math:`battcell` being the battery cell mass, in kg
 
--  *m\ :sub:`battbop`* being the battery auxiliary components mass, in kg
+-  :math:`battbop` being the battery auxiliary components mass, in kg
 
--  *m\ :sub:`fcessbop`* being the fuel cell essential components mass, in kg
+-  :math:`fcessbop` being the fuel cell essential components mass, in kg
 
--  *m\ :sub:`fueltank`* being the fuel tank mass, in kg
+-  :math:`fueltank` being the fuel tank mass, in kg
 
 
 For each iteration, the tank-to-wheel energy consumption (i.e., the
@@ -399,8 +399,6 @@ considering additional losses along the drive train (i.e., axles,
 gearbox, and engine losses). The different types of resistance
 considered are depicted in Figure 5, and the module calculation workflow
 is presented in Figure 6.
-
-
 
 Powertrains that are partially or fully electrified have the possibility
 to recuperate a part of the energy spent for propulsion during
