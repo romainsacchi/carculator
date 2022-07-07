@@ -231,7 +231,7 @@ ________________________
 
 With:
 
--  .. math::`m_{curb}` being the vehicle curb mass, in kg
+-  :math:`m_{curb}` being the vehicle curb mass, in kg
 
 -  *m\ :sub:`fuel`* being the fuel mass, in kg
 
@@ -1312,11 +1312,11 @@ emissions is the following:
 
 With:
 
--  *EF* being the emission factor, in mg per vehicle-kilometer
+-  :math:`EF` being the emission factor, in mg per vehicle-kilometer
 
--  *W* being the vehicle mass, in tons
+-  :math:`W` being the vehicle mass, in tons
 
--  *b* and *c* being regression coefficients, whose values are presented
+-  :math:`b` and :math:`c` being regression coefficients, whose values are presented
    in Table 18.
 
 Table 18 Regression coefficients to estimate abrasion emissions
