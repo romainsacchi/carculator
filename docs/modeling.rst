@@ -635,8 +635,9 @@ number of battery replacements.
 
 The number of battery replacement is calculated as follows:
 
-    .. math::
-        n_{batt_repl} = \\frac{L_{veh}}{L_{batt}} - 1
+.. math::
+
+    n_{batt_repl} = \\frac{L_{veh}}{L_{batt}} - 1
 
 where :math:`L_{veh}` is the lifetime of the vehicle [km],
 and :math:`L_{batt}` is the lifetime of the battery [km].
@@ -764,8 +765,9 @@ with a set of fuel cells given their lifetime expressed in hours of use.
 The number is replacement is rounded *up* as we assume no allocation of burden
 with a second life. It is hence is calculated as:
 
-    .. math::
-        n_{fcrep} = \frac{L_{veh}}{V_{avg} \times L_{fc}} - 1
+.. math::
+
+    n_{fcrep} = \frac{L_{veh}}{V_{avg} \times L_{fc}} - 1
 
 where :math:`L_{veh}` is the lifetime of the vehicle [km],
 :math:`V_{avg}` is the average speed of the driving cycle selected [km/h],
@@ -991,6 +993,22 @@ Table 11 Data points used to interpolate the electric utility factor
 +----------------------------------+----------------------------------+
 | 80                               | 75                               |
 +----------------------------------+----------------------------------+
+
+Once the electric utility factor :math:`U` is known, it is used as a partitioning
+ratio to compose the vehicle between the PHEV in combustion mode, and the PHEV in electric mode,
+where:
+
+.. math::
+
+    F_{ttw_phev} = (F_{ttw_phev_e} \times U) + (F_{ttw_phev_c} \times (1 - U))
+    m_{curb_phev} = (m_{curb_phev_e} \times U) + (m_{curb_phev_c} \times (1 - U))
+
+where :math:`F_{ttw_phev_e}` is the tank-to-wheel energy consumption [kWh/km] of the electric PHEV,
+:math:`F_{ttw_phev_c}` is the tank-to-wheel energy consumption [kk/km] of the combustion PHEV,
+:math:`m_{curb_phev_e}` is the curb weight [kg] of the electric PHEV, and :math:`m_{curb_phev_c}` is the
+curb weight [kg] of the combustion PHEV.
+
+
 
 Inventory modelling
 *******************
@@ -1878,7 +1896,9 @@ that:
 Finally, the scaling factor *s* is multiplied with a characterization
 matrix *B.* This matrix contains midpoint characterization factors for a
 number of impact assessment methods (as rows) for every activity in *A*
-(as columns). As described earlier, the tool chooses between several
+(as columns).
+
+As described earlier, the tool chooses between several
 characterization matrices *B*, which contain pre-calculated values for
 activities for a given year, depending on the year of production of the
 vehicle as well as the REMIND climate scenario considered (i.e.,
