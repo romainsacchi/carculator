@@ -445,6 +445,16 @@ Table 5 Auxiliary power demand. Source : [6]_
 | BEV, FCEV                        | 75                        | 200    | 250                 | 320     | 350    | 350                       | 0      | 250    | 320     | 350    | 350        |
 +----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
 
+.. math::
+
+    P_{aux} = P_{base} + (P_{heating} \times D_{heating}) + (P_{cooling} \times D_{cooling})
+
+where :math:`P_{base}` is the auxiliary base power load,
+:math:`P_{heating}` is the power load for heating,
+:math:`P_{cooling}` is the power load for cooling,
+:math:`D_{heating}` is the demand for heating (=0 for non-electric vehicles),
+and :math:`D_{cooling}` is the demand for cooling.
+
 **Important remark:** Micro cars are not equipped with an air
 conditioning system. Hence, their cooling energy requirement is set to
 zero.
@@ -596,6 +606,15 @@ Passenger car, electric, 2050 0   0   0
 Users are encouraged to test the sensitivity of end-results on the
 number of battery replacements.
 
+The number of battery replacement is calculated as follows:
+
+    .. math::
+        n_{batt_repl} = \\frac{L_{veh}}{L_{batt}} - 1
+
+where :math:`L_{veh}` is the lifetime of the vehicle [km],
+and :math:`L_{batt}` is the lifetime of the battery [km].
+
+
 Liquid and gaseous energy storage
 ---------------------------------
 
@@ -683,7 +702,7 @@ The fuel cell system power :math:`P_{fcsys}` is calculated as:
 
 .. math::
 
-    P_{fcsys} = P_{veh} \times r_{fcshare} \\ P_{fcown}
+    P_{fcsys} = \frac{(P_{veh} \times r_{fcshare})}{P_{fcown}}
 
 where :math:`P_{veh}` is the vehicle engine power and :math:`r_{fcshare}` is the fuel cell system power share [%].
 
@@ -713,8 +732,14 @@ The battery power is calculated as:
 where :math:`P_{fcsys}` is the fuel cell system power [kW],
 and :math:`r_{fcshare}` is the fuel cell system power share [%].
 
+The number of fuel cell stack replacement over the vehicle lifetime is calculated as:
 
-Light weighting
+    .. math::
+        n_{fcrep} = \\frac{L_{veh}}{L_{fcsys}} - 1
+
+where :math:`L_{veh}` is the lifetime of the vehicle [km], and :math:`L_{fcsys}` is the lifetime of the fuel cell stack [km].
+
+Light-weighting
 ---------------
 
 The automotive industry has been increasingly using light weighting
@@ -757,6 +782,14 @@ Institute [23]_ indicates that AHSS has a similar carbon footprint than
 conventional primary low-alloyed steel from a basic oxygen furnace route
 (i.e., 2.3 kg CO\ :sub:`2`-eq./kg). We therefore use conventional steel
 to represent the use of AHSS.
+
+The amount of light-weighting obtained from the use of light-weighting
+materials is:
+
+    :math:`\Delta m_{glider} = m_{glider} \times r_{lightweighting}`
+
+where :math:`\Delta m_{steel}` is the mass reduction of the glider [kg],
+and :math:`r_{lightweighting}` is the light-weighting ratio [%].
 
 Sizing of onboard energy storage
 --------------------------------
@@ -1026,13 +1059,13 @@ Gasoline                  8               8
 Diesel                    10              8
 ========================= =============== ==========
 
-The amount of sulfur dioxide released by the vehicle over one km is calculated as:
+The amount of sulfur dioxide released by the vehicle over one km [kg/km] is calculated as:
 
 .. math::
 
-        SO_2 = r_{SO_2} \times F_{fuel} \times (64/32)
+        SO_2 = r_{S} \times F_{fuel} \times (64/32)
 
-where :math:`r_{SOx}` is the sulfur dioxide emission factor per kg of fuel [kg SO2/kg fuel],
+where :math:`r_{S}` is the sulfur content per kg of fuel [kg SO2/kg fuel],
 :math:`F_{fuel}` is the fuel consumption of the vehicle [kg/km],
 and :math:`64/32` is the ratio between the molar mass of SO2 and the molar mass of O2.
 
