@@ -284,7 +284,7 @@ further cross-checked with the amounts indicated in [2]_ and listed in
 Table 3, and comes in addition to the aluminium already contained in the
 LCI datasets for the engine and transmission.
 
-**Important remark:** the light weighting rate is for most vehicles
+**Important remark:** the light-weighting rate is for most vehicles
 approximately 11% in 2020 relative to 2000. However, battery-equipped vehicles
 are an exception to this: Medium, Large and Large SUV vehicles have
 significantly higher light weighting rates to partially compensate for
@@ -605,7 +605,7 @@ The oxidation energy stored in liquid fuel tanks is calculated as:
 
 .. math::
 
-    E_{oxid} = m_{fuel} \times E_{lhv}
+    E_{oxid} = m_{fuel} \\times E_{lhv}
 
 where :math:`m_{fuel}` is the mass of the fuel [kg], and :math:`E_{lhv}` is the lower heating value of hte fuel [MJ/kg].
 
@@ -613,7 +613,7 @@ The fuel tank mass is calculated as:
 
 .. math::
 
-    m_{tank} = m_{fuel} \times m_{tank_unit}
+    m_{tank} = m_{fuel} \\times m_{tank_unit}
 
 where :math:`m_{tank_unit}` being the tank mass per unit of energy [kg/MJ].
 
@@ -677,7 +677,7 @@ The fuel cell system efficiency :math:`r_{fcsys}` is calculated as:
 
 .. math::
 
-    r_{fcsys} = \frac{r_{fcstack} \\ P_{fcown}}
+    r_{fcsys} = \\frac{r_{fcstack} \\ P_{fcown}}
 
 where :math:`r_{fcstack}` is the fuel cell stack efficiency [%], and :math:`P_{fcown}` is the fuel cell own consumption [kW].
 
@@ -685,7 +685,7 @@ The fuel cell system power :math:`P_{fcsys}` is calculated as:
 
 .. math::
 
-    P_{fcsys} = P_{veh} \times r_{fcshare} \\ P_{fcown}
+    P_{fcsys} = P_{veh} \\times r_{fcshare} \\ P_{fcown}
 
 where :math:`P_{veh}` is the vehicle engine power and :math:`r_{fcshare}` is the fuel cell system power share [%].
 
@@ -693,7 +693,7 @@ Finally, the fuel cell stack mass is calculated as:
 
 .. math::
 
-    m_{fcstack} = 0.51 [kg/kW] \times P_{fcsys} \times \frac{800 [mW/cm^2] \\ A_{fc}}
+    m_{fcstack} = 0.51 [kg/kW] \\times P_{fcsys} \\times \\frac{800 [mW/cm^2] \\ A_{fc}}
 
 where :math:`P_{fcsys}` is the fuel cell system power [kW],
 :math:`A_{fc}` is the fuel cell fuel cell power area density [kW/cm2],
@@ -709,7 +709,7 @@ The battery power is calculated as:
 
 .. math::
 
-    P_{batt} = P_{fcsys} \times (1 - r_{fcsys})
+    P_{batt} = P_{fcsys} \\times (1 - r_{fcsys})
 
 
 where :math:`P_{fcsys}` is the fuel cell system power [kW],
@@ -820,7 +820,7 @@ Hence, the battery cell mass is calculated as:
 
 .. math::
 
-    m_{cell} = m_{pack} \times s_{cell}
+    m_{cell} = m_{pack} \\times s_{cell}
 
 where :math:`m_{pack}` is the mass of the pack, and :math:`s_{cell}` is the cell-to-pack ratio.
 
@@ -828,7 +828,7 @@ And the electricity stored in the battery is calculated as:
 
 .. math::
 
-    E_{battery} = m_{cell} \times C_{cell}
+    E_{battery} = m_{cell} \\times C_{cell}
 
 where :math:`E_{battery}` being battery capacity [kWh], :math:`C_{cell}` is the cell energy density [kg/kWh], and :math:`m_{cell}` is the cell mass [kg].
 
@@ -844,7 +844,7 @@ Finally, the range autonomy is calculated as:
 
 .. math::
 
-    R_{autonomy} = \frac{ C_{battery} \times r_{discharge} \\ F_{ttw} }
+    R_{autonomy} = \\frac{ C_{battery} \\times r_{discharge} \\ F_{ttw} }
 
 where :math:`C_{battery}` is the battery capacity [kWh], :math:`r_{discharge}` is the discharge depth [%],
 and :math:`F_{ttw}` is the tank-to-wheel energy consumption [kWh/km].
@@ -1032,7 +1032,7 @@ The amount of sulfur dioxide released by the vehicle over one km is calculated a
 
 .. math::
 
-        SO_2 = r_{SO_2} \times F_{fuel} \times (64/32)
+        SO_2 = r_{SO_2} \\times F_{fuel} \\times (64/32)
 
 where :math:`r_{SOx}` is the sulfur dioxide emission factor per kg of fuel [kg SO2/kg fuel],
 :math:`F_{fuel}` is the fuel consumption of the vehicle [kg/km],
@@ -1108,7 +1108,7 @@ calculated as follows:
 
 .. math::
     :label: emission_i_s
-    E(i,s) = F_ttw(s) \times X(i, e)
+    E(i,s) = F_ttw(s) \\times X(i, e)
 
 where :math:`E(i,s)` is the emission of substance i at second s of the driving cycle,
 :math:`F_ttw(s)` is the fuel consumption of the vehicle at second s,
@@ -1308,7 +1308,7 @@ emissions is the following:
 
 .. math::
 
-    EF=b.W^{\frac{1}{c}}
+    EF=b.W^{\\frac{1}{c}}
 
 With:
 
@@ -1508,12 +1508,12 @@ km/h, beyond which the combustion engine is used.
 The total noise level (in A-weighted decibels) is calculated using the
 following equation:
 
-.. math:: L_{W,\ dBA} = 10*\log\left( 10^{\frac{L_{W,R}}{10}} \right) + 10*log(10^{\frac{L_{W,P}}{10}})
+.. math:: L_{W,\ dBA} = 10*\log\left( 10^{\\frac{L_{W,R}}{10}} \right) + 10*log(10^{\\frac{L_{W,P}}{10}})
 
 The total sound power level is converted into Watts (or joules per
 second), using the following equation:
 
-.. math:: L_{W} = \ 10^{- 12}*10^{\frac{L_{W,\ dBA}}{10}}
+.. math:: L_{W} = \ 10^{- 12}*10^{\\frac{L_{W,\ dBA}}{10}}
 
 The total sound power, for each second of the driving cycle, is then
 distributed between the urban, suburban and rural inventory emission
