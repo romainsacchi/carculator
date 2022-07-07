@@ -6,25 +6,28 @@ vehicle configurations, according to selected:
 
 * powertrain technologies (9): petrol engine, diesel engine, electric motor, hybrid, plugin-hybrid, etc.,
 * year of operation (2): 2000, 2010, 2020, 2040 (with the possibility to interpolate in between, and up to 2050)
-* and sizes (7): Mini, Large, etc.
+* and sizes (9): Micro, Mini, Large, etc.
 
 The methodology used to develop `carculator` is explained in:
-When, where and how can the electrification of passenger cars reduce greenhouse gas emissions?
-Romain Sacchi, Christian Bauer, Brian Cox, Christopher Mutel
-Renewable and Sustainable Energy Reviews `https://doi.org/10.1016/j.rser.2022.112475 <https://doi.org/10.1016/j.rser.2022.112475>`_
 
-At the moment, the tool has a focus on passenger cars.
+*When, where and how can the electrification of passenger cars reduce greenhouse gas emissions?*
+R
+omain Sacchi, Christian Bauer, Brian Cox, Christopher Mutel
+Renewable and Sustainable Energy Reviews, 2022.
+`https://doi.org/10.1016/j.rser.2022.112475 <https://doi.org/10.1016/j.rser.2022.112475>`_
+
+The tool has a focus on passenger cars.
 
 It is initially based on the model developed in `Uncertain environmental footprint of current and future battery electric
 vehicles by Cox, et al (2018) <https://pubs.acs.org/doi/10.1021/acs.est.8b00261>`_.
 
 More specifically, ``carculator`` generates `Brightway2 <https://brightwaylca.org/>`_ and `SimaPro <https://simapro.com/>`_ inventories, but also directly provides characterized
-results against several midpoint indicators from the impact assessment method ReCiPe as well as life cycle cost indicators.
+results against several midpoint indicators from the impact assessment method ReCiPe, ILCD, as well as life cycle cost indicators.
 
 ``carculator`` is a special in the way that it uses time- and energy-scenario-differentiated background inventories for the future,
 resulting from the coupling between the `ecoinvent database <https://ecoinvent.org>`_ and the scenario outputs of PIK's
 integrated assessment model `REMIND <https://www.pik-potsdam.de/research/transformation-pathways/models/remind/remind>`_.
-This allows to perform prospective study while consider future expected changes in regard to the production of electricity,
+This allows to perform prospective study and consider future expected changes in regard to the production of electricity,
 cement, steel, heat, etc.
 
 Objective
@@ -376,8 +379,9 @@ stochastic mode (with 500 iterations and the driving cycle WLTC).
     plt.xticks(rotation=70)
     plt.ylabel('kg CO2-eq./vkm')
 
+
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/example_stochastic_BEV_PHEV.png
-    :width: 400
+    :width: 100%
     :alt: Alternative text
 
 Many other examples are described in a Jupyter Notebook in the ``examples`` folder.
