@@ -1700,7 +1700,7 @@ and not present as generic ecoinvent datasets.
 +-----------+---------------------------+---------------------------+
 | Author(s) | Fuel type                 | Description               |
 +===========+===========================+===========================+
-| [40]_      | Bioethanol from forest    | Biofuels made from        |
+| [40]_     | Bioethanol from forest    | Biofuels made from        |
 |           | residues                  | biomass residues (e.g.,   |
 |           |                           | wheat straw, corn starch) |
 |           |                           | or energy crops (e.g.,    |
@@ -1717,7 +1717,7 @@ and not present as generic ecoinvent datasets.
 +-----------+---------------------------+---------------------------+
 |           | Bioethanol from sugarbeet |                           |
 +-----------+---------------------------+---------------------------+
-| [41]_      | e-Gasoline                | Gasoline produced from    |
+| [41]_     | e-Gasoline                | Gasoline produced from    |
 |           | (Methanol-to-Gasoline)    | methanol, via a           |
 |           |                           | Methanol-to-Gasoline      |
 |           |                           | process. The carbon       |
@@ -1737,7 +1737,7 @@ and not present as generic ecoinvent datasets.
 |           |                           | (i.e., a mix of natural   |
 |           |                           | gas and fuel oil).        |
 +-----------+---------------------------+---------------------------+
-| [40]_      | Biodiesel from            | 2\ :sup:`nd` and          |
+| [40]_     | Biodiesel from            | 2\ :sup:`nd` and          |
 |           | micro-algae               | 3\ :sup:`rd` generation   |
 |           |                           | biofuels made from        |
 |           |                           | biomass residues or       |
@@ -1746,7 +1746,7 @@ and not present as generic ecoinvent datasets.
 |           | Biodiesel from used       |                           |
 |           | cooking oil               |                           |
 +-----------+---------------------------+---------------------------+
-| [42]_      | e-Diesel                  | Diesel produced from      |
+| [42]_     | e-Diesel                  | Diesel produced from      |
 |           | (Fischer-Tropsch)         | "blue crude" via a        |
 |           |                           | Fischer-Tropsch process.  |
 |           |                           | The H\ :sub:`2` is        |
@@ -1763,7 +1763,7 @@ and not present as generic ecoinvent datasets.
 |           |                           | wax oil, kerosene):       |
 |           |                           | energy or economic.       |
 +-----------+---------------------------+---------------------------+
-| [43]_      | Biomethane from sewage    | Methane produced from the |
+| [43]_     | Biomethane from sewage    | Methane produced from the |
 |           | sludge                    | anaerobic digestion of    |
 |           |                           | sewage sludge. The biogas |
 |           |                           | is upgraded to biomethane |
@@ -1786,14 +1786,14 @@ and not present as generic ecoinvent datasets.
 |           |                           | over time: from 58 kWh    |
 |           |                           | per kg of H\ :sub:`2` in  |
 |           |                           | 2010, down to 44 kWh in   |
-|           |                           | 2050, according to [46]_.  |
+|           |                           | 2050, according to [46]_. |
 +-----------+---------------------------+---------------------------+
 | [45, 47]_ | Hydrogen from Steam       | Available for natural gas |
 |           | Methane Reforming         | and biomethane, with and  |
 |           |                           | without Carbon Capture    |
 |           |                           | and Storage (CCS).        |
 +-----------+---------------------------+---------------------------+
-| [44]_      | Hydrogen from woody       | Available with and        |
+| [44]_     | Hydrogen from woody       | Available with and        |
 |           | biomass gasification      | without Carbon Capture    |
 |           |                           | and Storage (CCS).        |
 +-----------+---------------------------+---------------------------+
@@ -1809,7 +1809,7 @@ are listed in Table 26.
 +-----------+---------------------------+---------------------------+
 | Author(s) | Energy storage type       | Description               |
 +===========+===========================+===========================+
-| [48,49]_   | NMC-111/622/811 battery   | Originally from [48]_,     |
+| [48,49]_  | NMC-111/622/811 battery   | Originally from [48]_,    |
 |           |                           | then updated and          |
 |           |                           | integrated in ecoinvent   |
 |           |                           | v.3.8 (with some errors), |
@@ -1825,24 +1825,24 @@ are listed in Table 26.
 |           |                           | synthetic graphite, as it |
 |           |                           | seems to be the current   |
 |           |                           | norm in the industry      |
-|           |                           | [50]_. Inventories for     |
+|           |                           | [50]_. Inventories for    |
 |           |                           | natural graphite are from |
-|           |                           | [51]_.                     |
+|           |                           | [51]_.                    |
 +-----------+---------------------------+                           |
 |           | NCA battery               |                           |
 +-----------+---------------------------+                           |
 |           | LFP battery               |                           |
 +-----------+---------------------------+---------------------------+
-| [52]_      | Type IV hydrogen tank,    | Carbon fiber being one of |
+| [52]_     | Type IV hydrogen tank,    | Carbon fiber being one of |
 |           | default                   | the main components of    |
 |           |                           | Type IV storage tanks,    |
 |           |                           | new inventories for       |
 |           |                           | carbon fiber              |
 |           |                           | manufacturing have been   |
 |           |                           | integrated to             |
-|           |                           | *carculator*, from [53]_.  |
+|           |                           | *carculator*, from [53]_. |
 +-----------+---------------------------+---------------------------+
-| [54]_      | Type IV hydrogen tank,    |                           |
+| [54]_     | Type IV hydrogen tank,    |                           |
 |           | LDPE liner                |                           |
 +-----------+---------------------------+---------------------------+
 |           | Type IV hydrogen tank,    |                           |

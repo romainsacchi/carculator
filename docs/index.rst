@@ -8,7 +8,6 @@ Index
 
    introduction
    modeling
-   validity
 
 Technical Reference
 ===================
