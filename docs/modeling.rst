@@ -567,31 +567,6 @@ Note that the NMC battery cell used by default corresponds to a so-called NMC 6-
 compared to Mn, and Co, while Mn and Co are present in equal amount. Development aims at reducing the content of Cobalt and increasing the
 Nickel share. A selection of other chemistries can be chosen from.
 
-Hence, the battery cell mass is calculated as:
-
-.. math::
-
-    m_{cell} = m_{pack} \times s_{cell}
-
-where :math:`m_{pack}` is the mass of the pack, and :math:`s_{cell}` is the cell-to-pack ratio.
-
-And the electricity stored in the battery is calculated as:
-
-    E_{battery} = m_{cell} \times C_{cell}
-
-where :math:`E_{battery}` being battery capacity [kWh], :math:`C_{cell}` is the cell energy density [kg/kWh], and :math:`m_{cell}` is the cell mass [kg].
-
-By deduction, the balance of plant mass is:
-
-    m_{BoP} = m_{battery} - m_{cell}
-
-where :math:`m_{battery}` is the mass of the battery [kg], and :math:`m_{cell}` is the cell mass [kg].
-
-Finally, the range autonomy is calculated as:
-
-    R_{autonomy} = \frac{ C_{battery} \times r_{discharge} \\ F_{ttw} }
-
-where :math:`C_{battery}` is the battery capacity [kWh], :math:`r_{discharge}` is the discharge depth [%], and :math:`F_{ttw}` is the tank-to-wheel energy consumption [kWh/km].
 
 On account that:
 
@@ -628,11 +603,15 @@ Liquid and gaseous energy storage
 
 The oxidation energy stored in liquid fuel tanks is calculated as:
 
+.. math::
+
     E_{oxid} = m_{fuel} \times E_{lhv}
 
 where :math:`m_{fuel}` is the mass of the fuel [kg], and :math:`E_{lhv}` is the lower heating value of hte fuel [MJ/kg].
 
 The fuel tank mass is calculated as:
+
+.. math::
 
     m_{tank} = m_{fuel} \times m_{tank_unit}
 
@@ -696,23 +675,46 @@ Table 8 Specifications for fuel cell stack systems
 
 The fuel cell system efficiency :math:`r_{fcsys}` is calculated as:
 
+.. math::
+
     r_{fcsys} = \frac{r_{fcstack} \\ P_{fcown}}
 
-    where :math:`r_{fcstack}` is the fuel cell stack efficiency [%], and :math:`P_{fcown}` is the fuel cell own consumption [kW].
+where :math:`r_{fcstack}` is the fuel cell stack efficiency [%], and :math:`P_{fcown}` is the fuel cell own consumption [kW].
 
 The fuel cell system power :math:`P_{fcsys}` is calculated as:
 
-    P_{fcsys} = P_{veh} \times r_{fcsys} \\ P_{fcown}
+.. math::
 
-where :math:`P_{veh}` is the vehicle engine power and :math:`r_{fcsys}` is the fuel cell system power share [%].
+    P_{fcsys} = P_{veh} \times r_{fcshare} \\ P_{fcown}
+
+where :math:`P_{veh}` is the vehicle engine power and :math:`r_{fcshare}` is the fuel cell system power share [%].
 
 Finally, the fuel cell stack mass is calculated as:
+
+.. math::
 
     m_{fcstack} = 0.51 [kg/kW] \times P_{fcsys} \times \frac{800 [mW/cm^2] \\ A_{fc}}
 
 where :math:`P_{fcsys}` is the fuel cell system power [kW],
 :math:`A_{fc}` is the fuel cell fuel cell power area density [kW/cm2],
 and :math:`m_{fcstack}` is the fuel cell stack mass [kg].
+
+**Important remark:** although fuel cell electric vehicles have a small
+battery to enable the recuperation of braking energy, etc., we model
+it as a power battery, not a storage battery.
+For example, the Toyota Mirai is equipped with a 1.6 kWh
+nickel-based battery.
+
+The battery power is calculated as:
+
+.. math::
+
+    P_{batt} = P_{fcsys} \times (1 - r_{fcsys})
+
+
+where :math:`P_{fcsys}` is the fuel cell system power [kW],
+and :math:`r_{fcshare}` is the fuel cell system power share [%].
+
 
 Light weighting
 ---------------
@@ -781,7 +783,7 @@ shown in relation to curb mass. Red dots are the energy storage
 capacities used for Small, Medium and Large battery electric vehicles in
 *carculator*.
 
-Sixty percent of the overall battery mass is assumed to be represented
+Seventy percent of the overall battery mass is assumed to be represented
 by the battery cells in the case of NMC and NCA batteries. Given the
 energy density of the battery cell considered, this yields the storage
 capacity of the battery. A typical depth of discharge of 80% is used to
@@ -799,7 +801,7 @@ using NMC battery chemistry
 +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
 | Battery mass (system)                                   | Kilogram  | 120                        | 291               | 375                                                                           | 583                         | 660            |
 +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
-| Battery cell mass                                       | %         | ~60%                       |                   |                                                                               |                             |                |
+| Battery cell mass                                       | %         | ~70%                       |                   |                                                                               |                             |                |
 +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
 | Battery cell mass                                       | Kilogram  | 72                         | 175               | 225                                                                           | 330                         | 400            |
 +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
@@ -813,6 +815,38 @@ using NMC battery chemistry
 +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
 | Storage capacity (available)                            | kWh       | 14                         | 28                | 36                                                                            | 56                          | 65             |
 +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+
+Hence, the battery cell mass is calculated as:
+
+.. math::
+
+    m_{cell} = m_{pack} \times s_{cell}
+
+where :math:`m_{pack}` is the mass of the pack, and :math:`s_{cell}` is the cell-to-pack ratio.
+
+And the electricity stored in the battery is calculated as:
+
+.. math::
+
+    E_{battery} = m_{cell} \times C_{cell}
+
+where :math:`E_{battery}` being battery capacity [kWh], :math:`C_{cell}` is the cell energy density [kg/kWh], and :math:`m_{cell}` is the cell mass [kg].
+
+By deduction, the balance of plant mass is:
+
+.. math::
+
+    m_{BoP} = m_{battery} - m_{cell}
+
+where :math:`m_{battery}` is the mass of the battery [kg], and :math:`m_{cell}` is the cell mass [kg].
+
+Finally, the range autonomy is calculated as:
+
+.. math::
+
+    R_{autonomy} = \frac{ C_{battery} \times r_{discharge} \\ F_{ttw} }
+
+where :math:`C_{battery}` is the battery capacity [kWh], :math:`r_{discharge}` is the discharge depth [%], and :math:`F_{ttw}` is the tank-to-wheel energy consumption [kWh/km].
 
 
 Similarly, plug-in hybrid vehicles are dimensioned to obtain an energy
@@ -857,10 +891,7 @@ NMC battery chemistry
 Note that carculator only considers NMC batteries for plugin hybrid
 vehicles.
 
-**Important remark:** although fuel cell electric vehicles have a small
-battery to enable the recuperation of braking energy, we do not model
-it. For example, the Toyota Mirai is equipped with a 1.6 kWh
-nickel-based battery.
+
 
 Electric utility factor
 -----------------------
