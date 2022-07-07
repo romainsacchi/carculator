@@ -444,7 +444,8 @@ the overall tank-to-wheel efficiency, as explained in [5]_.
 Figure 5 Representation of the different types of resistance considered.
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image15.png
-   :width: 80%
+   :width: 100%
+
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image14.png
    :width: 10%
 
