@@ -233,33 +233,33 @@ With:
 
 -  :math:`m_{curb}` being the vehicle curb mass, in kg
 
--  :math:`fuel` being the fuel mass, in kg
+-  :math:`m_fuel` being the fuel mass, in kg
 
--  :math:`charger` being the electric onboard charge mass, in kg
+-  :math:`m_charger` being the electric onboard charge mass, in kg
 
--  :math:`conv` being the current converter, in kg
+-  :math:`m_conv` being the current converter, in kg
 
--  :math:`inv` being the current AC/DC inverter, in kg
+-  :math:`m_inv` being the current AC/DC inverter, in kg
 
--  :math:`distr` being the power distribution unit, in kg
+-  :math:`m_distr` being the power distribution unit, in kg
 
--  :math:`comb` being the combustion engine mass, in kg
+-  :math:`m_comb` being the combustion engine mass, in kg
 
--  :math:`elec` being the electric motor mass, in kg
+-  :math:`m_elec` being the electric motor mass, in kg
 
--  :math:`pwt` being the powertrain mass, in kg
+-  :math:`m_pwt` being the powertrain mass, in kg
 
--  :math:`fcstack` being the fuel cell stack mass, in kg
+-  :math:`m_fcstack` being the fuel cell stack mass, in kg
 
--  :math:`fcauxbop` being the fuel cell auxiliary components mass, in kg
+-  :math:`m_fcauxbop` being the fuel cell auxiliary components mass, in kg
 
--  :math:`battcell` being the battery cell mass, in kg
+-  :math:`m_battcell` being the battery cell mass, in kg
 
--  :math:`battbop` being the battery auxiliary components mass, in kg
+-  :math:`m_battbop` being the battery auxiliary components mass, in kg
 
--  :math:`fcessbop` being the fuel cell essential components mass, in kg
+-  :math:`m_fcessbop` being the fuel cell essential components mass, in kg
 
--  :math:`fueltank` being the fuel tank mass, in kg
+-  :math:`m_fueltank` being the fuel tank mass, in kg
 
 
 For each iteration, the tank-to-wheel energy consumption (i.e., the
@@ -598,9 +598,9 @@ Table 6 Specifications for the different battery types
 | Discharge efficiency                                                        | 88% in 2020, 89% in 2050                                  |                                        |                                                          | [5,16]_                              |
 +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
 
-Note that the NMC battery cell used by default corresponds to a so-called NMC 6-2-2 chemistry: it exhibits three times the mass amount of Ni
-compared to Mn, and Co, while Mn and Co are present in equal amount. Development aims at reducing the content of Cobalt and increasing the
-Nickel share. A selection of other chemistries can be chosen from.
+Note that the NMC battery cell used by default corresponds to a so-called NMC 6-2-2 chemistry: it exhibits three times the mass amount of *Ni*
+compared to *Mn*, and *Co*, while *Mn* and *Co* are present in equal amount. Development aims at reducing the content of Cobalt and increasing the
+Nickel share. A selection of other chemistry types can be chosen from.
 
 
 On account that:
