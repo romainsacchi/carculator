@@ -410,6 +410,8 @@ cars *in 2021*
 | Driving mass          | 1'310  | 1'501   | 1'917  | 2'250             | 669    | 1'425  | 1'680   | 2'050  | 2'355      |
 +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
 
+Energy consumption
+-------------------
 
 The energy consumption model of *carculator* calculates the energy
 required at the wheels by considering different types of resistance.
@@ -449,6 +451,7 @@ Figure 5 Representation of the different types of resistance considered.
 
 Figure 6 Motive energy calculation workflow
 
+
 Finally, for each second of the driving cycle, the auxiliary power load
 is considered. It comprises an auxiliary base power load (i.e., to
 operate onboard electronics), as well as the power load from heating and
@@ -476,11 +479,21 @@ Table 5 Auxiliary power demand. Source : [6]_
 
     P_{aux} = P_{base} + (P_{heating} \times D_{heating}) + (P_{cooling} \times D_{cooling})
 
-where :math:`P_{base}` is the auxiliary base power load,
-:math:`P_{heating}` is the power load for heating,
-:math:`P_{cooling}` is the power load for cooling,
-:math:`D_{heating}` is the demand for heating (=0 for non-electric vehicles),
-and :math:`D_{cooling}` is the demand for cooling.
+where :math:`P_{base}` is the auxiliary base power load [W],
+:math:`P_{heating}` is the power load for heating [W],
+:math:`P_{cooling}` is the power load for cooling [W],
+:math:`D_{heating}` is the demand for heating [0-1] (=0 for non-electric vehicles),
+and :math:`D_{cooling}` is the demand for cooling [0-1].
+
+To convert it into an energy consumption :math:`F_{aux}` [kj/km],
+the auxiliary power load is multiplied by the time of the driving cycle
+and divided by the distance driven:
+
+.. math::
+
+    F_{aux} = P_{aux} \times T \times D
+
+where :math:`T` is the driving cycle time [seconds] and D is the distance [m].
 
 **Important remark:** Micro cars are not equipped with an air
 conditioning system. Hence, their cooling energy requirement is set to
@@ -508,6 +521,16 @@ driving cycle, for a mid-size battery electric vehicle from 2020
    :height: 1.94653in
 
 Figure 8 Driving cycle and related parameters
+
+So, the tank-to-wheel energy consumption :math:`F_{ttw}` is the sum of the motive energy and the
+energy required to power auxiliary equipment. It is calculated as:
+
+.. math::
+
+    F_{ttw} = F_{motive} + F_{aux}
+
+where :math:`F_{motive}` is the motive energy, and :math:`F_{aux}` is the
+auxiliary energy.
 
 There are no fuel consumption measurements available for fuel cell
 vehicles. Values found in the literature and from manufacturers data are
@@ -658,7 +681,7 @@ The fuel tank mass is calculated as:
 
 .. math::
 
-    m_{tank} = m_{fuel} \times m_{tank_unit}
+    m_{tank} = m_{fuel} \times m_{tank unit}
 
 where :math:`m_{tank_unit}` being the tank mass per unit of energy [kg/MJ].
 
