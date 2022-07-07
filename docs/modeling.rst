@@ -231,7 +231,7 @@ ________________________
 
 With:
 
--  *m\ :sub:`curb* being the vehicle curb mass, in kg
+-  .. math::`m_{curb}` being the vehicle curb mass, in kg
 
 -  *m\ :sub:`fuel`* being the fuel mass, in kg
 
