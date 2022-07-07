@@ -231,37 +231,35 @@ ________________________
 
 With:
 
--  *m:sub:curb* being the emission factor, in mg per vehicle-kilometer
+-  *m\ :sub:`curb* being the vehicle curb mass, in kg
 
--  *m_{fuel}* being the vehicle mass, in tons
+-  *m\ :sub:`fuel`* being the fuel mass, in kg
 
--  *m_{charger}*
+-  *m\ :sub:`charger`* being the electric onboard charge mass, in kg
 
--  *m_{conv}*
+-  *m\ :sub:`conv`* being the current converter, in kg
 
--  *m_{inv}*
+-  *m\ :sub:`inv`* being the current AC/DC inverter, in kg
 
--  *m_{distr}*
+-  *m\ :sub:`distr`* being the power distribution unit, in kg
 
--  *m_{comb}*
+-  *m\ :sub:`comb`* being the combustion engine mass, in kg
 
--  *m_{elec}*
+-  *m\ :sub:`elec`* being the electric motor mass, in kg
 
--  *m_{pwt}*
+-  *m\ :sub:`pwt`* being the powertrain mass, in kg
 
--  *m_{fcstack}*
+-  *m\ :sub:`fcstack`* being the fuel cell stack mass, in kg
 
--  *m_{fcauxbop}*
+-  *m\ :sub:`fcauxbop`* being the fuel cell auxiliary components mass, in kg
 
--  *m_{battcell}*
+-  *m\ :sub:`battcell`* being the battery cell mass, in kg
 
--  *m_{battbop}*
+-  *m\ :sub:`battbop`* being the battery auxiliary components mass, in kg
 
--  *m_{fcessbop}*
+-  *m\ :sub:`fcessbop`* being the fuel cell essential components mass, in kg
 
--  *m_{fueltank}*
-
-
+-  *m\ :sub:`fueltank`* being the fuel tank mass, in kg
 
 
 For each iteration, the tank-to-wheel energy consumption (i.e., the
@@ -271,7 +269,7 @@ calculated (i.e., to size the energy storage components, calculate the
 fuel consumption, etc.), as described later in this section.
 
 Because the LCI dataset used to represent the glider of the vehicle is
-not representative of todays' use of light weighting materials, such as
+not representative of todays' use of light-weighting materials, such as
 aluminium (i.e., the dataset "glider for passenger cars" only contains
 0.5% of its mass in aluminium) and advanced high strength steel (AHSS),
 an amount of such light-weighting materials is introduced to substitute
@@ -298,7 +296,7 @@ is also confirmed by [2]_, showing that battery electric vehicles have
 the battery management system, and partly going into the chassis to
 compensate for the extra mass represented by the battery.
 
-These light weighting rates have been fine adjusted to match the curb
+These light-weighting rates have been fine adjusted to match the curb
 mass of a given size class, while preserving the battery capacity. For
 example, in the case of the Large SUV, its curb mass should
 approximately be 2'200 kg, with an 80 kWh battery weighting 660 kg
@@ -401,6 +399,8 @@ considering additional losses along the drive train (i.e., axles,
 gearbox, and engine losses). The different types of resistance
 considered are depicted in Figure 5, and the module calculation workflow
 is presented in Figure 6.
+
+
 
 Powertrains that are partially or fully electrified have the possibility
 to recuperate a part of the energy spent for propulsion during
@@ -567,6 +567,31 @@ Note that the NMC battery cell used by default corresponds to a so-called NMC 6-
 compared to Mn, and Co, while Mn and Co are present in equal amount. Development aims at reducing the content of Cobalt and increasing the
 Nickel share. A selection of other chemistries can be chosen from.
 
+Hence, the battery cell mass is calculated as:
+
+.. math::
+
+    m_{cell} = m_{pack} \times s_{cell}
+
+where :math:`m_{pack}` is the mass of the pack, and :math:`s_{cell}` is the cell-to-pack ratio.
+
+And the electricity stored in the battery is calculated as:
+
+    E_{battery} = m_{cell} \times C_{cell}
+
+where :math:`E_{battery}` being battery capacity [kWh], :math:`C_{cell}` is the cell energy density [kg/kWh], and :math:`m_{cell}` is the cell mass [kg].
+
+By deduction, the balance of plant mass is:
+
+    m_{BoP} = m_{battery} - m_{cell}
+
+where :math:`m_{battery}` is the mass of the battery [kg], and :math:`m_{cell}` is the cell mass [kg].
+
+Finally, the range autonomy is calculated as:
+
+    R_{autonomy} = \frac{ C_{battery} \times r_{discharge} \\ F_{ttw} }
+
+where :math:`C_{battery}` is the battery capacity [kWh], :math:`r_{discharge}` is the discharge depth [%], and :math:`F_{ttw}` is the tank-to-wheel energy consumption [kWh/km].
 
 On account that:
 
@@ -597,6 +622,25 @@ Passenger car, electric, 2050 0   0   0
 
 Users are encouraged to test the sensitivity of end-results on the
 number of battery replacements.
+
+Liquid and gaseous energy storage
+---------------------------------
+
+The oxidation energy stored in liquid fuel tanks is calculated as:
+
+    E_{oxid} = m_{fuel} \times E_{lhv}
+
+where :math:`m_{fuel}` is the mass of the fuel [kg], and :math:`E_{lhv}` is the lower heating value of hte fuel [MJ/kg].
+
+The fuel tank mass is calculated as:
+
+    m_{tank} = m_{fuel} \times m_{tank_unit}
+
+where :math:`m_{tank_unit}` being the tank mass per unit of energy [kg/MJ].
+
+Note that the tank mass per unit of energy is different for liquid fuels (gasoline,
+diesel), and for gaseous fuels (compressed gas, hydrogen). Also, compressed gas tanks
+store at 200 bar, while hydrogen tanks store at 700 bar.
 
 Fuel cell stack
 ---------------
@@ -649,6 +693,26 @@ Table 8 Specifications for fuel cell stack systems
 | lifetime replacements |          |        |                       |
 | [unit]                |          |        |                       |
 +-----------------------+----------+--------+-----------------------+
+
+The fuel cell system efficiency :math:`r_{fcsys}` is calculated as:
+
+    r_{fcsys} = \frac{r_{fcstack} \\ P_{fcown}}
+
+    where :math:`r_{fcstack}` is the fuel cell stack efficiency [%], and :math:`P_{fcown}` is the fuel cell own consumption [kW].
+
+The fuel cell system power :math:`P_{fcsys}` is calculated as:
+
+    P_{fcsys} = P_{veh} \times r_{fcsys} \\ P_{fcown}
+
+where :math:`P_{veh}` is the vehicle engine power and :math:`r_{fcsys}` is the fuel cell system power share [%].
+
+Finally, the fuel cell stack mass is calculated as:
+
+    m_{fcstack} = 0.51 [kg/kW] \times P_{fcsys} \times \frac{800 [mW/cm^2] \\ A_{fc}}
+
+where :math:`P_{fcsys}` is the fuel cell system power [kW],
+:math:`A_{fc}` is the fuel cell fuel cell power area density [kW/cm2],
+and :math:`m_{fcstack}` is the fuel cell stack mass [kg].
 
 Light weighting
 ---------------
