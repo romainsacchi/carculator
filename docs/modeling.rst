@@ -68,8 +68,7 @@ https://carculator.psi.ch.
 Overview of *carculator* modules
 ********************************
 
-Figure 1 represents graphically the different modules of *carculator*,
-and how they relate to one another. The main module *model.py* builds
+The main module *model.py* builds
 the vehicles and delegates the calculation of motive and auxiliary
 energy, noise, abrasion and exhaust emissions to satellite modules. Once
 the vehicles are fully characterized, the set of calculated parameters
@@ -77,8 +76,6 @@ are passed to *inventory.py* which derives life cycle inventories and
 calculates life cycle impact indicators. Eventually, these inventories
 can be passed to *export.py* to be exported to various LCA software.
 
-
-Figure 1 Foreground vehicle model
 
 Vehicle modelling
 *****************
@@ -204,8 +201,7 @@ the vehicle components (excluding the driver and possible cargo) as
 represented in Figure 2.
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image10.png
-   :width: 6.26806in
-   :height: 3.04067in
+   :width: 100%
 
 Figure 2 Vehicle mass calculation workflow
 
@@ -447,7 +443,7 @@ Figure 5 Representation of the different types of resistance considered.
    :width: 100%
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image14.png
-   :width: 10%
+   :width: 20%
 
 
 Figure 6 Motive energy calculation workflow
@@ -492,7 +488,7 @@ and divided by the distance driven:
 
 .. math::
 
-    F_{aux} = P_{aux} \times T \times D
+    F_{aux} = \frac{P_{aux} \times T}{D}
 
 where :math:`T` is the driving cycle time [seconds] and D is the distance [m].
 
@@ -553,8 +549,7 @@ fine-tuned until it aligns reasonably well with the fuel consumption
 values from the EC-CO2-PC database, as shown in Figure 9.
 
 .. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image18.png
-   :width: 6.25833in
-   :height: 3.46667in
+   :width: 100%
 
 Figure 9 Validation of the tank-to-wheel energy consumption against the
 monitoring program for passenger vehicle emissions database. Sample size
@@ -661,7 +656,7 @@ The number of battery replacement is calculated as follows:
 
 .. math::
 
-    n_{batt_repl} = \\frac{L_{veh}}{L_{batt}} - 1
+    n_{batt_repl} = \frac{L_{veh}}{L_{batt}} - 1
 
 where :math:`L_{veh}` is the lifetime of the vehicle [km],
 and :math:`L_{batt}` is the lifetime of the battery [km].
@@ -1042,6 +1037,9 @@ Inventory modelling
 
 Once the vehicles are modeled, the calculated parameters of each of them
 is passed to the inventory.py calculation module to derive inventories.
+When the inventories for the vehicle and the transport are calculated,
+they can be normalized by the kilometric lifetime (i.e., vehicle-kilometer)
+or by the kilometric multiplied by the passenger occupancy (i.e., passenger-kilometer).
 
 Road demand
 -----------
