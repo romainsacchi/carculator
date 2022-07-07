@@ -233,33 +233,33 @@ With:
 
 -  :math:`m_{curb}` being the vehicle curb mass, in kg
 
--  :math:`m_fuel` being the fuel mass, in kg
+-  :math:`m_{fuel}` being the fuel mass, in kg
 
--  :math:`m_charger` being the electric onboard charge mass, in kg
+-  :math:`m_{charger}` being the electric onboard charge mass, in kg
 
--  :math:`m_conv` being the current converter, in kg
+-  :math:`m_{conv}` being the current converter, in kg
 
--  :math:`m_inv` being the current AC/DC inverter, in kg
+-  :math:`m_{inv}` being the current AC/DC inverter, in kg
 
--  :math:`m_distr` being the power distribution unit, in kg
+-  :math:`m_{distr}` being the power distribution unit, in kg
 
--  :math:`m_comb` being the combustion engine mass, in kg
+-  :math:`m_{comb}` being the combustion engine mass, in kg
 
--  :math:`m_elec` being the electric motor mass, in kg
+-  :math:`m_{elec}` being the electric motor mass, in kg
 
--  :math:`m_pwt` being the powertrain mass, in kg
+-  :math:`m_{pwt}` being the powertrain mass, in kg
 
--  :math:`m_fcstack` being the fuel cell stack mass, in kg
+-  :math:`m_{fcstack}` being the fuel cell stack mass, in kg
 
--  :math:`m_fcauxbop` being the fuel cell auxiliary components mass, in kg
+-  :math:`m_{fcauxbop}` being the fuel cell auxiliary components mass, in kg
 
--  :math:`m_battcell` being the battery cell mass, in kg
+-  :math:`m_{battcell}` being the battery cell mass, in kg
 
--  :math:`m_battbop` being the battery auxiliary components mass, in kg
+-  :math:`m_{battbop}` being the battery auxiliary components mass, in kg
 
--  :math:`m_fcessbop` being the fuel cell essential components mass, in kg
+-  :math:`m_{fcessbop}` being the fuel cell essential components mass, in kg
 
--  :math:`m_fueltank` being the fuel tank mass, in kg
+-  :math:`m_{fueltank}` being the fuel tank mass, in kg
 
 
 For each iteration, the tank-to-wheel energy consumption (i.e., the
