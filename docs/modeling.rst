@@ -732,12 +732,17 @@ The battery power is calculated as:
 where :math:`P_{fcsys}` is the fuel cell system power [kW],
 and :math:`r_{fcshare}` is the fuel cell system power share [%].
 
-The number of fuel cell stack replacement over the vehicle lifetime is calculated as:
+The number of fuel cell replacements is based on the average distance driven
+with a set of fuel cells given their lifetime expressed in hours of use.
+The number is replacement is rounded *up* as we assume no allocation of burden
+with a second life. It is hence is calculated as:
 
     .. math::
-        n_{fcrep} = \\frac{L_{veh}}{L_{fcsys}} - 1
+        n_{fcrep} = \frac{L_{veh}}{V_{avg} \times L_{fc}} - 1
 
-where :math:`L_{veh}` is the lifetime of the vehicle [km], and :math:`L_{fcsys}` is the lifetime of the fuel cell stack [km].
+where :math:`L_{veh}` is the lifetime of the vehicle [km],
+:math:`V_{avg}` is the average speed of the driving cycle selected [km/h],
+and :math:`L_{fc}` is the fuel cell lifetime in hours [h].
 
 Light-weighting
 ---------------
