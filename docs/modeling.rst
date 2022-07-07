@@ -2,10 +2,15 @@ Sections
 ********
 
 `1 Overview of carculator modules <#overview-of-carculator-modules>`__
+
 `2 Vehicle modelling <#vehicle-modelling>`__
+
 `2.1 Size classes <#size-classes>`__
+
 `2.2 Manufacture year and emission standard <#manufacture-year-and-emission-standard>`__
+
 `2.3 Size and mass-related parameters and modeling <#size-and-mass-related-parameters-and-modeling>`__
+
 `2.4 Electric energy storage <#electric-energy-storage>`__
 
 `2.5 Fuel cell stack <#fuel-cell-stack>`__
@@ -49,8 +54,7 @@ Sections
 `References <#references>`__
 
 This document intends to describe the *carculator* model, assumptions
-and inventories as exhaustively as possible. It also extends the
-comparative analysis presented in the manuscript (see Section 4).
+and inventories as exhaustively as possible.
 *carculator* is an open-source Python library. Its code is publicly
 available via its `Github
 repository <https://github.com/romainsacchi/carculator>`__. There is
