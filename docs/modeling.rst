@@ -677,7 +677,7 @@ The fuel cell system efficiency :math:`r_{fcsys}` is calculated as:
 
 .. math::
 
-    r_{fcsys} = \frac{r_{fcstack} \\ P_{fcown}}
+    r_{fcsys} = \frac{r_{fcstack}}{P_{fcown}}
 
 where :math:`r_{fcstack}` is the fuel cell stack efficiency [%], and :math:`P_{fcown}` is the fuel cell own consumption [kW].
 
@@ -693,7 +693,7 @@ Finally, the fuel cell stack mass is calculated as:
 
 .. math::
 
-    m_{fcstack} = 0.51 [kg/kW] \times P_{fcsys} \times \frac{800 [mW/cm^2] \\ A_{fc}}
+    m_{fcstack} = 0.51 [kg/kW] \times P_{fcsys} \times \frac{800 [mW/cm^2]}{A_{fc}}
 
 where :math:`P_{fcsys}` is the fuel cell system power [kW],
 :math:`A_{fc}` is the fuel cell fuel cell power area density [kW/cm2],
@@ -844,7 +844,7 @@ Finally, the range autonomy is calculated as:
 
 .. math::
 
-    R_{autonomy} = \frac{ C_{battery} \times r_{discharge} \\ F_{ttw} }
+    R_{autonomy} = \frac{C_{battery} \times r_{discharge}}{F_{ttw}}
 
 where :math:`C_{battery}` is the battery capacity [kWh], :math:`r_{discharge}` is the discharge depth [%],
 and :math:`F_{ttw}` is the tank-to-wheel energy consumption [kWh/km].
