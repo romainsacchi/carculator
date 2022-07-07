@@ -1025,6 +1025,9 @@ where:
 .. math::
 
     F_{ttw_phev} = (F_{ttw_phev_e} \times U) + (F_{ttw_phev_c} \times (1 - U))
+
+.. math::
+
     m_{curb_phev} = (m_{curb_phev_e} \times U) + (m_{curb_phev_c} \times (1 - U))
 
 where :math:`F_{ttw_phev_e}` is the tank-to-wheel energy consumption [kWh/km] of the electric PHEV,
