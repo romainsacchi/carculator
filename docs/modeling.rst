@@ -1107,7 +1107,7 @@ Hence, the emission of substance i at second s of the driving cycle is
 calculated as follows:
 
 .. math::
-    :label: emission_i_s
+
     E(i,s) = F_ttw(s) \\times X(i, e)
 
 where :math:`E(i,s)` is the emission of substance i at second s of the driving cycle,
