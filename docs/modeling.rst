@@ -2,15 +2,10 @@ Sections
 ********
 
 `1 Overview of carculator modules <#overview-of-carculator-modules>`__
-
 `2 Vehicle modelling <#vehicle-modelling>`__
-
 `2.1 Size classes <#size-classes>`__
-
 `2.2 Manufacture year and emission standard <#manufacture-year-and-emission-standard>`__
-
 `2.3 Size and mass-related parameters and modeling <#size-and-mass-related-parameters-and-modeling>`__
-
 `2.4 Electric energy storage <#electric-energy-storage>`__
 
 `2.5 Fuel cell stack <#fuel-cell-stack>`__
@@ -679,7 +674,7 @@ The fuel tank mass is calculated as:
 
     m_{tank} = m_{fuel} \times m_{tank unit}
 
-where :math:`m_{tank_unit}` being the tank mass per unit of energy [kg/MJ].
+where :math:`m_{tank unit}` being the tank mass per unit of energy [kg/MJ].
 
 Note that the tank mass per unit of energy is different for liquid fuels (gasoline,
 diesel), and for gaseous fuels (compressed gas, hydrogen). Also, compressed gas tanks
