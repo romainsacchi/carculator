@@ -4140,7 +4140,8 @@ class InventoryCalculation:
                 )
 
                 # Fuel-based SO2 emissions
-                # Sulfur concentration value for a given country, a given year, as concentration ratio
+                # Sulfur concentration value for a given country,
+                # a given year, as concentration ratio
 
                 sulfur_concentration = self.get_sulfur_content(
                     self.country, "diesel", year

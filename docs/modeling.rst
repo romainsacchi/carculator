@@ -846,7 +846,8 @@ Finally, the range autonomy is calculated as:
 
     R_{autonomy} = \frac{ C_{battery} \times r_{discharge} \\ F_{ttw} }
 
-where :math:`C_{battery}` is the battery capacity [kWh], :math:`r_{discharge}` is the discharge depth [%], and :math:`F_{ttw}` is the tank-to-wheel energy consumption [kWh/km].
+where :math:`C_{battery}` is the battery capacity [kWh], :math:`r_{discharge}` is the discharge depth [%],
+and :math:`F_{ttw}` is the tank-to-wheel energy consumption [kWh/km].
 
 
 Similarly, plug-in hybrid vehicles are dimensioned to obtain an energy
@@ -890,8 +891,6 @@ NMC battery chemistry
 
 Note that carculator only considers NMC batteries for plugin hybrid
 vehicles.
-
-
 
 Electric utility factor
 -----------------------
@@ -1012,6 +1011,7 @@ situations are used. Additionally, cold start emissions as well as
 running, evaporation and diurnal losses are accounted for, also sourced
 from HBEFA 4.1 [26]_.
 
+
 For vehicles with an internal combustion engine, the sulfur
 concentration values in the fuel can slightly differ across regions -
 although this remains rather limited within Europe. The values provided
@@ -1027,6 +1027,16 @@ Switzerland and average Europe
 Gasoline                  8               8
 Diesel                    10              8
 ========================= =============== ==========
+
+The amount of sulfur dioxide released by the vehicle over one km is calculated as:
+
+.. math::
+
+        SO_2 = r_{SO_2} \times F_{fuel} \times (64/32)
+
+where :math:`r_{SOx}` is the sulfur dioxide emission factor per kg of fuel [kg SO2/kg fuel],
+:math:`F_{fuel}` is the fuel consumption of the vehicle [kg/km],
+and :math:`64/32` is the ratio between the molar mass of SO2 and the molar mass of O2.
 
 Country-specific fuel blends are sourced from the IEA's Extended World
 Energy Balances database [29]_. By default, the biofuel used is assumed
@@ -1092,6 +1102,24 @@ diesel-powered engine. The aim is to obtain emission factors expressed
 in grams of substance emitted per MJ of fuel consumed, to be able to
 model emissions of passenger cars of different sizes and fuel efficiency
 and for different driving cycles.
+
+Hence, the emission of substance i at second s of the driving cycle is
+calculated as follows:
+
+.. math::
+    :label: emission_i_s
+    E(i,s) = F_ttw(s) \times X(i, e)
+
+where :math:`E(i,s)` is the emission of substance i at second s of the driving cycle,
+:math:`F_ttw(s)` is the fuel consumption of the vehicle at second s,
+and :math:`X(i, e)` is the emission factor of substance i in the given driving conditions.
+
+To that, we add the following terms:
+
+    - Cold start emissions on the first second of the driving cycle
+    - Evaporation emissions: on the last second of the driving cycle
+    - Diurnal and running losses: distributed evenly over the driving cycle
+
 
 **Important remark**: the degradation of anti-pollution systems for
 diesel and gasoline cars (i.e., catalytic converters) is accounted for
@@ -1394,7 +1422,7 @@ Refrigerant emissions
 _____________________
 
 The use of refrigerant for onboard air conditioning systems is
-considered for passenger cars. The supply of refrigerant gas R134a is
+considered for passenger cars until 2021. The supply of refrigerant gas R134a is
 accounted for. Similarly, the leakage of the refrigerant is also
 considered. For this, the calculations from [34]_ are used. Such emission
 is included in the transportation dataset of the corresponding vehicle.
@@ -1421,6 +1449,8 @@ an increasing, but still minor, share of electric vehicles now use a
 
 **Important remark:** Micro cars do not have an air conditioning system.
 Hence, no supply or leakage of refrigerant is considered for those.
+
+**Important remark:** After 2021, R134a is no longer used.
 
 Noise emissions
 ---------------
