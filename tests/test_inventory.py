@@ -253,7 +253,7 @@ def test_endpoint():
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
     results = ic.calculate_impacts()
     assert "human health" in [i.lower() for i in results.impact_category.values]
-    assert len(results.impact_category.values) == 4
+    assert len(results.impact_category.values) == 6
     #
     #     """Test if it errors properly if an incorrect method type is give"""
     with pytest.raises(TypeError) as wrapped_error:
