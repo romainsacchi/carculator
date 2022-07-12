@@ -1187,7 +1187,7 @@ class InventoryCalculation:
                     + "/*recipe_endpoint*{}*.csv".format(self.scenario)
                 )
                 list_file_names = sorted(list_file_names)
-                B = np.zeros((len(list_file_names), 4, len(self.inputs)))
+                B = np.zeros((len(list_file_names), 6, len(self.inputs)))
             else:
                 raise TypeError(
                     "The LCIA method type should be either 'midpoint' or 'endpoint'."
@@ -1208,6 +1208,7 @@ class InventoryCalculation:
                     len(self.inputs),
                 )
             )
+
             new_B[0 : np.shape(initial_B)[0], 0 : np.shape(initial_B)[1]] = initial_B
             B[f, :, :] = new_B
 
