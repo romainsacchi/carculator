@@ -740,17 +740,20 @@ The fuel cell system efficiency :math:`r_{fcsys}` is calculated as:
 
 .. math::
 
-    r_{fcsys} = \frac{r_{fcstack}}{P_{fcown}}
+    r_{fcsys} = \frac{r_{fcstack}}{r_{fcown}}
 
-where :math:`r_{fcstack}` is the fuel cell stack efficiency [%], and :math:`P_{fcown}` is the fuel cell own consumption [kW].
+where :math:`r_{fcstack}` is the fuel cell stack efficiency [%], and :math:`r_{fcown}` is the rate of autoconsumption [%].
+For reference, the rate of auto-consumption in 2020 for a fuel cell system is 15% (i.e., 15% of the power produced by
+the fuel cell system is consumed by it).
 
 The fuel cell system power :math:`P_{fcsys}` is calculated as:
 
 .. math::
 
-    P_{fcsys} = \frac{(P_{veh} \times r_{fcshare})}{P_{fcown}}
+    P_{fcsys} = P_{veh} \times r_{fcshare} \times r_{fcown}
 
-where :math:`P_{veh}` is the vehicle engine power and :math:`r_{fcshare}` is the fuel cell system power share [%].
+where :math:`P_{veh}` is the vehicle engine power and :math:`r_{fcshare}` is the fuel cell system power relative
+to the vehicle engine power [%].
 
 Finally, the fuel cell stack mass is calculated as:
 
