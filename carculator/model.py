@@ -813,14 +813,15 @@ class CarModel:
             ]
 
     def set_electric_utility_factor(self, uf: float = None) -> None:
-        """Set the electric utility factor according to a sampled values in Germany (ICTT 2020)
-        https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf
+        """Set the electric utility factor according to a sampled values in Germany (ICTT 2022)
+        https://theicct.org/wp-content/uploads/2022/06/real-world-phev-use-jun22-1.pdf
 
         Real-world range in simulation 20 km 30 km 40 km 50 km 60 km 70 km 80 km
         Observed UF for Germany (Sample-size weighted regression ± 2 standard errors)
         Observed UF private (in %) 30±2 41±2 50±3 58±3 65±3 71±3 75±3
 
-        which correlated the share of km driven in electric-mode to the capacity of the battery
+        which correlated the share of km driven in electric-mode to
+        the capacity of the battery
         (the range that can be driven in battery-depleting mode).
 
         The argument `uf` is used to override this relation, if needed.
@@ -833,8 +834,8 @@ class CarModel:
                 ] = np.clip(
                     np.interp(
                         self.array.loc[dict(powertrain="PHEV-e", parameter="range")],
-                        [0, 20, 30, 40, 50, 60, 70, 80],
-                        [0, 0.3, 0.41, 0.5, 0.58, 0.65, 0.71, 0.75],
+                        [0, 20,   30,   40,   50,   60,   70,   80,   100,  120, 200],
+                        [0, 0.13, 0.18, 0.23, 0.28, 0.30, 0.35, 0.40, 0.45, 0.5, 0.75],
                     ),
                     0,
                     0.75,
