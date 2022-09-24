@@ -3422,8 +3422,7 @@ class InventoryCalculation:
             self.inputs[("Stack", "GLO", "kilowatt", "Stack")],
             -self.number_of_cars :,
         ] = (
-            array[self.array_inputs["fuel cell stack mass"], :]
-            / 0.51
+            array[self.array_inputs["fuel cell power"], :]
             * (1 + array[self.array_inputs["fuel cell lifetime replacements"], :])
             / array[self.array_inputs["lifetime kilometers"], :]
             * -1
@@ -4813,7 +4812,9 @@ class InventoryCalculation:
             self.inputs[("Stack", "GLO", "kilowatt", "Stack")],
             [self.inputs[i] for i in self.inputs if i[0].startswith("Passenger car")],
         ] = (
-            array[self.array_inputs["fuel cell stack mass"], :] * -1
+            array[self.array_inputs["fuel cell power"], :]
+            * (1 + array[self.array_inputs["fuel cell lifetime replacements"], :])
+            * -1
         )
 
         # Start of printout

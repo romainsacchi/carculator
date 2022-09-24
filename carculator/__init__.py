@@ -22,7 +22,7 @@ __all__ = (
     "ExportInventory",
     "create_fleet_composition_from_IAM_file",
 )
-__version__ = (1, 7, 0)
+__version__ = (1, 7, 1)
 
 from pathlib import Path
 
