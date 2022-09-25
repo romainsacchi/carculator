@@ -3442,7 +3442,6 @@ class InventoryCalculation:
             end="\n * ",
         )
 
-
         battery_tech = self.background_configuration["energy storage"]["electric"][
             "type"
         ]
