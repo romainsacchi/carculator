@@ -254,20 +254,20 @@ class CarModel:
                         powertrain=pwt,
                         parameter=[
                             f"battery cell energy density, {batt_type.split('-')[0].strip()}",
-                            f"battery cell mass share, {batt_type.split('-')[0].strip()}"
-                        ]
+                            f"battery cell mass share, {batt_type.split('-')[0].strip()}",
+                        ],
                     )
                 ]
 
                 self.array.loc[
                     dict(
-                        powertrain=pwt, parameter=[
+                        powertrain=pwt,
+                        parameter=[
                             "battery cell energy density",
-                            "battery cell mass share"
-                        ]
+                            "battery cell mass share",
+                        ],
                     )
                 ] = cell_params.values
-
 
     def adjust_cost(self) -> None:
         """
