@@ -888,9 +888,18 @@ class CarModel:
                     0.75,
                 )
             else:
-                self.array.loc[
-                    dict(powertrain="PHEV-e", parameter="electric utility factor")
-                ] = np.array(self.electric_utility_factor).reshape([1, -1, 1])
+                for key, val in self.electric_utility_factor.items():
+                    if (
+                            "PHEV-e" in self.array.powertrain.values
+                            and key in self.array.year.values
+                    ):
+                        self.array.loc[
+                            dict(
+                                powertrain="PHEV-e",
+                                parameter="electric utility factor",
+                                year=key
+                            )
+                        ] = val
 
     def create_PHEV(self):
         """PHEV-p/d is the range-weighted average between PHEV-c-p/PHEV-c-d and PHEV-e."""
