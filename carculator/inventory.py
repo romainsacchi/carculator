@@ -3442,6 +3442,7 @@ class InventoryCalculation:
             end="\n * ",
         )
 
+
         battery_tech = self.background_configuration["energy storage"]["electric"][
             "type"
         ]
@@ -3450,7 +3451,8 @@ class InventoryCalculation:
         ]
 
         print(
-            f"Power and energy batteries produced in {battery_origin} using {battery_tech} chemistry",
+            "Power and energy batteries produced "
+            f"in {battery_origin} using {battery_tech} chemistry",
             end="\n * ",
         )
 

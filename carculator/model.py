@@ -261,7 +261,7 @@ class CarModel:
         for key, val in self.energy_storage["electric"].items():
             pwt, size, year = key
 
-            if val is not None:
+            if val is not None and pwt in self.array.powertrain.values:
 
                 cell_params = self.array.loc[
                     dict(
