@@ -35,6 +35,8 @@ class CarModel:
         cycle: Union[None, str, np.ndarray] = None,
         gradient: Union[None, np.ndarray] = None,
         energy_storage: Union[None, Dict] = None,
+        electric_utility_factor: float = None,
+        drop_hybrids: bool = True,
     ) -> None:
 
         self.array = array
@@ -44,9 +46,20 @@ class CarModel:
         else:
             self.ecm = EnergyConsumptionModel(cycle=cycle, gradient=gradient)
 
-        self.energy_storage = None
-        self.set_battery_preferences(energy_storage)
+        self.energy_storage = {
+            "electric": {
+                "BEV": "NMC-622",
+                "PHEV-e": "NMC-622",
+                "FCEV": "NMC-622",
+                "HEV-d": "NMC-622",
+                "HEV-p": "NMC-622",
+            }
+        }
+        self.energy_storage.update(energy_storage or {})
+        self.set_battery_preferences()
         self.energy = None
+        self.electric_utility_factor = electric_utility_factor
+        self.drop_hybrids = drop_hybrids
 
     def __call__(self, key: Union[str, List]):
 
@@ -96,7 +109,7 @@ class CarModel:
     def __setitem__(self, key, value):
         self.array.loc[{"parameter": key}] = value
 
-    def set_all(self, drop_hybrids: bool = True, electric_utility_factor: float = None):
+    def set_all(self):
         """
         This method runs a series of other methods to obtain the tank-to-wheel energy requirement, efficiency
         of the car, costs, etc.
@@ -142,14 +155,14 @@ class CarModel:
         self.set_share_recuperated_energy()
         self.adjust_cost()
         self.set_range()
-        self.set_electric_utility_factor(electric_utility_factor)
+        self.set_electric_utility_factor()
         self.set_electricity_consumption()
         self.set_costs()
         self.set_hot_emissions()
         self.set_particulates_emission()
         self.set_noise_emissions()
         self.create_PHEV()
-        if drop_hybrids:
+        if self.drop_hybrids:
             self.drop_hybrid()
 
         # we flag cars that have a range inferior to 100 km
@@ -230,20 +243,31 @@ class CarModel:
                     )
                 ]
 
-    def set_battery_preferences(self, energy_storage):
+    def set_battery_preferences(self):
 
-        self.energy_storage = energy_storage or {
-            "electric": {
-                "type": "NMC-622",
-            }
-        }
+        for pwt, batt_type in self.energy_storage["electric"].items():
 
-        self["battery cell energy density"] = self[
-            f"battery cell energy density, {self.energy_storage['electric']['type'].split('-')[0].strip()}"
-        ]
-        self["battery cell mass share"] = self[
-            f"battery cell mass share, {self.energy_storage['electric']['type'].split('-')[0].strip()}"
-        ]
+            if pwt in self.array.coords["powertrain"].values and batt_type is not None:
+
+                cell_params = self.array.loc[
+                    dict(
+                        powertrain=pwt,
+                        parameter=[
+                            f"battery cell energy density, {batt_type.split('-')[0].strip()}",
+                            f"battery cell mass share, {batt_type.split('-')[0].strip()}"
+                        ]
+                    )
+                ]
+
+                self.array.loc[
+                    dict(
+                        powertrain=pwt, parameter=[
+                            "battery cell energy density",
+                            "battery cell mass share"
+                        ]
+                    )
+                ] = cell_params.values
+
 
     def adjust_cost(self) -> None:
         """
@@ -812,7 +836,7 @@ class CarModel:
                 dict(powertrain="PHEV-e", parameter="share recuperated energy")
             ]
 
-    def set_electric_utility_factor(self, uf: float = None) -> None:
+    def set_electric_utility_factor(self) -> None:
         """Set the electric utility factor according to a sampled values in Germany (ICTT 2022)
         https://theicct.org/wp-content/uploads/2022/06/real-world-phev-use-jun22-1.pdf
 
@@ -828,7 +852,7 @@ class CarModel:
         `uf` must be a ratio between 0 and .75, for each."""
 
         if "PHEV-e" in self.array.coords["powertrain"].values:
-            if uf is None:
+            if self.electric_utility_factor is None:
                 self.array.loc[
                     dict(powertrain="PHEV-e", parameter="electric utility factor")
                 ] = np.clip(
@@ -843,7 +867,7 @@ class CarModel:
             else:
                 self.array.loc[
                     dict(powertrain="PHEV-e", parameter="electric utility factor")
-                ] = np.array(uf).reshape([1, -1, 1])
+                ] = np.array(self.electric_utility_factor).reshape([1, -1, 1])
 
     def create_PHEV(self):
         """PHEV-p/d is the range-weighted average between PHEV-c-p/PHEV-c-d and PHEV-e."""
