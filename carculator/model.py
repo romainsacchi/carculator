@@ -40,6 +40,8 @@ class CarModel:
         drop_hybrids: bool = True,
         energy_consumption: dict = None,
         target_range: dict = None,
+        target_mass: dict = None,
+        power: dict = None,
     ) -> None:
 
         self.array = array
@@ -49,6 +51,8 @@ class CarModel:
         else:
             self.ecm = EnergyConsumptionModel(cycle=cycle, gradient=gradient)
 
+        # override default values for batteries
+        # if provided by the user
         self.energy_storage = {
             "electric": {
                 x: "NMC-622"
@@ -66,7 +70,12 @@ class CarModel:
         self.electric_utility_factor = electric_utility_factor
         self.drop_hybrids = drop_hybrids
         self.energy_consumption = energy_consumption or None
+        # a range to reach cna be defined by the
         self.target_range = target_range
+        # a curb mass to reach can be defined by the user
+        self.target_mass = target_mass
+        # overrides the engine/motor power
+        self.power = power
 
     def __call__(self, key: Union[str, List]):
 
@@ -143,7 +152,6 @@ class CarModel:
             old_driving_mass = self["driving mass"].sum().values
 
             self.set_car_masses()
-
             self.set_power_parameters()
             self.set_component_masses()
             self.set_battery_properties()
@@ -161,6 +169,13 @@ class CarModel:
         self.calculate_ttw_energy()
         self.set_share_recuperated_energy()
         self.adjust_cost()
+
+        # if user-provided values are passed,
+        # they override the default values
+        if self.target_range or self.energy_storage:
+            self.set_storage_size_or_range()
+            self.set_energy_stored_properties()
+
         self.set_range()
         self.set_electric_utility_factor()
         self.set_electricity_consumption()
@@ -570,11 +585,29 @@ class CarModel:
             for key, val in self.energy_consumption.items():
                 pwt, size, year = key
                 if val is not None:
+
+                    print(f"Overriding TtW energy for {pwt} {size} {year} with {val} kj/km")
+
                     self.array.loc[
                         dict(
                             powertrain=pwt, size=size, year=year, parameter="TtW energy"
                         )
                     ] = val
+
+                    self.energy.loc[
+                        dict(
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter="motive energy"
+                        )
+                    ] = (
+                            val  # kj/km
+                            *
+                            distance.mean()  # km
+                            /
+                            self.energy.shape[-1]  # seconds
+                    ).reshape(1, -1)
 
         self["TtW energy, combustion mode"] = self["TtW energy"] * (
             self["combustion power share"] > 0
@@ -785,6 +818,7 @@ class CarModel:
 
         """
 
+
         self["curb mass"] = self["glider base mass"] * (1 - self["lightweighting"])
 
         curb_mass_includes = [
@@ -806,7 +840,36 @@ class CarModel:
             "battery BoP mass",
             "fuel tank mass",
         ]
+
+
         self["curb mass"] += self[curb_mass_includes].sum(axis=2)
+
+        if self.target_mass:
+            for key, target_mass in self.target_mass.items():
+                pwt, size, year = key
+
+                if target_mass:
+                    current_curb_mass = self.array.loc[
+                        dict(powertrain=pwt, size=size, year=year, parameter="curb mass")
+                    ]
+                    mass_difference = target_mass - current_curb_mass
+
+                    lightweighting = self.array.loc[
+                        dict(
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter="lightweighting",
+                        )
+                    ]
+
+                    self.array.loc[
+                        dict(powertrain=pwt, size=size, year=year, parameter="glider base mass")
+                    ] += mass_difference / (1 - lightweighting)
+
+            self["curb mass"] = self["glider base mass"] * (1 - self["lightweighting"])
+            self["curb mass"] += self[curb_mass_includes].sum(axis=2)
+
 
         self["total cargo mass"] = (
             self["average passengers"] * self["average passenger mass"]
@@ -818,6 +881,15 @@ class CarModel:
         """Set electric and combustion motor powers based on input parameter ``power to mass ratio``."""
         # Convert from W/kg to kW
         self["power"] = self["power to mass ratio"] * self["curb mass"] / 1000
+
+        if self.power:
+            for key, power in self.power.items():
+                pwt, size, year = key
+                if power:
+                    self.array.loc[
+                        dict(powertrain=pwt, size=size, year=year, parameter="power")
+                    ] = power
+
         self["combustion power share"] = self["combustion power share"].clip(
             min=0, max=1
         )
@@ -1197,10 +1269,17 @@ class CarModel:
             dict(parameter="energy battery mass")
         ] * (1 - self.array.loc[dict(parameter="battery cell mass share")])
 
+
+    def set_storage_size_or_range(self):
+        """
+        Set storage size or range for each powertrain.
+        :return:
+        """
+
         if "capacity" in self.energy_storage:
             for key, val in self.energy_storage["capacity"].items():
                 pwt, size, year = key
-                if val is not None:
+                if val:
                     self.array.loc[
                         dict(
                             parameter="battery cell mass",
@@ -1209,15 +1288,15 @@ class CarModel:
                             year=year,
                         )
                     ] = (
-                        val
-                        / self.array.loc[
-                            dict(
-                                parameter="battery cell energy density",
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                            )
-                        ]
+                            val
+                            / self.array.loc[
+                                dict(
+                                    parameter="battery cell energy density",
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                )
+                            ]
                     )
 
                     self.array.loc[
@@ -1228,22 +1307,22 @@ class CarModel:
                             year=year,
                         )
                     ] = (
-                        self.array.loc[
-                            dict(
-                                parameter="battery cell mass",
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                            )
-                        ]
-                        / self.array.loc[
-                            dict(
-                                parameter="battery cell mass share",
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                            )
-                        ]
+                            self.array.loc[
+                                dict(
+                                    parameter="battery cell mass",
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                )
+                            ]
+                            / self.array.loc[
+                                dict(
+                                    parameter="battery cell mass share",
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                )
+                            ]
                     )
 
                     self.array.loc[
@@ -1254,22 +1333,22 @@ class CarModel:
                             year=year,
                         )
                     ] = (
-                        self.array.loc[
-                            dict(
-                                parameter="energy battery mass",
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                            )
-                        ]
-                        - self.array.loc[
-                            dict(
-                                parameter="battery cell mass",
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                            )
-                        ]
+                            self.array.loc[
+                                dict(
+                                    parameter="energy battery mass",
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                )
+                            ]
+                            - self.array.loc[
+                                dict(
+                                    parameter="battery cell mass",
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                )
+                            ]
                     )
 
         if self.target_range:
@@ -1278,7 +1357,6 @@ class CarModel:
                 pwt, size, year = key
 
                 if pwt == "BEV" and val is not None:
-
                     battery_DoD = self.array.loc[
                         dict(
                             powertrain=pwt,
@@ -1289,11 +1367,14 @@ class CarModel:
                     ]  # maximum depth of discharge allowed (80%)
                     TtW = self.array.loc[
                         dict(
-                            powertrain=pwt, size=size, year=year, parameter="TtW energy"
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter="TtW energy"
                         )
                     ]  # kj/km
 
-                    energy_stored = val * (TtW / (1 - battery_DoD)) / 3.6 * 1000
+                    energy_stored = val * (TtW / battery_DoD / 3600)
 
                     self.array.loc[
                         dict(
@@ -1303,16 +1384,17 @@ class CarModel:
                             year=year,
                         )
                     ] = (
-                        energy_stored
-                        * self.array.loc[
-                            dict(
-                                parameter="battery cell energy density",
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                            )
-                        ]
+                            energy_stored
+                            / self.array.loc[
+                                dict(
+                                    parameter="battery cell energy density",
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                )
+                            ]
                     )
+
 
                     self.array.loc[
                         dict(
@@ -1322,23 +1404,24 @@ class CarModel:
                             year=year,
                         )
                     ] = (
-                        self.array.loc[
-                            dict(
-                                parameter="battery cell mass",
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                            )
-                        ]
-                        / self.array.loc[
-                            dict(
-                                parameter="battery cell mass share",
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                            )
-                        ]
+                            self.array.loc[
+                                dict(
+                                    parameter="battery cell mass",
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                )
+                            ]
+                            / self.array.loc[
+                                dict(
+                                    parameter="battery cell mass share",
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                )
+                            ]
                     )
+
 
                     self.array.loc[
                         dict(
@@ -1348,22 +1431,22 @@ class CarModel:
                             year=year,
                         )
                     ] = (
-                        self.array.loc[
-                            dict(
-                                parameter="energy battery mass",
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                            )
-                        ]
-                        - self.array.loc[
-                            dict(
-                                parameter="battery cell mass",
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                            )
-                        ]
+                            self.array.loc[
+                                dict(
+                                    parameter="energy battery mass",
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                )
+                            ]
+                            - self.array.loc[
+                                dict(
+                                    parameter="battery cell mass",
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                )
+                            ]
                     )
 
     def set_range(self) -> None:
@@ -1493,31 +1576,29 @@ class CarModel:
 
         list_electric = [i for i in ["BEV", "PHEV-e"] if i in self.array.powertrain]
 
-        if "capacity" in self.energy_storage:
-
-            for key, val in self.energy_storage["capacity"].items():
-                pwt, size, year = key
-                self.array.loc[
-                    dict(
-                        powertrain=pwt,
-                        size=size,
-                        year=year,
-                        parameter="electric energy stored",
-                    )
-                ] = val
-
-        else:
-
-            for pwt in list_electric:
-
-                self.array.loc[
-                    dict(powertrain=pwt, parameter="electric energy stored")
-                ] = (
+        for pwt in list_electric:
+            self.array.loc[
+                dict(powertrain=pwt, parameter="electric energy stored")
+            ] = (
                     self.array.loc[dict(powertrain=pwt, parameter="battery cell mass")]
                     * self.array.loc[
                         dict(powertrain=pwt, parameter="battery cell energy density")
                     ]
-                )
+            )
+
+        if "capacity" in self.energy_storage:
+            for key, val in self.energy_storage["capacity"].items():
+                pwt, size, year = key
+                if val:
+                    self.array.loc[
+                        dict(
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter="electric energy stored",
+                        )
+                    ] = val
+
 
     def set_costs(self) -> None:
         """
