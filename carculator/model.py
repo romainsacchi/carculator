@@ -962,14 +962,14 @@ class CarModel:
             else:
                 for key, val in self.electric_utility_factor.items():
                     if (
-                            "PHEV-e" in self.array.powertrain.values
-                            and key in self.array.year.values
+                        "PHEV-e" in self.array.powertrain.values
+                        and key in self.array.year.values
                     ):
                         self.array.loc[
                             dict(
                                 powertrain="PHEV-e",
                                 parameter="electric utility factor",
-                                year=key
+                                year=key,
                             )
                         ] = val
 
