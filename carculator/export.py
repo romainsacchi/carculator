@@ -1978,21 +1978,17 @@ class ExportInventory:
         rows.append(["https://doi.org/10.1016/j.rser.2022.112475"])
         rows.append([])
         rows.append(["Comment"])
-        rows.append(
-            ["Study available at: https://doi.org/10.1016/j.rser.2022.112475"]
-        )
+        rows.append(["Study available at: https://doi.org/10.1016/j.rser.2022.112475"])
         rows.append([])
         rows.append(["Category"])
         rows.append(["carculator"])
         rows.append([])
         rows.append(["Description"])
-        description = (
-            "When, where and how can the electrification of passenger cars reduce greenhouse gas emissions?"
-        )
-        description += "Romain Sacchi, Christian Bauer, Brian L. Cox and Chris L. Mutel\n"
+        description = "When, where and how can the electrification of passenger cars reduce greenhouse gas emissions?"
         description += (
-            "Renewable and Sustainable Energy Reviews, 2022"
+            "Romain Sacchi, Christian Bauer, Brian L. Cox and Chris L. Mutel\n"
         )
+        description += "Renewable and Sustainable Energy Reviews, 2022"
 
         rows.append([description])
 
