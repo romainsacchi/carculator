@@ -1180,7 +1180,9 @@ class InventoryCalculation:
                     str(IAM_FILES_DIR)
                     + "/*recipe_midpoint*{}*.csv".format(self.scenario)
                 )
-                list_file_names = sorted(list_file_names, key=lambda x:int(re.findall('\d+', x)[1]))
+                list_file_names = sorted(
+                    list_file_names, key=lambda x: int(re.findall("\d+", x)[1])
+                )
 
                 B = np.zeros((len(list_file_names), 23, len(self.inputs)))
             elif self.method_type == "endpoint":
@@ -1188,7 +1190,9 @@ class InventoryCalculation:
                     str(IAM_FILES_DIR)
                     + "/*recipe_endpoint*{}*.csv".format(self.scenario)
                 )
-                list_file_names = sorted(list_file_names, key=lambda x:int(re.findall('\d+', x)[1]))
+                list_file_names = sorted(
+                    list_file_names, key=lambda x: int(re.findall("\d+", x)[1])
+                )
                 B = np.zeros((len(list_file_names), 4, len(self.inputs)))
             else:
                 raise TypeError(
@@ -1199,7 +1203,9 @@ class InventoryCalculation:
             list_file_names = glob.glob(
                 str(IAM_FILES_DIR) + "/*ilcd*{}*.csv".format(self.scenario)
             )
-            list_file_names = sorted(list_file_names, key=lambda x:int(re.findall('\d+', x)[1]))
+            list_file_names = sorted(
+                list_file_names, key=lambda x: int(re.findall("\d+", x)[1])
+            )
             B = np.zeros((len(list_file_names), 19, len(self.inputs)))
 
         for f, filepath in enumerate(list_file_names):
@@ -1212,7 +1218,7 @@ class InventoryCalculation:
                 )
             )
 
-            new_B[0: initial_B.shape[0], 0: initial_B.shape[1]] = initial_B
+            new_B[0 : initial_B.shape[0], 0 : initial_B.shape[1]] = initial_B
             B[f, :, :] = new_B
 
         list_impact_categories = list(self.impact_categories.keys())
@@ -1531,7 +1537,6 @@ class InventoryCalculation:
 
             self.set_inputs_in_A_matrix_for_export(self.array.values)
 
-
         else:
 
             # Create electricity and fuel market datasets
@@ -1546,7 +1551,6 @@ class InventoryCalculation:
             self.set_actual_range()
 
             self.set_inputs_in_A_matrix(self.array.values)
-
 
         # Add rows for fleet vehicles, if any
         if isinstance(self.fleet, xr.DataArray):
@@ -5942,7 +5946,6 @@ class InventoryCalculation:
                 self.array_inputs["cooling energy consumption"], :, index
             ]
         ).T
-
 
         print("*********************************************************************")
 
