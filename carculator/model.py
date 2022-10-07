@@ -1,5 +1,5 @@
 from itertools import product
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Union
 
 import numexpr as ne
 import numpy as np

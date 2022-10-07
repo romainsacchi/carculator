@@ -1331,7 +1331,7 @@ class ExportInventory:
                     )
 
                 if item == "Literature references":
-                    rows.append(["Sacchi et al. 2020"])
+                    rows.append(["Sacchi et al. 2022"])
 
                 if item == "Collection method":
                     rows.append(
@@ -1341,7 +1341,7 @@ class ExportInventory:
                     )
 
                 if item == "Verification":
-                    rows.append(["In review. Susceptible to change."])
+                    rows.append(["Peer-reviewed, but susceptible to change."])
 
                 if item == "Waste treatment":
                     if ei_version in ("3.5", "3.6"):
@@ -1955,7 +1955,7 @@ class ExportInventory:
         )
         rows.append([])
         rows.append(["Transport model"])
-        rows.append(["Based on Sacchi et al. 2020 (in review)"])
+        rows.append(["Based on Sacchi et al. 2022"])
         rows.append([])
         rows.append(["Allocation rules"])
         rows.append(
@@ -1972,14 +1972,14 @@ class ExportInventory:
         rows.append(["Literature reference"])
         rows.append([])
         rows.append(["Name"])
-        rows.append(["Sacchi et al. 2020"])
+        rows.append(["Sacchi et al. 2022"])
         rows.append([])
         rows.append(["Documentation link"])
-        rows.append(["https://www.psi.ch/en/ta/preprint"])
+        rows.append(["https://doi.org/10.1016/j.rser.2022.112475"])
         rows.append([])
         rows.append(["Comment"])
         rows.append(
-            ["Pre-print available at: https://www.psi.ch/en/media/57994/download"]
+            ["Study available at: https://doi.org/10.1016/j.rser.2022.112475"]
         )
         rows.append([])
         rows.append(["Category"])
@@ -1987,13 +1987,11 @@ class ExportInventory:
         rows.append([])
         rows.append(["Description"])
         description = (
-            "carculator: an open-source tool for prospective environmental and "
-            "economic life cycle assessment of vehicles. When, Where and How can battery-electric "
-            "vehicles help reduce greenhouse gas emissions?\n"
+            "When, where and how can the electrification of passenger cars reduce greenhouse gas emissions?"
         )
-        description += "Romain Sacchi, Christian Bauer and Brian L. Cox\n"
+        description += "Romain Sacchi, Christian Bauer, Brian L. Cox and Chris L. Mutel\n"
         description += (
-            "Submitted to Environmental Science and Technology on November 17th, 2020"
+            "Renewable and Sustainable Energy Reviews, 2022"
         )
 
         rows.append([description])

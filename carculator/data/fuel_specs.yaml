@@ -108,7 +108,7 @@ bioethanol - wheat straw:
   lhv: 26.5
   co2: 1.96
   name:
-      - Ethanol, from wheat straw pellets, at fuelling station
+      - Ethanol, from wheat straw, at fuelling station
       - RER
       - kilogram
       - ethanol, without water, in 99.7% solution state, vehicle grade
@@ -116,7 +116,7 @@ bioethanol - maize starch:
   lhv: 26.5
   co2: 1.96
   name:
-      - Ethanol, from maize starch, at fuelling station
+      - Ethanol, from corn starch, at fuelling station
       - RER
       - kilogram
       - ethanol, without water, in 99.7% solution state, vehicle grade
@@ -189,7 +189,7 @@ biodiesel - palm oil:
   co2: 2.79
   name:
       - Biodiesel, from palm oil, at fuelling station
-      - RER
+      - ID
       - kilogram
       - biodiesel, vehicle grade
 synthetic diesel - economic allocation:

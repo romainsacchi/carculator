@@ -1,3 +1,12 @@
 include *.md
 include *.txt
+include *.yml
+include *.yaml
+include *.rst
+include *.ini
+include *.csv
+include carculator/data/*.csv
+include carculator/data/*.json
+include carculator/data/*.yaml
+include carculator/data/*.yml
 include LICENSE

@@ -17,15 +17,13 @@ recipe;ReCiPe 2008 Midpoint (H) V1.13;terrestrial ecotoxicity;midpoint;TETPinf;k
 recipe;ReCiPe 2008 Midpoint (H) V1.13;fossil depletion;midpoint;FDP;kg oil-Eq.;https://www.rivm.nl/documenten/6recipe111
 recipe;ReCiPe 2008 Midpoint (H) V1.13;ionising radiation;midpoint;IRP_HE;kg U235-Eq.;https://www.rivm.nl/documenten/6recipe111
 recipe;ReCiPe 2008 Midpoint (H) V1.13;marine ecotoxicity;midpoint;METPinf;kg 1,4-DB.;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Midpoint (H) V1.13;climate change, incl. biogenic CO2;midpoint;GWP100;kg CO2-Eq.;https://www.rivm.nl/documenten/6recipe111
+recipe;IPCC 2013;GWP100a, incl. bio CO2;midpoint;GWP100, incl. bio CO2;kg CO2-Eq.;https://github.com/polca/premise_gwp
 recipe;Additional indicator;noise emissions;midpoint;HN;Person-Pascal.second;https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837
-recipe;Additional indicator;renewable primary energy;midpoint;RPE;megajoule;ecoinvent 3.6
-recipe;Additional indicator;non-renewable primary energy;midpoint;NRPE;megajoule;ecoinvent 3.6
+recipe;Additional indicator;renewable primary energy;midpoint;RPE;megajoule;ecoinvent 3.8
+recipe;Additional indicator;non-renewable primary energy;midpoint;NRPE;megajoule;ecoinvent 3.8
 recipe;ReCiPe 2008 Endpoint (H, A) V1.13;Ecosystems;endpoint;;species.lost;https://www.rivm.nl/documenten/6recipe111
 recipe;ReCiPe 2008 Endpoint (H, A) V1.13;Human health;endpoint;;DALY;https://www.rivm.nl/documenten/6recipe111
 recipe;ReCiPe 2008 Endpoint (H, A) V1.13;Resources;endpoint;;USD;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Endpoint (H, A) V1.13;Ecosystems w/o CC;endpoint;;species.lost;https://www.rivm.nl/documenten/6recipe111
-recipe;ReCiPe 2008 Endpoint (H, A) V1.13;Human health w/o CC;endpoint;;DALY;https://www.rivm.nl/documenten/6recipe111
 recipe;Cucurachi et al. 2019;Noise;endpoint;;DALY;https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837
 ilcd;ILCD 2.0 2018 midpoint;ecosystem quality - freshwater ecotoxicity;midpoint;;CTUe;https://eplca.jrc.ec.europa.eu/permalink/supporting_Information_final.pdf
 ilcd;ILCD 2.0 2018 midpoint;human health - non-carcinogenic effects;midpoint;;CTUh;https://eplca.jrc.ec.europa.eu/permalink/supporting_Information_final.pdf

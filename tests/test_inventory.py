@@ -61,26 +61,28 @@ def test_plausibility_of_GWP():
         )
 
         # Are the medium ICEVs between 0.28 and 0.35 kg CO2-eq./vkm?
-        assert (gwp_icev.sum(dim="impact") > 0.24).all() and (
-            gwp_icev.sum(dim="impact") < 0.31
-        ).all()
 
-        # Are the medium ICEVs direct emissions between 0.13 and  0.18 kg CO2-eq./vkm?
-        assert (gwp_icev.sel(impact="direct - exhaust") > 0.13).all() and (
-            gwp_icev.sel(impact="direct - exhaust") < 0.18
-        ).all()
+        if method == "recipe":
+            assert (gwp_icev.sum(dim="impact") > 0.28).all() and (
+                gwp_icev.sum(dim="impact") < 0.32
+            ).all()
 
-        # Are the ICEVs glider emissions between 0.055 and 0.075 kg CO2-eq./vkm?
+            # Are the medium ICEVs direct emissions between 0.13 and  0.18 kg CO2-eq./vkm?
+            assert (gwp_icev.sel(impact="direct - exhaust") > 0.13).all() and (
+                gwp_icev.sel(impact="direct - exhaust") < 0.19
+            ).all()
+
+        # Are the ICEVs glider emissions between 0.04 and 0.05 kg CO2-eq./vkm?
         assert (gwp_icev.sel(impact="glider") > 0.04).all() and (
-            gwp_icev.sel(impact="glider") < 0.06
+            gwp_icev.sel(impact="glider") < 0.05
         ).all()
 
-        # Is the GWP score for batteries of BEVs between 0.02 and 0.03 kg Co2-eq./vkm?
+        # Is the GWP score for batteries of Medium BEVs between 0.025 and 0.035 kg Co2-eq./vkm?
         gwp_bev = results.sel(
             impact_category=m, powertrain="BEV", value=0, year=2020, size="Medium"
         )
-        assert (gwp_bev.sel(impact="energy storage") > 0.03).all() and (
-            gwp_bev.sel(impact="energy storage") < 0.04
+        assert (gwp_bev.sel(impact="energy storage") > 0.025).all() and (
+            gwp_bev.sel(impact="energy storage") < 0.035
         ).all()
 
 
@@ -253,7 +255,7 @@ def test_endpoint():
     ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
     results = ic.calculate_impacts()
     assert "human health" in [i.lower() for i in results.impact_category.values]
-    assert len(results.impact_category.values) == 6
+    assert len(results.impact_category.values) == 4
     #
     #     """Test if it errors properly if an incorrect method type is give"""
     with pytest.raises(TypeError) as wrapped_error:

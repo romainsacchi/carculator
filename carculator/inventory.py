@@ -175,7 +175,8 @@ class InventoryCalculation:
     :ivar scope: dictionary that contains filters for narrowing the analysis
     :ivar background_configuration: dictionary that contains choices for background system
     :ivar scenario: REMIND energy scenario to use ("SSP2-Baseline": business-as-usual,
-                                                    "SSP2-PkBudg1300": limits temperature increase by 2100 to 2 degrees Celsius,
+                                                    "SSP2-PkBudg1150": limits temperature increase by 2100 to 2 degrees Celsius,
+                                                    "SSP2-PkBudg500": limits temperature increase by 2100 to 1.5 degrees Celsius,
                                                     "static": no forward-looking modification of the background inventories).
                     "SSP2-Baseline" selected by default.
 
@@ -900,7 +901,7 @@ class InventoryCalculation:
         :rtype: numpy.ndarray
 
         """
-        filename = "A_matrix.csv"
+        filename = "A_matrix_cars.csv"
         filepath = (
             Path(getframeinfo(currentframe()).filename)
             .resolve()
@@ -1179,15 +1180,16 @@ class InventoryCalculation:
                     str(IAM_FILES_DIR)
                     + "/*recipe_midpoint*{}*.csv".format(self.scenario)
                 )
-                list_file_names = sorted(list_file_names)
+                list_file_names = sorted(list_file_names, key=lambda x:int(re.findall('\d+', x)[1]))
+
                 B = np.zeros((len(list_file_names), 23, len(self.inputs)))
             elif self.method_type == "endpoint":
                 list_file_names = glob.glob(
                     str(IAM_FILES_DIR)
                     + "/*recipe_endpoint*{}*.csv".format(self.scenario)
                 )
-                list_file_names = sorted(list_file_names)
-                B = np.zeros((len(list_file_names), 6, len(self.inputs)))
+                list_file_names = sorted(list_file_names, key=lambda x:int(re.findall('\d+', x)[1]))
+                B = np.zeros((len(list_file_names), 4, len(self.inputs)))
             else:
                 raise TypeError(
                     "The LCIA method type should be either 'midpoint' or 'endpoint'."
@@ -1197,19 +1199,20 @@ class InventoryCalculation:
             list_file_names = glob.glob(
                 str(IAM_FILES_DIR) + "/*ilcd*{}*.csv".format(self.scenario)
             )
-            list_file_names = sorted(list_file_names)
+            list_file_names = sorted(list_file_names, key=lambda x:int(re.findall('\d+', x)[1]))
             B = np.zeros((len(list_file_names), 19, len(self.inputs)))
 
         for f, filepath in enumerate(list_file_names):
+
             initial_B = np.genfromtxt(filepath, delimiter=";")
             new_B = np.zeros(
                 (
-                    np.shape(initial_B)[0],
+                    initial_B.shape[0],
                     len(self.inputs),
                 )
             )
 
-            new_B[0 : np.shape(initial_B)[0], 0 : np.shape(initial_B)[1]] = initial_B
+            new_B[0: initial_B.shape[0], 0: initial_B.shape[1]] = initial_B
             B[f, :, :] = new_B
 
         list_impact_categories = list(self.impact_categories.keys())
@@ -1243,7 +1246,7 @@ class InventoryCalculation:
         :rtype: dict
 
         """
-        filename = "dict_inputs_A_matrix.csv"
+        filename = "dict_inputs_A_matrix_cars.csv"
         filepath = DATA_DIR / filename
         if not filepath.is_file():
             raise FileNotFoundError(
@@ -1255,17 +1258,9 @@ class InventoryCalculation:
             input_dict = csv.reader(f, delimiter=";")
             for row in input_dict:
                 if "(" in row[1]:
-                    new_str = row[1].replace("(", "")
-                    new_str = new_str.replace(")", "")
-                    new_str = [s.strip() for s in new_str.split(",") if s]
-                    t = ()
-                    for s in new_str:
-                        if "low population" in s:
-                            s = "low population density, long-term"
-                            t += (s,)
-                            break
-                        t += (s.replace("'", ""),)
-                    csv_dict[(row[0], t, row[2])] = count
+                    row[1] = eval(row[1])
+
+                    csv_dict[(row[0], row[1], row[2])] = count
                 else:
                     csv_dict[(row[0], row[1], row[2], row[3])] = count
                 count += 1
@@ -1475,6 +1470,7 @@ class InventoryCalculation:
         self.add_additional_activities()
         self.rev_inputs = self.get_rev_dict_input()
         self.A = self.get_A_matrix()
+        self.create_fuel_dictionary()
 
         if "direct air capture" in self.background_configuration:
             if "heat source" in self.background_configuration["direct air capture"]:
@@ -1503,6 +1499,7 @@ class InventoryCalculation:
 
             # resize A matrix
             self.A = self.get_A_matrix()
+            self.create_fuel_dictionary()
 
             if "direct air capture" in self.background_configuration:
                 if "heat source" in self.background_configuration["direct air capture"]:
@@ -1534,6 +1531,7 @@ class InventoryCalculation:
 
             self.set_inputs_in_A_matrix_for_export(self.array.values)
 
+
         else:
 
             # Create electricity and fuel market datasets
@@ -1548,6 +1546,7 @@ class InventoryCalculation:
             self.set_actual_range()
 
             self.set_inputs_in_A_matrix(self.array.values)
+
 
         # Add rows for fleet vehicles, if any
         if isinstance(self.fleet, xr.DataArray):
@@ -1604,10 +1603,6 @@ class InventoryCalculation:
             i.match_database(fields=('name', 'unit', 'location', 'reference product'))
             i.match_database(fields=('name', 'unit', 'categories'))
 
-            # Create an additional biosphere database for the few flows that do not
-            # exist in "biosphere3"
-            i.create_new_biosphere("additional_biosphere", relink=True)
-
             # Check if all exchanges link
             i.statistics()
 
@@ -1624,6 +1619,7 @@ class InventoryCalculation:
         self.add_additional_activities()
         self.rev_inputs = self.get_rev_dict_input()
         self.A = self.get_A_matrix()
+        self.create_fuel_dictionary()
 
         if "direct air capture" in self.background_configuration:
             if "heat source" in self.background_configuration["direct air capture"]:
@@ -1652,6 +1648,7 @@ class InventoryCalculation:
 
             # resize A matrix
             self.A = self.get_A_matrix()
+            self.create_fuel_dictionary()
 
             # Create electricity and fuel market datasets
             self.create_electricity_market_for_fuel_prep()
@@ -1697,6 +1694,8 @@ class InventoryCalculation:
             self.set_actual_range()
 
             self.set_inputs_in_A_matrix(self.array.values)
+
+            self.create_fuel_dictionary()
 
         # Add rows for fleet vehicles, if any
         if isinstance(self.fleet, xr.DataArray):
@@ -1778,6 +1777,7 @@ class InventoryCalculation:
         self.add_additional_activities()
         self.rev_inputs = self.get_rev_dict_input()
         self.A = self.get_A_matrix()
+        self.create_fuel_dictionary()
 
         if "direct air capture" in self.background_configuration:
             if "heat source" in self.background_configuration["direct air capture"]:
@@ -1806,6 +1806,7 @@ class InventoryCalculation:
 
             # resize A matrix
             self.A = self.get_A_matrix()
+            self.create_fuel_dictionary()
 
             if "direct air capture" in self.background_configuration:
                 if "heat source" in self.background_configuration["direct air capture"]:
@@ -1825,6 +1826,7 @@ class InventoryCalculation:
                 self.select_heat_supplier("heat pump")
 
             # Create electricity and fuel market datasets
+
             self.create_electricity_market_for_fuel_prep()
 
             # Create fuel markets
@@ -2898,6 +2900,7 @@ class InventoryCalculation:
             if any(
                 i in val["name"][0].lower() for i in ("synthetic", "hydrogen", "bio")
             ):
+
                 self.find_inputs(
                     "kilowatt hour", val["name"][0], "unit", zero_out_input=True
                 )
@@ -3125,8 +3128,7 @@ class InventoryCalculation:
 
         if zero_out_input:
             # zero out initial inputs
-            self.A[np.ix_(np.arange(0, self.A.shape[0]), ins, outs)] *= 0
-
+            self.A[np.ix_(np.arange(0, self.A.shape[0]), ins, outs)] = 0
         else:
             return sum_supplied
 
@@ -5941,17 +5943,6 @@ class InventoryCalculation:
             ]
         ).T
 
-        self.A[
-            :,
-            self.inputs[
-                ("Ethane, 1,1,1,2-tetrafluoro-, HFC-134a", ("air",), "kilogram")
-            ],
-            [j for i, j in self.inputs.items() if "transport, passenger car" in i[0]],
-        ] = (
-            0.75 / self.array.values[self.array_inputs["lifetime kilometers"]] * -1
-        ) * self.array.values[
-            self.array_inputs["cooling energy consumption"]
-        ]
 
         print("*********************************************************************")
 
