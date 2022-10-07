@@ -3082,7 +3082,12 @@ class InventoryCalculation:
                 self.A[:, electricity_mix_index, electricity_market_index] = -1
 
     def find_inputs(
-        self, value_in, value_out, find_input_by="name", zero_out_input=False
+        self,
+        value_in,
+        value_out,
+        find_input_by="name",
+        zero_out_input=False,
+        filter_activities=None,
     ):
         """
         Finds the exchange inputs to a specified functional unit
@@ -3105,7 +3110,6 @@ class InventoryCalculation:
         ]
 
         f_vector = np.zeros((np.shape(self.A)[1]))
-
         f_vector[index_output] = 1
 
         X = np.float32(sparse.linalg.spsolve(sparse.csr_matrix(self.A[0]), f_vector.T))
@@ -3119,14 +3123,30 @@ class InventoryCalculation:
                 if value_in.lower() in self.rev_inputs[i][0].lower()
             ]
 
-        if find_input_by == "unit":
+        elif find_input_by == "unit":
             ins = [
                 i
                 for i in ind_inputs
                 if value_in.lower() in self.rev_inputs[i][2].lower()
             ]
+        else:
+            raise ValueError("find_input_by must be 'name' or 'unit'")
 
         outs = [i for i in ind_inputs if i not in ins]
+
+        if filter_activities:
+            outs = [
+                i
+                for e in filter_activities
+                for i in outs
+                if e.lower() in self.rev_inputs[i][0].lower()
+            ]
+
+        ins = [
+            i
+            for i in ins
+            if self.A[np.ix_(np.arange(0, self.A.shape[0]), [i], outs)].sum() != 0
+        ]
 
         sum_supplied = X[ins].sum()
 
@@ -3492,7 +3512,10 @@ class InventoryCalculation:
 
         # Fetch the overall input of electricity per kg of battery cell
         electricity_batt = self.find_inputs(
-            "kilowatt hour", f"Battery cell, {battery_tech}", "unit"
+            "kilowatt hour",
+            f"Battery cell, {battery_tech}",
+            "unit",
+            filter_activities=["NMC", "LFP", "LTO", "NCA"],
         )
 
         for y in self.scope["year"]:
@@ -3537,6 +3560,7 @@ class InventoryCalculation:
             f"Battery cell, {battery_tech}",
             "unit",
             zero_out_input=True,
+            filter_activities=["NMC", "LFP", "LTO", "NCA"],
         )
 
         index_A = [
@@ -4885,6 +4909,7 @@ class InventoryCalculation:
             "kilowatt hour",
             f"Battery cell, {battery_tech}",
             "unit",
+            filter_activities=["NMC", "LFP", "LTO", "NCA"],
         )
 
         for y in self.scope["year"]:
@@ -4930,6 +4955,7 @@ class InventoryCalculation:
             f"Battery cell, {battery_tech}",
             "unit",
             zero_out_input=True,
+            filter_activities=["NMC", "LFP", "LTO", "NCA"],
         )
 
         index_A = [
