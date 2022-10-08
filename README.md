@@ -15,7 +15,7 @@
 Prospective environmental and economic life cycle assessment of vehicles made blazing fast.
 
 A fully parameterized Python model developed by the [Technology Assessment group](https://www.psi.ch/en/ta) of the
-[Paul Scherrer Institut](https://www.psi.ch/en) to perform life cycle assessments (LCA) of vehicles.
+[Paul Scherrer Institut](https://www.psi.ch/en) to perform life cycle assessments (LCA) of passenger cars and light-duty vehicles.
 
 See [the documentation](https://carculator.readthedocs.io/en/latest/index.html) for more detail, validation, etc.
 
