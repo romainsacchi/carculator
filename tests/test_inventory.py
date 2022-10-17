@@ -245,9 +245,10 @@ def test_IAM_regions():
             method_type="midpoint",
             background_configuration={
                 "country": c,
-                "energy storage": {"electric": {
-                    ("BEV", "Large", 2000): "NMC-622"
-                }, "origin": c},
+                "energy storage": {
+                    "electric": {("BEV", "Large", 2000): "NMC-622"},
+                    "origin": c,
+                },
             },
         )
         ic.calculate_impacts()
