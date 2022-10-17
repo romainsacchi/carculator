@@ -229,7 +229,7 @@ def test_countries():
             method_type="midpoint",
             background_configuration={
                 "country": c,
-                "energy storage": {"electric": {"type": "NMC-622", "origin": c}},
+                "energy storage": {"electric": {"type": "NMC-622"}, "origin": c},
             },
         )
         ic.calculate_impacts()
@@ -244,7 +244,7 @@ def test_IAM_regions():
             method_type="midpoint",
             background_configuration={
                 "country": c,
-                "energy storage": {"electric": {"type": "NMC-622", "origin": c}},
+                "energy storage": {"electric": {"type": "NMC-622"}, "origin": c},
             },
         )
         ic.calculate_impacts()
