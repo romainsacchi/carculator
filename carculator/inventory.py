@@ -1819,7 +1819,9 @@ class InventoryCalculation:
         :return:
         """
 
-        battery_origin = self.background_configuration["energy storage"].get("origin", "CN")
+        battery_origin = self.background_configuration["energy storage"].get(
+            "origin", "CN"
+        )
 
         if battery_origin != "custom electricity mix":
 
@@ -3114,7 +3116,9 @@ class InventoryCalculation:
                 )
             )
         )
-        battery_origin = self.background_configuration["energy storage"].get("origin", "CN")
+        battery_origin = self.background_configuration["energy storage"].get(
+            "origin", "CN"
+        )
 
         print(
             "Power and energy batteries produced "
@@ -4520,7 +4524,9 @@ class InventoryCalculation:
                 )
             )
         )
-        battery_origin = self.background_configuration["energy storage"].get("origin", "CN")
+        battery_origin = self.background_configuration["energy storage"].get(
+            "origin", "CN"
+        )
 
         print(
             "Power and energy batteries produced "
