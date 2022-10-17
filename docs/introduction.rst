@@ -332,7 +332,7 @@ For example, to obtain characterized results against the midpoint impact assessm
 
 .. code-block:: python
 
-    ic = InventoryCalculation(cm.array)
+    ic = InventoryCalculation(cm)
     results = ic.calculate_impacts()
 
 
@@ -369,7 +369,7 @@ stochastic mode (with 500 iterations and the driving cycle WLTC).
     scope = {
         'powertrain':['BEV', 'PHEV'],
     }
-    ic = InventoryCalculation(cm.array, scope=scope)
+    ic = InventoryCalculation(cm, scope=scope)
 
     results = ic.calculate_impacts()
 
@@ -397,7 +397,7 @@ Inventories can be exported as:
 
 .. code-block:: python
 
-    ic = InventoryCalculation(cm.array)
+    ic = InventoryCalculation(cm)
 
     # export the inventories as a Python list
     mylist = ic.export_lci()
@@ -415,7 +415,7 @@ for each parameter of each car, in order to perform Monte Carlo analyses in Brig
 
 .. code-block:: python
 
-    ic = InventoryCalculation(cm.array)
+    ic = InventoryCalculation(cm)
 
     # export the inventories as a Python list
     mylist, presamples_arr = ic.export_lci()

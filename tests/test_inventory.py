@@ -252,20 +252,20 @@ def test_IAM_regions():
 
 def test_endpoint():
     """Test if the correct impact categories are considered"""
-    ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
+    ic = InventoryCalculation(cm, method="recipe", method_type="endpoint")
     results = ic.calculate_impacts()
     assert "human health" in [i.lower() for i in results.impact_category.values]
     assert len(results.impact_category.values) == 4
     #
     #     """Test if it errors properly if an incorrect method type is give"""
     with pytest.raises(TypeError) as wrapped_error:
-        ic = InventoryCalculation(cm.array, method="recipe", method_type="endpint")
+        ic = InventoryCalculation(cm, method="recipe", method_type="endpint")
         ic.calculate_impacts()
     assert wrapped_error.type == TypeError
 
 
 def test_sulfur_concentration():
-    ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
+    ic = InventoryCalculation(cm, method="recipe", method_type="endpoint")
     ic.get_sulfur_content("RER", "diesel", 2000)
     ic.get_sulfur_content("foo", "diesel", 2000)
 
@@ -296,7 +296,7 @@ def test_custom_electricity_mix():
 
 def test_export_to_bw():
     """Test that inventories export successfully"""
-    ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
+    ic = InventoryCalculation(cm, method="recipe", method_type="endpoint")
     #
 
     for b in ("3.5", "3.6", "3.7", "3.8", "uvek"):
@@ -309,7 +309,7 @@ def test_export_to_bw():
 
 def test_export_to_excel():
     """Test that inventories export successfully to Excel/CSV"""
-    ic = InventoryCalculation(cm.array, method="recipe", method_type="endpoint")
+    ic = InventoryCalculation(cm, method="recipe", method_type="endpoint")
 
     for b in ("3.5", "3.6", "3.7", "3.7.1", "3.8", "uvek"):
         for c in (True, False):

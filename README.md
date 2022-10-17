@@ -114,7 +114,7 @@ over 500 Monte Carlo iterations:
     scope = {
         'powertrain':['BEV', 'PHEV'],
     }
-    ic = InventoryCalculation(cm.array, scope=scope)
+    ic = InventoryCalculation(cm, scope=scope)
 
     results = ic.calculate_impacts()
     data_MC = results.sel(impact_category='climate change').sum(axis=3).to_dataframe('climate change')

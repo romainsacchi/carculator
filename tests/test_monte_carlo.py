@@ -19,7 +19,7 @@ def test_monte_carlo():
     )
     cm = CarModel(array, cycle="WLTC 3.4")
     cm.set_all()
-    ic = InventoryCalculation(cm.array)
+    ic = InventoryCalculation(cm)
     results = ic.calculate_impacts()
 
     assert len(cm.array.value.values) == 5
