@@ -4520,7 +4520,7 @@ class InventoryCalculation:
                 )
             )
         )
-        battery_origin = self.background_configuration["energy storage"]["electric"][
+        battery_origin = self.background_configuration["energy storage"][
             "origin"
         ]
 
