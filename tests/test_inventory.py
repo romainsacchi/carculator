@@ -128,7 +128,7 @@ def test_fuel_blend():
     }
 
     ic = InventoryCalculation(
-        cm.array, method="recipe", method_type="midpoint", background_configuration=bc
+        cm, method="recipe", method_type="midpoint", background_configuration=bc
     )
 
     assert ic.fuel_blends["petrol"]["primary"]["share"] == [
