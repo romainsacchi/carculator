@@ -24,7 +24,7 @@ cm.set_all()
 def test_scope():
     """Test if scope works as expected"""
     ic = InventoryCalculation(
-        cm.array,
+        cm,
         method="recipe",
         method_type="midpoint",
         scope={"powertrain": ["ICEV-d", "ICEV-p"], "size": ["Lower medium"]},
@@ -40,7 +40,7 @@ def test_plausibility_of_GWP():
 
     for method in ["recipe", "ilcd"]:
         ic = InventoryCalculation(
-            cm.array,
+            cm,
             method=method,
             method_type="midpoint",
             scope={"powertrain": ["ICEV-d", "ICEV-p", "BEV"], "size": ["Medium"]},
@@ -186,7 +186,7 @@ def test_fuel_blend():
         ),
     ]:
         ic = InventoryCalculation(
-            cm.array,
+            cm,
             method="recipe",
             method_type="midpoint",
             background_configuration={
@@ -224,7 +224,7 @@ def test_countries():
         "BE",
     ]:
         ic = InventoryCalculation(
-            cm.array,
+            cm,
             method="recipe",
             method_type="midpoint",
             background_configuration={
@@ -239,7 +239,7 @@ def test_IAM_regions():
     """Test that calculation works with all IAM regions"""
     for c in ["BRA", "CAN", "CEU", "CHN", "EAF"]:
         ic = InventoryCalculation(
-            cm.array,
+            cm,
             method="recipe",
             method_type="midpoint",
             background_configuration={
@@ -286,7 +286,7 @@ def test_custom_electricity_mix():
     for mix in mixes:
         with pytest.raises(ValueError) as wrapped_error:
             InventoryCalculation(
-                cm.array,
+                cm,
                 method="recipe",
                 method_type="endpoint",
                 background_configuration={"custom electricity mix": mix},
