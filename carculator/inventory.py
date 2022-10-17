@@ -4520,9 +4520,7 @@ class InventoryCalculation:
                 )
             )
         )
-        battery_origin = self.background_configuration["energy storage"][
-            "origin"
-        ]
+        battery_origin = self.background_configuration["energy storage"]["origin"]
 
         print(
             "Power and energy batteries produced "
