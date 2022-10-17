@@ -33,6 +33,7 @@ class CarModel:
     def __init__(
         self,
         array: xr.DataArray,
+        country = "RER",
         cycle: Union[None, str, np.ndarray] = None,
         gradient: Union[None, np.ndarray] = None,
         energy_storage: Union[None, Dict] = None,
@@ -45,6 +46,7 @@ class CarModel:
     ) -> None:
 
         self.array = array
+        self.country = country
 
         if cycle is None:
             self.ecm = EnergyConsumptionModel("WLTC")
@@ -63,7 +65,7 @@ class CarModel:
                 )
             }
         }
-
+        self.energy_storage["origin"] = "CN"
         self.energy_storage.update(energy_storage or {})
         self.set_battery_preferences()
         self.energy = None

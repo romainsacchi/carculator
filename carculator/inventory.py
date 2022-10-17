@@ -17,7 +17,6 @@ from scipy import sparse
 from . import DATA_DIR
 from .background_systems import BackgroundSystemModel
 from .export import ExportInventory
-from .utils import build_fleet_array
 
 np.warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 
@@ -174,11 +173,11 @@ class InventoryCalculation:
     :vartype array: CarModel.array
     :ivar scope: dictionary that contains filters for narrowing the analysis
     :ivar background_configuration: dictionary that contains choices for background system
-    :ivar scenario: REMIND energy scenario to use ("SSP2-Baseline": business-as-usual,
+    :ivar scenario: REMIND energy scenario to use ("SSP2-NPi": Nationally implemented policies, limits temperature increase by 2100 to 3.3 degrees Celsius,
                                                     "SSP2-PkBudg1150": limits temperature increase by 2100 to 2 degrees Celsius,
                                                     "SSP2-PkBudg500": limits temperature increase by 2100 to 1.5 degrees Celsius,
                                                     "static": no forward-looking modification of the background inventories).
-                    "SSP2-Baseline" selected by default.
+                    "SSP2-NPi" selected by default.
 
     .. code-block:: python
 
@@ -186,27 +185,27 @@ class InventoryCalculation:
 
     def __init__(
         self,
-        array,
-        scope=None,
-        background_configuration=None,
-        scenario="SSP2-Base",
-        method="recipe",
-        method_type="midpoint",
-    ):
+        cm,
+        scope: dict = None,
+        background_configuration: dict = None,
+        scenario: str ="SSP2-NPi",
+        method: str ="recipe",
+        method_type: str ="midpoint",
+    ) -> None:
 
         if scope is None:
             scope = {
-                "size": array.coords["size"].values.tolist(),
-                "powertrain": array.coords["powertrain"].values.tolist(),
-                "year": array.coords["year"].values.tolist(),
+                "size": cm.array.coords["size"].values.tolist(),
+                "powertrain": cm.array.coords["powertrain"].values.tolist(),
+                "year": cm.array.coords["year"].values.tolist(),
                 "fu": {"unit": "vkm", "quantity": 1},
             }
         else:
-            scope["size"] = scope.get("size", array.coords["size"].values.tolist())
+            scope["size"] = scope.get("size", cm.array.coords["size"].values.tolist())
             scope["powertrain"] = scope.get(
-                "powertrain", array.coords["powertrain"].values.tolist()
+                "powertrain", cm.array.coords["powertrain"].values.tolist()
             )
-            scope["year"] = scope.get("year", array.coords["year"].values.tolist())
+            scope["year"] = scope.get("year", cm.array.coords["year"].values.tolist())
             scope["fu"] = scope.get("fu", {"unit": "vkm", "quantity": 1})
 
             if "unit" not in scope["fu"]:
@@ -230,55 +229,19 @@ class InventoryCalculation:
         self.scope = scope
         self.scenario = scenario
 
-        # Check if a fleet composition is specified
-        if "fleet" in self.scope["fu"]:
 
-            if isinstance(self.scope["fu"]["fleet"], xr.DataArray):
-                self.fleet = self.scope["fu"]["fleet"]
-            else:
-
-                # check if a path as string is provided
-                if isinstance(self.scope["fu"]["fleet"], str):
-                    filepath = Path(self.scope["fu"]["fleet"])
-
-                # check if instance of pathlib is provided instead
-                elif isinstance(self.scope["fu"]["fleet"], Path):
-                    filepath = self.scope["fu"]["fleet"]
-
-                else:
-                    raise TypeError(
-                        "The format used to specify fleet compositions is not valid."
-                        "A file path that points to a CSV file is expected. "
-                        "Or an array of type xarray.DataArray."
-                    )
-
-                if not filepath.is_file():
-                    raise FileNotFoundError(
-                        "The CSV file that contains fleet composition could not be found."
-                    )
-
-                if filepath.suffix != ".csv":
-                    raise TypeError(
-                        "A CSV file is expected to build the fleet composition."
-                    )
-
-                self.fleet = build_fleet_array(filepath, self.scope)
-
-        else:
-            self.fleet = None
-
-        array = array.sel(
+        arr = cm.array.sel(
             powertrain=self.scope["powertrain"],
             year=self.scope["year"],
             size=self.scope["size"],
         )
 
-        self.array = array.stack(desired=["size", "powertrain", "year"])
+        self.array = arr.stack(desired=["size", "powertrain", "year"])
 
-        self.compliant_vehicles = 1 - array.sel(parameter="has_low_range")
+        self.compliant_vehicles = 1 - arr.sel(parameter="has_low_range")
 
         # store some important specs for inventory documentation
-        self.specs = array.sel(
+        self.specs = arr.sel(
             parameter=[
                 "combustion power",
                 "electric power",
@@ -297,7 +260,7 @@ class InventoryCalculation:
             ]
         )
 
-        self.iterations = len(array.value.values)
+        self.iterations = len(arr.value.values)
 
         self.number_of_cars = (
             len(self.scope["size"])
@@ -312,36 +275,10 @@ class InventoryCalculation:
             x: i for i, x in enumerate(list(self.array.powertrain.values), 0)
         }
 
-        if background_configuration is not None:
-            self.background_configuration = background_configuration
-        else:
-            self.background_configuration = {}
-
-        if "energy storage" not in self.background_configuration:
-            self.background_configuration["energy storage"] = {
-                "electric": {"type": "NMC-622", "origin": "CN"}
-            }
-        else:
-            if "electric" not in self.background_configuration["energy storage"]:
-                self.background_configuration["energy storage"]["electric"] = {
-                    "type": "NMC-622",
-                    "origin": "CN",
-                }
-            else:
-                if (
-                    "origin"
-                    not in self.background_configuration["energy storage"]["electric"]
-                ):
-                    self.background_configuration["energy storage"]["electric"][
-                        "origin"
-                    ] = "CN"
-                if (
-                    "type"
-                    not in self.background_configuration["energy storage"]["electric"]
-                ):
-                    self.background_configuration["energy storage"]["electric"][
-                        "type"
-                    ] = "NMC-622"
+        self.background_configuration = {}
+        self.background_configuration["energy storage"] = cm.energy_storage
+        self.background_configuration["country"] = cm.country
+        self.background_configuration.update(background_configuration or {})
 
         self.inputs = self.get_dict_input()
         self.bs = BackgroundSystemModel()
@@ -450,8 +387,6 @@ class InventoryCalculation:
 
         sizes = self.scope["size"]
 
-        if isinstance(self.fleet, xr.core.dataarray.DataArray):
-            sizes += ["fleet average"]
 
         if not sensitivity:
 
@@ -601,20 +536,6 @@ class InventoryCalculation:
         # Fill in the A matrix with car parameters
         self.set_inputs_in_A_matrix(self.array.values)
 
-        # Add rows for fleet vehicles, if any
-        if isinstance(self.fleet, xr.DataArray):
-            self.build_fleet_vehicles()
-
-            # Update number of cars
-            self.number_of_cars += len(self.scope["year"]) * len(
-                self.scope["powertrain"]
-            )
-
-            # Update dictionary
-            self.get_rev_dict_input()
-
-            # Update B matrix
-            self.B = self.get_B_matrix()
 
         new_arr = np.float32(
             np.zeros((self.A.shape[1], self.B.shape[1], len(self.scope["year"])))
@@ -783,9 +704,7 @@ class InventoryCalculation:
             self.inputs[
                 (
                     "electricity market for energy storage production, " + str(y),
-                    self.background_configuration["energy storage"]["electric"][
-                        "origin"
-                    ],
+                    self.background_configuration["energy storage"]["origin"],
                     "kilowatt hour",
                     "electricity, low voltage, for energy storage production",
                 )
@@ -825,7 +744,7 @@ class InventoryCalculation:
                     if pt == "BEV":
                         chemistry = self.background_configuration["energy storage"][
                             "electric"
-                        ]["type"]
+                        ][(pt, s, y)]
                         name = f"transport, passenger car, {pt}, {chemistry} battery, {s}, {y}"
                         ref = "transport, passenger car"
 
@@ -877,7 +796,7 @@ class InventoryCalculation:
                     if pt == "BEV":
                         chemistry = self.background_configuration["energy storage"][
                             "electric"
-                        ]["type"]
+                        ][(pt, s, y)]
                         name = f"Passenger car, {pt}, {chemistry} battery, {s}, {y}"
                         ref = "Passenger car"
 
@@ -928,240 +847,6 @@ class InventoryCalculation:
         )
         return new_A
 
-    def build_fleet_vehicles(self):
-
-        # additional cars
-        n_cars = len(self.scope["year"]) * len(self.scope["powertrain"]) + len(
-            self.scope["year"]
-        )
-        self.A = np.pad(self.A, ((0, 0), (0, n_cars), (0, n_cars)))
-        maximum = max(self.inputs.values())
-
-        for pt in self.scope["powertrain"]:
-
-            for y in self.scope["year"]:
-
-                # share of the powertrain that year, all sizes
-                share_pt = self.fleet.sel(powertrain=pt, variable=y).sum().values
-
-                name = "transport, passenger car, fleet average, " + pt + ", " + str(y)
-
-                maximum += 1
-
-                if self.scope["fu"]["unit"] == "vkm":
-                    unit = "kilometer"
-                else:
-                    unit = "person kilometer"
-
-                self.inputs[
-                    (
-                        name,
-                        self.background_configuration["country"],
-                        unit,
-                        "transport, passenger car, fleet average",
-                    )
-                ] = maximum
-
-                self.A[:, maximum, maximum] = 1
-
-                if share_pt > 0:
-                    for s in self.fleet.coords["size"].values:
-                        for vin_year in range(min(self.scope["year"]), y + 1):
-                            if vin_year in self.fleet.vintage_year:
-                                fleet_share = (
-                                    self.fleet.sel(
-                                        powertrain=pt,
-                                        vintage_year=vin_year,
-                                        size=s,
-                                        variable=y,
-                                    )
-                                    .sum()
-                                    .values
-                                    / share_pt
-                                )
-
-                                if fleet_share > 0:
-
-                                    car_index = [
-                                        self.inputs[i]
-                                        for i in self.inputs
-                                        if all(
-                                            [
-                                                item in i[0]
-                                                for item in [
-                                                    pt,
-                                                    str(vin_year),
-                                                    s,
-                                                    "transport",
-                                                ]
-                                            ]
-                                        )
-                                    ][0]
-
-                                    car_inputs = (
-                                        self.A[:, : car_index - 1, car_index]
-                                        * fleet_share
-                                    )
-
-                                    self.A[:, : car_index - 1, maximum] += car_inputs
-
-                    # Fuel and electricity supply must be from the fleet year, not the vintage year
-
-                    d_map_fuel = {
-                        "ICEV-p": "gasoline",
-                        "ICEV-d": "diesel",
-                        "ICEV-g": "gas",
-                        "HEV-p": "gasoline",
-                        "HEV-d": "diesel",
-                        "PHEV-p": "gasoline",
-                        "PHEV-d": "diesel",
-                        "BEV": "electric",
-                        "FCEV": "hydrogen",
-                    }
-
-                    ind_supply = [
-                        self.inputs[i]
-                        for i in self.inputs
-                        if "supply for " + d_map_fuel[pt] + " vehicles, " in i[0]
-                    ]
-                    amount_fuel = self.A[:, ind_supply, maximum].sum(axis=1)
-
-                    # zero out initial fuel inputs
-                    self.A[:, ind_supply, maximum] = 0
-
-                    # set saved amount to current fuel supply provider
-                    current_provider = [
-                        self.inputs[i]
-                        for i in self.inputs
-                        if "supply for " + d_map_fuel[pt] + " vehicles, " + str(y)
-                        in i[0]
-                    ]
-                    self.A[:, current_provider, maximum] = amount_fuel
-
-                    if pt in ["PHEV-p", "PHEV-d"]:
-                        ind_supply = [
-                            self.inputs[i]
-                            for i in self.inputs
-                            if "supply for electric vehicles, " in i[0]
-                        ]
-                        amount_fuel = self.A[:, ind_supply, maximum].sum(axis=1)
-
-                        # zero out initial fuel inputs
-                        self.A[:, ind_supply, maximum] = 0
-
-                        # set saved amount to current fuel supply provider
-                        current_provider = [
-                            self.inputs[i]
-                            for i in self.inputs
-                            if "supply for electric vehicles, " + str(y) in i[0]
-                        ]
-                        self.A[:, current_provider, maximum] = amount_fuel
-
-        # We also want to produce a fleet average vehicle, with all powertrain types
-
-        for y in self.scope["year"]:
-
-            # share of that year, all sizes and powertrains
-            share_pt = self.fleet.sel(variable=y).sum().values
-
-            name = "transport, passenger car, fleet average, all powertrains, " + str(y)
-
-            maximum += 1
-
-            if self.scope["fu"]["unit"] == "vkm":
-                unit = "kilometer"
-            else:
-                unit = "person kilometer"
-
-            self.inputs[
-                (
-                    name,
-                    self.background_configuration["country"],
-                    unit,
-                    "transport, passenger car, fleet average",
-                )
-            ] = maximum
-
-            self.A[:, maximum, maximum] = 1
-
-            if share_pt > 0:
-                for pt in self.fleet.coords["powertrain"].values:
-                    for s in self.fleet.coords["size"].values:
-                        for vin_year in range(min(self.scope["year"]), y + 1):
-
-                            if vin_year in self.fleet.vintage_year:
-
-                                fleet_share = (
-                                    self.fleet.sel(
-                                        powertrain=pt,
-                                        vintage_year=vin_year,
-                                        size=s,
-                                        variable=y,
-                                    )
-                                    .sum()
-                                    .values
-                                    / share_pt
-                                )
-
-                                if fleet_share > 0:
-                                    car_index = [
-                                        self.inputs[i]
-                                        for i in self.inputs
-                                        if all(
-                                            [
-                                                item in i[0]
-                                                for item in [
-                                                    pt,
-                                                    str(vin_year),
-                                                    s,
-                                                    "transport",
-                                                ]
-                                            ]
-                                        )
-                                    ][0]
-
-                                    car_inputs = (
-                                        self.A[:, : car_index - 1, car_index]
-                                        * fleet_share
-                                    )
-
-                                    self.A[:, : car_index - 1, maximum] += car_inputs
-
-            # Fuel and electricity supply must be from the fleet year, not the vintage year
-            d_map_fuel = {
-                "ICEV-p": "gasoline",
-                "ICEV-d": "diesel",
-                "ICEV-g": "gas",
-                "HEV-p": "gasoline",
-                "HEV-d": "diesel",
-                "PHEV-p": "gasoline",
-                "PHEV-d": "diesel",
-                "BEV": "electric",
-                "FCEV": "hydrogen",
-            }
-
-            for fuel_type in set(d_map_fuel.values()):
-
-                ind_supply = [
-                    self.inputs[i]
-                    for i in self.inputs
-                    if "supply for " + fuel_type + " vehicles, " in i[0]
-                ]
-                amount_fuel = self.A[:, ind_supply, maximum].sum(axis=1)
-
-                if amount_fuel > 0:
-
-                    # zero out initial fuel inputs
-                    self.A[:, ind_supply, maximum] = 0
-
-                    # set saved amount to current fuel supply provider
-                    current_provider = [
-                        self.inputs[i]
-                        for i in self.inputs
-                        if "supply for " + fuel_type + " vehicles, " + str(y) in i[0]
-                    ]
-
-                    self.A[:, current_provider, maximum] = amount_fuel
 
     def get_B_matrix(self):
         """
@@ -1265,7 +950,6 @@ class InventoryCalculation:
             for row in input_dict:
                 if "(" in row[1]:
                     row[1] = eval(row[1])
-
                     csv_dict[(row[0], row[1], row[2])] = count
                 else:
                     csv_dict[(row[0], row[1], row[2], row[3])] = count
@@ -1343,7 +1027,8 @@ class InventoryCalculation:
         self, items_to_look_for, items_to_look_for_also=None, method="or"
     ):
         """
-        Return list of row/column indices of self.array of labels that contain the string defined in `items_to_look_for`.
+        Return list of row/column indices of self.cm.array of labels
+        that contain the string defined in `items_to_look_for`.
 
         :param items_to_look_for_also:
         :param method:
@@ -1405,7 +1090,6 @@ class InventoryCalculation:
         for i in self.inputs:
             if (
                 "passenger car, " in i[0].lower()
-                and "fleet average" not in i[0].lower()
                 and "market" not in i[0].lower()
                 and "used" not in i[0].lower()
             ):
@@ -1552,19 +1236,6 @@ class InventoryCalculation:
 
             self.set_inputs_in_A_matrix(self.array.values)
 
-        # Add rows for fleet vehicles, if any
-        if isinstance(self.fleet, xr.DataArray):
-            print("Building fleet average vehicles...")
-            self.build_fleet_vehicles()
-
-            # Update dictionary
-            self.rev_inputs = self.get_rev_dict_input()
-
-            # Update number of cars
-            self.number_of_cars += len(self.scope["year"]) * len(
-                self.scope["powertrain"]
-            )
-
         # Remove vehicles not compliant or available
         self.resize_A_matrix_for_export()
 
@@ -1700,19 +1371,6 @@ class InventoryCalculation:
             self.set_inputs_in_A_matrix(self.array.values)
 
             self.create_fuel_dictionary()
-
-        # Add rows for fleet vehicles, if any
-        if isinstance(self.fleet, xr.DataArray):
-            print("Building fleet average vehicles...")
-            self.build_fleet_vehicles()
-
-            # Update dictionary
-            self.rev_inputs = self.get_rev_dict_input()
-
-            # Update number of cars
-            self.number_of_cars += len(self.scope["year"]) * len(
-                self.scope["powertrain"]
-            )
 
         # Remove vehicles not compliant or available
         self.resize_A_matrix_for_export()
@@ -1857,19 +1515,6 @@ class InventoryCalculation:
             self.set_actual_range()
 
             self.set_inputs_in_A_matrix(self.array.values)
-
-        # Add rows for fleet vehicles, if any
-        if isinstance(self.fleet, xr.core.dataarray.DataArray):
-            print("Building fleet average vehicles...")
-            self.build_fleet_vehicles()
-
-            # Update dictionary
-            self.rev_inputs = self.get_rev_dict_input()
-
-            # Update number of cars
-            self.number_of_cars += len(self.scope["year"]) * len(
-                self.scope["powertrain"]
-            )
 
         # Remove vehicles not compliant or available
         self.resize_A_matrix_for_export()
@@ -2178,7 +1823,7 @@ class InventoryCalculation:
         :return:
         """
 
-        battery_origin = self.background_configuration["energy storage"]["electric"][
+        battery_origin = self.background_configuration["energy storage"][
             "origin"
         ]
 
@@ -2397,7 +2042,7 @@ class InventoryCalculation:
                 "Will use European biofuel share instead."
             )
             region = "EUR"
-        scenario = self.scenario if self.scenario != "static" else "SSP2-Base"
+        scenario = self.scenario if self.scenario != "static" else "SSP2-NPi"
 
         share_biofuel = (
             self.bs.biofuel.sel(
@@ -3468,23 +3113,22 @@ class InventoryCalculation:
             end="\n * ",
         )
 
-        battery_tech = self.background_configuration["energy storage"]["electric"][
-            "type"
-        ]
-        battery_origin = self.background_configuration["energy storage"]["electric"][
+        battery_tech = list(set(list(self.background_configuration["energy storage"]["electric"].values())))
+        battery_origin = self.background_configuration["energy storage"][
             "origin"
         ]
 
+
         print(
             "Power and energy batteries produced "
-            f"in {battery_origin} using {battery_tech} chemistry",
+            f"in {battery_origin} using {battery_tech} chemistry/ies",
             end="\n * ",
         )
 
         self.A[
             :,
             self.inputs[("Battery BoP", "GLO", "kilogram", "Battery BoP")],
-            -self.number_of_cars :,
+            -self.number_of_cars:,
         ] = (
             (
                 array[self.array_inputs["battery BoP mass"], :]
@@ -3495,7 +3139,7 @@ class InventoryCalculation:
         )
 
         battery_cell_label = (
-            f"Battery cell, {battery_tech}",
+            f"Battery cell, {battery_tech[0]}",
             "GLO",
             "kilogram",
             "Battery cell",
@@ -4547,49 +4191,50 @@ class InventoryCalculation:
         # but only to cars with an AC system (meaning, with a cooling energy consumption)
         # and only cars from before 2021 (in the EU)
 
-        idx_cars_before_2022 = [
-            self.inputs[i]
-            for i in self.inputs
-            if "transport, passenger car, " in i[0]
-            and int(re.findall("([, ]+[0-9]+)", i[0])[0].replace(", ", "")) < 2022
-        ]
-        index = self.get_index_vehicle_from_array(
-            [i for i in self.scope["year"] if i < 2022]
-        )
-
-        self.A[
-            :,
-            self.inputs[
-                ("Ethane, 1,1,1,2-tetrafluoro-, HFC-134a", ("air",), "kilogram")
-            ],
-            idx_cars_before_2022,
-        ] = (
-            (
-                0.750
-                / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
-                * -1
-            )
-            * self.array.values[
-                self.array_inputs["cooling energy consumption"], :, index
+        if any(y < 2022 for y in self.scope["year"]):
+            idx_cars_before_2022 = [
+                self.inputs[i]
+                for i in self.inputs
+                if "transport, passenger car, " in i[0]
+                and int(re.findall("([, ]+[0-9]+)", i[0])[0].replace(", ", "")) < 2022
             ]
-        ).T
-
-        self.A[
-            :,
-            self.inputs[
-                ("market for refrigerant R134a", "GLO", "kilogram", "refrigerant R134a")
-            ],
-            idx_cars_before_2022,
-        ] = (
-            (
-                (0.75 + 0.55)
-                / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
-                * -1
+            index = self.get_index_vehicle_from_array(
+                [i for i in self.scope["year"] if i < 2022]
             )
-            * self.array.values[
-                self.array_inputs["cooling energy consumption"], :, index
-            ]
-        ).T
+
+            self.A[
+                :,
+                self.inputs[
+                    ("Ethane, 1,1,1,2-tetrafluoro-, HFC-134a", ("air",), "kilogram")
+                ],
+                idx_cars_before_2022,
+            ] = (
+                (
+                    0.750
+                    / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
+                    * -1
+                )
+                * self.array.values[
+                    self.array_inputs["cooling energy consumption"], :, index
+                ]
+            ).T
+
+            self.A[
+                :,
+                self.inputs[
+                    ("market for refrigerant R134a", "GLO", "kilogram", "refrigerant R134a")
+                ],
+                idx_cars_before_2022,
+            ] = (
+                (
+                    (0.75 + 0.55)
+                    / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
+                    * -1
+                )
+                * self.array.values[
+                    self.array_inputs["cooling energy consumption"], :, index
+                ]
+            ).T
 
         print("*********************************************************************")
 
@@ -4862,19 +4507,14 @@ class InventoryCalculation:
             end="\n * ",
         )
 
-        battery_tech = self.background_configuration["energy storage"]["electric"][
-            "type"
-        ]
+        battery_tech = list(set(list(self.background_configuration["energy storage"]["electric"].values())))
         battery_origin = self.background_configuration["energy storage"]["electric"][
             "origin"
         ]
 
         print(
-            "Power and energy batteries produced in "
-            + battery_origin
-            + " using "
-            + battery_tech
-            + " chemistry.",
+            "Power and energy batteries produced "
+            f"in {battery_origin} using {battery_tech} chemistry/ies",
             end="\n * ",
         )
 
@@ -4889,11 +4529,12 @@ class InventoryCalculation:
         ) * -1
 
         battery_cell_label = (
-            "Battery cell, " + battery_tech,
+            "Battery cell, " + battery_tech[0],
             "GLO",
             "kilogram",
             "Battery cell",
         )
+
 
         self.A[
             :,
@@ -5929,49 +5570,50 @@ class InventoryCalculation:
         # but only to cars with an AC system (meaning, with a cooling energy consumption)
         # and only for vehicles before 2022
 
-        idx_cars_before_2022 = [
-            self.inputs[i]
-            for i in self.inputs
-            if "transport, passenger car, " in i[0]
-            and int(re.findall("([, ]+[0-9]+)", i[0])[0].replace(", ", "")) < 2022
-        ]
-        index = self.get_index_vehicle_from_array(
-            [i for i in self.scope["year"] if i < 2022]
-        )
-
-        self.A[
-            :,
-            self.inputs[
-                ("Ethane, 1,1,1,2-tetrafluoro-, HFC-134a", ("air",), "kilogram")
-            ],
-            idx_cars_before_2022,
-        ] = (
-            (
-                0.750
-                / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
-                * -1
-            )
-            * self.array.values[
-                self.array_inputs["cooling energy consumption"], :, index
+        if any(y < 2022 for y in self.scope["year"]):
+            idx_cars_before_2022 = [
+                self.inputs[i]
+                for i in self.inputs
+                if "transport, passenger car, " in i[0]
+                and int(re.findall("([, ]+[0-9]+)", i[0])[0].replace(", ", "")) < 2022
             ]
-        ).T
-
-        self.A[
-            :,
-            self.inputs[
-                ("market for refrigerant R134a", "GLO", "kilogram", "refrigerant R134a")
-            ],
-            idx_cars_before_2022,
-        ] = (
-            (
-                (0.75 + 0.55)
-                / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
-                * -1
+            index = self.get_index_vehicle_from_array(
+                [i for i in self.scope["year"] if i < 2022]
             )
-            * self.array.values[
-                self.array_inputs["cooling energy consumption"], :, index
-            ]
-        ).T
+
+            self.A[
+                :,
+                self.inputs[
+                    ("Ethane, 1,1,1,2-tetrafluoro-, HFC-134a", ("air",), "kilogram")
+                ],
+                idx_cars_before_2022,
+            ] = (
+                (
+                    0.750
+                    / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
+                    * -1
+                )
+                * self.array.values[
+                    self.array_inputs["cooling energy consumption"], :, index
+                ]
+            ).T
+
+            self.A[
+                :,
+                self.inputs[
+                    ("market for refrigerant R134a", "GLO", "kilogram", "refrigerant R134a")
+                ],
+                idx_cars_before_2022,
+            ] = (
+                (
+                    (0.75 + 0.55)
+                    / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
+                    * -1
+                )
+                * self.array.values[
+                    self.array_inputs["cooling energy consumption"], :, index
+                ]
+            ).T
 
         print("*********************************************************************")
 
