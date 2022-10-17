@@ -741,7 +741,7 @@ class InventoryCalculation:
                     if pt == "BEV":
                         chemistry = self.background_configuration["energy storage"][
                             "electric"
-                        ][(pt, s, y)]
+                        ].get((pt, s, y), "NMC-622")
                         name = f"transport, passenger car, {pt}, {chemistry} battery, {s}, {y}"
                         ref = "transport, passenger car"
 
@@ -793,7 +793,7 @@ class InventoryCalculation:
                     if pt == "BEV":
                         chemistry = self.background_configuration["energy storage"][
                             "electric"
-                        ][(pt, s, y)]
+                        ].get((pt, s, y), "NMC-622")
                         name = f"Passenger car, {pt}, {chemistry} battery, {s}, {y}"
                         ref = "Passenger car"
 
@@ -1819,7 +1819,7 @@ class InventoryCalculation:
         :return:
         """
 
-        battery_origin = self.background_configuration["energy storage"]["origin"]
+        battery_origin = self.background_configuration["energy storage"].get("origin", "CN")
 
         if battery_origin != "custom electricity mix":
 
@@ -3114,7 +3114,7 @@ class InventoryCalculation:
                 )
             )
         )
-        battery_origin = self.background_configuration["energy storage"]["origin"]
+        battery_origin = self.background_configuration["energy storage"].get("origin", "CN")
 
         print(
             "Power and energy batteries produced "
@@ -4520,9 +4520,7 @@ class InventoryCalculation:
                 )
             )
         )
-        battery_origin = self.background_configuration["energy storage"][
-            "origin"
-        ]
+        battery_origin = self.background_configuration["energy storage"].get("origin", "CN")
 
         print(
             "Power and energy batteries produced "
