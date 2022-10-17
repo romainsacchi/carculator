@@ -33,7 +33,7 @@ class CarModel:
     def __init__(
         self,
         array: xr.DataArray,
-        country = "RER",
+        country="RER",
         cycle: Union[None, str, np.ndarray] = None,
         gradient: Union[None, np.ndarray] = None,
         energy_storage: Union[None, Dict] = None,

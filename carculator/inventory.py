@@ -188,9 +188,9 @@ class InventoryCalculation:
         cm,
         scope: dict = None,
         background_configuration: dict = None,
-        scenario: str ="SSP2-NPi",
-        method: str ="recipe",
-        method_type: str ="midpoint",
+        scenario: str = "SSP2-NPi",
+        method: str = "recipe",
+        method_type: str = "midpoint",
     ) -> None:
 
         if scope is None:
@@ -228,7 +228,6 @@ class InventoryCalculation:
 
         self.scope = scope
         self.scenario = scenario
-
 
         arr = cm.array.sel(
             powertrain=self.scope["powertrain"],
@@ -387,7 +386,6 @@ class InventoryCalculation:
 
         sizes = self.scope["size"]
 
-
         if not sensitivity:
 
             response = xr.DataArray(
@@ -535,7 +533,6 @@ class InventoryCalculation:
 
         # Fill in the A matrix with car parameters
         self.set_inputs_in_A_matrix(self.array.values)
-
 
         new_arr = np.float32(
             np.zeros((self.A.shape[1], self.B.shape[1], len(self.scope["year"])))
@@ -846,7 +843,6 @@ class InventoryCalculation:
             (self.array.shape[1], new_A.shape[0], new_A.shape[1]),
         )
         return new_A
-
 
     def get_B_matrix(self):
         """
@@ -1823,9 +1819,7 @@ class InventoryCalculation:
         :return:
         """
 
-        battery_origin = self.background_configuration["energy storage"][
-            "origin"
-        ]
+        battery_origin = self.background_configuration["energy storage"]["origin"]
 
         if battery_origin != "custom electricity mix":
 
@@ -3113,11 +3107,14 @@ class InventoryCalculation:
             end="\n * ",
         )
 
-        battery_tech = list(set(list(self.background_configuration["energy storage"]["electric"].values())))
-        battery_origin = self.background_configuration["energy storage"][
-            "origin"
-        ]
-
+        battery_tech = list(
+            set(
+                list(
+                    self.background_configuration["energy storage"]["electric"].values()
+                )
+            )
+        )
+        battery_origin = self.background_configuration["energy storage"]["origin"]
 
         print(
             "Power and energy batteries produced "
@@ -3128,7 +3125,7 @@ class InventoryCalculation:
         self.A[
             :,
             self.inputs[("Battery BoP", "GLO", "kilogram", "Battery BoP")],
-            -self.number_of_cars:,
+            -self.number_of_cars :,
         ] = (
             (
                 array[self.array_inputs["battery BoP mass"], :]
@@ -4211,7 +4208,9 @@ class InventoryCalculation:
             ] = (
                 (
                     0.750
-                    / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
+                    / self.array.values[
+                        self.array_inputs["lifetime kilometers"], :, index
+                    ]
                     * -1
                 )
                 * self.array.values[
@@ -4222,13 +4221,20 @@ class InventoryCalculation:
             self.A[
                 :,
                 self.inputs[
-                    ("market for refrigerant R134a", "GLO", "kilogram", "refrigerant R134a")
+                    (
+                        "market for refrigerant R134a",
+                        "GLO",
+                        "kilogram",
+                        "refrigerant R134a",
+                    )
                 ],
                 idx_cars_before_2022,
             ] = (
                 (
                     (0.75 + 0.55)
-                    / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
+                    / self.array.values[
+                        self.array_inputs["lifetime kilometers"], :, index
+                    ]
                     * -1
                 )
                 * self.array.values[
@@ -4507,7 +4513,13 @@ class InventoryCalculation:
             end="\n * ",
         )
 
-        battery_tech = list(set(list(self.background_configuration["energy storage"]["electric"].values())))
+        battery_tech = list(
+            set(
+                list(
+                    self.background_configuration["energy storage"]["electric"].values()
+                )
+            )
+        )
         battery_origin = self.background_configuration["energy storage"]["electric"][
             "origin"
         ]
@@ -4534,7 +4546,6 @@ class InventoryCalculation:
             "kilogram",
             "Battery cell",
         )
-
 
         self.A[
             :,
@@ -5590,7 +5601,9 @@ class InventoryCalculation:
             ] = (
                 (
                     0.750
-                    / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
+                    / self.array.values[
+                        self.array_inputs["lifetime kilometers"], :, index
+                    ]
                     * -1
                 )
                 * self.array.values[
@@ -5601,13 +5614,20 @@ class InventoryCalculation:
             self.A[
                 :,
                 self.inputs[
-                    ("market for refrigerant R134a", "GLO", "kilogram", "refrigerant R134a")
+                    (
+                        "market for refrigerant R134a",
+                        "GLO",
+                        "kilogram",
+                        "refrigerant R134a",
+                    )
                 ],
                 idx_cars_before_2022,
             ] = (
                 (
                     (0.75 + 0.55)
-                    / self.array.values[self.array_inputs["lifetime kilometers"], :, index]
+                    / self.array.values[
+                        self.array_inputs["lifetime kilometers"], :, index
+                    ]
                     * -1
                 )
                 * self.array.values[
