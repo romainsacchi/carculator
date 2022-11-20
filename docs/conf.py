@@ -61,7 +61,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 #
 html_logo = "_static/img/mediumsmall.png"
 html_favicon = "_static/img/favicon.png"
-html_title = "Carculator truck"
+html_title = "Carculator"
 
 html_theme = "sphinx_immaterial"
 
@@ -73,7 +73,7 @@ html_theme_options = {
     "font": {"text": "Fira Sans", "code": "JetBrains Mono"},
     "site_url": "https://carculator.readthedocs.io",
     "repo_url": "https://github.com/romainsacchi/carculator",
-    "repo_name": "romainsacchi/carculator_truck",
+    "repo_name": "romainsacchi/carculator",
     "repo_type": "github",
     "edit_uri": "blob/master/docs/",
     "globaltoc_collapse": True,
