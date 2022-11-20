@@ -1,3 +1,5 @@
+.. _validity:
+
 Validity tests
 ==============
 
@@ -86,7 +88,7 @@ Which can be also be verified visually::
     plt.savefig('comparison_driving_cycle.png')
     plt.show()
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/comparison_driving_cycle.png
+.. image:: /_static/img/comparison_driving_cycle.png
     :width: 400
     :alt: Alternative text
     
@@ -126,7 +128,7 @@ However, most of the driving mass is explained by the curb mass::
         parameter=['total cargo mass', 'curb mass']).values).tolist(), labels=['Total cargo mass', 'Curb mass'])
     plt.show()
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/pie_total_mass.png
+.. image:: /_static/img/pie_total_mass.png
     :width: 400
     :alt: Alternative text
     
@@ -186,7 +188,7 @@ On an equivalent diesel powertrain, the mass of the glider base is comparatively
     plt.subplots_adjust(wspace=1)
     plt.show()
   
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/pie_mass_components.png
+.. image:: /_static/img/pie_mass_components.png
     :width: 900
     :alt: Alternative text
     
@@ -197,6 +199,6 @@ For example, we use the car database Car2db (https://car2db.com/) and load all t
 The same exercise is done with vehicles between 2008 and 2012 to calibrate the curb mass of given by carculator for vehicles in 2010.
 
     
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/mass_comparison.png
+.. image:: /_static/img/mass_comparison.png
     :width: 900
     :alt: Alternative text

@@ -1,0 +1,5 @@
+sphinx
+sphinx-immaterial
+sphinx-copybutton
+sphinx_design
+sphinxcontrib-bibtex

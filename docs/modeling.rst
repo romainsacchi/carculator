@@ -1,57 +1,7 @@
-Sections
-********
+.. _model:
 
-`1 Overview of carculator modules <#overview-of-carculator-modules>`__
-
-`2 Vehicle modelling <#vehicle-modelling>`__
-
-`2.1 Size classes <#size-classes>`__
-
-`2.2 Manufacture year and emission standard <#manufacture-year-and-emission-standard>`__
-
-`2.3 Size and mass-related parameters and modeling <#size-and-mass-related-parameters-and-modeling>`__
-
-`2.4 Electric energy storage <#electric-energy-storage>`__
-
-`2.5 Fuel cell stack <#fuel-cell-stack>`__
-
-`2.6 Light weighting <#light-weighting>`__
-
-`2.7 Sizing of onboard energy storage <#sizing-of-onboard-energy-storage>`__
-
-`2.7.1 Sizing of battery <#sizing-of-battery>`__
-
-`2.8 Electric utility factor <#electric-utility-factor>`__
-
-`3 Inventory modelling <#inventory-modelling>`__
-
-`3.1 Road demand <#road-demand>`__
-
-`3.2 Fuel properties <#fuel-properties>`__
-
-`3.3 Exhaust emissions <#exhaust-emissions>`__
-
-`3.3.1 NMHC speciation <#nmhc-speciation>`__
-
-`3.4 Non-exhaust emissions <#non-exhaust-emissions>`__
-
-`3.4.1 Engine wear emissions <#engine-wear-emissions>`__
-
-`3.4.2 Abrasion emissions <#abrasion-emissions>`__
-
-`3.4.3 Refrigerant emissions <#refrigerant-emissions>`__
-
-`3.5 Noise emissions <#noise-emissions>`__
-
-`3.6 Electricity mix calculation <#electricity-mix-calculation>`__
-
-`3.7 Inventories for fuel pathways <#inventories-for-fuel-pathways>`__
-
-`3.8 Inventories for energy storage components <#inventories-for-energy-storage-components>`__
-
-`4 Life cycle impact assessment <#life-cycle-impact-assessment>`__
-
-`References <#references>`__
+Modeling
+========
 
 This document intends to describe the *carculator* model, assumptions
 and inventories as exhaustively as possible.
@@ -117,30 +67,30 @@ Table 1 Criteria for size classes
 
 Example of Micro car (Microlino), Mini car (Smart) and Small/Compact car (VW Polo)
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image1.png
+.. image:: /_static/img/image1.png
     :width: 30%
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image2.jpeg
+.. image:: /_static/img/image2.jpeg
     :width: 30%
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image3.png
+.. image:: /_static/img/image3.png
     :width: 30%
 
 Example of Lower medium car (VW Golf), Medium car (Peugeot 408) and Large car (Tesla Model 3)
 
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image4.png
+.. image:: /_static/img/image4.png
     :width: 30%
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image5.jpeg
+.. image:: /_static/img/image5.jpeg
     :width: 30%
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image6.png
+.. image:: /_static/img/image6.png
     :width: 30%
 
 Example of Medium SUV car (Peugeot 2008), Large SUV car (Audi Q7) and Van (Fiat Ducato)
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image7.png
+.. image:: /_static/img/image7.png
     :width: 30%
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image8.png
+.. image:: /_static/img/image8.png
     :width: 30%
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image9.png
+.. image:: /_static/img/image9.png
     :width: 30%
 
 **Important remark**: Micro cars are not considered passenger cars in
@@ -199,7 +149,7 @@ curb mass of the vehicle. The curb mass of the vehicle is the sum of
 the vehicle components (excluding the driver and possible cargo) as
 represented in Figure 2.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image10.png
+.. image:: /_static/img/image10.png
    :width: 100%
 
 Figure 2 Vehicle mass calculation workflow
@@ -207,7 +157,7 @@ Figure 2 Vehicle mass calculation workflow
 This is an iterative process that stops when the curb mass of the
 vehicle converges, as illustrated in Figure 3.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image11.png
+.. image:: /_static/img/image11.png
    :width: 6.26667in
    :height: 3.99167in
 
@@ -359,7 +309,7 @@ vehicles with. Green vertical bars represent the span of 50% of the curb
 mass distribution, and the red dots are the curb mass values modeled by
 *carculator*.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image12.png
+.. image:: /_static/img/image12.png
 
 Figure 4 Calibration of the curb mass of the passenger car model against
 the EC-CO2-PC database. Red dots: values modeled by carculator. Green
@@ -432,16 +382,16 @@ is subtracted from the recuperated energy. For hybrid vehicles (i.e.,
 HEV-p, HEV-d), this allows to downsize the combustion engine and improve
 the overall tank-to-wheel efficiency, as explained in [5]_.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image13.png
+.. image:: /_static/img/image13.png
    :width: 6.26667in
    :height: 2.49167in
 
 Figure 5 Representation of the different types of resistance considered.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image15.png
+.. image:: /_static/img/image15.png
    :width: 100%
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image14.png
+.. image:: /_static/img/image14.png
    :width: 20%
 
 
@@ -505,14 +455,14 @@ mountain driving.
 Figure 7 exemplifies such calculation for a medium battery electric
 passenger car manufactured in 2020, using the WLTC driving cycle.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image16.png
+.. image:: /_static/img/image16.png
    :width: 4.46667in
    :height: 2.69742in
 
 Figure 7 Cumulated tank-to-wheel energy consumption, along the WLTC
 driving cycle, for a mid-size battery electric vehicle from 2020
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image17.png
+.. image:: /_static/img/image17.png
    :width: 3.84722in
    :height: 1.94653in
 
@@ -547,7 +497,7 @@ Engine and transmission efficiencies for the different powertrains are
 fine-tuned until it aligns reasonably well with the fuel consumption
 values from the EC-CO2-PC database, as shown in Figure 9.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image18.png
+.. image:: /_static/img/image18.png
    :width: 100%
 
 Figure 9 Validation of the tank-to-wheel energy consumption against the
@@ -860,7 +810,7 @@ representative battery storage capacities available today on the market
 - which are represented in relation to the curb mass. The data is
 collected from the vehicle's registry of Touring Club Switzerland.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image19.png
+.. image:: /_static/img/image19.png
    :width: 6.24306in
    :height: 3.25326in
 
@@ -1194,7 +1144,7 @@ Six sources of emissions are considered:
 -  Other non-exhaust emissions: brake, tire road wear and re-suspended
    road dust emissions, as well as emissions of refrigerant.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image20.png
+.. image:: /_static/img/image20.png
    :width: 4.38333in
    :height: 2.325in
 
@@ -1260,7 +1210,7 @@ Table 15 Degradation factors at 200'000 km for passenger cars
 +-----------------------------------+--------------------------+-------+------+------------------------+------+
 
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image21.png
+.. image:: /_static/img/image21.png
    :width: 6.27014in
    :height: 7.84756in
 
@@ -1301,7 +1251,7 @@ early emission standards can be much higher that what is assumed in
 situation-weighted average emission factors and those used in
 *carculator*.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image22.png
+.. image:: /_static/img/image22.png
    :width: 6.27014in
    :height: 5.97153in
 
@@ -1471,7 +1421,7 @@ energy and the total negative motive energy corresponds to the amount of
 energy that needs to be provided by mechanical brakes. Table 20 lists
 such reduction actors for the different powertrains.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image23.png
+.. image:: /_static/img/image23.png
    :width: 4.1546in
    :height: 2.85in
 
@@ -1516,7 +1466,7 @@ evenly distributed between brake, road and tire wear particles.
 Figure 15 shows the calculated abrasion emissions for passenger cars in
 mg per vehicle-kilometer, following the approach presented above.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image24.png
+.. image:: /_static/img/image24.png
    :width: 6.26667in
    :height: 3.00136in
 
@@ -1570,7 +1520,7 @@ noise emissions are quantified separately.
 
 The sound power level of rolling noise is calculated using:
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image25.png
+.. image:: /_static/img/image25.png
    :width: 3.45in
    :height: 0.65in
 
@@ -1584,7 +1534,7 @@ And *A\ R,i,m* and *B\ R,i,m*\ are unitless and given in Table 23.
 
 The propulsion noise level is calculated using:
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image26.png
+.. image:: /_static/img/image26.png
    :width: 3.6in
    :height: 0.625in
 
@@ -1649,9 +1599,9 @@ noise emission characterization factors against midpoint and endpoint
 indicators - expressed in Person-Pascal-second and Disability-Adjusted
 Life Year, respectively.
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image27.png
+.. image:: /_static/img/image27.png
    :width: 60%
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/image28.png
+.. image:: /_static/img/image28.png
    :width: 30%
 
 Figure 16 a) Noise emission level comparison between ICEV and BEV, based
@@ -1936,118 +1886,3 @@ method, as well as those of ILCD 2018. Additionally, it is possible to
 export the inventories in a format compatible with the LCA framework
 Brightway2 [51] or Simapro [52], thereby allowing the characterization
 of the results against a larger number of impact assessment methods.
-
-
-References
-==========
-
-.. [1] Thiel C, Schmidt J, Van Zyl A, Schmid E. Cost and well-to-wheel implications of the vehicle fleet CO2 emission regulation in the European Union. Transp Res Part A Policy Pract 2014;63:25-42. https://doi.org/10.1016/j.tra.2014.02.018.
-
-.. [2] Ducker Frontier. Aluminum Content in European Passenger Cars. Eur Alum 2019:13.
-
-.. [3] European Commission. Monitoring of CO2 emissions from passenger cars - Regulation (EU) 2019/631 — European Environment Agency 2021. https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-19
-
-.. [4] European Environment Agency. Monitoring of CO2 emissions from passenger cars - Regulation (EC) No 443/2009 - European Environment Agency 2019. https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-16
-
-.. [5] Cox B, Bauer C, Mendoza Beltran A, van Vuuren DP, Mutel C. Life cycle environmental and cost comparison of current and future passenger cars under different energy scenarios. Appl Energy2 2020.
-
-.. [6] Bauer C, Cox B, Heck T, Hirschberg S, Hofer J, Schenler W, et al. Opportunities and challenges for electric mobility: an interdisciplinary assessment of passenger vehicles Final report of the THELMA project in co-operation with the Swiss Competence Center for Energy Research "Efficient technologies and systems for mobility." 2016.
-
-.. [7] Sacchi R, Bauer C, Cox B, When, Where and How can battery-electric vehicles help reduce greenhouse gas emissions? Renew Sustain Energy Rev 2022.
-
-.. [8] Veronika Henze. China Dominates the Lithium-ion Battery Supply Chain, but Europe is on the Rise. BloombergNEF 2020. https://about.bnef.com/blog/china-dominates-the-lithium-ion-battery-supply-chain-but-europe-is-on-the-rise/
-
-.. [9] Xinhua. China's CATL unveils cell-to-pack battery platform. 2019. http://www.xinhuanet.com/english/2019-09/13/c_138389934.htm (accessed November 14, 2021).
-
-.. [10] Mark K. BYD's New Blade Battery Set to Redefine EV safety Standards. INSIDEEVs 2020:1-2.
-
-.. [11] BatteryUniversity. BU-216: Summary Table of Lithium-based Batteries - Battery University 2021. https://batteryuniversity.com/article/bu-216-summary-table-of-lithium-based-batteries
-
-.. [12] Yang X-G, Liu T, Wang C-Y. Thermally modulated lithium iron phosphate batteries for mass-market electric vehicles. Nat Energy 2021 62 2021;6:176-85. https://doi.org/10.1038/s41560-020-00757-7.
-
-.. [13] Göhlich D, Fay TA, Jefferies D, Lauth E, Kunith A, Zhang X. Design of urban electric bus systems. Des Sci 2018;4. https://doi.org/10.1017/dsj.2018.10.
-
-.. [14] Preger Y, Barkholtz HM, Fresquez A, Campbell DL, Juba BW, Romàn-Kustas J, et al. Degradation of Commercial Lithium-Ion Cells as a Function of Chemistry and Cycling Conditions. J Electrochem Soc 2020;167:120532. https://doi.org/10.1149/1945-7111/abae37.
-
-.. [15] Cox B, Althaus H-J, Christian Bauer I, Sacchi R, Mutel C, Mireille Faist Emmenegger P, et al. Umweltauswirkungen von Fahrzeugen im urbanen Kontext Schlussbericht. 2020.
-
-.. [16] Schwertner M, Weidmann U. Comparison of well-to-wheel efficiencies for different drivetrain configurations of transit buses. Transp Res Rec 2016;2539:55-64. https://doi.org/10.3141/2539-07.
-
-.. [17] Simons A, Bauer C. A life-cycle perspective on automotive fuel cells. Appl Energy 2015;157:884-96. https://doi.org/10.1016/j.apenergy.2015.02.049.
-
-.. [18] Eudy L, Post M. Fuel Cell Buses in U.S. Transit Fleets: Current Status 2020. 2020.
-
-.. [19] Kurtz J, Sprik S, Saur G, Onorato S. Fuel Cell Electric Vehicle Durability and Fuel Cell Performance. 2018.
-
-.. [20] Mock P. Footprint versus mass: How to best account for weight reduction in the european vehicle CO2 regulation. vol. 2020. 2017.
-
-.. [21] Sebastian BM, Thimons MA. Life Cycle Greenhouse Gas and Energy Study of Automotive Lightweighting. 2017.
-
-.. [22] Hottle T, Caffrey C, McDonald J, Dodder R. Critical factors affecting life cycle assessments of material choice for vehicle mass reduction. Transp Res Part D, Transp Environ 2017;56:241. https://doi.org/10.1016/J.TRD.2017.08.010.
-
-.. [23] World Steel Association. STEEL IN THE CIRCULAR ECONOMY A life cycle perspective. Worldsteel Asscociation 2015:16.
-
-.. [24] Plötz P, Moll C, Bieker G, Mock P, Li Y. REAL-WORLD USAGE OF PLUG-IN HYBRID ELECTRIC VEHICLES FUEL CONSUMPTION, ELECTRIC DRIVING, AND CO2 EMISSIONS. 2020.
-
-.. [25] Spielmann M, Dones R, Bauer C. Life Cycle Inventories of Transport Services. Final report. Dübendorf and Villigen, CH: 2007.
-
-.. [26] Notter B, Keller M, Cox B. Handbook emission factors for road transport 4.1 Quick reference. 2019.
-
-.. [27] Swiss Federal Office for the Environment. Switzerland's National Inventory Report 2021. 2021.
-
-.. [28] Miller J, Jin L. Global Progress Toward Soot-Free Diesel Vehicles in 2019. Icct, Ccac 2019:35. https://theicct.org/sites/default/files/publications/Global_progress_sootfree_diesel_2019_20190920.pdf
-
-.. [29] International Energy Agency (IEA). Extended world energy balances 2021. https://doi.org/https://doi.org/10.1787/data-00513-en.
-
-.. [30] INFRAS. Handbook Emission Factors for Road Transport 2019. https://www.hbefa.net/e/index.html.
-
-.. [31] European Environment Agency. Air pollutant emission inventory guidebook 2019 2019. https://www.eea.europa.eu/publications/emep-eea-guidebook-2019/part-b-sectoral-guidance-chapters/1-energy/1-a-combustion/1-a-3-b-i/view.
-
-.. [32] Beddows DCS, Harrison RM. PM10 and PM2.5 emission factors for non-exhaust particles from road vehicles: Dependence upon vehicle mass and implications for battery electric vehicles. Atmos Environ 2021;244:117886. https://doi.org/10.1016/J.ATMOSENV.2020.117886.
-
-.. [33] US EPA. Emission Factor Documentation for AP-42, Section 13.2.1: Paved Roads. Measurement Policy Group, Office of Air Quality Planning and Standards. 2011.
-
-.. [34] Stolz P, Messmer A, Frischknecht R. Life Cycle Inventories of Road and Non-Road Transport Services. 2016.
-
-.. [35] Stylianos Kephalopoulos, Marco Paviotti FA-L. Common Noise Assessment Methods in Europe (CNOSSOS-EU). vol. 122. 2012.
-
-.. [36] Pallas MA, Bérengier M, Chatagnon R, Czuka M, Conter M, Muirhead M. Towards a model for electric vehicle noise emission in the European prediction method CNOSSOS-EU. Appl Acoust 2016;113:89-101. https://doi.org/10.1016/j.apacoust.2016.06.012.
-
-.. [37] Cucurachi S, Schiess S, Froemelt A, Hellweg S. Noise footprint from personal land-based mobility. J Ind Ecol 2019;23:1028-38. https://doi.org/10.1111/jiec.12837.
-
-.. [38] Entso-e. ENTSO-E Ten-Year Network Development Plan 2020 - Main Report - November 2020 - Version for public consultation 2020.
-
-.. [39] Sacchi R, Terlouw T, Siala K, Dirnaichner A, Bauer C, Cox B, et al. PRospective EnvironMental Impact asSEment (premise): a streamlined approach to producing databases for prospective Life Cycle Assessment using Integrated Assessment Models. Renew Sustain Energy Rev 2022.
-
-.. [40] Cozzolini F. Life Cycle Assessment of Biofuels in EU/CH. 2018.
-
-.. [41] Hank C, Lazar L, Mantei F, Ouda M, White RJ, Smolinka T, et al. Comparative well-to-wheel life cycle assessment of OME3-5 synfuel production via the power-to-liquid pathway. Sustain Energy Fuels 2019;3:3219-33. https://doi.org/10.1039/c9se00658c.
-
-.. [42] Van Der Giesen C, Kleijn R, Kramer GJ. Energy and climate impacts of producing synthetic hydrocarbon fuels from CO2. Environ Sci Technol 2014;48:7111-21. https://doi.org/10.1021/es500191g.
-
-.. [43] Zhang X, Witte J, Schildhauer T, Bauer C. Life cycle assessment of power-to-gas with biogas as the carbon source. Sustain Energy Fuels 2020. https://doi.org/10.1039/c9se00986h.
-
-.. [44] Antonini C, Treyer K, Moioli E, Bauer C, Mazzotti M. Hydrogen from wood gasification with CCS - a techno-environmental analysis of production and use as transport fuel. ChemRxiv 2020. https://doi.org/10.26434/chemrxiv.13213553.v1.
-
-.. [45] Antonini C, Treyer K, Streb A, van der Spek M, Bauer C, Mazzotti M. Hydrogen production from natural gas and biomethane with carbon capture and storage - A techno-environmental analysis. Sustain Energy Fuels 2020;4:2967-86. https://doi.org/10.1039/d0se00222d.
-
-.. [46] Bauer C, Desai H, Heck T, Schneider S, Terlouw T, Treyer K, et al. Electricity storage and hydrogen: Technologies, costs and environmental burdens. 2021.
-
-.. [47] Zhang X, Bauer C, Mutel CL, Volkart K. Life Cycle Assessment of Power-to-Gas: Approaches, system variations and their environmental implications. Appl Energy 2017;190:326-38. https://doi.org/10.1016/j.apenergy.2016.12.098.
-
-.. [48] Dai Q, Kelly JC, Gaines L, Wang M. Life Cycle Analysis of Lithium-Ion Batteries for Automotive Applications. Batter 2019, Vol 5, Page 48 2019;5:48. https://doi.org/10.3390/BATTERIES5020048.
-
-.. [49] Wernet G, Bauer C, Steubing B, Reinhard J, Moreno-Ruiz E, Weidema B. The ecoinvent database version 3 (part I): overview and methodology. Int J Life Cycle Assess 2016;21:1218-30.
-
-.. [50] Supply Chain Looms as Serious Threat to Batteries' Green Reputation \| Greentech Media n.d. https://www.greentechmedia.com/articles/read/graphite-the-biggest-threat-to-batteries-green-reputation
-
-.. [51] Engels P, Cerdas F, Dettmer T, Frey C, Hentschel J, Herrmann C, et al. Life cycle assessment of natural graphite production for lithium-ion battery anodes based on industrial primary data. J Clean Prod 2022;336:130474. https://doi.org/10.1016/J.JCLEPRO.2022.130474.
-
-.. [52] Simons A, Bauer C. A life-cycle perspective on automotive fuel cells. Appl Energy 2015;157:884-96. https://doi.org/10.1016/J.APENERGY.2015.02.049.
-
-.. [53] Benitez A, Wulf C, de Palmenaer A, Lengersdorf M, Röding T, Grube T, et al. Ecological assessment of fuel cell electric vehicles with special focus on type IV carbon fiber hydrogen tank. J Clean Prod 2021;278:123277. https://doi.org/10.1016/j.jclepro.2020.123277.
-
-.. [54] Evangelisti S, Tagliaferri C, Brett DJL, Lettieri P. Life cycle assessment of a polymer electrolyte membrane fuel cell system for passenger vehicles. J Clean Prod 2017;142:4339-55. https://doi.org/10.1016/j.jclepro.2016.11.159.
-
-
-

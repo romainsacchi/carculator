@@ -1,90 +1,14 @@
-Introduction
-============
+.. _usage:
 
-``carculator`` is a parameterized model that allows to generate and characterize life cycle inventories for different
-vehicle configurations, according to selected:
-
-* powertrain technologies (9): petrol engine, diesel engine, electric motor, hybrid, plugin-hybrid, etc.,
-* year of operation (2): 2000, 2010, 2020, 2040 (with the possibility to interpolate in between, and up to 2050)
-* and sizes (9): Micro, Mini, Large, etc.
-
-The methodology used to develop `carculator` is explained in:
-
-*When, where and how can the electrification of passenger cars reduce greenhouse gas emissions?*
-R
-omain Sacchi, Christian Bauer, Brian Cox, Christopher Mutel
-Renewable and Sustainable Energy Reviews, 2022.
-`https://doi.org/10.1016/j.rser.2022.112475 <https://doi.org/10.1016/j.rser.2022.112475>`_
-
-The tool has a focus on passenger cars.
-
-It is initially based on the model developed in `Uncertain environmental footprint of current and future battery electric
-vehicles by Cox, et al (2018) <https://pubs.acs.org/doi/10.1021/acs.est.8b00261>`_.
-
-More specifically, ``carculator`` generates `Brightway2 <https://brightwaylca.org/>`_ and `SimaPro <https://simapro.com/>`_ inventories, but also directly provides characterized
-results against several midpoint indicators from the impact assessment method ReCiPe, ILCD, as well as life cycle cost indicators.
-
-``carculator`` is a special in the way that it uses time- and energy-scenario-differentiated background inventories for the future,
-resulting from the coupling between the `ecoinvent database <https://ecoinvent.org>`_ and the scenario outputs of PIK's
-integrated assessment model `REMIND <https://www.pik-potsdam.de/research/transformation-pathways/models/remind/remind>`_.
-This allows to perform prospective study and consider future expected changes in regard to the production of electricity,
-cement, steel, heat, etc.
-
-Objective
----------
-
-The objective is to produce life cycle inventories for vehicles in a transparent, comprehensive and quick manner,
-to be further used in prospective LCA of transportation technologies.
-
-Why?
-----
-
-Many life cycle assessment (LCA) models of passenger cars exist. Yet, because LCA of vehicles, particularly for electric battery vehicles,
-are sensitive to assumptions made in regards to electricity mix used for charging, lifetime of the battery, etc., it has led
-to mixed conclusions being published in the scientific literature. Because the underlying calculations are kept undocumented,
-it is not always possible to explain the disparity in the results given by these models, which can contribute to adding confusion among the public.
-
-Because ``carculator`` is kept **as open as possible**, the methods and assumptions behind the generation of results are
-easily identifiable and adjustable.
-Also, there is an effort to keep the different modules (classes) separated, so that improving certain areas of the model is relatively
-easy and does not require changing extensive parts of the code. In that regard, contributions are welcome.
-
-Finally, beside being more flexible and transparent, ``carculator`` provides interesting features, such as:
-
-* a stochastic mode, that allows fast Monte Carlo analyses, to include uncertainty at the vehicle level
-* possibility to override any or all of the 200+ default input car parameters (e.g., number of passengers, drag coefficient) but also calculated parameters (e.g., driving mass).
-* hot pollutants emissions as a function of the driving cycle, using `HBEFA <https://www.hbefa.net/e/index.html>`_ 4.1 data, further divided between rural, suburban and urban areas
-* noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_ for inventory modelling and mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban and urban areas
-* export of inventories as an Excel/CSV file, to be used with Brightway2 or Simapro, including uncertainty information. This requires the user to have `ecoinvent` installed on the LCA software the car inventories are exported to.
-* export inventories directly into Brightway2, as a LCIImporter object to be registered. Additionally, when run in stochastic mode, it is possible to export arrays of pre-sampled values using the `presamples <https://pypi.org/project/presamples/>`_ library to be used together with the Monte Carlo function of Brightway2.
-* development of an online graphical user interface: `carculator online <https://carculator.psi.ch>`_
-
-How to install this package?
-----------------------------
-
-``carculator`` is a Python package, and is primarily to be used from within a Python 3.x environment.
-Because ``carculator`` is still at an early development stage, it is a good idea to install it in a separate environment,
-such as a conda environment::
-
-    conda create -n <name of the environment> python=3.7
-
-Once your environment created, you should activate it::
-
-    conda activate <name of the environment>
-
-And install the ``carculator`` library in your new environment via Conda::
-
-    pip install carculator
-
-This will install the package and the required dependencies.
-
-How to use it?
---------------
+Using Carculator
+================
 
 Static vs. Stochastic mode
-**************************
+--------------------------
 
-Note: many examples are given in this `notebook <https://github.com/romainsacchi/carculator/blob/master/examples/Examples.ipynb>`_ that you can run directly on your computer..
+.. note:: 
+
+    Many examples are given in this :download:`example notebook </_static/resources/examples.zip>` that you can run directly on your computer.
 
 The inventories can be calculated using the most likely value of the given input parameters ("static" mode), but also using
 randomly-generated values based on a probability distribution for those ("stochastic" mode).
@@ -146,8 +70,9 @@ In both case, a CarModel object is returned, with a 4-dimensional array `array` 
 :meth:`cm.set_all()` generates a CarModel object and calculates the energy consumption, components mass, as well as
 exhaust and non-exhaust emissions for all vehicle profiles.
 
+
 Custom values for given parameters
-**********************************
+----------------------------------
 
 You can pass your own values for the given parameters, effectively overriding the default values.
 
@@ -177,7 +102,7 @@ Then, you simply pass this dictionary to `modify_xarray_from_custom_parameters(<
     cm.set_all()
 
 Alternatively, instead of a Python dictionary, you can pass a file path pointing to an Excel spreadsheet that contains
-the values to change, following `this template <https://github.com/romainsacchi/carculator/raw/master/docs/template_workbook.xlsx>`_.
+the values to change, following `this template </_static/img/template_workbook.xlsx>`_.
 
 The following probability distributions are accepted:
 * "triangular"
@@ -187,7 +112,7 @@ The following probability distributions are accepted:
 * "none"
 
 Inter and extrapolation of parameters
-*************************************
+-------------------------------------
 
 ``carculator`` creates by default car models for the year 2000, 2010, 2020 and 2040.
 It is possible to inter and extrapolate all the parameters to other years simply by writing:
@@ -199,7 +124,7 @@ It is possible to inter and extrapolate all the parameters to other years simply
 However, we do not recommend extrapolating for years before 2000 or beyond 2050.
 
 Changing the driving cycle
-**************************
+--------------------------
 
 ``carculator`` gives the user the possibility to choose between several driving cycles. Driving cycles are determinant in
 many aspects of the car model: hot pollutant emissions, noise emissions, tank-to-wheel energy, etc. Hence, each driving
@@ -242,7 +167,7 @@ The user can also create custom driving cycles and pass it to the :class:`CarMod
     cm = CarModel(array, cycle=cycle)
 
 Accessing calculated parameters of the car model
-************************************************
+------------------------------------------------
 Hence, the tank-to-wheel energy requirement per km driven per powertrain technology for a SUV in 2020 can be obtained
 from the CarModel object:
 
@@ -254,7 +179,7 @@ from the CarModel object:
     plt.ylabel('kWh/100 km')
     plt.show()
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/fig_kwh_100km.png
+.. image:: /_static/img/fig_kwh_100km.png
     :width: 400
     :alt: Alternative text
 
@@ -271,7 +196,7 @@ value for the tank-to-wheel energy, you would have a distribution of values:
     plt.ylabel('kWh/100 km')
     plt.legend()
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/stochastic_example_ttw.png
+.. image:: /_static/img/stochastic_example_ttw.png
     :width: 400
     :alt: Alternative text
 
@@ -308,12 +233,12 @@ Or we could be interested in visualizing the distribution of non-characterized n
     data[data>0].plot(kind='bar')
     plt.ylabel('joules per km')
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/example_noise_emissions.png
+.. image:: /_static/img/example_noise_emissions.png
     :width: 400
     :alt: Alternative text
 
 Modify calculated parameters
-****************************
+----------------------------
 
 As input parameters, calculated parameters can also be overridden. For example here, we override the `driving mass`
 of large diesel vehicles for 2010 and 2020:
@@ -323,7 +248,7 @@ of large diesel vehicles for 2010 and 2020:
     cm.array.loc['Large','ICEV-d', 'driving mass', [2010, 2020]] = [[2000],[2200]]
 
 Characterization of inventories (static)
-****************************************
+----------------------------------------
 
 ``carculator`` makes the characterization of inventories easy. You can characterize the inventories directly from
 ``carculator`` against midpoint impact assessment methods.
@@ -345,7 +270,7 @@ Hence, to plot the carbon footprint for all medium cars in 2020:
     plt.ylabel('kg CO2-eq./vkm')
     plt.show()
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/example_carbon_footprint.png
+.. image:: /_static/img/example_carbon_footprint.png
     :width: 400
     :alt: Alternative text
 
@@ -354,7 +279,7 @@ class has been created, there is no need to re-create it in order to calculate a
 change values of certain input or calculated parameters, the driving cycle or go from static to stochastic mode).
 
 Characterization of inventories (stochastic)
-********************************************
+--------------------------------------------
 
 In the same manner, you can obtain distributions of results, instead of one-point values if you have run the model in
 stochastic mode (with 500 iterations and the driving cycle WLTC).
@@ -380,14 +305,14 @@ stochastic mode (with 500 iterations and the driving cycle WLTC).
     plt.ylabel('kg CO2-eq./vkm')
 
 
-.. image:: https://github.com/romainsacchi/carculator/raw/master/docs/example_stochastic_BEV_PHEV.png
+.. image:: /_static/img/example_stochastic_BEV_PHEV.png
     :width: 100%
     :alt: Alternative text
 
 Many other examples are described in a Jupyter Notebook in the ``examples`` folder.
 
 Export of inventories (static)
-******************************
+------------------------------
 
 Inventories can be exported as:
     * a Python list of exchanges
@@ -408,7 +333,7 @@ Inventories can be exported as:
     filepath = ic.export_lci_to_excel(software_compatibility="simapro", ecoinvent_version="3.6")
 
 Export of inventories (stochastic)
-**********************************
+----------------------------------
 
 If you had run the model in stochastic mode, the export functions return in addition an array that contains pre-sampled values
 for each parameter of each car, in order to perform Monte Carlo analyses in Brightway2.
@@ -425,7 +350,7 @@ for each parameter of each car, in order to perform Monte Carlo analyses in Brig
     filepath = ic.export_lci_to_excel()
 
 Import of inventories (static)
-******************************
+------------------------------
 
 The background inventory is originally a combination between ecoinvent 3.6 and outputs from PIK's REMIND model.
 Outputs from PIK's REMIND are used to project expected progress in different sectors into ecoinvent. For example, the efficiency
