@@ -297,9 +297,10 @@ class HotEmissionsModel:
         # Diurnal emissions are defined in g/day
         # And need to be evenly distributed throughout the driving cycle
         hot += (
-            (yearly_km / 365).values
+            (distance / (yearly_km / 365).values)
             * non_hot_emissions.loc[dict(type="diurnal")].values[:, None, ..., None]
         )[..., None] / len(self.cycle)
+
 
         # Running losses are in g/km (no conversion needed)
         # And need to be evenly distributed throughout the driving cycle
