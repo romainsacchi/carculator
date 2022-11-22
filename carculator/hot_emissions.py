@@ -301,7 +301,6 @@ class HotEmissionsModel:
             * non_hot_emissions.loc[dict(type="diurnal")].values[:, None, ..., None]
         )[..., None] / len(self.cycle)
 
-
         # Running losses are in g/km (no conversion needed)
         # And need to be evenly distributed throughout the driving cycle
         hot += non_hot_emissions.loc[dict(type="running losses")].values[
