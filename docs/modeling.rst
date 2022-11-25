@@ -3,69 +3,73 @@
 Modeling
 ========
 
-This document intends to describe the *carculator* model, assumptions
+This document describes the ``carculator`` model, assumptions
 and inventories as exhaustively as possible.
-*carculator* is an open-source Python library. Its code is publicly
+
+``carculator`` is an open-source Python library. Its code is publicly
 available via its `Github
-repository <https://github.com/romainsacchi/carculator>`__. There is
-also `an examples
-notebook <https://github.com/romainsacchi/carculator/blob/master/examples/Examples.ipynb>`__,
-to guide new users into performing life cycle analyses. Finally, there
+repository <https://github.com/romainsacchi/carculator>`__.
+You can also :download:`download an examples notebook <_static/resources/examples.zip>`, that guides new users into performing life cycle analyses.
+Finally, there
 is also an online graphical user interface available at
 https://carculator.psi.ch.
 
-Overview of *carculator* modules
-********************************
+Overview of ``carculator`` modules
+----------------------------------
 
-The main module *model.py* builds
+The main module ``model.py`` builds
 the vehicles and delegates the calculation of motive and auxiliary
 energy, noise, abrasion and exhaust emissions to satellite modules. Once
 the vehicles are fully characterized, the set of calculated parameters
-are passed to *inventory.py* which derives life cycle inventories and
+are passed to ``inventory.py`` which derives life cycle inventories and
 calculates life cycle impact indicators. Eventually, these inventories
-can be passed to *export.py* to be exported to various LCA software.
+can be passed to ``export.py`` to be exported to various LCA software.
 
 
 Vehicle modelling
-*****************
+-----------------
 
 The modelling of vehicles along powertrain types, time and size classes
 is described in this section. It is also referred to as *foreground*
 modelling.
 
 Size classes
-------------
+************
 
-Originally, *carculator* defines nine size classes, namely: Micro, Mini,
+Originally, ``carculator`` defines nine size classes, namely: Micro, Mini,
 Small, Lower medium, Medium, Large, Medium SUV, Large SUV and Van,
-according to the following criteria, adapted from the work of [1]_ and
-shown in Table 1.
+according to the following criteria, adapted from the work of :cite:`ct-1099` and
+shown in :ref:`Table 1 <table-1>`.
 
-Table 1 Criteria for size classes
+.. _table-1:
 
-+-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| EU segment  | EU segment definition          | carculator    | Minimum footprint [m2]                                | Maximum footprint [m2]  | Minimum curb mass [kg]  | Maximum curb mass [kg]  | Examples                                                               |
-+=============+================================+===============+=======================================================+=========================+=========================+=========================+========================================================================+
-| L7e         | Micro cars/Heavy quadricycles  | Micro         |                                                       |                         | 400                     | 600                     | Renault Twizzy, Microlino                                              |
-+-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| A           | Mini cars                      | Mini          |                                                       | 3.4                     |                         | 1050                    | Renault Twingo, Smart ForTwo, Toyota Aygo                              |
-+-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| B           | Small cars                     | Small         | 3.4                                                   | 3.8                     | 900                     | 1'100                   | Renault Clio, VW Polo, Toyota Yaris                                    |
-+-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| C           | Medium cars                    | Lower medium  | 3.8                                                   | 4.3                     | 1'250                   | 1'500                   | VW Golf, Ford Focus, Mercedes Class A                                  |
-+-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| C           |                                | Medium        | 3.9                                                   | 4.4                     | 1'500                   | 1'750                   | VW Passat, Audi A4, Mercedes Class C                                   |
-+-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| D           | Large/Executive                | Large         | 4.4                                                   |                         | 1'450                   | 2'000                   | Tesla Model 3, BMW 5 Series, Mercedes E series                         |
-+-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| J           | Sport Utility                  | Medium SUV    | 4.5                                                   |                         | 1'300                   | 2'000                   | Toyota RAV4, Peugeot 2008, Dacia Duster                                |
-+-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| J           | Sport Utility                  | Large SUV     | 6                                                     |                         | 2'000                   | 2'500                   | Audi Q7, BMW X7, Mercedes-Benz GLS, Toyota Landcruiser, Jaguar f-Pace  |
-+-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
-| M           | Multi-Purpose Vehicles         | Van           | Defined by body type rather than mass and footprint.  |                         |                         |                         | VW Transporter, Mercedes Sprinter, Ford Transit                        |
-+-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
+.. table:: Table 1: Criteria for size classes
+   :widths: auto
+   :align: center
 
-Example of Micro car (Microlino), Mini car (Smart) and Small/Compact car (VW Polo)
+   +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
+   | EU segment  | EU segment definition          | carculator    | Minimum footprint [m2]                                | Maximum footprint [m2]  | Minimum curb mass [kg]  | Maximum curb mass [kg]  | Examples                                                               |
+   +=============+================================+===============+=======================================================+=========================+=========================+=========================+========================================================================+
+   | L7e         | Micro cars/Heavy quadricycles  | Micro         |                                                       |                         | 400                     | 600                     | Renault Twizzy, Microlino                                              |
+   +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
+   | A           | Mini cars                      | Mini          |                                                       | 3.4                     |                         | 1050                    | Renault Twingo, Smart ForTwo, Toyota Aygo                              |
+   +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
+   | B           | Small cars                     | Small         | 3.4                                                   | 3.8                     | 900                     | 1'100                   | Renault Clio, VW Polo, Toyota Yaris                                    |
+   +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
+   | C           | Medium cars                    | Lower medium  | 3.8                                                   | 4.3                     | 1'250                   | 1'500                   | VW Golf, Ford Focus, Mercedes Class A                                  |
+   +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
+   | C           |                                | Medium        | 3.9                                                   | 4.4                     | 1'500                   | 1'750                   | VW Passat, Audi A4, Mercedes Class C                                   |
+   +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
+   | D           | Large/Executive                | Large         | 4.4                                                   |                         | 1'450                   | 2'000                   | Tesla Model 3, BMW 5 Series, Mercedes E series                         |
+   +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
+   | J           | Sport Utility                  | Medium SUV    | 4.5                                                   |                         | 1'300                   | 2'000                   | Toyota RAV4, Peugeot 2008, Dacia Duster                                |
+   +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
+   | J           | Sport Utility                  | Large SUV     | 6                                                     |                         | 2'000                   | 2'500                   | Audi Q7, BMW X7, Mercedes-Benz GLS, Toyota Landcruiser, Jaguar f-Pace  |
+   +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
+   | M           | Multi-Purpose Vehicles         | Van           | Defined by body type rather than mass and footprint.  |                         |                         |                         | VW Transporter, Mercedes Sprinter, Ford Transit                        |
+   +-------------+--------------------------------+---------------+-------------------------------------------------------+-------------------------+-------------------------+-------------------------+------------------------------------------------------------------------+
+
+|br|
 
 .. image:: /_static/img/image1.png
     :width: 30%
@@ -74,8 +78,7 @@ Example of Micro car (Microlino), Mini car (Smart) and Small/Compact car (VW Pol
 .. image:: /_static/img/image3.png
     :width: 30%
 
-Example of Lower medium car (VW Golf), Medium car (Peugeot 408) and Large car (Tesla Model 3)
-
+|s_caption| *Example of Micro car (Microlino), Mini car (Smart) and Small/Compact car (VW Polo)* |e_caption|
 
 .. image:: /_static/img/image4.png
     :width: 30%
@@ -84,7 +87,8 @@ Example of Lower medium car (VW Golf), Medium car (Peugeot 408) and Large car (T
 .. image:: /_static/img/image6.png
     :width: 30%
 
-Example of Medium SUV car (Peugeot 2008), Large SUV car (Audi Q7) and Van (Fiat Ducato)
+|s_caption| *Example of Lower medium car (VW Golf), Medium car (Peugeot 408) and Large car (Tesla Model 3)* |e_caption|
+
 
 .. image:: /_static/img/image7.png
     :width: 30%
@@ -93,36 +97,40 @@ Example of Medium SUV car (Peugeot 2008), Large SUV car (Audi Q7) and Van (Fiat 
 .. image:: /_static/img/image9.png
     :width: 30%
 
-**Important remark**: Micro cars are not considered passenger cars in
-the Swiss and European legislation, but heavy quadricycles. We do
-however assimilate them to passenger cars. They are only modelled with a
-battery electric powertrain.
+|s_caption| *Example of Medium SUV car (Peugeot 2008), Large SUV car (Audi Q7) and Van (Fiat Ducato)* |e_caption|
 
-**Important remark**: Sport Utility Vehicles (SUV) are considered more
-as a body type than a size class. These vehicles have distinct
-aerodynamic properties, but their curb mass can be as light as that of a
-VW Polo or a Renault Clio (i.e., the Dacia Duster or Peugeot 2008 have a
-curb mass of 1'150 kg, against 1'100-1'300 kg for a VW Polo) or as heavy
-as a Mercedes Class E (i.e., the Audi Q7 has a minimum curb mass of
-2'000 kg, against 1'900 kg for a Mercedes Class E). To assess the
-impacts of very large SUV, the "Large SUV" category has been added, to
-represent SUV models with a very high curb mass (2'000 kg and above) and
-footprint.
+.. note::
+    **Important remark**: Micro cars are not considered passenger cars in
+    the Swiss and European legislation, but heavy quadricycles. We do
+    however assimilate them to passenger cars. They are only modelled with a
+    battery electric powertrain.
+
+.. note::
+    **Important remark**: Sport Utility Vehicles (SUV) are considered more
+    as a body type than a size class. These vehicles have distinct
+    aerodynamic properties, but their curb mass can be as light as that of a
+    VW Polo or a Renault Clio (i.e., the Dacia Duster or Peugeot 2008 have a
+    curb mass of 1'150 kg, against 1'100-1'300 kg for a VW Polo) or as heavy
+    as a Mercedes Class E (i.e., the Audi Q7 has a minimum curb mass of
+    2'000 kg, against 1'900 kg for a Mercedes Class E). To assess the
+    impacts of very large SUV, the "Large SUV" category has been added, to
+    represent SUV models with a very high curb mass (2'000 kg and above) and
+    footprint.
 
 Manufacture year and emission standard
---------------------------------------
+**************************************
 
 Several emission standards are considered. For simplicity, it is assumed
 that the vehicle manufacture year corresponds to the registration year,
 as shown in Table 2.
 
 Table 2 Correspondence between manufacture year and emission standards
-used in *carculator*
+used in ``carculator``
 
 +----------------+----------------+----------------+----------------+
 |                | **Start of     | **End of       | **Manufacture  |
 |                | registration** | registration   | year in**      |
-|                |                | (incl.)**      | *carculator*   |
+|                |                | (incl.)**      | ``carculator``   |
 +================+================+================+================+
 | **EURO-3**     | 2001           | 2005           | **2003**       |
 +----------------+----------------+----------------+----------------+
@@ -141,7 +149,7 @@ used in *carculator*
 +----------------+----------------+----------------+----------------+
 
 Size and mass-related parameters and modeling
----------------------------------------------
+*********************************************
 
 The vehicle glider and its components (powertrain, energy storage, etc.)
 are sized according to engine power, which itself is conditioned by the
@@ -165,7 +173,7 @@ Figure 3 Representation of the convergence of the sizing of the
 passenger car model
 
 Curb mass of the vehicle
-________________________
+++++++++++++++++++++++++
 
 .. math::
 
@@ -214,7 +222,7 @@ calculated (i.e., to size the energy storage components, calculate the
 fuel consumption, etc.), as described later in this section.
 
 Cargo and driving mass of the vehicle
--------------------------------------
+*************************************
 
 The cargo mass of the vehicle is the sum of the cargo mass and the
 passenger mass.
@@ -236,7 +244,7 @@ where :math:`m_{curb}` is the curb mass, in kg, and :math:`m_{cargo}` is the
 cargo mass, in kg, and :math:`m_{driving}` is the driving mass, in kg.
 
 Light-weight rates
-------------------
+******************
 
 Because the LCI dataset used to represent the glider of the vehicle is
 not representative of todays' use of light-weighting materials, such as
@@ -290,7 +298,7 @@ Table 3 Amount of aluminium in European passenger cars. Source: [2]_
 +-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
 
 Curb mass calibration
----------------------
+*********************
 
 The final curb mass obtained for each vehicle is calibrated against the
 European Commission's database for CO\ :sub:`2` emission tests for
@@ -307,7 +315,7 @@ or 2021 (EURO-6-d). After cleaning the data from the EC-CO2-PC database,
 it represents 27 million points to calibrate the curb mass of the
 vehicles with. Green vertical bars represent the span of 50% of the curb
 mass distribution, and the red dots are the curb mass values modeled by
-*carculator*.
+``carculator``.
 
 .. image:: /_static/img/image12.png
 
@@ -356,9 +364,9 @@ cars *in 2021*
 +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
 
 Energy consumption
--------------------
+******************
 
-The energy consumption model of *carculator* calculates the energy
+The energy consumption model of ``carculator`` calculates the energy
 required at the wheels by considering different types of resistance.
 Some of these resistances are related to the vehicle size class. For
 example, the frontal area of the vehicle influences the aerodynamic
@@ -511,7 +519,7 @@ percentiles). The whiskers represent 90% of the distribution
 for vehicle tank-to-wheel energy consumption measurements: [4]_
 
 Electric energy storage
------------------------
+***********************
 
 Battery electric vehicles can use different battery chemistries (Li-ion
 NMC, Li-ion LFP, Li-ion NCA and Li-LTO) depending on the manufacturer's
@@ -525,7 +533,7 @@ drying, as well as the provision of heat are assumed to be
 representative of the country (i.e., the corresponding providers are
 selected from the LCI background database).
 
-The battery-related parameters considered in *carculator* for 2020 are
+The battery-related parameters considered in ``carculator`` for 2020 are
 shown in Table 6. For LFP batteries, "blade battery" or "cell-to-pack"
 battery configurations are considered, as introduced by CATL [9]_ and BYD
 [10]_, two major LFP battery suppliers in Asia. This greatly increases
@@ -587,7 +595,7 @@ manufacture of spare batteries is entirely allocated to the vehicle use.
 The number of battery replacements is rounded up.
 
 Table 7 gives an overview of the number of battery replacements assumed
-for the different battery electric vehicles in *carculator*.
+for the different battery electric vehicles in ``carculator``.
 
 Table 7 Number of battery replacements assumed or calculated for each
 vehicle type by default
@@ -612,7 +620,7 @@ and :math:`L_{batt}` is the lifetime of the battery [km].
 
 
 Liquid and gaseous energy storage
----------------------------------
+*********************************
 
 The oxidation energy stored in liquid fuel tanks is calculated as:
 
@@ -635,13 +643,13 @@ diesel), and for gaseous fuels (compressed gas, hydrogen). Also, compressed gas 
 store at 200 bar, while hydrogen tanks store at 700 bar.
 
 Fuel cell stack
----------------
+***************
 
 All fuel cell electric vehicles use a proton exchange membrane
 (PEM)-based fuel cell system.
 
 Table 8 lists the specifications of the fuel cell stack and system used
-in *carculator* in 2020. The durability of the fuel cell stack,
+in ``carculator`` in 2020. The durability of the fuel cell stack,
 expressed in hours, is used to determine the number of replacements
 needed - the expected kilometric lifetime of the vehicle as well as the
 average speed specified by the driving cycle gives the number of hours
@@ -745,7 +753,7 @@ where :math:`L_{veh}` is the lifetime of the vehicle [km],
 and :math:`L_{fc}` is the fuel cell lifetime in hours [h].
 
 Light-weighting
----------------
+***************
 
 The automotive industry has been increasingly using light weighting
 materials to replace steel in engine blocks, chassis, wheels rims and
@@ -797,10 +805,10 @@ where :math:`\Delta m_{steel}` is the mass reduction of the glider [kg],
 and :math:`r_{lightweighting}` is the light-weighting ratio [%].
 
 Sizing of onboard energy storage
---------------------------------
+********************************
 
 Sizing of battery
-_________________
++++++++++++++++++
 
 The sizing of batteries for battery electric vehicles is conditioned by
 the battery mass, which is defined as an input parameter for each size
@@ -817,7 +825,7 @@ collected from the vehicle's registry of Touring Club Switzerland.
 Figure 10 Energy storage capacity for current battery electric cars,
 shown in relation to curb mass. Red dots are the energy storage
 capacities used for Small, Medium and Large battery electric vehicles in
-*carculator*.
+``carculator``.
 
 Seventy percent of the overall battery mass is assumed to be represented
 by the battery cells in the case of NMC and NCA batteries. Given the
@@ -929,7 +937,7 @@ Note that carculator only considers NMC batteries for plugin hybrid
 vehicles.
 
 Electric utility factor
------------------------
+***********************
 
 Diesel and gasoline plugin hybrid vehicles are modeled as a composition
 of an ICE vehicle and a battery electric vehicle to the extent
@@ -985,7 +993,7 @@ curb weight [kg] of the combustion PHEV.
 
 
 Inventory modelling
-*******************
+-------------------
 
 Once the vehicles are modeled, the calculated parameters of each of them
 is passed to the inventory.py calculation module to derive inventories.
@@ -994,7 +1002,7 @@ they can be normalized by the kilometric lifetime (i.e., vehicle-kilometer)
 or by the kilometric multiplied by the passenger occupancy (i.e., passenger-kilometer).
 
 Road demand
------------
+***********
 
 The demand for construction and maintenance of roads and road-related
 infrastructure is calculated on the following basis:
@@ -1019,7 +1027,7 @@ ecoinvent as a renewal rate over the year in the road construction
 dataset.
 
 Fuel properties
----------------
+***************
 
 For all vehicles with an internal combustion engine, carbon dioxide
 (CO\ :sub:`2`) and sulfur dioxide (SO\ :sub:`2`) emissions are
@@ -1059,7 +1067,7 @@ Because large variations are observed in terms of sulfur concentration
 in biofuels, similar values than that of conventional fuels are used.
 
 Exhaust emissions
------------------
+*****************
 
 Emissions of regulated and non-regulated substances during driving are
 approximated using emission factors from HBEFA 4.1 [26]_. Emission
@@ -1185,7 +1193,7 @@ as indicated by HBEFA, by applying a degradation factor on the emission
 factors for CO, HC and NO\ :sub:`x` for gasoline cars, as well as on CO
 and NO\ :sub:`x` for diesel cars. These factors are shown in Table 15
 for passenger cars with a mileage of 200'000 km, which is the default
-lifetime value in *carculator*. The degradation factor corresponding to
+lifetime value in ``carculator``. The degradation factor corresponding to
 half of the vehicle kilometric lifetime is used, to obtain a
 lifetime-weighted average degradation factor.
 
@@ -1229,7 +1237,7 @@ consumption.
 
 To confirm that such approach does not yield kilometric emissions too
 different from the emission factors per vehicle-kilometer proposed by
-HBEFA 4.1, Figure 13 compares the emissions obtained by *carculator*
+HBEFA 4.1, Figure 13 compares the emissions obtained by ``carculator``
 using the WLTC driving cycle over 1 vehicle-km (red dots) with the
 distribution of the emission factors for different traffic situations
 (green box-and-whiskers) as well as the traffic situation-weighted
@@ -1247,9 +1255,9 @@ EURO-4 and 5 tend to be under-estimated compared to HBEFA's values. It
 is also important to highlight that, in some traffic situations, HBEFA's
 values show that emissions of CO, HC, NMHC and PMs for vehicles with
 early emission standards can be much higher that what is assumed in
-*carculator*. There is overall a good agreement between traffic
+``carculator``. There is overall a good agreement between traffic
 situation-weighted average emission factors and those used in
-*carculator*.
+``carculator``.
 
 .. image:: /_static/img/image22.png
    :width: 6.27014in
@@ -1261,11 +1269,11 @@ car. Box-and-whiskers: distribution of HBEFA's emission factors for
 different traffic situations (box: 50% of the distribution, whiskers:
 90% of the distribution). Yellow dots: traffic situation-weighted
 average emission factors. Red dots: modeled emissions calculated by
-*carculator* with the WLTC cycle, using the relation between fuel
+``carculator`` with the WLTC cycle, using the relation between fuel
 consumption and amounts emitted.
 
 NMHC speciation
-_______________
++++++++++++++++
 
 After NMHC emissions are quantified, EEA/EMEP's 2019 Air Pollutant
 Emission Inventory Guidebook provides factors to further specify some of
@@ -1300,13 +1308,13 @@ NMVOC, unspecified  50.8                      55
 =================== ========================= =======================
 
 Non-exhaust emissions
----------------------
+*********************
 
 A number of emission sources besides exhaust emissions are considered.
 They are described in the following sub-sections.
 
 Engine wear emissions
-_____________________
++++++++++++++++++++++
 
 Metals and other substances are emitted during the combustion of fuel
 because of engine wear. These emissions are scaled based on the fuel
@@ -1332,7 +1340,7 @@ Cadmium     2.54E-10                  2.02E-10
 =========== ========================= =======================
 
 Abrasion emissions
-__________________
+++++++++++++++++++
 
 We distinguish four types of abrasion emissions, besides engine wear
 emissions:
@@ -1477,7 +1485,7 @@ Re-suspended road dust emissions are assumed to be evenly composed of
 brake wear (33.3%), tire wear (33.3%) and road wear (33.3%) particles.
 
 Refrigerant emissions
-_____________________
++++++++++++++++++++++
 
 The use of refrigerant for onboard air conditioning systems is
 considered for passenger cars until 2021. The supply of refrigerant gas R134a is
@@ -1511,7 +1519,7 @@ Hence, no supply or leakage of refrigerant is considered for those.
 **Important remark:** After 2021, R134a is no longer used.
 
 Noise emissions
----------------
+***************
 
 Noise emissions along the driving cycle of the vehicle are quantified
 using the method developed within the CNOSSOS project [35]_, which are
@@ -1609,7 +1617,7 @@ on the driving cycle WLTC. b) Summed sound energy comparison between
 ICEV, BEV and PHEV, over the duration of the WLTC driving cycle.
 
 Electricity mix calculation
----------------------------
+***************************
 
 Electricity supply mix are calculated based on the weighting from the
 distribution the lifetime kilometers of the vehicles over the years of
@@ -1617,7 +1625,7 @@ use. For example, should a BEV enter the fleet in Poland in 2020, most
 LCA models of passenger vehicles would use the electricity mix for
 Poland corresponding to that year, which corresponds to the row of the
 year 2020 in Table 24, based on ENTSO-E's TYNDP 2020 projections
-(National Trends scenario) [38]_. *carculator* calculates instead the
+(National Trends scenario) [38]_. ``carculator`` calculates instead the
 average electricity mix obtained from distributing the annual kilometers
 driven along the vehicle lifetime, assuming an equal number of
 kilometers is driven each year. Therefore, with a lifetime of 200,000 km
@@ -1684,10 +1692,10 @@ next 16 years.
 
 
 Inventories for fuel pathways
------------------------------
+*****************************
 
 A number of inventories for fuel production and supply are used by
-*carculator*. They represent an update in comparison to the inventories
+``carculator``. They represent an update in comparison to the inventories
 used in the passenger vehicles model initially published by Cox et
 al.[5]_. The fuel pathways presented in Table 25 are from the literature
 and not present as generic ecoinvent datasets.
@@ -1749,7 +1757,7 @@ and not present as generic ecoinvent datasets.
 |           |                           | electrolysis, while the   |
 |           |                           | CO\ :sub:`2` comes from   |
 |           |                           | direct air capture. Note  |
-|           |                           | that in *carculator*, two |
+|           |                           | that in ``carculator``, two |
 |           |                           | allocation approaches at  |
 |           |                           | the crude-to-fuel step    |
 |           |                           | are possible between the  |
@@ -1796,7 +1804,7 @@ and not present as generic ecoinvent datasets.
 Table 25 List of inventories for different fuel types
 
 Inventories for energy storage components
------------------------------------------
+*****************************************
 
 The source for the inventories used to model energy storage components
 are listed in Table 26.
@@ -1809,7 +1817,7 @@ are listed in Table 26.
 |           |                           | integrated in ecoinvent   |
 |           |                           | v.3.8 (with some errors), |
 |           |                           | corrected and integrated  |
-|           |                           | in *carculator*.          |
+|           |                           | in ``carculator``.          |
 |           |                           | Additionally, these       |
 |           |                           | inventories relied        |
 |           |                           | exclusively on synthetic  |
@@ -1835,7 +1843,7 @@ are listed in Table 26.
 |           |                           | carbon fiber              |
 |           |                           | manufacturing have been   |
 |           |                           | integrated to             |
-|           |                           | *carculator*, from [53]_. |
+|           |                           | ``carculator``, from [53]_. |
 +-----------+---------------------------+---------------------------+
 | [54]_     | Type IV hydrogen tank,    |                           |
 |           | LDPE liner                |                           |
@@ -1847,9 +1855,9 @@ are listed in Table 26.
 Table 26 List of inventories for different energy storage solutions
 
 Life cycle impact assessment
-****************************
+----------------------------
 
-To build the inventory of every vehicle, *carculator* populates a
+To build the inventory of every vehicle, ``carculator`` populates a
 three-dimensional array *A* (i.e., a tensor) such as:
 
 .. math:: \ A = \left\lbrack a_{\text{ijk}} \right\rbrack,\ i = 1,\ \ldots,\ L,\ j = 1,\ \ldots,\ M,\ k = 1,\ \ldots,\ N
@@ -1865,7 +1873,7 @@ Given a final demand vector *f* (e.g., 1 kilometer driven with a
 specific vehicle, represented by a vector filled with zeroes and the
 value 1 at the position corresponding to the index *j* of the driving
 activity in dimension M) of length equal to that of the second dimension
-of *A* (i.e., *M*), *carculator* calculates the scaling factor *s* so
+of *A* (i.e., *M*), ``carculator`` calculates the scaling factor *s* so
 that:
 
 .. math:: s = A^{- 1}f

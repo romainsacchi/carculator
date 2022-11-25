@@ -13,19 +13,13 @@ vehicle configurations, according to selected:
 * year of operation (2): 2000, 2010, 2020, 2040 (with the possibility to interpolate in between, and up to 2050)
 * and sizes (9): Micro, Mini, Large, etc.
 
-The methodology used to develop `carculator` is explained in:
-
-*When, where and how can the electrification of passenger cars reduce greenhouse gas emissions?*
-Romain Sacchi, Christian Bauer, Brian Cox, Christopher Mutel
-Renewable and Sustainable Energy Reviews, 2022.
-`https://doi.org/10.1016/j.rser.2022.112475 <https://doi.org/10.1016/j.rser.2022.112475>`_
+The methodology used to develop `carculator` is explained in an article by :cite:`ct-1073`.
 
 The tool has a focus on passenger cars.
+It is initially based on the model developed in :cite:`ct-1130`.
 
-It is initially based on the model developed in `Uncertain environmental footprint of current and future battery electric
-vehicles by Cox, et al (2018) <https://pubs.acs.org/doi/10.1021/acs.est.8b00261>`_.
-
-More specifically, ``carculator`` generates `Brightway2 <https://brightwaylca.org/>`_ and `SimaPro <https://simapro.com/>`_ inventories, but also directly provides characterized
+More specifically, ``carculator`` generates `Brightway2 <https://brightway.dev/>`_ and `SimaPro <https://simapro.com/>`_
+inventories, but also directly provides characterized
 results against several midpoint indicators from the impact assessment method ReCiPe, ILCD, as well as life cycle cost indicators.
 
 ``carculator`` is a special in the way that it uses time- and energy-scenario-differentiated background inventories for the future,
@@ -58,7 +52,8 @@ Finally, beside being more flexible and transparent, ``carculator`` provides int
 * a stochastic mode, that allows fast Monte Carlo analyses, to include uncertainty at the vehicle level
 * possibility to override any or all of the 200+ default input car parameters (e.g., number of passengers, drag coefficient) but also calculated parameters (e.g., driving mass).
 * hot pollutants emissions as a function of the driving cycle, using `HBEFA <https://www.hbefa.net/e/index.html>`_ 4.1 data, further divided between rural, suburban and urban areas
-* noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models for noise emissions and `Noise footprint from personal land‐based mobility by Cucurachi, et al (2019) <https://onlinelibrary.wiley.com/doi/full/10.1111/jiec.12837>`_ for inventory modelling and mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban and urban areas
+* noise emissions, based on `CNOSSOS-EU <https://ec.europa.eu/jrc/en/publication/reference-reports/common-noise-assessment-methods-europe-cnossos-eu>`_ models for noise emissions
+  and :cite:`ct-1015` for inventory modelling and mid- and endpoint characterization of noise emissions, function of driving cycle and further divided between rural, suburban and urban areas
 * export of inventories as an Excel/CSV file, to be used with Brightway2 or Simapro, including uncertainty information. This requires the user to have `ecoinvent` installed on the LCA software the car inventories are exported to.
 * export inventories directly into Brightway2, as a LCIImporter object to be registered. Additionally, when run in stochastic mode, it is possible to export arrays of pre-sampled values using the `presamples <https://pypi.org/project/presamples/>`_ library to be used together with the Monte Carlo function of Brightway2.
 * development of an online graphical user interface: `carculator online <https://carculator.psi.ch>`_

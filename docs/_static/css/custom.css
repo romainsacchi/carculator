@@ -63,11 +63,3 @@ table tbody tr:hover {
 .md-header__button.md-logo :is(img, png) {
     height: 2rem !important;
 }
-
-.red {
-  color: red;
-}
-
-.yellow {
-  color: yellow;
-}
