@@ -100,6 +100,7 @@ Which can be also be verified visually:
 
 .. image:: /_static/img/comparison_driving_cycle.png
     :width: 400
+    :align: center
     :alt: Alternative text
     
 Car and components masses
@@ -146,6 +147,7 @@ However, most of the driving mass is explained by the curb mass:
 
 .. image:: /_static/img/pie_total_mass.png
     :width: 400
+    :align: center
     :alt: Alternative text
     
 Here is a split between the components making up for the curb mass.
@@ -208,9 +210,8 @@ On an equivalent diesel powertrain, the mass of the glider base is comparatively
   
 .. image:: /_static/img/pie_mass_components.png
     :width: 900
+    :align: center
     :alt: Alternative text
-    
-
 
 The `curb mass` returned by ``carculator`` for the year 2010 and 2020 is further calibrated against manufacturers' data, per vehicle size class and powertrain technology.
 For example, we use the car database Car2db (https://car2db.com/) and load all the vehicles produced between 2015 and 2019 (11,500+ vehicles) to do the curb mass calibration for 2020 vehicles.
@@ -219,4 +220,5 @@ The same exercise is done with vehicles between 2008 and 2012 to calibrate the c
     
 .. image:: /_static/img/mass_comparison.png
     :width: 900
+    :align: center
     :alt: Alternative text

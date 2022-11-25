@@ -181,10 +181,12 @@ from the CarModel object:
 
 .. image:: /_static/img/fig_kwh_100km.png
     :width: 400
+    :align: center
     :alt: Alternative text
 
-Note that if you call the :meth:`stochastic` method of the :class:`CarInputParameters`, you would have several values stored for a given calculated parameter
-in the array. The number of values correspond to the number of iterations you passed to :meth:`stochastic`.
+.. note::
+    If you call the :meth:`stochastic` method of the :class:`CarInputParameters`, you would have several values stored for a given calculated parameter
+    in the array. The number of values correspond to the number of iterations you passed to :meth:`stochastic`.
 
 For example, if you ran the model in stochastic mode with 800 iterations as shown in the section above, instead of one
 value for the tank-to-wheel energy, you would have a distribution of values:
@@ -198,6 +200,7 @@ value for the tank-to-wheel energy, you would have a distribution of values:
 
 .. image:: /_static/img/stochastic_example_ttw.png
     :width: 400
+    :align: center
     :alt: Alternative text
 
 Any other attributes of the CarModel class can be obtained in a similar way.
@@ -221,8 +224,6 @@ Finally, return their values and display the first 10 in a table:
 
     cm.array.sel(parameter=direct_emissions, year=2020, size='Van', powertrain='BEV').to_dataframe(name='direct emissions')
 
-
-
 Or we could be interested in visualizing the distribution of non-characterized noise emissions, in joules:
 
 .. code-block:: python
@@ -235,6 +236,7 @@ Or we could be interested in visualizing the distribution of non-characterized n
 
 .. image:: /_static/img/example_noise_emissions.png
     :width: 400
+    :align: center
     :alt: Alternative text
 
 Modify calculated parameters
@@ -272,11 +274,13 @@ Hence, to plot the carbon footprint for all medium cars in 2020:
 
 .. image:: /_static/img/example_carbon_footprint.png
     :width: 400
+    :align: center
     :alt: Alternative text
 
-Note that, for now, only the ReCiPe method is available for midpoint characterization. Also, once the instance of the :class:`CarModel`
-class has been created, there is no need to re-create it in order to calculate additional environmental impacts (unless you wish to
-change values of certain input or calculated parameters, the driving cycle or go from static to stochastic mode).
+.. note::
+    For now, only the ReCiPe method is available for midpoint characterization. Also, once the instance of the :class:`CarModel`
+    class has been created, there is no need to re-create it in order to calculate additional environmental impacts (unless you wish to
+    change values of certain input or calculated parameters, the driving cycle or go from static to stochastic mode).
 
 Characterization of inventories (stochastic)
 --------------------------------------------
@@ -307,6 +311,7 @@ stochastic mode (with 500 iterations and the driving cycle WLTC).
 
 .. image:: /_static/img/example_stochastic_BEV_PHEV.png
     :width: 100%
+    :align: center
     :alt: Alternative text
 
 Many other examples are described in a Jupyter Notebook in the ``examples`` folder.
