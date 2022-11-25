@@ -36,7 +36,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinxcontrib.bibtex",
     "sphinx_copybutton",
-    "sphinx_design",
+    # "sphinx_design",
     "sphinx_immaterial",
 ]
 

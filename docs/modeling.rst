@@ -122,31 +122,34 @@ Manufacture year and emission standard
 
 Several emission standards are considered. For simplicity, it is assumed
 that the vehicle manufacture year corresponds to the registration year,
-as shown in Table 2.
+as shown in :ref:`Table 2 <table-2>`.
 
-Table 2 Correspondence between manufacture year and emission standards
-used in ``carculator``
+.. _table-2:
 
-+----------------+----------------+----------------+----------------+
-|                | **Start of     | **End of       | **Manufacture  |
-|                | registration** | registration   | year in**      |
-|                |                | (incl.)**      | ``carculator``   |
-+================+================+================+================+
-| **EURO-3**     | 2001           | 2005           | **2003**       |
-+----------------+----------------+----------------+----------------+
-| **EURO-4**     | 2006           | 2010           | **2008**       |
-+----------------+----------------+----------------+----------------+
-| **EURO-5**     | 2011           | 2014           | **2013**       |
-+----------------+----------------+----------------+----------------+
-| **EURO-6 a/b** | 2015           | 2017           | **2016**       |
-+----------------+----------------+----------------+----------------+
-| **EURO-6 c**   | 2018           | 2018           | **2018**       |
-+----------------+----------------+----------------+----------------+
-| **EURO-6 d     | 2019           | 2020           | **2019**       |
-| (temp)**       |                |                |                |
-+----------------+----------------+----------------+----------------+
-| **EURO-6 d**   | 2021           | -              | **2021**       |
-+----------------+----------------+----------------+----------------+
+.. table:: Table 2: Correspondence between manufacture year and emission standards used in ``carculator``
+   :widths: auto
+   :align: center
+
+   +----------------+----------------+----------------+----------------------+
+   |                | **Start of     | **End of       | **Manufacture        |
+   |                | registration** | registration   | year in**            |
+   |                |                | (incl.)**      | ``carculator``       |
+   +================+================+================+======================+
+   | **EURO-3**     | 2001           | 2005           | **2003**             |
+   +----------------+----------------+----------------+----------------------+
+   | **EURO-4**     | 2006           | 2010           | **2008**             |
+   +----------------+----------------+----------------+----------------------+
+   | **EURO-5**     | 2011           | 2014           | **2013**             |
+   +----------------+----------------+----------------+----------------------+
+   | **EURO-6 a/b** | 2015           | 2017           | **2016**             |
+   +----------------+----------------+----------------+----------------------+
+   | **EURO-6 c**   | 2018           | 2018           | **2018**             |
+   +----------------+----------------+----------------+----------------------+
+   | **EURO-6 d     | 2019           | 2020           | **2019**             |
+   | (temp)**       |                |                |                      |
+   +----------------+----------------+----------------+----------------------+
+   | **EURO-6 d**   | 2021           | -              | **2021**             |
+   +----------------+----------------+----------------+----------------------+
 
 Size and mass-related parameters and modeling
 *********************************************
@@ -155,22 +158,24 @@ The vehicle glider and its components (powertrain, energy storage, etc.)
 are sized according to engine power, which itself is conditioned by the
 curb mass of the vehicle. The curb mass of the vehicle is the sum of
 the vehicle components (excluding the driver and possible cargo) as
-represented in Figure 2.
+represented in :ref:`Figure 1 <figure-1>`.
 
-.. image:: /_static/img/image10.png
-   :width: 100%
+.. _figure-1:
 
-Figure 2 Vehicle mass calculation workflow
+.. figure:: /_static/img/image10.png
+   :align: center
+
+   *Figure 1: Vehicle mass calculation workflow*
 
 This is an iterative process that stops when the curb mass of the
-vehicle converges, as illustrated in Figure 3.
+vehicle converges, as illustrated in :ref:`Figure 2 <figure-2>`.
 
-.. image:: /_static/img/image11.png
-   :width: 6.26667in
-   :height: 3.99167in
+.. _figure-2:
 
-Figure 3 Representation of the convergence of the sizing of the
-passenger car model
+.. figure:: /_static/img/image11.png
+   :align: center
+
+   *Figure 2: Representation of the convergence of the sizing of the passenger car model*
 
 Curb mass of the vehicle
 ++++++++++++++++++++++++
@@ -184,35 +189,21 @@ Curb mass of the vehicle
 
 With:
 
--  :math:`m_{curb}` being the vehicle curb mass, in kg
-
--  :math:`m_{fuel}` being the fuel mass, in kg
-
--  :math:`m_{charger}` being the electric onboard charge mass, in kg
-
--  :math:`m_{conv}` being the current converter, in kg
-
--  :math:`m_{inv}` being the current AC/DC inverter, in kg
-
--  :math:`m_{distr}` being the power distribution unit, in kg
-
--  :math:`m_{comb}` being the combustion engine mass, in kg
-
--  :math:`m_{elec}` being the electric motor mass, in kg
-
--  :math:`m_{pwt}` being the powertrain mass, in kg
-
--  :math:`m_{fcstack}` being the fuel cell stack mass, in kg
-
--  :math:`m_{fcauxbop}` being the fuel cell auxiliary components mass, in kg
-
--  :math:`m_{battcell}` being the battery cell mass, in kg
-
--  :math:`m_{battbop}` being the battery auxiliary components mass, in kg
-
--  :math:`m_{fcessbop}` being the fuel cell essential components mass, in kg
-
--  :math:`m_{fueltank}` being the fuel tank mass, in kg
+- :math:`m_{curb}` being the vehicle curb mass, in kg
+- :math:`m_{fuel}` being the fuel mass, in kg
+- :math:`m_{charger}` being the electric onboard charge mass, in kg
+- :math:`m_{conv}` being the current converter, in kg
+- :math:`m_{inv}` being the current AC/DC inverter, in kg
+- :math:`m_{distr}` being the power distribution unit, in kg
+- :math:`m_{comb}` being the combustion engine mass, in kg
+- :math:`m_{elec}` being the electric motor mass, in kg
+- :math:`m_{pwt}` being the powertrain mass, in kg
+- :math:`m_{fcstack}` being the fuel cell stack mass, in kg
+- :math:`m_{fcauxbop}` being the fuel cell auxiliary components mass, in kg
+- :math:`m_{battcell}` being the battery cell mass, in kg
+- :math:`m_{battbop}` being the battery auxiliary components mass, in kg
+- :math:`m_{fcessbop}` being the fuel cell essential components mass, in kg
+- :math:`m_{fueltank}` being the fuel tank mass, in kg
 
 
 For each iteration, the tank-to-wheel energy consumption (i.e., the
@@ -231,8 +222,10 @@ passenger mass.
 
     m_{cargo} = m_{cargo} + m_{passenger}
 
-where :math:`m_{cargo}` is the cargo mass, in kg,
-and :math:`m_{passenger}` is the passenger mass.
+Where:
+
+- :math:`m_{cargo}` is the cargo mass, in kg,
+- and :math:`m_{passenger}` is the passenger mass.
 
 The driving mass of the vehicle is the sum of the curb mass and the cargo mass.
 
@@ -240,39 +233,43 @@ The driving mass of the vehicle is the sum of the curb mass and the cargo mass.
 
     m_{driving} = m_{curb} + m_{cargo}
 
-where :math:`m_{curb}` is the curb mass, in kg, and :math:`m_{cargo}` is the
-cargo mass, in kg, and :math:`m_{driving}` is the driving mass, in kg.
+Where:
+
+- :math:`m_{curb}` is the curb mass, in kg,
+- :math:`m_{cargo}` is the cargo mass, in kg,
+- and :math:`m_{driving}` is the driving mass, in kg.
 
 Light-weight rates
 ******************
 
 Because the LCI dataset used to represent the glider of the vehicle is
-not representative of todays' use of light-weighting materials, such as
+not representative of today's' use of light-weighting materials, such as
 aluminium (i.e., the dataset "glider for passenger cars" only contains
 0.5% of its mass in aluminium) and advanced high strength steel (AHSS),
 an amount of such light-weighting materials is introduced to substitute
 conventional steel and thereby reduce the mass of the glider.
 
-As further explained in Section 2.6, the mass of the glider is reduced
+As further explained under the `Curb mass calibration`_ section, the mass of the glider is reduced
 by replacing steel with a mix of aluminium and AHSS. Hence, the amounts
 of light weighting materials introduced depend on the rate of glider
 light weighting in 2020 relative to 2000 (approximately 11% for
 combustion engine vehicles). The amount of aluminium introduced is
-further cross-checked with the amounts indicated in [2]_ and listed in
-Table 3, and comes in addition to the aluminium already contained in the
+further cross-checked with the amounts indicated in :cite:`ct-1020` and listed in
+:ref:`Table 3 <table-3>`, and comes in addition to the aluminium already contained in the
 LCI datasets for the engine and transmission.
 
-**Important remark:** the light-weighting rate is for most vehicles
-approximately 11% in 2020 relative to 2000. However, battery-equipped vehicles
-are an exception to this: Medium, Large and Large SUV vehicles have
-significantly higher light weighting rates to partially compensate for
-the additional mass of their batteries. In order to match the battery
-capacity and the curb mass of their respective size class, their light
-weighting rate is increased to 14, 28 and 30%, respectively. This trend
-is also confirmed by [2]_, showing that battery electric vehicles have
-85% more aluminium than combustion engine vehicles, partly going into
-the battery management system, and partly going into the chassis to
-compensate for the extra mass represented by the battery.
+.. note::
+    **Important remark:** The light-weighting rate is for most vehicles
+    approximately 11% in 2020 relative to 2000. However, battery-equipped vehicles
+    are an exception to this: Medium, Large and Large SUV vehicles have
+    significantly higher light weighting rates to partially compensate for
+    the additional mass of their batteries. In order to match the battery
+    capacity and the curb mass of their respective size class, their light
+    weighting rate is increased to 14, 28 and 30%, respectively. This trend
+    is also confirmed by :cite:`ct-1020`, showing that battery electric vehicles have
+    85% more aluminium than combustion engine vehicles, partly going into
+    the battery management system, and partly going into the chassis to
+    compensate for the extra mass represented by the battery.
 
 These light-weighting rates have been fine adjusted to match the curb
 mass of a given size class, while preserving the battery capacity. For
@@ -280,22 +277,26 @@ example, in the case of the Large SUV, its curb mass should
 approximately be 2'200 kg, with an 80 kWh battery weighting 660 kg
 (e.g., Jaguar i-Pace). This is possible with a 30% light weighting rate,
 introducing approximately 460 kg of aluminium in the chassis (which
-matches roughly with the value given for an Audi e-Tron in Table 3) and
+matches roughly with the value given for an Audi e-Tron in :ref:`Table 3 <table-3>`) and
 1'008 kg of AHSS, in lieu of 2'034 kg of regular steel.
 
-Table 3 Amount of aluminium in European passenger cars. Source: [2]_
+.. _table-3:
 
-+-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
-| Used in source                                                                | Basic  | Sub-Compact  | Compact  |      | Midsize  | Large  |      | Audi e-Tron      |
-+===============================================================================+========+==============+==========+======+==========+========+======+==================+
-| Used in carculator                                                            | Small  |              |          |      | Medium   | Large  |      | Large SUV (BEV)  |
-+-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
-| Average aluminium content per vehicle [kg]                                    | 77     | 98           | 152      |      | 266      | 442    |      | 804              |
-+-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
-| Share of aluminium mass in components other than engine and transmission [%]  | 66%    |              |          |      |          |        |      |                  |
-+-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
-| Aluminium to be added to the glider [%]                                       | 65     |              |          | 175  |          | 292    | 530  |                  |
-+-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
+.. table:: Table 3: Amount of aluminium in European passenger cars. Source: :cite:`ct-1020`
+   :align: center
+   :widths: auto
+
+   +-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
+   | Used in source                                                                | Basic  | Sub-Compact  | Compact  |      | Midsize  | Large  |      | Audi e-Tron      |
+   +===============================================================================+========+==============+==========+======+==========+========+======+==================+
+   | Used in carculator                                                            | Small  |              |          |      | Medium   | Large  |      | Large SUV (BEV)  |
+   +-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
+   | Average aluminium content per vehicle [kg]                                    | 77     | 98           | 152      |      | 266      | 442    |      | 804              |
+   +-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
+   | Share of aluminium mass in components other than engine and transmission [%]  | 66%    |              |          |      |          |        |      |                  |
+   +-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
+   | Aluminium to be added to the glider [%]                                       | 65     |              |          | 175  |          | 292    | 530  |                  |
+   +-------------------------------------------------------------------------------+--------+--------------+----------+------+----------+--------+------+------------------+
 
 Curb mass calibration
 *********************
@@ -303,7 +304,7 @@ Curb mass calibration
 The final curb mass obtained for each vehicle is calibrated against the
 European Commission's database for CO\ :sub:`2` emission tests for
 passenger cars (hereafter called EC-CO2-PC) using the NEDC/WLTP driving
-cycles [3]_. Each vehicle registered in the European Union is tested and
+cycles :cite:`ct-1025`. Each vehicle registered in the European Union is tested and
 several of the vehicle attributes are registered (e.g., dimension, curb
 mass, driving mass, CO\ :sub:`2` emissions, etc.). This has represented
 about 15+ million vehicles per year for the past five years.
@@ -317,51 +318,50 @@ vehicles with. Green vertical bars represent the span of 50% of the curb
 mass distribution, and the red dots are the curb mass values modeled by
 ``carculator``.
 
-.. image:: /_static/img/image12.png
+.. _figure-3:
 
-Figure 4 Calibration of the curb mass of the passenger car model against
-the EC-CO2-PC database. Red dots: values modeled by carculator. Green
-box-and-whiskers: values distribution from the EC-CO2-PC database (box:
-50% of the distribution, whiskers: 90% of the distribution). Micro cars
-are not represented in the EC-CO2-PC database. Sample size for each size
-class is given above each chart. M = Mini, S = Small, L-M = Lower
-medium, M = Medium, L = Large, L-SUV = Large SUV. Source for vehicle
-tank-to-wheel energy consumption measurements: [4]_.
+.. figure:: /_static/img/image12.png
+   :align: center
 
-Table 4 shows the mass distribution for gasoline and battery electric
+   *Figure 3: Calibration of the curb mass of the passenger car model against the EC-CO2-PC database. Red dots: values modeled by carculator. Green box-and-whiskers: values distribution from the EC-CO2-PC database (box: 50% of the distribution, whiskers: 90% of the distribution). Micro cars are not represented in the EC-CO2-PC database. Sample size for each size class is given above each chart. M = Mini, S = Small, L-M = Lower medium, M = Medium, L = Large, L-SUV = Large SUV.* Source for vehicle tank-to-wheel energy consumption measurements: :cite:`ct-1131`.
+
+:ref:`Table 4 <table-4>` shows the mass distribution for gasoline and battery electric
 passenger cars resulting from the calibration. Mass information on other
 vehicles is available in the vehicles' specifications spreadsheet.
 
-Table 4 Mass distribution for gasoline and battery electric passenger
-cars *in 2021*
+.. _table-4:
 
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
-| Gasoline              |        |         |        | Battery electric  |        |        |         |        |            |
-+=======================+========+=========+========+===================+========+========+=========+========+============+
-| in kilograms          | Small  | Medium  | Large  | Large SUV         | Micro  | Small  | Medium  | Large  | Large SUV  |
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
-| Glider base mass      | 998    | 1'170   | 1'550  | 1'900             | 350    | 998    | 1'170   | 1'550  | 1'900      |
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
-| Light weighting       | -110   | -129    | -171   | -209              | -35    | -140   | -164    | -434   | -570       |
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
-| Glider mass           | 888    | 1'041   | 1'380  | 1'691             | 315    | 858    | 1'006   | 1'116  | 1'330      |
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
-| Powertrain mass       | 96     | 106     | 132    | 140               | 42     | 67     | 77      | 94     | 100        |
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
-| Engine or motor mass  | 111    | 125     | 157    | 168               | 29     | 61     | 73      | 96     | 102        |
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
-| Energy storage mass   | 72     | 85      | 104    | 104               | 120    | 276    | 360     | 580    | 660        |
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
-| Electronics mass      | 3      | 4       | 5      | 7                 | 23     | 23     | 23      | 23     | 23         |
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
-| Curb mass             | 1'170  | 1'361   | 1'777  | 2'110             | 529    | 1'285  | 1'540   | 1'910  | 2'215      |
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
-| Passenger mass        | 120    | 120     | 120    | 120               | 120    | 120    | 120     | 120    | 120        |
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
-| Cargo mass            | 20     | 20      | 20     | 20                | 20     | 20     | 20      | 20     | 20         |
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
-| Driving mass          | 1'310  | 1'501   | 1'917  | 2'250             | 669    | 1'425  | 1'680   | 2'050  | 2'355      |
-+-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+.. table:: Table 4: Mass distribution for gasoline and battery electric passenger cars *in 2021*
+   :align: center
+   :widths: auto
+
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+   | Gasoline              |        |         |        | Battery electric  |        |        |         |        |            |
+   +=======================+========+=========+========+===================+========+========+=========+========+============+
+   | in kilograms          | Small  | Medium  | Large  | Large SUV         | Micro  | Small  | Medium  | Large  | Large SUV  |
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+   | Glider base mass      | 998    | 1'170   | 1'550  | 1'900             | 350    | 998    | 1'170   | 1'550  | 1'900      |
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+   | Light weighting       | -110   | -129    | -171   | -209              | -35    | -140   | -164    | -434   | -570       |
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+   | Glider mass           | 888    | 1'041   | 1'380  | 1'691             | 315    | 858    | 1'006   | 1'116  | 1'330      |
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+   | Powertrain mass       | 96     | 106     | 132    | 140               | 42     | 67     | 77      | 94     | 100        |
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+   | Engine or motor mass  | 111    | 125     | 157    | 168               | 29     | 61     | 73      | 96     | 102        |
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+   | Energy storage mass   | 72     | 85      | 104    | 104               | 120    | 276    | 360     | 580    | 660        |
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+   | Electronics mass      | 3      | 4       | 5      | 7                 | 23     | 23     | 23      | 23     | 23         |
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+   | Curb mass             | 1'170  | 1'361   | 1'777  | 2'110             | 529    | 1'285  | 1'540   | 1'910  | 2'215      |
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+   | Passenger mass        | 120    | 120     | 120    | 120               | 120    | 120    | 120     | 120    | 120        |
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+   | Cargo mass            | 20     | 20      | 20     | 20                | 20     | 20     | 20      | 20     | 20         |
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
+   | Driving mass          | 1'310  | 1'501   | 1'917  | 2'250             | 669    | 1'425  | 1'680   | 2'050  | 2'355      |
+   +-----------------------+--------+---------+--------+-------------------+--------+--------+---------+--------+------------+
 
 Energy consumption
 ******************
@@ -379,31 +379,33 @@ plays a role here). Once the energy required at the wheels is known, the
 model goes on to calculate the energy required at the tank level by
 considering additional losses along the drive train (i.e., axles,
 gearbox, and engine losses). The different types of resistance
-considered are depicted in Figure 5, and the module calculation workflow
-is presented in Figure 6.
+considered are depicted in :ref:`Figure 4 <figure-4>`, and the module calculation workflow
+is presented in :ref:`Figure 5 <figure-5>`.
 
 Powertrains that are partially or fully electrified have the possibility
 to recuperate a part of the energy spent for propulsion during
 deceleration or braking. The round-trip battery energy loss (which is
-the sum of the charge and discharge battery loss, described in Figure 5)
+the sum of the charge and discharge battery loss, described in :ref:`Figure 4 <figure-4>`)
 is subtracted from the recuperated energy. For hybrid vehicles (i.e.,
 HEV-p, HEV-d), this allows to downsize the combustion engine and improve
-the overall tank-to-wheel efficiency, as explained in [5]_.
+the overall tank-to-wheel efficiency, as explained in :cite:`ct-1012`.
 
-.. image:: /_static/img/image13.png
-   :width: 6.26667in
-   :height: 2.49167in
+.. _figure-4:
 
-Figure 5 Representation of the different types of resistance considered.
+.. figure:: /_static/img/image13.png
+   :align: center
 
-.. image:: /_static/img/image15.png
-   :width: 100%
+   *Figure 4: Representation of the different types of resistance considered.*
 
-.. image:: /_static/img/image14.png
-   :width: 20%
+.. _figure-5:
 
+.. figure:: /_static/img/image15.png
+   :align: center
 
-Figure 6 Motive energy calculation workflow
+.. figure:: /_static/img/image14.png
+   :align: center
+
+   *Figure 5: Motive energy calculation workflow*
 
 
 Finally, for each second of the driving cycle, the auxiliary power load
@@ -414,30 +416,36 @@ supply heating and cooling (i.e., thereby decreasing the available
 energy available for traction), combustion vehicles recover enough waste
 engine heat to supply adequate heating. The values considered for the
 auxiliary base power load and for the power load for heating and cooling
-are presented in Table 5. These values are averaged over the whole year,
+are presented in :ref:`Table 5 <table-5>`. These values are averaged over the whole year,
 based on maximum demand and share of operation.
 
-Table 5 Auxiliary power demand. Source : [6]_
+.. _table-5:
 
-+----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
-| Auxiliary power base demand [W]  | Heating power demand [W]  |        |                     |         |        | Cooling power demand [W]  |        |        |         |        |            |
-+==================================+===========================+========+=====================+=========+========+===========================+========+========+=========+========+============+
-|                                  |                           | Micro  | Small               | Medium  | Large  | Large SUV                 | Micro  | Small  | Medium  | Large  | Large SUV  |
-+----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
-| ICEV, HEV, PHEV                  | 94                        |        | Provided by engine  |         |        |                           |        | 250    | 320     | 350    | 350        |
-+----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
-| BEV, FCEV                        | 75                        | 200    | 250                 | 320     | 350    | 350                       | 0      | 250    | 320     | 350    | 350        |
-+----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
+.. table:: Table 5: Auxiliary power demand. Source: :cite:`ct-1132`
+   :align: center
+   :widths: auto
+
+   +----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
+   | Auxiliary power base demand [W]  | Heating power demand [W]  |        |                     |         |        | Cooling power demand [W]  |        |        |         |        |            |
+   +==================================+===========================+========+=====================+=========+========+===========================+========+========+=========+========+============+
+   |                                  |                           | Micro  | Small               | Medium  | Large  | Large SUV                 | Micro  | Small  | Medium  | Large  | Large SUV  |
+   +----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
+   | ICEV, HEV, PHEV                  | 94                        |        | Provided by engine  |         |        |                           |        | 250    | 320     | 350    | 350        |
+   +----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
+   | BEV, FCEV                        | 75                        | 200    | 250                 | 320     | 350    | 350                       | 0      | 250    | 320     | 350    | 350        |
+   +----------------------------------+---------------------------+--------+---------------------+---------+--------+---------------------------+--------+--------+---------+--------+------------+
 
 .. math::
 
     P_{aux} = P_{base} + (P_{heating} \times D_{heating}) + (P_{cooling} \times D_{cooling})
 
-where :math:`P_{base}` is the auxiliary base power load [W],
-:math:`P_{heating}` is the power load for heating [W],
-:math:`P_{cooling}` is the power load for cooling [W],
-:math:`D_{heating}` is the demand for heating [0-1] (=0 for non-electric vehicles),
-and :math:`D_{cooling}` is the demand for cooling [0-1].
+Where:
+
+- :math:`P_{base}` is the auxiliary base power load [W],
+- :math:`P_{heating}` is the power load for heating [W],
+- :math:`P_{cooling}` is the power load for cooling [W],
+- :math:`D_{heating}` is the demand for heating [0-1] (=0 for non-electric vehicles),
+- and :math:`D_{cooling}` is the demand for cooling [0-1].
 
 To convert it into an energy consumption :math:`F_{aux}` [kj/km],
 the auxiliary power load is multiplied by the time of the driving cycle
@@ -447,11 +455,12 @@ and divided by the distance driven:
 
     F_{aux} = \frac{P_{aux} \times T}{D}
 
-where :math:`T` is the driving cycle time [seconds] and D is the distance [m].
+Where: :math:`T` is the driving cycle time [seconds] and D is the distance [m].
 
-**Important remark:** Micro cars are not equipped with an air
-conditioning system. Hence, their cooling energy requirement is set to
-zero.
+.. note::
+    **Important remark:** Micro cars are not equipped with an air
+    conditioning system. Hence, their cooling energy requirement is set to
+    zero.
 
 A driving cycle is used to calculate the tank-to-wheel energy required
 by the vehicle to drive over one kilometer. For example, the WLTC
@@ -460,21 +469,22 @@ It is assumed representative of average Swiss and European driving
 profile - although this would likely differ in the case of intensive
 mountain driving.
 
-Figure 7 exemplifies such calculation for a medium battery electric
+:ref:`Figure 6 <figure-6>` exemplifies such calculation for a medium battery electric
 passenger car manufactured in 2020, using the WLTC driving cycle.
 
-.. image:: /_static/img/image16.png
-   :width: 4.46667in
-   :height: 2.69742in
+.. _figure-6:
 
-Figure 7 Cumulated tank-to-wheel energy consumption, along the WLTC
-driving cycle, for a mid-size battery electric vehicle from 2020
+.. figure:: /_static/img/image16.png
+   :align: center
 
-.. image:: /_static/img/image17.png
-   :width: 3.84722in
-   :height: 1.94653in
+   *Figure 6: Cumulated tank-to-wheel energy consumption, along the WLTC driving cycle, for a mid-size battery electric vehicle from 2020*
 
-Figure 8 Driving cycle and related parameters
+.. _figure-7:
+
+.. figure:: /_static/img/image17.png
+   :align: center
+
+   *Figure 7: Driving cycle and related parameters*
 
 So, the tank-to-wheel energy consumption :math:`F_{ttw}` is the sum of the motive energy and the
 energy required to power auxiliary equipment. It is calculated as:
@@ -483,8 +493,10 @@ energy required to power auxiliary equipment. It is calculated as:
 
     F_{ttw} = F_{motive} + F_{aux}
 
-where :math:`F_{motive}` is the motive energy, and :math:`F_{aux}` is the
-auxiliary energy.
+Where:
+
+- :math:`F_{motive}` is the motive energy,
+- and :math:`F_{aux}` is the auxiliary energy.
 
 There are no fuel consumption measurements available for fuel cell
 vehicles. Values found in the literature and from manufacturers data are
@@ -494,7 +506,7 @@ calibrate the final energy consumption.
 For diesel and gasoline hybrid vehicles, which are ICE vehicles equipped
 with a small electric motor to allow for energy recuperation and
 reducing the engine size, the drivetrain and engine efficiency are based
-on [5]_ [7]_. The amount of energy recuperated is determined by the driving
+on :cite:`ct-1012,ct-1073`. The amount of energy recuperated is determined by the driving
 cycle as well as the round-trip efficiency between the wheels and the
 engine and cannot be superior to the power output of the engine. Further
 on, the share of recuperated energy over the total negative motive
@@ -503,29 +515,23 @@ discounting factor for brake wear particle emissions.
 
 Engine and transmission efficiencies for the different powertrains are
 fine-tuned until it aligns reasonably well with the fuel consumption
-values from the EC-CO2-PC database, as shown in Figure 9.
+values from the EC-CO2-PC database, as shown in :ref:`Figure 8 <figure-8>`.
 
-.. image:: /_static/img/image18.png
-   :width: 100%
+.. _figure-8:
 
-Figure 9 Validation of the tank-to-wheel energy consumption against the
-monitoring program for passenger vehicle emissions database. Sample size
-for each size class is given above each chart. M = Mini, S = Small, L-M
-= Lower medium, M = Medium, L = Large, L-SUV = Large SUV. Horizontal
-lines within the green boxes represent the median value. The green boxes
-represent 50% of the distribution (25\ :sup:`th`-75\ :sup:`th`
-percentiles). The whiskers represent 90% of the distribution
-(5\ :sup:`th`-95\ :sup:`th` percentiles). Outliers are not shown. Source
-for vehicle tank-to-wheel energy consumption measurements: [4]_
+.. figure:: /_static/img/image18.png
+   :align: center
+
+   *Figure 8: Validation of the tank-to-wheel energy consumption against the monitoring program for passenger vehicle emissions database. Sample size for each size class is given above each chart. M = Mini, S = Small, L-M = Lower medium, M = Medium, L = Large, L-SUV = Large SUV. Horizontal lines within the green boxes represent the median value. The green boxes represent 50% of the distribution (25\ :sup:`th`-75\ :sup:`th` percentiles). The whiskers represent 90% of the distribution (5\ :sup:`th`-95\ :sup:`th` percentiles). Outliers are not shown.* Source for vehicle tank-to-wheel energy consumption measurements: :cite:`ct-1131`
 
 Electric energy storage
 ***********************
 
-Battery electric vehicles can use different battery chemistries (Li-ion
+Battery electric vehicles can use different battery chemistry (Li-ion
 NMC, Li-ion LFP, Li-ion NCA and Li-LTO) depending on the manufacturer's
 preference or the location of the battery supplier. Unless specified
 otherwise, all battery types are produced in China, as several sources,
-among which BloombergNEF [8]_, seem to indicate that more than 75% of the
+among which BloombergNEF :cite:`ct-1105`, seem to indicate that more than 75% of the
 world's cell capacity is manufactured there.
 
 Accordingly, the electricity mix used for battery cells manufacture and
@@ -534,9 +540,9 @@ representative of the country (i.e., the corresponding providers are
 selected from the LCI background database).
 
 The battery-related parameters considered in ``carculator`` for 2020 are
-shown in Table 6. For LFP batteries, "blade battery" or "cell-to-pack"
-battery configurations are considered, as introduced by CATL [9]_ and BYD
-[10]_, two major LFP battery suppliers in Asia. This greatly increases
+shown in :ref:`Table 6 <table-6>`. For LFP batteries, "blade battery" or "cell-to-pack"
+battery configurations are considered, as introduced by CATL :cite:`ct-1113` and BYD
+:cite:`ct-1049`, two major LFP battery suppliers in Asia. This greatly increases
 the cell-to-pack ratio and the gravimetric energy density at the pack
 level.
 
@@ -548,63 +554,70 @@ much R&D. Hence, by 2050, the gravimetric energy density of NMC and NCA
 cells are expected to reach 0.5 kWh/kg, while that of LFP cells plateaus
 at 0.15 kWh/kg (but benefits from a high cell-to-pack ratio)..
 
-Table 6 Specifications for the different battery types
+.. _table-6:
 
-+-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
-|                                                                             | Lithium Nickel Manganese Cobalt Oxide (LiNiMnCoO2) — NMC  | Lithium Iron Phosphate(LiFePO4) — LFP  | Lithium Nickel Cobalt Aluminum Oxide (LiNiCoAlO2) — NCA  | Source                              |
-+=============================================================================+===========================================================+========================================+==========================================================+=====================================+
-| Cell energy density [kWh/kg]                                                | 0.2 (0.5 in 2050)                                         | 0.15                                   | 0.23 (0.5 in 2050)                                       | [11]_                                |
-+-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
-| Cell-to-pack ratio                                                          | 0.6 (0.65 in 2050)                                        | 0.8 (0.9 in 2050)                      | 0.5 (0.55 in 2050)                                       | [12]_                                |
-+-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
-| Pack-level gravimetric energy density [kWh/kg]                              | 0.12                                                      | 0.12                                   | 0.14                                                     | Calculated from the two rows above  |
-+-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
-| Share of cell mass in battery system [%]                                    | 70 to 80% (depending on chemistry, see third row above)   |                                        |                                                          | [5,12]_                              |
-+-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
-| Maximum state of charge [%]                                                 | 100%                                                      | 100%                                   | 100%                                                     | [11,13]_                             |
-+-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
-| Minimum state of charge [%]                                                 | 20%                                                       | 20%                                    | 20%                                                      |                                     |
-+-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
-| Cycle life to reach 20% initial capacity loss  (80%-20% SoC charge cycle)   | 2'000                                                     | 7'000+                                 | 1'000                                                    | [14]_                                |
-+-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
-| Corrected cycle life                                                        | 3'000                                                     | 7'000                                  | 1'500                                                    | Assumption                          |
-+-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
-| Charge efficiency                                                           | 85% in 2020, 86% in 2050                                  |                                        |                                                          | [5,15]_ for passenger cars.          |
-+-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
-| Discharge efficiency                                                        | 88% in 2020, 89% in 2050                                  |                                        |                                                          | [5,16]_                              |
-+-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-------------------------------------+
+.. table:: Table 6: Specifications for the different battery types
+   :align: center
+   :widths: auto
 
-Note that the NMC battery cell used by default corresponds to a so-called NMC 6-2-2 chemistry: it exhibits three times the mass amount of *Ni*
-compared to *Mn*, and *Co*, while *Mn* and *Co* are present in equal amount. Development aims at reducing the content of Cobalt and increasing the
-Nickel share. A selection of other chemistry types can be chosen from.
+   +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-----------------------------------------------+
+   |                                                                             | Lithium Nickel Manganese Cobalt Oxide (LiNiMnCoO2) — NMC  | Lithium Iron Phosphate(LiFePO4) — LFP  | Lithium Nickel Cobalt Aluminum Oxide (LiNiCoAlO2) — NCA  | Source                                        |
+   +=============================================================================+===========================================================+========================================+==========================================================+===============================================+
+   | Cell energy density [kWh/kg]                                                | 0.2 (0.5 in 2050)                                         | 0.15                                   | 0.23 (0.5 in 2050)                                       | :cite:`ct-1005`                               |
+   +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-----------------------------------------------+
+   | Cell-to-pack ratio                                                          | 0.6 (0.65 in 2050)                                        | 0.8 (0.9 in 2050)                      | 0.5 (0.55 in 2050)                                       | :cite:`ct-1114`                               |
+   +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-----------------------------------------------+
+   | Pack-level gravimetric energy density [kWh/kg]                              | 0.12                                                      | 0.12                                   | 0.14                                                     | Calculated from the two rows above            |
+   +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-----------------------------------------------+
+   | Share of cell mass in battery system [%]                                    | 70 to 80% (depending on chemistry, see third row above)   |                                        |                                                          | :cite:`ct-1012,ct-1114`                       |
+   +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-----------------------------------------------+
+   | Maximum state of charge [%]                                                 | 100%                                                      | 100%                                   | 100%                                                     | :cite:`ct-1005,ct-1034`                       |
+   +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-----------------------------------------------+
+   | Minimum state of charge [%]                                                 | 20%                                                       | 20%                                    | 20%                                                      |                                               |
+   +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-----------------------------------------------+
+   | Cycle life to reach 20% initial capacity loss  (80%-20% SoC charge cycle)   | 2'000                                                     | 7'000+                                 | 1'000                                                    | :cite:`ct-1063`                               |
+   +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-----------------------------------------------+
+   | Corrected cycle life                                                        | 3'000                                                     | 7'000                                  | 1'500                                                    | Assumption                                    |
+   +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-----------------------------------------------+
+   | Charge efficiency                                                           | 85% in 2020, 86% in 2050                                  |                                        |                                                          | :cite:`ct-1012,ct-1013` for passenger cars.   |
+   +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-----------------------------------------------+
+   | Discharge efficiency                                                        | 88% in 2020, 89% in 2050                                  |                                        |                                                          | :cite:`ct-1012,ct-1080`                       |
+   +-----------------------------------------------------------------------------+-----------------------------------------------------------+----------------------------------------+----------------------------------------------------------+-----------------------------------------------+
+
+.. note::
+    The NMC battery cell used by default corresponds to a so-called NMC 6-2-2 chemistry: it exhibits three times the mass amount of *Ni*
+    compared to *Mn*, and *Co*, while *Mn* and *Co* are present in equal amount. Development aims at reducing the content of Cobalt and increasing the
+    Nickel share. A selection of other chemistry types can be chosen from.
 
 
 On account that:
 
--  the battery cycle life values were obtained in the context of an
-   experiment [14]_,
+- the battery cycle life values were obtained in the context of an experiment :cite:`ct-1063`,
+- with loss of 20% of the initial capacity, the battery may still
+  provide enough energy to complete the intended route,
+  cycle life values for NMC and NCA battery chemistry are corrected by +50%.
 
--  with loss of 20% of the initial capacity, the battery may still
-   provide enough energy to complete the intended route,
+.. note::
+    **Important assumption**: The environmental burden associated with the
+    manufacture of spare batteries is entirely allocated to the vehicle use.
+    The number of battery replacements is rounded up.
 
-cycle life values for NMC and NCA battery chemistries are corrected by
-+50%.
-
-**Important assumption**: The environmental burden associated with the
-manufacture of spare batteries is entirely allocated to the vehicle use.
-The number of battery replacements is rounded up.
-
-Table 7 gives an overview of the number of battery replacements assumed
+:ref:`Table 7 <table-7>` gives an overview of the number of battery replacements assumed
 for the different battery electric vehicles in ``carculator``.
 
-Table 7 Number of battery replacements assumed or calculated for each
-vehicle type by default
+.. _table-7:
 
-============================= === === ===
-\                             NMC LFP NCA
-Passenger car, electric, 2020 0   0   0
-Passenger car, electric, 2050 0   0   0
-============================= === === ===
+.. table:: Table 7: Number of battery replacements assumed or calculated for each vehicle type by default
+   :align: center
+   :widths: auto
+
+   +----------------------------------------------+----------+----------+----------+
+   |                                              | NMC      | LFP      | NCA      |
+   +==============================================+==========+==========+==========+
+   | Passenger car, electric, 2020                | 0        | 0        | 0        |
+   +----------------------------------------------+----------+----------+----------+
+   | Passenger car, electric, 2050                | 0        | 0        | 0        |
+   +----------------------------------------------+----------+----------+----------+
 
 Users are encouraged to test the sensitivity of end-results on the
 number of battery replacements.
@@ -615,9 +628,10 @@ The number of battery replacement is calculated as follows:
 
     n_{batt_repl} = \frac{L_{veh}}{L_{batt}} - 1
 
-where :math:`L_{veh}` is the lifetime of the vehicle [km],
-and :math:`L_{batt}` is the lifetime of the battery [km].
+Where:
 
+- :math:`L_{veh}` is the lifetime of the vehicle [km],
+- and :math:`L_{batt}` is the lifetime of the battery [km].
 
 Liquid and gaseous energy storage
 *********************************
@@ -628,7 +642,10 @@ The oxidation energy stored in liquid fuel tanks is calculated as:
 
     E_{oxid} = m_{fuel} \times E_{lhv}
 
-where :math:`m_{fuel}` is the mass of the fuel [kg], and :math:`E_{lhv}` is the lower heating value of hte fuel [MJ/kg].
+Where:
+
+- :math:`m_{fuel}` is the mass of the fuel [kg],
+- and :math:`E_{lhv}` is the lower heating value of hte fuel [MJ/kg].
 
 The fuel tank mass is calculated as:
 
@@ -636,11 +653,12 @@ The fuel tank mass is calculated as:
 
     m_{tank} = m_{fuel} \times m_{tank unit}
 
-where :math:`m_{tank unit}` being the tank mass per unit of energy [kg/MJ].
+Where: :math:`m_{tank unit}` being the tank mass per unit of energy [kg/MJ].
 
-Note that the tank mass per unit of energy is different for liquid fuels (gasoline,
-diesel), and for gaseous fuels (compressed gas, hydrogen). Also, compressed gas tanks
-store at 200 bar, while hydrogen tanks store at 700 bar.
+.. note::
+    The tank mass per unit of energy is different for liquid fuels (gasoline,
+    diesel), and for gaseous fuels (compressed gas, hydrogen). Also, compressed gas tanks
+    store at 200 bar, while hydrogen tanks store at 700 bar.
 
 Fuel cell stack
 ***************
@@ -648,7 +666,7 @@ Fuel cell stack
 All fuel cell electric vehicles use a proton exchange membrane
 (PEM)-based fuel cell system.
 
-Table 8 lists the specifications of the fuel cell stack and system used
+:ref:`Table 8 <table-8>` lists the specifications of the fuel cell stack and system used
 in ``carculator`` in 2020. The durability of the fuel cell stack,
 expressed in hours, is used to determine the number of replacements
 needed - the expected kilometric lifetime of the vehicle as well as the
@@ -658,41 +676,45 @@ of spare fuel cell systems is entirely allocated to vehicle use as no
 reuse channels seem to be implemented for fuel cell stacks at the
 moment.
 
-Table 8 Specifications for fuel cell stack systems
+.. _table-8:
 
-+-----------------------+----------+--------+-----------------------+
-|                       | 2020     | 2050   | Source                |
-+-----------------------+----------+--------+-----------------------+
-| Power [kW]            | 65 - 140 | 65 140 | Calculated.           |
-+-----------------------+----------+--------+-----------------------+
-| Fuel cell stack       | 55-58%   | 60%    | [5]_                   |
-| efficiency [%]        |          |        |                       |
-+-----------------------+----------+--------+-----------------------+
-| Fuel cell stack own   | 15%      | 12%    |                       |
-| consumption [% of kW  |          |        |                       |
-| output]               |          |        |                       |
-+-----------------------+----------+--------+-----------------------+
-| Fuel cell system      | 45-50%   | 53%    |                       |
-| efficiency [%]        |          |        |                       |
-+-----------------------+----------+--------+-----------------------+
-| Power density [W/cm2  | 0.9      | 1      | For passenger cars,   |
-| cell]                 |          |        | [17]_.                 |
-+-----------------------+----------+--------+-----------------------+
-| Specific mass [kg     | 0.51     |        |                       |
-| cell/W]               |          |        |                       |
-+-----------------------+----------+--------+-----------------------+
-| Platinum loading      | 0.13     |        |                       |
-| [mg/cm2]              |          |        |                       |
-+-----------------------+----------+--------+-----------------------+
-| Fuel cell stack       | 4 000    | 5 625  | [18]_ [19]_           |
-| durability [hours to  |          |        |                       |
-| reach 20% cell        |          |        |                       |
-| voltage degradation]  |          |        |                       |
-+-----------------------+----------+--------+-----------------------+
-| Fuel cell stack       | 1        | 0      | Calculated.           |
-| lifetime replacements |          |        |                       |
-| [unit]                |          |        |                       |
-+-----------------------+----------+--------+-----------------------+
+.. table:: Table 8: Specifications for fuel cell stack systems
+   :align: center
+   :widths: auto
+
+   +-----------------------+----------+--------+-----------------------+
+   |                       | 2020     | 2050   | Source                |
+   +=======================+==========+========+=======================+
+   | Power [kW]            | 65 - 140 | 65 140 | Calculated.           |
+   +-----------------------+----------+--------+-----------------------+
+   | Fuel cell stack       | 55-58%   | 60%    | :cite:`ct-1012`       |
+   | efficiency [%]        |          |        |                       |
+   +-----------------------+----------+--------+-----------------------+
+   | Fuel cell stack own   | 15%      | 12%    |                       |
+   | consumption [% of kW  |          |        |                       |
+   | output]               |          |        |                       |
+   +-----------------------+----------+--------+-----------------------+
+   | Fuel cell system      | 45-50%   | 53%    |                       |
+   | efficiency [%]        |          |        |                       |
+   +-----------------------+----------+--------+-----------------------+
+   | Power density [W/cm2  | 0.9      | 1      | For passenger cars,   |
+   | cell]                 |          |        | :cite:`ct-1089`.      |
+   +-----------------------+----------+--------+-----------------------+
+   | Specific mass [kg     | 0.51     |        |                       |
+   | cell/W]               |          |        |                       |
+   +-----------------------+----------+--------+-----------------------+
+   | Platinum loading      | 0.13     |        |                       |
+   | [mg/cm2]              |          |        |                       |
+   +-----------------------+----------+--------+-----------------------+
+   | Fuel cell stack       | 4 000    | 5 625  | :cite:`ct-1023`,      |
+   | durability [hours to  |          |        | :cite:`ct-1046`       |
+   | reach 20% cell        |          |        |                       |
+   | voltage degradation]  |          |        |                       |
+   +-----------------------+----------+--------+-----------------------+
+   | Fuel cell stack       | 1        | 0      | Calculated.           |
+   | lifetime replacements |          |        |                       |
+   | [unit]                |          |        |                       |
+   +-----------------------+----------+--------+-----------------------+
 
 The fuel cell system efficiency :math:`r_{fcsys}` is calculated as:
 
@@ -700,7 +722,11 @@ The fuel cell system efficiency :math:`r_{fcsys}` is calculated as:
 
     r_{fcsys} = \frac{r_{fcstack}}{r_{fcown}}
 
-where :math:`r_{fcstack}` is the fuel cell stack efficiency [%], and :math:`r_{fcown}` is the rate of autoconsumption [%].
+Where:
+
+- :math:`r_{fcstack}` is the fuel cell stack efficiency [%],
+- and :math:`r_{fcown}` is the rate of auto consumption [%].
+
 For reference, the rate of auto-consumption in 2020 for a fuel cell system is 15% (i.e., 15% of the power produced by
 the fuel cell system is consumed by it).
 
@@ -710,8 +736,10 @@ The fuel cell system power :math:`P_{fcsys}` is calculated as:
 
     P_{fcsys} = P_{veh} \times r_{fcshare} \times r_{fcown}
 
-where :math:`P_{veh}` is the vehicle engine power and :math:`r_{fcshare}` is the fuel cell system power relative
-to the vehicle engine power [%].
+Where:
+
+- :math:`P_{veh}` is the vehicle engine power
+- and :math:`r_{fcshare}` is the fuel cell system power relative to the vehicle engine power [%].
 
 Finally, the fuel cell stack mass is calculated as:
 
@@ -719,15 +747,19 @@ Finally, the fuel cell stack mass is calculated as:
 
     m_{fcstack} = 0.51 [kg/kW] \times P_{fcsys} \times \frac{800 [mW/cm^2]}{A_{fc}}
 
-where :math:`P_{fcsys}` is the fuel cell system power [kW],
-:math:`A_{fc}` is the fuel cell fuel cell power area density [kW/cm2],
-and :math:`m_{fcstack}` is the fuel cell stack mass [kg].
+Where:
 
-**Important remark:** although fuel cell electric vehicles have a small
-battery to enable the recuperation of braking energy, etc., we model
-it as a power battery, not a storage battery.
-For example, the Toyota Mirai is equipped with a 1.6 kWh
-nickel-based battery.
+- :math:`P_{fcsys}` is the fuel cell system power [kW],
+- :math:`A_{fc}` is the fuel cell fuel cell power area density [kW/cm2],
+- and :math:`m_{fcstack}` is the fuel cell stack mass [kg].
+
+
+.. note::
+    **Important remark:** Although fuel cell electric vehicles have a small
+    battery to enable the recuperation of braking energy, etc., we model
+    it as a power battery, not a storage battery.
+    For example, the Toyota Mirai is equipped with a 1.6 kWh
+    nickel-based battery.
 
 The battery power is calculated as:
 
@@ -735,9 +767,10 @@ The battery power is calculated as:
 
     P_{batt} = P_{fcsys} \times (1 - r_{fcsys})
 
+Where:
 
-where :math:`P_{fcsys}` is the fuel cell system power [kW],
-and :math:`r_{fcshare}` is the fuel cell system power share [%].
+- :math:`P_{fcsys}` is the fuel cell system power [kW],
+- and :math:`r_{fcshare}` is the fuel cell system power share [%].
 
 The number of fuel cell replacements is based on the average distance driven
 with a set of fuel cells given their lifetime expressed in hours of use.
@@ -748,16 +781,20 @@ with a second life. It is hence is calculated as:
 
     n_{fcrep} = \frac{L_{veh}}{V_{avg} \times L_{fc}} - 1
 
-where :math:`L_{veh}` is the lifetime of the vehicle [km],
-:math:`V_{avg}` is the average speed of the driving cycle selected [km/h],
-and :math:`L_{fc}` is the fuel cell lifetime in hours [h].
+Where:
+
+- :math:`L_{veh}` is the lifetime of the vehicle [km],
+- :math:`V_{avg}` is the average speed of the driving cycle selected [km/h],
+- and :math:`L_{fc}` is the fuel cell lifetime in hours [h].
+
+.. TODO: Continue Here
 
 Light-weighting
 ***************
 
 The automotive industry has been increasingly using light weighting
 materials to replace steel in engine blocks, chassis, wheels rims and
-powertrain components [2]_. However, vehicles light weighting has not led
+powertrain components :cite:`ct-1020`. However, vehicles light weighting has not led
 to an overall curb mass reduction for passenger cars and trucks, as
 additional safety equipment compensate for it. According to [20]_,
 passenger cars in the EU in 2016 were on average 10% heavier than in
@@ -787,7 +824,7 @@ reduction is achieved by replacing 3.57 kilogram of steel by:
 
 Additionally, additional efforts is made to ensure that the final
 aluminium content in the chassis corresponds to what is actually found
-in current passenger car models, according to [2]_.
+in current passenger car models, according to :cite:`ct-1020`.
 
 While ecoinvent v.3.8 has a LCI dataset for the supply of aluminium, it
 is not the case for AHSS. However, an LCA report from the World Steel
@@ -1697,7 +1734,7 @@ Inventories for fuel pathways
 A number of inventories for fuel production and supply are used by
 ``carculator``. They represent an update in comparison to the inventories
 used in the passenger vehicles model initially published by Cox et
-al.[5]_. The fuel pathways presented in Table 25 are from the literature
+al.:cite:`ct-1012`. The fuel pathways presented in Table 25 are from the literature
 and not present as generic ecoinvent datasets.
 
 +-----------+---------------------------+---------------------------+
