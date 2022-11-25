@@ -102,7 +102,7 @@ Then, you simply pass this dictionary to `modify_xarray_from_custom_parameters(<
     cm.set_all()
 
 Alternatively, instead of a Python dictionary, you can pass a file path pointing to an Excel spreadsheet that contains
-the values to change, following `this template </_static/img/template_workbook.xlsx>`_.
+the values to change, following :download:`this template </_static/resources/template_workbook.zip>`.
 
 The following probability distributions are accepted:
 * "triangular"

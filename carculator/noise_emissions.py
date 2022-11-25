@@ -87,8 +87,7 @@ class NoiseEmissionsModel:
         Model from CNOSSOS-EU project
         (http://publications.jrc.ec.europa.eu/repository/bitstream/JRC72550/cnossos-eu%20jrc%20reference%20report_final_on%20line%20version_10%20august%202012.pdf)
 
-        For electric cars, special coefficients are applied from
-        (`Pallas et al. 2016 <https://www.sciencedirect.com/science/article/pii/S0003682X16301608>`_ )
+        For electric cars, special coefficients are applied from :cite:`ct-1119`.
 
         Also, for electric cars, a warning signal of 56 dB is added when the car drives at 20 km/h or lower.
 

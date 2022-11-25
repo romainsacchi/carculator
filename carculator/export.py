@@ -905,9 +905,11 @@ class ExportInventory:
         :type ecoinvent_version: str
         :param software_compatibility: str. "brightway2" or "simapro"
         :type software_compatibility: str
+
         If "string", returns a string.
+
         :returns: returns the file path of the exported inventory.
-        :rtype: str.
+        :rtype: str
         """
 
         if software_compatibility == "brightway2":

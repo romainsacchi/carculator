@@ -18,8 +18,8 @@ def get_standard_driving_cycle(name: str = "WLTC") -> np.ndarray:
     Driving cycles are given as km/h per second up to 3200 seconds.
 
     :param name: The name of the driving cycle.
-    WLTC (Worldwide harmonized Light vehicles Test Cycles)
-    is chosen by default if :param name: left unspecified.
+        WLTC (Worldwide harmonized Light vehicles Test Cycles)
+        is chosen by default if ``name`` left unspecified.
     :type name: str
 
     ``name`` should be one of:
@@ -36,8 +36,7 @@ def get_standard_driving_cycle(name: str = "WLTC") -> np.ndarray:
     * CADC
     * NEDC
 
-    :returns: A pandas DataFrame object with driving time (in seconds) as index,
-        and velocity (in km/h) as values.
+    :returns: A pandas DataFrame object with driving time (in seconds) as index, and velocity (in km/h) as values.
     :rtype: panda.Series
 
 

@@ -787,8 +787,6 @@ Where:
 - :math:`V_{avg}` is the average speed of the driving cycle selected [km/h],
 - and :math:`L_{fc}` is the fuel cell lifetime in hours [h].
 
-.. TODO: Continue Here
-
 Light-weighting
 ***************
 
@@ -796,7 +794,7 @@ The automotive industry has been increasingly using light weighting
 materials to replace steel in engine blocks, chassis, wheels rims and
 powertrain components :cite:`ct-1020`. However, vehicles light weighting has not led
 to an overall curb mass reduction for passenger cars and trucks, as
-additional safety equipment compensate for it. According to [20]_,
+additional safety equipment compensate for it. According to :cite:`ct-1053`,
 passenger cars in the EU in 2016 were on average 10% heavier than in
 2000.
 
@@ -805,10 +803,10 @@ The dataset used to represent the chassis of passenger cars (i.e.,
 weighting materials, such as aluminium and advanced high strength steel
 (AHSS).
 
-A report from the Steel Recycling Institute [21]_ indicates that every
+A report from the Steel Recycling Institute :cite:`ct-1082` indicates that every
 kilogram of steel in a car glider can be substituted by 0.75 kilogram of
 AHSS or 0.68 kilogram of aluminium. Looking at the material composition
-of different car models three years apart, [22]_ show that steel is in
+of different car models three years apart, :cite:`ct-1041` show that steel is in
 fact increasingly replaced by a combination of both aluminium and AHSS.
 However, they also show that the use of AHSS is generally preferred to
 aluminium as its mass reduction-to-cost ratio is preferable.
@@ -819,7 +817,6 @@ comes from using aluminium. This means that one kilogram of mass
 reduction is achieved by replacing 3.57 kilogram of steel by:
 
 -  1.76 kilogram of AHSS
-
 -  0.8 kilogram of aluminium
 
 Additionally, additional efforts is made to ensure that the final
@@ -828,7 +825,7 @@ in current passenger car models, according to :cite:`ct-1020`.
 
 While ecoinvent v.3.8 has a LCI dataset for the supply of aluminium, it
 is not the case for AHSS. However, an LCA report from the World Steel
-Institute [23]_ indicates that AHSS has a similar carbon footprint than
+Institute :cite:`ct-1110` indicates that AHSS has a similar carbon footprint than
 conventional primary low-alloyed steel from a basic oxygen furnace route
 (i.e., 2.3 kg CO\ :sub:`2`-eq./kg). We therefore use conventional steel
 to represent the use of AHSS.
@@ -836,10 +833,12 @@ to represent the use of AHSS.
 The amount of light-weighting obtained from the use of light-weighting
 materials is:
 
-    :math:`\Delta m_{glider} = m_{glider} \times r_{lightweighting}`
+:math:`\Delta m_{glider} = m_{glider} \times r_{lightweighting}`
 
-where :math:`\Delta m_{steel}` is the mass reduction of the glider [kg],
-and :math:`r_{lightweighting}` is the light-weighting ratio [%].
+Where:
+
+- :math:`\Delta m_{steel}` is the mass reduction of the glider [kg],
+- and :math:`r_{lightweighting}` is the light-weighting ratio [%].
 
 Sizing of onboard energy storage
 ********************************
@@ -850,19 +849,17 @@ Sizing of battery
 The sizing of batteries for battery electric vehicles is conditioned by
 the battery mass, which is defined as an input parameter for each size
 class. The battery masses given for the different size classes are
-presented in Figure 10 using the battery chemistry NMC, and is based on
+presented in :ref:`Figure 9 <figure-9>` using the battery chemistry NMC, and is based on
 representative battery storage capacities available today on the market
 - which are represented in relation to the curb mass. The data is
 collected from the vehicle's registry of Touring Club Switzerland.
 
-.. image:: /_static/img/image19.png
-   :width: 6.24306in
-   :height: 3.25326in
+.. _figure-9:
 
-Figure 10 Energy storage capacity for current battery electric cars,
-shown in relation to curb mass. Red dots are the energy storage
-capacities used for Small, Medium and Large battery electric vehicles in
-``carculator``.
+.. figure:: /_static/img/image19.png
+   :align: center
+
+   *Figure 9: Energy storage capacity for current battery electric cars, shown in relation to curb mass. Red dots are the energy storage capacities used for Small, Medium and Large battery electric vehicles in ``carculator``*
 
 Seventy percent of the overall battery mass is assumed to be represented
 by the battery cells in the case of NMC and NCA batteries. Given the
@@ -870,32 +867,35 @@ energy density of the battery cell considered, this yields the storage
 capacity of the battery. A typical depth of discharge of 80% is used to
 calculate the available storage capacity.
 
-Table 9 Parameters for battery sizing for battery electric vehicles
-using NMC battery chemistry
+.. _table-9:
 
-+---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
-| Unit                                                    | Micro     | Small                      | Medium            | Large                                                                         | Large SUV                   |                |
-+=========================================================+===========+============================+===================+===============================================================================+=============================+================+
-| Storage capacity (reference)                            | kWh       | 14                         | 35                | 45                                                                            | 70                          | 80             |
-+---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
-| Commercial models with similar energy storage capacity  |           | Microlino, Renault Twizzy  | VW e-Up!, BMW i3  | Citroen e-C4, DS 3 E.Tense, Peugeot 2008, Peugeot 208, Opel Corsa-e, VW ID.3  | Audi e-Tron, Tesla Model 3  | Jaguar i-Pace  |
-+---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
-| Battery mass (system)                                   | Kilogram  | 120                        | 291               | 375                                                                           | 583                         | 660            |
-+---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
-| Battery cell mass                                       | %         | ~70%                       |                   |                                                                               |                             |                |
-+---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
-| Battery cell mass                                       | Kilogram  | 72                         | 175               | 225                                                                           | 330                         | 400            |
-+---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
-| Balance of Plant mass                                   | Kilogram  | 48                         | 116               | 150                                                                           | 233                         | 260            |
-+---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
-| Energy density                                          | kWh/kg    | 0.2                        |                   |                                                                               |                             |                |
-+---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
-| Storage capacity                                        | kWh       |                            | 35                | 45                                                                            | 70                          | 80             |
-+---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
-| Depth of discharge                                      | %         | 80%                        |                   |                                                                               |                             |                |
-+---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
-| Storage capacity (available)                            | kWh       | 14                         | 28                | 36                                                                            | 56                          | 65             |
-+---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+.. table:: Table 9: Parameters for battery sizing for battery electric vehicles using NMC battery chemistry
+   :align: center
+   :widths: auto
+
+   +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+   | Unit                                                    | Micro     | Small                      | Medium            | Large                                                                         | Large SUV                   |                |
+   +=========================================================+===========+============================+===================+===============================================================================+=============================+================+
+   | Storage capacity (reference)                            | kWh       | 14                         | 35                | 45                                                                            | 70                          | 80             |
+   +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+   | Commercial models with similar energy storage capacity  |           | Microlino, Renault Twizzy  | VW e-Up!, BMW i3  | Citroen e-C4, DS 3 E.Tense, Peugeot 2008, Peugeot 208, Opel Corsa-e, VW ID.3  | Audi e-Tron, Tesla Model 3  | Jaguar i-Pace  |
+   +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+   | Battery mass (system)                                   | Kilogram  | 120                        | 291               | 375                                                                           | 583                         | 660            |
+   +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+   | Battery cell mass                                       | %         | ~70%                       |                   |                                                                               |                             |                |
+   +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+   | Battery cell mass                                       | Kilogram  | 72                         | 175               | 225                                                                           | 330                         | 400            |
+   +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+   | Balance of Plant mass                                   | Kilogram  | 48                         | 116               | 150                                                                           | 233                         | 260            |
+   +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+   | Energy density                                          | kWh/kg    | 0.2                        |                   |                                                                               |                             |                |
+   +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+   | Storage capacity                                        | kWh       |                            | 35                | 45                                                                            | 70                          | 80             |
+   +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+   | Depth of discharge                                      | %         | 80%                        |                   |                                                                               |                             |                |
+   +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
+   | Storage capacity (available)                            | kWh       | 14                         | 28                | 36                                                                            | 56                          | 65             |
+   +---------------------------------------------------------+-----------+----------------------------+-------------------+-------------------------------------------------------------------------------+-----------------------------+----------------+
 
 Hence, the battery cell mass is calculated as:
 
@@ -903,7 +903,10 @@ Hence, the battery cell mass is calculated as:
 
     m_{cell} = m_{pack} \times s_{cell}
 
-where :math:`m_{pack}` is the mass of the pack, and :math:`s_{cell}` is the cell-to-pack ratio.
+Where:
+
+- :math:`m_{pack}` is the mass of the pack,
+- and :math:`s_{cell}` is the cell-to-pack ratio.
 
 And the electricity stored in the battery is calculated as:
 
@@ -911,7 +914,11 @@ And the electricity stored in the battery is calculated as:
 
     E_{battery} = m_{cell} \times C_{cell}
 
-where :math:`E_{battery}` being battery capacity [kWh], :math:`C_{cell}` is the cell energy density [kg/kWh], and :math:`m_{cell}` is the cell mass [kg].
+Where:
+
+- :math:`E_{battery}` being battery capacity [kWh],
+- :math:`C_{cell}` is the cell energy density [kg/kWh],
+- and :math:`m_{cell}` is the cell mass [kg].
 
 By deduction, the balance of plant mass is:
 
@@ -919,7 +926,10 @@ By deduction, the balance of plant mass is:
 
     m_{BoP} = m_{battery} - m_{cell}
 
-where :math:`m_{battery}` is the mass of the battery [kg], and :math:`m_{cell}` is the cell mass [kg].
+Where:
+
+- :math:`m_{battery}` is the mass of the battery [kg],
+- and :math:`m_{cell}` is the cell mass [kg].
 
 Finally, the range autonomy is calculated as:
 
@@ -927,8 +937,11 @@ Finally, the range autonomy is calculated as:
 
     R_{autonomy} = \frac{C_{battery} \times r_{discharge}}{F_{ttw}}
 
-where :math:`C_{battery}` is the battery capacity [kWh], :math:`r_{discharge}` is the discharge depth [%],
-and :math:`F_{ttw}` is the tank-to-wheel energy consumption [kWh/km].
+Where:
+
+- :math:`C_{battery}` is the battery capacity [kWh],
+- :math:`r_{discharge}` is the discharge depth [%],
+- and :math:`F_{ttw}` is the tank-to-wheel energy consumption [kWh/km].
 
 
 Similarly, plug-in hybrid vehicles are dimensioned to obtain an energy
@@ -940,38 +953,39 @@ vehicles, as it conditions the electric utility factor (the share of
 kilometers driven in battery-depleting mode) which calculation is
 described in the next section.
 
-Table 10 Parameters for battery sizing for plug-in hybrid vehicles using
-NMC battery chemistry
+.. _table-10:
 
-+--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+---------------+------------+
-|                                                                    | Unit      | Small                | Medium                               | Large         | Large SUV  |
-+====================================================================+===========+======================+======================================+===============+============+
-| Battery storage capacity (reference)                               | kWh       | 9                    | 13                                   | 18                         |
-+--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
-| Commercial models with similar electric and fuel storage capacity  |           | Kia Niro, Kia Xceed  | Skoda Octavia, VW Golf, Cupra Leon   | Suzuki Across, VW Touareg  |
-+--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
-| Battery mass (system)                                              | Kilogram  | 80                   | 105                                  | 160                        |
-+--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
-| Battery cell mass                                                  | %         | 60%                                                                                      |
-+--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
-| Battery cell mass                                                  | Kilogram  | 48                   | 63                                   | 96                         |
-+--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
-| Balance of Plant mass                                              | Kilogram  | 32                   | 42                                   | 64                         |
-+--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
-| Energy density                                                     | kWh/kg    | 0.2                  |                                                                   |
-+--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
-| Battery storage capacity                                           | kWh       | 9                    | 13                                   | 19                         |
-+--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
-| Depth of discharge                                                 | %         | 80%                  |                                                                   |
-+--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
-| Battery storage capacity (available)                               | kWh       | 7.2                  | 10.4                                 | 15.6                       |
-+--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
-| Fuel tank storage capacity                                         | L         | 45                   | 52                                   | 64                         |
-+--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+.. table:: Table 10: Parameters for battery sizing for plug-in hybrid vehicles using NMC battery chemistry
+   :align: center
+   :widths: auto
 
+   +--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+---------------+------------+
+   |                                                                    | Unit      | Small                | Medium                               | Large         | Large SUV  |
+   +====================================================================+===========+======================+======================================+===============+============+
+   | Battery storage capacity (reference)                               | kWh       | 9                    | 13                                   | 18                         |
+   +--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+   | Commercial models with similar electric and fuel storage capacity  |           | Kia Niro, Kia Xceed  | Skoda Octavia, VW Golf, Cupra Leon   | Suzuki Across, VW Touareg  |
+   +--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+   | Battery mass (system)                                              | Kilogram  | 80                   | 105                                  | 160                        |
+   +--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+   | Battery cell mass                                                  | %         | 60%                                                                                      |
+   +--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+   | Battery cell mass                                                  | Kilogram  | 48                   | 63                                   | 96                         |
+   +--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+   | Balance of Plant mass                                              | Kilogram  | 32                   | 42                                   | 64                         |
+   +--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+   | Energy density                                                     | kWh/kg    | 0.2                  |                                                                   |
+   +--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+   | Battery storage capacity                                           | kWh       | 9                    | 13                                   | 19                         |
+   +--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+   | Depth of discharge                                                 | %         | 80%                  |                                                                   |
+   +--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+   | Battery storage capacity (available)                               | kWh       | 7.2                  | 10.4                                 | 15.6                       |
+   +--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
+   | Fuel tank storage capacity                                         | L         | 45                   | 52                                   | 64                         |
+   +--------------------------------------------------------------------+-----------+----------------------+--------------------------------------+----------------------------+
 
-Note that carculator only considers NMC batteries for plugin hybrid
-vehicles.
+.. note:: ``carculator`` only considers NMC batteries for plugin hybrid vehicles.
 
 Electric utility factor
 ***********************
@@ -980,35 +994,39 @@ Diesel and gasoline plugin hybrid vehicles are modeled as a composition
 of an ICE vehicle and a battery electric vehicle to the extent
 determined by the share of km driven in battery-depleting mode (also
 called "electric utility factor"). This electric utility factor is
-calculated based on a report from the ICCT [24]_, which provides measured
+calculated based on a report from the ICCT :cite:`ct-1062`, which provides measured
 electricity utility factors for 6'000 PHEV *private* owners in Germany
 in relation to the vehicle range in battery-depleting mode.
 
 A first step consists in determining the energy consumption of the PHEV
 in electric mode as well as its battery size, in order to know its range
 autonomy. When the range autonomy is known, the electric utility factor
-is interpolated based on the data presented in Table 11.
+is interpolated based on the data presented in :ref:`Table 11 <table-11>`.
 
-Table 11 Data points used to interpolate the electric utility factor
+.. _table-11:
 
-+----------------------------------+----------------------------------+
-| **Range in battery-depleting     | **Observed electric utility      |
-| mode [km]**                      | factor [%]**                     |
-+==================================+==================================+
-| 20                               | 30                               |
-+----------------------------------+----------------------------------+
-| 30                               | 41                               |
-+----------------------------------+----------------------------------+
-| 40                               | 50                               |
-+----------------------------------+----------------------------------+
-| 50                               | 58                               |
-+----------------------------------+----------------------------------+
-| 60                               | 65                               |
-+----------------------------------+----------------------------------+
-| 70                               | 71                               |
-+----------------------------------+----------------------------------+
-| 80                               | 75                               |
-+----------------------------------+----------------------------------+
+.. table:: Table 11: Data points used to interpolate the electric utility factor
+   :align: center
+   :widths: auto
+
+   +----------------------------------+----------------------------------+
+   | **Range in battery-depleting     | **Observed electric utility      |
+   | mode [km]**                      | factor [%]**                     |
+   +==================================+==================================+
+   | 20                               | 30                               |
+   +----------------------------------+----------------------------------+
+   | 30                               | 41                               |
+   +----------------------------------+----------------------------------+
+   | 40                               | 50                               |
+   +----------------------------------+----------------------------------+
+   | 50                               | 58                               |
+   +----------------------------------+----------------------------------+
+   | 60                               | 65                               |
+   +----------------------------------+----------------------------------+
+   | 70                               | 71                               |
+   +----------------------------------+----------------------------------+
+   | 80                               | 75                               |
+   +----------------------------------+----------------------------------+
 
 Once the electric utility factor :math:`U` is known, it is used as a partitioning
 ratio to compose the vehicle between the PHEV in combustion mode, and the PHEV in electric mode,
@@ -1022,11 +1040,12 @@ where:
 
     m_{curb_phev} = (m_{curb_phev_e} \times U) + (m_{curb_phev_c} \times (1 - U))
 
-where :math:`F_{ttw_phev_e}` is the tank-to-wheel energy consumption [kWh/km] of the electric PHEV,
-:math:`F_{ttw_phev_c}` is the tank-to-wheel energy consumption [kk/km] of the combustion PHEV,
-:math:`m_{curb_phev_e}` is the curb weight [kg] of the electric PHEV, and :math:`m_{curb_phev_c}` is the
-curb weight [kg] of the combustion PHEV.
+Where:
 
+- :math:`F_{ttw_phev_e}` is the tank-to-wheel energy consumption [kWh/km] of the electric PHEV,
+- :math:`F_{ttw_phev_c}` is the tank-to-wheel energy consumption [kk/km] of the combustion PHEV,
+- :math:`m_{curb_phev_e}` is the curb weight [kg] of the electric PHEV,
+- and :math:`m_{curb_phev_c}` is the curb weight [kg] of the combustion PHEV.
 
 
 Inventory modelling
@@ -1045,9 +1064,7 @@ The demand for construction and maintenance of roads and road-related
 infrastructure is calculated on the following basis:
 
 -  Road construction: 5.37e-7 meter-year per kg of vehicle mass per km.
-
--  Road maintenance: 1.29e-3 meter-year per km, regardless of vehicle
-   mass.
+-  Road maintenance: 1.29e-3 meter-year per km, regardless of vehicle mass.
 
 The driving mass of the vehicle consists of the mass of the vehicle in
 running condition (including fuel) in addition to the mass of passengers
@@ -1056,7 +1073,7 @@ and the average occupancy is 1.6 persons per vehicle.
 
 The demand rates used to calculate the amounts required for road
 construction and maintenance (based on vehicle mass per km and per km,
-respectively) are taken from [25]_.
+respectively) are taken from :cite:`ct-1091`.
 
 Because roads are maintained by removing surface layers older than those
 that are actually discarded, road infrastructure disposal is modeled in
@@ -1070,34 +1087,38 @@ For all vehicles with an internal combustion engine, carbon dioxide
 (CO\ :sub:`2`) and sulfur dioxide (SO\ :sub:`2`) emissions are
 calculated based on the fuel consumption of the vehicle and the carbon
 and sulfur concentration of the fuel observed in Switzerland and Europe.
-Sulfur concentration values are sourced from HBEFA 4.1 [26]_. Lower
+Sulfur concentration values are sourced from HBEFA 4.1 :cite:`ct-1058`. Lower
 heating values and CO\ :sub:`2` emission factors for fuels are sourced
-from p.86 and p.103 of [27]_. The fuel properties shown in Table 12 are
+from p.86 and p.103 of :cite:`ct-1096`. The fuel properties shown in :ref:`Table 12 <table-12>` are
 used for fuels purchased in Switzerland.
 
-Table 12 Fuels characteristics
+.. _table-12:
 
-+---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
-|                                       | Volumetric mass density [kg/l]  | Lower heating value [MJ/kg]  | CO2 emission factor [kg CO2/kg]  | SO2 emission factor [kg SO2/kg]  |
-+=======================================+=================================+==============================+==================================+==================================+
-| Gasoline                              | 0.75                            | 42.6                         | 3.14                             | 1.6e-5                           |
-+---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
-| Bioethanol                            | 0.75                            | 26.5                         | 1.96                             | 1.6e-5                           |
-+---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
-| Synthetic gasoline                    | 0.75                            | 43                           | 3.14                             | 0                                |
-+---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
-| Diesel                                | 0.85                            | 43                           | 3.15                             | 8.85e-4                          |
-+---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
-| Biodiesel                             | 0.85                            | 38                           | 2.79                             | 8.85e-4                          |
-+---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
-| Synthetic diesel                      | 0.85                            | 43                           | 3.15                             | 0                                |
-+---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
-| Natural gas                           |                                 | 47.5                         | 2.68                             |                                  |
-+---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
-| Bio-methane                           |                                 | 47.5                         | 2.68                             |                                  |
-+---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
-| Synthetic methane                     |                                 | 47.5                         | 2.68                             |                                  |
-+---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+.. table:: Table 12: Fuels characteristics
+   :align: center
+   :widths: auto
+
+   +---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+   |                                       | Volumetric mass density [kg/l]  | Lower heating value [MJ/kg]  | CO2 emission factor [kg CO2/kg]  | SO2 emission factor [kg SO2/kg]  |
+   +=======================================+=================================+==============================+==================================+==================================+
+   | Gasoline                              | 0.75                            | 42.6                         | 3.14                             | 1.6e-5                           |
+   +---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+   | Bioethanol                            | 0.75                            | 26.5                         | 1.96                             | 1.6e-5                           |
+   +---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+   | Synthetic gasoline                    | 0.75                            | 43                           | 3.14                             | 0                                |
+   +---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+   | Diesel                                | 0.85                            | 43                           | 3.15                             | 8.85e-4                          |
+   +---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+   | Biodiesel                             | 0.85                            | 38                           | 2.79                             | 8.85e-4                          |
+   +---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+   | Synthetic diesel                      | 0.85                            | 43                           | 3.15                             | 0                                |
+   +---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+   | Natural gas                           |                                 | 47.5                         | 2.68                             |                                  |
+   +---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+   | Bio-methane                           |                                 | 47.5                         | 2.68                             |                                  |
+   +---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
+   | Synthetic methane                     |                                 | 47.5                         | 2.68                             |                                  |
+   +---------------------------------------+---------------------------------+------------------------------+----------------------------------+----------------------------------+
 
 
 Because large variations are observed in terms of sulfur concentration
@@ -1107,29 +1128,33 @@ Exhaust emissions
 *****************
 
 Emissions of regulated and non-regulated substances during driving are
-approximated using emission factors from HBEFA 4.1 [26]_. Emission
+approximated using emission factors from HBEFA 4.1 :cite:`ct-1058`. Emission
 factors are typically given in gram per km. Emission factors
 representing free flowing driving conditions and urban and rural traffic
 situations are used. Additionally, cold start emissions as well as
 running, evaporation and diurnal losses are accounted for, also sourced
-from HBEFA 4.1 [26]_.
+from HBEFA 4.1 :cite:`ct-1058`.
 
 
 For vehicles with an internal combustion engine, the sulfur
 concentration values in the fuel can slightly differ across regions -
 although this remains rather limited within Europe. The values provided
 by HBEFA 4.1 are used for Switzerland, France, Germany, Austria and
-Sweden. For other countries, values from [28]_ are used.
+Sweden. For other countries, values from :cite:`ct-1118` are used.
 
-Table 13 Sulfur concentration values examples for on-road fuel in
-Switzerland and average Europe
+.. _table-13:
 
-========================= =============== ==========
-**Sulfur [ppm/fuel wt.]** **Switzerland** **Europe**
-========================= =============== ==========
-Gasoline                  8               8
-Diesel                    10              8
-========================= =============== ==========
+.. table:: Table 13: Sulfur concentration values examples for on-road fuel in Switzerland and average Europe
+   :align: center
+   :widths: auto
+
+   +---------------------------------------------+-----------------------------+--------------------------+
+   | **Sulfur [ppm/fuel wt.]**                   | **Switzerland**             | **Europe**               |
+   +=============================================+=============================+==========================+
+   | Gasoline                                    | 8                           | 8                        |
+   +---------------------------------------------+-----------------------------+--------------------------+
+   | Diesel                                      | 10                          | 8                        |
+   +---------------------------------------------+-----------------------------+--------------------------+
 
 The amount of sulfur dioxide released by the vehicle over one km [kg/km] is calculated as:
 
@@ -1137,70 +1162,72 @@ The amount of sulfur dioxide released by the vehicle over one km [kg/km] is calc
 
         SO_2 = r_{S} \times F_{fuel} \times (64/32)
 
-where :math:`r_{S}` is the sulfur content per kg of fuel [kg SO2/kg fuel],
-:math:`F_{fuel}` is the fuel consumption of the vehicle [kg/km],
-and :math:`64/32` is the ratio between the molar mass of SO2 and the molar mass of O2.
+Where:
+
+- :math:`r_{S}` is the sulfur content per kg of fuel [kg SO2/kg fuel],
+- :math:`F_{fuel}` is the fuel consumption of the vehicle [kg/km],
+- and :math:`64/32` is the ratio between the molar mass of SO2 and the molar mass of O2.
 
 Country-specific fuel blends are sourced from the IEA's Extended World
-Energy Balances database [29]_. By default, the biofuel used is assumed
+Energy Balances database :cite:`ct-1045`. By default, the biofuel used is assumed
 to be produced from biomass residues (i.e., second-generation fuel):
 fermentation of crop residues for bioethanol, esterification of used
 vegetable oil for biodiesel and anaerobic digestion of sewage sludge for
 bio-methane.
 
-Table 14 Specification examples of fuel blends for Switzerland and
-average Europe
+.. _table-14:
 
-========================= =============== ==========
-**Biofuel share [% wt.]** **Switzerland** **Europe**
-========================= =============== ==========
-Gasoline blend            1.2             4
-Diesel blend              4.8             6
-Compressed gas blend      22              9
-========================= =============== ==========
+.. table:: Table 14: Specification examples of fuel blends for Switzerland and average Europe
+   :align: center
+   :widths: auto
+
+   +---------------------------------------------+-----------------------------+--------------------------+
+   | **Biofuel share [% wt.]**                   | **Switzerland**             | **Europe**               |
+   +=============================================+=============================+==========================+
+   | Gasoline blend                              | 1.2                         | 4                        |
+   +---------------------------------------------+-----------------------------+--------------------------+
+   | Diesel blend                                | 4.8                         | 6                        |
+   +---------------------------------------------+-----------------------------+--------------------------+
+   | Compressed gas blend                        | 22                          | 9                        |
+   +---------------------------------------------+-----------------------------+--------------------------+
 
 A number of fuel-related emissions other than CO\ :sub:`2` and
-SO\ :sub:`2` are considered, using the HBEFA 4.1 database [30]_.
+SO\ :sub:`2` are considered, using the HBEFA 4.1 database :cite:`ct-1058`.
 
 Six sources of emissions are considered:
 
 -  Exhaust emissions: emissions from the combustion of fuel during
    operation. Their concentration relates to the fuel consumption and
    the emission standard of the vehicle.
-
 -  Cold start emissions: emissions when starting the engine. The factor
    is given in grams per engine start. 2.3 engine starts per day are
-   considered [27]_ and an annual mileage of 12'000 km.
-
+   considered :cite:`ct-1096` and an annual mileage of 12'000 km.
 -  Diurnal emissions: evaporation of the fuel due to a temperature
    increase of the vehicle. The factor is given in grams per day.
    Emissions are distributed evenly along the driving cycle, based on an
    annual mileage of 12'000 km per year.
-
 -  Hot soak emissions: evaporative emissions occurring after the vehicle
    has been used. The factor is given in grams per trip. The emission is
    added at the end of the driving cycle.
-
 -  In addition, running loss emissions: emissions related to the
    evaporation of fuel (i.e., not combusted) during operation. The
    factor is given in grams per km. Emissions are distributed evenly
    along the driving cycle.
-
 -  Other non-exhaust emissions: brake, tire road wear and re-suspended
    road dust emissions, as well as emissions of refrigerant.
 
-.. image:: /_static/img/image20.png
-   :width: 4.38333in
-   :height: 2.325in
+.. _figure-10:
 
-Figure 11 Representation of the different sources of emission other than
-exhaust emissions
+.. figure:: /_static/img/image20.png
+   :align: center
+
+   *Figure 10: Representation of the different sources of emission other than exhaust emissions*
 
 For exhaust emissions, factors based on the fuel consumption are derived
 by comparing emission data points for different traffic situations
 (i.e., grams emitted per vehicle-km) for in a free flowing driving
 situation, with the fuel consumption corresponding to each data point
-(i.e., MJ of fuel consumed per km), as illustrated in Figure 12 for a
+(i.e., MJ of fuel consumed per km), as illustrated in :ref:`Figure 11 <figure-11>` for a
 diesel-powered engine. The aim is to obtain emission factors expressed
 in grams of substance emitted per MJ of fuel consumed, to be able to
 model emissions of passenger cars of different sizes and fuel efficiency
@@ -1213,58 +1240,61 @@ calculated as follows:
 
     E(i,s) = F_ttw(s) \times X(i, e)
 
-where :math:`E(i,s)` is the emission of substance i at second s of the driving cycle,
-:math:`F_ttw(s)` is the fuel consumption of the vehicle at second s,
-and :math:`X(i, e)` is the emission factor of substance i in the given driving conditions.
+Where:
+
+- :math:`E(i,s)` is the emission of substance i at second s of the driving cycle,
+- :math:`F_ttw(s)` is the fuel consumption of the vehicle at second s,
+- and :math:`X(i, e)` is the emission factor of substance i in the given driving conditions.
 
 To that, we add the following terms:
 
-    - Cold start emissions on the first second of the driving cycle
-    - Evaporation emissions: on the last second of the driving cycle
-    - Diurnal and running losses: distributed evenly over the driving cycle
+- Cold start emissions on the first second of the driving cycle
+- Evaporation emissions: on the last second of the driving cycle
+- Diurnal and running losses: distributed evenly over the driving cycle
 
+.. note::
+    **Important remark**: the degradation of anti-pollution systems for
+    diesel and gasoline cars (i.e., catalytic converters) is accounted for
+    as indicated by HBEFA, by applying a degradation factor on the emission
+    factors for CO, HC and NO\ :sub:`x` for gasoline cars, as well as on CO
+    and NO\ :sub:`x` for diesel cars. These factors are shown in :ref:`Table 15 <table-15>`
+    for passenger cars with a mileage of 200'000 km, which is the default
+    lifetime value in ``carculator``. The degradation factor corresponding to
+    half of the vehicle kilometric lifetime is used, to obtain a
+    lifetime-weighted average degradation factor.
 
-**Important remark**: the degradation of anti-pollution systems for
-diesel and gasoline cars (i.e., catalytic converters) is accounted for
-as indicated by HBEFA, by applying a degradation factor on the emission
-factors for CO, HC and NO\ :sub:`x` for gasoline cars, as well as on CO
-and NO\ :sub:`x` for diesel cars. These factors are shown in Table 15
-for passenger cars with a mileage of 200'000 km, which is the default
-lifetime value in ``carculator``. The degradation factor corresponding to
-half of the vehicle kilometric lifetime is used, to obtain a
-lifetime-weighted average degradation factor.
+.. _table-15:
 
-Table 15 Degradation factors at 200'000 km for passenger cars
+.. table:: Table 15: Degradation factors at 200'000 km for passenger cars
+   :align: center
+   :widths: auto
 
-+-----------------------------------+--------------------------+-------+------+------------------------+------+
-| Degradation factor at 200 000 km  | Gasoline passenger cars  |       |      | Diesel passenger cars  |      |
-+===================================+==========================+=======+======+========================+======+
-|                                   | CO                       | HC    | NOx  | CO                     | NOx  |
-+-----------------------------------+--------------------------+-------+------+------------------------+------+
-| EURO-1                            | 1.9                      | 1.59  | 2.5  |                        |      |
-+-----------------------------------+--------------------------+-------+------+------------------------+------+
-| EURO-2                            | 1.6                      | 1.59  | 2.3  |                        | 1.25 |
-+-----------------------------------+--------------------------+-------+------+------------------------+------+
-| EURO-3                            | 1.75                     | 1.02  | 2.9  |                        | 1.2  |
-+-----------------------------------+--------------------------+-------+------+------------------------+------+
-| EURO-4                            | 1.9                      | 1.02  | 2    | 1.3                    | 1.06 |
-+-----------------------------------+--------------------------+-------+------+------------------------+------+
-| EURO-5                            | 2                        |       | 2.5  | 1.3                    | 1.03 |
-+-----------------------------------+--------------------------+-------+------+------------------------+------+
-| EURO-6                            | 1.3                      |       | 1.3  | 1.4                    | 1.15 |
-+-----------------------------------+--------------------------+-------+------+------------------------+------+
+   +-----------------------------------+--------------------------+-------+------+------------------------+------+
+   | Degradation factor at 200 000 km  | Gasoline passenger cars  |       |      | Diesel passenger cars  |      |
+   +===================================+==========================+=======+======+========================+======+
+   |                                   | CO                       | HC    | NOx  | CO                     | NOx  |
+   +-----------------------------------+--------------------------+-------+------+------------------------+------+
+   | EURO-1                            | 1.9                      | 1.59  | 2.5  |                        |      |
+   +-----------------------------------+--------------------------+-------+------+------------------------+------+
+   | EURO-2                            | 1.6                      | 1.59  | 2.3  |                        | 1.25 |
+   +-----------------------------------+--------------------------+-------+------+------------------------+------+
+   | EURO-3                            | 1.75                     | 1.02  | 2.9  |                        | 1.2  |
+   +-----------------------------------+--------------------------+-------+------+------------------------+------+
+   | EURO-4                            | 1.9                      | 1.02  | 2    | 1.3                    | 1.06 |
+   +-----------------------------------+--------------------------+-------+------+------------------------+------+
+   | EURO-5                            | 2                        |       | 2.5  | 1.3                    | 1.03 |
+   +-----------------------------------+--------------------------+-------+------+------------------------+------+
+   | EURO-6                            | 1.3                      |       | 1.3  | 1.4                    | 1.15 |
+   +-----------------------------------+--------------------------+-------+------+------------------------+------+
 
+.. _figure-11:
 
-.. image:: /_static/img/image21.png
-   :width: 6.27014in
-   :height: 7.84756in
+.. figure:: /_static/img/image21.png
+   :align: center
 
-Figure 12 Relation between emission factor and fuel consumption for a
-diesel-powered passenger car. Dots represent HBEFA 4.1 emission factors
-for different traffic situation for a diesel engine, for different
-emission standards.
+   *Figure 11: Relation between emission factor and fuel consumption for a diesel-powered passenger car. Dots represent HBEFA 4.1 emission factors for different traffic situation for a diesel engine, for different emission standards*
 
-However, as Figure 12 shows, the relation between amounts emitted and
+However, as :ref:`Figure 11 <figure-11>` shows, the relation between amounts emitted and
 fuel consumption is not always obvious and using a linear relation
 between amounts emitted and fuel consumption can potentially be
 incorrect. In addition, emissions of ammonia (NH\ :sub:`3`) and Nitrous
@@ -1274,7 +1304,7 @@ consumption.
 
 To confirm that such approach does not yield kilometric emissions too
 different from the emission factors per vehicle-kilometer proposed by
-HBEFA 4.1, Figure 13 compares the emissions obtained by ``carculator``
+HBEFA 4.1, :ref:`Figure 12 <figure-12>` compares the emissions obtained by ``carculator``
 using the WLTC driving cycle over 1 vehicle-km (red dots) with the
 distribution of the emission factors for different traffic situations
 (green box-and-whiskers) as well as the traffic situation-weighted
@@ -1287,62 +1317,82 @@ HBEFA values across traffic situations. Also, the distance between the
 modeled emission and the traffic-situation-weighted average is
 reasonable.
 
-**Important remark**: NO\ :sub:`x` emissions for emission standards
-EURO-4 and 5 tend to be under-estimated compared to HBEFA's values. It
-is also important to highlight that, in some traffic situations, HBEFA's
-values show that emissions of CO, HC, NMHC and PMs for vehicles with
-early emission standards can be much higher that what is assumed in
-``carculator``. There is overall a good agreement between traffic
-situation-weighted average emission factors and those used in
-``carculator``.
+.. note::
+    **Important remark**: NO\ :sub:`x` emissions for emission standards
+    EURO-4 and 5 tend to be under-estimated compared to HBEFA's values. It
+    is also important to highlight that, in some traffic situations, HBEFA's
+    values show that emissions of CO, HC, NMHC and PMs for vehicles with
+    early emission standards can be much higher that what is assumed in
+    ``carculator``. There is overall a good agreement between traffic
+    situation-weighted average emission factors and those used in
+    ``carculator``.
 
-.. image:: /_static/img/image22.png
-   :width: 6.27014in
-   :height: 5.97153in
+.. _figure-12:
 
-Figure 13 Validation of the exhaust emissions model with the emission
-factors provided by HBEFA 4.1 for a medium size diesel-powered passenger
-car. Box-and-whiskers: distribution of HBEFA's emission factors for
-different traffic situations (box: 50% of the distribution, whiskers:
-90% of the distribution). Yellow dots: traffic situation-weighted
-average emission factors. Red dots: modeled emissions calculated by
-``carculator`` with the WLTC cycle, using the relation between fuel
-consumption and amounts emitted.
+.. figure:: /_static/img/image22.png
+   :align: center
+
+   *Figure 12 Validation of the exhaust emissions model with the emission factors provided by HBEFA 4.1 for a medium size diesel-powered passenger car. Box-and-whiskers: distribution of HBEFA's emission factors for different traffic situations (box: 50% of the distribution, whiskers: 90% of the distribution). Yellow dots: traffic situation-weighted average emission factors. Red dots: modeled emissions calculated by ``carculator`` with the WLTC cycle, using the relation between fuel consumption and amounts emitted*
 
 NMHC speciation
 +++++++++++++++
 
 After NMHC emissions are quantified, EEA/EMEP's 2019 Air Pollutant
 Emission Inventory Guidebook provides factors to further specify some of
-them into the substances listed in Table 16.
+them into the substances listed in :ref:`Table 16 <table-16>`.
 
-Table 16 NMVOC sub-species as fractions of the mass emitted
+.. _table-16:
 
-=================== ========================= =======================
-\                   **All gasoline vehicles** **All diesel vehicles**
-\                   *Wt. % of NMVOC*          *Wt. % of NMVOC*
-Ethane              3.2                       0.33
-Propane             0.7                       0.11
-Butane              5.2                       0.11
-Pentane             2.2                       0.04
-Hexane              1.6                       0
-Cyclohexane         1.1                       0.65
-Heptane             0.7                       0.2
-Ethene              7.3                       10.97
-Propene             3.8                       3.6
-1-Pentene           0.1                       0
-Toluene             11                        0.69
-m-Xylene            5.4                       0.61
-o-Xylene            2.3                       0.27
-Formaldehyde        1.7                       12
-Acetaldehyde        0.8                       6.47
-Benzaldehyde        0.2                       0.86
-Acetone             0.6                       2.94
-Methyl ethyl ketone 0.1                       1.2
-Acrolein            0.2                       3.58
-Styrene             1                         0.37
-NMVOC, unspecified  50.8                      55
-=================== ========================= =======================
+.. table:: Table 16: NMVOC sub-species as fractions of the mass emitted
+   :align: center
+   :widths: auto
+
+   +---------------------------------+-------------------------------+---------------------------------+
+   |                                 | **All gasoline vehicles**     | **All diesel vehicles**         |
+   |                                 | |br| *Wt. % of NMVOC*         | |br| *Wt. % of NMVOC*           |
+   +=================================+===============================+=================================+
+   | Ethane                          | 3.2                           | 0.33                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Propane                         | 0.7                           | 0.11                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Butane                          | 5.2                           | 0.11                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Pentane                         | 2.2                           | 0.04                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Hexane                          | 1.6                           | 0                               |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Cyclohexane                     | 1.1                           | 0.65                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Heptane                         | 0.7                           | 0.2                             |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Ethene                          | 7.3                           | 10.97                           |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Propene                         | 3.8                           | 3.6                             |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | 1-Pentene                       | 0.1                           | 0                               |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Toluene                         | 11                            | 0.69                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | m-Xylene                        | 5.4                           | 0.61                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | o-Xylene                        | 2.3                           | 0.27                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Formaldehyde                    | 1.7                           | 12                              |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Acetaldehyde                    | 0.8                           | 6.47                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Benzaldehyde                    | 0.2                           | 0.86                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Acetone                         | 0.6                           | 2.94                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Methyl ethyl ketone             | 0.1                           | 1.2                             |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Acrolein                        | 0.2                           | 3.58                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | Styrene                         | 1                             | 0.37                            |
+   +---------------------------------+-------------------------------+---------------------------------+
+   | NMVOC, unspecified              | 50.8                          | 55                              |
+   +---------------------------------+-------------------------------+---------------------------------+
 
 Non-exhaust emissions
 *********************
@@ -1355,26 +1405,39 @@ Engine wear emissions
 
 Metals and other substances are emitted during the combustion of fuel
 because of engine wear. These emissions are scaled based on the fuel
-consumption, using the emission factors listed in Table 17, sourced from
-[31]_.
+consumption, using the emission factors listed in :ref:`Table 17 <table-17>`, sourced from
+:cite:`ct-1028`.
 
-Table 17 Emission factors for engine wear as fractions of the fuel mass
-combusted
+.. _table-17:
 
-=========== ========================= =======================
-\           **All gasoline vehicles** **All diesel vehicles**
-\           *kg/MJ fuel*              *kg/MJ fuel*
-PAH         8.19E-10                  1.32E-09
-Arsenic     7.06E-12                  2.33E-12
-Selenium    4.71E-12                  2.33E-12
-Zinc        5.08E-08                  4.05E-08
-Copper      9.88E-10                  4.93E-10
-Nickel      3.06E-10                  2.05E-10
-Chromium    3.76E-10                  6.98E-10
-Chromium VI 7.53E-13                  1.40E-12
-Mercury     2.05E-10                  1.23E-10
-Cadmium     2.54E-10                  2.02E-10
-=========== ========================= =======================
+.. table:: Table 17: Emission factors for engine wear as fractions of the fuel mass combusted
+   :align: center
+   :widths: auto
+
+   +----------------------+---------------------------------------+--------------------------------+
+   |                      | **All gasoline vehicles**             | **All diesel vehicles**        |
+   |                      | |br| *kg/MJ fuel*                     | |br| *kg/MJ fuel*              |
+   +======================+=======================================+================================+
+   | PAH                  | 8.19E-10                              | 1.32E-09                       |
+   +----------------------+---------------------------------------+--------------------------------+
+   | Arsenic              | 7.06E-12                              | 2.33E-12                       |
+   +----------------------+---------------------------------------+--------------------------------+
+   | Selenium             | 4.71E-12                              | 2.33E-12                       |
+   +----------------------+---------------------------------------+--------------------------------+
+   | Zinc                 | 5.08E-08                              | 4.05E-08                       |
+   +----------------------+---------------------------------------+--------------------------------+
+   | Copper               | 9.88E-10                              | 4.93E-10                       |
+   +----------------------+---------------------------------------+--------------------------------+
+   | Nickel               | 3.06E-10                              | 2.05E-10                       |
+   +----------------------+---------------------------------------+--------------------------------+
+   | Chromium             | 3.76E-10                              | 6.98E-10                       |
+   +----------------------+---------------------------------------+--------------------------------+
+   | Chromium VI          | 7.53E-13                              | 1.40E-12                       |
+   +----------------------+---------------------------------------+--------------------------------+
+   | Mercury              | 2.05E-10                              | 1.23E-10                       |
+   +----------------------+---------------------------------------+--------------------------------+
+   | Cadmium              | 2.54E-10                              | 2.02E-10                       |
+   +----------------------+---------------------------------------+--------------------------------+
 
 Abrasion emissions
 ++++++++++++++++++
@@ -1382,27 +1445,23 @@ Abrasion emissions
 We distinguish four types of abrasion emissions, besides engine wear
 emissions:
 
--  brake wear emissions: from the wearing out of brake drums, discs and
-   pads
-
--  tires wear emissions: from the wearing out of rubber tires on the
-   asphalt
-
+-  brake wear emissions: from the wearing out of brake drums, discs and pads
+-  tires wear emissions: from the wearing out of rubber tires on the asphalt
 -  road wear emissions: from the wearing out of the road pavement
 
 and re-suspended road dust: dust on the road surface that is
 re-suspended as a result of passing traffic, "due either to shear forces
 at the tire/road surface interface, or air turbulence in the wake of a
-moving vehicle" [32]_.
+moving vehicle" :cite:`ct-1007`.
 
-[32]_ provides an approach for estimating the mass and extent of these
+:cite:`ct-1007` provides an approach for estimating the mass and extent of these
 abrasion emissions. They propose to disaggregate the abrasion emission
-factors presented in the EMEP's 2019 Emission inventory guidebook [31]_
+factors presented in the EMEP's 2019 Emission inventory guidebook :cite:`ct-1028`
 for two-wheelers, passenger cars, buses and heavy good vehicles, to
 re-quantify them as a function of vehicle mass, but also traffic
 situations (urban, rural and motorway). Additionally, they present an
 approach to calculate re-suspended road dust according to the method
-presented in [33]_ - such factors are not present in the EMEP's 2019
+presented in :cite:`ct-1103` - such factors are not present in the EMEP's 2019
 Emission inventory guidebook - using representative values for dust load
 on European roads.
 
@@ -1416,44 +1475,48 @@ emissions is the following:
 With:
 
 -  :math:`EF` being the emission factor, in mg per vehicle-kilometer
-
 -  :math:`W` being the vehicle mass, in tons
+-  :math:`b` and :math:`c` being regression coefficients, whose values are presented in :ref:`Table 18 <table-18>`.
 
--  :math:`b` and :math:`c` being regression coefficients, whose values are presented
-   in Table 18.
+.. _table-18:
 
-Table 18 Regression coefficients to estimate abrasion emissions
+.. table:: Table 18: Regression coefficients to estimate abrasion emissions
+   :align: center
+   :widths: auto
 
-+--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
-|        | Tire wear  |      |        |      |           |      | Brake wear  |      |        |      |           |      | Road wear  |      | Re-suspended road dust  |      |
-+========+============+======+========+======+===========+======+=============+======+========+======+===========+======+============+======+=========================+======+
-|        | Urban      |      | Rural  |      | Motorway  |      | Urban       |      | Rural  |      | Motorway  |      |            |      |                         |      |
-+--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
-|        | b          | c    | b      | c    | b         | c    | b           | c    | b      | c    | b         | c    | b          | c    | b                       | c    |
-+--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
-| PM 10  | 5.8        | 2.3  | 4.5    | 2.3  | 3.8       | 2.3  | 4.2         | 1.9  | 1.8    | 1.5  | 0.4       | 1.3  | 2.8        | 1.5  | 2                       | 1.1  |
-+--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
-| PM 2.5 | 8.2        | 2.3  | 6.4    | 2.3  | 5.5       | 2.3  | 11          | 1.9  | 4.5    | 1.5  | 1         | 1.3  | 5.1        | 1.5  | 8.2                     | 1.1  |
-+--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
+   +--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
+   |        | Tire wear  |      |        |      |           |      | Brake wear  |      |        |      |           |      | Road wear  |      | Re-suspended road dust  |      |
+   +========+============+======+========+======+===========+======+=============+======+========+======+===========+======+============+======+=========================+======+
+   |        | Urban      |      | Rural  |      | Motorway  |      | Urban       |      | Rural  |      | Motorway  |      |            |      |                         |      |
+   +--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
+   |        | b          | c    | b      | c    | b         | c    | b           | c    | b      | c    | b         | c    | b          | c    | b                       | c    |
+   +--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
+   | PM 10  | 5.8        | 2.3  | 4.5    | 2.3  | 3.8       | 2.3  | 4.2         | 1.9  | 1.8    | 1.5  | 0.4       | 1.3  | 2.8        | 1.5  | 2                       | 1.1  |
+   +--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
+   | PM 2.5 | 8.2        | 2.3  | 6.4    | 2.3  | 5.5       | 2.3  | 11          | 1.9  | 4.5    | 1.5  | 1         | 1.3  | 5.1        | 1.5  | 8.2                     | 1.1  |
+   +--------+------------+------+--------+------+-----------+------+-------------+------+--------+------+-----------+------+------------+------+-------------------------+------+
 
 
 The respective amounts of brake and tire wear emissions in urban, rural
 and motorway driving conditions are weighted, to represent the driving
 cycle used. The weight coefficients sum to 1 and the coefficients
-considered are presented in Table *19*. They have been calculated by
+considered are presented in :ref:`Table 19 <table-19>`. They have been calculated by
 analyzing the speed profile of each driving cycle, with the exception of
 two-wheelers, for which no driving cycle is used (i.e., the energy
 consumption is from reported values) and where simple assumptions are
 made in that regard instead.
 
-Table 19 Weighting coefficients to calculate representative abrasion
-emissions given a type of use/driving cycle
+.. _table-19:
 
-============= ============= ===== ===== ========
-\             Driving cycle Urban Rural Motorway
-============= ============= ===== ===== ========
-Passenger car WLTP          0.33  0.24  0.43
-============= ============= ===== ===== ========
+.. table:: Table 19: Weighting coefficients to calculate representative abrasion emissions given a type of use/driving cycle
+   :align: center
+   :widths: auto
+
+   +----------------------+----------------------+------------+------------+------------+
+   |                      | Driving cycle        | Urban      | Rural      | Motorway   |
+   +======================+======================+============+============+============+
+   | Passenger car        | WLTP                 | 0.33       | 0.24       | 0.43       |
+   +----------------------+----------------------+------------+------------+------------+
 
 Finally, for electric and (plugin) hybrid vehicles, the amount of brake
 wear emissions is reduced. This reduction is calculated as the ratio
@@ -1461,62 +1524,68 @@ between the sum of energy recuperated by the regenerative braking system
 and the sum of negative resistance along the driving cycle. The logic is
 that the amount of negative resistance that could not be met by the
 regenerative braking system needs to be met with mechanical brakes. This
-is illustrated in Figure 14, where the distance between the recuperated
+is illustrated in :ref:`Figure 13 <figure-13>`, where the distance between the recuperated
 energy and the total negative motive energy corresponds to the amount of
-energy that needs to be provided by mechanical brakes. Table 20 lists
+energy that needs to be provided by mechanical brakes. :ref:`Table 20 <table-20>` lists
 such reduction actors for the different powertrains.
 
-.. image:: /_static/img/image23.png
-   :width: 4.1546in
-   :height: 2.85in
+.. _figure-13:
 
-Figure 14 Negative motive energy and recuperated energy between second
-300 and 450 of the WLTC driving cycle
+.. figure:: /_static/img/image23.png
+   :align: center
 
-Table 20 Approximate reduction factors for brake wear emissions. Values
-differ slightly across size classes.
+   *Figure 13: Negative motive energy and recuperated energy between second 300 and 450 of the WLTC driving cycle*
 
-+-------------+-------------+-------------+-------------+-------------+
-|             | Driving     | Reduction   | Reduction   | Reduction   |
-|             | cycle       | factor for  | factor for  | factor for  |
-|             |             | hybrid      | plugin      | battery and |
-|             |             | vehicles    | hybrid      | fuel cell   |
-|             |             |             | vehicles    | electric    |
-|             |             |             |             | vehicles    |
-+=============+=============+=============+=============+=============+
-| Passenger   | WLTP        | -72%        | -73%        | -76%        |
-| car         |             |             |             |             |
-+-------------+-------------+-------------+-------------+-------------+
+.. _table-20:
+
+.. table:: Table 20: Approximate reduction factors for brake wear emissions. Values differ slightly across size classes
+   :align: center
+   :widths: auto
+
+   +-------------+-------------+-------------+-------------+-------------+
+   |             | Driving     | Reduction   | Reduction   | Reduction   |
+   |             | cycle       | factor for  | factor for  | factor for  |
+   |             |             | hybrid      | plugin      | battery and |
+   |             |             | vehicles    | hybrid      | fuel cell   |
+   |             |             |             | vehicles    | electric    |
+   |             |             |             |             | vehicles    |
+   +=============+=============+=============+=============+=============+
+   | Passenger   | WLTP        | -72%        | -73%        | -76%        |
+   | car         |             |             |             |             |
+   +-------------+-------------+-------------+-------------+-------------+
 
 The sum of PM 2.5 and PM 10 emissions is used as the input for the
-ecoinvent v.3.x LCI datasets indicated in Table 21.
+ecoinvent v.3.x LCI datasets indicated in :ref:`Table 21 <table-21>`.
 
-Table 21 LCI datasets used to approximate PM emissions composition and
-emissions to air, soil and water
+.. _table-21:
 
-+-------------+-------------+-------------+-------------+-------------+
-|             | Tire wear   | Brake wear  | Road wear   | R           |
-|             |             |             |             | e-suspended |
-|             |             |             |             | road dust   |
-+=============+=============+=============+=============+=============+
-| Passenger   | Tire wear   | Brake wear  | Road wear   |             |
-| car         | emissions,  | emissions,  | emissions,  |             |
-|             | passenger   | passenger   | passenger   |             |
-|             | car         | car         | car         |             |
-+-------------+-------------+-------------+-------------+-------------+
+.. table:: Table 21: LCI datasets used to approximate PM emissions composition and emissions to air, soil and water
+   :align: center
+   :widths: auto
+
+   +-------------+-------------+-------------+-------------+-------------+
+   |             | Tire wear   | Brake wear  | Road wear   | R           |
+   |             |             |             |             | e-suspended |
+   |             |             |             |             | road dust   |
+   +=============+=============+=============+=============+=============+
+   | Passenger   | Tire wear   | Brake wear  | Road wear   |             |
+   | car         | emissions,  | emissions,  | emissions,  |             |
+   |             | passenger   | passenger   | passenger   |             |
+   |             | car         | car         | car         |             |
+   +-------------+-------------+-------------+-------------+-------------+
 
 Finally, we assume that the composition of the re-suspended road dust is
 evenly distributed between brake, road and tire wear particles.
 
-Figure 15 shows the calculated abrasion emissions for passenger cars in
+:ref:`Figure 14 <figure-14>` shows the calculated abrasion emissions for passenger cars in
 mg per vehicle-kilometer, following the approach presented above.
 
-.. image:: /_static/img/image24.png
-   :width: 6.26667in
-   :height: 3.00136in
+.. _figure-14:
 
-Figure 15 Total particulate matter emissions (<2.5 µm and 2.5-10 µm) in
-mg per vehicle-kilometer for passenger cars.
+.. figure:: /_static/img/image24.png
+   :align: center
+
+   *Figure 14: Total particulate matter emissions (<2.5 µm and 2.5-10 µm) in mg per vehicle-kilometer for passenger cars*
 
 Re-suspended road dust emissions are assumed to be evenly composed of
 brake wear (33.3%), tire wear (33.3%) and road wear (33.3%) particles.
@@ -1527,83 +1596,99 @@ Refrigerant emissions
 The use of refrigerant for onboard air conditioning systems is
 considered for passenger cars until 2021. The supply of refrigerant gas R134a is
 accounted for. Similarly, the leakage of the refrigerant is also
-considered. For this, the calculations from [34]_ are used. Such emission
+considered. For this, the calculations from :cite:`ct-1093` are used. Such emission
 is included in the transportation dataset of the corresponding vehicle.
 The overall supply of refrigerant amounts to the initial charge plus the
 amount leaked throughout the lifetime of the vehicle, both listed in
-Table 22. This is an important aspect, as the refrigerant gas R134a has
+:ref:`Table 22 <table-22>` This is an important aspect, as the refrigerant gas R134a has
 a Global Warming potential of 2'400 kg CO\ :sub:`2`-eq./kg released in
 the atmosphere.
 
-Table 22 Use and loss of refrigerant gas for onboard air conditioning
-systems
+.. _table-22:
 
-======================================== =============================
-\                                        Passenger cars (except Micro)
-Initial charge [kg per vehicle lifetime] 0.55
-Lifetime loss [kg per vehicle lifetime]  0.75
-======================================== =============================
+.. table:: Table 22: Use and loss of refrigerant gas for onboard air conditioning systems
+   :align: center
+   :widths: auto
 
-**Important assumption**: it is assumed that electric and plug-in
-electric vehicles also use a compressor-like belt-driven air
-conditioning system, relying on the refrigerant gas R134a. In practice,
-an increasing, but still minor, share of electric vehicles now use a
-(reversible) heat pump to provide cooling.
+   +----------------------------------------------+------------------------------------+
+   |                                              | Passenger cars (except Micro)      |
+   +==============================================+====================================+
+   | Initial charge [kg per vehicle lifetime]     | 0.55                               |
+   +----------------------------------------------+------------------------------------+
+   | Lifetime loss [kg per vehicle lifetime]      | 0.75                               |
+   +----------------------------------------------+------------------------------------+
 
-**Important remark:** Micro cars do not have an air conditioning system.
-Hence, no supply or leakage of refrigerant is considered for those.
+.. note::
+    **Important assumption**: It is assumed that electric and plug-in
+    electric vehicles also use a compressor-like belt-driven air
+    conditioning system, relying on the refrigerant gas R134a. In practice,
+    an increasing, but still minor, share of electric vehicles now use a
+    (reversible) heat pump to provide cooling.
 
-**Important remark:** After 2021, R134a is no longer used.
+.. note::
+    **Important remark:** Micro cars do not have an air conditioning system.
+    Hence, no supply or leakage of refrigerant is considered for those.
+
+.. note:: **Important remark:** After 2021, R134a is no longer used.
 
 Noise emissions
 ***************
 
 Noise emissions along the driving cycle of the vehicle are quantified
-using the method developed within the CNOSSOS project [35]_, which are
+using the method developed within the CNOSSOS project :cite:`ct-1094`, which are
 expressed in joules, for each of the 8 octaves. Rolling and propulsion
 noise emissions are quantified separately.
 
 The sound power level of rolling noise is calculated using:
 
 .. image:: /_static/img/image25.png
-   :width: 3.45in
-   :height: 0.65in
+   :align: center
 
 With:
 
--  *V\ m* being the instant speed given by the driving cycle, in km/h
-
--  *V\ ref* being the reference speed of 70 km/h
-
-And *A\ R,i,m* and *B\ R,i,m*\ are unitless and given in Table 23.
+- :math:`v_m` being the instant speed given by the driving cycle, in km/h
+- :math:`v_{ref}` being the reference speed of 70 km/h
+- and :math:`A_{P,i,m}` and :math:`B_{P,i,m}` are unit-less and given in :ref:`Table 23 <table-23>`.
 
 The propulsion noise level is calculated using:
 
 .. image:: /_static/img/image26.png
-   :width: 3.6in
-   :height: 0.625in
+   :align: center
 
 With:
 
-And *A\ P,i,m* and *B\ P,i,m*\ are unitless and given in Table 23.
+- :math:`v_m` being the instant speed given by the driving cycle, in km/h
+- :math:`v_{ref}` being the reference speed of 70 km/h
+- and :math:`A_{P,i,m}` and :math:`B_{P,i,m}` are unit-less and given in :ref:`Table 23 <table-23>`.
 
-Table 23 Noise level coefficients for passenger cars
+.. _table-23:
 
-================================= ====== ====== ====== ======
-Octave band center frequency (Hz) *A\ R* *B\ R* *A\ P* *B\ P*
-================================= ====== ====== ====== ======
-63                                84     30     101    -1.9
-125                               88.7   35.8   96.5   4.7
-250                               91.5   32.6   98.8   6.4
-500                               96.7   23.8   96.8   6.5
-1000                              97.4   30.1   98.6   6.5
-2000                              90.9   36.2   95.2   6.5
-4000                              83.8   38.3   88.8   6.5
-8000                              80.5   40.1   82.7   6.5
-================================= ====== ====== ====== ======
+.. table:: Table 23: Noise level coefficients for passenger cars
+   :align: center
+   :widths: auto
+
+   +-----------------------------------------+-------------+--------------+---------------+---------------+
+   | Octave band center frequency (Hz)       | :math:`A_R` | :math:`B_R`  | :math:`A_P`   | :math:`B_P`   |
+   +=========================================+=============+==============+===============+===============+
+   |63                                       | 84          | 30           | 101           | -1.9          |
+   +-----------------------------------------+-------------+--------------+---------------+---------------+
+   |125                                      | 88.7        | 35.8         | 96.5          | 4.7           |
+   +-----------------------------------------+-------------+--------------+---------------+---------------+
+   |250                                      | 91.5        | 32.6         | 98.8          | 6.4           |
+   +-----------------------------------------+-------------+--------------+---------------+---------------+
+   |500                                      | 96.7        | 23.8         | 96.8          | 6.5           |
+   +-----------------------------------------+-------------+--------------+---------------+---------------+
+   |1000                                     | 97.4        | 30.1         | 98.6          | 6.5           |
+   +-----------------------------------------+-------------+--------------+---------------+---------------+
+   |2000                                     | 90.9        | 36.2         | 95.2          | 6.5           |
+   +-----------------------------------------+-------------+--------------+---------------+---------------+
+   |4000                                     | 83.8        | 38.3         | 88.8          | 6.5           |
+   +-----------------------------------------+-------------+--------------+---------------+---------------+
+   |8000                                     | 80.5        | 40.1         | 82.7          | 6.5           |
+   +-----------------------------------------+-------------+--------------+---------------+---------------+
 
 A correction factor for battery electric and fuel cell electric vehicles
-is applied, and is sourced from [36]_. Also, electric vehicles are added
+is applied, and is sourced from :cite:`ct-1119`. Also, electric vehicles are added
 a warning signal of 56 dB at speed levels below 20 km/h. Finally, hybrid
 vehicles are assumed to use an electric engine up to a speed level of 30
 km/h, beyond which the combustion engine is used.
@@ -1622,36 +1707,41 @@ The total sound power, for each second of the driving cycle, is then
 distributed between the urban, suburban and rural inventory emission
 compartments.
 
-Figure 16.a illustrates a comparison of noise levels between an ICEV and
+:ref:`Figure 15 <figure-15>` illustrates a comparison of noise levels between an ICEV and
 BEV as calculated by the tool, over the driving cycle WLTC. In this
 figure, the noise levels at different frequency ranges have been summed
 together to obtain a total noise level (in dB), and converted to dB(A)
 using the A-weighting correction factor, to better represent the
 "loudness" or discomfort to the human ear. Typically, propulsion noise
 emissions dominate in urban environments (which corresponds to the
-section 3.1 of the driving cycle), thereby justifying the use of
+`Road demand`_ section of the driving cycle), thereby justifying the use of
 electric vehicles in that regard. This is represented by the difference
-between the ICEV and BEV lines in the section 3.1 of the driving cycle
-in Figure 16.a. The difference in noise level between the two
-powertrains diminishes at higher speed levels (see sections 3.2, 3.3 and
-3.4) as rolling noise emissions dominate above a speed level of
-approximately 50 km/h. This can be seen in Figure 16.b, which sums up
-the sound energy produced, in joules, over the course of the driving
-cycle.
+between the ICEV and BEV lines in the `Road demand`_ section of the driving cycle
+in :ref:`Figure 15 <figure-15>`. The difference in noise level between the two
+powertrains diminishes at higher speed levels (see `Fuel properties`_, `Exhaust emissions`_ and
+`Non-exhaust emissions`_) as rolling noise emissions dominate above a speed level of
+approximately 50 km/h. This can be seen in :ref:`Figure 16 <figure-16>`, which sums up
+the sound energy produced, in joules, over the course of the driving cycle.
 
-The study from Cucurachi and Heijungs [37]_ provides compartment-specific
+The study from :cite:`ct-1015` provides compartment-specific
 noise emission characterization factors against midpoint and endpoint
 indicators - expressed in Person-Pascal-second and Disability-Adjusted
 Life Year, respectively.
 
-.. image:: /_static/img/image27.png
-   :width: 60%
-.. image:: /_static/img/image28.png
-   :width: 30%
+.. _figure-15:
 
-Figure 16 a) Noise emission level comparison between ICEV and BEV, based
-on the driving cycle WLTC. b) Summed sound energy comparison between
-ICEV, BEV and PHEV, over the duration of the WLTC driving cycle.
+.. figure:: /_static/img/image27.png
+   :align: center
+
+   *Figure 15: Noise emission level comparison between ICEV and BEV, based on the driving cycle WLTC*
+
+.. _figure-16:
+
+.. figure:: /_static/img/image28.png
+   :align: center
+   :width: 70%
+
+   *Figure 16: Summed sound energy comparison between ICEV, BEV and PHEV, over the duration of the WLTC driving cycle*
 
 Electricity mix calculation
 ***************************
@@ -1661,16 +1751,16 @@ distribution the lifetime kilometers of the vehicles over the years of
 use. For example, should a BEV enter the fleet in Poland in 2020, most
 LCA models of passenger vehicles would use the electricity mix for
 Poland corresponding to that year, which corresponds to the row of the
-year 2020 in Table 24, based on ENTSO-E's TYNDP 2020 projections
-(National Trends scenario) [38]_. ``carculator`` calculates instead the
+year 2020 in :ref:`Table 24 <table-24>`, based on ENTSO-E's TYNDP 2020 projections
+(National Trends scenario) :cite:`ct-1120`. ``carculator`` calculates instead the
 average electricity mix obtained from distributing the annual kilometers
 driven along the vehicle lifetime, assuming an equal number of
 kilometers is driven each year. Therefore, with a lifetime of 200,000 km
 and an annual mileage of 12,000 kilometers, the projected electricity
-mixes to consider between 2020 and 2035 for Poland are shown in Table
-24. Using the kilometer-distributed average of the projected mixes
+mixes to consider between 2020 and 2035 for Poland are shown in :ref:`Table 24 <table-24>`.
+Using the kilometer-distributed average of the projected mixes
 between 2020 and 2035 results in the electricity mix presented in the
-last row of Table 24. The difference in terms of technology contribution
+last row of :ref:`Table 24 <table-24>`. The difference in terms of technology contribution
 and unitary GHG-intensity between the electricity mix of 2020 and the
 electricity mix based on the annual kilometer distribution is
 significant (-23%). The merit of this approach ultimately depends on
@@ -1678,54 +1768,55 @@ whether the projections will be realized or not.
 
 It is also important to remember that the unitary GHG emissions of each
 electricity-producing technology changes over time, as the background
-database ecoinvent has been transformed by premise [39]_: for example,
+database ecoinvent has been transformed by premise :cite:`ct-1121`: for example,
 photovoltaic panels become more efficient, as well as some of the
 combustion-based technologies (e.g., natural gas). For more information
 about the transformation performed on the background life cycle
-database, refer to [39]_.
+database, refer to :cite:`ct-1121`.
 
-Table 24 Example of calculation of the carbon intensity of a
-km-distributed electricity supply mix for Poland, along with the per kWh
-GHG-intensity, for a vehicle first driven in 2020 and driven for the
-next 16 years.
+.. _table-24:
 
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| year  | Biomass  | Coal  | Gas  | Gas CCGT  | Gas CHP  | Hydro  | Hydro, reservoir  | Lignite  | Nuclear  | Oil  | Solar  | Waste  | Wind  | Wind, offshore  | g CO2-eq./kWh  |
-+=======+==========+=======+======+===========+==========+========+===================+==========+==========+======+========+========+=======+=================+================+
-| 2020  | 3%       | 46%   | 2%   | 3%        | 0%       | 3%     | 1%                | 29%      | 3%       | 0%   | 0%     | 0%     | 9%    | 0%              | 863            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2021  | 2%       | 43%   | 2%   | 4%        | 1%       | 3%     | 1%                | 29%      | 2%       | 0%   | 1%     | 3%     | 9%    | 0%              | 841            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2022  | 2%       | 41%   | 1%   | 5%        | 1%       | 3%     | 1%                | 28%      | 2%       | 0%   | 2%     | 5%     | 9%    | 0%              | 807            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2023  | 1%       | 38%   | 1%   | 5%        | 2%       | 2%     | 1%                | 28%      | 1%       | 0%   | 3%     | 8%     | 10%   | 0%              | 781            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2024  | 1%       | 36%   | 0%   | 6%        | 2%       | 2%     | 0%                | 27%      | 1%       | 0%   | 3%     | 11%    | 10%   | 0%              | 745            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2025  | 0%       | 33%   | 0%   | 7%        | 3%       | 2%     | 0%                | 27%      | 0%       | 0%   | 4%     | 13%    | 10%   | 0%              | 724            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2026  | 0%       | 31%   | 0%   | 8%        | 3%       | 2%     | 0%                | 25%      | 0%       | 0%   | 5%     | 13%    | 11%   | 2%              | 684            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2027  | 0%       | 28%   | 0%   | 9%        | 4%       | 2%     | 0%                | 24%      | 0%       | 0%   | 6%     | 12%    | 12%   | 3%              | 652            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2028  | 0%       | 25%   | 0%   | 9%        | 5%       | 2%     | 0%                | 23%      | 0%       | 0%   | 6%     | 12%    | 13%   | 5%              | 614            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2029  | 0%       | 23%   | 0%   | 10%       | 6%       | 2%     | 0%                | 21%      | 0%       | 0%   | 7%     | 11%    | 14%   | 6%              | 580            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2030  | 0%       | 20%   | 0%   | 11%       | 6%       | 2%     | 0%                | 20%      | 0%       | 0%   | 8%     | 10%    | 15%   | 8%              | 542            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2031  | 0%       | 19%   | 0%   | 11%       | 7%       | 2%     | 0%                | 18%      | 1%       | 0%   | 9%     | 10%    | 16%   | 8%              | 514            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2032  | 0%       | 17%   | 0%   | 10%       | 8%       | 2%     | 0%                | 16%      | 3%       | 0%   | 9%     | 9%     | 17%   | 9%              | 470            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2033  | 0%       | 16%   | 0%   | 10%       | 8%       | 2%     | 0%                | 14%      | 4%       | 0%   | 10%    | 8%     | 17%   | 10%             | 437            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2034  | 0%       | 15%   | 0%   | 10%       | 9%       | 2%     | 0%                | 12%      | 5%       | 0%   | 10%    | 8%     | 18%   | 11%             | 408            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| 2035  | 0%       | 13%   | 0%   | 9%        | 10%      | 2%     | 0%                | 11%      | 7%       | 0%   | 11%    | 7%     | 19%   | 12%             | 377            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
-| Mix   | 0%       | 26%   | 0%   | 7%        | 5%       | 2%     | 0%                | 21%      | 2%       | 0%   | 6%     | 8%     | 13%   | 5%              | 668            |
-+-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+.. table:: Table 24: Example of calculation of the carbon intensity of a km-distributed electricity supply mix for Poland, along with the per kWh GHG-intensity, for a vehicle first driven in 2020 and driven for the next 16 years.
+   :align: center
+   :widths: auto
+
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | year  | Biomass  | Coal  | Gas  | Gas CCGT  | Gas CHP  | Hydro  | Hydro, reservoir  | Lignite  | Nuclear  | Oil  | Solar  | Waste  | Wind  | Wind, offshore  | g CO2-eq./kWh  |
+   +=======+==========+=======+======+===========+==========+========+===================+==========+==========+======+========+========+=======+=================+================+
+   | 2020  | 3%       | 46%   | 2%   | 3%        | 0%       | 3%     | 1%                | 29%      | 3%       | 0%   | 0%     | 0%     | 9%    | 0%              | 863            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2021  | 2%       | 43%   | 2%   | 4%        | 1%       | 3%     | 1%                | 29%      | 2%       | 0%   | 1%     | 3%     | 9%    | 0%              | 841            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2022  | 2%       | 41%   | 1%   | 5%        | 1%       | 3%     | 1%                | 28%      | 2%       | 0%   | 2%     | 5%     | 9%    | 0%              | 807            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2023  | 1%       | 38%   | 1%   | 5%        | 2%       | 2%     | 1%                | 28%      | 1%       | 0%   | 3%     | 8%     | 10%   | 0%              | 781            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2024  | 1%       | 36%   | 0%   | 6%        | 2%       | 2%     | 0%                | 27%      | 1%       | 0%   | 3%     | 11%    | 10%   | 0%              | 745            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2025  | 0%       | 33%   | 0%   | 7%        | 3%       | 2%     | 0%                | 27%      | 0%       | 0%   | 4%     | 13%    | 10%   | 0%              | 724            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2026  | 0%       | 31%   | 0%   | 8%        | 3%       | 2%     | 0%                | 25%      | 0%       | 0%   | 5%     | 13%    | 11%   | 2%              | 684            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2027  | 0%       | 28%   | 0%   | 9%        | 4%       | 2%     | 0%                | 24%      | 0%       | 0%   | 6%     | 12%    | 12%   | 3%              | 652            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2028  | 0%       | 25%   | 0%   | 9%        | 5%       | 2%     | 0%                | 23%      | 0%       | 0%   | 6%     | 12%    | 13%   | 5%              | 614            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2029  | 0%       | 23%   | 0%   | 10%       | 6%       | 2%     | 0%                | 21%      | 0%       | 0%   | 7%     | 11%    | 14%   | 6%              | 580            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2030  | 0%       | 20%   | 0%   | 11%       | 6%       | 2%     | 0%                | 20%      | 0%       | 0%   | 8%     | 10%    | 15%   | 8%              | 542            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2031  | 0%       | 19%   | 0%   | 11%       | 7%       | 2%     | 0%                | 18%      | 1%       | 0%   | 9%     | 10%    | 16%   | 8%              | 514            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2032  | 0%       | 17%   | 0%   | 10%       | 8%       | 2%     | 0%                | 16%      | 3%       | 0%   | 9%     | 9%     | 17%   | 9%              | 470            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2033  | 0%       | 16%   | 0%   | 10%       | 8%       | 2%     | 0%                | 14%      | 4%       | 0%   | 10%    | 8%     | 17%   | 10%             | 437            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2034  | 0%       | 15%   | 0%   | 10%       | 9%       | 2%     | 0%                | 12%      | 5%       | 0%   | 10%    | 8%     | 18%   | 11%             | 408            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | 2035  | 0%       | 13%   | 0%   | 9%        | 10%      | 2%     | 0%                | 11%      | 7%       | 0%   | 11%    | 7%     | 19%   | 12%             | 377            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
+   | Mix   | 0%       | 26%   | 0%   | 7%        | 5%       | 2%     | 0%                | 21%      | 2%       | 0%   | 6%     | 8%     | 13%   | 5%              | 668            |
+   +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
 
 
 Inventories for fuel pathways
@@ -1733,195 +1824,204 @@ Inventories for fuel pathways
 
 A number of inventories for fuel production and supply are used by
 ``carculator``. They represent an update in comparison to the inventories
-used in the passenger vehicles model initially published by Cox et
-al.:cite:`ct-1012`. The fuel pathways presented in Table 25 are from the literature
+used in the passenger vehicles model initially published by :cite:`ct-1012`.
+The fuel pathways presented in :ref:`Table 25 <table-25>` are from the literature
 and not present as generic ecoinvent datasets.
 
-+-----------+---------------------------+---------------------------+
-| Author(s) | Fuel type                 | Description               |
-+===========+===========================+===========================+
-| [40]_     | Bioethanol from forest    | Biofuels made from        |
-|           | residues                  | biomass residues (e.g.,   |
-|           |                           | wheat straw, corn starch) |
-|           |                           | or energy crops (e.g.,    |
-|           |                           | sugarbeet). For energy    |
-|           |                           | crops biofuels, indirect  |
-|           |                           | land use change is        |
-|           |                           | included.                 |
-+-----------+---------------------------+---------------------------+
-|           | Bioethanol from wheat     |                           |
-|           | straw                     |                           |
-+-----------+---------------------------+---------------------------+
-|           | Bioethanol from corn      |                           |
-|           | starch                    |                           |
-+-----------+---------------------------+---------------------------+
-|           | Bioethanol from sugarbeet |                           |
-+-----------+---------------------------+---------------------------+
-| [41]_     | e-Gasoline                | Gasoline produced from    |
-|           | (Methanol-to-Gasoline)    | methanol, via a           |
-|           |                           | Methanol-to-Gasoline      |
-|           |                           | process. The carbon       |
-|           |                           | monoxide is provided by a |
-|           |                           | reverse water gas shift   |
-|           |                           | process, feeding on       |
-|           |                           | carbon dioxide from       |
-|           |                           | direct air capture. In    |
-|           |                           | carculator, one can       |
-|           |                           | choose the nature of the  |
-|           |                           | heat needed for the       |
-|           |                           | methanol distillation as  |
-|           |                           | well as for regenerating  |
-|           |                           | the DAC sorbent: natural  |
-|           |                           | gas, waste heat, biomass  |
-|           |                           | heat, or market heat      |
-|           |                           | (i.e., a mix of natural   |
-|           |                           | gas and fuel oil).        |
-+-----------+---------------------------+---------------------------+
-| [40]_     | Biodiesel from            | 2\ :sup:`nd` and          |
-|           | micro-algae               | 3\ :sup:`rd` generation   |
-|           |                           | biofuels made from        |
-|           |                           | biomass residues or       |
-|           |                           | algae.                    |
-+-----------+---------------------------+---------------------------+
-|           | Biodiesel from used       |                           |
-|           | cooking oil               |                           |
-+-----------+---------------------------+---------------------------+
-| [42]_     | e-Diesel                  | Diesel produced from      |
-|           | (Fischer-Tropsch)         | "blue crude" via a        |
-|           |                           | Fischer-Tropsch process.  |
-|           |                           | The H\ :sub:`2` is        |
-|           |                           | produced via              |
-|           |                           | electrolysis, while the   |
-|           |                           | CO\ :sub:`2` comes from   |
-|           |                           | direct air capture. Note  |
-|           |                           | that in ``carculator``, two |
-|           |                           | allocation approaches at  |
-|           |                           | the crude-to-fuel step    |
-|           |                           | are possible between the  |
-|           |                           | different co-products     |
-|           |                           | (i.e., diesel, naphtha,   |
-|           |                           | wax oil, kerosene):       |
-|           |                           | energy or economic.       |
-+-----------+---------------------------+---------------------------+
-| [43]_     | Biomethane from sewage    | Methane produced from the |
-|           | sludge                    | anaerobic digestion of    |
-|           |                           | sewage sludge. The biogas |
-|           |                           | is upgraded to biomethane |
-|           |                           | (the CO\ :sub:`2` is      |
-|           |                           | separated and vented out) |
-|           |                           | to a vehicle grade        |
-|           |                           | quality.                  |
-+-----------+---------------------------+---------------------------+
-|           | Synthetic methane         | Methane produced via an   |
-|           |                           | electrochemical           |
-|           |                           | methanation process, with |
-|           |                           | H\ :sub:`2` from          |
-|           |                           | electrolysis and          |
-|           |                           | CO\ :sub:`2` from direct  |
-|           |                           | air capture.              |
-+-----------+---------------------------+---------------------------+
-| [44, 45]_ | Hydrogen from             | The electricity           |
-|           | electrolysis              | requirement to operate    |
-|           |                           | the electrolyzer changes  |
-|           |                           | over time: from 58 kWh    |
-|           |                           | per kg of H\ :sub:`2` in  |
-|           |                           | 2010, down to 44 kWh in   |
-|           |                           | 2050, according to [46]_. |
-+-----------+---------------------------+---------------------------+
-| [45, 47]_ | Hydrogen from Steam       | Available for natural gas |
-|           | Methane Reforming         | and biomethane, with and  |
-|           |                           | without Carbon Capture    |
-|           |                           | and Storage (CCS).        |
-+-----------+---------------------------+---------------------------+
-| [44]_     | Hydrogen from woody       | Available with and        |
-|           | biomass gasification      | without Carbon Capture    |
-|           |                           | and Storage (CCS).        |
-+-----------+---------------------------+---------------------------+
+.. _table-25:
 
-Table 25 List of inventories for different fuel types
+.. table:: Table 25: List of inventories for different fuel types
+   :align: center
+   :widths: auto
+
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   | Author(s)                            | Fuel type                            | Description                                                        |
+   +======================================+======================================+====================================================================+
+   | :cite:`ct-1122`                      | Bioethanol from forest               | Biofuels made from                                                 |
+   |                                      | residues                             | biomass residues (e.g.,                                            |
+   |                                      |                                      | wheat straw, corn starch)                                          |
+   |                                      |                                      | or energy crops (e.g.,                                             |
+   |                                      |                                      | sugarbeet). For energy                                             |
+   |                                      |                                      | crops biofuels, indirect                                           |
+   |                                      |                                      | land use change is                                                 |
+   |                                      |                                      | included.                                                          |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   |                                      | Bioethanol from wheat                |                                                                    |
+   |                                      | straw                                |                                                                    |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   |                                      | Bioethanol from corn                 |                                                                    |
+   |                                      | starch                               |                                                                    |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   |                                      | Bioethanol from sugarbeet            |                                                                    |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   | :cite:`ct-1039`                      | e-Gasoline                           | Gasoline produced from                                             |
+   |                                      | (Methanol-to-Gasoline)               | methanol, via a                                                    |
+   |                                      |                                      | Methanol-to-Gasoline                                               |
+   |                                      |                                      | process. The carbon                                                |
+   |                                      |                                      | monoxide is provided by a                                          |
+   |                                      |                                      | reverse water gas shift                                            |
+   |                                      |                                      | process, feeding on                                                |
+   |                                      |                                      | carbon dioxide from                                                |
+   |                                      |                                      | direct air capture. In                                             |
+   |                                      |                                      | carculator, one can                                                |
+   |                                      |                                      | choose the nature of the                                           |
+   |                                      |                                      | heat needed for the                                                |
+   |                                      |                                      | methanol distillation as                                           |
+   |                                      |                                      | well as for regenerating                                           |
+   |                                      |                                      | the DAC sorbent: natural                                           |
+   |                                      |                                      | gas, waste heat, biomass                                           |
+   |                                      |                                      | heat, or market heat                                               |
+   |                                      |                                      | (i.e., a mix of natural                                            |
+   |                                      |                                      | gas and fuel oil).                                                 |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   | :cite:`ct-1122`                      | Biodiesel from                       | 2\ :sup:`nd` and                                                   |
+   |                                      | micro-algae                          | 3\ :sup:`rd` generation                                            |
+   |                                      |                                      | biofuels made from                                                 |
+   |                                      |                                      | biomass residues or                                                |
+   |                                      |                                      | algae.                                                             |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   |                                      | Biodiesel from used                  |                                                                    |
+   |                                      | cooking oil                          |                                                                    |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   | :cite:`ct-1035`                      | e-Diesel                             | Diesel produced from                                               |
+   |                                      | (Fischer-Tropsch)                    | "blue crude" via a                                                 |
+   |                                      |                                      | Fischer-Tropsch process.                                           |
+   |                                      |                                      | The H\ :sub:`2` is                                                 |
+   |                                      |                                      | produced via                                                       |
+   |                                      |                                      | electrolysis, while the                                            |
+   |                                      |                                      | CO\ :sub:`2` comes from                                            |
+   |                                      |                                      | direct air capture. Note                                           |
+   |                                      |                                      | that in ``carculator``, two                                        |
+   |                                      |                                      | allocation approaches at                                           |
+   |                                      |                                      | the crude-to-fuel step                                             |
+   |                                      |                                      | are possible between the                                           |
+   |                                      |                                      | different co-products                                              |
+   |                                      |                                      | (i.e., diesel, naphtha,                                            |
+   |                                      |                                      | wax oil, kerosene):                                                |
+   |                                      |                                      | energy or economic.                                                |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   | :cite:`ct-1125`                      | Biomethane from sewage               | Methane produced from the                                          |
+   |                                      | sludge                               | anaerobic digestion of                                             |
+   |                                      |                                      | sewage sludge. The biogas                                          |
+   |                                      |                                      | is upgraded to biomethane                                          |
+   |                                      |                                      | (the CO\ :sub:`2` is                                               |
+   |                                      |                                      | separated and vented out)                                          |
+   |                                      |                                      | to a vehicle grade                                                 |
+   |                                      |                                      | quality.                                                           |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   |                                      | Synthetic methane                    | Methane produced via an                                            |
+   |                                      |                                      | electrochemical                                                    |
+   |                                      |                                      | methanation process, with                                          |
+   |                                      |                                      | H\ :sub:`2` from                                                   |
+   |                                      |                                      | electrolysis and                                                   |
+   |                                      |                                      | CO\ :sub:`2` from direct                                           |
+   |                                      |                                      | air capture.                                                       |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   | :cite:`ct-1123,ct-1124`              | Hydrogen from                        | The electricity                                                    |
+   |                                      | electrolysis                         | requirement to operate                                             |
+   |                                      |                                      | the electrolyzer changes                                           |
+   |                                      |                                      | over time: from 58 kWh                                             |
+   |                                      |                                      | per kg of H\ :sub:`2` in                                           |
+   |                                      |                                      | 2010, down to 44 kWh in                                            |
+   |                                      |                                      | 2050, according to :cite:`ct-1006`.                                |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   | :cite:`ct-1124,ct-1115`              | Hydrogen from Steam                  | Available for natural gas                                          |
+   |                                      | Methane Reforming                    | and biomethane, with and                                           |
+   |                                      |                                      | without Carbon Capture                                             |
+   |                                      |                                      | and Storage (CCS).                                                 |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
+   | :cite:`ct-1123`                      | Hydrogen from woody                  | Available with and                                                 |
+   |                                      | biomass gasification                 | without Carbon Capture                                             |
+   |                                      |                                      | and Storage (CCS).                                                 |
+   +--------------------------------------+--------------------------------------+--------------------------------------------------------------------+
 
 Inventories for energy storage components
 *****************************************
 
 The source for the inventories used to model energy storage components
-are listed in Table 26.
+are listed in :ref:`Table 26 <table-26>`.
 
-+-----------+---------------------------+---------------------------+
-| Author(s) | Energy storage type       | Description               |
-+===========+===========================+===========================+
-| [48,49]_  | NMC-111/622/811 battery   | Originally from [48]_,    |
-|           |                           | then updated and          |
-|           |                           | integrated in ecoinvent   |
-|           |                           | v.3.8 (with some errors), |
-|           |                           | corrected and integrated  |
-|           |                           | in ``carculator``.          |
-|           |                           | Additionally, these       |
-|           |                           | inventories relied        |
-|           |                           | exclusively on synthetic  |
-|           |                           | graphite. This is has too |
-|           |                           | been modified: the anode  |
-|           |                           | production relies on a    |
-|           |                           | 50:50 mix of natural and  |
-|           |                           | synthetic graphite, as it |
-|           |                           | seems to be the current   |
-|           |                           | norm in the industry      |
-|           |                           | [50]_. Inventories for    |
-|           |                           | natural graphite are from |
-|           |                           | [51]_.                    |
-+-----------+---------------------------+                           |
-|           | NCA battery               |                           |
-+-----------+---------------------------+                           |
-|           | LFP battery               |                           |
-+-----------+---------------------------+---------------------------+
-| [52]_     | Type IV hydrogen tank,    | Carbon fiber being one of |
-|           | default                   | the main components of    |
-|           |                           | Type IV storage tanks,    |
-|           |                           | new inventories for       |
-|           |                           | carbon fiber              |
-|           |                           | manufacturing have been   |
-|           |                           | integrated to             |
-|           |                           | ``carculator``, from [53]_. |
-+-----------+---------------------------+---------------------------+
-| [54]_     | Type IV hydrogen tank,    |                           |
-|           | LDPE liner                |                           |
-+-----------+---------------------------+---------------------------+
-|           | Type IV hydrogen tank,    |                           |
-|           | aluminium liner           |                           |
-+-----------+---------------------------+---------------------------+
+.. _table-26:
 
-Table 26 List of inventories for different energy storage solutions
+.. table:: Table 26: List of inventories for different energy storage solutions
+   :align: center
+   :widths: auto
+
+   +-------------------------------+---------------------------+--------------------------------------+
+   | Author(s)                     | Energy storage type       | Description                          |
+   +===============================+===========================+======================================+
+   | :cite:`ct-1016,ct-1107`       | NMC-111/622/811 battery   | Originally from :cite:`ct-1016`,     |
+   |                               |                           | then updated and                     |
+   |                               |                           | integrated in ecoinvent              |
+   |                               |                           | v.3.8 (with some errors),            |
+   |                               |                           | corrected and integrated             |
+   |                               |                           | in the library.                      |
+   |                               |                           | Additionally, these                  |
+   |                               |                           | inventories relied                   |
+   |                               |                           | exclusively on synthetic             |
+   |                               |                           | graphite. This is has too            |
+   |                               |                           | been modified: the anode             |
+   |                               |                           | production relies on a               |
+   |                               |                           | 50:50 mix of natural and             |
+   |                               |                           | synthetic graphite, as it            |
+   |                               |                           | seems to be the current              |
+   |                               |                           | norm in the industry                 |
+   |                               |                           | :cite:`ct-1126`. Inventories for     |
+   |                               |                           | natural graphite are from            |
+   |                               |                           | :cite:`ct-1127`.                     |
+   +-------------------------------+---------------------------+                                      |
+   |                               | NCA battery               |                                      |
+   +-------------------------------+---------------------------+                                      |
+   |                               | LFP battery               |                                      |
+   +-------------------------------+---------------------------+--------------------------------------+
+   | :cite:`ct-1089`               | Type IV hydrogen tank,    | Carbon fiber being one of            |
+   |                               | default                   | the main components of               |
+   |                               |                           | Type IV storage tanks,               |
+   |                               |                           | new inventories for                  |
+   |                               |                           | carbon fiber                         |
+   |                               |                           | manufacturing have been              |
+   |                               |                           | integrated to                        |
+   |                               |                           | ``carculator``,                      |
+   |                               |                           | from :cite:`ct-1008`.                |
+   +-------------------------------+---------------------------+--------------------------------------+
+   | :cite:`ct-1128`               | Type IV hydrogen tank,    |                                      |
+   |                               | LDPE liner                |                                      |
+   +-------------------------------+---------------------------+--------------------------------------+
+   |                               | Type IV hydrogen tank,    |                                      |
+   |                               | aluminium liner           |                                      |
+   +-------------------------------+---------------------------+--------------------------------------+
 
 Life cycle impact assessment
 ----------------------------
 
 To build the inventory of every vehicle, ``carculator`` populates a
-three-dimensional array *A* (i.e., a tensor) such as:
+three-dimensional array ``A`` (i.e., a tensor) such as:
 
 .. math:: \ A = \left\lbrack a_{\text{ijk}} \right\rbrack,\ i = 1,\ \ldots,\ L,\ j = 1,\ \ldots,\ M,\ k = 1,\ \ldots,\ N
 
-The second and third dimensions (i.e., *M* and *N*) have the same
+The second and third dimensions (i.e., ``M`` and ``N``) have the same
 length. They correspond to product and natural flow exchanges between
-supplying activities (i.e., *M*) and receiving activities (i.e., *N*).
-The first dimension (i.e., *L*) stores model iterations. Its length
+supplying activities (i.e., ``M``) and receiving activities (i.e., ``N``).
+The first dimension (i.e., ``L``) stores model iterations. Its length
 depends on whether the analysis is static or if an uncertainty analysis
 is performed (e.g., Monte Carlo).
 
-Given a final demand vector *f* (e.g., 1 kilometer driven with a
+Given a final demand vector ``f`` (e.g., 1 kilometer driven with a
 specific vehicle, represented by a vector filled with zeroes and the
-value 1 at the position corresponding to the index *j* of the driving
+value 1 at the position corresponding to the index ``j`` of the driving
 activity in dimension M) of length equal to that of the second dimension
-of *A* (i.e., *M*), ``carculator`` calculates the scaling factor *s* so
+of ``A`` (i.e., ``M``), ``carculator`` calculates the scaling factor ``s`` so
 that:
 
 .. math:: s = A^{- 1}f
 
-Finally, the scaling factor *s* is multiplied with a characterization
-matrix *B.* This matrix contains midpoint characterization factors for a
-number of impact assessment methods (as rows) for every activity in *A*
+Finally, the scaling factor ``s`` is multiplied with a characterization
+matrix ``B``. This matrix contains midpoint characterization factors for a
+number of impact assessment methods (as rows) for every activity in ``A``
 (as columns).
 
 As described earlier, the tool chooses between several
-characterization matrices *B*, which contain pre-calculated values for
+characterization matrices ``B``, which contain pre-calculated values for
 activities for a given year, depending on the year of production of the
 vehicle as well as the REMIND climate scenario considered (i.e.,
 "SSP2-Baseline", "SSP2-PkBudg1150" or "SSP2-PkBudg500"). Midpoint and
@@ -1929,5 +2029,5 @@ endpoint (i.e., human health, ecosystem impacts and resources use)
 indicators include those of the ReCiPe 2008 v.1.13 impact assessment
 method, as well as those of ILCD 2018. Additionally, it is possible to
 export the inventories in a format compatible with the LCA framework
-Brightway2 [51] or Simapro [52], thereby allowing the characterization
-of the results against a larger number of impact assessment methods.
+`Brightway2 <https://brightway.dev/>`_ or `SimaPro <https://simapro.com/>`_,
+thereby allowing the characterization of the results against a larger number of impact assessment methods.

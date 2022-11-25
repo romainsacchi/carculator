@@ -28,8 +28,8 @@ class EnergyConsumptionModel:
     Based on a selected driving cycle, this class calculates the acceleration needed and provides
     two methods:
 
-        - :func:`~energy_consumption.EnergyConsumptionModel.aux_energy_per_km` calculates the energy needed to power auxiliary services
-        - :func:`~energy_consumption.EnergyConsumptionModel.motive_energy_per_km` calculates the energy needed to move the vehicle over 1 km
+    - :func:`~energy_consumption.EnergyConsumptionModel.aux_energy_per_km` calculates the energy needed to power auxiliary services
+    - :func:`~energy_consumption.EnergyConsumptionModel.motive_energy_per_km` calculates the energy needed to move the vehicle over 1 km
 
     Acceleration is calculated as the difference between velocity at t_2 and velocity at t_0, divided by 2.
     See for example: http://www.unece.org/fileadmin/DAM/trans/doc/2012/wp29grpe/WLTP-DHC-12-07e.xls
@@ -51,7 +51,6 @@ class EnergyConsumptionModel:
     :ivar acceleration: Time series of acceleration, calculated as increment in velocity per interval of 1 second,
         in meter per second^2.
     :vartype acceleration: numpy.ndarray
-
 
     """
 
@@ -134,34 +133,42 @@ class EnergyConsumptionModel:
         motor_power: Union[float, np.ndarray, xr.DataArray] = 0,
     ) -> Tuple[Union[float, Any], Any, Union[float, Any]]:
         """
-        Calculate energy used and recuperated for a given vehicle per km driven.
+Calculate energy used and recuperated for a given vehicle per km driven.
 
-        :param driving_mass: Mass of vehicle (kg)
-        :param rr_coef: Rolling resistance coefficient (dimensionless, between 0.0 and 1.0)
-        :param drag_coef: Aerodynamic drag coefficient (dimensionless, between 0.0 and 1.0)
-        :param frontal_area: Frontal area of vehicle (m2)
-        :param sizes: size classes of the vehicles
-        :param motor_power: Electric motor power (watts). Optional.
-        :returns: net motive energy (in kJ/km)
+:param driving_mass: Mass of vehicle (kg)
+:param rr_coef: Rolling resistance coefficient (dimensionless, between 0.0 and 1.0)
+:param drag_coef: Aerodynamic drag coefficient (dimensionless, between 0.0 and 1.0)
+:param frontal_area: Frontal area of vehicle (m2)
+:param sizes: size classes of the vehicles
+:param motor_power: Electric motor power (watts). Optional.
+:returns: net motive energy (in kJ/km)
 
-        Power to overcome rolling resistance is calculated by:
+Power to overcome rolling resistance is calculated by:
 
-        .. math::
+.. math::
 
-            g v M C_{r}
+    g v M C_{r}
 
-        where :math:`g` is 9.81 (m/s2), :math:`v` is velocity (m/s), :math:`M` is mass (kg),
-        and :math:`C_{r}` is the rolling resistance coefficient (dimensionless).
+Where:
 
-        Power to overcome air resistance is calculated by:
+- :math:`g` is 9.81 (m/s2),
+- :math:`v` is velocity (m/s),
+- :math:`M` is mass (kg),
+- and :math:`C_{r}` is the rolling resistance coefficient (dimensionless).
 
-        .. math::
+Power to overcome air resistance is calculated by:
 
-            \frac{1}{2} \rho_{air} v^{3} A C_{d}
+.. math::
+
+    frac{1}{2} rho_{air} v^{3} A C_{d}
 
 
-        where :math:`\rho_{air}` is 1.225 (kg/m3), :math:`v` is velocity (m/s), :math:`A` is frontal area (m2), and :math:`C_{d}`
-        is the aerodynamic drag coefficient (dimensionless).
+Where:
+
+- :math:`rho_{air}` is 1.225 (kg/m3),
+- :math:`v` is velocity (m/s),
+- :math:`A` is frontal area (m2),
+- and :math:`C_{d}` is the aerodynamic drag coefficient (dimensionless).
 
         """
 
