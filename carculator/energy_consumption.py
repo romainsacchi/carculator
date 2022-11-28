@@ -133,42 +133,42 @@ class EnergyConsumptionModel:
         motor_power: Union[float, np.ndarray, xr.DataArray] = 0,
     ) -> Tuple[Union[float, Any], Any, Union[float, Any]]:
         """
-Calculate energy used and recuperated for a given vehicle per km driven.
+        Calculate energy used and recuperated for a given vehicle per km driven.
 
-:param driving_mass: Mass of vehicle (kg)
-:param rr_coef: Rolling resistance coefficient (dimensionless, between 0.0 and 1.0)
-:param drag_coef: Aerodynamic drag coefficient (dimensionless, between 0.0 and 1.0)
-:param frontal_area: Frontal area of vehicle (m2)
-:param sizes: size classes of the vehicles
-:param motor_power: Electric motor power (watts). Optional.
-:returns: net motive energy (in kJ/km)
+        :param driving_mass: Mass of vehicle (kg)
+        :param rr_coef: Rolling resistance coefficient (dimensionless, between 0.0 and 1.0)
+        :param drag_coef: Aerodynamic drag coefficient (dimensionless, between 0.0 and 1.0)
+        :param frontal_area: Frontal area of vehicle (m2)
+        :param sizes: size classes of the vehicles
+        :param motor_power: Electric motor power (watts). Optional.
+        :returns: net motive energy (in kJ/km)
 
-Power to overcome rolling resistance is calculated by:
+        Power to overcome rolling resistance is calculated by:
 
-.. math::
+        .. math::
 
-    g v M C_{r}
+            g v M C_{r}
 
-Where:
+        Where:
 
-- :math:`g` is 9.81 (m/s2),
-- :math:`v` is velocity (m/s),
-- :math:`M` is mass (kg),
-- and :math:`C_{r}` is the rolling resistance coefficient (dimensionless).
+        - :math:`g` is 9.81 (m/s2),
+        - :math:`v` is velocity (m/s),
+        - :math:`M` is mass (kg),
+        - and :math:`C_{r}` is the rolling resistance coefficient (dimensionless).
 
-Power to overcome air resistance is calculated by:
+        Power to overcome air resistance is calculated by:
 
-.. math::
+        .. math::
 
-    frac{1}{2} rho_{air} v^{3} A C_{d}
+            frac{1}{2} rho_{air} v^{3} A C_{d}
 
 
-Where:
+        Where:
 
-- :math:`rho_{air}` is 1.225 (kg/m3),
-- :math:`v` is velocity (m/s),
-- :math:`A` is frontal area (m2),
-- and :math:`C_{d}` is the aerodynamic drag coefficient (dimensionless).
+        - :math:`rho_{air}` is 1.225 (kg/m3),
+        - :math:`v` is velocity (m/s),
+        - :math:`A` is frontal area (m2),
+        - and :math:`C_{d}` is the aerodynamic drag coefficient (dimensionless).
 
         """
 
