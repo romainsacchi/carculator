@@ -35,7 +35,7 @@ def get_hot_emission_factors() -> xr.DataArray:
 
 
 def get_non_hot_emission_factors() -> xr.DataArray:
-    """Non hot emissions factors (cold start, evaporation, soak emissions) extracted for trucks from HBEFA 4.1
+    """Non-hot emissions factors (cold start, evaporation, soak emissions) extracted for trucks from HBEFA 4.1
     detailed by size, powertrain and EURO class for each substance.
     """
     filepath = DATA_DIR / "non_hot.csv"
@@ -194,16 +194,16 @@ class HotEmissionsModel:
         """
         Calculate hot pollutants emissions given a powertrain type (i.e., diesel, petrol, CNG) and a EURO pollution class, per air sub-compartment
         (i.e., urban, suburban and rural).
-        Note that Nh3 and N2O emissions do not depend on the speed level. FOr those, average values observed across
+        Note that Nh3 and N2O emissions do not depend on the speed level. For those, average values observed across
         different traffic situations are used instead.
         Also includes cold start emissions. Cold start emissions are also given by HBEFA 4.1 and expressed in given in g/start.
         Cold start emissions are divided by the average trip length in Europe (20 km), to normalize them per km.
 
         The emission sums are further divided into `air compartments`: urban, suburban and rural.
 
-            * *urban*: from 0 to 50 km/k
-            * *suburban*: from 51 km/h to 80 km/h
-            * *rural*: above 80 km/h
+        * *urban*: from 0 to 50 km/k
+        * *suburban*: from 51 km/h to 80 km/h
+        * *rural*: above 80 km/h
 
         :param powertrain_type: "diesel", "petrol" or "CNG"
         :param euro_class: integer, corresponding to the EURO pollution class

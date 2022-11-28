@@ -76,9 +76,10 @@ def get_electricity_mix() -> xr.DataArray:
     """
     Retrieve electricity mixes and shape them into a xarray.
     Source:
-        * for European countries (`ENTSOE TYNDP 2020 scenarios <https://2020.entsos-tyndp-scenarios.eu/>`_),
-        * for African countries (`TEMBA <http://www.osemosys.org/temba.html>`_ model)
-        * and for other countries (`IEA World Energy outlook 2017 <https://www.iea.org/reports/world-energy-outlook-2017>`_)
+
+    * for European countries (`ENTSOE TYNDP 2020 scenarios <https://2020.entsos-tyndp-scenarios.eu/>`_),
+    * for African countries (`TEMBA <http://www.osemosys.org/temba.html>`_ model)
+    * and for other countries (`IEA World Energy outlook 2017 <https://www.iea.org/reports/world-energy-outlook-2017>`_)
 
     :returns: An axarray with 'country' and 'year' as dimensions
     :rtype: xarray.core.dataarray.DataArray
@@ -147,7 +148,7 @@ def get_biofuel_share() -> xr.DataArray:
 def get_biomethane_share() -> xr.DataArray:
     """
 
-    :return: Returns an xarray with share of biomethane in the fuel blend, per country, per year.
+    :return: Returns a xarray with share of biomethane in the fuel blend, per country, per year.
     """
     filename = "share_bio_cng.csv"
     filepath = DATA_DIR / filename
@@ -164,7 +165,7 @@ def get_biomethane_share() -> xr.DataArray:
 def get_biogasoline_share() -> xr.DataArray:
     """
 
-    :return: Returns an xarray with share of bioethanol in the fuel blend, per country, per year.
+    :return: Returns a xarray with share of bioethanol in the fuel blend, per country, per year.
     """
     filename = "share_bio_gasoline.csv"
     filepath = DATA_DIR / filename
@@ -181,7 +182,7 @@ def get_biogasoline_share() -> xr.DataArray:
 def get_biodiesel_share() -> xr.DataArray:
     """
 
-    :return: Returns an xarray with share of biodiesel in the fuel blend, per country, per year.
+    :return: Returns a xarray with share of biodiesel in the fuel blend, per country, per year.
     """
     filename = "share_bio_diesel.csv"
     filepath = DATA_DIR / filename
@@ -200,10 +201,7 @@ def get_sulfur_content_in_fuel() -> xr.DataArray:
     Retrieve sulfur content per kg of petrol and diesel.
     For CH, DE, FR, AU and SE, the concentration values come from HBEFA 4.1, from 1909 to 2020 (extrapolated to 2050).
 
-    For the other countries, values come from
-    Miller, J. D., & Jin, L. (2019). Global progress toward soot-free diesel vehicles in 2019.
-    International Council on Clean Transportation.
-    https://www.theicct.org/publications/global-progress-toward-soot-free-diesel-vehicles-2019
+    For the other countries, values come from :cite:`ct-1118`.
 
     There is an assumption made: countries that have high-sulfur content fuels (above 50 ppm in 2019) are assumed to
     improve over time to reach 50 ppm by 2050.
@@ -239,11 +237,11 @@ class BackgroundSystemModel:
     """
     Retrieve and build dictionaries that contain important information to model in the background system:
 
-        * gross electricity production mixes from nearly all countries in the world, from 2015 to 2050.
-        * cumulative electricity transformation/transmission/distribution losses from high voltage to medium and low voltage.
-        * share of biomass-derived fuel in the total consumption of liquid fuel in the transport sector. Source: REMIND.
-        * share of bioethanol, biodiesel and biomethane, for each country, for different years.
-        * share of sulfur in gasoline and diesel, for different countries and years.
+    * gross electricity production mixes from nearly all countries in the world, from 2015 to 2050.
+    * cumulative electricity transformation/transmission/distribution losses from high voltage to medium and low voltage.
+    * share of biomass-derived fuel in the total consumption of liquid fuel in the transport sector. Source: REMIND.
+    * share of bioethanol, biodiesel and biomethane, for each country, for different years.
+    * share of sulfur in gasoline and diesel, for different countries and years.
     """
 
     def __init__(self) -> None:

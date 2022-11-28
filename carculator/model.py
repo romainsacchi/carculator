@@ -813,9 +813,9 @@ class CarModel:
         """
         Define ``curb mass``, ``driving mass``, and ``total cargo mass``.
 
-            * `curb mass <https://en.wikipedia.org/wiki/Curb_weight>`__ is the mass of the vehicle and fuel, without people or cargo.
-            * ``total cargo mass`` is the mass of the cargo and passengers.
-            * ``driving mass`` is the ``curb mass`` plus ``total cargo mass``.
+        * `curb mass <https://en.wikipedia.org/wiki/Curb_weight>`__ is the mass of the vehicle and fuel, without people or cargo.
+        * ``total cargo mass`` is the mass of the cargo and passengers.
+        * ``driving mass`` is the ``curb mass`` plus ``total cargo mass``.
 
         .. note::
             driving mass = total cargo mass + driving mass
@@ -1928,11 +1928,11 @@ class CarModel:
         This method returns an array with cost values per vehicle-km,
         subdivided into the following groups:
 
-            * Purchase
-            * Maintenance
-            * Component replacement
-            * Energy
-            * Total cost of ownership
+        * Purchase
+        * Maintenance
+        * Component replacement
+        * Energy
+        * Total cost of ownership
 
         :return: A xarray array with cost information per vehicle-km
         """

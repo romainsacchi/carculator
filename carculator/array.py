@@ -1,8 +1,8 @@
 """
-Module array.py exposes fill_xarray_from_input_parameters() which formats
-parameters contained in the CarInputParameters object into a multi-dimensional array.
+Module array.py exposes ``fill_xarray_from_input_parameters()`` which formats
+parameters contained in the ``CarInputParameters`` object into a multidimensional array.
 This array host input as well as not yet calculated parameters.
-Also, modify_xarray_from_custom_parameters() offers a way to modify some of the default values
+Also, ``modify_xarray_from_custom_parameters()`` offers a way to modify some default values
 used for input parameters.
 """
 
@@ -25,7 +25,7 @@ def fill_xarray_from_input_parameters(
     This function extracts the parameters' names and values contained in the
     `parameters` attribute of the :class:`CarInputParameters` class in
     :mod:`car_input_parameters` and insert them into a
-    multi-dimensional numpy-like array from the *xarray* package
+    multidimensional numpy-like array from the *xarray* package
     (http://xarray.pydata.org/en/stable/).
 
 
@@ -33,15 +33,16 @@ def fill_xarray_from_input_parameters(
     :param sensitivity: boolean. Whether a sensitivity test is carried out.
     :param scope: a dictionary to narrow down the scope of vehicles to consider
     :returns: `tuple`, `xarray.DataArray`
+
     - tuple (`size_dict`, `powertrain_dict`, `parameter_dict`, `year_dict`)
     - array
 
     Dimensions of `array`:
 
-        0. Vehicle size, e.g. "small", "medium". str.
-        1. Powertrain, e.g. "ICE-p", "BEV". str.
-        2. Year. int.
-        3. Samples.
+    0. Vehicle size, e.g. "small", "medium". str.
+    1. Powertrain, e.g. "ICE-p", "BEV". str.
+    2. Year. int.
+    3. Samples.
 
     """
 
@@ -218,42 +219,42 @@ def modify_xarray_from_custom_parameters(
 
     This function allows to override one or several default parameter values by providing either:
 
-        * a file path to an Excel workbook that contains the new values
-        * or a dictionary
+    * a file path to an Excel workbook that contains the new values
+    * or a dictionary
 
     The dictionary must be of the following format:
 
     .. code-block:: python
 
-            {
-                (parameter category,
-                    powertrain,
-                    size,
-                    parameter name,
-                    uncertainty type): {
-                                        (year, 'loc'): value,
-                                        (year, 'scale'): value,
-                                        (year, 'shape'): value,
-                                        (year, 'minimum'): value,
-                                        (year, 'maximum'): value
-                }
-
+        {
+            (parameter category,
+                powertrain,
+                size,
+                parameter name,
+                uncertainty type): {
+                                    (year, 'loc'): value,
+                                    (year, 'scale'): value,
+                                    (year, 'shape'): value,
+                                    (year, 'minimum'): value,
+                                    (year, 'maximum'): value
             }
+
+        }
 
     For example:
 
     .. code-block:: python
 
-            {
-                ('Driving',
-                'all',
-                'all',
-                'lifetime kilometers',
-                'none'): {
-                    (2018, 'loc'): 150000, (2040, 'loc'): 150000
-                    }
+        {
+            ('Driving',
+            'all',
+            'all',
+            'lifetime kilometers',
+            'none'): {
+                (2018, 'loc'): 150000, (2040, 'loc'): 150000
+                }
 
-            }
+        }
 
     :param filepath: File path of workbook with new values or dictionary.
     :type filepath: str or dict
