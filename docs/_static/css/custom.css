@@ -1,0 +1,65 @@
+body,
+input {
+    font-size: 16px !important;
+    font-weight: 400;
+    line-height: 1.5 !important;
+}
+
+.md-typeset, .md-nav, .md-typeset table:not([class]) {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+}
+
+.md-typeset table.data:not(.plain) td {
+	padding: .7031em 1.15em!important;
+}
+
+h1, h2, h3 {
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+}
+
+h1:not([class="md-search-result__title"]) {
+    font-size: 34px !important;
+    margin-bottom: 15px !important;
+}
+
+h2 {
+    font-size: 24px !important;
+    margin-bottom: 10px !important;
+}
+
+h3 {
+    font-size: 18px !important;
+    margin-bottom: 10px !important;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+tbody tr td {
+    font-size: medium !important;
+}
+
+table tbody tr {
+    background-color: transparent !important;
+}
+
+table tbody tr:hover {
+    background-color: rgb(147 147 147 / 10%) !important;
+    box-shadow: 0 .05rem 0 var(--md-default-bg-color) inset !important;
+}
+
+/*Remove READTHEDOCS version badge*/
+.injected {
+    display: none !important;
+}
+
+.md-typeset pre {
+    overflow-x: auto;
+}
+
+.md-header__button.md-logo :is(img, png) {
+    height: 2rem !important;
+}
