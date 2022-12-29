@@ -16,5 +16,4 @@ Please note we have a [code of conduct](https://github.com/romainsacchi/carculat
 ## Authors
 
 * [Romain Sacchi](https://github.com/romainsacchi)
-* [Chris Mutel](https://github.com/cmutel/)
 * Your name here!

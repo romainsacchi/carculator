@@ -1,0 +1,22 @@
+powertrain,component,value
+BEV,Arsenic,0
+ICEV-p,PAH polycyclic aromatic hydrocarbons,8.19E-10
+ICEV-p,Arsenic,7.06E-12
+ICEV-p,Selenium,4.71E-12
+ICEV-p,Zinc,5.08E-08
+ICEV-p,Copper,9.88E-10
+ICEV-p,Nickel,3.06E-10
+ICEV-p,Chromium,3.76E-10
+ICEV-p,Chromium VI,7.53E-13
+ICEV-p,Mercury,2.05E-10
+ICEV-p,Cadmium,2.54E-10
+ICEV-d,PAH polycyclic aromatic hydrocarbons,1.32E-09
+ICEV-d,Arsenic,2.33E-12
+ICEV-d,Selenium,2.33E-12
+ICEV-d,Zinc,4.05E-08
+ICEV-d,Copper,4.93E-10
+ICEV-d,Nickel,2.05E-10
+ICEV-d,Chromium,6.98E-10
+ICEV-d,Chromium VI,1.40E-12
+ICEV-d,Mercury,1.23E-10
+ICEV-d,Cadmium,2.02E-10

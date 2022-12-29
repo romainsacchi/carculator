@@ -35,7 +35,7 @@ release = "1.6.8"
 extensions = ["sphinx.ext.autodoc"]
 
 autoapi_type = "python"
-autoapi_dirs = ["../carculator"]
+autoapi_dirs = ["../carculator_utils"]
 
 master_doc = "index"
 

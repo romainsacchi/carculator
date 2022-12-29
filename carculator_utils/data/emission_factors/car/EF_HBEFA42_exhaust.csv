@@ -1,0 +1,322 @@
+powertrain,euro_class,component,value
+BEV,0,Benzene,0
+ICEV-p,0,Ethane,0
+ICEV-p,0,Propane,0
+ICEV-p,0,Butane,0
+ICEV-p,0,Pentane,0
+ICEV-p,0,Hexane,0
+ICEV-p,0,Cyclohexane,0
+ICEV-p,0,Heptane,0
+ICEV-p,0,Ethene,0
+ICEV-p,0,Propene,0
+ICEV-p,0,1-Pentene,0
+ICEV-p,0,Toluene,0
+ICEV-p,0,m-Xylene,0
+ICEV-p,0,o-Xylene,0
+ICEV-p,0,Formaldehyde,0
+ICEV-p,0,Acetaldehyde,0
+ICEV-p,0,Benzaldehyde,0
+ICEV-p,0,Acetone,0
+ICEV-p,0,Methyl ethyl ketone,0
+ICEV-p,0,Acrolein,0
+ICEV-p,0,Styrene,0
+ICEV-p,0,PAH polycyclic aromatic hydrocarbons,0
+ICEV-p,0,Arsenic,0
+ICEV-p,0,Selenium,0
+ICEV-p,0,Zinc,0
+ICEV-p,0,Copper,0
+ICEV-p,0,Nickel,0
+ICEV-p,0,Chromium,0
+ICEV-p,0,Chromium VI,0
+ICEV-p,0,Mercury,0
+ICEV-p,0,Cadmium,0
+ICEV-d,0,Benzene,7.16E-07
+ICEV-d,0,Methane,1.03E-06
+ICEV-d,0,Carbon monoxide,0.000215491
+ICEV-d,0,Hydrocarbon,4.29E-05
+ICEV-d,0,Dinitrogen oxide,0
+ICEV-d,0,Ammonia,1.00E-06
+ICEV-d,0,Non-methane hydrocarbon,4.18E-05
+ICEV-d,0,Nitrogen dioxide,1.95E-05
+ICEV-d,0,Nitrogen oxides,0.000243458
+ICEV-d,0,Particulate matters 2.5,3.68E-05
+ICEV-d,0,Lead,0
+ICEV-p,1,Hydrocarbon,0.049233229
+ICEV-p,2,Hydrocarbon,0.016571577
+ICEV-p,3,Hydrocarbon,0.009311372
+ICEV-p,4,Hydrocarbon,0.00455484
+ICEV-p,5,Hydrocarbon,0.005500442
+ICEV-p,6,Hydrocarbon,0.003162039
+ICEV-p,6.1,Hydrocarbon,0.001070885
+ICEV-p,6.3,Hydrocarbon,0.002282782
+ICEV-p,6.2,Hydrocarbon,0.002261953
+ICEV-p,7,Hydrocarbon,0.00172876
+ICEV-p,1,Lead,0
+ICEV-p,2,Lead,0
+ICEV-p,3,Lead,0
+ICEV-p,4,Lead,0
+ICEV-p,5,Lead,0
+ICEV-p,6,Lead,0
+ICEV-p,6.1,Lead,0
+ICEV-p,6.3,Lead,0
+ICEV-p,6.2,Lead,0
+ICEV-d,1,Hydrocarbon,0.023623508
+ICEV-d,2,Hydrocarbon,0.013321193
+ICEV-d,3,Hydrocarbon,0.009213708
+ICEV-d,4,Hydrocarbon,0.004197051
+ICEV-d,5,Hydrocarbon,0.003246442
+ICEV-d,6.1,Hydrocarbon,0.00564108
+ICEV-d,6,Hydrocarbon,0.007781243
+ICEV-d,6.2,Hydrocarbon,0.004338596
+ICEV-d,6.3,Hydrocarbon,0.004010222
+ICEV-d,7,Hydrocarbon,0.002153913
+ICEV-g,2,Hydrocarbon,0.028610322
+ICEV-g,3,Hydrocarbon,0.015088362
+ICEV-g,4,Hydrocarbon,0.020333368
+ICEV-g,5,Hydrocarbon,0.028922372
+ICEV-g,6,Hydrocarbon,0.014301131
+ICEV-p,1,Carbon monoxide,0.644151832
+ICEV-p,2,Carbon monoxide,0.698445354
+ICEV-p,3,Carbon monoxide,0.686896813
+ICEV-p,4,Carbon monoxide,0.511282053
+ICEV-p,5,Carbon monoxide,0.583140439
+ICEV-p,6,Carbon monoxide,0.286696225
+ICEV-p,6.1,Carbon monoxide,0.1832637
+ICEV-p,6.3,Carbon monoxide,0.146917452
+ICEV-p,6.2,Carbon monoxide,0.166396903
+ICEV-p,7,Carbon monoxide,0.11163007
+ICEV-d,1,Carbon monoxide,0.141976154
+ICEV-d,2,Carbon monoxide,0.055158513
+ICEV-d,3,Carbon monoxide,0.027358225
+ICEV-d,4,Carbon monoxide,0.015078061
+ICEV-d,5,Carbon monoxide,0.014314275
+ICEV-d,6.1,Carbon monoxide,0.015102758
+ICEV-d,6,Carbon monoxide,0.033642411
+ICEV-d,6.2,Carbon monoxide,0.006086595
+ICEV-d,6.3,Carbon monoxide,0.005678691
+ICEV-d,7,Carbon monoxide,0.050435058
+ICEV-g,2,Carbon monoxide,0.884286094
+ICEV-g,3,Carbon monoxide,0.816246454
+ICEV-g,4,Carbon monoxide,0.135563384
+ICEV-g,5,Carbon monoxide,0.19124423
+ICEV-g,6,Carbon monoxide,0.086647157
+ICEV-p,1,Nitrogen oxides,0.14189715
+ICEV-p,2,Nitrogen oxides,0.080774848
+ICEV-p,3,Nitrogen oxides,0.026120033
+ICEV-p,4,Nitrogen oxides,0.026624474
+ICEV-p,5,Nitrogen oxides,0.010181615
+ICEV-p,6,Nitrogen oxides,0.017440759
+ICEV-p,6.1,Nitrogen oxides,0.006532139
+ICEV-p,6.3,Nitrogen oxides,0.013665353
+ICEV-p,6.2,Nitrogen oxides,0.012984357
+ICEV-p,7,Nitrogen oxides,0.009907204
+ICEV-d,1,Nitrogen oxides,0.293855791
+ICEV-d,2,Nitrogen oxides,0.327890632
+ICEV-d,3,Nitrogen oxides,0.464926831
+ICEV-d,4,Nitrogen oxides,0.381153337
+ICEV-d,5,Nitrogen oxides,0.494058337
+ICEV-d,6.1,Nitrogen oxides,0.104284901
+ICEV-d,6,Nitrogen oxides,0.197988929
+ICEV-d,6.2,Nitrogen oxides,0.018483213
+ICEV-d,6.3,Nitrogen oxides,0.016742058
+ICEV-d,7,Nitrogen oxides,0.007587186
+ICEV-g,2,Nitrogen oxides,0.092970207
+ICEV-g,3,Nitrogen oxides,0.028217
+ICEV-g,4,Nitrogen oxides,0.123822509
+ICEV-g,5,Nitrogen oxides,0.037061875
+ICEV-g,6,Nitrogen oxides,0.006443871
+ICEV-g,6.1,Nitrogen oxides,0.006443871
+ICEV-g,6.2,Nitrogen oxides,0.006443871
+ICEV-g,6.3,Nitrogen oxides,0.006443871
+ICEV-g,7,Nitrogen oxides,0.006443871
+ICEV-p,1,Nitrogen dioxide,0.007094858
+ICEV-p,2,Nitrogen dioxide,0.004038743
+ICEV-p,3,Nitrogen dioxide,0.001306002
+ICEV-p,4,Nitrogen dioxide,0.001331224
+ICEV-p,5,Nitrogen dioxide,0.000509081
+ICEV-p,6,Nitrogen dioxide,0.000872038
+ICEV-p,6.1,Nitrogen dioxide,0.000326607
+ICEV-p,6.3,Nitrogen dioxide,0.000683268
+ICEV-p,6.2,Nitrogen dioxide,0.000649218
+ICEV-p,7,Nitrogen dioxide,0.00049536
+ICEV-d,1,Nitrogen dioxide,0.023508462
+ICEV-d,2,Nitrogen dioxide,0.036067969
+ICEV-d,3,Nitrogen dioxide,0.161097146
+ICEV-d,4,Nitrogen dioxide,0.142551343
+ICEV-d,5,Nitrogen dioxide,0.153701552
+ICEV-d,6.1,Nitrogen dioxide,0.030294763
+ICEV-d,6,Nitrogen dioxide,0.057515787
+ICEV-d,6.2,Nitrogen dioxide,0.005369373
+ICEV-d,6.3,Nitrogen dioxide,0.004863568
+ICEV-d,7,Nitrogen dioxide,0.002204078
+ICEV-g,2,Nitrogen dioxide,0.007437616
+ICEV-g,3,Nitrogen dioxide,0.00225736
+ICEV-g,4,Nitrogen dioxide,0.009905801
+ICEV-g,5,Nitrogen dioxide,0.00296495
+ICEV-g,6,Nitrogen dioxide,0.00148209
+ICEV-p,1,Methane,0.004135591
+ICEV-p,2,Methane,0.003314316
+ICEV-p,3,Methane,0.002793412
+ICEV-p,4,Methane,0.001821936
+ICEV-p,5,Methane,0.002200177
+ICEV-p,6,Methane,0.001264816
+ICEV-p,6.1,Methane,0.000428354
+ICEV-p,6.3,Methane,0.000913113
+ICEV-p,6.2,Methane,0.000904781
+ICEV-p,7,Methane,0.000691504
+ICEV-d,1,Methane,0.000566964
+ICEV-d,2,Methane,0.00066606
+ICEV-d,3,Methane,0.000921371
+ICEV-d,4,Methane,0.000629558
+ICEV-d,5,Methane,0.001947865
+ICEV-d,6.1,Methane,0.005076972
+ICEV-d,6,Methane,0.007003119
+ICEV-d,6.2,Methane,0.003904737
+ICEV-d,6.3,Methane,0.0036092
+ICEV-d,7,Methane,0.001938522
+ICEV-g,2,Methane,0.026321499
+ICEV-g,3,Methane,0.013881292
+ICEV-g,4,Methane,0.018706699
+ICEV-g,5,Methane,0.026608584
+ICEV-g,6,Methane,0.01315704
+ICEV-p,1,Non-methane hydrocarbon,0.045097639
+ICEV-p,2,Non-methane hydrocarbon,0.013257263
+ICEV-p,3,Non-methane hydrocarbon,0.00651796
+ICEV-p,4,Non-methane hydrocarbon,0.002732904
+ICEV-p,5,Non-methane hydrocarbon,0.003300265
+ICEV-p,6,Non-methane hydrocarbon,0.001897224
+ICEV-p,6.1,Non-methane hydrocarbon,0.000642531
+ICEV-p,6.3,Non-methane hydrocarbon,0.001369669
+ICEV-p,6.2,Non-methane hydrocarbon,0.001357172
+ICEV-p,7,Non-methane hydrocarbon,0.001037256
+ICEV-d,1,Non-methane hydrocarbon,0.023056544
+ICEV-d,2,Non-methane hydrocarbon,0.012655135
+ICEV-d,3,Non-methane hydrocarbon,0.008292336
+ICEV-d,4,Non-methane hydrocarbon,0.003567494
+ICEV-d,5,Non-methane hydrocarbon,0.001298577
+ICEV-d,6.1,Non-methane hydrocarbon,0.000564108
+ICEV-d,6,Non-methane hydrocarbon,0.000778124
+ICEV-d,6.2,Non-methane hydrocarbon,0.00043386
+ICEV-d,6.3,Non-methane hydrocarbon,0.000401022
+ICEV-d,7,Non-methane hydrocarbon,0.000215391
+ICEV-g,2,Non-methane hydrocarbon,0.002288826
+ICEV-g,3,Non-methane hydrocarbon,0.001207069
+ICEV-g,4,Non-methane hydrocarbon,0.001626669
+ICEV-g,5,Non-methane hydrocarbon,0.00231379
+ICEV-g,6,Non-methane hydrocarbon,0.00114409
+ICEV-p,7,Lead,0
+ICEV-d,1,Lead,0
+ICEV-d,2,Lead,0
+ICEV-d,3,Lead,0
+ICEV-d,4,Lead,0
+ICEV-d,5,Lead,0
+ICEV-d,6.1,Lead,0
+ICEV-d,6,Lead,0
+ICEV-d,6.2,Lead,0
+ICEV-d,6.3,Lead,0
+ICEV-d,7,Lead,0
+ICEV-g,2,Lead,0
+ICEV-g,3,Lead,0
+ICEV-g,4,Lead,0
+ICEV-g,5,Lead,0
+ICEV-g,6,Lead,0
+ICEV-p,1,Dinitrogen oxide,0.003227628
+ICEV-p,2,Dinitrogen oxide,0.001607983
+ICEV-p,3,Dinitrogen oxide,0.000139923
+ICEV-p,4,Dinitrogen oxide,0.000160856
+ICEV-p,5,Dinitrogen oxide,0.000176293
+ICEV-p,6,Dinitrogen oxide,0.000178048
+ICEV-p,6.1,Dinitrogen oxide,0.000172186
+ICEV-p,6.3,Dinitrogen oxide,0.000184372
+ICEV-p,6.2,Dinitrogen oxide,0.000164489
+ICEV-p,7,Dinitrogen oxide,0.000205274
+ICEV-d,1,Dinitrogen oxide,0.001391182
+ICEV-d,2,Dinitrogen oxide,0.002127222
+ICEV-d,3,Dinitrogen oxide,0.001810722
+ICEV-d,4,Dinitrogen oxide,0.001786539
+ICEV-d,5,Dinitrogen oxide,0.002862259
+ICEV-d,6.1,Dinitrogen oxide,0.004824234
+ICEV-d,6,Dinitrogen oxide,0.005019042
+ICEV-d,6.2,Dinitrogen oxide,0.004505482
+ICEV-d,6.3,Dinitrogen oxide,0.004729323
+ICEV-d,7,Dinitrogen oxide,0.005172374
+ICEV-g,2,Dinitrogen oxide,0.000174517
+ICEV-g,3,Dinitrogen oxide,0.000171807
+ICEV-g,4,Dinitrogen oxide,0.000169139
+ICEV-g,5,Dinitrogen oxide,0.00019587
+ICEV-g,6,Dinitrogen oxide,0.000221108
+ICEV-p,1,Ammonia,0.039896752
+ICEV-p,2,Ammonia,0.048367978
+ICEV-p,3,Ammonia,0.014544391
+ICEV-p,4,Ammonia,0.014710578
+ICEV-p,5,Ammonia,0.00654913
+ICEV-p,6,Ammonia,0.007228271
+ICEV-p,6.1,Ammonia,0.00699029
+ICEV-p,6.3,Ammonia,0.007484996
+ICEV-p,6.2,Ammonia,0.006677822
+ICEV-p,7,Ammonia,0.008333562
+ICEV-d,1,Ammonia,0.000367524
+ICEV-d,2,Ammonia,0.000367696
+ICEV-d,3,Ammonia,0.000399119
+ICEV-d,4,Ammonia,0.000393789
+ICEV-d,5,Ammonia,5.07054E-05
+ICEV-d,6.1,Ammonia,0.002968844
+ICEV-d,6,Ammonia,0.003088729
+ICEV-d,6.2,Ammonia,0.002772683
+ICEV-d,6.3,Ammonia,0.002910435
+ICEV-d,7,Ammonia,0.00318309
+ICEV-g,2,Ammonia,0.015959885
+ICEV-g,3,Ammonia,0.015712043
+ICEV-g,4,Ammonia,0.015468022
+ICEV-g,5,Ammonia,0.007276393
+ICEV-g,6,Ammonia,0.008976381
+ICEV-p,1,Benzene,0.006365857
+ICEV-p,2,Benzene,0.002142705
+ICEV-p,3,Benzene,0.00120396
+ICEV-p,4,Benzene,4.55484E-05
+ICEV-p,5,Benzene,5.50044E-05
+ICEV-p,6,Benzene,3.16204E-05
+ICEV-p,6.1,Benzene,1.07088E-05
+ICEV-p,6.3,Benzene,2.28278E-05
+ICEV-p,6.2,Benzene,2.26195E-05
+ICEV-p,7,Benzene,1.72876E-05
+ICEV-d,1,Benzene,0.000394513
+ICEV-d,2,Benzene,0.000222464
+ICEV-d,3,Benzene,0.000153869
+ICEV-d,4,Benzene,3.35764E-05
+ICEV-d,5,Benzene,2.59715E-05
+ICEV-d,6.1,Benzene,4.51286E-05
+ICEV-d,6,Benzene,6.22499E-05
+ICEV-d,6.2,Benzene,3.47088E-05
+ICEV-d,6.3,Benzene,3.20818E-05
+ICEV-d,7,Benzene,1.72313E-05
+ICEV-g,2,Benzene,0
+ICEV-g,3,Benzene,0
+ICEV-g,4,Benzene,0
+ICEV-g,5,Benzene,0
+ICEV-g,6,Benzene,0
+ICEV-p,1,Particulate matters 2.5,0.002714866
+ICEV-p,2,Particulate matters 2.5,0.004458222
+ICEV-p,3,Particulate matters 2.5,0.001747005
+ICEV-p,4,Particulate matters 2.5,0.000915532
+ICEV-p,5,Particulate matters 2.5,0.001035399
+ICEV-p,6,Particulate matters 2.5,0.000483016
+ICEV-p,6.1,Particulate matters 2.5,0.000165737
+ICEV-p,6.3,Particulate matters 2.5,0.000549115
+ICEV-p,6.2,Particulate matters 2.5,0.0004489
+ICEV-p,7,Particulate matters 2.5,0.000143099
+ICEV-d,1,Particulate matters 2.5,0.044551854
+ICEV-d,2,Particulate matters 2.5,0.030457491
+ICEV-d,3,Particulate matters 2.5,0.01689492
+ICEV-d,4,Particulate matters 2.5,0.01545938
+ICEV-d,5,Particulate matters 2.5,0.000914321
+ICEV-d,6.1,Particulate matters 2.5,0.00027642
+ICEV-d,6,Particulate matters 2.5,0.000309991
+ICEV-d,6.2,Particulate matters 2.5,0.000245139
+ICEV-d,6.3,Particulate matters 2.5,0.000228196
+ICEV-d,7,Particulate matters 2.5,0.000221361
+ICEV-g,2,Particulate matters 2.5,0.007696983
+ICEV-g,3,Particulate matters 2.5,0.002830886
+ICEV-g,4,Particulate matters 2.5,0.004101036
+ICEV-g,5,Particulate matters 2.5,0.005222696
+ICEV-g,6,Particulate matters 2.5,0.000968063

@@ -2,10 +2,10 @@ import numpy as np
 import pytest
 
 from carculator import (
-    CarInputParameters,
+    VehicleInputParameters,
     fill_xarray_from_input_parameters,
-    modify_xarray_from_custom_parameters,
 )
+from carculator.model import CarModel
 
 
 def test_type_cip():
@@ -15,7 +15,7 @@ def test_type_cip():
 
 
 def test_format_array():
-    cip = CarInputParameters()
+    cip = VehicleInputParameters()
     cip.static()
     dcts, array = fill_xarray_from_input_parameters(cip)
 
@@ -26,50 +26,30 @@ def test_format_array():
 
 
 def test_modify_array():
-    cip = CarInputParameters()
+    cip = VehicleInputParameters()
     cip.static()
     _, array = fill_xarray_from_input_parameters(cip)
 
-    dict_param = {
-        ("Driving", "all", "all", "lifetime kilometers", "none"): {
-            (2020, "loc"): 150000,
-            (2040, "loc"): 150000,
-        }
-    }
+    array.loc[dict(
+        powertrain="ICEV-d",
+        size="Large",
+        year=2020,
+        parameter="lifetime kilometers",
+    )] = 150000
 
-    modify_xarray_from_custom_parameters(dict_param, array)
-    assert (
-        array.sel(
-            powertrain="ICEV-d",
-            size="Large",
-            year=2020,
-            parameter="lifetime kilometers",
-        ).sum()
-        == 150000
-    )
-
-
-def test_wrong_param_modify_array():
-    cip = CarInputParameters()
-    cip.static()
-    _, array = fill_xarray_from_input_parameters(cip)
-
-    dict_param = {
-        ("Driving", "all", "all", "foo", "none"): {
-            (2020, "loc"): 150000,
-            (2040, "loc"): 150000,
-        }
-    }
-
-    modify_xarray_from_custom_parameters(dict_param, array)
-    with pytest.raises(KeyError) as wrapped_error:
-        array.sel(powertrain="ICEV-d", size="Large", year=2020, parameter="foo")
-    assert wrapped_error.type == KeyError
+    cm = CarModel(array)
+    cm.set_all()
+    assert cm.array.sel(
+        powertrain="ICEV-d",
+        size="Large",
+        year=2020,
+        parameter="lifetime kilometers",
+    ).values == 150000
 
 
 def test_scope():
     """Test that the use of scope dictionary works as intended"""
-    cip = CarInputParameters()
+    cip = VehicleInputParameters()
     cip.static()
     scope = {"powertrain": ["ICEV-d"], "size": ["Lower medium"]}
     _, array = fill_xarray_from_input_parameters(cip, scope=scope)

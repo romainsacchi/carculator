@@ -1,35 +1,52 @@
 import numpy as np
 import pytest
 
-from carculator.driving_cycles import get_standard_driving_cycle
+from carculator_utils.driving_cycles import get_standard_driving_cycle_and_gradient
 
 
-def test_cycle_retrieval_default():
-    dc = get_standard_driving_cycle()
+def test_cycle_retrieval_default_car():
+    dc, grad = get_standard_driving_cycle_and_gradient(
+        vehicle_type="car",
+        vehicle_sizes=["Small", "Medium", "Large"],
+        name="WLTC",
+    )
     assert isinstance(dc, np.ndarray)
-    assert dc.sum() == 83744.6
+    assert dc.shape == (3144, 3)
+    assert dc.shape == grad.shape
 
-
-def test_cycle_retrieval_wltc():
-    dc = get_standard_driving_cycle("WLTC")
+    dc, grad = get_standard_driving_cycle_and_gradient(
+        vehicle_type="car",
+        vehicle_sizes=["Small", "Medium", "Large"],
+        name="NEDC",
+    )
     assert isinstance(dc, np.ndarray)
-    assert dc.sum() == 83744.6
+    assert dc.shape == (3144, 3)
+    assert dc.shape == grad.shape
 
+def test_cycle_retrieval_default_bus():
 
-def test_cycle_retrieval_nedc():
-    dc = get_standard_driving_cycle("NEDC")
+    with pytest.raises(KeyError) as wrapped_error:
+        dc, grad = get_standard_driving_cycle_and_gradient(
+            vehicle_type="bus",
+            vehicle_sizes=["Small", "Medium", "Large"],
+            name="bus"
+        )
+
+    dc, grad = get_standard_driving_cycle_and_gradient(
+        vehicle_type="bus",
+        vehicle_sizes=["13m-city", "13m-coach-double", "18m"],
+        name="bus"
+    )
     assert isinstance(dc, np.ndarray)
-    assert dc.sum() == 39353.0
-
-
-def test_cycle_retrieval_cadc():
-    dc = get_standard_driving_cycle("CADC")
-    assert isinstance(dc, np.ndarray)
-    assert dc.sum() == 186074.2
-
+    assert dc.shape == (17918, 3)
+    assert dc.shape == grad.shape
 
 def test_missing_cycle():
-    with pytest.raises(SystemExit) as wrapped_error:
-        get_standard_driving_cycle("Foo")
-    assert wrapped_error.type == SystemExit
-    assert wrapped_error.value.code == 1
+    with pytest.raises(KeyError) as wrapped_error:
+
+        get_standard_driving_cycle_and_gradient(
+            vehicle_type="car",
+            vehicle_sizes=["Small", "Medium", "Large"],
+            name="not a cycle",
+        )
+    assert wrapped_error.type == KeyError
