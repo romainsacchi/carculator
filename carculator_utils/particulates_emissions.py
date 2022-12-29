@@ -2,11 +2,13 @@
 particulates_emissions.py contains ParticulatesEmissionsModel which calculated the amount of
 abrasion particles emitted, given a driving cycle.
 """
-import numpy as np
-import xarray as xr
 from typing import Union
 
+import numpy as np
+import xarray as xr
+
 from .hot_emissions import get_driving_cycle_compartments
+
 
 def _(obj: Union[np.ndarray, xr.DataArray]) -> Union[np.ndarray, xr.DataArray]:
     """Add a trailing dimension to make input arrays broadcast correctly"""
@@ -52,7 +54,7 @@ class ParticulatesEmissionsModel:
     def __init__(self, velocity: xr.DataArray, mass: xr.DataArray) -> None:
 
         self.mass = mass.values / 1000  # in tons
-        self.velocity = velocity / 1000 * 3600 # in km/h
+        self.velocity = velocity / 1000 * 3600  # in km/h
         self.distance = velocity.sum(dim="second") / 1000
 
     def get_abrasion_emissions(self) -> np.ndarray:
@@ -78,9 +80,15 @@ class ParticulatesEmissionsModel:
         road_pm10, road_pm25 = self.get_road_wear_emissions()
         dust_pm10, dust_pm25 = self.get_resuspended_road_dust()
 
-        urban_share = self.velocity.where(self.velocity < 50, 0).sum(dim="second") / self.velocity.sum(dim="second")
-        suburban_share = self.velocity.where((self.velocity > 50) & (self.velocity <= 80), 0).sum(dim="second") / self.velocity.sum(dim="second")
-        rural_share = self.velocity.where(self.velocity > 80, 0).sum(dim="second") / self.velocity.sum(dim="second")
+        urban_share = self.velocity.where(self.velocity < 50, 0).sum(
+            dim="second"
+        ) / self.velocity.sum(dim="second")
+        suburban_share = self.velocity.where(
+            (self.velocity > 50) & (self.velocity <= 80), 0
+        ).sum(dim="second") / self.velocity.sum(dim="second")
+        rural_share = self.velocity.where(self.velocity > 80, 0).sum(
+            dim="second"
+        ) / self.velocity.sum(dim="second")
 
         tire_wear = (tire_pm10_urban + tire_pm25_urban) * urban_share.T
         tire_wear += (tire_pm10_rural + tire_pm25_rural) * suburban_share.T
@@ -93,7 +101,6 @@ class ParticulatesEmissionsModel:
         road_wear = road_pm10 + road_pm25
         road_dust = dust_pm10 + dust_pm25
 
-
         res = np.concatenate(
             [
                 _(tire_wear),
@@ -101,7 +108,7 @@ class ParticulatesEmissionsModel:
                 _(road_wear),
                 _(road_dust),
             ],
-            axis=-1
+            axis=-1,
         )
 
         return res.transpose(0, 1, 4, 2, 3)

@@ -44,14 +44,10 @@ def get_electricity_losses() -> Dict[str, float]:
     filepath = DATA_DIR / "electricity" / filename
     if not filepath.is_file():
         raise FileNotFoundError(
-            "The CSV file that contains electricity "
-            "mixes could not be found."
+            "The CSV file that contains electricity " "mixes could not be found."
         )
     with open(filepath, encoding="utf-8") as file:
-        csv_list = [[val.strip()
-                     for val in r.split(";")]
-                    for r in file.readlines()
-        ]
+        csv_list = [[val.strip() for val in r.split(";")] for r in file.readlines()]
 
     return data_to_dict(csv_list)
 
@@ -72,9 +68,7 @@ def get_electricity_mix() -> xr.DataArray:
     filepath = DATA_DIR / "electricity" / filename
     if not filepath.is_file():
         raise FileNotFoundError(
-            "The CSV file that contains "
-            "electricity mixes could not "
-            "be found."
+            "The CSV file that contains " "electricity mixes could not " "be found."
         )
 
     dataframe = pd.read_csv(filepath, sep=";", index_col=["country", "year"])
@@ -101,12 +95,12 @@ def get_biofuel_share(filepath) -> xr.DataArray:
     """
     if not filepath.is_file():
         raise FileNotFoundError(
-            "The CSV file that contains biofuel shares "
-            "shares could not be found."
+            "The CSV file that contains biofuel shares " "shares could not be found."
         )
     dataframe = pd.read_csv(filepath, sep=";")
 
     return dataframe.groupby(["country", "year"]).sum().to_xarray().to_array()
+
 
 def get_sulfur_content_in_fuel() -> xr.DataArray:
     """
@@ -150,6 +144,7 @@ def get_sulfur_content_in_fuel() -> xr.DataArray:
     arr = dataframe.groupby(["country", "year", "fuel"]).sum()[0].to_xarray()
     return arr
 
+
 def get_default_fuels() -> dict:
     """
     Import default fuels from `default_fuels.yaml`
@@ -165,6 +160,7 @@ def get_default_fuels() -> dict:
 
     return default_fuels
 
+
 def get_fuels_specs() -> dict:
     """
     Import fuel specifications from `fuel_specs.yaml`
@@ -174,6 +170,7 @@ def get_fuels_specs() -> dict:
         fuel_specs = yaml.safe_load(stream)
 
     return fuel_specs
+
 
 class BackgroundSystemModel:
     """
@@ -191,7 +188,9 @@ class BackgroundSystemModel:
         self.losses = get_electricity_losses()
         self.sulfur = get_sulfur_content_in_fuel()
         self.biomethane = get_biofuel_share(DATA_DIR / "fuel" / "share_bio_cng.csv")
-        self.bioethanol = get_biofuel_share(DATA_DIR / "fuel" / "share_bio_gasoline.csv")
+        self.bioethanol = get_biofuel_share(
+            DATA_DIR / "fuel" / "share_bio_gasoline.csv"
+        )
         self.biodiesel = get_biofuel_share(DATA_DIR / "fuel" / "share_bio_diesel.csv")
         self.default_fuels = get_default_fuels()
         self.fuel_specs = get_fuels_specs()
@@ -213,7 +212,8 @@ class BackgroundSystemModel:
 
         share_biofuel = np.squeeze(
             np.clip(
-                map_array[fuel].sel(country=country)
+                map_array[fuel]
+                .sel(country=country)
                 .interp(
                     year=years,
                     kwargs={"fill_value": "extrapolate"},
@@ -225,7 +225,9 @@ class BackgroundSystemModel:
         )
         return share_biofuel
 
-    def find_fuel_shares(self, fuel_blend: dict, fuel_type: str, country: str, years: List[int]) -> [str, str, np.array, np.array]:
+    def find_fuel_shares(
+        self, fuel_blend: dict, fuel_type: str, country: str, years: List[int]
+    ) -> [str, str, np.array, np.array]:
         """
         Find the fuel shares of the fuel blend, given a country, a fuel type and a list of years.
         """
@@ -260,27 +262,41 @@ class BackgroundSystemModel:
             else:
                 if fuel_type == "diesel":
                     if country in self.biodiesel.country.values:
-                        secondary_share = self.get_share_biofuel("biodiesel", country, years)
+                        secondary_share = self.get_share_biofuel(
+                            "biodiesel", country, years
+                        )
                     else:
-                        secondary_share = self.get_share_biofuel("biodiesel", "RER", years)
+                        secondary_share = self.get_share_biofuel(
+                            "biodiesel", "RER", years
+                        )
 
                 elif fuel_type == "cng":
                     if country in self.biomethane.country.values:
-                        secondary_share = self.get_share_biofuel("biomethane", country, years)
+                        secondary_share = self.get_share_biofuel(
+                            "biomethane", country, years
+                        )
                     else:
-                        secondary_share = self.get_share_biofuel("biomethane", "RER", years)
+                        secondary_share = self.get_share_biofuel(
+                            "biomethane", "RER", years
+                        )
                 else:
                     if country in self.bioethanol.country.values:
-                        secondary_share = self.get_share_biofuel("bioethanol", country, years)
+                        secondary_share = self.get_share_biofuel(
+                            "bioethanol", country, years
+                        )
                     else:
-                        secondary_share = self.get_share_biofuel("bioethanol", "RER", years)
+                        secondary_share = self.get_share_biofuel(
+                            "bioethanol", "RER", years
+                        )
 
         primary_share = 1 - np.squeeze(np.array(secondary_share))
         secondary_share = np.squeeze(secondary_share)
 
         return primary, secondary, primary_share, secondary_share
 
-    def define_fuel_blends(self, powertrains: List[str], country: str, years: List[int]) -> dict:
+    def define_fuel_blends(
+        self, powertrains: List[str], country: str, years: List[int]
+    ) -> dict:
         """
         This function defines fuel blends from what is passed in `fuel_blend`.
         It populates a dictionary `self.fuel_blends` that contains the
@@ -304,21 +320,13 @@ class BackgroundSystemModel:
         _arr = lambda x: np.squeeze(x) if isinstance(x, list) else x
 
         for fuel_type, pwt in fuel_to_powertrains_map.items():
-            if any(
-                    i in powertrains
-                    for i in pwt
-            ):
+            if any(i in powertrains for i in pwt):
                 (
                     primary,
                     secondary,
                     primary_share,
                     secondary_share,
-                ) = self.find_fuel_shares(
-                    fuel_blend,
-                    fuel_type,
-                    country,
-                    years
-                )
+                ) = self.find_fuel_shares(fuel_blend, fuel_type, country, years)
 
                 primary_share = _arr(primary_share)
                 secondary_share = _arr(secondary_share)

@@ -20,13 +20,10 @@ def test_aux_power():
         cycle="WLTC",
         gradient="WLTC",
     )
-    aux = ecm.aux_energy_per_km(
-        aux_power=np.array(100),
-        efficiency=np.array(0.5)
-    )
+    aux = ecm.aux_energy_per_km(aux_power=np.array(100), efficiency=np.array(0.5))
     assert isinstance(aux, np.ndarray)
     assert np.squeeze(aux).shape == np.squeeze(ecm.cycle).shape
-    assert np.allclose(aux, np.repeat(100/0.5, 1801))
+    assert np.allclose(aux, np.repeat(100 / 0.5, 1801))
 
 
 def test_motive_energy():

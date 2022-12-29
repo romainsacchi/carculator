@@ -3,11 +3,12 @@ noise_emissions.py contains NoiseEmissionsModel which calculates noise emissions
 given a driving cycle and a powertrain type.
 """
 
-import numpy as np
-import xarray as xr
-import pandas as pd
-from typing import Union
 from pathlib import Path
+from typing import Union
+
+import numpy as np
+import pandas as pd
+import xarray as xr
 
 MAP_PWT = {
     "ICEV-p": "ICEV",

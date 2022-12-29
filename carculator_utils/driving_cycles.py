@@ -7,11 +7,11 @@ second of driving.
 """
 
 import sys
+from pathlib import Path
+from typing import List, Tuple
 
 import numpy as np
 import yaml
-from typing import List, Tuple
-from pathlib import Path
 
 from . import DATA_DIR
 
@@ -23,7 +23,7 @@ def detect_vehicle_type(vehicle_sizes: List[str]) -> str:
     Detect the type of vehicle based on the size of the vehicle.
     """
 
-    dc=get_driving_cycle_specs()
+    dc = get_driving_cycle_specs()
 
     for vehicle_type in dc["columns"]:
         for dc_name in dc["columns"][vehicle_type]:
@@ -45,10 +45,9 @@ def get_driving_cycle_specs() -> dict:
     with open(FILEPATH_DC_SPECS, "r") as f:
         return yaml.safe_load(f)
 
+
 def get_dc_column_number(
-        vehicle_type: str,
-        vehicle_size: List[str],
-        dc_name: str
+    vehicle_type: str, vehicle_size: List[str], dc_name: str
 ) -> List[int]:
     """
     Loads YAML file that contains the column number.
@@ -56,7 +55,6 @@ def get_dc_column_number(
     """
 
     dc_specs = get_driving_cycle_specs()
-
 
     if vehicle_type not in dc_specs["columns"]:
         raise KeyError(
@@ -70,22 +68,20 @@ def get_dc_column_number(
             f"available driving cycles: {list(dc_specs['columns'][vehicle_type].keys())}"
         )
 
-    if not all(vehicle in dc_specs["columns"][vehicle_type][dc_name] for vehicle in vehicle_size):
+    if not all(
+        vehicle in dc_specs["columns"][vehicle_type][dc_name]
+        for vehicle in vehicle_size
+    ):
         raise KeyError(
             f"Vehicle size(s) {vehicle_size} is not in the list of "
             f"available vehicle sizes: {list(dc_specs['columns'][vehicle_type][dc_name].keys())}"
         )
 
-    return [
-        dc_specs["columns"][vehicle_type][dc_name][s]
-        for s in vehicle_size
-    ]
+    return [dc_specs["columns"][vehicle_type][dc_name][s] for s in vehicle_size]
+
 
 def get_data(
-        filepath: Path,
-        vehicle_type: str,
-        vehicle_sizes: List[str],
-        name: str
+    filepath: Path, vehicle_type: str, vehicle_sizes: List[str], name: str
 ) -> np.ndarray:
 
     try:
@@ -99,10 +95,10 @@ def get_data(
         print(err, "The specified driving cycle could not be found.")
         raise
 
+
 def get_standard_driving_cycle_and_gradient(
-        vehicle_type: str,
-        vehicle_sizes: List[str],
-        name: str) -> Tuple[np.ndarray, np.ndarray]:
+    vehicle_type: str, vehicle_sizes: List[str], name: str
+) -> Tuple[np.ndarray, np.ndarray]:
 
     """Get driving cycle and gradient data as a Pandas `Series`.
 
@@ -126,6 +122,5 @@ def get_standard_driving_cycle_and_gradient(
     # since the driving cycle is simulated for each size class
     return (
         get_data(filepath_dc, vehicle_type, vehicle_sizes, name),
-        get_data(filepath_gradient, vehicle_type, vehicle_sizes, name)
+        get_data(filepath_gradient, vehicle_type, vehicle_sizes, name),
     )
-

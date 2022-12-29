@@ -3,8 +3,8 @@ hot_emissions.py contains HotEmissionModel
 which calculates fuel-related exhaust emissions.
 """
 
-from typing import List, Union, Any
 from pathlib import Path
+from typing import Any, List, Union
 
 import numpy as np
 import pandas as pd
@@ -102,9 +102,7 @@ def get_mileage_degradation_factor(
 
     corr = corr.sel(
         powertrain=[
-            p for p
-            in lifetime_km.powertrain.values
-            if p in corr.powertrain.values
+            p for p in lifetime_km.powertrain.values if p in corr.powertrain.values
         ],
         euro_class=euro_class,
     )
@@ -112,18 +110,10 @@ def get_mileage_degradation_factor(
     corr = corr.expand_dims({"size": len(lifetime_km.coords["size"])})
     corr = corr.assign_coords({"size": lifetime_km.coords["size"].values})
 
-    corr = corr.transpose(
-        "euro_class",
-        "powertrain",
-        "size",
-        "component",
-        "km"
-    )
+    corr = corr.transpose("euro_class", "powertrain", "size", "component", "km")
 
     corr = corr.interp(
-        km=lifetime_km.max(),
-        method="linear",
-        kwargs={"fill_value": "extrapolate"}
+        km=lifetime_km.max(), method="linear", kwargs={"fill_value": "extrapolate"}
     )
 
     corr.values = np.where(corr < 1, 1.0, corr)
@@ -213,11 +203,8 @@ class HotEmissionsModel:
 
         hot_emissions = self.exhaust.sel(
             powertrain=[
-                MAP_PWT[pt]
-                if MAP_PWT[pt] in self.exhaust.powertrain.values
-                else "BEV"
-                for pt in
-                lifetime_km.coords["powertrain"].values
+                MAP_PWT[pt] if MAP_PWT[pt] in self.exhaust.powertrain.values else "BEV"
+                for pt in lifetime_km.coords["powertrain"].values
             ],
             euro_class=euro_class,
         )
@@ -229,10 +216,7 @@ class HotEmissionsModel:
             hot_emissions.coords["size"] = lifetime_km.coords["size"]
 
         hot_emissions = hot_emissions.transpose(
-            "euro_class",
-            "powertrain",
-            "size",
-            "component"
+            "euro_class", "powertrain", "size", "component"
         )
 
         hot_emissions = hot_emissions.sel(size=lifetime_km.coords["size"].values)
@@ -295,7 +279,7 @@ class HotEmissionsModel:
             emissions.loc[
                 dict(
                     powertrain=degradation_correction.powertrain.values,
-                    component=degradation_correction.component.values
+                    component=degradation_correction.component.values,
                 )
             ] *= degradation_correction.values
 
@@ -309,9 +293,10 @@ class HotEmissionsModel:
                 ],
                 euro_class=euro_class,
                 component=[
-                    c for c in emissions.component.values
+                    c
+                    for c in emissions.component.values
                     if c in self.non_exhaust.component.values
-                ]
+                ],
             )
 
             if "size" not in non_exhaust.dims:
@@ -324,9 +309,7 @@ class HotEmissionsModel:
                 "euro_class", "powertrain", "size", "component", "type"
             )
 
-            non_exhaust = non_exhaust.sel(
-                size=lifetime_km.coords["size"].values
-            )
+            non_exhaust = non_exhaust.sel(size=lifetime_km.coords["size"].values)
 
             start_per_day = 2.3  # source for
 
@@ -336,19 +319,23 @@ class HotEmissionsModel:
 
             yearly_km = yearly_km.transpose("value", "year", "powertrain", "size")
 
-            emissions.loc[dict(
-                second=emissions.second.values[0],
-                component=non_exhaust.component.values
-            )] += (
+            emissions.loc[
+                dict(
+                    second=emissions.second.values[0],
+                    component=non_exhaust.component.values,
+                )
+            ] += (
                 _(distance / yearly_km * start_per_day * 365)
                 * non_exhaust.sel(type="cold start").values
             )
 
             # And add soak emissions to the last second of the driving cycle
-            emissions.loc[dict(
-                second=emissions.second.values[-1],
-                component=non_exhaust.component.values
-            )] += (
+            emissions.loc[
+                dict(
+                    second=emissions.second.values[-1],
+                    component=non_exhaust.component.values,
+                )
+            ] += (
                 _(distance / yearly_km * start_per_day * 365)
                 * non_exhaust.loc[dict(type="soak")].values
             )
@@ -357,9 +344,7 @@ class HotEmissionsModel:
             # And need to be evenly distributed
             # throughout the driving cycle
 
-            emissions.loc[dict(
-                component=non_exhaust.component.values
-            )] += (
+            emissions.loc[dict(component=non_exhaust.component.values)] += (
                 _(np.squeeze(distance / (yearly_km / 365)))
                 * non_exhaust.sel(type="diurnal").values
                 / emissions.shape[0]
@@ -367,9 +352,7 @@ class HotEmissionsModel:
 
             # Running losses are in g/km (no conversion needed)
             # And need to be evenly distributed throughout the driving cycle
-            emissions.loc[dict(
-                component=non_exhaust.component.values
-            )] += (
+            emissions.loc[dict(component=non_exhaust.component.values)] += (
                 _(np.squeeze(distance))
                 * non_exhaust.sel(type="running losses").values
                 / emissions.shape[0]
@@ -453,11 +436,7 @@ class HotEmissionsModel:
         # where velocity is below 50 km/h
         # converted to kg/km
         urban_emissions = (
-            np.where(
-                _(self.velocity) <= 50,
-                emissions,
-                0
-            ).sum(axis=0)
+            np.where(_(self.velocity) <= 50, emissions, 0).sum(axis=0)
             / _(distance)
             / 1000
         )
@@ -468,10 +447,7 @@ class HotEmissionsModel:
         # and 80 km/h
         rural_emissions = (
             np.where(
-                (_(self.velocity) > 50)
-                & (_(self.velocity) <= 80),
-                emissions,
-                0
+                (_(self.velocity) > 50) & (_(self.velocity) <= 80), emissions, 0
             ).sum(axis=0)
             / _(distance)
             / 1000
@@ -481,21 +457,13 @@ class HotEmissionsModel:
         # along the ``second`` dimension
         # where velocity is above 80 km/h
         highway_emissions = (
-            np.where(
-                _(self.velocity) > 80,
-                emissions,
-                0
-            ).sum(axis=0)
+            np.where(_(self.velocity) > 80, emissions, 0).sum(axis=0)
             / _(distance)
             / 1000
         )
 
         res = np.concatenate(
-            (
-                urban_emissions,
-                rural_emissions,
-                highway_emissions
-            ), axis=-1
+            (urban_emissions, rural_emissions, highway_emissions), axis=-1
         )
 
         return res.transpose(3, 2, 4, 1, 0)

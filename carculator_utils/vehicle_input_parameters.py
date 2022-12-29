@@ -4,7 +4,6 @@ from pathlib import Path
 from klausen import NamedParameters
 
 
-
 def load_parameters(obj):
     if isinstance(obj, (str, Path)):
         assert Path(obj).exists(), f"Can't find this filepath {obj}."
@@ -44,6 +43,7 @@ class VehicleInputParameters(NamedParameters):
 
 
     """
+
     DEFAULT = Path(__file__, "..").resolve() / "data" / "default_parameters.json"
     EXTRA = Path(__file__, "..").resolve() / "data" / "extra_parameters.json"
 
