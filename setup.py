@@ -34,28 +34,17 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="carculator_utils",
-    version="1.0.0",
+    name="carculator",
+    version="1.8.0",
     packages=packages,
-    author="Romain Sacchi <romain.sacchi@psi.ch>",
-    python_requires=">=3.9",
+    author="Romain Sacchi <romain.sacchi@psi.ch>, Chris Mutel <christopher.mutel@psi.ch>",
     license=open("LICENSE").read(),
     package_data={"carculator": package_files(os.path.join("carculator", "data"))},
     install_requires=[
-        "carculator_utils",
-        "pandas",
-        "xarray",
-        "numpy<1.24.0",
-        "klausen",
-        "xlrd",
-        "numexpr",
-        "bw2io",
-        "pycountry",
-        "wurst",
-        "pyyaml",
+        "carculator_utils"
     ],
     url="https://github.com/romainsacchi/carculator",
-    description="Life cycle assessment of passenger cars",
+    description="Prospective life cycle assessment of vehicles made blazing fast",
     long_description_content_type="text/markdown",
     long_description=README,
     classifiers=[
