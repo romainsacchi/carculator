@@ -1,7 +1,7 @@
 # ``carculator``
 
 <p align="center">
-  <img style="height:130px;" src="https://github.com/romainsacchi/coarse/raw/master/docs/mediumsmall.png">
+  <img style="height:130px;" src="https://github.com/romainsacchi/carculator/raw/master/docs/mediumsmall.png">
 </p>
 
 <p align="center">
@@ -100,7 +100,7 @@ over 800 Monte Carlo iterations:
     plt.legend()
 ```
 
-![MC results](https://github.com/romainsacchi/coarse/raw/master/docs/stochastic_example_ttw.png)
+![MC results](https://github.com/romainsacchi/carculator/raw/master/docs/stochastic_example_ttw.png)
 
 Compare the carbon footprint of electric vehicles with that of rechargeable hybrid vehicles for different size categories today and in the future
 over 500 Monte Carlo iterations:
@@ -124,7 +124,7 @@ over 500 Monte Carlo iterations:
     plt.ylabel('kg CO2-eq./vkm')
 ```
 
-![MC results](https://github.com/romainsacchi/coarse/raw/master/docs/example_stochastic_BEV_PHEV.png)
+![MC results](https://github.com/romainsacchi/carculator/raw/master/docs/example_stochastic_BEV_PHEV.png)
 
 For more examples, see [examples](https://github.com/romainsacchi/carculator/blob/master/examples/Examples.ipynb).
 
