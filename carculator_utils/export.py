@@ -143,9 +143,7 @@ class ExportInventory:
 
     """
 
-    def __init__(
-        self, array, vehicle_model, indices, db_name="carculator export"
-    ):
+    def __init__(self, array, vehicle_model, indices, db_name="carculator export"):
         self.array: xr.DataArray = array
         self.indices: Dict[int, Tuple[str, str, str, str]] = indices
         self.vm = vehicle_model
