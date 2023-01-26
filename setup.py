@@ -46,7 +46,7 @@ setup(
     install_requires=[
         "pandas",
         "xarray",
-        "numpy",
+        "numpy<1.24.0",
         "klausen",
         "xlrd",
         "numexpr",
