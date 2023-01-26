@@ -40,9 +40,7 @@ setup(
     author="Romain Sacchi <romain.sacchi@psi.ch>",
     python_requires=">=3.9",
     license=open("LICENSE").read(),
-    package_data={
-        "carculator": package_files(os.path.join("carculator", "data"))
-    },
+    package_data={"carculator": package_files(os.path.join("carculator", "data"))},
     install_requires=[
         "pandas",
         "xarray",
