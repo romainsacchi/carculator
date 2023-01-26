@@ -256,7 +256,7 @@ class NoiseEmissionsModel:
         sound_power = (10**-12) * (10 ** (total_noise / 10))
 
         # If the driving cycle selected is one of the driving cycle for
-        # which carculator_utils has specifications,
+        # which carculator has specifications,
         # we use the driving cycle "official" road section types to
         # compartmentalize emissions.
         # If the driving cycle selected is instead specified by the

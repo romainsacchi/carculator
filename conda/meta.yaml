@@ -1,5 +1,5 @@
 package:
-  name: carculator_utils
+  name: carculator
   version: {{ environ['VERSION'] }}
 
 source:
@@ -33,7 +33,7 @@ requirements:
 
 test:
   imports:
-    - carculator_utils
+    - carculator
 
 about:
   home: https://github.com/romainsacchi/carculator

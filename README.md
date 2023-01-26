@@ -1,4 +1,4 @@
-# ``carculator_utils``
+# ``carculator``
 
 
 Provides a set of classes and functions to use with the ``carculator`` packages.

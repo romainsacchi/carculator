@@ -41,7 +41,7 @@ extensions = [
 ]
 
 autoapi_type = "python"
-autoapi_dirs = ["../carculator_utils"]
+autoapi_dirs = ["../carculator"]
 
 master_doc = "index"
 

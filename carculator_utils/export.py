@@ -144,7 +144,7 @@ class ExportInventory:
     """
 
     def __init__(
-        self, array, vehicle_model, indices, db_name="carculator_utils export"
+        self, array, vehicle_model, indices, db_name="carculator export"
     ):
         self.array: xr.DataArray = array
         self.indices: Dict[int, Tuple[str, str, str, str]] = indices
@@ -892,7 +892,7 @@ class ExportInventory:
         rows.append(["System description"])
         rows.append([])
         rows.append(["Name"])
-        rows.append(["carculator_utils"])
+        rows.append(["carculator"])
         rows.append([])
         rows.append(["Category"])
         rows.append(["transport"])
@@ -950,7 +950,7 @@ class ExportInventory:
         rows.append(["Study available at: https://doi.org/10.1016/j.rser.2022.112475"])
         rows.append([])
         rows.append(["Category"])
-        rows.append(["carculator_utils"])
+        rows.append(["carculator"])
         rows.append([])
         rows.append(["Description"])
         description = "When, where and how can the electrification of passenger cars reduce greenhouse gas emissions?"

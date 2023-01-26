@@ -56,7 +56,7 @@ unit:
 headers:
   - "{SimaPro 9.1.1.1}"
   - "{processes}"
-  - "{Project: carculator_utils import}"
+  - "{Project: carculator import}"
   - "{date:%d.%m.%Y}"
   - "{CSV Format version: 9.0.0}"
   - "{CSV separator: Semicolon}"

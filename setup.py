@@ -13,7 +13,7 @@ this_directory = Path(__file__).parent
 README = (this_directory / "README.md").read_text()
 
 # Probably should be changed, __init__.py is no longer required for Python 3
-for dirpath, dirnames, filenames in os.walk("carculator_utils"):
+for dirpath, dirnames, filenames in os.walk("carculator"):
     # Ignore dirnames that start with '.'
     if "__init__.py" in filenames:
         pkg = dirpath.replace(os.path.sep, ".")
@@ -41,7 +41,7 @@ setup(
     python_requires=">=3.9",
     license=open("LICENSE").read(),
     package_data={
-        "carculator_utils": package_files(os.path.join("carculator_utils", "data"))
+        "carculator": package_files(os.path.join("carculator", "data"))
     },
     install_requires=[
         "pandas",
@@ -55,8 +55,8 @@ setup(
         "wurst",
         "pyyaml",
     ],
-    url="https://github.com/romainsacchi/carculator_utils",
-    description="Provides convenience functions for carculator_utils",
+    url="https://github.com/romainsacchi/carculator",
+    description="Life cycle assessment of passenger cars",
     long_description_content_type="text/markdown",
     long_description=README,
     classifiers=[

@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from carculator_utils import (
+from carculator import (
     CarInputParameters,
     CarModel,
     Inventory,
