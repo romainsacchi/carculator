@@ -1,0 +1,257 @@
+columns:
+  two-wheeler:
+    Two wheeler cycle:
+      Kick-scooter: 1
+      Bicycle <25: 2
+      Bicycle <45: 3
+      Bicycle cargo: 4
+      Moped <4kW: 5
+      Scooter <4kW: 6
+      Scooter 4-11kW: 7
+      Motorcycle 4-11kW: 8
+      Motorcycle 11-35kW: 9
+      Motorcycle >35kW: 10
+  car:
+    WLTC:
+      Micro: 1
+      Mini: 1
+      Small: 1
+      Lower medium: 1
+      Medium: 1
+      Medium SUV: 1
+      Large: 1
+      Large SUV: 1
+      Van: 1
+    WLTC 3.1:
+      Micro: 2
+      Mini: 2
+      Small: 2
+      Lower medium: 2
+      Medium: 2
+      Medium SUV: 2
+      Large: 2
+      Large SUV: 2
+      Van: 2
+    WLTC 3.2:
+      Micro: 3
+      Mini: 3
+      Small: 3
+      Lower medium: 3
+      Medium: 3
+      Medium SUV: 3
+      Large: 3
+      Large SUV: 3
+      Van: 3
+    WLTC 3.3:
+      Micro: 4
+      Mini: 4
+      Small: 4
+      Lower medium: 4
+      Medium: 4
+      Medium SUV: 4
+      Large: 4
+      Large SUV: 4
+      Van: 4
+    WLTC 3.4:
+      Micro: 5
+      Mini: 5
+      Small: 5
+      Lower medium: 5
+      Medium: 5
+      Medium SUV: 5
+      Large: 5
+      Large SUV: 5
+      Van: 5
+    CADC Urban:
+      Micro: 6
+      Mini: 6
+      Small: 6
+      Lower medium: 6
+      Medium: 6
+      Medium SUV: 6
+      Large: 6
+      Large SUV: 6
+      Van: 6
+    CADC Road:
+      Micro: 7
+      Mini: 7
+      Small: 7
+      Lower medium: 7
+      Medium: 7
+      Medium SUV: 7
+      Large: 7
+      Large SUV: 7
+      Van: 7
+    CADC Motorway:
+      Micro: 8
+      Mini: 8
+      Small: 8
+      Lower medium: 8
+      Medium: 8
+      Medium SUV: 8
+      Large: 8
+      Large SUV: 8
+      Van: 8
+    CADC Motorway 130:
+      Micro: 9
+      Mini: 9
+      Small: 9
+      Lower medium: 9
+      Medium: 9
+      Medium SUV: 9
+      Large: 9
+      Large SUV: 9
+      Van: 9
+    CADC:
+      Micro: 10
+      Mini: 10
+      Small: 10
+      Lower medium: 10
+      Medium: 10
+      Medium SUV: 10
+      Large: 10
+      Large SUV: 10
+      Van: 10
+    NEDC:
+      Micro: 11
+      Mini: 11
+      Small: 11
+      Lower medium: 11
+      Medium: 11
+      Medium SUV: 11
+      Large: 11
+      Large SUV: 11
+      Van: 11
+    SORT 1:
+      Micro: 12
+      Mini: 12
+      Small: 12
+      Lower medium: 12
+      Medium: 12
+      Medium SUV: 12
+      Large: 12
+      Large SUV: 12
+      Van: 12
+    SORT 2:
+      Micro: 13
+      Mini: 13
+      Small: 13
+      Lower medium: 13
+      Medium: 13
+      Medium SUV: 13
+      Large: 13
+      Large SUV: 13
+      Van: 13
+    SORT 3:
+      Micro: 14
+      Mini: 14
+      Small: 14
+      Lower medium: 14
+      Medium: 14
+      Medium SUV: 14
+      Large: 14
+      Large SUV: 14
+      Van: 14
+  truck:
+    Urban delivery:
+      3.5t: 1
+      7.5t: 4
+      18t: 7
+      26t: 10
+      32t: 13
+      40t: 16
+      60t: 19
+    Regional delivery:
+      3.5t: 2
+      7.5t: 5
+      18t: 8
+      26t: 11
+      32t: 14
+      40t: 17
+      60t: 20
+    Long haul:
+      3.5t: 3
+      7.5t: 6
+      18t: 9
+      26t: 12
+      32t: 15
+      40t: 18
+      60t: 21
+  bus:
+    bus:
+      9m: 1
+      13m-city: 2
+      13m-coach: 3
+      13m-city-double: 4
+      13m-coach-double: 5
+      18m: 6
+      
+environments:
+  two-wheeler:
+    Two wheeler cycle:
+      urban start: 0
+      urban stop: 5000
+  car:
+    WLTC: 
+      urban start: 0
+      urban stop: 590
+      suburban start: 591
+      suburban stop: 1023
+      rural start: 1024
+      rural stop: 1801
+    
+    WLTC 3.1:
+      urban start: 0
+      urban stop: 590
+
+    WLTC 3.2:
+      suburban start: 0
+      suburban stop: 433
+
+    WLTC 3.3:
+      rural start: 0
+      rural stop: 455
+
+    WLTC 3.4:
+      rural start: 0
+      rural stop: 323
+
+    CADC Urban:
+      urban start: 0
+      urban stop: 994
+
+    CADC Road:
+      suburban start: 0
+      suburban stop: 1082
+
+    CADC Motorway:
+      rural start: 0
+      rural stop: 1068
+
+    CADC Motorway 130:
+      rural start: 0
+      rural stop: 1068
+
+    CADC:
+      urban start: 0
+      urban stop: 994
+      suburban start: 995
+      suburban stop: 2077
+      rural start: 2078
+      rural stop: 3144
+    
+    NEDC: 
+      urban start: 0
+      urban stop: 780
+      rural start: 781
+      rural stop: 1180
+  truck:
+    Urban delivery:
+      urban start: 0
+      urban stop: 1000
+    Regional delivery:
+      suburban start: 0
+      suburban stop: 1000
+    Long haul:
+      rural start: 0
+      rural stop: 1000

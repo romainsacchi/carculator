@@ -1,10 +1,10 @@
 import numpy as np
 import pytest
 
-from carculator import (
+from carculator_utils import (
     CarInputParameters,
     CarModel,
-    InventoryCalculation,
+    Inventory,
     fill_xarray_from_input_parameters,
 )
 
@@ -23,10 +23,10 @@ cm.set_all()
 
 def test_scope():
     """Test if scope works as expected"""
-    ic = InventoryCalculation(
+    ic = Inventory(
         cm,
         method="recipe",
-        method_type="midpoint",
+        indicator="midpoint",
         scope={"powertrain": ["ICEV-d", "ICEV-p"], "size": ["Lower medium"]},
     )
     results = ic.calculate_impacts()
@@ -39,10 +39,10 @@ def test_plausibility_of_GWP():
     """Test if GWP scores make sense"""
 
     for method in ["recipe", "ilcd"]:
-        ic = InventoryCalculation(
+        ic = Inventory(
             cm,
             method=method,
-            method_type="midpoint",
+            indicator="midpoint",
             scope={"powertrain": ["ICEV-d", "ICEV-p", "BEV"], "size": ["Medium"]},
         )
         results = ic.calculate_impacts()
@@ -128,8 +128,8 @@ def test_fuel_blend():
         }
     }
 
-    ic = InventoryCalculation(
-        cm, method="recipe", method_type="midpoint", background_configuration=bc
+    ic = Inventory(
+        cm, method="recipe", indicator="midpoint", background_configuration=bc
     )
 
     assert ic.fuel_blends["petrol"]["primary"]["share"] == [
@@ -186,10 +186,10 @@ def test_fuel_blend():
             "syngas",
         ),
     ]:
-        ic = InventoryCalculation(
+        ic = Inventory(
             cm,
             method="recipe",
-            method_type="midpoint",
+            indicator="midpoint",
             background_configuration={
                 "fuel blend": {
                     "petrol": {
@@ -224,10 +224,10 @@ def test_countries():
         "AU",
         "BE",
     ]:
-        ic = InventoryCalculation(
+        ic = Inventory(
             cm,
             method="recipe",
-            method_type="midpoint",
+            indicator="midpoint",
             background_configuration={
                 "country": c,
                 "energy storage": {"electric": {"type": "NMC-622"}, "origin": c},
@@ -239,10 +239,10 @@ def test_countries():
 def test_IAM_regions():
     """Test that calculation works with all IAM regions"""
     for c in ["BRA", "CAN", "CEU", "CHN", "EAF"]:
-        ic = InventoryCalculation(
+        ic = Inventory(
             cm,
             method="recipe",
-            method_type="midpoint",
+            indicator="midpoint",
             background_configuration={
                 "country": c,
                 "energy storage": {
@@ -256,20 +256,20 @@ def test_IAM_regions():
 
 def test_endpoint():
     """Test if the correct impact categories are considered"""
-    ic = InventoryCalculation(cm, method="recipe", method_type="endpoint")
+    ic = Inventory(cm, method="recipe", indicator="endpoint")
     results = ic.calculate_impacts()
     assert "human health" in [i.lower() for i in results.impact_category.values]
     assert len(results.impact_category.values) == 4
     #
     #     """Test if it errors properly if an incorrect method type is give"""
     with pytest.raises(TypeError) as wrapped_error:
-        ic = InventoryCalculation(cm, method="recipe", method_type="endpint")
+        ic = Inventory(cm, method="recipe", indicator="endpint")
         ic.calculate_impacts()
     assert wrapped_error.type == TypeError
 
 
 def test_sulfur_concentration():
-    ic = InventoryCalculation(cm, method="recipe", method_type="endpoint")
+    ic = Inventory(cm, method="recipe", indicator="endpoint")
     ic.get_sulfur_content("RER", "diesel", 2000)
     ic.get_sulfur_content("foo", "diesel", 2000)
 
@@ -289,10 +289,10 @@ def test_custom_electricity_mix():
 
     for mix in mixes:
         with pytest.raises(ValueError) as wrapped_error:
-            InventoryCalculation(
+            Inventory(
                 cm,
                 method="recipe",
-                method_type="endpoint",
+                indicator="endpoint",
                 background_configuration={"custom electricity mix": mix},
             )
         assert wrapped_error.type == ValueError
@@ -300,7 +300,7 @@ def test_custom_electricity_mix():
 
 def test_export_to_bw():
     """Test that inventories export successfully"""
-    ic = InventoryCalculation(cm, method="recipe", method_type="endpoint")
+    ic = Inventory(cm, method="recipe", indicator="endpoint")
     #
 
     for b in ("3.5", "3.6", "3.7", "3.8", "uvek"):
@@ -313,7 +313,7 @@ def test_export_to_bw():
 
 def test_export_to_excel():
     """Test that inventories export successfully to Excel/CSV"""
-    ic = InventoryCalculation(cm, method="recipe", method_type="endpoint")
+    ic = Inventory(cm, method="recipe", indicator="endpoint")
 
     for b in ("3.5", "3.6", "3.7", "3.7.1", "3.8", "uvek"):
         for c in (True, False):

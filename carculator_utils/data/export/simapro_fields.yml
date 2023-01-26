@@ -1,0 +1,71 @@
+fields:
+  - Process
+  - Category type
+  - Type
+  - Process name
+  - Time Period
+  - Geography
+  - Technology
+  - Comment
+  - Representativeness
+  - Cut off rules
+  - Capital goods
+  - Date
+  - Boundary with nature
+  - Infrastructure
+  - Record
+  - Generator
+  - Literature references
+  - External documents
+  - Collection method
+  - Data treatment
+  - Verification
+  - System description
+  - Allocation rules
+  - Products
+  - Waste treatment
+  - Materials/fuels
+  - Resources
+  - Emissions to air
+  - Emissions to water
+  - Emissions to soil
+  - Final waste flows
+  - Non material emission
+  - Social issues
+  - Economic issues
+  - Waste to treatment
+  - End
+
+unit:
+  kilogram: kg
+  cubic meter: m3
+  kilowatt hour: kWh
+  kilometer: km
+  ton kilometer: tkm
+  megajoule: MJ
+  unit: p
+  square meter: m2
+  kilowatt: p
+  hour: hr
+  square meter-year: m2a
+  meter: m
+  vehicle-kilometer: vkm
+  person-kilometer: personkm
+  meter-year: my
+  
+headers:
+  - "{SimaPro 9.1.1.1}"
+  - "{processes}"
+  - "{Project: carculator_utils import}"
+  - "{date:%d.%m.%Y}"
+  - "{CSV Format version: 9.0.0}"
+  - "{CSV separator: Semicolon}"
+  - "{Decimal separator: .}"
+  - "{Date separator: .}"
+  - "{Short date format: dd.MM.yyyy}"
+  - "{Export platform IDs: No}"
+  - "{Skip empty fields: No}"
+  - "{Convert expressions to constants: No}"
+  - "{Selection: Selection(1)}"
+  - "{Related objects(system descriptions, substances, units, etc.): Yes}"
+  - "{Include sub product stages and processes: Yes}"

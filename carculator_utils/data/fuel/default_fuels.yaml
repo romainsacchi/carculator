@@ -1,0 +1,44 @@
+diesel: 
+  primary: diesel
+  secondary: biodiesel - cooking oil
+  all:
+  - diesel
+  - biodiesel - cooking oil
+  - biodiesel - algae
+  - biodiesel - palm oil
+  - biodiesel - rapeseed oil
+  - synthetic diesel - energy allocation
+  - synthetic diesel - economic allocation
+
+cng: 
+  primary: cng
+  secondary: biogas - sewage sludge
+  all:
+  - cng
+  - biogas - sewage sludge
+  - syngas biogas - biowaste
+
+hydrogen: 
+  primary: electrolysis
+  secondary: smr - natural gas
+  all:
+  - electrolysis
+  - smr - natural gas
+  - smr - natural gas with CCS
+  - smr - biogas
+  - smr - biogas with CCS
+  - coal gasification
+  - wood gasification
+  - wood gasification with CCS
+
+petrol:
+  primary: petrol
+  secondary: bioethanol - wheat straw
+  all:
+  - petrol
+  - bioethanol - wheat straw
+  - bioethanol - maize starch
+  - bioethanol - sugarbeet
+  - bioethanol - forest residues
+  - synthetic gasoline - economic allocation
+  - synthetic gasoline - energy allocation
