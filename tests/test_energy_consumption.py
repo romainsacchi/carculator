@@ -1,16 +1,32 @@
 import numpy as np
 
-from carculator.energy_consumption import EnergyConsumptionModel
+from carculator_utils.energy_consumption import EnergyConsumptionModel
 
 
 def test_acceleration():
-    ecm = EnergyConsumptionModel("WLTC")
+    ecm = EnergyConsumptionModel(
+        vehicle_type="car",
+        vehicle_size="Medium",
+        cycle="WLTC",
+        gradient="WLTC",
+    )
     assert ecm.cycle.shape == ecm.gradient.shape
 
 
 def test_aux_power():
-    ecm = EnergyConsumptionModel("WLTC")
-    assert int(ecm.aux_energy_per_km(300)) == 23
+    ecm = EnergyConsumptionModel(
+        vehicle_type="car",
+        vehicle_size="Medium",
+        cycle="WLTC",
+        gradient="WLTC",
+    )
+    aux = ecm.auxiliary_power_per_km(
+        aux_power=100,
+        efficiency=0.5
+    )
+    assert isinstance(aux, np.ndarray)
+    assert aux.shape == ecm.cycle.shape
+    assert np.allclose(aux, np.repeat(100/0.5, 1801))
 
 
 def test_motive_energy():
