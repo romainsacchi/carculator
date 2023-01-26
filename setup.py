@@ -40,9 +40,7 @@ setup(
     author="Romain Sacchi <romain.sacchi@psi.ch>, Chris Mutel <christopher.mutel@psi.ch>",
     license=open("LICENSE").read(),
     package_data={"carculator": package_files(os.path.join("carculator", "data"))},
-    install_requires=[
-        "carculator_utils"
-    ],
+    install_requires=["carculator_utils"],
     url="https://github.com/romainsacchi/carculator",
     description="Prospective life cycle assessment of vehicles made blazing fast",
     long_description_content_type="text/markdown",
