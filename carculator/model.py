@@ -6,9 +6,11 @@ import numpy as np
 import xarray as xr
 import yaml
 
-from . import DATA_DIR
 from carculator_utils.energy_consumption import EnergyConsumptionModel
 from carculator_utils.model import VehicleModel
+
+from . import DATA_DIR
+
 
 class CarModel(VehicleModel):
 
@@ -79,9 +81,7 @@ class CarModel(VehicleModel):
             if "capacity" in self.energy_storage:
                 self.override_battery_capacity()
 
-
-            diff = (self["driving mass"].sum().values
-                    - old_driving_mass) / self[
+            diff = (self["driving mass"].sum().values - old_driving_mass) / self[
                 "driving mass"
             ].sum()
 
@@ -126,9 +126,8 @@ class CarModel(VehicleModel):
                     self.array.year.values,
                 )
             },
-            "origin": "CN"
+            "origin": "CN",
         }
-
 
     def adjust_cost(self) -> None:
         """
@@ -224,7 +223,6 @@ class CarModel(VehicleModel):
                 100,
             )
 
-
     def calculate_ttw_energy(self) -> None:
         """
         This method calculates the energy required to operate auxiliary services as well
@@ -258,12 +256,10 @@ class CarModel(VehicleModel):
 
         distance = self.energy.sel(parameter="velocity").sum(dim="second") / 1000
 
-
         self["TtW energy"] = (
             self.energy.sel(
                 parameter=["motive energy", "auxiliary energy", "recuperated energy"]
-            )
-            .sum(dim=["second", "parameter"])
+            ).sum(dim=["second", "parameter"])
             / distance
         ).T
 
@@ -275,10 +271,8 @@ class CarModel(VehicleModel):
         )
 
         self["auxiliary energy"] = (
-                self.energy.sel(parameter="auxiliary energy").sum(dim="second")
-                / distance
+            self.energy.sel(parameter="auxiliary energy").sum(dim="second") / distance
         ).T
-
 
     def set_vehicle_mass(self) -> None:
         """
@@ -323,7 +317,6 @@ class CarModel(VehicleModel):
         )
         self["driving mass"] = self["curb mass"] + self["total cargo mass"]
 
-
     def set_electric_utility_factor(self) -> None:
         """Set the electric utility factor according to a sampled values in Germany (ICTT 2022)
         https://theicct.org/wp-content/uploads/2022/06/real-world-phev-use-jun22-1.pdf
@@ -365,7 +358,6 @@ class CarModel(VehicleModel):
                                 year=key,
                             )
                         ] = val
-
 
     def set_costs(self) -> None:
         """
@@ -431,9 +423,7 @@ class CarModel(VehicleModel):
             )
         )
         self["amortised purchase cost"] = (
-            self["purchase cost"]
-            * amortisation_factor
-            / self["kilometers per year"]
+            self["purchase cost"] * amortisation_factor / self["kilometers per year"]
         )
 
         # per km
@@ -463,6 +453,7 @@ class CarModel(VehicleModel):
             + self["maintenance cost"]
             + self["amortised component replacement cost"]
         )
+
     def remove_energy_consumption_from_unavailable_vehicles(self):
         """
         This method sets the energy consumption of vehicles that are not available to zero.
@@ -470,11 +461,7 @@ class CarModel(VehicleModel):
 
         # we flag cars that have a range inferior to 100 km
         # and also BEVs, PHEVs and FCEVs from before 2013
-        self["TtW energy"] = np.where(
-            (self["range"] < 100),
-            0,
-            self["TtW energy"]
-        )
+        self["TtW energy"] = np.where((self["range"] < 100), 0, self["TtW energy"])
 
         pwts = [
             pt

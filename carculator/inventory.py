@@ -3,8 +3,10 @@ inventory.py contains Inventory which provides all methods to solve inventories.
 """
 
 import numpy as np
-from . import DATA_DIR
+
 from carculator_utils.inventory import Inventory
+
+from . import DATA_DIR
 
 np.warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 
@@ -208,28 +210,41 @@ class InventoryCar(Inventory):
 
         for year in self.scope["year"]:
 
-            cng_idx = self.get_index_vehicle_from_array(["ICEV-g", ], [year, ], method="and")
+            cng_idx = self.get_index_vehicle_from_array(
+                [
+                    "ICEV-g",
+                ],
+                [
+                    year,
+                ],
+                method="and",
+            )
 
             self.A[
                 :,
                 self.find_input_indices(("fuel supply for cng vehicles", str(year))),
-                self.find_input_indices((f"transport, {self.vm.vehicle_type}, ", "ICEV-g", str(year))),
+                self.find_input_indices(
+                    (f"transport, {self.vm.vehicle_type}, ", "ICEV-g", str(year))
+                ),
             ] *= (
                 1
-                + self.array[
-                    self.array_inputs["CNG pump-to-tank leakage"],
-                    :,
-                    cng_idx
-                ]
+                + self.array[self.array_inputs["CNG pump-to-tank leakage"], :, cng_idx]
             )
 
         # Gas leakage to air
-        cng_idx = self.get_index_vehicle_from_array(["ICEV-g", ])
+        cng_idx = self.get_index_vehicle_from_array(
+            [
+                "ICEV-g",
+            ]
+        )
         self.A[
             :,
             self.inputs[("Methane, fossil", ("air",), "kilogram")],
             self.find_input_indices(
-                (f"transport, {self.vm.vehicle_type}, ", "ICEV-g", )
+                (
+                    f"transport, {self.vm.vehicle_type}, ",
+                    "ICEV-g",
+                )
             ),
         ] *= self.array[self.array_inputs["CNG pump-to-tank leakage"], :, cng_idx]
 
