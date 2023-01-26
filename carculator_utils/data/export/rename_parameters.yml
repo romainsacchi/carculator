@@ -1,0 +1,78 @@
+lifetime kilometers: 
+  unit: km
+  name: Km over lifetime
+kilometers per year: 
+  unit: km/year
+  name: Km per year
+range: 
+  unit: km
+  name: Autonomy on a full tank/battery
+TtW efficiency: 
+  unit: \%
+  name: Tank-to-wheel efficiency
+  percentage: True
+TtW energy: 
+  unit: kj/km
+  name: Tank-to-wheel energy consumption
+fuel consumption:
+  unit: l/100km
+  name: Fuel consumption
+  percentage: True
+electricity consumption:
+  unit: kWh/100km
+  name: Electricity consumption
+  percentage: True
+electric energy stored: 
+  unit: kWh
+  name: Battery capacity
+oxidation energy stored: 
+  unit: kWh
+  name: Fuel tank capacity
+combustion power share: 
+  unit: \%
+  name: Power share from combustion engine
+  percentage: True
+combustion power: 
+  unit: kW
+  name: Combustion engine power
+electric power: 
+  unit: kW
+  name: Electric motor power
+curb mass: 
+  unit: kg
+  name: Curb mass (excl. driver and cargo)
+driving mass: 
+  unit: kg
+  name: Driving mass (incl. driver and cargo)
+energy battery mass: 
+  unit: kg
+  name: Battery mass
+fuel cell system efficiency: 
+  unit: \%
+  name: Fuel cell system efficiency
+  percentage: True
+daily distance:
+  unit: km
+  name: Daily distance driven
+average passengers:
+  unit: passenger(s)
+  name: Number of passengers onboard
+initial passengers capacity:
+  unit: unit
+  name: Maximum passenger capacity
+operation time:
+  unit: hours
+  name: Operating time per shift
+available payload:
+  name: Available payload
+  unit: kg
+cargo mass:
+  name: Payload
+  unit: kg
+capacity utilization:
+  name: Load factor
+  unit: \%
+  percentage: True
+target range:
+  name: Autonomy on a full tank/battery
+  unit: km

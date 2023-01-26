@@ -1,7 +1,7 @@
 # ``carculator_utils``
 
 
-Provides a set of functions to use with the ``carculator`` package.
+Provides a set of classes and functions to use with the ``carculator`` packages.
 
 ## Support
 

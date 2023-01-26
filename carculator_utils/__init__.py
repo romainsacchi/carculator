@@ -13,7 +13,7 @@ __all__ = (
     "get_standard_driving_cycle_and_gradient",
     "NoiseEmissionsModel",
     "HotEmissionsModel",
-    "InventoryCalculation",
+    "Inventory",
     "BackgroundSystemModel",
     "ExportInventory",
 )
@@ -27,5 +27,5 @@ from .background_systems import BackgroundSystemModel
 from .driving_cycles import get_standard_driving_cycle_and_gradient
 from .export import ExportInventory
 from .hot_emissions import HotEmissionsModel
-from .inventory import InventoryCalculation
+from .inventory import Inventory
 from .noise_emissions import NoiseEmissionsModel

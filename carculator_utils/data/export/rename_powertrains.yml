@@ -1,0 +1,13 @@
+ICEV-d: diesel
+ICEV-p: gasoline
+ICEV-g: compressed gas
+HEV-p: gasoline hybrid
+HEV-d: diesel hybrid
+PHEV-p: plugin gasoline hybrid
+PHEV-d: plugin diesel hybrid
+BEV: battery electric
+FCEV: fuel cell electric
+BEV-depot: battery electric - overnight charging
+BEV-opp: battery electric - opportunity charging
+BEV-motion: battery electric - battery-equipped trolleybus
+Human: conventional

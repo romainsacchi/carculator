@@ -222,7 +222,7 @@ class NoiseEmissionsModel:
 
         array = array * a + b
 
-        array = array + correction[:, None, :]
+        array = array - correction[:, None, :]
 
         return array
 

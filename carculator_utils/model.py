@@ -323,7 +323,7 @@ class VehicleModel:
 
         self["fuel consumption"] = (
             self["fuel mass"]
-            / self[var]
+            / _(self[var])
             / _(self["fuel density per kg"])
         )
 
@@ -720,7 +720,7 @@ class VehicleModel:
                 self.array.loc[
                     dict(
                         parameter=[
-                            "fuel mass",
+                            #"fuel mass",
                             "fuel tank mass",
                             "oxidation energy stored",
                             "LHV fuel MJ per kg",
@@ -731,7 +731,7 @@ class VehicleModel:
                 ] = self.array.loc[
                     dict(
                         parameter=[
-                            "fuel mass",
+                            #"fuel mass",
                             "fuel tank mass",
                             "oxidation energy stored",
                             "LHV fuel MJ per kg",
@@ -752,7 +752,9 @@ class VehicleModel:
                             "battery cell energy density",
                             "battery charge efficiency",
                             "battery discharge efficiency",
-                            "battery lifetime kilometers"
+                            "battery lifetime kilometers",
+                            "charger efficiency",
+                            "recuperation efficiency",
                         ],
                         powertrain=pwt,
                     )
@@ -766,7 +768,9 @@ class VehicleModel:
                             "battery cell energy density",
                             "battery charge efficiency",
                             "battery discharge efficiency",
-                            "battery lifetime kilometers"
+                            "battery lifetime kilometers",
+                            "charger efficiency",
+                            "recuperation efficiency",
                         ],
                         powertrain="PHEV-e",
                     )
@@ -774,6 +778,20 @@ class VehicleModel:
 
                 # We store the tank-to-wheel energy consumption
                 # in combustion and electric mode separately
+                self.array.loc[
+                    dict(parameter="TtW energy", powertrain=pwt)
+                ] = (
+                    self.array.loc[dict(parameter="TtW energy", powertrain=pwtc)]
+                    * (1 - self.array.loc[dict(parameter="electric utility factor", powertrain="PHEV-e")])
+                )
+                self.array.loc[
+                    dict(parameter="TtW energy", powertrain=pwt)
+                ] += (
+                        self.array.loc[dict(parameter="TtW energy", powertrain="PHEV-e")]
+                        * (self.array.loc[dict(parameter="electric utility factor", powertrain="PHEV-e")])
+                )
+
+
                 self.array.loc[
                     dict(parameter="TtW energy, combustion mode", powertrain=pwt)
                 ] = self.array.loc[dict(parameter="TtW energy", powertrain=pwtc)]
@@ -810,24 +828,6 @@ class VehicleModel:
                         dict(parameter="TtW energy, electric mode", powertrain="PHEV-e")
                     ]
                 )
-
-                self.array.loc[dict(
-                    parameter="electricity consumption",
-                    powertrain=pwt)
-                ] = (
-                    self.array.loc[dict(parameter="electric energy stored", powertrain=pwt)]
-                    / self.array.loc[dict(parameter=var, powertrain=pwt)]
-                )
-
-                self.array.loc[dict(
-                    parameter="fuel consumption",
-                    powertrain=pwt)
-                ] = (
-                        self.array.loc[dict(parameter="fuel mass", powertrain=pwt)]
-                        / self.array.loc[dict(parameter=var, powertrain=pwt)]
-                        / self.array.loc[dict(parameter="fuel density per kg", powertrain=pwt)]
-                )
-
 
     def set_battery_properties(self) -> None:
         """
@@ -1232,7 +1232,7 @@ class VehicleModel:
 
         self.array.loc[
             dict(
-                parameter=list_direct_emissions,
+                parameter=sorted(list_direct_emissions),
             )
         ] = hem.get_hot_emissions(
             euro_class=list_euro_classes,
@@ -1278,12 +1278,10 @@ class VehicleModel:
             "road dust emissions",
         ]
 
-
         pem = ParticulatesEmissionsModel(
             velocity=self.energy.sel(parameter="velocity"),
             mass=self["driving mass"],
         )
-
 
         self[list_param] = pem.get_abrasion_emissions()
 

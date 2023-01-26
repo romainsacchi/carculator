@@ -43,7 +43,7 @@ def _(obj: Union[np.ndarray, xr.DataArray]) -> Union[np.ndarray, xr.DataArray]:
     return obj
 
 
-def get_emission_factors(filepath) -> Any | None:
+def get_emission_factors(filepath) -> [Any, None]:
     """Hot emissions factors extracted for passenger cars from HBEFA 4.1
     detailed by size, powertrain and EURO class for each substance.
     """
@@ -268,6 +268,7 @@ class HotEmissionsModel:
             },
         )
 
+
         # bit of a manual calibration for N2O and NH3
         # as they do not correlate with fuel consumption
 
@@ -357,20 +358,25 @@ class HotEmissionsModel:
             # And need to be evenly distributed
             # throughout the driving cycle
 
+            daily_km_to_year = distance / (yearly_km / 365)
+
+
             emissions.loc[dict(
                 component=non_exhaust.component.values
             )] += (
-                _(np.squeeze(distance / (yearly_km / 365)))
+                _(daily_km_to_year)
                 * non_exhaust.sel(type="diurnal").values
                 / emissions.shape[0]
             )
 
             # Running losses are in g/km (no conversion needed)
             # And need to be evenly distributed throughout the driving cycle
+
+
             emissions.loc[dict(
                 component=non_exhaust.component.values
             )] += (
-                _(np.squeeze(distance))
+                _(distance)
                 * non_exhaust.sel(type="running losses").values
                 / emissions.shape[0]
             )
@@ -447,6 +453,9 @@ class HotEmissionsModel:
         emissions.loc[dict(component=engine_wear.coords["component"].values)] = (
             energy_consumption * engine_wear
         ).values
+
+        # reorder the component coordinates by alphabetical order
+        emissions = emissions.reindex(component=sorted(emissions.component.values))
 
         # urban emissions are the sum of emissions
         # along the ``second`` dimension

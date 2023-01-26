@@ -301,7 +301,7 @@ class BackgroundSystemModel:
             "hydrogen": ["FCEV"],
         }
 
-        _arr = lambda x: np.squeeze(x) if isinstance(x, list) else x
+        _arr = lambda x: np.asarray(x) if not isinstance(x, np.ndarray) else x
 
         for fuel_type, pwt in fuel_to_powertrains_map.items():
             if any(
@@ -323,6 +323,12 @@ class BackgroundSystemModel:
                 primary_share = _arr(primary_share)
                 secondary_share = _arr(secondary_share)
 
+                # add a trailing dimension to the array if it is 0D
+                if primary_share.ndim == 0:
+                    primary_share = np.expand_dims(primary_share, axis=0)
+                if secondary_share.ndim == 0:
+                    secondary_share = np.expand_dims(secondary_share, axis=0)
+
                 fuel_blend[fuel_type] = {
                     "primary": {
                         "type": primary,
@@ -330,6 +336,8 @@ class BackgroundSystemModel:
                         "lhv": self.fuel_specs[primary]["lhv"],
                         "CO2": self.fuel_specs[primary]["co2"],
                         "density": self.fuel_specs[primary]["density"],
+                        "name": tuple(self.fuel_specs[primary]["name"]),
+                        "biogenic share": self.fuel_specs[primary]["biogenic_share"],
                     },
                     "secondary": {
                         "type": secondary,
@@ -337,7 +345,11 @@ class BackgroundSystemModel:
                         "lhv": self.fuel_specs[secondary]["lhv"],
                         "CO2": self.fuel_specs[secondary]["co2"],
                         "density": self.fuel_specs[secondary]["density"],
+                        "name": tuple(self.fuel_specs[secondary]["name"]),
+                        "biogenic share": self.fuel_specs[secondary]["biogenic_share"],
                     },
                 }
 
         return fuel_blend
+
+

@@ -213,12 +213,12 @@ class EnergyConsumptionModel:
         # and battery heating
 
         # battery cooling occurring above 20C, in W
-        p_battery_cooling = np.where(ambient_temp > 20, battery_cooling_unit, 0).mean(
-            -1
-        )
+        p_battery_cooling = np.where(ambient_temp > 20, _(battery_cooling_unit), 0)
+        p_battery_cooling = p_battery_cooling.mean(-1)
 
         # battery heating occurring below 5C, in W
-        p_battery_heating = np.where(ambient_temp < 5, battery_heating_unit, 0).mean(-1)
+        p_battery_heating = np.where(ambient_temp < 5, _(battery_heating_unit), 0)
+        p_battery_heating = p_battery_heating.mean(-1)
 
         return p_cooling, p_heating, p_battery_cooling, p_battery_heating
 
@@ -264,15 +264,13 @@ class EnergyConsumptionModel:
                 indoor_temp=indoor_temp,
             )
 
-            aux_energy = __(
-                (
+            aux_energy = (
                     aux_power
                     + (p_cooling / _o(heat_pump_cop_cooling) * cooling_consumption)
                     + (p_heating / _o(heat_pump_cop_heating) * heating_consumption)
-                    + _(p_battery_cooling)
-                    + _(p_battery_heating)
-                ).T.values
-            ) * np.ones_like(self.velocity)
+                    + p_battery_cooling
+                    + p_battery_heating
+                ).T.values * np.ones_like(self.velocity)
 
             return aux_energy
 
@@ -390,7 +388,6 @@ class EnergyConsumptionModel:
             self.velocity, 2
         )
 
-
         # Resistance from road gradient: driving mass * 9.81 * sin(gradient)
         gradient_resistance = _c((driving_mass * 9.81).T) * np.sin(
             np.nan_to_num(self.gradient)[:, None, None, None, :]
@@ -403,7 +400,6 @@ class EnergyConsumptionModel:
                 rolling_resistance + air_resistance + gradient_resistance + inertia
         )
 
-
         engine_power = xr.where(engine_power == 0, 1, engine_power)
         engine_efficiency = xr.where(engine_efficiency == 0, 1, engine_efficiency)
         transmission_efficiency = xr.where(
@@ -413,14 +409,18 @@ class EnergyConsumptionModel:
             recuperation_efficiency == 0, 1, recuperation_efficiency
         )
 
+        if fuel_cell_system_efficiency is None:
+            fuel_cell_system_efficiency = np.array([1.0])
 
         fuel_cell_system_efficiency = xr.where(
-            fuel_cell_system_efficiency == 0, 1, fuel_cell_system_efficiency
+            fuel_cell_system_efficiency == 0,
+            1,
+            fuel_cell_system_efficiency
         )
 
         motive_energy_at_wheels = xr.where(total_resistance < 0, 0, total_resistance)
 
-        if fuel_cell_system_efficiency is not None:
+        if fuel_cell_system_efficiency is None:
             fuel_cell_system_efficiency = np.array([1.0])
 
         motive_energy = (

@@ -1,0 +1,78 @@
+glider:
+  - market for glider
+  - Glider lightweighting
+  - other components
+  - frame, blanks and saddle, for lorry
+  - suspension, for lorry
+  - tires and wheels, for lorry
+  - assembly operation
+  - bicycle production
+  - motor scooter production
+  - glider, for electric scooter
+  - market for transport, freight, sea, container ship
+  - market group for transport, freight, lorry, unspecified
+
+powertrain:
+  - market for charger
+  - market for inverter
+  - market for converter
+  - electric motor
+  - power distribution unit
+  - gearbox
+  - power electronics
+  - retarder, for lorry
+  - transmission, for lorry
+  - exhaust system, for lorry
+  - market for internal combustion engine
+  - electric motor production
+  - powertrain production
+  - charger production
+
+energy storage:
+  - Ancillary BoP
+  - Essential BoP
+  - Stack
+  - Battery BoP
+  - Battery cell
+  - lead acid
+  - polyethylene production, high density
+  - glass fibre reinforced plastic production
+  - Fuel tank, compressed hydrogen gas, 700bar
+  - Fuel tank, compressed natural gas, 200 bar
+  - Fuel tank, for diesel vehicle
+  - electricity supply for battery production
+  - EV charger
+  - overhead
+  - charging station
+
+energy chain:
+  - fuel supply for
+  - electricity supply for electric vehicles
+  - electricity supply for fuel preparation
+
+maintenance:
+  - maintenance, passenger car
+  - maintenance, lorry
+  - maintenance, bus
+  - maintenance, motor scooter
+  - maintenance, bicycle
+  - maintenance, electric bicycle
+  - market for refrigerant R134a
+
+EoL:
+  - treatment of used
+  - market for used
+  - market for manual dismantling
+  - manual dismantling of used
+
+road:
+  - market for road
+
+direct - non-exhaust:
+  - market for tyre wear emissions, passenger car
+  - market for road wear emissions, passenger car
+  - market for brake wear emissions, passenger car
+  - treatment of road wear
+  - treatment of tyre wear
+  - treatment of brake wear
+  - Ethane, 1,1,1,2-tetrafluoro-, HFC-134a

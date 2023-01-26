@@ -7,6 +7,7 @@ electrolysis:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 smr - natural gas:
   lhv: 120
@@ -17,6 +18,7 @@ smr - natural gas:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 smr - natural gas with CCS:
   lhv: 120
@@ -27,6 +29,7 @@ smr - natural gas with CCS:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 smr - biogas:
   lhv: 120
@@ -37,6 +40,7 @@ smr - biogas:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 smr - biogas with CCS:
   lhv: 120
@@ -47,6 +51,7 @@ smr - biogas with CCS:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 coal gasification:
   lhv: 120
@@ -57,6 +62,7 @@ coal gasification:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 wood gasification:
   lhv: 120
@@ -67,6 +73,7 @@ wood gasification:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 wood gasification with CCS:
   lhv: 120
@@ -77,6 +84,7 @@ wood gasification with CCS:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 wood gasification with EF:
   lhv: 120
@@ -87,6 +95,7 @@ wood gasification with EF:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 wood gasification with EF with CCS:
   lhv: 120
@@ -97,6 +106,7 @@ wood gasification with EF with CCS:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 atr - natural gas:
   lhv: 120
@@ -107,6 +117,7 @@ atr - natural gas:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 atr - natural gas with CCS:
   lhv: 120
@@ -117,6 +128,7 @@ atr - natural gas with CCS:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 atr - biogas:
   lhv: 120
@@ -127,6 +139,7 @@ atr - biogas:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 atr - biogas with CCS:
   lhv: 120
@@ -137,6 +150,7 @@ atr - biogas with CCS:
       - RER
       - kilogram
       - Hydrogen, gaseous, 700 bar
+  biogenic_share: 1
 
 petrol:
   lhv: 42.6
@@ -147,6 +161,8 @@ petrol:
       - Europe without Switzerland
       - kilogram
       - petrol, low-sulfur
+  biogenic_share: 0
+
 bioethanol - wheat straw:
   lhv: 26.5
   co2: 1.96
@@ -156,6 +172,8 @@ bioethanol - wheat straw:
       - RER
       - kilogram
       - ethanol, without water, in 99.7% solution state, vehicle grade
+  biogenic_share: 1
+
 bioethanol - maize starch:
   lhv: 26.5
   co2: 1.96
@@ -165,6 +183,8 @@ bioethanol - maize starch:
       - RER
       - kilogram
       - ethanol, without water, in 99.7% solution state, vehicle grade
+  biogenic_share: 1
+
 bioethanol - sugarbeet:
   lhv: 26.5
   co2: 1.96
@@ -174,6 +194,8 @@ bioethanol - sugarbeet:
       - RER
       - kilogram
       - ethanol, without water, in 99.7% solution state, vehicle grade
+  biogenic_share: 1
+
 bioethanol - forest residues:
   lhv: 26.5
   co2: 1.96
@@ -183,6 +205,8 @@ bioethanol - forest residues:
       - RER
       - kilogram
       - ethanol, without water, in 99.7% solution state, vehicle grade
+  biogenic_share: 1
+
 synthetic gasoline - economic allocation:
   lhv: 42.4
   co2: 3.14
@@ -192,6 +216,8 @@ synthetic gasoline - economic allocation:
       - RER
       - kilogram
       - gasoline, synthetic, vehicle grade
+  biogenic_share: 1
+
 synthetic gasoline - energy allocation:
   lhv: 42.4
   co2: 3.14
@@ -201,6 +227,8 @@ synthetic gasoline - energy allocation:
       - RER
       - kilogram
       - gasoline, synthetic, vehicle grade
+  biogenic_share: 1
+
 diesel:
   lhv: 43
   co2: 3.15
@@ -210,6 +238,8 @@ diesel:
       - Europe without Switzerland
       - kilogram
       - diesel, low-sulfur
+  biogenic_share: 0
+
 biodiesel - cooking oil:
   lhv: 38
   co2: 2.79
@@ -219,6 +249,8 @@ biodiesel - cooking oil:
       - RER
       - kilogram
       - biodiesel, vehicle grade
+  biogenic_share: 1
+
 biodiesel - algae:
   lhv: 38
   co2: 2.79
@@ -228,6 +260,8 @@ biodiesel - algae:
       - RER
       - kilogram
       - biodiesel, vehicle grade
+  biogenic_share: 1
+
 biodiesel - rapeseed oil:
   lhv: 38
   co2: 2.79
@@ -237,6 +271,8 @@ biodiesel - rapeseed oil:
       - RER
       - kilogram
       - biodiesel, vehicle grade
+  biogenic_share: 1
+
 biodiesel - palm oil:
   lhv: 38
   co2: 2.79
@@ -246,6 +282,8 @@ biodiesel - palm oil:
       - ID
       - kilogram
       - biodiesel, vehicle grade
+  biogenic_share: 1
+
 synthetic diesel - economic allocation:
   lhv: 43.3
   co2: 3.15
@@ -255,6 +293,8 @@ synthetic diesel - economic allocation:
       - RER
       - kilogram
       - diesel, synthetic, vehicle grade
+  biogenic_share: 1
+
 synthetic diesel - energy allocation:
   lhv: 43.3
   co2: 3.15
@@ -264,6 +304,8 @@ synthetic diesel - energy allocation:
       - RER
       - kilogram
       - diesel, synthetic, vehicle grade
+  biogenic_share: 1
+
 cng:
   lhv: 47.5
   co2: 2.68
@@ -273,6 +315,8 @@ cng:
       - GLO
       - kilogram
       - natural gas, high pressure, vehicle grade
+  biogenic_share: 0
+
 biogas - sewage sludge:
   lhv: 47.5
   co2: 2.68
@@ -282,6 +326,8 @@ biogas - sewage sludge:
       - RER
       - kilogram
       - biomethane, high pressure
+  biogenic_share: 1
+
 biogas - biowaste:
   lhv: 47.5
   co2: 2.68
@@ -291,6 +337,8 @@ biogas - biowaste:
       - CH
       - kilogram
       - biomethane
+  biogenic_share: 1
+
 syngas:
   lhv: 47.5
   co2: 2.68
@@ -300,3 +348,4 @@ syngas:
       - RER
       - kilogram
       - methane, high pressure
+  biogenic_share: 1
