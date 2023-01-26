@@ -45,7 +45,7 @@ def fill_xarray_from_input_parameters(input_parameters, sensitivity=False, scope
         scope = {
             "size": input_parameters.sizes,
             "powertrain": input_parameters.powertrains,
-            "year": input_parameters.years
+            "year": input_parameters.years,
         }
     else:
         if "size" not in scope:
@@ -172,12 +172,19 @@ def fill_xarray_from_input_parameters(input_parameters, sensitivity=False, scope
         # if `sensitivity` == True, the values of each parameter is
         # incremented by 10% when `value` == `parameter`
         for x, param in enumerate(input_parameters.input_parameters):
-            names = [n for n in input_parameters.metadata if input_parameters.metadata[n]["name"] == param]
+            names = [
+                n
+                for n in input_parameters.metadata
+                if input_parameters.metadata[n]["name"] == param
+            ]
 
             pwt = list(
                 set(
                     itertools.chain.from_iterable(
-                        [input_parameters.metadata[name]["powertrain"] for name in names]
+                        [
+                            input_parameters.metadata[name]["powertrain"]
+                            for name in names
+                        ]
                     )
                 )
             )
@@ -196,7 +203,8 @@ def fill_xarray_from_input_parameters(input_parameters, sensitivity=False, scope
 
             for name in names:
                 vals = [
-                    input_parameters.values[name] for _ in range(0, len(input_parameters.input_parameters) + 1)
+                    input_parameters.values[name]
+                    for _ in range(0, len(input_parameters.input_parameters) + 1)
                 ]
                 vals[input_parameters.input_parameters.index(param) + 1] *= 1.1
 

@@ -1,10 +1,7 @@
 import numpy as np
 import pytest
 
-from carculator import (
-    VehicleInputParameters,
-    fill_xarray_from_input_parameters,
-)
+from carculator import VehicleInputParameters, fill_xarray_from_input_parameters
 from carculator.model import CarModel
 
 
@@ -30,21 +27,26 @@ def test_modify_array():
     cip.static()
     _, array = fill_xarray_from_input_parameters(cip)
 
-    array.loc[dict(
-        powertrain="ICEV-d",
-        size="Large",
-        year=2020,
-        parameter="lifetime kilometers",
-    )] = 150000
+    array.loc[
+        dict(
+            powertrain="ICEV-d",
+            size="Large",
+            year=2020,
+            parameter="lifetime kilometers",
+        )
+    ] = 150000
 
     cm = CarModel(array)
     cm.set_all()
-    assert cm.array.sel(
-        powertrain="ICEV-d",
-        size="Large",
-        year=2020,
-        parameter="lifetime kilometers",
-    ).values == 150000
+    assert (
+        cm.array.sel(
+            powertrain="ICEV-d",
+            size="Large",
+            year=2020,
+            parameter="lifetime kilometers",
+        ).values
+        == 150000
+    )
 
 
 def test_scope():
