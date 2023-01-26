@@ -1,7 +1,9 @@
-import pandas as pd
-import numpy as np
-from carculator import *
 from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+from carculator import *
 
 DATA = Path(__file__, "..").resolve() / "fixtures" / "cars_values.xlsx"
 OUTPUT = Path(__file__, "..").resolve() / "fixtures" / "test_model_results.xlsx"
@@ -25,13 +27,13 @@ def test_model_results():
         "BEV",
         "ICEV-g",
         "HEV-d",
-        "HEV-p"
+        "HEV-p",
     ]
     list_sizes = [
-         #"Small",
-         #"Lower medium",
-         "Medium",
-         #"Large"
+        # "Small",
+        # "Lower medium",
+        "Medium",
+        # "Large"
     ]
     list_years = [
         2020,
@@ -46,17 +48,27 @@ def test_model_results():
         for size in list_sizes:
             for year in list_years:
                 for param in cm.array.parameter.values:
-                    val = float(cm.array.sel(
-                        powertrain=pwt, size=size, year=year, parameter=param, value=0
-                    ).values)
+                    val = float(
+                        cm.array.sel(
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter=param,
+                            value=0,
+                        ).values
+                    )
 
                     try:
-                        ref_val = ref.loc[
-                        (ref["powertrain"] == pwt)
-                        & (ref["size"] == size)
-                        & (ref["parameter"] == param),
-                        year,
-                        ].values.astype(float).item(0)
+                        ref_val = (
+                            ref.loc[
+                                (ref["powertrain"] == pwt)
+                                & (ref["size"] == size)
+                                & (ref["parameter"] == param),
+                                year,
+                            ]
+                            .values.astype(float)
+                            .item(0)
+                        )
                     except:
                         ref_val = 1
 
