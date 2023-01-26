@@ -1,7 +1,7 @@
 # ``carculator``
 
 <p align="center">
-  <img style="height:130px;" src="https://github.com/romainsacchi/carculator/raw/master/docs/mediumsmall.png">
+  <img style="height:130px;" src="https://github.com/romainsacchi/carculator/blob/master/docs/_static/img/mediumsmall.png">
 </p>
 
 <p align="center">
