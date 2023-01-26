@@ -10,12 +10,12 @@ import json
 import os
 import uuid
 from typing import Dict, List, Tuple, Union
-import yaml
 
 import bw2io
 import numpy as np
 import pyprind
 import xarray as xr
+import yaml
 from bw2io.export.excel import create_valid_worksheet_name, safe_filename, xlsxwriter
 
 from . import DATA_DIR, __version__
@@ -175,7 +175,9 @@ class ExportInventory:
                 if key in value[0]:
                     new_val = list(value)
                     new_val[0] = new_val[0].replace(key, val)
-                    self.indices[k] = tuple(new_val, )
+                    self.indices[k] = tuple(
+                        new_val,
+                    )
 
     def write_lci(
         self,
@@ -191,7 +193,11 @@ class ExportInventory:
         :rtype: dict
         """
 
-        blacklist = {"3.5": ["latex production", ]}
+        blacklist = {
+            "3.5": [
+                "latex production",
+            ]
+        }
 
         list_act = []
 
@@ -220,7 +226,6 @@ class ExportInventory:
                 tuple_output = self.indices[col]
                 tuple_input = self.indices[row]
                 mult_factor = 1
-
 
                 if ecoinvent_version != "3.8":
                     tuple_output = self.flow_map[ecoinvent_version].get(
@@ -295,14 +300,20 @@ class ExportInventory:
             string = ""
 
             if f"{self.vm.vehicle_type}, " in tuple_output[0].lower():
-                available_powertrains = [self.rename_pwt[p] for p in self.vm.array.powertrain.values.tolist()]
+                available_powertrains = [
+                    self.rename_pwt[p] for p in self.vm.array.powertrain.values.tolist()
+                ]
                 available_sizes = self.vm.array.coords["size"].values.tolist()
                 available_years = self.vm.array.coords["year"].values.tolist()
 
-                if (any([w in tuple_output[0] for w in available_powertrains])
+                if (
+                    any([w in tuple_output[0] for w in available_powertrains])
                     and any([w in tuple_output[0] for w in available_sizes])
-                    and any([str(w) in tuple_output[0] for w in available_years])):
-                    possible_pwt = [w for w in available_powertrains if w in tuple_output[0]]
+                    and any([str(w) in tuple_output[0] for w in available_years])
+                ):
+                    possible_pwt = [
+                        w for w in available_powertrains if w in tuple_output[0]
+                    ]
 
                     if len(possible_pwt) > 1:
                         pwt = max(possible_pwt, key=len)
@@ -449,8 +460,7 @@ class ExportInventory:
         for item in fields["headers"]:
             if item.startswith("{date"):
                 item = item.replace(
-                    "date",
-                    datetime.datetime.today().strftime("%d/%m/%Y")
+                    "date", datetime.datetime.today().strftime("%d/%m/%Y")
                 )
             rows.append([item])
         rows.append([])
@@ -475,18 +485,28 @@ class ExportInventory:
                 # if we cannot find it, it's because some keys are more general
                 try:
                     key = [
-                        k for k in self.references.keys() if k.lower() in a["name"].lower()
+                        k
+                        for k in self.references.keys()
+                        if k.lower() in a["name"].lower()
                     ][0]
                 except IndexError:
                     if self.vm.vehicle_type in a["name"].lower():
                         pass
                     else:
                         print(a["name"])
-                main_category = self.references.get(key, {"category 1": None}).get("category 1")
-                category = self.references.get(key, {"category 2": None}).get("category 2")
+                main_category = self.references.get(key, {"category 1": None}).get(
+                    "category 1"
+                )
+                category = self.references.get(key, {"category 2": None}).get(
+                    "category 2"
+                )
                 source = self.references.get(key, {"source": None}).get("source")
-                description = self.references.get(key, {"description": None}).get("description")
-                special_remark = self.references.get(key, {"special remark": None}).get("special remark")
+                description = self.references.get(key, {"description": None}).get(
+                    "description"
+                )
+                special_remark = self.references.get(key, {"special remark": None}).get(
+                    "special remark"
+                )
 
             # We loop through the fields SimaPro expects to see
             for item in fields["fields"]:
@@ -532,9 +552,7 @@ class ExportInventory:
                     rows.append([a["location"]])
 
                 if item == "Time Period":
-                    rows.append(
-                        ["Refer to vehicle year."]
-                    )
+                    rows.append(["Refer to vehicle year."])
 
                 if item == "Date":
                     rows.append([f"{datetime.datetime.today():%d.%m.%Y}"])
@@ -594,7 +612,9 @@ class ExportInventory:
                         if e["type"] == "production":
                             rows.append(
                                 [
-                                    dict_tech.get((a["name"], a["location"]), dataset_name),
+                                    dict_tech.get(
+                                        (a["name"], a["location"]), dataset_name
+                                    ),
                                     fields["unit"][a["unit"]],
                                     1.0,
                                     "100%",
@@ -651,12 +671,8 @@ class ExportInventory:
                                     e["location"],
                                     e["unit"],
                                     e["reference product"],
-                                ) = self.flow_map.get(
-                                    ei_version,
-                                    {tupled: tupled}
-                                ).get(
-                                    tupled,
-                                    tupled
+                                ) = self.flow_map.get(ei_version, {tupled: tupled}).get(
+                                    tupled, tupled
                                 )
 
                                 exchange_name = f"{e['name'].capitalize()} {{{e.get('location', 'GLO')}}}"
@@ -671,10 +687,7 @@ class ExportInventory:
                                         exchange_name += f"| market group for {e['reference product'].lower()}"
 
                                     if "production" in e["name"]:
-                                        if (
-                                            len(e["reference product"].split(", "))
-                                            > 1
-                                        ):
+                                        if len(e["reference product"].split(", ")) > 1:
                                             exchange_name += f"| {e['reference product'].split(', ')[0].lower()} production, "
                                             exchange_name += f"{e['reference product'].split(', ')[1].lower()}"
 
@@ -777,9 +790,7 @@ class ExportInventory:
 
                 if item == "Emissions to soil":
                     for e in a["exchanges"]:
-                        if (
-                            e["type"] == "biosphere" and e["categories"][0] == "soil"
-                        ):
+                        if e["type"] == "biosphere" and e["categories"][0] == "soil":
                             if e["name"] not in blacklist:
                                 rows.append(
                                     [
@@ -854,17 +865,13 @@ class ExportInventory:
                                     e["location"],
                                     e["unit"],
                                     e["reference product"],
-                                ) = self.flow_map.get(
-                                    ei_version,
-                                    {tupled: tupled}
-                                ).get(
-                                    tupled,
-                                    tupled
+                                ) = self.flow_map.get(ei_version, {tupled: tupled}).get(
+                                    tupled, tupled
                                 )
 
                                 dataset_name = dict_tech.get(
                                     (e["name"], e["location"]),
-                                    f"{e['name']} {{e['location']}}"
+                                    f"{e['name']} {{e['location']}}",
                                 )
 
                                 rows.append(
