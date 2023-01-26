@@ -4,9 +4,9 @@ inventory.py contains InventoryCalculation which provides all methods to solve i
 
 import csv
 import re
-from pathlib import Path
-from functools import lru_cache
 from collections import defaultdict
+from functools import lru_cache
+from pathlib import Path
 
 import numpy as np
 import xarray as xr
@@ -28,6 +28,7 @@ RANGE_PARAM = {
     "bus": "daily distance",
     "truck": "target range",
 }
+
 
 def check_func_unit(func_unit):
     """Check if func_unit is a valid functional unit."""
@@ -381,7 +382,9 @@ class Inventory:
         f_vector = np.zeros((np.shape(self.A)[1]))
 
         # Collect indices of activities contributing to the first level
-        idx_car_trspt = self.find_input_indices((f"transport, {self.vm.vehicle_type}, ",))
+        idx_car_trspt = self.find_input_indices(
+            (f"transport, {self.vm.vehicle_type}, ",)
+        )
         idx_cars = self.find_input_indices((f"{self.vm.vehicle_type.capitalize()}, ",))
 
         idx_others = [
@@ -413,13 +416,17 @@ class Inventory:
 
         new_arr = new_arr.transpose(1, 0, 2)
 
-        arr = self.A[:, :, idx_car_trspt].reshape(
-            self.iterations,
-            -1,
-            len(self.scope["size"]),
-            len(self.scope["powertrain"]),
-            len(self.scope["year"])
-        ) * new_arr[:, None, :, None, None, :] * -1
+        arr = (
+            self.A[:, :, idx_car_trspt].reshape(
+                self.iterations,
+                -1,
+                len(self.scope["size"]),
+                len(self.scope["powertrain"]),
+                len(self.scope["year"]),
+            )
+            * new_arr[:, None, :, None, None, :]
+            * -1
+        )
 
         arr += (
             self.A[:, :, idx_cars].reshape(
@@ -427,7 +434,7 @@ class Inventory:
                 -1,
                 len(self.scope["size"]),
                 len(self.scope["powertrain"]),
-                len(self.scope["year"])
+                len(self.scope["year"]),
             )
             * new_arr[:, None, :, None, None, :]
             * self.A[:, idx_cars, idx_car_trspt].reshape(
@@ -435,7 +442,7 @@ class Inventory:
                 -1,
                 len(self.scope["size"]),
                 len(self.scope["powertrain"]),
-                len(self.scope["year"])
+                len(self.scope["year"]),
             )
         )
 
@@ -526,9 +533,7 @@ class Inventory:
 
                     else:
                         name = f"transport, {self.vm.vehicle_type}, {powertrain}, {size}, {year}, Euro-{euro_class}"
-                        ref = (
-                            f"transport, {self.vm.vehicle_type}, Euro-{euro_class}"
-                        )
+                        ref = f"transport, {self.vm.vehicle_type}, Euro-{euro_class}"
 
                     # add transport activity
                     self.inputs[(name, self.vm.country, unit, ref)] = maximum
@@ -616,7 +621,6 @@ class Inventory:
 
             new_B[0 : initial_B.shape[0], 0 : initial_B.shape[1]] = initial_B
             B[f, :, :] = new_B
-
 
         return xr.DataArray(
             B,
@@ -782,7 +786,7 @@ class Inventory:
 
         return sum_renew
 
-    #@lru_cache
+    # @lru_cache
     def find_input_indices(self, contains: [tuple, str], excludes: tuple = ()) -> list:
         """
         This function finds the indices of the inputs in the A matrix
@@ -838,12 +842,14 @@ class Inventory:
                     dataset,
                     (5.4e-8 + 2.99e-9) * -1 * losses,
                 ),
-                ("Sulfur hexafluoride", dataset, (5.4e-8 + 2.99e-9) * -1 * losses)
+                ("Sulfur hexafluoride", dataset, (5.4e-8 + 2.99e-9) * -1 * losses),
             ]:
                 self.A[
                     np.ix_(
                         np.arange(self.iterations),
-                        self.find_input_indices(input[0], ),
+                        self.find_input_indices(
+                            input[0],
+                        ),
                         self.find_input_indices((input[1], str(year))),
                     )
                 ] = input[2]
@@ -1026,7 +1032,9 @@ class Inventory:
         for y, year in enumerate(self.scope["year"]):
             self.A[
                 :,
-                self.find_input_indices(("electricity supply for fuel preparation, ", str(year))),
+                self.find_input_indices(
+                    ("electricity supply for fuel preparation, ", str(year))
+                ),
                 self.find_input_indices(
                     (f"electricity supply for electric vehicles, {year}",)
                 ),
@@ -1038,17 +1046,17 @@ class Inventory:
             secondary = self.vm.fuel_blend[fuel_type]["secondary"]["type"]
 
             electricity_requirement_primary = self.find_input_requirement(
-                        value_in="kilowatt hour",
-                        value_out=self.vm.fuel_blend[fuel_type]["primary"]["name"][0],
-                        find_input_by="unit",
-                        zero_out_input=True,
-                    )
+                value_in="kilowatt hour",
+                value_out=self.vm.fuel_blend[fuel_type]["primary"]["name"][0],
+                find_input_by="unit",
+                zero_out_input=True,
+            )
             electricity_requirement_secondary = self.find_input_requirement(
-                        value_in="kilowatt hour",
-                        value_out=self.vm.fuel_blend[fuel_type]["secondary"]["name"][0],
-                        find_input_by="unit",
-                        zero_out_input=True,
-                    )
+                value_in="kilowatt hour",
+                value_out=self.vm.fuel_blend[fuel_type]["secondary"]["name"][0],
+                find_input_by="unit",
+                zero_out_input=True,
+            )
 
             for y, year in enumerate(self.scope["year"]):
                 primary_share = self.vm.fuel_blend[fuel_type]["primary"]["share"][y]
@@ -1077,10 +1085,7 @@ class Inventory:
                 )
 
                 additional_electricity_primary = self.learning_rate_fuel(
-                    primary,
-                    year,
-                    primary_share,
-                    electricity_requirement_primary
+                    primary, year, primary_share, electricity_requirement_primary
                 )
 
                 additional_electricity_secondary = self.learning_rate_fuel(
@@ -1091,13 +1096,12 @@ class Inventory:
                 )
 
                 additional_electricity = (
-                    additional_electricity_primary
-                    + additional_electricity_secondary
+                    additional_electricity_primary + additional_electricity_secondary
                 )
 
                 if additional_electricity > 0:
                     elec_idx = self.find_input_indices(
-                        (f"electricity supply for fuel preparation, {year}", )
+                        (f"electricity supply for fuel preparation, {year}",)
                     )
 
                     self.A[:, elec_idx, fuel_market_index] = -1 * additional_electricity
@@ -1325,21 +1329,23 @@ class Inventory:
                         (f"{self.vm.vehicle_type.capitalize()}, ", str(year))
                     ),
                 )
-            ] = electricity_batt * (
-                (
-                    self.array[self.array_inputs["battery cell mass"], :, index]
-                    * (
-                        1
-                        + self.array[
-                            self.array_inputs["battery lifetime replacements"],
-                            :,
-                            index,
-                        ]
+            ] = (
+                electricity_batt
+                * (
+                    (
+                        self.array[self.array_inputs["battery cell mass"], :, index]
+                        * (
+                            1
+                            + self.array[
+                                self.array_inputs["battery lifetime replacements"],
+                                :,
+                                index,
+                            ]
+                        )
                     )
-                )
-                * -1
-            ).values[:, np.newaxis, :]
-
+                    * -1
+                ).values[:, np.newaxis, :]
+            )
 
         # Battery EoL
         self.A[
@@ -1473,7 +1479,11 @@ class Inventory:
                     ),
                 ] = (
                     self.array[self.array_inputs["fuel mass"], :, ind_array]
-                    / self.array[self.array_inputs[RANGE_PARAM[self.vm.vehicle_type]], :, ind_array]
+                    / self.array[
+                        self.array_inputs[RANGE_PARAM[self.vm.vehicle_type]],
+                        :,
+                        ind_array,
+                    ]
                     * -1
                 )
 
@@ -1513,11 +1523,13 @@ class Inventory:
         self.A[
             :,
             self.inputs[("Carbon dioxide, fossil", ("air",), "kilogram")],
-            self.find_input_indices(contains=tuple(idx), excludes=("battery", )),
+            self.find_input_indices(contains=tuple(idx), excludes=("battery",)),
         ] = (
             self.array[self.array_inputs["fuel mass"], :, ind_array]
             * fossil_co2
-            / self.array[self.array_inputs[RANGE_PARAM[self.vm.vehicle_type]], :, ind_array]
+            / self.array[
+                self.array_inputs[RANGE_PARAM[self.vm.vehicle_type]], :, ind_array
+            ]
             * -1
         )
 
@@ -1530,10 +1542,12 @@ class Inventory:
                     "kilogram",
                 )
             ],
-            self.find_input_indices(contains=tuple(idx), excludes=("battery", )),
+            self.find_input_indices(contains=tuple(idx), excludes=("battery",)),
         ] = (
             ((self.array[self.array_inputs["fuel mass"], :, ind_array] * biogenic_co2))
-            / self.array[self.array_inputs[RANGE_PARAM[self.vm.vehicle_type]], :, ind_array]
+            / self.array[
+                self.array_inputs[RANGE_PARAM[self.vm.vehicle_type]], :, ind_array
+            ]
             * -1
         )
 
@@ -1552,10 +1566,12 @@ class Inventory:
             self.A[
                 :,
                 self.inputs[("Sulfur dioxide", ("air",), "kilogram")],
-                self.find_input_indices(contains=tuple(idx), excludes=("battery", )),
+                self.find_input_indices(contains=tuple(idx), excludes=("battery",)),
             ] = (
                 self.array[self.array_inputs["fuel mass"], :, index]
-                / self.array[self.array_inputs[RANGE_PARAM[self.vm.vehicle_type]], :, index]
+                / self.array[
+                    self.array_inputs[RANGE_PARAM[self.vm.vehicle_type]], :, index
+                ]
                 * -1
                 * sulfur_concentration
                 * (64 / 32)  # molar mass of SO2/molar mass of O2
@@ -1575,8 +1591,7 @@ class Inventory:
             for y, year in enumerate(self.scope["year"]):
 
                 ind_array = [
-                    x for x in self.get_index_vehicle_from_array(year)
-                    if x in index
+                    x for x in self.get_index_vehicle_from_array(year) if x in index
                 ]
 
                 # Fuel supply
@@ -1591,11 +1606,15 @@ class Inventory:
                             powertrains_short,
                             str(year),
                         ),
-                        excludes=("battery",)
+                        excludes=("battery",),
                     ),
                 ] = (
                     self.array[self.array_inputs["fuel mass"], :, ind_array]
-                    / self.array[self.array_inputs[RANGE_PARAM[self.vm.vehicle_type]], :, ind_array]
+                    / self.array[
+                        self.array_inputs[RANGE_PARAM[self.vm.vehicle_type]],
+                        :,
+                        ind_array,
+                    ]
                 ) * -1
 
                 self.add_carbon_dioxide_emissions(
@@ -1618,7 +1637,6 @@ class Inventory:
         ] = (
             1.29e-3 * -1
         )
-
 
     def add_road_construction(self) -> None:
 
@@ -1691,7 +1709,7 @@ class Inventory:
                 self.inputs[i]
                 for i in self.inputs
                 if f"transport, {self.vm.vehicle_type}, " in i[0]
-                and int(re.findall(r'20(\w+)', i[0])[0]) < 22
+                and int(re.findall(r"20(\w+)", i[0])[0]) < 22
             ]
             index = self.get_index_vehicle_from_array(
                 [i for i in self.scope["year"] if i < 2022]
@@ -1722,7 +1740,10 @@ class Inventory:
                 idx_cars_before_2022,
             ] = (
                 (
-                    (loss_rate[self.vm.vehicle_type] + refill_rate[self.vm.vehicle_type])
+                    (
+                        loss_rate[self.vm.vehicle_type]
+                        + refill_rate[self.vm.vehicle_type]
+                    )
                     / self.array.values[
                         self.array_inputs["lifetime kilometers"], :, index
                     ]
@@ -1795,7 +1816,6 @@ class Inventory:
             0.333 * self.array[self.array_inputs["road dust emissions"], :]
         )
 
-
     def is_the_vehicle_compliant(self, index):
         """
         Checks if the vehicle has a positive `TtW energy` value
@@ -1804,7 +1824,7 @@ class Inventory:
         name = self.rev_inputs[index][0]
 
         if (
-                any([w for w in self.scope["powertrain"] if w in name])
+            any([w for w in self.scope["powertrain"] if w in name])
             and any([w for w in self.scope["year"] if str(w) in name])
             and any([w for w in self.scope["size"] if w in name])
         ):
@@ -1813,26 +1833,26 @@ class Inventory:
             size = [w for w in self.scope["size"] if w in name][0]
             year = [w for w in self.scope["year"] if str(w) in name][0]
 
-
             return np.all(
-                self.vm.array.loc[dict(
-                    size=size,
-                    powertrain=powertrain,
-                    year=year,
-                    parameter="TtW energy"
-                )]
+                self.vm.array.loc[
+                    dict(
+                        size=size,
+                        powertrain=powertrain,
+                        year=year,
+                        parameter="TtW energy",
+                    )
+                ]
                 > 0
             )
 
         return True
+
     def remove_uncompliant_vehicles(self):
         """
         Remove vehicles from self.A that do not have a TtW energy superior to 0.
         """
         # Get the indices of the vehicles that are not compliant
-        idx = self.find_input_indices(
-            (self.vm.vehicle_type, )
-        )
+        idx = self.find_input_indices((self.vm.vehicle_type,))
         idx.extend(
             self.find_input_indices(
                 (self.vm.vehicle_type.capitalize()),
@@ -1851,16 +1871,14 @@ class Inventory:
         idx_cars = self.find_input_indices((f"transport, {self.vm.vehicle_type}, ",))
         idx_others = [i for i in range(self.A.shape[1]) if i not in idx_cars]
 
-        self.A[
-            np.ix_(np.arange(self.iterations),
-            idx_others,
-            idx_cars,)
-        ] *= (1 / load_factor).reshape(-1, 1, len(idx_cars))
+        self.A[np.ix_(np.arange(self.iterations), idx_others, idx_cars,)] *= (
+            1 / load_factor
+        ).reshape(-1, 1, len(idx_cars))
 
         # iterate through self.inputs and change the unit
         keys_to_modify = {
-            key: value for key, value
-            in self.inputs.items()
+            key: value
+            for key, value in self.inputs.items()
             if key[0].startswith(f"transport, {self.vm.vehicle_type}")
         }
 
@@ -1879,7 +1897,7 @@ class Inventory:
         filename=f"carculator_lci",
         directory=None,
         software="brightway2",
-        format="bw2io"
+        format="bw2io",
     ):
         """
         Export the inventory. Can export to Simapro (as csv), or brightway2 (as bw2io object, file or string).

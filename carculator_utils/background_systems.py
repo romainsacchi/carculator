@@ -359,5 +359,3 @@ class BackgroundSystemModel:
                 }
 
         return fuel_blend
-
-
