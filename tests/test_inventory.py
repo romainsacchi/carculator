@@ -1,9 +1,8 @@
 import numpy as np
 import pytest
 
-from carculator import CarInputParameters
-
 from carculator import (
+    CarInputParameters,
     CarModel,
     InventoryCar,
     fill_xarray_from_input_parameters,
@@ -126,24 +125,36 @@ def test_fuel_blend():
     cm = CarModel(array, cycle="WLTC", fuel_blend=bc)
     cm.set_all()
 
-    assert np.array_equal(cm.fuel_blend["petrol"]["primary"]["share"], np.array([
-        0.9,
-        0.9,
-        0.9,
-        0.9,
-        0.9,
-        0.9,
-    ]))
+    assert np.array_equal(
+        cm.fuel_blend["petrol"]["primary"]["share"],
+        np.array(
+            [
+                0.9,
+                0.9,
+                0.9,
+                0.9,
+                0.9,
+                0.9,
+            ]
+        ),
+    )
 
-    assert np.array_equal(cm.fuel_blend["diesel"]["primary"]["share"], np.array([
-        0.93,
-        0.93,
-        0.93,
-        0.93,
-        0.93,
-        0.93,
-    ]))
-    assert np.array_equal(cm.fuel_blend["cng"]["primary"]["share"], np.array([1, 1, 1, 1, 1, 1]))
+    assert np.array_equal(
+        cm.fuel_blend["diesel"]["primary"]["share"],
+        np.array(
+            [
+                0.93,
+                0.93,
+                0.93,
+                0.93,
+                0.93,
+                0.93,
+            ]
+        ),
+    )
+    assert np.array_equal(
+        cm.fuel_blend["cng"]["primary"]["share"], np.array([1, 1, 1, 1, 1, 1])
+    )
     assert np.allclose(np.sum(cm.fuel_blend["cng"]["secondary"]["share"]), np.zeros(6))
 
     for fuels in [
@@ -259,7 +270,12 @@ def test_export_to_bw():
     ic = InventoryCar(cm, method="recipe", indicator="endpoint")
     #
 
-    for b in ("3.5", "3.6", "3.7", "3.8", ):
+    for b in (
+        "3.5",
+        "3.6",
+        "3.7",
+        "3.8",
+    ):
         for c in (True, False):
             ic.export_lci(
                 ecoinvent_version=b,
