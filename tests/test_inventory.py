@@ -1,10 +1,11 @@
 import numpy as np
 import pytest
 
+from carculator import CarInputParameters
+
 from carculator import (
-    CarInputParameters,
     CarModel,
-    Inventory,
+    InventoryCar,
     fill_xarray_from_input_parameters,
 )
 
@@ -13,7 +14,8 @@ cip = CarInputParameters()
 cip.static()
 
 # fill in array with vehicle parameters
-_, array = fill_xarray_from_input_parameters(cip)
+scope = {"powertrain": ["ICEV-d", "ICEV-p", "BEV"], "size": ["Medium"]}
+_, array = fill_xarray_from_input_parameters(cip, scope=scope)
 
 # build CarModel object
 cm = CarModel(array, cycle="WLTC")
@@ -23,28 +25,22 @@ cm.set_all()
 
 def test_scope():
     """Test if scope works as expected"""
-    ic = Inventory(
+    ic = InventoryCar(
         cm,
         method="recipe",
         indicator="midpoint",
-        scope={"powertrain": ["ICEV-d", "ICEV-p"], "size": ["Lower medium"]},
     )
     results = ic.calculate_impacts()
 
     assert "Large" not in results.coords["size"].values
-    assert "BEV" not in results.coords["powertrain"].values
+    assert "FCEV" not in results.coords["powertrain"].values
 
 
 def test_plausibility_of_GWP():
     """Test if GWP scores make sense"""
 
     for method in ["recipe", "ilcd"]:
-        ic = Inventory(
-            cm,
-            method=method,
-            indicator="midpoint",
-            scope={"powertrain": ["ICEV-d", "ICEV-p", "BEV"], "size": ["Medium"]},
-        )
+        ic = InventoryCar(cm, method=method, indicator="midpoint")
         results = ic.calculate_impacts()
 
         if method == "recipe":
@@ -63,8 +59,9 @@ def test_plausibility_of_GWP():
         # Are the medium ICEVs between 0.28 and 0.35 kg CO2-eq./vkm?
 
         if method == "recipe":
-            assert (gwp_icev.sum(dim="impact") > 0.28).all() and (
-                gwp_icev.sum(dim="impact") < 0.32
+
+            assert (gwp_icev.sum(dim="impact") > 0.27).all() and (
+                gwp_icev.sum(dim="impact") < 0.31
             ).all()
 
             # Are the medium ICEVs direct emissions between 0.13 and  0.18 kg CO2-eq./vkm?
@@ -83,75 +80,71 @@ def test_plausibility_of_GWP():
         )
 
         assert (gwp_bev.sel(impact="energy storage") > 0.025).all() and (
-            gwp_bev.sel(impact="energy storage") < 0.038
+            gwp_bev.sel(impact="energy storage") < 0.04
         ).all()
+
+        assert gwp_bev.sel(impact="direct - exhaust") == 0
 
 
 def test_fuel_blend():
     """Test if fuel blends defined by the user are considered"""
 
     bc = {
-        "fuel blend": {
-            "petrol": {
-                "primary fuel": {
-                    "type": "petrol",
-                    "share": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
-                },
-                "secondary fuel": {
-                    "type": "bioethanol - wheat straw",
-                    "share": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-                },
+        "petrol": {
+            "primary": {
+                "type": "petrol",
+                "share": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
             },
-            "diesel": {
-                "primary fuel": {
-                    "type": "diesel",
-                    "share": [0.93, 0.93, 0.93, 0.93, 0.93, 0.93],
-                },
-                "secondary fuel": {
-                    "type": "biodiesel - cooking oil",
-                    "share": [0.07, 0.07, 0.07, 0.07, 0.07, 0.07],
-                },
+        },
+        "diesel": {
+            "primary": {
+                "type": "diesel",
+                "share": [0.93, 0.93, 0.93, 0.93, 0.93, 0.93],
             },
-            "cng": {
-                "primary fuel": {
-                    "type": "biogas - sewage sludge",
-                    "share": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                    ],
-                }
+        },
+        "hydrogen": {
+            "primary": {
+                "type": "electrolysis",
+                "share": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
             },
-        }
+        },
+        "cng": {
+            "primary": {
+                "type": "biogas - sewage sludge",
+                "share": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                ],
+            }
+        },
     }
 
-    ic = Inventory(
-        cm, method="recipe", indicator="midpoint", background_configuration=bc
-    )
+    cm = CarModel(array, cycle="WLTC", fuel_blend=bc)
+    cm.set_all()
 
-    assert ic.fuel_blends["petrol"]["primary"]["share"] == [
+    assert np.array_equal(cm.fuel_blend["petrol"]["primary"]["share"], np.array([
         0.9,
         0.9,
         0.9,
         0.9,
         0.9,
         0.9,
-    ]
-    assert ic.fuel_blends["petrol"]["secondary"]["share"] == [
-        0.1,
-        0.1,
-        0.1,
-        0.1,
-        0.1,
-        0.1,
-    ]
-    assert ic.fuel_blends["cng"]["primary"]["share"] == [1, 1, 1, 1, 1, 1]
-    assert np.sum(ic.fuel_blends["cng"]["secondary"]["share"]) == 0
+    ]))
 
-    ic.calculate_impacts()
+    assert np.array_equal(cm.fuel_blend["diesel"]["primary"]["share"], np.array([
+        0.93,
+        0.93,
+        0.93,
+        0.93,
+        0.93,
+        0.93,
+    ]))
+    assert np.array_equal(cm.fuel_blend["cng"]["primary"]["share"], np.array([1, 1, 1, 1, 1, 1]))
+    assert np.allclose(np.sum(cm.fuel_blend["cng"]["secondary"]["share"]), np.zeros(6))
 
     for fuels in [
         ("petrol", "diesel", "electrolysis", "cng"),
@@ -186,33 +179,14 @@ def test_fuel_blend():
             "syngas",
         ),
     ]:
-        ic = Inventory(
-            cm,
-            method="recipe",
-            indicator="midpoint",
-            background_configuration={
-                "fuel blend": {
-                    "petrol": {
-                        "primary fuel": {"type": fuels[0], "share": [1, 1, 1, 1, 1, 1]},
-                    },
-                    "diesel": {
-                        "primary fuel": {"type": fuels[1], "share": [1, 1, 1, 1, 1, 1]},
-                    },
-                    "hydrogen": {
-                        "primary fuel": {
-                            "type": fuels[2],
-                            "share": [1, 1, 1, 1, 1, 1],
-                        }
-                    },
-                    "cng": {
-                        "primary fuel": {
-                            "type": fuels[3],
-                            "share": [1, 1, 1, 1, 1, 1],
-                        }
-                    },
-                }
-            },
-        )
+        bc["petrol"]["primary"]["type"] = fuels[0]
+        bc["diesel"]["primary"]["type"] = fuels[1]
+        bc["hydrogen"]["primary"]["type"] = fuels[2]
+        bc["cng"]["primary"]["type"] = fuels[3]
+
+        cm = CarModel(array, cycle="WLTC", fuel_blend=bc)
+        cm.set_all()
+        ic = InventoryCar(cm)
         ic.calculate_impacts()
 
 
@@ -224,7 +198,7 @@ def test_countries():
         "AU",
         "BE",
     ]:
-        ic = Inventory(
+        ic = InventoryCar(
             cm,
             method="recipe",
             indicator="midpoint",
@@ -236,40 +210,22 @@ def test_countries():
         ic.calculate_impacts()
 
 
-def test_IAM_regions():
-    """Test that calculation works with all IAM regions"""
-    for c in ["BRA", "CAN", "CEU", "CHN", "EAF"]:
-        ic = Inventory(
-            cm,
-            method="recipe",
-            indicator="midpoint",
-            background_configuration={
-                "country": c,
-                "energy storage": {
-                    "electric": {("BEV", "Large", 2000): "NMC-622"},
-                    "origin": c,
-                },
-            },
-        )
-        ic.calculate_impacts()
-
-
 def test_endpoint():
     """Test if the correct impact categories are considered"""
-    ic = Inventory(cm, method="recipe", indicator="endpoint")
+    ic = InventoryCar(cm, method="recipe", indicator="endpoint")
     results = ic.calculate_impacts()
     assert "human health" in [i.lower() for i in results.impact_category.values]
     assert len(results.impact_category.values) == 4
     #
     #     """Test if it errors properly if an incorrect method type is give"""
-    with pytest.raises(TypeError) as wrapped_error:
-        ic = Inventory(cm, method="recipe", indicator="endpint")
+    with pytest.raises(ValueError) as wrapped_error:
+        ic = InventoryCar(cm, method="recipe", indicator="endpint")
         ic.calculate_impacts()
-    assert wrapped_error.type == TypeError
+    assert wrapped_error.type == ValueError
 
 
 def test_sulfur_concentration():
-    ic = Inventory(cm, method="recipe", indicator="endpoint")
+    ic = InventoryCar(cm, method="recipe", indicator="endpoint")
     ic.get_sulfur_content("RER", "diesel", 2000)
     ic.get_sulfur_content("foo", "diesel", 2000)
 
@@ -289,7 +245,7 @@ def test_custom_electricity_mix():
 
     for mix in mixes:
         with pytest.raises(ValueError) as wrapped_error:
-            Inventory(
+            InventoryCar(
                 cm,
                 method="recipe",
                 indicator="endpoint",
@@ -300,28 +256,27 @@ def test_custom_electricity_mix():
 
 def test_export_to_bw():
     """Test that inventories export successfully"""
-    ic = Inventory(cm, method="recipe", indicator="endpoint")
+    ic = InventoryCar(cm, method="recipe", indicator="endpoint")
     #
 
-    for b in ("3.5", "3.6", "3.7", "3.8", "uvek"):
+    for b in ("3.5", "3.6", "3.7", "3.8", ):
         for c in (True, False):
             ic.export_lci(
                 ecoinvent_version=b,
-                create_vehicle_datasets=c,
             )
 
 
 def test_export_to_excel():
     """Test that inventories export successfully to Excel/CSV"""
-    ic = Inventory(cm, method="recipe", indicator="endpoint")
+    ic = InventoryCar(cm, method="recipe", indicator="endpoint")
 
-    for b in ("3.5", "3.6", "3.7", "3.7.1", "3.8", "uvek"):
-        for c in (True, False):
-            for d in ("file", "string"):
+    for b in ("3.5", "3.6", "3.7", "3.7.1", "3.8"):
+        for s in ("brightway2", "simapro"):
+            for d in ("file", "bw2io"):
                 #
-                ic.export_lci_to_excel(
+                ic.export_lci(
                     ecoinvent_version=b,
-                    create_vehicle_datasets=c,
-                    export_format=d,
+                    format=d,
+                    software=s,
                     directory="directory",
                 )

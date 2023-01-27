@@ -10,7 +10,7 @@ Submodules
 """
 
 __all__ = (
-    "VehicleInputParameters",
+    "CarInputParameters",
     "fill_xarray_from_input_parameters",
     "CarModel",
     "InventoryCar",
@@ -24,6 +24,6 @@ DATA_DIR = Path(__file__).resolve().parent / "data"
 
 from carculator_utils.array import fill_xarray_from_input_parameters
 
-from .car_input_parameters import VehicleInputParameters
+from .car_input_parameters import CarInputParameters
 from .inventory import InventoryCar
 from .model import CarModel

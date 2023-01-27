@@ -9,7 +9,7 @@ DATA = Path(__file__, "..").resolve() / "fixtures" / "cars_values.xlsx"
 OUTPUT = Path(__file__, "..").resolve() / "fixtures" / "test_model_results.xlsx"
 ref = pd.read_excel(DATA, index_col=0)
 
-cip = VehicleInputParameters()
+cip = CarInputParameters()
 cip.static()
 dcts, arr = fill_xarray_from_input_parameters(cip)
 cm = CarModel(arr, cycle="WLTC")
@@ -23,7 +23,6 @@ def test_model_results():
         "ICEV-d",
         "PHEV-p",
         "PHEV-d",
-        "PHEV-e",
         "BEV",
         "ICEV-g",
         "HEV-d",

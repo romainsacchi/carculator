@@ -85,43 +85,46 @@ over 800 Monte Carlo iterations:
 
 ```python
     from carculator import *
-    import matplotlib.pyplot as plt
-    cip = CarInputParameters()
-    cip.stochastic(800)
-    dcts, array = fill_xarray_from_input_parameters(cip)
-    cm = CarModel(array, cycle='WLTC 3.4')
-    cm.set_all()
-    TtW_energy = 1 / (cm.array.sel(size='SUV', year=2020, parameter='TtW energy') / 42000) # assuming 42 MJ/L petrol
+import matplotlib.pyplot as plt
 
-    l_powertrains = TtW_energy.powertrain
-    [plt.hist(e, bins=50, alpha=.8, label=e.powertrain.values) for e in TtW_energy]
-    plt.xlabel('km/L petrol-equivalent')
-    plt.ylabel('number of iterations')
-    plt.legend()
+cip = CarInputParameters()
+cip.stochastic(800)
+dcts, array = fill_xarray_from_input_parameters(cip)
+cm = CarModel(array, cycle='WLTC 3.4')
+cm.set_all()
+TtW_energy = 1 / (cm.array.sel(size='SUV', year=2020, parameter='TtW energy') / 42000)  # assuming 42 MJ/L petrol
+
+l_powertrains = TtW_energy.powertrain
+[plt.hist(e, bins=50, alpha=.8, label=e.powertrain.values) for e in TtW_energy]
+plt.xlabel('km/L petrol-equivalent')
+plt.ylabel('number of iterations')
+plt.legend()
 ```
 
 ![MC results](https://github.com/romainsacchi/carculator/blob/master/docs/_static/img/stochastic_example_ttw.png)
 
 Compare the carbon footprint of electric vehicles with that of rechargeable hybrid vehicles for different size categories today and in the future
 over 500 Monte Carlo iterations:
+
 ```python
     from carculator import *
-    cip = CarInputParameters()
-    cip.stochastic(500)
-    dcts, array = fill_xarray_from_input_parameters(cip)
-    cm = CarModel(array, cycle='WLTC')
-    cm.set_all()
-    scope = {
-        'powertrain':['BEV', 'PHEV'],
-    }
-    ic = InventoryCalculation(cm)
 
-    results = ic.calculate_impacts()
-    data_MC = results.sel(impact_category='climate change').sum(axis=3).to_dataframe('climate change')
-    plt.style.use('seaborn')
-    data_MC.unstack(level=[0,1,2]).boxplot(showfliers=False, figsize=(20,5))
-    plt.xticks(rotation=70)
-    plt.ylabel('kg CO2-eq./vkm')
+cip = CarInputParameters()
+cip.stochastic(500)
+dcts, array = fill_xarray_from_input_parameters(cip)
+cm = CarModel(array, cycle='WLTC')
+cm.set_all()
+scope = {
+  'powertrain': ['BEV', 'PHEV'],
+}
+ic = InventoryCalculation(cm)
+
+results = ic.calculate_impacts()
+data_MC = results.sel(impact_category='climate change').sum(axis=3).to_dataframe('climate change')
+plt.style.use('seaborn')
+data_MC.unstack(level=[0, 1, 2]).boxplot(showfliers=False, figsize=(20, 5))
+plt.xticks(rotation=70)
+plt.ylabel('kg CO2-eq./vkm')
 ```
 
 ![MC results](https://github.com/romainsacchi/carculator/blob/master/docs/_static/img/example_stochastic_BEV_PHEV.png)

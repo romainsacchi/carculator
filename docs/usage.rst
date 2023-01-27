@@ -21,7 +21,7 @@ Creating car models in static mode will use the most likely value of the given p
 .. code-block:: python
 
    from carculator import *
-   cip = CarInputParameters()
+   cip = VehicleInputParameters()
    cip.static()
    dcts, array = fill_xarray_from_input_parameters(cip)
    cm = CarModel(array)
@@ -33,7 +33,7 @@ Alternatively, if one wishes to work with probability distributions as parameter
 .. code-block:: python
 
     from carculator import *
-    cip = CarInputParameters()
+    cip = VehicleInputParameters()
     cip.stochastic(800)
     dcts, array = fill_xarray_from_input_parameters(cip)
     cm = CarModel(array)
@@ -94,7 +94,7 @@ Then, you simply pass this dictionary to `modify_xarray_from_custom_parameters(<
 
 .. code-block:: python
 
-    cip = CarInputParameters()
+    cip = VehicleInputParameters()
     cip.static()
     dcts, array = fill_xarray_from_input_parameters(cip)
     modify_xarray_from_custom_parameters(dic_param, array)
@@ -133,7 +133,7 @@ To specify a driving cycle, simply do:
 
 .. code-block:: python
 
-    cip = CarInputParameters()
+    cip = VehicleInputParameters()
     cip.static()
     dcts, array = fill_xarray_from_input_parameters(cip)
     cm = CarModel(array, cycle='WLTC 3.4')
@@ -185,7 +185,7 @@ from the CarModel object:
     :alt: Alternative text
 
 .. note::
-    If you call the :meth:`stochastic` method of the :class:`CarInputParameters`, you would have several values stored for a given calculated parameter
+    If you call the :meth:`stochastic` method of the :class:`VehicleInputParameters`, you would have several values stored for a given calculated parameter
     in the array. The number of values correspond to the number of iterations you passed to :meth:`stochastic`.
 
 For example, if you ran the model in stochastic mode with 800 iterations as shown in the section above, instead of one
@@ -290,7 +290,7 @@ stochastic mode (with 500 iterations and the driving cycle WLTC).
 
 .. code-block:: python
 
-    cip = CarInputParameters()
+    cip = VehicleInputParameters()
     cip.stochastic(500)
     dcts, array = fill_xarray_from_input_parameters(cip)
     cm = CarModel(array, cycle='WLTC')

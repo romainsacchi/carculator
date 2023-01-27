@@ -6,7 +6,7 @@ API
 Car Input Parameter
 -------------------
 
-.. autoclass:: carculator.car_input_parameters.CarInputParameters
+.. autoclass:: carculator.car_input_parameters.VehicleInputParameters
     :members:
     
 Array
