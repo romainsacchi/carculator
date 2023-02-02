@@ -17,7 +17,6 @@ cm.set_all()
 
 
 def test_model_results():
-
     list_powertrains = [
         "ICEV-p",
         "ICEV-d",
