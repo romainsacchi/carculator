@@ -3,7 +3,6 @@ inventory.py contains Inventory which provides all methods to solve inventories.
 """
 
 import numpy as np
-
 from carculator_utils.inventory import Inventory
 
 from . import DATA_DIR

@@ -5,7 +5,6 @@ import numexpr as ne
 import numpy as np
 import xarray as xr
 import yaml
-
 from carculator_utils.energy_consumption import EnergyConsumptionModel
 from carculator_utils.model import VehicleModel
 
