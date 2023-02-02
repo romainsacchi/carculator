@@ -69,6 +69,7 @@ def test_plausibility_of_GWP():
 
         # Are the ICEVs glider emissions between 0.04 and 0.05 kg CO2-eq./vkm?
         print(m)
+        print(gwp_icev.sel(impact="glider"))
         assert (gwp_icev.sel(impact="glider") > 0.04).all() and (
             gwp_icev.sel(impact="glider") < 0.05
         ).all()
