@@ -78,3 +78,258 @@ def test_model_results():
         l_res,
         columns=["powertrain", "size", "year", "parameter", "val", "ref_val", "diff"],
     ).to_excel(OUTPUT)
+
+
+def test_setting_batt_cap():
+
+    cip = CarInputParameters()
+    cip.static()
+    dcts, arr = fill_xarray_from_input_parameters(
+        cip,
+        scope={"size": ["Medium"], "powertrain": ["BEV"], "year": [2020]},
+    )
+
+    batt_cap = {
+        "capacity": {
+            ("BEV", "Medium", 2020): 50,
+        }
+    }
+
+    cm = CarModel(arr, cycle="WLTC", energy_storage=batt_cap)
+    cm.set_all()
+
+    assert (
+        cm.array.sel(
+            powertrain="BEV",
+            size="Medium",
+            year=2020,
+            parameter="electric energy stored",
+            value=0,
+        ).values
+        == 50
+    )
+
+
+def test_setting_battery_chemistry():
+
+    cip = CarInputParameters()
+    cip.static()
+    dcts, arr = fill_xarray_from_input_parameters(
+        cip,
+        scope={"size": ["Medium"], "powertrain": ["BEV"], "year": [2020]},
+    )
+
+    batt_chem = {
+        "electric": {
+            ("BEV", "Medium", 2020): "LFP",
+        }
+    }
+
+    cm = CarModel(arr, cycle="WLTC", energy_storage=batt_chem)
+    cm.set_all()
+
+    assert cm.array.sel(
+        powertrain="BEV",
+        size="Medium",
+        year=2020,
+        parameter="battery cell energy density",
+        value=0,
+    ).values == np.array(0.15, dtype=np.float32)
+
+
+def test_setting_range():
+
+    cip = CarInputParameters()
+    cip.static()
+    dcts, arr = fill_xarray_from_input_parameters(
+        cip,
+        scope={"size": ["Medium"], "powertrain": ["BEV"], "year": [2020]},
+    )
+
+    range = {
+        ("BEV", "Medium", 2020): 100,
+    }
+
+    cm = CarModel(arr, cycle="WLTC", target_range=range)
+    cm.set_all()
+
+    assert (
+        cm.array.sel(
+            powertrain="BEV",
+            size="Medium",
+            year=2020,
+            parameter="electric energy stored",
+            value=0,
+        ).values
+        <= 20
+    )
+
+    assert cm.array.sel(
+        powertrain="BEV",
+        size="Medium",
+        year=2020,
+        parameter="range",
+        value=0,
+    ).values == np.array(100, dtype=np.float32)
+
+
+def test_setting_mass():
+
+    cip = CarInputParameters()
+    cip.static()
+    dcts, arr = fill_xarray_from_input_parameters(
+        cip,
+        scope={"size": ["Medium"], "powertrain": ["BEV"], "year": [2020]},
+    )
+
+    mass = {
+        ("BEV", "Medium", 2020): 2000,
+    }
+
+    cm = CarModel(arr, cycle="WLTC", target_mass=mass)
+    cm.set_all()
+
+    assert (
+        cm.array.sel(
+            powertrain="BEV",
+            size="Medium",
+            year=2020,
+            parameter="curb mass",
+            value=0,
+        ).values
+        == 2000
+    )
+
+
+def test_setting_ttw_energy():
+
+    cip = CarInputParameters()
+    cip.static()
+    dcts, arr = fill_xarray_from_input_parameters(
+        cip,
+        scope={"size": ["Medium"], "powertrain": ["BEV", "ICEV-p"], "year": [2020]},
+    )
+
+    ttw_energy = {
+        ("BEV", "Medium", 2020): 1000,
+        ("ICEV-p", "Medium", 2020): 2500,
+    }
+
+    cm = CarModel(arr, cycle="WLTC", energy_consumption=ttw_energy)
+    cm.set_all()
+
+    assert (
+        cm.array.sel(
+            powertrain="BEV",
+            size="Medium",
+            year=2020,
+            parameter="TtW energy",
+            value=0,
+        ).values
+        == 1000
+    )
+
+    assert np.isclose(
+        cm.array.sel(
+            powertrain="BEV",
+            size="Medium",
+            year=2020,
+            parameter="electricity consumption",
+            value=0,
+        ).values,
+        (1000 / 3600) * 1.17,
+        rtol=0.01,
+    )
+
+    assert (
+        cm.array.sel(
+            powertrain="ICEV-p",
+            size="Medium",
+            year=2020,
+            parameter="TtW energy",
+            value=0,
+        ).values
+        == 2500
+    )
+
+    _ = lambda x: np.where(x == 0, 1, x)
+    assert np.array_equal(
+        cm["fuel consumption"],
+        (cm["fuel mass"] / (cm["range"]) / _(cm["fuel density per kg"]))
+    )
+
+
+def test_setting_power():
+
+    cip = CarInputParameters()
+    cip.static()
+    dcts, arr = fill_xarray_from_input_parameters(
+        cip,
+        scope={"size": ["Medium"], "powertrain": ["BEV", "ICEV-p"], "year": [2020]},
+    )
+
+    power = {
+        ("BEV", "Medium", 2020): 100,
+        ("ICEV-p", "Medium", 2020): 200,
+    }
+
+    cm = CarModel(arr, cycle="WLTC", power=power)
+    cm.set_all()
+
+    assert (
+        cm.array.sel(
+            powertrain="BEV",
+            size="Medium",
+            year=2020,
+            parameter="electric power",
+            value=0,
+        ).values
+        == 100
+    )
+
+    assert (
+        cm.array.sel(
+            powertrain="ICEV-p",
+            size="Medium",
+            year=2020,
+            parameter="combustion power",
+            value=0,
+        ).values
+        == 200
+    )
+
+    assert (
+        cm.array.sel(
+            powertrain="ICEV-p",
+            size="Medium",
+            year=2020,
+            parameter="power",
+            value=0,
+        ).values
+        == 200
+    )
+
+    assert np.array_equal(
+        cm["combustion engine mass"],
+        (
+            cm["combustion power"] * cm["combustion mass per power"]
+            + cm["combustion fixed mass"]
+        ),
+    )
+
+
+def test_setting_battery_origin():
+
+    cip = CarInputParameters()
+    cip.static()
+    dcts, arr = fill_xarray_from_input_parameters(
+        cip,
+        scope={"size": ["Medium"], "powertrain": ["BEV"], "year": [2020]},
+    )
+
+    battery_origin = {"origin": "FR"}
+
+    cm = CarModel(arr, cycle="WLTC", energy_storage=battery_origin)
+    cm.set_all()
+
+    assert cm.energy_storage["origin"] == "FR"

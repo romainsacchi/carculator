@@ -55,13 +55,10 @@ class CarModel(VehicleModel):
 
         diff = 1.0
 
-        while diff > 0.001:
+        while diff > 0.0001:
             old_driving_mass = self["driving mass"].sum().values
 
-            if self.target_mass:
-                self.override_vehicle_mass()
-            else:
-                self.set_vehicle_mass()
+            self.set_vehicle_mass()
 
             self.set_power_parameters()
             self.set_component_masses()
@@ -84,17 +81,13 @@ class CarModel(VehicleModel):
                 "driving mass"
             ].sum()
 
-        if self.energy_consumption:
-            self.override_ttw_energy()
-        else:
-            self.set_ttw_efficiency()
-            self.calculate_ttw_energy()
+        self.set_ttw_efficiency()
+        self.calculate_ttw_energy()
 
         self.set_range()
 
         if self.target_range:
             self.override_range()
-            self.set_energy_stored_properties()
 
         self.set_share_recuperated_energy()
         self.set_battery_fuel_cell_replacements()
@@ -115,17 +108,19 @@ class CarModel(VehicleModel):
     def set_battery_chemistry(self):
         # override default values for batteries
         # if provided by the user
-        self.energy_storage = {
-            "electric": {
-                x: "NMC-622"
-                for x in product(
-                    ["BEV", "PHEV-e", "HEV-d", "HEV-p"],
-                    self.array.coords["size"].values,
-                    self.array.year.values,
-                )
-            },
-            "origin": "CN",
-        }
+        if "electric" not in self.energy_storage:
+            self.energy_storage.update({
+                "electric": {
+                    x: "NMC-622"
+                    for x in product(
+                        ["BEV", "PHEV-e", "HEV-d", "HEV-p"],
+                        self.array.coords["size"].values,
+                        self.array.year.values,
+                    )
+                },
+            })
+        if "origin" not in self.energy_storage:
+            self.energy_storage.update({"origin": "CN"})
 
     def adjust_cost(self) -> None:
         """
@@ -252,24 +247,28 @@ class CarModel(VehicleModel):
             }
         )
 
+        if self.energy_consumption:
+            self.override_ttw_energy()
+
         distance = self.energy.sel(parameter="velocity").sum(dim="second") / 1000
 
         self["TtW energy"] = (
-            self.energy.sel(
-                parameter=["motive energy", "auxiliary energy", "recuperated energy"]
-            ).sum(dim=["second", "parameter"])
-            / distance
+                self.energy.sel(
+                    parameter=["motive energy", "auxiliary energy", "recuperated energy"]
+                ).sum(dim=["second", "parameter"])
+                / distance
         ).T
 
+
         self["TtW energy, combustion mode"] = self["TtW energy"] * (
-            self["combustion power share"] > 0
+                self["combustion power share"] > 0
         )
         self["TtW energy, electric mode"] = self["TtW energy"] * (
-            self["combustion power share"] == 0
+                self["combustion power share"] == 0
         )
 
         self["auxiliary energy"] = (
-            self.energy.sel(parameter="auxiliary energy").sum(dim="second") / distance
+                self.energy.sel(parameter="auxiliary energy").sum(dim="second") / distance
         ).T
 
     def set_vehicle_mass(self) -> None:
@@ -308,6 +307,9 @@ class CarModel(VehicleModel):
         ]
 
         self["curb mass"] += self[curb_mass_includes].sum(axis=2)
+
+        if self.target_mass:
+            self.override_vehicle_mass()
 
         self["total cargo mass"] = (
             self["average passengers"] * self["average passenger mass"]
