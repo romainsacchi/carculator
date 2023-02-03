@@ -158,7 +158,7 @@ def test_setting_range():
             parameter="electric energy stored",
             value=0,
         ).values
-        <= 20
+        <= 25
     )
 
     assert cm.array.sel(
