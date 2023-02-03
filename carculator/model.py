@@ -244,6 +244,7 @@ class CarModel(VehicleModel):
                 "powertrain": self.array.powertrain,
                 "year": self.array.year,
                 "size": self.array.coords["size"],
+                "value": self.array.coords["value"],
             }
         )
 
