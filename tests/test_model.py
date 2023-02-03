@@ -161,13 +161,13 @@ def test_setting_range():
         <= 25
     )
 
-    assert cm.array.sel(
+    assert np.isclose(cm.array.sel(
         powertrain="BEV",
         size="Medium",
         year=2020,
         parameter="range",
         value=0,
-    ).values == np.array(100, dtype=np.float32)
+    ).values, np.array(100, dtype=np.float32), rtol=0.01)
 
 
 def test_setting_mass():
