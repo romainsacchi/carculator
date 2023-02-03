@@ -81,7 +81,6 @@ def test_model_results():
 
 
 def test_setting_batt_cap():
-
     cip = CarInputParameters()
     cip.static()
     dcts, arr = fill_xarray_from_input_parameters(
@@ -111,7 +110,6 @@ def test_setting_batt_cap():
 
 
 def test_setting_battery_chemistry():
-
     cip = CarInputParameters()
     cip.static()
     dcts, arr = fill_xarray_from_input_parameters(
@@ -138,7 +136,6 @@ def test_setting_battery_chemistry():
 
 
 def test_setting_range():
-
     cip = CarInputParameters()
     cip.static()
     dcts, arr = fill_xarray_from_input_parameters(
@@ -174,7 +171,6 @@ def test_setting_range():
 
 
 def test_setting_mass():
-
     cip = CarInputParameters()
     cip.static()
     dcts, arr = fill_xarray_from_input_parameters(
@@ -202,7 +198,6 @@ def test_setting_mass():
 
 
 def test_setting_ttw_energy():
-
     cip = CarInputParameters()
     cip.static()
     dcts, arr = fill_xarray_from_input_parameters(
@@ -255,12 +250,11 @@ def test_setting_ttw_energy():
     _ = lambda x: np.where(x == 0, 1, x)
     assert np.array_equal(
         cm["fuel consumption"],
-        (cm["fuel mass"] / (cm["range"]) / _(cm["fuel density per kg"]))
+        (cm["fuel mass"] / (cm["range"]) / _(cm["fuel density per kg"])),
     )
 
 
 def test_setting_power():
-
     cip = CarInputParameters()
     cip.static()
     dcts, arr = fill_xarray_from_input_parameters(
@@ -319,7 +313,6 @@ def test_setting_power():
 
 
 def test_setting_battery_origin():
-
     cip = CarInputParameters()
     cip.static()
     dcts, arr = fill_xarray_from_input_parameters(

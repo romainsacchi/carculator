@@ -109,16 +109,18 @@ class CarModel(VehicleModel):
         # override default values for batteries
         # if provided by the user
         if "electric" not in self.energy_storage:
-            self.energy_storage.update({
-                "electric": {
-                    x: "NMC-622"
-                    for x in product(
-                        ["BEV", "PHEV-e", "HEV-d", "HEV-p"],
-                        self.array.coords["size"].values,
-                        self.array.year.values,
-                    )
-                },
-            })
+            self.energy_storage.update(
+                {
+                    "electric": {
+                        x: "NMC-622"
+                        for x in product(
+                            ["BEV", "PHEV-e", "HEV-d", "HEV-p"],
+                            self.array.coords["size"].values,
+                            self.array.year.values,
+                        )
+                    },
+                }
+            )
         if "origin" not in self.energy_storage:
             self.energy_storage.update({"origin": "CN"})
 
@@ -254,22 +256,21 @@ class CarModel(VehicleModel):
         distance = self.energy.sel(parameter="velocity").sum(dim="second") / 1000
 
         self["TtW energy"] = (
-                self.energy.sel(
-                    parameter=["motive energy", "auxiliary energy", "recuperated energy"]
-                ).sum(dim=["second", "parameter"])
-                / distance
+            self.energy.sel(
+                parameter=["motive energy", "auxiliary energy", "recuperated energy"]
+            ).sum(dim=["second", "parameter"])
+            / distance
         ).T
 
-
         self["TtW energy, combustion mode"] = self["TtW energy"] * (
-                self["combustion power share"] > 0
+            self["combustion power share"] > 0
         )
         self["TtW energy, electric mode"] = self["TtW energy"] * (
-                self["combustion power share"] == 0
+            self["combustion power share"] == 0
         )
 
         self["auxiliary energy"] = (
-                self.energy.sel(parameter="auxiliary energy").sum(dim="second") / distance
+            self.energy.sel(parameter="auxiliary energy").sum(dim="second") / distance
         ).T
 
     def set_vehicle_mass(self) -> None:
