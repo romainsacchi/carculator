@@ -12,7 +12,6 @@ from . import DATA_DIR
 
 
 class CarModel(VehicleModel):
-
     """
     This class represents the entirety of the vehicles considered, with useful attributes, such as an array that stores
     all the vehicles parameters.
@@ -48,6 +47,7 @@ class CarModel(VehicleModel):
         self.ecm = EnergyConsumptionModel(
             vehicle_type="car",
             vehicle_size=list(self.array.coords["size"].values),
+            powertrains=list(self.array.coords["powertrain"].values),
             cycle=self.cycle,
             gradient=self.gradient,
             country=self.country,
@@ -56,6 +56,8 @@ class CarModel(VehicleModel):
         diff = 1.0
 
         while diff > 0.0001:
+
+
             old_driving_mass = self["driving mass"].sum().values
 
             self.set_vehicle_mass()
@@ -234,8 +236,6 @@ class CarModel(VehicleModel):
             engine_power=self["power"],
             recuperation_efficiency=self["recuperation efficiency"],
             aux_power=self["auxiliary power demand"],
-            engine_efficiency=self["engine efficiency"],
-            transmission_efficiency=self["transmission efficiency"],
             battery_charge_eff=self["battery charge efficiency"],
             battery_discharge_eff=self["battery discharge efficiency"],
             fuel_cell_system_efficiency=self["fuel cell system efficiency"],
@@ -256,21 +256,31 @@ class CarModel(VehicleModel):
         distance = self.energy.sel(parameter="velocity").sum(dim="second") / 1000
 
         self["TtW energy"] = (
-            self.energy.sel(
-                parameter=["motive energy", "auxiliary energy", "recuperated energy"]
-            ).sum(dim=["second", "parameter"])
-            / distance
+                self.energy.sel(
+                    parameter=["motive energy", "auxiliary energy", "recuperated energy"]
+                ).sum(dim=["second", "parameter"])
+                / distance
         ).T
 
+        self["engine efficiency"] = np.ma.array(
+            self.energy.loc[dict(parameter="engine efficiency")],
+            mask=self.energy.loc[dict(parameter="power load")] == 0
+        ).mean(axis=0).T
+
+        self["transmission efficiency"] = np.ma.array(
+            self.energy.loc[dict(parameter="transmission efficiency")],
+            mask=self.energy.loc[dict(parameter="power load")] == 0
+        ).mean(axis=0).T
+
         self["TtW energy, combustion mode"] = self["TtW energy"] * (
-            self["combustion power share"] > 0
+                self["combustion power share"] > 0
         )
         self["TtW energy, electric mode"] = self["TtW energy"] * (
-            self["combustion power share"] == 0
+                self["combustion power share"] == 0
         )
 
         self["auxiliary energy"] = (
-            self.energy.sel(parameter="auxiliary energy").sum(dim="second") / distance
+                self.energy.sel(parameter="auxiliary energy").sum(dim="second") / distance
         ).T
 
     def set_vehicle_mass(self) -> None:
@@ -314,8 +324,8 @@ class CarModel(VehicleModel):
             self.override_vehicle_mass()
 
         self["total cargo mass"] = (
-            self["average passengers"] * self["average passenger mass"]
-            + self["cargo mass"]
+                self["average passengers"] * self["average passenger mass"]
+                + self["cargo mass"]
         )
         self["driving mass"] = self["curb mass"] + self["total cargo mass"]
 
@@ -350,8 +360,8 @@ class CarModel(VehicleModel):
             else:
                 for key, val in self.electric_utility_factor.items():
                     if (
-                        "PHEV-e" in self.array.powertrain.values
-                        and key in self.array.year.values
+                            "PHEV-e" in self.array.powertrain.values
+                            and key in self.array.year.values
                     ):
                         self.array.loc[
                             dict(
@@ -367,26 +377,26 @@ class CarModel(VehicleModel):
         :return:
         """
         self["glider cost"] = (
-            self["glider base mass"] * self["glider cost slope"]
-            + self["glider cost intercept"]
+                self["glider base mass"] * self["glider cost slope"]
+                + self["glider cost intercept"]
         )
         self["lightweighting cost"] = (
-            self["glider base mass"]
-            * self["lightweighting"]
-            * self["glider lightweighting cost per kg"]
+                self["glider base mass"]
+                * self["lightweighting"]
+                * self["glider lightweighting cost per kg"]
         )
         self["electric powertrain cost"] = (
-            self["electric powertrain cost per kW"] * self["electric power"]
+                self["electric powertrain cost per kW"] * self["electric power"]
         )
         self["combustion powertrain cost"] = (
-            self["combustion power"] * self["combustion powertrain cost per kW"]
+                self["combustion power"] * self["combustion powertrain cost per kW"]
         )
         self["fuel cell cost"] = self["fuel cell power"] * self["fuel cell cost per kW"]
         self["power battery cost"] = (
-            self["battery power"] * self["power battery cost per kW"]
+                self["battery power"] * self["power battery cost per kW"]
         )
         self["energy battery cost"] = (
-            self["energy battery cost per kWh"] * self["electric energy stored"]
+                self["energy battery cost per kWh"] * self["electric energy stored"]
         )
         self["fuel tank cost"] = self["fuel tank cost per kg"] * self["fuel mass"]
         # Per km
@@ -400,8 +410,8 @@ class CarModel(VehicleModel):
         self["energy cost"] /= _(self["battery charge efficiency"])
 
         self["component replacement cost"] = (
-            self["energy battery cost"] * self["battery lifetime replacements"]
-            + self["fuel cell cost"] * self["fuel cell lifetime replacements"]
+                self["energy battery cost"] * self["battery lifetime replacements"]
+                + self["fuel cell cost"] * self["fuel cell lifetime replacements"]
         )
 
         with open(DATA_DIR / "purchase_cost_params.yaml", "r") as stream:
@@ -418,42 +428,42 @@ class CarModel(VehicleModel):
         self["purchase cost"] = self[purchase_cost_params].sum(axis=2)
         # per km
         amortisation_factor = self["interest rate"] + (
-            self["interest rate"]
-            / (
-                (np.array(1) + self["interest rate"]) ** self["lifetime kilometers"]
-                - np.array(1)
-            )
+                self["interest rate"]
+                / (
+                        (np.array(1) + self["interest rate"]) ** self["lifetime kilometers"]
+                        - np.array(1)
+                )
         )
         self["amortised purchase cost"] = (
-            self["purchase cost"] * amortisation_factor / self["kilometers per year"]
+                self["purchase cost"] * amortisation_factor / self["kilometers per year"]
         )
 
         # per km
         self["maintenance cost"] = (
-            self["maintenance cost per glider cost"]
-            * self["glider cost"]
-            / self["kilometers per year"]
+                self["maintenance cost per glider cost"]
+                * self["glider cost"]
+                / self["kilometers per year"]
         )
 
         # simple assumption that component replacement
         # occurs at half of life.
         self["amortised component replacement cost"] = (
-            (
-                self["component replacement cost"]
-                * (
-                    (np.array(1) - self["interest rate"]) ** self["lifetime kilometers"]
-                    / 2
+                (
+                        self["component replacement cost"]
+                        * (
+                                (np.array(1) - self["interest rate"]) ** self["lifetime kilometers"]
+                                / 2
+                        )
                 )
-            )
-            * amortisation_factor
-            / self["kilometers per year"]
+                * amortisation_factor
+                / self["kilometers per year"]
         )
 
         self["total cost per km"] = (
-            self["energy cost"]
-            + self["amortised purchase cost"]
-            + self["maintenance cost"]
-            + self["amortised component replacement cost"]
+                self["energy cost"]
+                + self["amortised purchase cost"]
+                + self["maintenance cost"]
+                + self["amortised component replacement cost"]
         )
 
     def remove_energy_consumption_from_unavailable_vehicles(self):
