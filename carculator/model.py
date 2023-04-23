@@ -1,9 +1,6 @@
 from itertools import product
-from typing import Dict, List, Union
 
-import numexpr as ne
 import numpy as np
-import xarray as xr
 import yaml
 from carculator_utils.energy_consumption import EnergyConsumptionModel
 from carculator_utils.model import VehicleModel
@@ -56,12 +53,8 @@ class CarModel(VehicleModel):
         diff = 1.0
 
         while diff > 0.0001:
-
-
             old_driving_mass = self["driving mass"].sum().values
-
             self.set_vehicle_mass()
-
             self.set_power_parameters()
             self.set_component_masses()
             self.set_auxiliaries()

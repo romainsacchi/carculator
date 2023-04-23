@@ -150,6 +150,8 @@ as shown in :ref:`Table 2 <table-2>`.
    +----------------+----------------+----------------+----------------------+
    | **EURO-6 d**   | 2021           | -              | **2021**             |
    +----------------+----------------+----------------+----------------------+
+   | **EURO-7**     | -              | -              | **2026**             |
+   +----------------+----------------+----------------+----------------------+
 
 Size and mass-related parameters and modeling
 *********************************************
@@ -179,6 +181,20 @@ vehicle converges, as illustrated in :ref:`Figure 2 <figure-2>`.
 
 Curb mass of the vehicle
 ++++++++++++++++++++++++
+
+This function calculates and sets the vehicle's mass properties:
+
+Curb mass: The mass of the vehicle and fuel, without people or cargo.
+Total cargo mass: The mass of the cargo and passengers.
+Driving mass: The sum of the curb mass and total cargo mass.
+
+Function steps:
+1. Set the curb mass as the product of the glider base mass and (1 - lightweighting).
+2. Create a list of mass components to be included in the curb mass calculation.
+3. Add the sum of these mass components to the curb mass.
+4. If a target mass is provided, override the vehicle mass with the target mass.
+5. Calculate the total cargo mass by summing the product of average passengers and average passenger mass, and the cargo mass.
+6. Calculate the driving mass by adding the curb mass and total cargo mass.
 
 .. math::
 
@@ -327,7 +343,8 @@ mass distribution, and the red dots are the curb mass values modeled by
 
 :ref:`Table 4 <table-4>` shows the mass distribution for gasoline and battery electric
 passenger cars resulting from the calibration. Mass information on other
-vehicles is available in the vehicles' specifications spreadsheet.
+vehicles is available in the vehicles' specifications spreadsheet. These numbers may change
+if the default input values (i.e., engine power, fuel tank size, etc.) are changed.
 
 .. _table-4:
 
@@ -375,7 +392,58 @@ influenced by the mass of the vehicle (which partially correlates to
 with the size class or body type), but also by the acceleration required
 by the driving cycle. Other resistances, such as the climbing effort,
 are instead determined by the driving cycle (but the vehicle mass also
-plays a role here). Once the energy required at the wheels is known, the
+plays a role here).
+
+Here is how the different types of resistance are calculated:
+
+a. Rolling resistance:
+
+    F_rolling (N) = driving_mass (kg) * rr_coef (dimensionless) * g (m/s^2) * (velocity (m/s) > 0)
+
+b. Air resistance:
+
+     F_air (N) = 0.5 * rho_air (kg/m^3) * drag_coef (dimensionless) * frontal_area (m^2) * velocity^2 (m^2/s^2)
+
+
+c. Gradient resistance:
+
+     F_gradient (N) = driving_mass (kg) * g (m/s^2) * sin(gradient (radians)) * (velocity (m/s) > 0)
+
+
+d. Inertia:
+
+     F_inertia (N) = driving_mass (kg) * acceleration (m/s^2)
+
+
+e. Total resistance:
+
+     F_total (N) = F_rolling (N) + F_air (N) + F_gradient (N) + F_inertia (N)
+
+
+f. Motive energy at wheels:
+
+     E_wheels (J) = max(F_total (N), 0)
+
+
+g. Motive energy:
+
+     E_motive (Wh) = E_wheels (J) / engine_efficiency (dimensionless) / transmission_efficiency (dimensionless) / fuel_cell_system_efficiency (dimensionless) * 2.778e-4 (Wh/J)
+
+
+h. Recuperated energy:
+
+    F_rolling (N) = driving_mass (kg) * rr_coef (dimensionless) * g (m/s^2) * (velocity (m/s) > 0)
+
+i. Auxiliary energy:
+
+    E_aux = aux_energy (Wh/km) = aux_power (W) + (p_cooling (W) / heat_pump_cop_cooling (dimensionless) * cooling_consumption (Wh/km)) + (p_heating (W) / heat_pump_cop_heating (dimensionless) * heating_consumption (Wh/km)) + p_battery_cooling (W) + p_battery_heating (W)
+
+In this representation, E_motive represents the motive energy per kilometer driven,
+E_recuperated represents the energy recuperated per kilometer driven, and E_aux represents
+the auxiliary energy consumption per kilometer driven.
+The results are returned in kilojoules/km (kJ/km).
+
+Once the energy required at the wheels is known, the
 model goes on to calculate the energy required at the tank level by
 considering additional losses along the drive train (i.e., axles,
 gearbox, and engine losses). The different types of resistance
@@ -597,6 +665,7 @@ On account that:
   provide enough energy to complete the intended route,
   cycle life values for NMC and NCA battery chemistry are corrected by +50%.
 
+
 .. note::
     **Important assumption**: The environmental burden associated with the
     manufacture of spare batteries is entirely allocated to the vehicle use.
@@ -636,24 +705,30 @@ Where:
 Liquid and gaseous energy storage
 *********************************
 
-The oxidation energy stored in liquid fuel tanks is calculated as:
+The energy stored in the fuel (oxidation energy stored), the mass of the fuel tank for diesel,
+gasoline and compressed gas vehicles are calculated.
+Here are the formulas and units used:
 
-.. math::
+Calculate oxidation energy stored:
+    Oxidation energy stored (MWh) = fuel mass (kg) * LHV fuel (MJ/kg) / 3.6
 
-    E_{oxid} = m_{fuel} \times E_{lhv}
+Calculate fuel tank mass for liquid fuels:
+    Fuel tank mass (kg) = oxidation energy stored (MWh) * fuel tank mass per energy (kg/MWh)
 
-Where:
+Calculate fuel tank mass for compressed natural gas:
+    Fuel tank mass (kg) = oxidation energy stored (MWh) * CNG tank mass slope + CNG tank mass intercept
 
-- :math:`m_{fuel}` is the mass of the fuel [kg],
-- and :math:`E_{lhv}` is the lower heating value of hte fuel [MJ/kg].
+The `set_energy_stored_properties` function calculates the oxidation energy stored in the fuel,
+based on the fuel mass and the lower heating value (LHV) of the fuel.
+The fuel mass (in kilograms) is multiplied by the LHV fuel (in megajoules per kilogram),
+and the result is divided by 3.6 to convert the energy to megawatt-hours (MWh).
 
-The fuel tank mass is calculated as:
+Next, the function calculates the mass of the fuel tank by multiplying the oxidation
+energy stored (in MWh) by the fuel tank mass per energy (in kilograms per MWh).
 
-.. math::
+Lastly, if the powertrain is an ICEV-g, the function adjusts the fuel tank mass based
+on the oxidation energy stored and the coefficients for the CNG tank mass slope and intercept.
 
-    m_{tank} = m_{fuel} \times m_{tank unit}
-
-Where: :math:`m_{tank unit}` being the tank mass per unit of energy [kg/MJ].
 
 .. note::
     The tank mass per unit of energy is different for liquid fuels (gasoline,
@@ -1039,6 +1114,17 @@ where:
 .. math::
 
     m_{curb_phev} = (m_{curb_phev_e} \times U) + (m_{curb_phev_c} \times (1 - U))
+
+
+.. math::
+
+
+    range_{combustion} (km) = \frac{oxidation\_energy\_stored (MWh) \times 3600}{TtW\_energy_{combustion} (kWh/km)}
+
+    range_{electric} (km) = \frac{electric\_energy\_stored (MWh) \times 3600}{TtW\_energy_{electric} (kWh/km)}
+
+    range_{total} (km) = range{combustion} + range{electric}
+
 
 Where:
 
