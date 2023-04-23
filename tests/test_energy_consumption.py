@@ -4,14 +4,22 @@ from carculator_utils.energy_consumption import EnergyConsumptionModel
 
 def test_acceleration():
     ecm = EnergyConsumptionModel(
-        vehicle_type="car", vehicle_size=["Medium"], cycle="WLTC", gradient="WLTC"
+        vehicle_type="car",
+        vehicle_size=["Medium"],
+        cycle="WLTC",
+        gradient="WLTC",
+        powertrains=["ICEV-d"],
     )
     assert ecm.cycle.shape == ecm.gradient.shape
 
 
 def test_aux_power():
     ecm = EnergyConsumptionModel(
-        vehicle_type="car", vehicle_size=["Medium"], cycle="WLTC", gradient="WLTC"
+        vehicle_type="car",
+        vehicle_size=["Medium"],
+        cycle="WLTC",
+        gradient="WLTC",
+        powertrains=["ICEV-d"],
     )
     aux = ecm.aux_energy_per_km(aux_power=np.array([100]), efficiency=np.array([0.5]))
     assert isinstance(aux, np.ndarray)
@@ -21,7 +29,11 @@ def test_aux_power():
 
 def test_motive_energy():
     ecm = EnergyConsumptionModel(
-        vehicle_type="car", vehicle_size=["Medium"], cycle="WLTC", gradient="WLTC"
+        vehicle_type="car",
+        vehicle_size=["Medium"],
+        cycle="WLTC",
+        gradient="WLTC",
+        powertrains=["ICEV-d"],
     )
 
     array = ecm.motive_energy_per_km(
