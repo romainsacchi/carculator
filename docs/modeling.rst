@@ -587,7 +587,7 @@ for engine and transmission efficiency in relation to utilized power can be cons
 
 .. figure:: /_static/img/hjelkrem_et_al_2020.png
    :align: center
-    :width: 50%
+   :width: 50%
 
    *Figure 8: Tank-to-wheel efficiency as a function of utilized power. Source: Hjelkrem et al. 2020 :cite:`ct-1133` *
 
