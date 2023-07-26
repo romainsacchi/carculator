@@ -249,13 +249,6 @@ class CarModel(VehicleModel):
 
         distance = self.energy.sel(parameter="velocity").sum(dim="second") / 1000
 
-        self["TtW energy"] = (
-            self.energy.sel(
-                parameter=["motive energy", "auxiliary energy", "recuperated energy"]
-            ).sum(dim=["second", "parameter"])
-            / distance
-        ).T
-
         self["engine efficiency"] = (
             np.ma.array(
                 self.energy.loc[dict(parameter="engine efficiency")],
@@ -265,6 +258,68 @@ class CarModel(VehicleModel):
             .T
         )
 
+        if self.engine_efficiency is not None:
+            for key, val in self.engine_efficiency.items():
+                pwt, size, year = key
+                print(pwt, size, year, val)
+                if (
+                    (val is not None)
+                    & (pwt in self.array.powertrain.values)
+                    & (year in self.array.year.values)
+                    & (size in self.array["size"].values)
+                ):
+                    self.array.loc[
+                        dict(
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter="engine efficiency",
+                        )
+                    ] = float(val)
+
+                    self.energy.loc[
+                        dict(
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter="engine efficiency",
+                        )
+                    ] = float(val)
+
+                    self.energy.loc[
+                        dict(
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter="motive energy",
+                        )
+                    ] = (
+                        self.energy.loc[
+                            dict(
+                                powertrain=pwt,
+                                size=size,
+                                year=year,
+                                parameter="motive energy at wheels",
+                            )
+                        ]
+                        / self.energy.loc[
+                            dict(
+                                powertrain=pwt,
+                                size=size,
+                                year=year,
+                                parameter="engine efficiency",
+                            )
+                        ]
+                        / self.energy.loc[
+                            dict(
+                                powertrain=pwt,
+                                size=size,
+                                year=year,
+                                parameter="transmission efficiency",
+                            )
+                        ]
+                    )
+
         self["transmission efficiency"] = (
             np.ma.array(
                 self.energy.loc[dict(parameter="transmission efficiency")],
@@ -273,6 +328,74 @@ class CarModel(VehicleModel):
             .mean(axis=0)
             .T
         )
+
+        if self.transmission_efficiency is not None:
+            for key, val in self.transmission_efficiency.items():
+                pwt, size, year = key
+                if (
+                        (val is not None)
+                        & (pwt in self.array.powertrain.values)
+                        & (year in self.array.year.values)
+                        & (size in self.array["size"].values)
+                ):
+                    self.array.loc[
+                        dict(
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter="transmission efficiency",
+                        )
+                    ] = float(val)
+
+                    self.energy.loc[
+                        dict(
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter="transmission efficiency",
+                        )
+                    ] = float(val)
+
+                    self.energy.loc[
+                        dict(
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter="motive energy",
+                        )
+                    ] = (
+                            self.energy.loc[
+                                dict(
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                    parameter="motive energy at wheels",
+                                )
+                            ]
+                            / self.energy.loc[
+                                dict(
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                    parameter="engine efficiency",
+                                )
+                            ]
+                            / self.energy.loc[
+                                dict(
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                    parameter="transmission efficiency",
+                                )
+                            ]
+                    )
+
+        self["TtW energy"] = (
+                self.energy.sel(
+                    parameter=["motive energy", "auxiliary energy", "recuperated energy"]
+                ).sum(dim=["second", "parameter"])
+                / distance
+        ).T
 
         self["TtW energy, combustion mode"] = self["TtW energy"] * (
             self["combustion power share"] > 0
