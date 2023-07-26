@@ -581,7 +581,7 @@ defined as a function of the utilized engine power for each second of the drivin
 (i.e., the power load over the rated power output of the engine).
 Such relation is shown in Hjelkrem et al. 2020 :cite:`ct-1133`.
 Unfortunately, such relation is not given for compressed gas powertrains,
-hence we use that of gasoline engines. The specific values
+which we assume to be 17.5% less efficient than diesle powertrains :cite:`ct-1134`. The specific values
 for engine and transmission efficiency in relation to utilized power can be consulted
 `here <https://github.com/romainsacchi/carculator_utils/blob/master/carculator_utils/data/efficiency/car.yaml>`_ .
 Hjelkrem et al. 2020 :cite:`ct-1133` only give the overall tank-to-wheel efficiency, which we decompose,

@@ -258,10 +258,12 @@ class CarModel(VehicleModel):
             .T
         )
 
+        _o = lambda x: np.where((x == 0) | (x == np.nan), 1, x)
+
         if self.engine_efficiency is not None:
+            print("Engine efficiency is being overridden.")
             for key, val in self.engine_efficiency.items():
                 pwt, size, year = key
-                print(pwt, size, year, val)
                 if (
                     (val is not None)
                     & (pwt in self.array.powertrain.values)
@@ -284,7 +286,19 @@ class CarModel(VehicleModel):
                             year=year,
                             parameter="engine efficiency",
                         )
-                    ] = float(val)
+                    ] = float(val) * np.where(
+                        self.energy.loc[
+                            dict(
+                                parameter="power load",
+                                powertrain=pwt,
+                                size=size,
+                                year=year,
+                            )
+                        ]
+                        == 0,
+                        0,
+                        1,
+                    )
 
                     self.energy.loc[
                         dict(
@@ -302,22 +316,28 @@ class CarModel(VehicleModel):
                                 parameter="motive energy at wheels",
                             )
                         ]
-                        / self.energy.loc[
-                            dict(
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                                parameter="engine efficiency",
+                        / (
+                            _o(
+                                self.energy.loc[
+                                    dict(
+                                        powertrain=pwt,
+                                        size=size,
+                                        year=year,
+                                        parameter="engine efficiency",
+                                    )
+                                ]
                             )
-                        ]
-                        / self.energy.loc[
-                            dict(
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                                parameter="transmission efficiency",
+                            * _o(
+                                self.energy.loc[
+                                    dict(
+                                        powertrain=pwt,
+                                        size=size,
+                                        year=year,
+                                        parameter="transmission efficiency",
+                                    )
+                                ]
                             )
-                        ]
+                        )
                     )
 
         self["transmission efficiency"] = (
@@ -330,8 +350,10 @@ class CarModel(VehicleModel):
         )
 
         if self.transmission_efficiency is not None:
+            print("Transmission efficiency is being overridden.")
             for key, val in self.transmission_efficiency.items():
                 pwt, size, year = key
+
                 if (
                     (val is not None)
                     & (pwt in self.array.powertrain.values)
@@ -354,7 +376,19 @@ class CarModel(VehicleModel):
                             year=year,
                             parameter="transmission efficiency",
                         )
-                    ] = float(val)
+                    ] = float(val) * np.where(
+                        self.energy.loc[
+                            dict(
+                                parameter="power load",
+                                powertrain=pwt,
+                                size=size,
+                                year=year,
+                            )
+                        ]
+                        == 0,
+                        0,
+                        1,
+                    )
 
                     self.energy.loc[
                         dict(
@@ -372,22 +406,28 @@ class CarModel(VehicleModel):
                                 parameter="motive energy at wheels",
                             )
                         ]
-                        / self.energy.loc[
-                            dict(
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                                parameter="engine efficiency",
+                        / (
+                            _o(
+                                self.energy.loc[
+                                    dict(
+                                        powertrain=pwt,
+                                        size=size,
+                                        year=year,
+                                        parameter="engine efficiency",
+                                    )
+                                ]
                             )
-                        ]
-                        / self.energy.loc[
-                            dict(
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                                parameter="transmission efficiency",
+                            * _o(
+                                self.energy.loc[
+                                    dict(
+                                        powertrain=pwt,
+                                        size=size,
+                                        year=year,
+                                        parameter="transmission efficiency",
+                                    )
+                                ]
                             )
-                        ]
+                        )
                     )
 
         self["TtW energy"] = (
