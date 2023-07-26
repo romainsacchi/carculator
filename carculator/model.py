@@ -333,10 +333,10 @@ class CarModel(VehicleModel):
             for key, val in self.transmission_efficiency.items():
                 pwt, size, year = key
                 if (
-                        (val is not None)
-                        & (pwt in self.array.powertrain.values)
-                        & (year in self.array.year.values)
-                        & (size in self.array["size"].values)
+                    (val is not None)
+                    & (pwt in self.array.powertrain.values)
+                    & (year in self.array.year.values)
+                    & (size in self.array["size"].values)
                 ):
                     self.array.loc[
                         dict(
@@ -364,37 +364,37 @@ class CarModel(VehicleModel):
                             parameter="motive energy",
                         )
                     ] = (
-                            self.energy.loc[
-                                dict(
-                                    powertrain=pwt,
-                                    size=size,
-                                    year=year,
-                                    parameter="motive energy at wheels",
-                                )
-                            ]
-                            / self.energy.loc[
-                                dict(
-                                    powertrain=pwt,
-                                    size=size,
-                                    year=year,
-                                    parameter="engine efficiency",
-                                )
-                            ]
-                            / self.energy.loc[
-                                dict(
-                                    powertrain=pwt,
-                                    size=size,
-                                    year=year,
-                                    parameter="transmission efficiency",
-                                )
-                            ]
+                        self.energy.loc[
+                            dict(
+                                powertrain=pwt,
+                                size=size,
+                                year=year,
+                                parameter="motive energy at wheels",
+                            )
+                        ]
+                        / self.energy.loc[
+                            dict(
+                                powertrain=pwt,
+                                size=size,
+                                year=year,
+                                parameter="engine efficiency",
+                            )
+                        ]
+                        / self.energy.loc[
+                            dict(
+                                powertrain=pwt,
+                                size=size,
+                                year=year,
+                                parameter="transmission efficiency",
+                            )
+                        ]
                     )
 
         self["TtW energy"] = (
-                self.energy.sel(
-                    parameter=["motive energy", "auxiliary energy", "recuperated energy"]
-                ).sum(dim=["second", "parameter"])
-                / distance
+            self.energy.sel(
+                parameter=["motive energy", "auxiliary energy", "recuperated energy"]
+            ).sum(dim=["second", "parameter"])
+            / distance
         ).T
 
         self["TtW energy, combustion mode"] = self["TtW energy"] * (
