@@ -307,36 +307,33 @@ class CarModel(VehicleModel):
                             year=year,
                             parameter="motive energy",
                         )
-                    ] = (
-                        self.energy.loc[
-                            dict(
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                                parameter="motive energy at wheels",
-                            )
-                        ]
-                        / (
-                            _o(
-                                self.energy.loc[
-                                    dict(
-                                        powertrain=pwt,
-                                        size=size,
-                                        year=year,
-                                        parameter="engine efficiency",
-                                    )
-                                ]
-                            )
-                            * _o(
-                                self.energy.loc[
-                                    dict(
-                                        powertrain=pwt,
-                                        size=size,
-                                        year=year,
-                                        parameter="transmission efficiency",
-                                    )
-                                ]
-                            )
+                    ] = self.energy.loc[
+                        dict(
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter="motive energy at wheels",
+                        )
+                    ] / (
+                        _o(
+                            self.energy.loc[
+                                dict(
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                    parameter="engine efficiency",
+                                )
+                            ]
+                        )
+                        * _o(
+                            self.energy.loc[
+                                dict(
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                    parameter="transmission efficiency",
+                                )
+                            ]
                         )
                     )
 
@@ -397,36 +394,33 @@ class CarModel(VehicleModel):
                             year=year,
                             parameter="motive energy",
                         )
-                    ] = (
-                        self.energy.loc[
-                            dict(
-                                powertrain=pwt,
-                                size=size,
-                                year=year,
-                                parameter="motive energy at wheels",
-                            )
-                        ]
-                        / (
-                            _o(
-                                self.energy.loc[
-                                    dict(
-                                        powertrain=pwt,
-                                        size=size,
-                                        year=year,
-                                        parameter="engine efficiency",
-                                    )
-                                ]
-                            )
-                            * _o(
-                                self.energy.loc[
-                                    dict(
-                                        powertrain=pwt,
-                                        size=size,
-                                        year=year,
-                                        parameter="transmission efficiency",
-                                    )
-                                ]
-                            )
+                    ] = self.energy.loc[
+                        dict(
+                            powertrain=pwt,
+                            size=size,
+                            year=year,
+                            parameter="motive energy at wheels",
+                        )
+                    ] / (
+                        _o(
+                            self.energy.loc[
+                                dict(
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                    parameter="engine efficiency",
+                                )
+                            ]
+                        )
+                        * _o(
+                            self.energy.loc[
+                                dict(
+                                    powertrain=pwt,
+                                    size=size,
+                                    year=year,
+                                    parameter="transmission efficiency",
+                                )
+                            ]
                         )
                     )
 
