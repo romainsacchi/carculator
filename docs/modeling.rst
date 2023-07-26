@@ -577,9 +577,11 @@ Engine and transmission efficiency
 
 Engine and transmission efficiencies for the conventional gasoline, diesel
 and electric powertrains (including fuel cell electric powertrains) are
-defined as a function of the utilized engine power for each second fo teh drivign cycle
+defined as a function of the utilized engine power for each second of the driving cycle
 (i.e., the power load over the rated power output of the engine).
-Such relation is shown in Hjelkrem et al. 2020 :cite:`ct-1133`. The specific values
+Such relation is shown in Hjelkrem et al. 2020 :cite:`ct-1133`.
+Unfortunately, such relation is not given for compressed gas powertrains,
+hence we use that of gasoline engines. The specific values
 for engine and transmission efficiency in relation to utilized power can be consulted
 `here <https://github.com/romainsacchi/carculator_utils/blob/master/carculator_utils/data/efficiency/car.yaml>`_ .
 
