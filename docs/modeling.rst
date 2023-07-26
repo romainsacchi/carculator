@@ -446,8 +446,9 @@ The results are returned in kilojoules/km (kJ/km).
 Once the energy required at the wheels is known, the
 model goes on to calculate the energy required at the tank level by
 considering additional losses along the drive train (i.e., axles,
-gearbox, and engine losses). The different types of resistance
-considered are depicted in :ref:`Figure 4 <figure-4>`, and the module calculation workflow
+gearbox, and engine losses -- see Engine and transmission efficiency).
+The different types of resistance considered are depicted in
+:ref:`Figure 4 <figure-4>`, and the module calculation workflow
 is presented in :ref:`Figure 5 <figure-5>`.
 
 Powertrains that are partially or fully electrified have the possibility
@@ -571,26 +572,31 @@ vehicles. Values found in the literature and from manufacturers data are
 used to approximate the engine and transmission efficiency and to
 calibrate the final energy consumption.
 
-For diesel and gasoline hybrid vehicles, which are ICE vehicles equipped
-with a small electric motor to allow for energy recuperation and
-reducing the engine size, the drivetrain and engine efficiency are based
-on :cite:`ct-1012,ct-1073`. The amount of energy recuperated is determined by the driving
+Engine and transmission efficiency
+**********************************
+
+Engine and transmission efficiencies for the conventional gasoline, diesel
+and electric powertrains (including fuel cell electric powertrains) are
+defined as a function of the utilized engine power for each second fo teh drivign cycle
+(i.e., the power load over the rated power output of the engine).
+Such relation is shown in Hjelkrem et al. 2020 :cite:`ct-1133`. The specific values
+for engine and transmission efficiency in relation to utilized power can be consulted
+`here <https://github.com/romainsacchi/carculator_utils/blob/master/carculator_utils/data/efficiency/car.yaml>`_ .
+
+.. figure:: /_static/img/hjelkrem_et_al_2020.png
+   :align: center
+
+   *Figure 8: Tank-to-wheel efficiency as a function of utilized power. Source: Hjelkrem et al. 2020 :cite:`ct-1133`*
+
+For diesel and gasoline hybrid vehicles, the approach to estimating
+the engine and transmission efficiencies is similar, but a small electric motor
+allows for energy recuperation and reducing the engine size, which leads to higher
+efficiency levels. The amount of energy recuperated is determined by the driving
 cycle as well as the round-trip efficiency between the wheels and the
 engine and cannot be superior to the power output of the engine. Further
 on, the share of recuperated energy over the total negative motive
 energy (i.e., the braking or deceleration energy) is used as a
 discounting factor for brake wear particle emissions.
-
-Engine and transmission efficiencies for the different powertrains are
-fine-tuned until it aligns reasonably well with the fuel consumption
-values from the EC-CO2-PC database, as shown in :ref:`Figure 8 <figure-8>`.
-
-.. _figure-8:
-
-.. figure:: /_static/img/image18.png
-   :align: center
-
-   *Figure 8: Validation of the tank-to-wheel energy consumption against the monitoring program for passenger vehicle emissions database. Sample size for each size class is given above each chart. M = Mini, S = Small, L-M = Lower medium, M = Medium, L = Large, L-SUV = Large SUV. Horizontal lines within the green boxes represent the median value. The green boxes represent 50% of the distribution (25\ :sup:`th`-75\ :sup:`th` percentiles). The whiskers represent 90% of the distribution (5\ :sup:`th`-95\ :sup:`th` percentiles). Outliers are not shown.* Source for vehicle tank-to-wheel energy consumption measurements: :cite:`ct-1131`
 
 Electric energy storage
 ***********************

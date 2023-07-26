@@ -78,6 +78,7 @@ class CarModel(VehicleModel):
 
         self.set_ttw_efficiency()
         self.calculate_ttw_energy()
+        self.set_ttw_efficiency()
 
         self.set_range()
 
