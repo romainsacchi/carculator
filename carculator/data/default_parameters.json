@@ -29639,8 +29639,8 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "1105-2000-H2 tank mass per energy": {
-        "name": "H2 tank mass per energy",
+    "1105-2000-fuel tank mass per energy": {
+        "name": "fuel tank mass per energy",
         "year": 2000,
         "powertrain": [
             "FCEV"
@@ -29994,8 +29994,8 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "1119-2010-H2 tank mass per energy": {
-        "name": "H2 tank mass per energy",
+    "1119-2010-fuel tank mass per energy": {
+        "name": "fuel tank mass per energy",
         "year": 2010,
         "powertrain": [
             "FCEV"
@@ -30349,8 +30349,8 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "1133-2020-H2 tank mass per energy": {
-        "name": "H2 tank mass per energy",
+    "1133-2020-fuel tank mass per energy": {
+        "name": "fuel tank mass per energy",
         "year": 2020,
         "powertrain": [
             "FCEV"
@@ -30730,8 +30730,8 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "1148-2030-H2 tank mass per energy": {
-        "name": "H2 tank mass per energy",
+    "1148-2030-fuel tank mass per energy": {
+        "name": "fuel tank mass per energy",
         "year": 2030,
         "powertrain": [
             "FCEV"
@@ -31111,8 +31111,8 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "1163-2040-H2 tank mass per energy": {
-        "name": "H2 tank mass per energy",
+    "1163-2040-fuel tank mass per energy": {
+        "name": "fuel tank mass per energy",
         "year": 2040,
         "powertrain": [
             "FCEV"
@@ -31492,8 +31492,8 @@
         "source": "Hirschberg et al. (2016), Miotti et al (2015), Simons and Bauer (2015), DOE (2017a), DOE (2017b), Calibration result",
         "comment": ""
     },
-    "1178-2050-H2 tank mass per energy": {
-        "name": "H2 tank mass per energy",
+    "1178-2050-fuel tank mass per energy": {
+        "name": "fuel tank mass per energy",
         "year": 2050,
         "powertrain": [
             "FCEV"
