@@ -336,7 +336,7 @@ class CarModel(VehicleModel):
                             ]
                         )
                         * _o(
-                            self.energy.loc[
+                            self.array.loc[
                                 dict(
                                     powertrain=pwt,
                                     size=size,
@@ -433,7 +433,7 @@ class CarModel(VehicleModel):
                             ]
                         )
                         * _o(
-                            self.energy.loc[
+                            self.array.loc[
                                 dict(
                                     powertrain=pwt,
                                     size=size,
