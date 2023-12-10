@@ -11,9 +11,9 @@ def test_can_pass_directly():
     d, e = json.load(open(DEFAULT)), set(json.load(open(EXTRA)))
     e.remove("foobazzle")
     assert len(vip.CarInputParameters(d, e).powertrains) == 12
-    assert len(vip.CarInputParameters(d, e).parameters) == 332
+    assert len(vip.CarInputParameters(d, e).parameters) == 333
 
 
 def test_alternate_filepath():
     assert len(vip.CarInputParameters(DEFAULT, EXTRA).powertrains) == 12
-    assert len(vip.CarInputParameters(DEFAULT, EXTRA).parameters) == 332
+    assert len(vip.CarInputParameters(DEFAULT, EXTRA).parameters) == 333
