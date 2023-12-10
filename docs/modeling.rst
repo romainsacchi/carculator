@@ -1951,6 +1951,17 @@ database, refer to :cite:`ct-1121`.
 Life cycle inventory modelling
 ******************************
 
+Once the vehicles are specified, the material and energy inputs and emission outputs occuring
+throughout the different phases of their life-cycle are linked to
+life-cycle assessment datasets. Those are either sourced from the literature,
+or from the life-cycle assessment database ecoinvent.
+
+The table below shows the correspondence between vehicle components and the
+life-cycle assessment datasets used.
+
+Component   Concerns    Dataset name    Source
+Glider      All         market for glider, passenger car    ecoinvent
+Lightweighting material All
 
 
 

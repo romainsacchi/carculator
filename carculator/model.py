@@ -52,7 +52,7 @@ class CarModel(VehicleModel):
 
         diff = 1.0
 
-        while diff > 0.0001:
+        while diff > 0.00001:
             old_driving_mass = self["driving mass"].sum().values
             self.set_vehicle_mass()
             self.set_power_parameters()
@@ -95,11 +95,13 @@ class CarModel(VehicleModel):
         self.set_hot_emissions()
         self.set_particulates_emission()
         self.set_noise_emissions()
+        self.set_vehicle_mass()
         self.create_PHEV()
         if self.drop_hybrids:
             self.drop_hybrid()
 
         self.remove_energy_consumption_from_unavailable_vehicles()
+
 
     def set_battery_chemistry(self):
         # override default values for batteries
