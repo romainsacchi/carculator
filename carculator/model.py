@@ -102,7 +102,6 @@ class CarModel(VehicleModel):
 
         self.remove_energy_consumption_from_unavailable_vehicles()
 
-
     def set_battery_chemistry(self):
         # override default values for batteries
         # if provided by the user
