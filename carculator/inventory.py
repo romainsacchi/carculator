@@ -78,8 +78,6 @@ class InventoryCar(Inventory):
             * -1
         )
 
-
-
         # Powertrain components
         self.A[
             :,
