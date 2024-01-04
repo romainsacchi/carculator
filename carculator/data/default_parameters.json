@@ -29744,8 +29744,8 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "1109-2000-H2 tank mass per energy": {
-        "name": "H2 tank mass per energy",
+    "1109-2000-fuel tank mass per energy": {
+        "name": "fuel tank mass per energy",
         "year": 2000,
         "powertrain": [
             "FCEV"
@@ -30099,8 +30099,8 @@
         "source": "DOE (2017d), Own assumption",
         "comment": "considers whole hydrogen storage system 7 bar"
     },
-    "1123-2010-H2 tank mass per energy": {
-        "name": "H2 tank mass per energy",
+    "1123-2010-fuel tank mass per energy": {
+        "name": "fuel tank mass per energy",
         "year": 2010,
         "powertrain": [
             "FCEV"
@@ -30480,8 +30480,8 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "1138-2020-H2 tank mass per energy": {
-        "name": "H2 tank mass per energy",
+    "1138-2020-fuel tank mass per energy": {
+        "name": "fuel tank mass per energy",
         "year": 2020,
         "powertrain": [
             "FCEV"
@@ -30861,8 +30861,8 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "1153-2030-H2 tank mass per energy": {
-        "name": "H2 tank mass per energy",
+    "1153-2030-fuel tank mass per energy": {
+        "name": "fuel tank mass per energy",
         "year": 2030,
         "powertrain": [
             "FCEV"
@@ -31242,8 +31242,8 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "1168-2040-H2 tank mass per energy": {
-        "name": "H2 tank mass per energy",
+    "1168-2040-fuel tank mass per energy": {
+        "name": "fuel tank mass per energy",
         "year": 2040,
         "powertrain": [
             "FCEV"
@@ -31622,8 +31622,8 @@
         "source": "Hirschberg et al. (2016), Calibration result",
         "comment": ""
     },
-    "1183-2050-H2 tank mass per energy": {
-        "name": "H2 tank mass per energy",
+    "1183-2050-fuel tank mass per energy": {
+        "name": "fuel tank mass per energy",
         "year": 2050,
         "powertrain": [
             "FCEV"

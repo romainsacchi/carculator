@@ -75,7 +75,10 @@ class InventoryCar(Inventory):
         ] = (
             self.array[self.array_inputs["glider base mass"]]
             * self.array[self.array_inputs["lightweighting"]]
+            * -1
         )
+
+
 
         # Powertrain components
         self.A[
@@ -163,6 +166,9 @@ class InventoryCar(Inventory):
                 :,
             ].sum(axis=0)
         ) * -1
+
+        # EoL internal combustion engine
+        # is already taken into account in the ICE production dataset
 
         # Energy storage
         self.add_fuel_cell_stack()
