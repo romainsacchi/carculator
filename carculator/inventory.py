@@ -53,13 +53,12 @@ class InventoryCar(Inventory):
 
         # Fuel tank EoL
         self.A[
-        :,
-        self.find_input_indices(
-            ("market for waste plastic, industrial electronics",)
-        ),
-        self.find_input_indices(("Car, ",)),
+            :,
+            self.find_input_indices(
+                ("market for waste plastic, industrial electronics",)
+            ),
+            self.find_input_indices(("Car, ",)),
         ] = self.array_inputs["fuel tank mass"]
-
 
         # EoL Glider
         # the EoL treatment of the glider is already
