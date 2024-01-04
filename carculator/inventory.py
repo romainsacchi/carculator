@@ -51,7 +51,22 @@ class InventoryCar(Inventory):
             self.array[self.array_inputs["curb mass"]] / 1240 / 150000 * -1
         )
 
-        # Glider EoL + fuel tank
+        # Fuel tank EoL
+        self.A[
+        :,
+        self.find_input_indices(
+            ("market for waste plastic, industrial electronics",)
+        ),
+        self.find_input_indices(("Car, ",)),
+        ] = self.array_inputs["fuel tank mass"]
+
+
+        # EoL Glider
+        # the EoL treatment of the glider is already
+        # taken into account in the glider production dataset
+        # However, we need to discount teh EoL requirement by the
+        # amount of lightweighting metals used in the glider
+
         self.A[
             :,
             self.find_input_indices(
@@ -60,28 +75,7 @@ class InventoryCar(Inventory):
             self.find_input_indices(("Car, ",)),
         ] = (
             self.array[self.array_inputs["glider base mass"]]
-            * (1 - self.array[self.array_inputs["lightweighting"]])
-        ) + self.array[
-            self.array_inputs["fuel tank mass"]
-        ]
-
-        # Combustion engine EoL
-        self.A[
-            :,
-            self.find_input_indices(
-                (
-                    "treatment of used internal combustion engine, passenger car, shredding",
-                )
-            ),
-            self.find_input_indices(("Car, ",)),
-        ] = self.array[
-            [
-                self.array_inputs[l]
-                for l in ["combustion engine mass", "powertrain mass"]
-            ],
-            :,
-        ].sum(
-            axis=0
+            * self.array[self.array_inputs["lightweighting"]]
         )
 
         # Powertrain components
