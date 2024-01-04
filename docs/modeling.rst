@@ -1074,6 +1074,25 @@ described in the next section.
 
 .. note:: ``carculator`` only considers NMC batteries for plugin hybrid vehicles.
 
+.. note::
+    **Important remark**: Fuel cell vehicles are also equipped with a small battery.
+    Its sizing is calculated differently. The battery capacity is calculated as:
+
+    .. math::
+
+        E_{battery} = \frac{P_{fcsys} \times (1 - r_{fcsys})}{r_{discharge}}
+
+    Where:
+
+    - :math:`E_{battery}` being battery capacity [kWh],
+    - :math:`P_{fcsys}` is the fuel cell system power [kW],
+    - :math:`r_{fcsys}` is the fuel cell system power share [%],
+    - and :math:`r_{discharge}` is the discharge depth [%].
+
+    The battery mass is calculated as for battery electric vehicles, considering the cell energy density.
+    For example, for a small fuel cell vehicle with a fuel cell system power of 65 kW,
+    ``carculator`` will estimate a battery capacity of about 2 kWh.
+
 Electric utility factor
 ***********************
 
@@ -1177,6 +1196,19 @@ Because roads are maintained by removing surface layers older than those
 that are actually discarded, road infrastructure disposal is modeled in
 ecoinvent as a renewal rate over the year in the road construction
 dataset.
+
+Vehicle maintenance
+*******************
+
+The modelling of the maintenance life.cycle phase is simple. It is
+based on the ecoinvent's dataset for the maintenance of a 1,250 kg gasoline-run VW Golf IV.
+`carculator` simply normalize the input requirements per kg of vehicle to maintain,
+and multiply them by the vehicle mass.
+
+.. note::
+    **Important remark**: This approach often leads to electric vehicles having a higher maintenance-related burden,
+    because of their higher mass -- which may not be the case in reality. It is hence an aspect to be improved
+    in the future.
 
 Fuel properties
 ***************
@@ -1916,6 +1948,23 @@ database, refer to :cite:`ct-1121`.
    | Mix   | 0%       | 26%   | 0%   | 7%        | 5%       | 2%     | 0%                | 21%      | 2%       | 0%   | 6%     | 8%     | 13%   | 5%              | 668            |
    +-------+----------+-------+------+-----------+----------+--------+-------------------+----------+----------+------+--------+--------+-------+-----------------+----------------+
 
+Life cycle inventory modelling
+******************************
+
+Once the vehicles are specified, the material and energy inputs and emission outputs occuring
+throughout the different phases of their life-cycle are linked to
+life-cycle assessment datasets. Those are either sourced from the literature,
+or from the life-cycle assessment database ecoinvent.
+
+The table below shows the correspondence between vehicle components and the
+life-cycle assessment datasets used.
+
+Component   Concerns    Dataset name    Source
+Glider      All         market for glider, passenger car    ecoinvent
+Lightweighting material All
+
+
+
 
 Inventories for fuel pathways
 *****************************
@@ -2129,3 +2178,138 @@ method, as well as those of ILCD 2018. Additionally, it is possible to
 export the inventories in a format compatible with the LCA framework
 `Brightway2 <https://brightway.dev/>`_ or `SimaPro <https://simapro.com/>`_,
 thereby allowing the characterization of the results against a larger number of impact assessment methods.
+
+Presentation of results
+***********************
+
+Life-cycle impacts are presented across the following categories/life-cycle phases:
+
+- direct - exhaust
+- direct - non-exhaust
+- energy chain
+- powertrain
+- glider
+- energy storage
+- maintenance
+- end-of-life
+- road
+
+A comprehensive presentation of life-cycle assessment (LCA) results for passenger cars should offer insights into various aspects that contribute to the overall environmental impact. Each category or life-cycle phase addresses a different set of environmental impacts, and assessing them individually helps to paint a complete picture. Below is an extended description of each category or life-cycle phase:
+
+Direct - Exhaust
+++++++++++++++++
+
+Description: This category evaluates the environmental impacts associated with the direct emissions
+from the vehicle's exhaust system, including greenhouse gases (GHGs),
+particulate matter (PM), and volatile organic compounds (VOCs).
+
+Substances measured:
+
+* Carbon dioxide (CO2)
+* Nitrogen oxides (NOx)
+* Particulate matter (PM)
+* Hydrocarbons
+* VOCs
+
+Note that not all substance contribute to all impact categories.
+For example, NOx and VOCs contribute to the formation of ozone, but not to climate change.
+
+Direct - Non-Exhaust
+++++++++++++++++++++
+
+Description: This section focuses on emissions and impacts not related to
+the exhaust system, such as brake and tire wear, as well as emissions
+from air conditioning.
+
+Parameters measured:
+
+* PM from brake, tire, road and engine wear, as well as re-suspended dust
+* Refrigerant losses (e.g., R143a) from air conditioning
+
+Energy Chain
+++++++++++++
+
+Description: Assesses the environmental impacts associated with the production,
+transportation, and distribution of the energy source used in the vehicle,
+be it gasoline, electricity, hydrogen, or any other.
+
+Parameters Measured:
+
+* Energy source extraction impacts
+* Transportation emissions
+* Energy generation, transmission and distribution emissions
+
+Powertrain
+++++++++++
+
+Description: This part examines the environmental burden from the manufacturing,
+operation, and disposal of the vehicle's engine and transmission systems.
+
+Parameters Measured:
+
+* Raw material extraction
+* Manufacturing emissions
+* Operational efficiency
+
+Glider
+++++++
+
+Description: The glider refers to the body, chassis, and interior components
+of the car. This phase assesses the impact of these elements over the
+vehicle's lifetime.
+
+Parameters Measured:
+
+* Materials used (aluminum, steel, plastics)
+* Manufacturing emissions
+* Aerodynamics and its impact on fuel/energy consumption
+
+Energy Storage
+++++++++++++++
+
+Description: This category is particularly relevant for electric and hybrid
+vehicles and looks at the environmental impacts associated with batteries.
+
+Parameters Measured:
+
+* Resource extraction for battery materials
+* Battery production
+
+Battery disposal or recycling is included in the end-of-life category.
+
+Maintenance
++++++++++++
+
+Description: This phase focuses on the environmental impacts associated
+with maintaining the vehicle, including oil changes, part replacements,
+and repairs.
+
+Parameters Measured:
+
+* Mass of the vehicle
+
+End-of-Life
++++++++++++
+
+Description: Assesses the environmental impacts when the vehicle is no
+longer in use. This includes dismantling, recycling, and disposal processes.
+
+Parameters Measured:
+
+* Mass of vehicle's components
+* Battery
+* Emissions from landfilling, scrapping and recycling  processes
+
+Road
+++++
+
+Description: This category considers the environmental impacts related to
+the infrastructure supporting the vehicle, such as road construction
+and maintenance. Those are scaled on the basis of the vehicle's mass.
+
+Parameters Measured:
+
+* Mass of the vehicle
+* Material consumption for road construction
+* Emissions from maintenance machinery
+* Runoff pollution
