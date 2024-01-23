@@ -104,13 +104,13 @@ def test_fuel_blend():
         },
         "hydrogen": {
             "primary": {
-                "type": "electrolysis",
+                "type": "hydrogen - electrolysis - PEM",
                 "share": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
             },
         },
-        "cng": {
+        "methane": {
             "primary": {
-                "type": "biogas - sewage sludge",
+                "type": "methane - biomethane - sewage sludge",
                 "share": [
                     1,
                     1,
@@ -154,41 +154,41 @@ def test_fuel_blend():
         ),
     )
     assert np.array_equal(
-        cm.fuel_blend["cng"]["primary"]["share"], np.array([1, 1, 1, 1, 1, 1])
+        cm.fuel_blend["methane"]["primary"]["share"], np.array([1, 1, 1, 1, 1, 1])
     )
     assert np.allclose(np.sum(cm.fuel_blend["cng"]["secondary"]["share"]), np.zeros(6))
 
     for fuels in [
-        ("petrol", "diesel", "electrolysis", "cng"),
+        ("petrol", "diesel", "hydrogen - electrolysis - PEM", "methane"),
         (
-            "bioethanol - wheat straw",
-            "biodiesel - palm oil",
-            "smr - natural gas",
-            "biogas - sewage sludge",
+            "petrol - bioethanol - wheat straw",
+            "diesel - biodiesel - palm oil",
+            "hydrogen - smr - natural gas",
+            "methane - biomethane - sewage sludge",
         ),
         (
-            "bioethanol - forest residues",
-            "biodiesel - rapeseed oil",
-            "smr - natural gas with CCS",
-            "biogas - biowaste",
+            "petrol - bioethanol - forest residues",
+            "diesel - biodiesel - rapeseed oil",
+            "hydrogen - smr - natural gas with CCS",
+            "methane - synthetic - coal",
         ),
         (
-            "bioethanol - maize starch",
-            "biodiesel - cooking oil",
-            "wood gasification with EF with CCS",
-            "biogas - biowaste",
+            "petrol - bioethanol - maize starch",
+            "diesel - biodiesel - cooking oil",
+            "hydrogen - wood gasification",
+            " methane - synthetic - biological",
         ),
         (
-            "bioethanol - sugarbeet",
-            "biodiesel - algae",
-            "atr - biogas",
-            "biogas - biowaste",
+            "petrol - synthetic - methanol - electrolysis - energy allocation",
+            "diesel - synthetic - FT - coal - economic allocation",
+            "hydrogen - atr - biogas",
+            "methane - synthetic - biological - MSWI",
         ),
         (
-            "synthetic gasoline - energy allocation",
-            "synthetic diesel - energy allocation",
-            "wood gasification with EF with CCS",
-            "syngas",
+            "petrol - synthetic - methanol - cement - energy allocation",
+            "diesel - synthetic - methanol - cement - economic allocation",
+            "hydrogen - wood gasification with CCS",
+            "methane - synthetic - electrochemical - MSWI",
         ),
     ]:
         bc["petrol"]["primary"]["type"] = fuels[0]
@@ -276,11 +276,12 @@ def test_export_to_bw():
         "3.6",
         "3.7",
         "3.8",
+        "3.9",
     ):
-        for c in (True, False):
-            ic.export_lci(
-                ecoinvent_version=b,
-            )
+
+        ic.export_lci(
+            ecoinvent_version=b,
+        )
 
 
 def test_export_to_excel():
