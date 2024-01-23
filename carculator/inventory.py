@@ -12,8 +12,6 @@ np.warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 IAM_FILES_DIR = DATA_DIR / "IAM"
 
 
-
-
 class InventoryCar(Inventory):
     """
     Build and solve the inventory for results
@@ -34,7 +32,9 @@ class InventoryCar(Inventory):
             :,
             self.find_input_indices(("market for glider, passenger car",)),
             self.find_input_indices(("Car, ",)),
-        ] = self.array.sel(parameter="glider base mass") * -1
+        ] = (
+            self.array.sel(parameter="glider base mass") * -1
+        )
 
         self.A[
             :,
@@ -43,8 +43,8 @@ class InventoryCar(Inventory):
         ] = (
             self.array.sel(parameter="lightweighting")
             * self.array.sel(parameter="glider base mass")
-         * -1)
-
+            * -1
+        )
 
         self.A[
             :,
@@ -61,9 +61,7 @@ class InventoryCar(Inventory):
                 ("market for waste plastic, industrial electronics",)
             ),
             self.find_input_indices(("Car, ",)),
-        ] = (
-            self.array.sel(parameter="fuel tank mass")
-        )
+        ] = self.array.sel(parameter="fuel tank mass")
 
         # EoL Glider
         # the EoL treatment of the glider is already
@@ -139,9 +137,7 @@ class InventoryCar(Inventory):
                 )
             ),
             self.find_input_indices(("Car, ",)),
-        ] = (
-            self.array.sel(parameter=l_elec_pt).sum(dim="parameter")
-        )
+        ] = self.array.sel(parameter=l_elec_pt).sum(dim="parameter")
 
         self.A[
             :,
@@ -150,7 +146,9 @@ class InventoryCar(Inventory):
             ),
             self.find_input_indices(("Car, ",)),
         ] = (
-            self.array.sel(parameter=["combustion engine mass", "powertrain mass"]).sum(dim="parameter")
+            self.array.sel(parameter=["combustion engine mass", "powertrain mass"]).sum(
+                dim="parameter"
+            )
             * (self.array.sel(parameter="combustion power") > 0)
             * -1
         )
@@ -198,20 +196,14 @@ class InventoryCar(Inventory):
         self.A[
             :,
             self.find_input_indices(("fuel supply for methane vehicles",)),
-            self.find_input_indices(
-                (f"transport, {self.vm.vehicle_type}, ",)
-            ),
-        ] *= (
-            1 + self.array.sel(parameter="CNG pump-to-tank leakage")
-        )
+            self.find_input_indices((f"transport, {self.vm.vehicle_type}, ",)),
+        ] *= 1 + self.array.sel(parameter="CNG pump-to-tank leakage")
 
         # Gas leakage to air
         self.A[
             :,
             self.inputs[("Methane, fossil", ("air",), "kilogram")],
-            self.find_input_indices(
-                (f"transport, {self.vm.vehicle_type}, ",)
-            ),
+            self.find_input_indices((f"transport, {self.vm.vehicle_type}, ",)),
         ] *= self.array.sel(parameter="CNG pump-to-tank leakage")
 
         self.add_fuel_to_vehicles("diesel", ["ICEV-d", "PHEV-d", "HEV-d"], "EV-d")
