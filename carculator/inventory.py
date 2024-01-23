@@ -2,12 +2,14 @@
 inventory.py contains Inventory which provides all methods to solve inventories.
 """
 
+import warnings
+
 import numpy as np
-from carculator_utils.inventory import Inventory
+from carculator_utils.inventory import Inventory, format_array
 
 from . import DATA_DIR
 
-np.warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
+warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 
 IAM_FILES_DIR = DATA_DIR / "IAM"
 
@@ -32,23 +34,26 @@ class InventoryCar(Inventory):
             :,
             self.find_input_indices(("market for glider, passenger car",)),
             self.find_input_indices(("Car, ",)),
-        ] = (self.array[self.array_inputs["glider base mass"], :]) * -1
+        ] = (
+            self.array.sel(parameter="glider base mass") * -1
+        )
 
         self.A[
             :,
-            self.find_input_indices(("Glider lightweighting",)),
+            self.find_input_indices(("glider lightweighting",)),
             self.find_input_indices(("Car, ",)),
         ] = (
-            self.array[self.array_inputs["lightweighting"]]
-            * self.array[self.array_inputs["glider base mass"]]
-        ) * -1
+            self.array.sel(parameter="lightweighting")
+            * self.array.sel(parameter="glider base mass")
+            * -1
+        )
 
         self.A[
             :,
             self.find_input_indices(("maintenance, passenger car",)),
             self.find_input_indices(("transport, car, ",)),
         ] = (
-            self.array[self.array_inputs["curb mass"]] / 1240 / 150000 * -1
+            self.array.sel(parameter="curb mass") / 1240 / 150000 * -1
         )
 
         # Fuel tank EoL
@@ -58,25 +63,12 @@ class InventoryCar(Inventory):
                 ("market for waste plastic, industrial electronics",)
             ),
             self.find_input_indices(("Car, ",)),
-        ] = self.array_inputs["fuel tank mass"]
+        ] = self.array.sel(parameter="fuel tank mass")
 
         # EoL Glider
         # the EoL treatment of the glider is already
         # taken into account in the glider production dataset
-        # However, we need to discount teh EoL requirement by the
-        # amount of lightweighting metals used in the glider
-
-        self.A[
-            :,
-            self.find_input_indices(
-                ("treatment of used glider, passenger car, shredding",)
-            ),
-            self.find_input_indices(("Car, ",)),
-        ] = (
-            self.array[self.array_inputs["glider base mass"]]
-            * self.array[self.array_inputs["lightweighting"]]
-            * -1
-        )
+        # we do not consider the reduced EoL due to lightweighting
 
         # Powertrain components
         self.A[
@@ -84,7 +76,7 @@ class InventoryCar(Inventory):
             self.find_input_indices(("market for charger, electric passenger car",)),
             self.find_input_indices(("Car, ",)),
         ] = (
-            self.array[self.array_inputs["charger mass"], :] * -1
+            self.array.sel(parameter="charger mass") * -1
         )
 
         self.A[
@@ -94,7 +86,7 @@ class InventoryCar(Inventory):
             ),
             self.find_input_indices(("Car, ",)),
         ] = (
-            self.array[self.array_inputs["converter mass"], :] * -1
+            self.array.sel(parameter="converter mass") * -1
         )
 
         self.A[
@@ -104,7 +96,7 @@ class InventoryCar(Inventory):
             ),
             self.find_input_indices(("Car, ",)),
         ] = (
-            self.array[self.array_inputs["electric engine mass"], :] * -1
+            self.array.sel(parameter="electric engine mass") * -1
         )
 
         self.A[
@@ -114,7 +106,7 @@ class InventoryCar(Inventory):
             ),
             self.find_input_indices(("Car, ",)),
         ] = (
-            self.array[self.array_inputs["inverter mass"], :] * -1
+            self.array.sel(parameter="inverter mass") * -1
         )
 
         self.A[
@@ -124,7 +116,7 @@ class InventoryCar(Inventory):
             ),
             self.find_input_indices(("Car, ",)),
         ] = (
-            self.array[self.array_inputs["power distribution unit mass"], :] * -1
+            self.array.sel(parameter="power distribution unit mass") * -1
         )
 
         l_elec_pt = [
@@ -147,7 +139,7 @@ class InventoryCar(Inventory):
                 )
             ),
             self.find_input_indices(("Car, ",)),
-        ] = self.array[[self.array_inputs[l] for l in l_elec_pt], :].sum(axis=0)
+        ] = self.array.sel(parameter=l_elec_pt).sum(dim="parameter")
 
         self.A[
             :,
@@ -156,26 +148,21 @@ class InventoryCar(Inventory):
             ),
             self.find_input_indices(("Car, ",)),
         ] = (
-            self.array[
-                [
-                    self.array_inputs[l]
-                    for l in ["combustion engine mass", "powertrain mass"]
-                ],
-                :,
-            ].sum(axis=0)
-        ) * -1
+            self.array.sel(parameter=["combustion engine mass", "powertrain mass"]).sum(
+                dim="parameter"
+            )
+            * (self.array.sel(parameter="combustion power") > 0)
+            * -1
+        )
 
         # EoL internal combustion engine
-        # is already taken into account in the ICE production dataset
+        # is already taken into account
+        # in the ICE production dataset
 
         # Energy storage
         self.add_fuel_cell_stack()
         self.add_hydrogen_tank()
         self.add_battery()
-
-        index = self.get_index_vehicle_from_array(
-            ["ICEV-p", "ICEV-d", "HEV-p", "HEV-d", "PHEV-p", "PHEV-d"]
-        )
 
         self.A[
             :,
@@ -183,10 +170,13 @@ class InventoryCar(Inventory):
                 contains=("polyethylene production, high density, granulate",)
             ),
             self.find_input_indices(
-                contains=("Car, ",), excludes=("BEV", "ICEV-g", "FCEV")
+                contains=("Car, ",),
             ),
         ] = (
-            self.array[self.array_inputs["fuel tank mass"], :, index] * -1
+            self.array.sel(parameter="fuel tank mass")
+            * (self.array.sel(parameter="combustion power") > 0)
+            * (self.array.sel(parameter="CNG tank mass intercept") == 0)
+            * -1
         )
 
         self.add_cng_tank()
@@ -202,46 +192,21 @@ class InventoryCar(Inventory):
 
         self.add_hydrogen_to_fuel_cell_vehicles()
 
-        self.add_fuel_to_vehicles("cng", ["ICEV-g"], "EV-g")
-
-        for year in self.scope["year"]:
-            cng_idx = self.get_index_vehicle_from_array(
-                [
-                    "ICEV-g",
-                ],
-                [
-                    year,
-                ],
-                method="and",
-            )
-
-            self.A[
-                :,
-                self.find_input_indices(("fuel supply for cng vehicles", str(year))),
-                self.find_input_indices(
-                    (f"transport, {self.vm.vehicle_type}, ", "ICEV-g", str(year))
-                ),
-            ] *= (
-                1
-                + self.array[self.array_inputs["CNG pump-to-tank leakage"], :, cng_idx]
-            )
+        self.add_fuel_to_vehicles("methane", ["ICEV-g"], "EV-g")
 
         # Gas leakage to air
-        cng_idx = self.get_index_vehicle_from_array(
-            [
-                "ICEV-g",
-            ]
-        )
+        self.A[
+            :,
+            self.find_input_indices(("fuel supply for methane vehicles",)),
+            self.find_input_indices((f"transport, {self.vm.vehicle_type}, ",)),
+        ] *= 1 + self.array.sel(parameter="CNG pump-to-tank leakage")
+
+        # Gas leakage to air
         self.A[
             :,
             self.inputs[("Methane, fossil", ("air",), "kilogram")],
-            self.find_input_indices(
-                (
-                    f"transport, {self.vm.vehicle_type}, ",
-                    "ICEV-g",
-                )
-            ),
-        ] *= self.array[self.array_inputs["CNG pump-to-tank leakage"], :, cng_idx]
+            self.find_input_indices((f"transport, {self.vm.vehicle_type}, ",)),
+        ] *= self.array.sel(parameter="CNG pump-to-tank leakage")
 
         self.add_fuel_to_vehicles("diesel", ["ICEV-d", "PHEV-d", "HEV-d"], "EV-d")
 
