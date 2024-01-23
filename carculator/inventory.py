@@ -2,8 +2,9 @@
 inventory.py contains Inventory which provides all methods to solve inventories.
 """
 
-import numpy as np
 import warnings
+
+import numpy as np
 from carculator_utils.inventory import Inventory, format_array
 
 from . import DATA_DIR
