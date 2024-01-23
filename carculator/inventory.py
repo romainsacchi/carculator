@@ -3,11 +3,12 @@ inventory.py contains Inventory which provides all methods to solve inventories.
 """
 
 import numpy as np
+import warnings
 from carculator_utils.inventory import Inventory, format_array
 
 from . import DATA_DIR
 
-np.warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
+warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 
 IAM_FILES_DIR = DATA_DIR / "IAM"
 
