@@ -1,1 +1,1 @@
-carculator_utils @ git+https://github.com/romainsacchi/carculator_utils.git@master
+carculator_utils==1.2.0.dev3

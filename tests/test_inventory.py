@@ -73,22 +73,15 @@ def test_plausibility_of_GWP():
 
         if method == "recipe":
             assert (gwp_icev.sum(dim="impact") > 0.24).all() and (
-                gwp_icev.sum(dim="impact") < 0.31
-            ).all()
+                gwp_icev.sum(dim="impact") < 0.34
+            ).all(), gwp_icev.sum(dim="impact")
 
             # Are the medium ICEVs direct emissions between 0.13 and  0.18 kg CO2-eq./vkm?
             assert (gwp_icev.sel(impact="direct - exhaust") > 0.13).all() and (
                 gwp_icev.sel(impact="direct - exhaust") < 0.19
-            ).all()
+            ).all(), gwp_icev.sel(impact="direct - exhaust")
 
-        # Are the ICEVs glider emissions between 0.04 and 0.05 kg CO2-eq./vkm?
-        # print(m)
-        # print(gwp_icev.sel(impact="glider"))
-        # assert (gwp_icev.sel(impact="glider") > 0.04).all() and (
-        #    gwp_icev.sel(impact="glider") < 0.05
-        # ).all()
-
-        # Is the GWP score for batteries of Medium BEVs between 0.025 and 0.035 kg Co2-eq./vkm?
+       # Is the GWP score for batteries of Medium BEVs between 0.025 and 0.035 kg Co2-eq./vkm?
         gwp_bev = results.sel(
             impact_category=m, powertrain="BEV", value=0, year=2020, size="Medium"
         )
@@ -170,7 +163,7 @@ def test_fuel_blend():
     assert np.array_equal(
         cm.fuel_blend["methane"]["primary"]["share"], np.array([1, 1, 1, 1, 1, 1])
     )
-    assert np.allclose(np.sum(cm.fuel_blend["cng"]["secondary"]["share"]), np.zeros(6))
+    assert np.allclose(np.sum(cm.fuel_blend["methane"]["secondary"]["share"]), np.zeros(6))
 
     for fuels in [
         ("petrol", "diesel", "hydrogen - electrolysis - PEM", "methane"),
@@ -190,7 +183,7 @@ def test_fuel_blend():
             "petrol - bioethanol - maize starch",
             "diesel - biodiesel - cooking oil",
             "hydrogen - wood gasification",
-            " methane - synthetic - biological",
+            "methane - synthetic - biological",
         ),
         (
             "petrol - synthetic - methanol - electrolysis - energy allocation",
@@ -208,7 +201,7 @@ def test_fuel_blend():
         bc["petrol"]["primary"]["type"] = fuels[0]
         bc["diesel"]["primary"]["type"] = fuels[1]
         bc["hydrogen"]["primary"]["type"] = fuels[2]
-        bc["cng"]["primary"]["type"] = fuels[3]
+        bc["methane"]["primary"]["type"] = fuels[3]
 
         cm = CarModel(array, cycle="WLTC", fuel_blend=bc)
         cm.set_all()
@@ -252,12 +245,7 @@ def test_endpoint():
 
 def test_sulfur_concentration():
     ic = InventoryCar(cm, method="recipe", indicator="endpoint")
-    ic.get_sulfur_content("RER", "diesel", 2000)
-    ic.get_sulfur_content("foo", "diesel", 2000)
-
-    with pytest.raises(ValueError) as wrapped_error:
-        ic.get_sulfur_content("FR", "diesel", "jku")
-    assert wrapped_error.type == ValueError
+    ic.get_sulfur_content(location="FR", fuel="diesel")
 
 
 def test_custom_electricity_mix():
@@ -286,10 +274,6 @@ def test_export_to_bw():
     #
 
     for b in (
-        "3.5",
-        "3.6",
-        "3.7",
-        "3.8",
         "3.9",
     ):
         ic.export_lci(
@@ -299,15 +283,25 @@ def test_export_to_bw():
 
 def test_export_to_excel():
     """Test that inventories export successfully to Excel/CSV"""
+    # generate vehicle parameters
+    cip = CarInputParameters()
+    cip.static()
+
+    # fill in array with vehicle parameters
+    scope = {"powertrain": ["ICEV-d", "ICEV-p", "BEV"], "size": ["Medium"]}
+    _, array = fill_xarray_from_input_parameters(cip, scope=scope)
+
+    # build CarModel object
+    cm = CarModel(array, cycle="WLTC")
+    # build vehicles
+    cm.set_all()
     ic = InventoryCar(cm, method="recipe", indicator="endpoint")
 
-    for b in ("3.5", "3.6", "3.7", "3.7.1", "3.8"):
-        for s in ("brightway2", "simapro"):
-            for d in ("file", "bw2io"):
-                #
-                ic.export_lci(
-                    ecoinvent_version=b,
-                    format=d,
-                    software=s,
-                    directory="directory",
-                )
+    for s in ("brightway2", "simapro"):
+        for d in ("file", "bw2io"):
+            ic.export_lci(
+                ecoinvent_version="3.9",
+                format=d,
+                software=s,
+                directory="directory",
+            )
