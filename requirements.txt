@@ -1,1 +1,1 @@
-carculator-utils==1.2.0.dev0
+carculator-utils==1.2.0.dev1
