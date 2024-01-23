@@ -41,7 +41,7 @@ setup(
     license=open("LICENSE").read(),
     package_data={"carculator": package_files(os.path.join("carculator", "data"))},
     install_requires=[
-        "carculator_utils==1.2.0.dev2",
+        "carculator_utils==1.2.0.dev3",
     ],
     url="https://github.com/romainsacchi/carculator",
     description="Prospective life cycle assessment of vehicles made blazing fast",
