@@ -81,7 +81,7 @@ def test_plausibility_of_GWP():
                 gwp_icev.sel(impact="direct - exhaust") < 0.19
             ).all(), gwp_icev.sel(impact="direct - exhaust")
 
-       # Is the GWP score for batteries of Medium BEVs between 0.025 and 0.035 kg Co2-eq./vkm?
+        # Is the GWP score for batteries of Medium BEVs between 0.025 and 0.035 kg Co2-eq./vkm?
         gwp_bev = results.sel(
             impact_category=m, powertrain="BEV", value=0, year=2020, size="Medium"
         )
@@ -163,7 +163,9 @@ def test_fuel_blend():
     assert np.array_equal(
         cm.fuel_blend["methane"]["primary"]["share"], np.array([1, 1, 1, 1, 1, 1])
     )
-    assert np.allclose(np.sum(cm.fuel_blend["methane"]["secondary"]["share"]), np.zeros(6))
+    assert np.allclose(
+        np.sum(cm.fuel_blend["methane"]["secondary"]["share"]), np.zeros(6)
+    )
 
     for fuels in [
         ("petrol", "diesel", "hydrogen - electrolysis - PEM", "methane"),
@@ -273,9 +275,7 @@ def test_export_to_bw():
     ic = InventoryCar(cm, method="recipe", indicator="endpoint")
     #
 
-    for b in (
-        "3.9",
-    ):
+    for b in ("3.9",):
         ic.export_lci(
             ecoinvent_version=b,
         )
