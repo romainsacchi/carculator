@@ -292,7 +292,6 @@ def test_export_to_bw():
         "3.8",
         "3.9",
     ):
-
         ic.export_lci(
             ecoinvent_version=b,
         )
