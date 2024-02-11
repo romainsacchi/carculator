@@ -151,7 +151,6 @@ class InventoryCar(Inventory):
             self.array.sel(parameter=["combustion engine mass", "powertrain mass"]).sum(
                 dim="parameter"
             )
-            * (self.array.sel(parameter="combustion power") > 0)
             * -1
         )
 
