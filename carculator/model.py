@@ -250,14 +250,24 @@ class CarModel(VehicleModel):
 
         distance = self.energy.sel(parameter="velocity").sum(dim="second") / 1000
 
-        self["engine efficiency"] = (
+        self["transmission efficiency"] = (
             np.ma.array(
-                self.energy.loc[dict(parameter="engine efficiency")],
+                self.energy.loc[dict(parameter="transmission efficiency")],
                 mask=self.energy.loc[dict(parameter="power load")] == 0,
             )
             .mean(axis=0)
             .T
         )
+
+        self["engine efficiency"] = ((
+            self.energy.sel(
+                parameter="motive energy at wheels"
+            ).sum(dim="second") 
+        ) / (
+            self.energy.sel(
+                parameter="motive energy"
+            ).sum(dim="second")
+        )).T / self["transmission efficiency"]
 
         _o = lambda x: np.where((x == 0) | (x == np.nan), 1, x)
 
@@ -347,15 +357,6 @@ class CarModel(VehicleModel):
                             ]
                         )
                     )
-
-        self["transmission efficiency"] = (
-            np.ma.array(
-                self.energy.loc[dict(parameter="transmission efficiency")],
-                mask=self.energy.loc[dict(parameter="power load")] == 0,
-            )
-            .mean(axis=0)
-            .T
-        )
 
         if self.transmission_efficiency is not None:
             print("Transmission efficiency is being overridden.")
