@@ -76,7 +76,6 @@ class CarModel(VehicleModel):
                 "driving mass"
             ].sum()
 
-        self.set_ttw_efficiency()
         self.calculate_ttw_energy()
         self.set_ttw_efficiency()
 
