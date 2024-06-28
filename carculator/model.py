@@ -266,7 +266,7 @@ class CarModel(VehicleModel):
             self.energy.sel(
                 parameter="motive energy"
             ).sum(dim="second")
-        )).T / self["transmission efficiency"]
+        )).T / self["transmission efficiency"] / np.where(self["fuel cell system efficiency"]>0, self["fuel cell system efficiency"], 1)
 
         _o = lambda x: np.where((x == 0) | (x == np.nan), 1, x)
 
