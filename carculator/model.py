@@ -452,6 +452,33 @@ class CarModel(VehicleModel):
             / distance
         ).T
 
+        # saved_TtW_energy_by_recuperation = recuperated energy * electric motor efficiency * electric transmission efficency / (engine efficiency * transmission efficiency)
+
+        self["TtW energy"] += (
+            self.energy.sel(
+                parameter="recuperated energy"
+            ).sum(dim="second")
+            / distance
+        ).T * (
+            np.ones_like(
+                self.array.loc[
+                    dict(parameter="engine efficiency")
+                ].values
+            ) * self.array.loc[
+                dict(powertrain="BEV", parameter="engine efficiency")
+            ].values
+        ) * (
+            np.ones_like(
+                self.array.loc[
+                    dict(parameter="transmission efficiency")
+                ].values
+            ) * self.array.loc[
+                dict(powertrain="BEV", parameter="transmission efficiency")
+            ].values
+        ) / (
+            self["engine efficiency"] * self["transmission efficiency"] * np.where(self["fuel cell system efficiency"]==0, 1, self["fuel cell system efficiency"])
+        )
+        
         self["TtW energy, combustion mode"] = self["TtW energy"] * (
             self["combustion power share"] > 0
         )
