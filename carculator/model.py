@@ -459,22 +459,10 @@ class CarModel(VehicleModel):
                 parameter="recuperated energy"
             ).sum(dim="second")
             / distance
-        ).T * (
-            np.ones_like(
-                self.array.loc[
-                    dict(parameter="engine efficiency")
-                ].values
-            ) * self.array.loc[
-                dict(powertrain="BEV", parameter="engine efficiency")
-            ].values
-        ) * (
-            np.ones_like(
-                self.array.loc[
-                    dict(parameter="transmission efficiency")
-                ].values
-            ) * self.array.loc[
-                dict(powertrain="BEV", parameter="transmission efficiency")
-            ].values
+        ).T * self.array.sel(
+                powertrain="BEV", parameter="engine efficiency"
+        ) * self.array.sel(
+                powertrain="BEV", parameter="transmission efficiency"
         ) / (
             self["engine efficiency"] * self["transmission efficiency"] * np.where(self["fuel cell system efficiency"]==0, 1, self["fuel cell system efficiency"])
         )
