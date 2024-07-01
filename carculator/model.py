@@ -450,7 +450,7 @@ class CarModel(VehicleModel):
 
         self["TtW energy"] = (
             self.energy.sel(
-                parameter=["motive energy", "auxiliary energy", "recuperated energy"]
+                parameter=["motive energy", "auxiliary energy"]
             ).sum(dim=["second", "parameter"])
             / distance
         ).T
