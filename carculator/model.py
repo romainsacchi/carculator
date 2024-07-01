@@ -258,15 +258,18 @@ class CarModel(VehicleModel):
             .T
         )
 
-        self["engine efficiency"] = ((
-            self.energy.sel(
-                parameter="motive energy at wheels"
-            ).sum(dim="second") 
-        ) / (
-            self.energy.sel(
-                parameter="motive energy"
-            ).sum(dim="second")
-        )).T / self["transmission efficiency"] / np.where(self["fuel cell system efficiency"]>0, self["fuel cell system efficiency"], 1)
+        self["engine efficiency"] = (
+            (
+                (self.energy.sel(parameter="motive energy at wheels").sum(dim="second"))
+                / (self.energy.sel(parameter="motive energy").sum(dim="second"))
+            ).T
+            / self["transmission efficiency"]
+            / np.where(
+                self["fuel cell system efficiency"] > 0,
+                self["fuel cell system efficiency"],
+                1,
+            )
+        )
 
         _o = lambda x: np.where((x == 0) | (x == np.nan), 1, x)
 
@@ -455,18 +458,23 @@ class CarModel(VehicleModel):
         # saved_TtW_energy_by_recuperation = recuperated energy * electric motor efficiency * electric transmission efficency / (engine efficiency * transmission efficiency)
 
         self["TtW energy"] += (
-            self.energy.sel(
-                parameter="recuperated energy"
-            ).sum(dim="second")
-            / distance
-        ).T * self.array.sel(
-                powertrain="BEV", parameter="engine efficiency"
-        ) * self.array.sel(
-                powertrain="BEV", parameter="transmission efficiency"
-        ) / (
-            self["engine efficiency"] * self["transmission efficiency"] * np.where(self["fuel cell system efficiency"]==0, 1, self["fuel cell system efficiency"])
+            (
+                self.energy.sel(parameter="recuperated energy").sum(dim="second")
+                / distance
+            ).T
+            * self.array.sel(powertrain="BEV", parameter="engine efficiency")
+            * self.array.sel(powertrain="BEV", parameter="transmission efficiency")
+            / (
+                self["engine efficiency"]
+                * self["transmission efficiency"]
+                * np.where(
+                    self["fuel cell system efficiency"] == 0,
+                    1,
+                    self["fuel cell system efficiency"],
+                )
+            )
         )
-        
+
         self["TtW energy, combustion mode"] = self["TtW energy"] * (
             self["combustion power share"] > 0
         )
