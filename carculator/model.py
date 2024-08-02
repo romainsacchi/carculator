@@ -104,15 +104,16 @@ class CarModel(VehicleModel):
     def set_battery_chemistry(self):
         # override default values for batteries
         # if provided by the user
+        if "electric" not in self.energy_storage:
+            self.energy_storage = {}
+
         for x in product(
-            ["BEV", "PHEV-e", "HEV-d", "HEV-p", "FCEV"],
+            self.array.coords["powertrain"].values,
             self.array.coords["size"].values,
             self.array.year.values,
         ):
-            if x not in self.energy_storage.get("electric", {}):
-                self.energy_storage["electric"].update(
-                    {x: "NMC-622"}
-                )
+            if x not in self.energy_storage["electric"]:
+                self.energy_storage["electric"][x] = "NMC-622"
 
         if "origin" not in self.energy_storage:
             self.energy_storage.update({"origin": "CN"})
