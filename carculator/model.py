@@ -110,9 +110,7 @@ class CarModel(VehicleModel):
             self.array.year.values,
         ):
             if x not in self.energy_storage.get("electric", {}):
-                self.energy_storage["electric"].update(
-                    {x: "NMC-622"}
-                )
+                self.energy_storage["electric"].update({x: "NMC-622"})
 
         if "origin" not in self.energy_storage:
             self.energy_storage.update({"origin": "CN"})
