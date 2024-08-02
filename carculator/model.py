@@ -105,7 +105,7 @@ class CarModel(VehicleModel):
         # override default values for batteries
         # if provided by the user
         if "electric" not in self.energy_storage:
-            self.energy_storage = {}
+            self.energy_storage["electric"] = {}
 
         for x in product(
             self.array.coords["powertrain"].values,
