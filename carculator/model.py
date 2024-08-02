@@ -105,9 +105,9 @@ class CarModel(VehicleModel):
         # override default values for batteries
         # if provided by the user
         for x in product(
-                ["BEV", "PHEV-e", "HEV-d", "HEV-p", "FCEV"],
-                self.array.coords["size"].values,
-                self.array.year.values,
+            ["BEV", "PHEV-e", "HEV-d", "HEV-p", "FCEV"],
+            self.array.coords["size"].values,
+            self.array.year.values,
         ):
             if x not in self.energy_storage.get("electric", {}):
                 self.energy_storage["electric"].update(
@@ -447,7 +447,10 @@ class CarModel(VehicleModel):
 
         self["TtW energy"] = (
             self.energy.sel(
-                parameter=["motive energy", "auxiliary energy",]
+                parameter=[
+                    "motive energy",
+                    "auxiliary energy",
+                ]
             ).sum(dim=["second", "parameter"])
             / distance
         ).T
