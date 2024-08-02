@@ -1,1 +1,1 @@
-carculator_utils>=1.2.0
+carculator_utils>=1.2.1
