@@ -104,19 +104,14 @@ class CarModel(VehicleModel):
     def set_battery_chemistry(self):
         # override default values for batteries
         # if provided by the user
-        if "electric" not in self.energy_storage:
-            self.energy_storage.update(
-                {
-                    "electric": {
-                        x: "NMC-622"
-                        for x in product(
-                            ["BEV", "PHEV-e", "HEV-d", "HEV-p"],
-                            self.array.coords["size"].values,
-                            self.array.year.values,
-                        )
-                    },
-                }
-            )
+        for x in product(
+                ["BEV", "PHEV-e", "HEV-d", "HEV-p", "FCEV"],
+                self.array.coords["size"].values,
+                self.array.year.values,
+        ):
+            if x not in self.energy_storage["electric"]:
+                self.energy_storage["electric"][x] = "NMC-622"
+
         if "origin" not in self.energy_storage:
             self.energy_storage.update({"origin": "CN"})
 
@@ -450,7 +445,7 @@ class CarModel(VehicleModel):
 
         self["TtW energy"] = (
             self.energy.sel(
-                parameter=["motive energy", "auxiliary energy", "recuperated energy"]
+                parameter=["motive energy", "auxiliary energy",]
             ).sum(dim=["second", "parameter"])
             / distance
         ).T
@@ -462,8 +457,8 @@ class CarModel(VehicleModel):
                 self.energy.sel(parameter="recuperated energy").sum(dim="second")
                 / distance
             ).T
-            * self.array.sel(powertrain="BEV", parameter="engine efficiency")
-            * self.array.sel(powertrain="BEV", parameter="transmission efficiency")
+            * self.array.sel(parameter="engine efficiency")
+            * self.array.sel(parameter="transmission efficiency")
             / (
                 self["engine efficiency"]
                 * self["transmission efficiency"]
