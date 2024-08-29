@@ -264,7 +264,7 @@ class CarModel(VehicleModel):
         if "electric" not in self.energy_storage:
             self.energy_storage["electric"] = {}
 
-        default_chemistries={
+        default_chemistries = {
             2000: "NMC-111",
             2005: "NMC-111",
             2010: "NMC-111",
@@ -286,7 +286,6 @@ class CarModel(VehicleModel):
                     self.energy_storage["electric"][x] = "NMC-111"
                 else:
                     self.energy_storage["electric"][x] = "NMC-955"
-
 
         if "origin" not in self.energy_storage:
             self.energy_storage.update({"origin": "CN"})

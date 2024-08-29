@@ -232,7 +232,9 @@ def test_endpoint():
     """Test if the correct impact categories are considered"""
     ic = InventoryCar(cm, method="recipe", indicator="endpoint")
     results = ic.calculate_impacts()
-    assert "human toxicity: carcinogenic" in [i.lower() for i in results.impact_category.values]
+    assert "human toxicity: carcinogenic" in [
+        i.lower() for i in results.impact_category.values
+    ]
     assert len(results.impact_category.values) == 26
     #
     #     """Test if it errors properly if an incorrect method type is give"""
@@ -241,17 +243,26 @@ def test_endpoint():
         ic.calculate_impacts()
     assert wrapped_error.type == ValueError
 
+
 def test_static_scenario():
     """Test if the static scenario works as expected"""
     ic = InventoryCar(cm, method="recipe", indicator="midpoint", scenario="static")
     ic.calculate_impacts()
 
+
 def test_EF_indicators():
-    ic = InventoryCar(cm, method="ef", indicator="midpoint",)
+    ic = InventoryCar(
+        cm,
+        method="ef",
+        indicator="midpoint",
+    )
     ic.calculate_impacts()
 
+
 def test_sulfur_concentration():
-    ic = InventoryCar(cm,)
+    ic = InventoryCar(
+        cm,
+    )
     ic.get_sulfur_content(location="FR", fuel="diesel")
 
 
@@ -275,7 +286,9 @@ def test_custom_electricity_mix():
 
 def test_export_to_bw():
     """Test that inventories export successfully"""
-    ic = InventoryCar(cm,)
+    ic = InventoryCar(
+        cm,
+    )
     #
 
     for b in ("3.9",):

@@ -1,14 +1,13 @@
 import unittest
-import numpy as np
-from unittest.mock import patch
-from carculator.model import CarModel
-
 from pathlib import Path
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
 
 from carculator import *
+from carculator.model import CarModel
+
 
 class TestCarModel(unittest.TestCase):
 
@@ -77,7 +76,15 @@ class TestCarModel(unittest.TestCase):
 
         pd.DataFrame(
             l_res,
-            columns=["powertrain", "size", "year", "parameter", "val", "ref_val", "diff"],
+            columns=[
+                "powertrain",
+                "size",
+                "year",
+                "parameter",
+                "val",
+                "ref_val",
+                "diff",
+            ],
         ).to_excel(self.OUTPUT)
 
     def test_setting_batt_cap(self):
@@ -104,7 +111,9 @@ class TestCarModel(unittest.TestCase):
                 year=2020,
                 parameter="electric energy stored",
                 value=0,
-            ).values, 50, rtol=0.01
+            ).values,
+            50,
+            rtol=0.01,
         )
 
     def test_setting_battery_chemistry(self):
@@ -124,13 +133,17 @@ class TestCarModel(unittest.TestCase):
         cm = CarModel(arr, cycle="WLTC", energy_storage=batt_chem)
         cm.set_all()
 
-        assert np.isclose(cm.array.sel(
-            powertrain="BEV",
-            size="Medium",
-            year=2020,
-            parameter="battery cell energy density",
-            value=0,
-        ).values, 0.16, rtol=0.01)
+        assert np.isclose(
+            cm.array.sel(
+                powertrain="BEV",
+                size="Medium",
+                year=2020,
+                parameter="battery cell energy density",
+                value=0,
+            ).values,
+            0.16,
+            rtol=0.01,
+        )
 
     def test_setting_range(self):
         cip = CarInputParameters()
@@ -328,64 +341,76 @@ class TestCarModel(unittest.TestCase):
 
     def test_set_all(self):
         # Test that set_all completes without errors
-        self.assertTrue(hasattr(self.cm, 'ecm'))
+        self.assertTrue(hasattr(self.cm, "ecm"))
         self.assertGreater(len(self.cm.array), 0)
 
     def test_set_battery_chemistry(self):
         self.cm.set_battery_chemistry()
         # Check if the energy_storage dictionary has been populated with expected values
-        self.assertIn('electric', self.cm.energy_storage)
-        self.assertEqual(self.cm.energy_storage['origin'], 'CN')
+        self.assertIn("electric", self.cm.energy_storage)
+        self.assertEqual(self.cm.energy_storage["origin"], "CN")
 
     def test_adjust_cost(self):
         self.cm.adjust_cost()
         # Check if the costs have been adjusted as expected
-        assert self.cm['total cost per km'].sum() > 0
+        assert self.cm["total cost per km"].sum() > 0
 
     def test_set_vehicle_mass(self):
         # Mock necessary attributes for testing
-        self.cm.array.loc[dict(
-            powertrain=["ICEV-p", "ICEV-d", "ICEV-g"],
-            parameter="glider base mass",
-            size="Medium",
-            year=2020,
-            value=0
-        )] = np.array([800, 900, 1000]).T
-        self.cm.array.loc[dict(
-            powertrain=["ICEV-p", "ICEV-d", "ICEV-g"],
-            parameter="lightweighting",
-            size="Medium",
-            year=2020,
-            value=0
-        )] = np.array([0.1, 0.1, 0.1])
-        self.cm.array.loc[dict(
-            powertrain=["ICEV-p", "ICEV-d", "ICEV-g"],
-            parameter="fuel mass",
-            size="Medium",
-            year=2020,
-            value=0
-        )] = np.array([50, 60, 70])
-        self.cm.array.loc[dict(
-            powertrain=["ICEV-p", "ICEV-d", "ICEV-g"],
-            parameter="average passengers",
-            size="Medium",
-            year=2020,
-            value=0
-        )] = np.array([2, 2, 2])
-        self.cm.array.loc[dict(
-            powertrain=["ICEV-p", "ICEV-d", "ICEV-g"],
-            parameter="average passenger mass",
-            size="Medium",
-            year=2020,
-            value=0
-        )] = np.array([70, 70, 70])
-        self.cm.array.loc[dict(
-            powertrain=["ICEV-p", "ICEV-d", "ICEV-g"],
-            parameter="cargo mass",
-            size="Medium",
-            year=2020,
-            value=0
-        )] = np.array([100, 120, 140])
+        self.cm.array.loc[
+            dict(
+                powertrain=["ICEV-p", "ICEV-d", "ICEV-g"],
+                parameter="glider base mass",
+                size="Medium",
+                year=2020,
+                value=0,
+            )
+        ] = np.array([800, 900, 1000]).T
+        self.cm.array.loc[
+            dict(
+                powertrain=["ICEV-p", "ICEV-d", "ICEV-g"],
+                parameter="lightweighting",
+                size="Medium",
+                year=2020,
+                value=0,
+            )
+        ] = np.array([0.1, 0.1, 0.1])
+        self.cm.array.loc[
+            dict(
+                powertrain=["ICEV-p", "ICEV-d", "ICEV-g"],
+                parameter="fuel mass",
+                size="Medium",
+                year=2020,
+                value=0,
+            )
+        ] = np.array([50, 60, 70])
+        self.cm.array.loc[
+            dict(
+                powertrain=["ICEV-p", "ICEV-d", "ICEV-g"],
+                parameter="average passengers",
+                size="Medium",
+                year=2020,
+                value=0,
+            )
+        ] = np.array([2, 2, 2])
+        self.cm.array.loc[
+            dict(
+                powertrain=["ICEV-p", "ICEV-d", "ICEV-g"],
+                parameter="average passenger mass",
+                size="Medium",
+                year=2020,
+                value=0,
+            )
+        ] = np.array([70, 70, 70])
+        self.cm.array.loc[
+            dict(
+                powertrain=["ICEV-p", "ICEV-d", "ICEV-g"],
+                parameter="cargo mass",
+                size="Medium",
+                year=2020,
+                value=0,
+            )
+        ] = np.array([100, 120, 140])
 
         # Perform the mass calculation
         self.cm.set_vehicle_mass()
@@ -405,7 +430,9 @@ class TestCarModel(unittest.TestCase):
         self.cm.remove_energy_consumption_from_unavailable_vehicles()
 
         # Check that energy consumption is set to 0 for vehicles that should be unavailable
-        self.assertEqual(self.cm["TtW energy"].sel(year=2010, powertrain="BEV").sum(), 0)
+        self.assertEqual(
+            self.cm["TtW energy"].sel(year=2010, powertrain="BEV").sum(), 0
+        )
 
 
 TestCarModel()

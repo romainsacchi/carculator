@@ -62,7 +62,7 @@ class InventoryCar(Inventory):
             self.find_input_indices(
                 contains=("market for waste plastic, industrial electronics",),
                 excludes=("RoW",),
-                excludes_in=1
+                excludes_in=1,
             ),
             [x for x, y in self.rev_inputs.items() if y[0].startswith("car, ")],
         ] = self.array.sel(parameter="fuel tank mass")
