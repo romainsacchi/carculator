@@ -18,6 +18,163 @@ class CarModel(VehicleModel):
     :ivar gradient: series of gradients, for each second of the driving cycle
     :ivar energy_storage: dictionary with selection of battery chemistry for each powertrain
 
+    Example usage:
+
+    1. **Basic Setup and Simulation**
+
+        ```python
+        from your_module import CarModel, CarInputParameters, fill_xarray_from_input_parameters
+
+        # Initialize car input parameters
+        cip = CarInputParameters()
+        cip.static()  # Static input parameters
+
+        # Fill the xarray from input parameters
+        dcts, arr = fill_xarray_from_input_parameters(cip)
+
+        # Create a CarModel instance and run the simulation
+        cm = CarModel(arr, cycle="WLTC")
+        cm.set_all()
+
+        # Access simulation results
+        print(cm.array.sel(parameter="electricity consumption", year=2020).values)
+        ```
+
+    2. **Setting Battery Capacity Manually**
+
+        ```python
+        from your_module import CarModel, CarInputParameters, fill_xarray_from_input_parameters
+
+        # Initialize parameters
+        cip = CarInputParameters()
+        cip.static()
+
+        # Define specific battery capacity
+        batt_cap = {"capacity": {("BEV", "Medium", 2020): 50}}
+
+        # Fill xarray
+        dcts, arr = fill_xarray_from_input_parameters(cip, scope={"size": ["Medium"], "powertrain": ["BEV"], "year": [2020]})
+
+        # Create CarModel with specific battery capacity
+        cm = CarModel(arr, cycle="WLTC", energy_storage=batt_cap)
+        cm.set_all()
+
+        # Check the battery capacity setting
+        print(cm.array.sel(powertrain="BEV", size="Medium", year=2020, parameter="electric energy stored", value=0).values)
+        ```
+
+    3. **Customizing Battery Chemistry**
+
+        ```python
+        from your_module import CarModel, CarInputParameters, fill_xarray_from_input_parameters
+
+        # Initialize parameters
+        cip = CarInputParameters()
+        cip.static()
+
+        # the following chemistries are available
+        # NMC-111
+        # NMC-523
+        # NMC-622
+        # NMC-811
+        # NMC-955
+        # LFP
+        # NCA
+        # Li-S
+        # Li-O2
+        # SiB
+
+        # by default, the battery chemistry is:
+        # NMC-111 for 2000-2015
+        # NMC-622 for 2020
+        # NMC-811 for 2025
+        # NMC-955 for 2030
+
+
+        # Define battery chemistry
+        batt_chem = {"electric": {("BEV", "Medium", 2020): "LFP"}}
+
+        # Fill xarray
+        dcts, arr = fill_xarray_from_input_parameters(cip, scope={"size": ["Medium"], "powertrain": ["BEV"], "year": [2020]})
+
+        # Create CarModel with specific battery chemistry
+        cm = CarModel(arr, cycle="WLTC", energy_storage=batt_chem)
+        cm.set_all()
+
+        # Check the battery chemistry setting
+        print(cm.array.sel(powertrain="BEV", size="Medium", year=2020, parameter="battery cell energy density", value=0).values)
+        ```
+
+    4. **Setting Target Vehicle Mass**
+
+        ```python
+        from your_module import CarModel, CarInputParameters, fill_xarray_from_input_parameters
+
+        # Initialize parameters
+        cip = CarInputParameters()
+        cip.static()
+
+        # Define a custom target mass
+        mass = {("BEV", "Medium", 2020): 2000}
+
+        # Fill xarray
+        dcts, arr = fill_xarray_from_input_parameters(cip, scope={"size": ["Medium"], "powertrain": ["BEV"], "year": [2020]})
+
+        # Create CarModel with target mass
+        cm = CarModel(arr, cycle="WLTC", target_mass=mass)
+        cm.set_all()
+
+        # Check if the target mass was set
+        print(cm.array.sel(powertrain="BEV", size="Medium", year=2020, parameter="curb mass", value=0).values)
+        ```
+
+    5. **Setting Target Driving Range**
+
+        ```python
+        from your_module import CarModel, CarInputParameters, fill_xarray_from_input_parameters
+
+        # Initialize parameters
+        cip = CarInputParameters()
+        cip.static()
+
+        # Define a custom target range
+        range = {("BEV", "Medium", 2020): 100}
+
+        # Fill xarray
+        dcts, arr = fill_xarray_from_input_parameters(cip, scope={"size": ["Medium"], "powertrain": ["BEV"], "year": [2020]})
+
+        # Create CarModel with target range
+        cm = CarModel(arr, cycle="WLTC", target_range=range)
+        cm.set_all()
+
+        # Check if the target range was achieved
+        print(cm.array.sel(powertrain="BEV", size="Medium", year=2020, parameter="range", value=0).values)
+        ```
+
+    6. **Customizing Power Values**
+
+        ```python
+        from your_module import CarModel, CarInputParameters, fill_xarray_from_input_parameters
+
+        # Initialize parameters
+        cip = CarInputParameters()
+        cip.static()
+
+        # Define custom power values
+        power = {("BEV", "Medium", 2020): 100, ("ICEV-p", "Medium", 2020): 200}
+
+        # Fill xarray
+        dcts, arr = fill_xarray_from_input_parameters(cip, scope={"size": ["Medium"], "powertrain": ["BEV", "ICEV-p"], "year": [2020]})
+
+        # Create CarModel with custom power settings
+        cm = CarModel(arr, cycle="WLTC", power=power)
+        cm.set_all()
+
+        # Check if the power values were set correctly
+        print(cm.array.sel(powertrain="BEV", size="Medium", year=2020, parameter="electric power", value=0).values)
+        print(cm.array.sel(powertrain="ICEV-p", size="Medium", year=2020, parameter="combustion power", value=0).values)
+        ```
+
     """
 
     def set_all(self):
@@ -107,13 +264,29 @@ class CarModel(VehicleModel):
         if "electric" not in self.energy_storage:
             self.energy_storage["electric"] = {}
 
+        default_chemistries={
+            2000: "NMC-111",
+            2005: "NMC-111",
+            2010: "NMC-111",
+            2015: "NMC-111",
+            2020: "NMC-622",
+            2025: "NMC-811",
+            2030: "NMC-955",
+        }
+
         for x in product(
             self.array.coords["powertrain"].values,
             self.array.coords["size"].values,
             self.array.year.values,
         ):
             if x not in self.energy_storage["electric"]:
-                self.energy_storage["electric"][x] = "NMC-622"
+                if x[-1] in default_chemistries:
+                    self.energy_storage["electric"][x] = default_chemistries[x[-1]]
+                elif x[-1] < min(default_chemistries.keys()):
+                    self.energy_storage["electric"][x] = "NMC-111"
+                else:
+                    self.energy_storage["electric"][x] = "NMC-955"
+
 
         if "origin" not in self.energy_storage:
             self.energy_storage.update({"origin": "CN"})

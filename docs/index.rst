@@ -20,7 +20,7 @@ It is initially based on the model developed in :cite:`ct-1130`.
 
 More specifically, ``carculator`` generates `Brightway2 <https://brightway.dev/>`_ and `SimaPro <https://simapro.com/>`_
 inventories, but also directly provides characterized
-results against several midpoint indicators from the impact assessment method ReCiPe, ILCD, as well as life cycle cost indicators.
+results against several midpoint indicators from the impact assessment method ReCiPe, EF 3.1, as well as life cycle cost indicators.
 
 ``carculator`` is a special in the way that it uses time- and energy-scenario-differentiated background inventories for the future,
 resulting from the coupling between the `ecoinvent database <https://ecoinvent.org>`_ and the scenario outputs of PIK's
