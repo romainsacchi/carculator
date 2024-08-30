@@ -219,6 +219,7 @@ class CarModel(VehicleModel):
             self.set_battery_properties()
             self.set_energy_stored_properties()
             self.set_recuperation()
+            self.set_battery_preferences()
 
             if "FCEV" in self.array.powertrain.values:
                 self.set_fuel_cell_power()
