@@ -188,13 +188,13 @@ def test_fuel_blend():
             "petrol - synthetic - methanol - electrolysis - energy allocation",
             "diesel - synthetic - FT - coal - economic allocation",
             "hydrogen - atr - biogas",
-            "methane - synthetic - biological - MSWI",
+            "methane - synthetic - biological",
         ),
         (
             "petrol - synthetic - methanol - cement - energy allocation",
             "diesel - synthetic - methanol - cement - economic allocation",
             "hydrogen - wood gasification with CCS",
-            "methane - synthetic - electrochemical - MSWI",
+            "methane - synthetic - electrochemical",
         ),
     ]:
         bc["petrol"]["primary"]["type"] = fuels[0]
