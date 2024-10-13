@@ -35,13 +35,13 @@ with open("README.md", "r") as fh:
 
 setup(
     name="carculator",
-    version="1.9.2.dev0",
+    version="1.9.2",
     packages=packages,
     author="Romain Sacchi <romain.sacchi@psi.ch>, Chris Mutel <christopher.mutel@psi.ch>",
     license=open("LICENSE").read(),
     package_data={"carculator": package_files(os.path.join("carculator", "data"))},
     install_requires=[
-        "carculator_utils>=1.3.0.dev0",
+        "carculator_utils>=1.3.0",
     ],
     url="https://github.com/romainsacchi/carculator",
     description="Prospective life cycle assessment of vehicles made blazing fast",

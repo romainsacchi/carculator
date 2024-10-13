@@ -1,1 +1,1 @@
-carculator_utils>=1.3.0.dev0
+carculator_utils>=1.3.0
