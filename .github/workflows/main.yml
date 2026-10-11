@@ -127,7 +127,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: '3.12'
-          channels: conda-forge,romainsacchi
+          channels: conda-forge,romainsacchi,cmutel
           channel-priority: strict
           activate-environment: release-build
       - name: Build and test conda package
