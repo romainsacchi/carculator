@@ -1,0 +1,196 @@
+{
+  "date": "2026-10-11",
+  "status": "prepared locally; not published",
+  "release_branch": "release/2026-10-11",
+  "python": "3.12.13 | packaged by conda-forge | (main, Mar  5 2026, 17:06:14) [Clang 19.1.7 ]",
+  "source_scope": "Committed family heads plus release metadata and documentation only. Existing uncommitted PV/hydrogen-tank scientific changes, notebooks and exports are excluded and preserved in their original worktrees.",
+  "ci": {
+    "family_run_url": "https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator_utils/actions/runs/38053778003",
+    "family_result": "success",
+    "family_tested_heads": {
+      "carculator_utils": "63e86df55651d42d336ab03396c1c4a476f4d282",
+      "carculator": "e1b1f090e8d273d3841c2978e948034d18db2b39",
+      "carculator_truck": "a379804e23aa73ab15515d0ba058cfe262c7ea4c",
+      "carculator_bus": "820743719f14cfa92826c3cc5754eaaea930dd0b",
+      "carculator_two_wheeler": "1f0ff2d1eaf1583b9e58005bdafbb268a6c952ee"
+    },
+    "per_repository_platforms": [
+      "ubuntu-latest / Python 3.12",
+      "macos-latest / Python 3.12",
+      "windows-latest / Python 3.12"
+    ],
+    "release_metadata_commits": "Not yet run on GitHub Actions; run CI after pushing the release branches with coordinated dependency refs.",
+    "conda": "Build and publication jobs were skipped in the cited verification runs. No local conda build was performed."
+  },
+  "local_verification": {
+    "installed_tests": {
+      "carculator_utils": {
+        "tests": 1320,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "carculator": {
+        "tests": 77,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "carculator_truck": {
+        "tests": 143,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "carculator_bus": {
+        "tests": 43,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "carculator_two_wheeler": {
+        "tests": 100,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "wheel_and_sdist_resource_hashes": "passed",
+    "offline_core_only_model_lcia": "passed for wheels and sdist-built wheels",
+    "twine_strict": "passed for all five wheels and all five sdists",
+    "docs": {
+      "carculator_utils": {
+        "status": "passed",
+        "warnings": 0
+      },
+      "carculator": {
+        "status": "passed",
+        "warnings": 0
+      },
+      "carculator_truck": {
+        "status": "passed",
+        "warnings": 0
+      },
+      "carculator_bus": {
+        "status": "passed",
+        "warnings": 0
+      },
+      "carculator_two_wheeler": {
+        "status": "passed",
+        "warnings": 0
+      }
+    },
+    "qualification": "Final archives include the expanded changelogs. Their wheel contents are byte-identical to the wheels exercised by the full installed test suites; zip timestamps may differ. No code or resource changed between those builds.",
+    "total_tests": 1683
+  },
+  "repositories": {
+    "carculator_utils": {
+      "version": "1.3.7",
+      "tag_to_create": "v.1.3.7",
+      "implementation_commit": "63e86df55651d42d336ab03396c1c4a476f4d282",
+      "individual_ci_commit": "63e86df55651d42d336ab03396c1c4a476f4d282",
+      "individual_ci_url": "https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator_utils/actions/runs/38053778003",
+      "individual_ci_conclusion": "success"
+    },
+    "carculator": {
+      "version": "1.9.7",
+      "tag_to_create": "v.1.9.7",
+      "implementation_commit": "e1b1f090e8d273d3841c2978e948034d18db2b39",
+      "individual_ci_commit": "ccbebb222c4f6ecf89e054af7063f46c9e586368",
+      "individual_ci_url": "https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator/actions/runs/37989286955",
+      "individual_ci_conclusion": "success"
+    },
+    "carculator_truck": {
+      "version": "0.5.2",
+      "tag_to_create": "v.0.5.2",
+      "implementation_commit": "a379804e23aa73ab15515d0ba058cfe262c7ea4c",
+      "individual_ci_commit": "a379804e23aa73ab15515d0ba058cfe262c7ea4c",
+      "individual_ci_url": "https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator_truck/actions/runs/38053787260",
+      "individual_ci_conclusion": "success"
+    },
+    "carculator_bus": {
+      "version": "0.1.2",
+      "tag_to_create": "v.0.1.2",
+      "implementation_commit": "820743719f14cfa92826c3cc5754eaaea930dd0b",
+      "individual_ci_commit": "c3c5ee1d48a604da70d24a73ce294583d466676c",
+      "individual_ci_url": "https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator_bus/actions/runs/37989307043",
+      "individual_ci_conclusion": "success"
+    },
+    "carculator_two_wheeler": {
+      "version": "0.1.1",
+      "tag_to_create": "v.0.1.1",
+      "implementation_commit": "1f0ff2d1eaf1583b9e58005bdafbb268a6c952ee",
+      "individual_ci_commit": "a987a332bec399904305c331b7e4ff86c8fa9a63",
+      "individual_ci_url": "https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator_two_wheeler/actions/runs/37989315011",
+      "individual_ci_conclusion": "success"
+    }
+  },
+  "artifacts": [
+    {
+      "name": "carculator_utils-1.3.7-py3-none-any.whl",
+      "sha256": "e837736cc0c3fcf91de21507b6e5cbb5ce8f884c3942df024b4f6885793d7a57"
+    },
+    {
+      "name": "carculator_utils-1.3.7.tar.gz",
+      "sha256": "4f30189c7b96c9d0f86c2c25098011f367c19b2d1fafc1f3b4296bd4d3f00c4e"
+    },
+    {
+      "name": "carculator-1.9.7-py3-none-any.whl",
+      "sha256": "74d0ee163f26823716f609113a5e25704d14da6f4492e283e83d754d212e1162"
+    },
+    {
+      "name": "carculator-1.9.7.tar.gz",
+      "sha256": "e73f124600c221a4f16fb6befc6078151b6aedc8aa66bf537425e95f02647f7a"
+    },
+    {
+      "name": "carculator_truck-0.5.2-py3-none-any.whl",
+      "sha256": "6febe2ad599a2a671d0f0907cb83e2f4a4c032efb28e56f5a2bc1cb01100d372"
+    },
+    {
+      "name": "carculator_truck-0.5.2.tar.gz",
+      "sha256": "4db790df1341eb01e565edf5b617a104a900ca0bcf0f9dcd0672c8447efff6a3"
+    },
+    {
+      "name": "carculator_bus-0.1.2-py3-none-any.whl",
+      "sha256": "d8af7d75a5cccb4adf80363d6554a87040d340ffb7f7d3b65526a9803bdf5e16"
+    },
+    {
+      "name": "carculator_bus-0.1.2.tar.gz",
+      "sha256": "2384a5daad3974d2e22d25e02686ad84d9a76a45206d0e5deb98161c30c296ea"
+    },
+    {
+      "name": "carculator_two_wheeler-0.1.1-py3-none-any.whl",
+      "sha256": "3d5b1595798f9813844ddfef0eefc1c1046bc88ae00d118e414f514ffadf83be"
+    },
+    {
+      "name": "carculator_two_wheeler-0.1.1.tar.gz",
+      "sha256": "73d1371453c171b141b3200735391f4b2ba6437d225bf32675cb24871a2e5787"
+    }
+  ],
+  "model_smoke_results": [
+    {
+      "package": "carculator",
+      "version": "1.9.7",
+      "ttw_energy": 561.8109741210938,
+      "climate_change": 0.14997842821233132
+    },
+    {
+      "package": "carculator_truck",
+      "version": "0.5.2",
+      "ttw_energy": 4523.498046875,
+      "climate_change": 0.7245793151520752
+    },
+    {
+      "package": "carculator_bus",
+      "version": "0.1.2",
+      "ttw_energy": 4063.597900390625,
+      "climate_change": 0.5274745348481149
+    },
+    {
+      "package": "carculator_two_wheeler",
+      "version": "0.1.1",
+      "ttw_energy": 21.53740882873535,
+      "climate_change": 0.021581237888735626
+    }
+  ]
+}

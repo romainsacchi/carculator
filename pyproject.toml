@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = {file = "LICENSE"}
 authors = [{name = "Romain Sacchi", email = "romain.sacchi@psi.ch"}, {name = "Chris Mutel", email = "christopher.mutel@psi.ch"}]
-dependencies = ["carculator_utils>=1.3.6"]
+dependencies = ["carculator_utils>=1.3.7"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
@@ -27,8 +27,8 @@ Issues = "https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator/i
 [project.optional-dependencies]
 test = ["pytest>=8", "pytest-cov", "hypothesis>=6", "openpyxl", "xlsxwriter"]
 docs = ["sphinx", "sphinx-immaterial", "sphinx-copybutton", "sphinxcontrib-bibtex"]
-excel = ["carculator_utils[excel]>=1.3.6"]
-brightway = ["carculator_utils[brightway]>=1.3.6"]
+excel = ["carculator_utils[excel]>=1.3.7"]
+brightway = ["carculator_utils[brightway]>=1.3.7"]
 
 [tool.setuptools.dynamic]
 version = {attr = "carculator._version.VERSION"}

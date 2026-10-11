@@ -1,37 +1,88 @@
 {
-  "status": "prepared stable releases; not published",
-  "date": "2026-10-08",
+  "status": "release candidates prepared and locally verified; not published; final release commits require CI",
+  "date": "2026-10-11",
   "python": ">=3.12,<3.13",
   "numpy": ">=1.26.4,<2",
   "repositories": {
     "carculator_utils": {
-      "release_version": "1.3.6",
+      "release_version": "1.3.7",
       "branch": "master",
-      "implementation_commit": "706d6dafc19c842c559953bfc7cc33e984cd4653"
+      "implementation_commit": "63e86df55651d42d336ab03396c1c4a476f4d282",
+      "tested_commit": "63e86df55651d42d336ab03396c1c4a476f4d282",
+      "ci_run_url": "https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator_utils/actions/runs/38053778003",
+      "publication_status": "unpublished candidate"
     },
     "carculator": {
-      "release_version": "1.9.6",
+      "release_version": "1.9.7",
       "branch": "master",
-      "implementation_commit": "97d1db8abf684be5e3289a1dfb1573a9cb1f0f98"
+      "implementation_commit": "e1b1f090e8d273d3841c2978e948034d18db2b39",
+      "tested_commit": "ccbebb222c4f6ecf89e054af7063f46c9e586368",
+      "ci_run_url": "https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator/actions/runs/37989286955",
+      "publication_status": "unpublished candidate"
     },
     "carculator_truck": {
-      "release_version": "0.5.1",
+      "release_version": "0.5.2",
       "branch": "master",
-      "implementation_commit": "91ec2305efa289e7f410669fc97a09cfe5fc3757"
+      "implementation_commit": "a379804e23aa73ab15515d0ba058cfe262c7ea4c",
+      "tested_commit": "a379804e23aa73ab15515d0ba058cfe262c7ea4c",
+      "ci_run_url": "https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator_truck/actions/runs/38053787260",
+      "publication_status": "unpublished candidate"
     },
     "carculator_bus": {
-      "release_version": "0.1.1",
+      "release_version": "0.1.2",
       "branch": "master",
-      "implementation_commit": "bf4ecbcb22222a524a9caaa6f50a4ed182dca7c2"
+      "implementation_commit": "820743719f14cfa92826c3cc5754eaaea930dd0b",
+      "tested_commit": "c3c5ee1d48a604da70d24a73ce294583d466676c",
+      "ci_run_url": "https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator_bus/actions/runs/37989307043",
+      "publication_status": "unpublished candidate"
     },
     "carculator_two_wheeler": {
       "release_version": "0.1.1",
       "branch": "main",
-      "implementation_commit": "70c79530847f3489460ec3de0d8f09975e711c06",
-      "publication_status": "blocked: default petrol-motorcycle engine efficiency produces physically implausible consumption; see its CHANGELOG.md"
+      "implementation_commit": "1f0ff2d1eaf1583b9e58005bdafbb268a6c952ee",
+      "tested_commit": "a987a332bec399904305c331b7e4ff86c8fa9a63",
+      "ci_run_url": "https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator_two_wheeler/actions/runs/37989315011",
+      "publication_status": "unpublished candidate"
     }
   },
-  "provenance_note": "implementation_commit identifies the numerical code before release metadata/documentation preparation; artifact verification records the prepared builds separately. Web applications are outside this release set.",
+  "provenance_note": "implementation_commit is the committed source before this metadata preparation. Where tested_commit differs, changes are documentation only. Uncommitted scientific updates and unrelated local files are excluded. Final metadata requires fresh qualification.",
+  "verification_record": "docs/_static/release_candidate_20261011.json",
+  "historical_preparation_20261008": {
+    "status": "prepared stable releases; not published",
+    "date": "2026-10-08",
+    "python": ">=3.12,<3.13",
+    "numpy": ">=1.26.4,<2",
+    "repositories": {
+      "carculator_utils": {
+        "release_version": "1.3.6",
+        "branch": "master",
+        "implementation_commit": "706d6dafc19c842c559953bfc7cc33e984cd4653"
+      },
+      "carculator": {
+        "release_version": "1.9.6",
+        "branch": "master",
+        "implementation_commit": "97d1db8abf684be5e3289a1dfb1573a9cb1f0f98"
+      },
+      "carculator_truck": {
+        "release_version": "0.5.1",
+        "branch": "master",
+        "implementation_commit": "91ec2305efa289e7f410669fc97a09cfe5fc3757"
+      },
+      "carculator_bus": {
+        "release_version": "0.1.1",
+        "branch": "master",
+        "implementation_commit": "bf4ecbcb22222a524a9caaa6f50a4ed182dca7c2"
+      },
+      "carculator_two_wheeler": {
+        "release_version": "0.1.1",
+        "branch": "main",
+        "implementation_commit": "70c79530847f3489460ec3de0d8f09975e711c06",
+        "publication_status": "blocked: default petrol-motorcycle engine efficiency produces physically implausible consumption; see its CHANGELOG.md"
+      }
+    },
+    "provenance_note": "implementation_commit identifies the numerical code before release metadata/documentation preparation; artifact verification records the prepared builds separately. Web applications are outside this release set.",
+    "verification_record": "docs/_static/release_verification.json"
+  },
   "historical_hardening": {
     "status": "unreleased committed candidates; base_commit records the pre-hardening baseline; candidate_commit identifies the qualified source changes",
     "date": "2026-10-06",
@@ -81,6 +132,5 @@
         "candidate_commit": "94c84568db1e1a8fad7d0f1a27d45e7898bec048"
       }
     }
-  },
-  "verification_record": "docs/_static/release_verification.json"
+  }
 }

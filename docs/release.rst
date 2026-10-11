@@ -1,13 +1,13 @@
 Release notes
 =============
 
-1.9.6
+1.9.7
 -----
 
 When upgrading from an earlier version:
 
 * Create a Python 3.12 environment and install the updated package as described
-  in :doc:`installation`. This version requires ``carculator_utils>=1.3.6``.
+  in :doc:`installation`. This version requires ``carculator_utils>=1.3.7``.
 * Recalculate saved scenarios: changes to energy accounting, battery sizing,
   costs and emissions can affect results.
 * Select a supported background scenario: ``SSP2-NPi``,

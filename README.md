@@ -6,7 +6,7 @@ Prospective environmental and economic life cycle assessment of passenger cars a
 [![PyPI](https://img.shields.io/pypi/v/carculator)](https://pypi.org/project/carculator/)
 
 Developed at the [Paul Scherrer Institute](https://www.psi.ch/en).
-This checkout prepares **1.9.6**; see [CHANGELOG.md](https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator/blob/master/CHANGELOG.md) for release status and changes.
+This checkout prepares the unpublished release **1.9.7**; see [CHANGELOG.md](https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator/blob/master/CHANGELOG.md) for release status and changes.
 
 ## Installation
 
@@ -22,7 +22,7 @@ On Windows, activate with `.venv\Scripts\activate`. After publication, install
 this release from PyPI:
 
 ```bash
-python -m pip install "carculator==1.9.6"
+python -m pip install "carculator==1.9.7"
 ```
 
 Before publication, use the matching source checkouts as described under development.
@@ -36,7 +36,7 @@ The `excel` extra remains a compatibility alias. To select the tested legacy
 Brightway stack (`bw2io<0.9`, `bw2data<4`, `bw2calc<2`), use:
 
 ```bash
-python -m pip install "carculator[brightway]==1.9.6"
+python -m pip install "carculator[brightway]==1.9.7"
 ```
 
 Brightpath also installs `bw2io` without that extra. Export targets ecoinvent
@@ -136,7 +136,7 @@ and the [documentation](https://carculator.readthedocs.io/en/latest/).
 
 ## Development and release
 
-Use matching sibling checkouts, especially `carculator_utils` **1.3.6 or newer**:
+Use matching sibling checkouts, especially `carculator_utils` **1.3.7 or newer**:
 
 ```bash
 python -m pip install -e "../carculator_utils[test,excel,brightway]" -e ".[test,docs,excel,brightway]"
