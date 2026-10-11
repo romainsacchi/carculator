@@ -1,11 +1,13 @@
 # Changelog
 
-Notable user-facing changes to `carculator`. The first entry is prepared for release and remains unpublished.
+Notable user-facing changes to `carculator`.
 
-## [1.9.7] - Unreleased
+## [1.9.7] - 2026-10-11
 
 ### Migration to ecoinvent 3.12
 
+- Use IEA PVPS 2026 photovoltaic production mixes through the shared background: country-specific coefficients and generation-weighted GLO/EU27 aggregates replace the fixed Swiss solar proxy. An explicit legacy option remains; exports require matching premise PV suppliers.
+- Correct HDPE- and aluminium-lined 700-bar hydrogen tank inventories to one kg of dry assembly and convert manufacturing electricity from MJ to kWh. FCEV tank sizing is unchanged; recalculate affected life-cycle impacts.
 - Use the coordinated `carculator_utils 1.3.7` background with premise 2.5.4 and ecoinvent 3.12 cutoff. The foreground matrix, activity index and all 57 LCIA coefficient matrices were rebuilt together. Recalculate saved LCA results; results from the previous background are not directly interchangeable.
 - Rename explicit battery chemistry selections and chemistry-specific custom parameter names from `NMC-523` to `NMC-532`. The new inventory uses the actual 5:3:2 Ni:Mn:Co chemistry. Existing engineering and price assumptions carry forward; this is not an alias for the former inventory.
 - Inventory exports now default to ecoinvent 3.12. Match exported suppliers against the documented compatible background. Ecoinvent 3.9/3.10 remain explicit legacy targets, but suppliers without verified older links raise an error; requesting an older version does not convert the new background automatically.

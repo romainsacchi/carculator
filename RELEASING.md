@@ -1,8 +1,8 @@
 # Releasing carculator 1.9.7
 
-Status: prepared, not published. Use Python 3.12 and review the matching family set:
+Use Python 3.12 and the matching family release set:
 
-| Package | Prepared version |
+| Package | Release version |
 | --- | --- |
 | `carculator_utils` | 1.3.7 |
 | `carculator` | 1.9.7 |
@@ -61,30 +61,28 @@ python -m twine check --strict /tmp/carculator-family-release-check/wheels/carcu
 An empty `release_tag` in a manual workflow run only verifies. A nonempty
 tag also publishes. Creating a tag alone does not publish.
 
-The prepared metadata and README examples target this release; older published
+The metadata and README examples target this release; older published
 packages may not provide the documented APIs or 2025 defaults.
 
 
-## Preparation on 2026-10-11
+## Coordinated release on 2026-10-11
 
-Prepare the versions above together; publish utils before its consumers.
-The previous utils/car/truck/bus versions were published on 2026-10-08
-and must not be reused. Two-wheeler 0.1.1 remains unpublished.
+Publish utils before its consumers, confirming the new dependency is available
+on PyPI and conda before publishing the vehicle packages. Do not reuse the
+previous utils/car/truck/bus versions published on 2026-10-08.
 
-The [candidate record](docs/_static/release_candidate_20261011.json) records
-the source revisions, green GitHub Actions runs and fresh local artifact
-verification. Historical reports below describe their original builds.
-The solar-PV and dry-mass hydrogen-tank updates in the original utils
-working tree are excluded from this release candidate. Preserve them
-for a separate reviewed and CI-tested change.
+This release includes the solar-PV and dry-mass hydrogen-tank updates committed
+in utils revision `639151d8229872052d882428af1e2927d4aecb3b`.
+The [preparation record](docs/_static/release_candidate_20261011.json) distinguishes
+the earlier local artifact checks from the final release qualification. Those
+earlier artifacts excluded these updates and must not be uploaded as this release.
 
-After committing this preparation, verify all five final commits in CI.
-Downstream verification must use the prepared utils revision via
-`CARCULATOR_UTILS_REF`; the utils family job must use the matching vehicle
-revisions via its `CARCULATOR_*_REF` variables. Record the resolved SHAs.
-Restore temporary CI references after the coordinated release.
-Conda build/publish jobs were skipped by the ordinary verification runs;
-their success must be checked during publication.
+Verify the final release commits on Linux, macOS and Windows and verify the
+coordinated vehicle family before publishing. All five default branches must
+contain the matching release metadata; CI uses these branches unless explicit
+`CARCULATOR_*_REF` variables override them. Record resolved SHAs with the release.
+Attach the final GitHub Actions verification records and artifact hashes.
+Conda builds and publication must be checked separately from ordinary push CI.
 
 ## Historical verification record
 
