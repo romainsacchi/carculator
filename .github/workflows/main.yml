@@ -134,7 +134,15 @@ jobs:
         shell: bash -el {0}
         run: |
           conda install --yes --name base conda-build
-          conda build conda --no-anaconda-upload --output-folder conda-output
+          # Legacy date-versioned utils packages contain incompatible 1.3.5 code.
+          # Append a conda constraint while retaining the tagged recipe and sources.
+          cat > "$RUNNER_TEMP/conda-release-constraints.yaml" <<'YAML'
+          requirements:
+            run_constrained:
+              - carculator_utils <2
+          YAML
+          conda build conda --no-anaconda-upload --output-folder conda-output \
+            --append-file "$RUNNER_TEMP/conda-release-constraints.yaml"
       - uses: actions/upload-artifact@v7
         with:
           name: release-conda

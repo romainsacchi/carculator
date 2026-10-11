@@ -107,3 +107,11 @@ channel; omitting it prevents the conda test environment from resolving.
 The publishing workflow includes all three channels. For already-created
 release tags, dispatch the current workflow with `release_tag` to build the
 unchanged tagged sources using the corrected channel configuration.
+
+Legacy conda uploads of `carculator_utils` use date-based package versions but
+contain the incompatible 1.3.5 Python API. The publishing workflow appends a
+`carculator_utils <2` runtime constraint to the conda package metadata. Together
+with the tagged recipe's `>=1.3.7` requirement, this selects the current shared
+API and excludes those legacy uploads. The tagged Python source and PyPI
+distributions remain unchanged. Use exact versions in installation examples
+because older vehicle uploads also use date-based version numbers.
