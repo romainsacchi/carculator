@@ -11560,6 +11560,7 @@
         "name": "battery lifetime kilometers",
         "year": 2040,
         "powertrain": [
+            "PHEV-e",
             "ICEV-g",
             "PHEV-d",
             "HEV-p",
@@ -14349,6 +14350,7 @@
         "name": "battery lifetime kilometers",
         "year": 2050,
         "powertrain": [
+            "PHEV-e",
             "ICEV-g",
             "PHEV-d",
             "HEV-p",
@@ -23956,6 +23958,7 @@
         "name": "battery lifetime kilometers",
         "year": 2000,
         "powertrain": [
+            "PHEV-e",
             "PHEV-d",
             "HEV-p",
             "PHEV-c-p",
@@ -23989,6 +23992,7 @@
         "name": "battery lifetime kilometers",
         "year": 2010,
         "powertrain": [
+            "PHEV-e",
             "PHEV-d",
             "HEV-p",
             "PHEV-c-p",
@@ -24022,6 +24026,7 @@
         "name": "battery lifetime kilometers",
         "year": 2020,
         "powertrain": [
+            "PHEV-e",
             "PHEV-d",
             "HEV-p",
             "PHEV-c-p",
@@ -24055,6 +24060,7 @@
         "name": "battery lifetime kilometers",
         "year": 2030,
         "powertrain": [
+            "PHEV-e",
             "PHEV-d",
             "HEV-p",
             "PHEV-c-p",
@@ -42822,6 +42828,7 @@
         "name": "battery lifetime kilometers",
         "year": 2025,
         "powertrain": [
+            "PHEV-e",
             "BEV",
             "FCEV",
             "HEV-d",

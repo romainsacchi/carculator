@@ -713,6 +713,15 @@ once, in addition to this replacement factor. This is an allocation assumption,
 not a forecast of the exact date or number of physical pack replacements.
 The table above records the original study's configurations.
 
+For petrol and diesel plug-in hybrids, the electric-mode pack uses the same
+200,000 vehicle-km distance assumption as the other hybrid defaults, together
+with the 18-year limit above. The distance is total vehicle travel, not only
+electric travel. Both driving modes carry the resulting physical replacement
+count before costs and inventories are assembled; the electric driving share
+does not scale that count. A 200,000-km vehicle driven 12,000 km/year therefore
+requires no replacement under these assumptions. A 300,000-km vehicle driven
+20,000 km/year has a fractional replacement factor of 0.5.
+
 Liquid and gaseous energy storage
 *********************************
 
