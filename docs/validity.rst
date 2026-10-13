@@ -12,6 +12,18 @@ and explicit engineering assumptions. They are not a newly fitted fleet of
 2025 cars. Historical curb-mass calibration is described in :doc:`modeling`;
 it does not independently validate current fuel or electricity consumption.
 
+Installed PHEV battery capacity
+-------------------------------
+
+Both driving-mode cost calculations price the full electric-mode battery pack.
+The combustion-mode intermediate's smaller operating storage no longer reduces
+installed battery purchase cost when modes are combined. Purchase-dependent
+financing and, for trucks, insurance and residual credit follow that correction.
+Unit-price inputs, markup and explicit cost overrides retain their conventions.
+The shared model also preserves nominal capacity and computes electric range
+from usable capacity. Battery replacement counts are unchanged pending a
+separate lifetime-use review.
+
 .. _charging-cost-accounting:
 
 Charging cost accounting
