@@ -13,13 +13,12 @@ from .fuel_cell_battery import FuelCellBatteryProfile
 
 class CarModel(VehicleModel):
     """
-    This class represents the entirety of the vehicles considered, with useful attributes, such as an array that stores
-    all the vehicles parameters.
+    Model passenger cars from a labelled parameter array.
 
-    :ivar array: multi-dimensional numpy-like array that contains parameters' value(s)
-    :ivar cycle: name of a driving cycle, or custom driving cycle
-    :ivar gradient: series of gradients, for each second of the driving cycle
-    :ivar energy_storage: dictionary with selection of battery chemistry for each powertrain
+    ``array`` stores the vehicle parameters. Shared options such as ``cycle``
+    (a named or custom driving cycle), ``gradient`` (one slope per second) and
+    ``energy_storage`` (battery chemistry/capacity selections) are forwarded to
+    :class:`carculator_utils.model.VehicleModel`.
 
     Example usage:
 
@@ -183,10 +182,14 @@ class CarModel(VehicleModel):
     def __init__(self, array, *args, fuel_cell_battery=None, **kwargs):
         """Initialize with optional matched FCEV pack-property overrides.
 
+        :param array: Labelled vehicle parameter array.
+        :param args: Positional options forwarded to the shared vehicle model.
         :param fuel_cell_battery: Dictionary of nominal_kwh, pack_kg and
             discharge_10s_kw reference-pack properties, applied from 2020.
             See :class:`FuelCellBatteryProfile`. Explicit battery capacities
             are preserved and checked against the required buffer power.
+        :param kwargs: Shared vehicle options, including cycle, gradient and
+            energy_storage.
         """
         self.fuel_cell_battery_profile = FuelCellBatteryProfile(
             **(fuel_cell_battery or {})

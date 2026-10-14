@@ -2,6 +2,27 @@
 
 Notable user-facing changes to `carculator`.
 
+## [Unreleased]
+
+- Calibrate FCEV car buffers from the late-2020 Toyota Mirai's matched nominal
+  energy, complete mass and ten-second discharge rating. Couple sizing to
+  vehicle mass/power and reject undersized explicit capacities. Preserve
+  pre-2020 inputs; no charging or continuous-power rating is inferred.
+- Inherit net electrical FCEV sizing from utils, including motor/inverter losses,
+  auxiliaries and stack own consumption once, with complete-pack mass accounting.
+- Recalibrate 2020 PHEV nominal capacities and pack masses from manufacturer
+  references and documented size/density proxies (8.8--24 kWh). Retain the
+  80% usable-energy window and explicit NMC-622/cell-fraction assumptions.
+  Both driving modes now carry the complete electric-mode pack during sizing;
+  compatible capacity/chemistry overrides propagate across modes and conflicting
+  selections raise. Recalculate mass, energy, electric share, costs and LCA.
+- Price one complete installed PHEV pack in both driving modes and apply the
+  approved 200,000 vehicle-km battery distance life with the existing 18-year
+  calendar limit. Do not weight physical capacity or purchase cost by electric use.
+- Close the 2020 Premise vehicle campaign and document retained engineering and
+  capacity-market proxies. Recalculate saved models/exports to apply corrections;
+  no package release or version increment is implied by these unreleased entries.
+
 ## [1.9.7] - 2026-10-11
 
 ### Migration to ecoinvent 3.12
@@ -31,12 +52,6 @@ Notable user-facing changes to `carculator`.
 
 ### Model and inventory changes
 
-- Recalibrate 2020 PHEV nominal capacities and pack masses from manufacturer
-  references and documented size/density proxies (8.8--24 kWh). Retain the
-  80% usable-energy window and explicit NMC-622/cell-fraction assumptions.
-  Both driving modes now carry the complete electric-mode pack during sizing;
-  compatible capacity/chemistry overrides propagate across modes and conflicting
-  selections raise. Recalculate mass, energy, electric share, costs and LCA.
 - Replace the NMC-523 option with NMC-532 for the ecoinvent 3.12 background refresh. Update explicit chemistry selections and custom parameter names; engineering priors retain their previous numerical values.
 - Use the matching shared premise 2.5.4 / ecoinvent 3.12 coefficient bundle; exports default to 3.12 and reject unverified older supplier links.
 - Make repeated `set_all()` calls rebuild from retained inputs, with stable costs/energy and retained PHEV components. Preserve explicit input edits and selected sample prices; see the shared repeat-run guide.

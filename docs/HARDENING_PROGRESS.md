@@ -302,3 +302,22 @@ already calculates auxiliaries before the fuel-cell components. Native tests
 check the supply against the independently calculated energy trace and retain
 the complete-pack mass/capacity identities. This does not establish battery
 charge/discharge capability or replace the separate empirical pack review.
+
+## Premise vehicle campaign closure (2026-10-14)
+
+The user closed the fixing campaign. Car PHEVs now use paired 2020 capacity/mass
+calibration and one physical pack across both modes. FCEVs use the approved
+Mirai mass/energy/ten-second power reference, coupled to vehicle sizing.
+Charging capability remains unverified; the earlier open pack review above is
+historical. The final car model change is `ead57b3`.
+
+Cars and trucks were regenerated in Premise; bus and two-wheeler workbooks were
+not refreshed. The final 2020/2050 builds pass fuel/carbon/battery, future-hardware
+and saved-metadata checks with zero errors and unchanged warnings. The final car
+step passed 57 car, 13 adapter and 91 Premise tests plus installed-artifact/native
+LCIA checks. These are dated focused results, not a new full-family qualification.
+
+The original-legacy-versus-final catalogue comparison was not completed. The
+incremental comparisons and accepted scientific limitations remain documented.
+See the [completed campaign guide](https://github.com/Laboratory-for-Energy-Systems-Analysis/carculator_utils/blob/master/docs/premise_vehicle_update.rst).
+No new package release is implied by this closeout.

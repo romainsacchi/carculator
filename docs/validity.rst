@@ -189,8 +189,22 @@ The shared `measurement catalog and outputs <https://github.com/Laboratory-for-E
 record excluded observations as well as paired values. Multiple cycles of one
 vehicle and AC/DC measurements from one run are not independent vehicles.
 
-Fuel-cell car buffer batteries
+Plug-in hybrid physical packs
 -----------------------------
+
+The 2020 PHEV calibration uses matched manufacturer energy/mass pairs or explicit
+size/density proxies, recorded in ``data/phev_2020_calibration.json``. Capacities
+range from 8.8 to 24 kWh. Both electric and combustion intermediates carry the
+same complete physical pack during sizing; electric driving share does not
+reduce installed capacity or its purchase cost. The existing 80% usable-energy
+window and NMC-622/cell-allocation assumptions remain modelling proxies.
+
+The approved battery life is 200,000 vehicle-km with the existing 18-year limit.
+The broader gross-throughput/cycling review was skipped at campaign closure;
+these assumptions do not establish measured battery durability.
+
+Fuel-cell car buffer batteries
+------------------------------
 
 From model year 2020, FCEV batteries use a matched complete-pack reference from
 Toyota's second-generation Mirai announcement of 30 November 2020: 310.8 V,
