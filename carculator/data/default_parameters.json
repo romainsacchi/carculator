@@ -7461,17 +7461,12 @@
         "year": 2020,
         "powertrain": [
             "ICEV-g",
-            "PHEV-d",
-            "PHEV-e",
             "HEV-p",
-            "PHEV-c-p",
             "BEV",
-            "PHEV-c-d",
             "ICEV-d",
             "ICEV-p",
             "FCEV",
-            "HEV-d",
-            "PHEV-p"
+            "HEV-d"
         ],
         "sizes": [
             "Small",
@@ -25495,15 +25490,15 @@
             "Micro",
             "Mini"
         ],
-        "amount": 125.99999999999999,
-        "loc": 125.99999999999999,
+        "amount": 120,
+        "loc": 120,
         "kind": "distribution",
         "uncertainty_type": 5,
         "category": "Energy Storage",
-        "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
-        "comment": "",
-        "minimum": 100.8,
-        "maximum": 151.2
+        "source": "https://newsroom.toyota.eu/toyota-prius-plug-in-hybrid/",
+        "comment": "Prius pack is a cross-size proxy; no native 2020 Mini PHEV reference. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 96.0,
+        "maximum": 144.0
     },
     "820-2020-energy battery cost per kWh, LTO": {
         "name": "energy battery cost per kWh, LTO",
@@ -29175,15 +29170,15 @@
         "sizes": [
             "Medium"
         ],
-        "amount": 182,
-        "loc": 182,
+        "amount": 118.5,
+        "loc": 118.5,
         "kind": "distribution",
         "uncertainty_type": 5,
         "category": "Energy Storage",
-        "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
-        "comment": "",
-        "minimum": 145.6,
-        "maximum": 218.39999999999998
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "BMW G20 SP41, manual section 5, printed page 81; mass excludes retaining brackets. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 94.80000000000001,
+        "maximum": 142.2
     },
     "950-2030-energy battery mass": {
         "name": "energy battery mass",
@@ -29312,20 +29307,17 @@
             "PHEV-e"
         ],
         "sizes": [
-            "Large",
-            "Large SUV",
-            "Van",
-            "Medium SUV"
+            "Large"
         ],
-        "amount": 251.99999999999997,
-        "loc": 251.99999999999997,
+        "amount": 118.5,
+        "loc": 118.5,
         "kind": "distribution",
         "uncertainty_type": 5,
         "category": "Energy Storage",
-        "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
-        "comment": "",
-        "minimum": 201.6,
-        "maximum": 302.4
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "BMW 530e nominal capacity; BMW 330e pack mass is an explicit cross-model proxy excluding retaining brackets. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 94.80000000000001,
+        "maximum": 142.2
     },
     "957-2030-energy battery mass": {
         "name": "energy battery mass",
@@ -29577,15 +29569,15 @@
         "sizes": [
             "Lower medium"
         ],
-        "amount": 154,
-        "loc": 154,
+        "amount": 128.375,
+        "loc": 128.375,
         "kind": "distribution",
         "uncertainty_type": 5,
         "category": "Energy Storage",
-        "source": "Manufacturers' data (Toyota) and https://theicct.org/sites/default/files/publications/PHEV-white%20paper-sept2020-0.pdf",
-        "comment": "",
-        "minimum": 123.19999999999999,
-        "maximum": 184.79999999999998
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "Golf nominal capacity; mass inferred using BMW 330e pack density, not a measured Golf mass. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 102.7,
+        "maximum": 154.04999999999998
     },
     "970-2030-energy battery mass": {
         "name": "energy battery mass",
@@ -31979,18 +31971,17 @@
         "sizes": [
             "Small",
             "Micro",
-            "Lower medium",
             "Mini"
         ],
-        "amount": 60,
-        "loc": 60,
+        "amount": 120,
+        "loc": 120,
         "kind": "distribution",
         "uncertainty_type": 5,
         "category": "Energy Storage",
-        "source": "Konecky, Anderman (2016), Calibration result",
-        "comment": "",
-        "minimum": 48,
-        "maximum": 72
+        "source": "https://newsroom.toyota.eu/toyota-prius-plug-in-hybrid/",
+        "comment": "Prius pack is a cross-size proxy; no native 2020 Mini PHEV reference. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 96.0,
+        "maximum": 144.0
     },
     "1078-2020-transmission efficiency": {
         "name": "transmission efficiency",
@@ -32567,15 +32558,15 @@
         "sizes": [
             "Medium"
         ],
-        "amount": 80,
-        "loc": 80,
+        "amount": 118.5,
+        "loc": 118.5,
         "kind": "distribution",
         "uncertainty_type": 5,
         "category": "Energy Storage",
-        "source": "Konecky, Anderman (2016), Calibration result",
-        "comment": "",
-        "minimum": 64,
-        "maximum": 96
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "BMW G20 SP41, manual section 5, printed page 81; mass excludes retaining brackets. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 94.80000000000001,
+        "maximum": 142.2
     },
     "1103-2020-fuel mass": {
         "name": "fuel mass",
@@ -32863,20 +32854,17 @@
             "PHEV-c-d"
         ],
         "sizes": [
-            "Large",
-            "Large SUV",
-            "Van",
-            "Medium SUV"
+            "Large"
         ],
-        "amount": 100,
-        "loc": 100,
+        "amount": 118.5,
+        "loc": 118.5,
         "kind": "distribution",
         "uncertainty_type": 5,
         "category": "Energy Storage",
-        "source": "Konecky, Anderman (2016), Calibration result",
-        "comment": "",
-        "minimum": 80,
-        "maximum": 120
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "BMW 530e nominal capacity; BMW 330e pack mass is an explicit cross-model proxy excluding retaining brackets. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 94.80000000000001,
+        "maximum": 142.2
     },
     "1117-2030-energy battery mass": {
         "name": "energy battery mass",
@@ -49449,5 +49437,305 @@
             "HEV-p",
             "PHEV-e"
         ]
+    },
+    "956-2020-energy battery mass-phev-large-suv": {
+        "name": "energy battery mass",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-e"
+        ],
+        "sizes": [
+            "Large SUV"
+        ],
+        "amount": 226.8,
+        "loc": 226.8,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST2005%20G05%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "BMW G05 SP44, manual section 5.2, printed page 31; 500 lb converted to kg and rounded to 0.1 kg, including retaining bracket. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 181.44000000000003,
+        "maximum": 272.16
+    },
+    "956-2020-energy battery mass-phev-van": {
+        "name": "energy battery mass",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-e"
+        ],
+        "sizes": [
+            "Van"
+        ],
+        "amount": 134.29999999999998,
+        "loc": 134.29999999999998,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "Ford Tourneo Custom series-hybrid capacity; mass inferred using BMW 330e pack density; battery-only proxy, not a replica of its drivetrain. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 107.44,
+        "maximum": 161.15999999999997
+    },
+    "956-2020-energy battery mass-phev-medium-suv": {
+        "name": "energy battery mass",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-e"
+        ],
+        "sizes": [
+            "Medium SUV"
+        ],
+        "amount": 178.73750000000004,
+        "loc": 178.73750000000004,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "RAV4 late-2020 nominal capacity; mass inferred using BMW 330e pack density, not a measured RAV4 mass. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 142.99000000000004,
+        "maximum": 214.48500000000004
+    },
+    "1077-2020-energy battery mass-phev-lower-medium": {
+        "name": "energy battery mass",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-c-p",
+            "PHEV-c-d"
+        ],
+        "sizes": [
+            "Lower medium"
+        ],
+        "amount": 128.375,
+        "loc": 128.375,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "Golf nominal capacity; mass inferred using BMW 330e pack density, not a measured Golf mass. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 102.7,
+        "maximum": 154.04999999999998
+    },
+    "1116-2020-energy battery mass-phev-large-suv": {
+        "name": "energy battery mass",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-c-p",
+            "PHEV-c-d"
+        ],
+        "sizes": [
+            "Large SUV"
+        ],
+        "amount": 226.8,
+        "loc": 226.8,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST2005%20G05%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "BMW G05 SP44, manual section 5.2, printed page 31; 500 lb converted to kg and rounded to 0.1 kg, including retaining bracket. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 181.44000000000003,
+        "maximum": 272.16
+    },
+    "1116-2020-energy battery mass-phev-van": {
+        "name": "energy battery mass",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-c-p",
+            "PHEV-c-d"
+        ],
+        "sizes": [
+            "Van"
+        ],
+        "amount": 134.29999999999998,
+        "loc": 134.29999999999998,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "Ford Tourneo Custom series-hybrid capacity; mass inferred using BMW 330e pack density; battery-only proxy, not a replica of its drivetrain. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 107.44,
+        "maximum": 161.15999999999997
+    },
+    "1116-2020-energy battery mass-phev-medium-suv": {
+        "name": "energy battery mass",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-c-p",
+            "PHEV-c-d"
+        ],
+        "sizes": [
+            "Medium SUV"
+        ],
+        "amount": 178.73750000000004,
+        "loc": 178.73750000000004,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "RAV4 late-2020 nominal capacity; mass inferred using BMW 330e pack density, not a measured RAV4 mass. Approved 2020 PHEV recalibration; see phev_2020_calibration.json. Relative uncertainty bounds retained as model assumptions.",
+        "minimum": 142.99000000000004,
+        "maximum": 214.48500000000004
+    },
+    "phev-calibration-2020-NMC-622-mini": {
+        "name": "battery cell energy density, NMC-622",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-d",
+            "PHEV-e",
+            "PHEV-c-p",
+            "PHEV-c-d",
+            "PHEV-p"
+        ],
+        "sizes": [
+            "Mini",
+            "Small",
+            "Micro"
+        ],
+        "amount": 0.10476190476190476,
+        "loc": 0.10476190476190476,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://newsroom.toyota.eu/toyota-prius-plug-in-hybrid/ ; https://newsroom.toyota.eu/toyota-prius-plug-in-hybrid/",
+        "comment": "Effective PHEV cell density derived from nominal capacity / (physical pack mass * 0.7 cell mass share). NMC-622 and cell fraction are modelling proxies. Prius pack is a cross-size proxy; no native 2020 Mini PHEV reference. See phev_2020_calibration.json; inherited relative uncertainty is not manufacturer tolerance.",
+        "minimum": 0.09952380952380953,
+        "maximum": 0.11
+    },
+    "phev-calibration-2020-NMC-622-lower-medium": {
+        "name": "battery cell energy density, NMC-622",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-d",
+            "PHEV-e",
+            "PHEV-c-p",
+            "PHEV-c-d",
+            "PHEV-p"
+        ],
+        "sizes": [
+            "Lower medium"
+        ],
+        "amount": 0.14466546112115733,
+        "loc": 0.14466546112115733,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://www.volkswagen-newsroom.com/en/golf-etsi-golf-ehybrid-and-golf-gte-international-media-drive-6336/the-new-golf-hybrid-models-6337 ; https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "Effective PHEV cell density derived from nominal capacity / (physical pack mass * 0.7 cell mass share). NMC-622 and cell fraction are modelling proxies. Golf nominal capacity; mass inferred using BMW 330e pack density, not a measured Golf mass. See phev_2020_calibration.json; inherited relative uncertainty is not manufacturer tolerance.",
+        "minimum": 0.13743218806509946,
+        "maximum": 0.1518987341772152
+    },
+    "phev-calibration-2020-NMC-622-medium": {
+        "name": "battery cell energy density, NMC-622",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-d",
+            "PHEV-e",
+            "PHEV-c-p",
+            "PHEV-c-d",
+            "PHEV-p"
+        ],
+        "sizes": [
+            "Medium"
+        ],
+        "amount": 0.14466546112115736,
+        "loc": 0.14466546112115736,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf ; https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "Effective PHEV cell density derived from nominal capacity / (physical pack mass * 0.7 cell mass share). NMC-622 and cell fraction are modelling proxies. BMW G20 SP41, manual section 5, printed page 81; mass excludes retaining brackets. See phev_2020_calibration.json; inherited relative uncertainty is not manufacturer tolerance.",
+        "minimum": 0.1374321880650995,
+        "maximum": 0.15189873417721522
+    },
+    "phev-calibration-2020-NMC-622-large": {
+        "name": "battery cell energy density, NMC-622",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-d",
+            "PHEV-e",
+            "PHEV-c-p",
+            "PHEV-c-d",
+            "PHEV-p"
+        ],
+        "sizes": [
+            "Large"
+        ],
+        "amount": 0.14466546112115736,
+        "loc": 0.14466546112115736,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://www.press.bmwgroup.com/global/article/detail/T0299399EN/more-variety-more-electric-range-less-co2%3A-bmw-530e-sedan-with-the-latest-battery-cell-technology-and-also-with-optional-intelligent-all-wheel-drive ; https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "Effective PHEV cell density derived from nominal capacity / (physical pack mass * 0.7 cell mass share). NMC-622 and cell fraction are modelling proxies. BMW 530e nominal capacity; BMW 330e pack mass is an explicit cross-model proxy excluding retaining brackets. See phev_2020_calibration.json; inherited relative uncertainty is not manufacturer tolerance.",
+        "minimum": 0.1374321880650995,
+        "maximum": 0.15189873417721522
+    },
+    "phev-calibration-2020-NMC-622-medium-suv": {
+        "name": "battery cell energy density, NMC-622",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-d",
+            "PHEV-e",
+            "PHEV-c-p",
+            "PHEV-c-d",
+            "PHEV-p"
+        ],
+        "sizes": [
+            "Medium SUV"
+        ],
+        "amount": 0.1446654611211573,
+        "loc": 0.1446654611211573,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://newsroom.toyota.eu/the-new-toyota-rav4-plug-in-hybrid/ ; https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "Effective PHEV cell density derived from nominal capacity / (physical pack mass * 0.7 cell mass share). NMC-622 and cell fraction are modelling proxies. RAV4 late-2020 nominal capacity; mass inferred using BMW 330e pack density, not a measured RAV4 mass. See phev_2020_calibration.json; inherited relative uncertainty is not manufacturer tolerance.",
+        "minimum": 0.13743218806509944,
+        "maximum": 0.15189873417721517
+    },
+    "phev-calibration-2020-NMC-622-large-suv": {
+        "name": "battery cell energy density, NMC-622",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-d",
+            "PHEV-e",
+            "PHEV-c-p",
+            "PHEV-c-d",
+            "PHEV-p"
+        ],
+        "sizes": [
+            "Large SUV"
+        ],
+        "amount": 0.15117157974300832,
+        "loc": 0.15117157974300832,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST2005%20G05%20PHEV%20Complete%20Vehicle.pdf ; https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST2005%20G05%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "Effective PHEV cell density derived from nominal capacity / (physical pack mass * 0.7 cell mass share). NMC-622 and cell fraction are modelling proxies. BMW G05 SP44, manual section 5.2, printed page 31; 500 lb converted to kg and rounded to 0.1 kg, including retaining bracket. See phev_2020_calibration.json; inherited relative uncertainty is not manufacturer tolerance.",
+        "minimum": 0.1436130007558579,
+        "maximum": 0.15873015873015875
+    },
+    "phev-calibration-2020-NMC-622-van": {
+        "name": "battery cell energy density, NMC-622",
+        "year": 2020,
+        "powertrain": [
+            "PHEV-d",
+            "PHEV-e",
+            "PHEV-c-p",
+            "PHEV-c-d",
+            "PHEV-p"
+        ],
+        "sizes": [
+            "Van"
+        ],
+        "amount": 0.14466546112115736,
+        "loc": 0.14466546112115736,
+        "kind": "distribution",
+        "uncertainty_type": 5,
+        "category": "Energy Storage",
+        "source": "https://media.ford.com/content/fordmedia/feu/gb/en/news/2019/09/23/New-Ford-Transit-and-Tourneo-Custom-Plug-In-Hybrids-Deliver-Zero-Emission-Driving.html ; https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+        "comment": "Effective PHEV cell density derived from nominal capacity / (physical pack mass * 0.7 cell mass share). NMC-622 and cell fraction are modelling proxies. Ford Tourneo Custom series-hybrid capacity; mass inferred using BMW 330e pack density; battery-only proxy, not a replica of its drivetrain. See phev_2020_calibration.json; inherited relative uncertainty is not manufacturer tolerance.",
+        "minimum": 0.1374321880650995,
+        "maximum": 0.15189873417721522
     }
 }

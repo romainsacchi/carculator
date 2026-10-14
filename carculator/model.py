@@ -240,6 +240,11 @@ class CarModel(VehicleModel):
             if "capacity" in self.energy_storage:
                 self.override_battery_capacity()
 
+            # Electric and combustion operation carry the same physical pack.
+            # Do this inside sizing, after overrides, so both modes' mass and
+            # energy calculations respond to the installed battery.
+            self.share_phev_battery()
+
             if size_for_range:
                 self.calculate_ttw_energy()
                 # Range retains precedence over a capacity override for the
@@ -271,6 +276,7 @@ class CarModel(VehicleModel):
     def set_battery_chemistry(self):
         # override default values for batteries
         # if provided by the user
+        self.share_phev_storage_overrides()
         if "electric" not in self.energy_storage:
             self.energy_storage["electric"] = {}
 
@@ -303,6 +309,74 @@ class CarModel(VehicleModel):
 
         if "origin" not in self.energy_storage:
             self.energy_storage.update({"origin": "CN"})
+
+    def share_phev_storage_overrides(self):
+        """Resolve explicit pack choices onto the shared PHEV electric mode.
+
+        A capacity or chemistry specified on either mode (or the final PHEV)
+        describes the installed pack. Conflicting selections cannot be merged
+        because petrol and diesel PHEVs share one electric-mode coordinate.
+        The parent constructor has already copied the caller's dictionary.
+        """
+        if "PHEV-e" not in self.array.powertrain.values:
+            return
+        modes = [
+            p
+            for p in ("PHEV-e", "PHEV-c-p", "PHEV-c-d", "PHEV-p", "PHEV-d")
+            if p in self.array.powertrain.values
+        ]
+        if not any(p in modes for p in ("PHEV-p", "PHEV-d")):
+            return
+        for kind in ("capacity", "electric"):
+            choices = self.energy_storage.get(kind, {})
+            for size, year in product(
+                self.array.coords["size"].values, self.array.year.values
+            ):
+                specified = [
+                    choices[(p, size, year)]
+                    for p in modes
+                    if (p, size, year) in choices
+                ]
+                if not specified:
+                    continue
+                if any(not np.array_equal(v, specified[0]) for v in specified[1:]):
+                    raise ValueError(
+                        f"Conflicting PHEV battery {kind} selections at {(size, year)}; "
+                        "both driving modes must use one physical pack."
+                    )
+                for p in modes:
+                    choices[(p, size, year)] = specified[0]
+
+    def share_phev_battery(self):
+        """Copy the electric-mode pack into each assembled PHEV combustion mode.
+
+        Unit prices retain their existing mode-specific convention. Physical
+        pack inputs in PHEV-e are authoritative, including sampled inputs and
+        caller overrides. Standalone combustion-mode runs are unchanged.
+        """
+        if "PHEV-e" not in self.array.powertrain.values:
+            return
+        parameters = [
+            "energy battery mass",
+            "battery cell mass",
+            "battery BoP mass",
+            "battery cell energy density",
+            "battery cell mass share",
+            "electric energy stored",
+            "battery cycle life",
+            "battery lifetime kilometers",
+            "battery charge efficiency",
+            "battery discharge efficiency",
+        ]
+        # DoD is a mode-specific operating input: combustion operation sustains
+        # charge (zero net depletion). Copying the electric-mode window here
+        # would add a second battery range and understate fuel consumption.
+        parameters = [p for p in parameters if p in self.array.parameter.values]
+        for aggregate, combustion in (("PHEV-p", "PHEV-c-p"), ("PHEV-d", "PHEV-c-d")):
+            if aggregate in self.array.powertrain.values:
+                self.array.loc[dict(powertrain=combustion, parameter=parameters)] = (
+                    self.array.sel(powertrain="PHEV-e", parameter=parameters).values
+                )
 
     def adjust_cost(self) -> None:
         """

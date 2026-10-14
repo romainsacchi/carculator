@@ -1,0 +1,78 @@
+{
+  "schema version": 1,
+  "baseline year": 2020,
+  "approved on": "2026-10-14",
+  "source defaults sha256": "0b08285b9e8f8293b4245c9a37587b01d98438b43f09ae99672396ced230933b",
+  "method": "Class-specific nominal battery capacity and physical pack mass; both driving modes carry the same pack.",
+  "capacity boundary": "Nominal/gross capacity. Existing 0.8 depth of discharge retained; no manufacturer usable-capacity claim.",
+  "physical property boundary": "Effective NMC-622 PHEV cell density = nominal capacity / (pack mass * 0.7). The 0.7 cell fraction and NMC-622 chemistry are retained modelling proxies, not manufacturer cell measurements.",
+  "uncertainty boundary": "Existing triangular relative bounds retained: pack mass +/-20%, effective cell density +/-5%; these are modelling assumptions, not manufacturer tolerances.",
+  "coverage boundary": "Both petrol and diesel PHEVs use the same size-specific pack proxies. Micro remains unavailable and inherits the Mini inputs.",
+  "source access boundary": "BMW technical tables were retrieved through the indexed original manufacturer PDFs; direct PDF downloads returned 404 on 2026-10-14. URLs and section/page locators are retained.",
+  "sizes": {
+    "Mini": {
+      "capacity kWh": 8.8,
+      "pack mass kg": 120,
+      "effective cell density kWh/kg": 0.10476190476190476,
+      "capacity source": "https://newsroom.toyota.eu/toyota-prius-plug-in-hybrid/",
+      "mass source": "https://newsroom.toyota.eu/toyota-prius-plug-in-hybrid/",
+      "boundary": "Prius pack is a cross-size proxy; no native 2020 Mini PHEV reference."
+    },
+    "Small": {
+      "capacity kWh": 8.8,
+      "pack mass kg": 120,
+      "effective cell density kWh/kg": 0.10476190476190476,
+      "capacity source": "https://newsroom.toyota.eu/toyota-prius-plug-in-hybrid/",
+      "mass source": "https://newsroom.toyota.eu/toyota-prius-plug-in-hybrid/",
+      "boundary": "Prius pack is a cross-size proxy; no native 2020 Small PHEV reference."
+    },
+    "Lower medium": {
+      "capacity kWh": 13,
+      "pack mass kg": 128.375,
+      "effective cell density kWh/kg": 0.14466546112115733,
+      "capacity source": "https://www.volkswagen-newsroom.com/en/golf-etsi-golf-ehybrid-and-golf-gte-international-media-drive-6336/the-new-golf-hybrid-models-6337",
+      "mass source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+      "boundary": "Golf nominal capacity; mass inferred using BMW 330e pack density, not a measured Golf mass."
+    },
+    "Medium": {
+      "capacity kWh": 12,
+      "pack mass kg": 118.5,
+      "effective cell density kWh/kg": 0.14466546112115736,
+      "capacity source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+      "mass source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+      "boundary": "BMW G20 SP41, manual section 5, printed page 81; mass excludes retaining brackets."
+    },
+    "Large": {
+      "capacity kWh": 12,
+      "pack mass kg": 118.5,
+      "effective cell density kWh/kg": 0.14466546112115736,
+      "capacity source": "https://www.press.bmwgroup.com/global/article/detail/T0299399EN/more-variety-more-electric-range-less-co2%3A-bmw-530e-sedan-with-the-latest-battery-cell-technology-and-also-with-optional-intelligent-all-wheel-drive",
+      "mass source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+      "boundary": "BMW 530e nominal capacity; BMW 330e pack mass is an explicit cross-model proxy excluding retaining brackets."
+    },
+    "Medium SUV": {
+      "capacity kWh": 18.1,
+      "pack mass kg": 178.73750000000004,
+      "effective cell density kWh/kg": 0.1446654611211573,
+      "capacity source": "https://newsroom.toyota.eu/the-new-toyota-rav4-plug-in-hybrid/",
+      "mass source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+      "boundary": "RAV4 late-2020 nominal capacity; mass inferred using BMW 330e pack density, not a measured RAV4 mass."
+    },
+    "Large SUV": {
+      "capacity kWh": 24,
+      "pack mass kg": 226.8,
+      "effective cell density kWh/kg": 0.15117157974300832,
+      "capacity source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST2005%20G05%20PHEV%20Complete%20Vehicle.pdf",
+      "mass source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST2005%20G05%20PHEV%20Complete%20Vehicle.pdf",
+      "boundary": "BMW G05 SP44, manual section 5.2, printed page 31; 500 lb converted to kg and rounded to 0.1 kg, including retaining bracket."
+    },
+    "Van": {
+      "capacity kWh": 13.6,
+      "pack mass kg": 134.29999999999998,
+      "effective cell density kWh/kg": 0.14466546112115736,
+      "capacity source": "https://media.ford.com/content/fordmedia/feu/gb/en/news/2019/09/23/New-Ford-Transit-and-Tourneo-Custom-Plug-In-Hybrids-Deliver-Zero-Emission-Driving.html",
+      "mass source": "https://bmwtechinfo.bmwgroup.com/tech_training_manual/ST1911%20G20%20PHEV%20Complete%20Vehicle.pdf",
+      "boundary": "Ford Tourneo Custom series-hybrid capacity; mass inferred using BMW 330e pack density; battery-only proxy, not a replica of its drivetrain."
+    }
+  }
+}

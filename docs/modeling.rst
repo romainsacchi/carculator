@@ -594,6 +594,43 @@ strategy; see :doc:`validity` and the shared combustion-control guide.
 Electric energy storage
 ***********************
 
+The 2020 plug-in hybrid packs are calibrated separately from the generic BEV
+cell densities. Nominal capacity and complete pack mass are paired, with
+documented manufacturer references and size/density proxies in
+``carculator/data/phev_2020_calibration.json``:
+
+.. csv-table:: 2020 PHEV battery assumptions
+   :header: "Size", "Nominal capacity (kWh)", "Pack mass (kg)"
+
+   "Mini / Small",8.8,120
+   "Lower medium",13,128.375
+   "Medium / Large",12,118.5
+   "Medium SUV",18.1,178.7375
+   "Large SUV",24,226.8
+   "Van",13.6,134.3
+
+These are representative engineering proxies, not measured fleet averages.
+Prius data supply the Mini/Small proxy; BMW 330e data supply the Medium pack.
+Where mass is unavailable, the approved BMW 330e pack-density proxy converts
+the class-specific nominal capacity to mass. The X5 reference includes mounting
+brackets, while the 330e reference excludes them; this source boundary remains
+documented. Petrol and diesel PHEVs share the same class-specific pack.
+
+The retained 70% cell mass share gives an effective cell density consistent
+with both capacity and pack mass. NMC-622 chemistry and that cell fraction are
+modelling assumptions, not manufacturer measurements. The 80% usable-energy
+window and distance/calendar replacement policy are retained. Input uncertainty
+bounds remain modelling assumptions rather than manufacturer tolerances.
+
+Both driving modes carry the full electric-mode pack inside the mass-sizing
+iteration, so combustion-mode fuel use also responds to battery mass. A capacity
+or chemistry override on either mode or the final PHEV propagates to the shared
+pack; conflicting choices raise an error. Other mode-specific powertrain
+assumptions remain those of the model. Combustion operation retains zero net
+battery depletion: carrying the pack does not add electric range to this mode
+or reduce its purchased fuel energy. This calibration supplies the 2020
+baseline; it does not constitute an empirical calibration of other model years.
+
 Battery electric vehicles can use different battery chemistry (Li-ion
 NMC, Li-ion LFP, Li-ion NCA and Li-LTO) depending on the manufacturer's
 preference or the location of the battery supplier. Unless specified
