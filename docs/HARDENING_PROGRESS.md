@@ -291,3 +291,14 @@ without qualification.
 the pre-hardening baseline hashes. The car revision identifies its source/build
 commit before this documentation commit. AGENTS.md files remain local and ignored;
 previously tracked copies were removed from the index without deleting local files.
+
+## FCEV electrical sizing correction (2026-10-14)
+
+Fuel-cell and buffer ratings now cover motor shaft power divided by the existing
+motor/inverter efficiency, plus auxiliary DC demand. The original percentage
+split applies at that electrical boundary; stack own consumption is included
+once. The shared implementation is in `carculator_utils`; the car sizing loop
+already calculates auxiliaries before the fuel-cell components. Native tests
+check the supply against the independently calculated energy trace and retain
+the complete-pack mass/capacity identities. This does not establish battery
+charge/discharge capability or replace the separate empirical pack review.
