@@ -189,6 +189,35 @@ The shared `measurement catalog and outputs <https://github.com/Laboratory-for-E
 record excluded observations as well as paired values. Multiple cycles of one
 vehicle and AC/DC measurements from one run are not independent vehicles.
 
+Fuel-cell car buffer batteries
+-----------------------------
+
+From model year 2020, FCEV batteries use a matched complete-pack reference from
+Toyota's second-generation Mirai announcement of 30 November 2020: 310.8 V,
+4 Ah (1.2432 kWh), 44.6 kg, and 31.5 kW discharge for 10 seconds. See
+`Toyota's specification <https://newsroom.toyota.eu/introducing-the-all-new-toyota-mirai/>`_.
+Capacity and mass scale together with the required buffer power inside the
+existing mass/power iteration. This is a class-level proxy, not a calibration
+of each vehicle to a measured FCEV. The default Medium car under the Swiss WLTC
+assumptions has about 1.60 kWh and 57.3 kg, using 0.894 kg H2/100 km.
+
+The same pack ratios are retained in future model years; no improvement is
+inferred from this single reference. Historical inputs before 2020 are retained.
+The existing cell-mass fraction only allocates the complete pack internally,
+and the existing chemistry and cost inputs remain proxies. Override the matched
+reference through ``CarModel(..., fuel_cell_battery={"nominal_kwh": ...,
+"pack_kg": ..., "discharge_10s_kw": ...})``. Explicit capacity overrides retain
+that capacity and must supply the required 10-second buffer power.
+
+The discharge rating does not establish continuous power, charging capability,
+SOC/temperature limits or lifetime. Charging remains unconstrained, and the
+cycle calculation assumes instantaneous fuel-cell response. This change cannot
+validate fuel-cell transients or sustained battery assistance. For the Premise
+adapter, batteries still use the approved MIX capacity market in nominal kWh;
+its ordinary battery mass per kWh differs from this high-power physical pack.
+Lower purchased kWh must therefore not be interpreted as a verified reduction
+in high-power battery manufacturing burdens.
+
 Additional methane leakage
 --------------------------
 

@@ -8,6 +8,7 @@ from carculator_utils.model import VehicleModel
 from carculator_utils.model_run import repeatable_run
 
 from . import DATA_DIR
+from .fuel_cell_battery import FuelCellBatteryProfile
 
 
 class CarModel(VehicleModel):
@@ -179,6 +180,60 @@ class CarModel(VehicleModel):
 
     """
 
+    def __init__(self, array, *args, fuel_cell_battery=None, **kwargs):
+        """Initialize with optional matched FCEV pack-property overrides.
+
+        :param fuel_cell_battery: Dictionary of nominal_kwh, pack_kg and
+            discharge_10s_kw reference-pack properties, applied from 2020.
+            See :class:`FuelCellBatteryProfile`. Explicit battery capacities
+            are preserved and checked against the required buffer power.
+        """
+        self.fuel_cell_battery_profile = FuelCellBatteryProfile(
+            **(fuel_cell_battery or {})
+        )
+        self.fuel_cell_battery_profile.validate()
+        super().__init__(array, *args, **kwargs)
+
+    def set_fuel_cell_mass(self):
+        """Use one paired pack reference inside the existing sizing iteration."""
+        years = self.array.year.values[self.array.year.values >= 2020]
+        if "FCEV" in self.array.powertrain.values and len(years):
+            selection = dict(powertrain="FCEV", year=years)
+            share = self["battery cell mass share"].sel(selection)
+            if bool((~np.isfinite(share) | (share <= 0) | (share > 1)).any()):
+                raise ValueError("FCEV battery cell mass share must be in (0, 1].")
+            profile = self.fuel_cell_battery_profile
+            # Effective cell properties retain the existing internal allocation
+            # while reproducing all three complete-pack reference quantities.
+            self.array.loc[
+                dict(parameter="battery cell power density", **selection)
+            ] = profile.discharge_10s_kw / (profile.pack_kg * share)
+            self.array.loc[
+                dict(parameter="battery cell energy density", **selection)
+            ] = profile.nominal_kwh / (profile.pack_kg * share)
+        super().set_fuel_cell_mass()
+
+    def check_fuel_cell_battery_power(self):
+        """Reject a capacity override unable to provide the 10-second buffer."""
+        years = self.array.year.values[self.array.year.values >= 2020]
+        if "FCEV" not in self.array.powertrain.values or not len(years):
+            return
+        selection = dict(powertrain="FCEV", year=years)
+        profile = self.fuel_cell_battery_profile
+        capability = (
+            self["electric energy stored"].sel(selection)
+            * profile.discharge_10s_kw
+            / profile.nominal_kwh
+        )
+        required = self["battery power"].sel(selection)
+        if bool(
+            (~np.isfinite(capability) | (required > capability * (1 + 3e-6))).any()
+        ):
+            raise ValueError(
+                "FCEV battery cannot supply the required 10-second buffer power; "
+                "increase explicit capacity or supply a justified fuel_cell_battery profile."
+            )
+
     @repeatable_run
     def set_all(self):
         """
@@ -253,6 +308,7 @@ class CarModel(VehicleModel):
 
         if not size_for_range:
             self.calculate_ttw_energy()
+        self.check_fuel_cell_battery_power()
         self.set_ttw_efficiency()
         self.set_range()
 
