@@ -809,10 +809,10 @@ The fuel cell system efficiency :math:`r_{fcsys}` is calculated as:
 Where:
 
 - :math:`r_{fcstack}` is the fuel cell stack efficiency [%],
-- and :math:`r_{fcown}` is the rate of auto consumption [%].
+- and :math:`r_{fcown}` is the dimensionless gross-to-net power multiplier.
 
-For reference, the rate of auto-consumption in 2020 for a fuel cell system is 15% (i.e., 15% of the power produced by
-the fuel cell system is consumed by it).
+For example, a multiplier of 1.15 means 115 kW gross stack output for
+100 kW net system output. It is not a fraction to subtract from gross output.
 
 The fuel cell system power :math:`P_{fcsys}` is calculated as:
 
@@ -849,12 +849,17 @@ The battery power is calculated as:
 
 .. math::
 
-    P_{batt} = P_{fcsys} \times (1 - r_{fcsys})
+    P_{batt} = P_{veh} \times (1 - r_{fcshare})
 
 Where:
 
-- :math:`P_{fcsys}` is the fuel cell system power [kW],
-- and :math:`r_{fcsys}` is the fuel cell system power share [0–1].
+- :math:`P_{veh}` is the model's total vehicle power [kW],
+- and :math:`r_{fcshare}` is the net fuel cell power share [0–1].
+
+This preserves the model's nominal allocation:
+:math:`P_{fcsys}/r_{fcown} + P_{batt} = P_{veh}`. It does not add an
+independent motor/inverter peak-efficiency correction or validate sustained
+power delivery on a particular driving cycle.
 
 The number of fuel cell replacements is based on the average distance driven
 with a set of fuel cells given their lifetime expressed in hours of use.
@@ -1144,18 +1149,21 @@ described in the next section.
 
     .. math::
 
-        E_{battery} = \frac{P_{fcsys} \times (1 - r_{fcsys})}{r_{discharge}}
+        m_{cells} = \frac{P_{veh} (1-r_{fcshare})}{\rho_{power}},
+        \qquad E_{battery} = m_{cells}\rho_{energy},
+        \qquad m_{pack} = \frac{m_{cells}}{f_{cells}}
 
     Where:
 
     - :math:`E_{battery}` being battery capacity [kWh],
-    - :math:`P_{fcsys}` is the fuel cell system power [kW],
-    - :math:`r_{fcsys}` is the fuel cell system power share [%],
-    - and :math:`r_{discharge}` is the usable depth-of-discharge fraction [0–1].
+    - :math:`\rho_{power}` is cell specific power [kW/kg],
+    - :math:`\rho_{energy}` is cell specific energy [kWh/kg],
+    - and :math:`f_{cells}` is the cell fraction of complete pack mass [0–1].
 
-    The battery mass is calculated as for battery electric vehicles, considering the cell energy density.
-    For example, for a small fuel cell vehicle with a fuel cell system power of 65 kW,
-    ``carculator`` will estimate a battery capacity of about 2 kWh.
+    Balance-of-pack mass is :math:`m_{pack}-m_{cells}`. Capacity is nominal;
+    depth of discharge does not convert power to energy. For a 200 kW vehicle,
+    75% fuel-cell share, 2 kW/kg cells, 0.24 kWh/kg and 50% cell mass share,
+    the buffer provides 50 kW with 25 kg of cells, 6 kWh and a 50 kg pack.
 
 Electric utility factor
 ***********************
